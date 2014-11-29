@@ -1,4 +1,0 @@
-sponzormeapp
-============
-
-App de SponzorMe

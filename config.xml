@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.808272" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>.</name>
+<widget id="com.adminnova.sponzorme" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Sponzorme</name>
   <description>
-        An Ionic Framework and Cordova project.
+        Sponzorme we connect events and Sponzors.
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+  <author email="carlos@sponzor.me" href="http://www.sponzor.me/">
+      Sponzorme Team
     </author>
   <content src="index.html"/>
   <access origin="*"/>

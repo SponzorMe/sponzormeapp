@@ -10,6 +10,31 @@ angular.module('starter', ['ionic', 'ionic.contrib.ui.tinderCards'])
 
 .config(function($stateProvider, $urlRouterProvider) {
 
+$stateProvider
+    .state('signin', {
+      url: '/sign-in',
+      templateUrl: 'templates/sign-in.html',
+    })
+    .state('eventmenu', {
+      url: "/event",
+      abstract: true,
+      templateUrl: "templates/event-menu.html"
+    })
+    .state('joinnow', {
+      url: "/joinnow",
+      templateUrl: "templates/joinnow.html"
+    })
+    .state('eventmenu.home', {
+      url: "/home",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/home.html"
+        }
+      }
+    })
+    
+  
+  $urlRouterProvider.otherwise("/sign-in");
 })
 
 .directive('noScroll', function($document) {
@@ -28,9 +53,9 @@ angular.module('starter', ['ionic', 'ionic.contrib.ui.tinderCards'])
 .controller('CardsCtrl', function($scope, TDCardDelegate) {
   console.log('CARDS CTRL');
   var cardTypes = [
-    { image: 'img/max.jpg' },
-    { image: 'img/ben.png' },
-    { image: 'img/perry.jpg' },
+    { image: 'img/2.jpeg' },
+    { image: 'img/3.jpeg' },
+    { image: 'img/4.jpeg' },
   ];
 
   $scope.cards = Array.prototype.slice.call(cardTypes, 0);
