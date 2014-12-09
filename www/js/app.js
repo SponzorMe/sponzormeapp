@@ -5,10 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ionic.contrib.ui.tinderCards'])
+angular.module('starter', ['ionic', 'ionic.contrib.ui.tinderCards','pascalprecht.translate'])
 
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 
 $stateProvider
     .state('signin', {
@@ -19,6 +19,10 @@ $stateProvider
       url: "/event",
       abstract: true,
       templateUrl: "templates/event-menu.html"
+    })
+    .state('forgotpassword', {
+      url: "/forgot-password",
+      templateUrl: "templates/forgot-password.html"
     })
     .state('joinnow', {
       url: "/joinnow",
@@ -35,6 +39,30 @@ $stateProvider
     
   
   $urlRouterProvider.otherwise("/sign-in");
+
+$translateProvider.translations('en', {
+            signin_message: "Sign in",
+            goodbye_message: "Goodbye"
+        });
+
+$translateProvider.translations('es', {
+            signin_message: "Ingresar",
+            goodbye_message: "Adios"
+        });
+
+$translateProvider.translations('pt', {
+            signin_message: "Hola",
+            goodbye_message: "Adios"
+        });
+        
+        $translateProvider.preferredLanguage("en");
+        
+        $translateProvider.fallbackLanguage("en");
+})
+.run(function($ionicPlatform, $translate) {
+        $ionicPlatform.ready(function() {
+          $translate.use("es");
+          });
 })
 
 .directive('noScroll', function($document) {
