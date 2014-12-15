@@ -36,8 +36,8 @@ $stateProvider
         }
       }
     })
-    
-  
+
+
   $urlRouterProvider.otherwise("/sign-in");
 
 $translateProvider.translations('en', {
@@ -54,9 +54,9 @@ $translateProvider.translations('pt', {
             signin_message: "Hola",
             goodbye_message: "Adios"
         });
-        
+
         $translateProvider.preferredLanguage("en");
-        
+
         $translateProvider.fallbackLanguage("en");
 })
 .run(function($ionicPlatform, $translate) {
@@ -108,4 +108,48 @@ $translateProvider.translations('pt', {
     console.log('RIGHT SWIPE');
     $scope.addCard();
   };
+})
+.controller('userController', function ($scope, $user) {
+  $scope.signIn = function () {
+    $user.signIn($scope.user).then(function (response) {
+      $scope.user.key = $user.info.key;
+      // do more sign up things :)
+      // success
+    }, function (error){
+      // maybe wrong login
+      // maybe error server
+    });
+  };
+
+})
+.service('$user', function ($http, $q) {
+  var _this = this;
+  _this.info = {};
+
+  _this.signIn = function (user) {
+    var request;
+    request = $http({
+      data: {
+        email: user.email,
+        password: user.password
+      },
+      method : 'POST',
+      url: 'http://staging.sponzor.me/api/v1/authentication'
+    });
+    return request.then(function (response) {
+      // alert(response);
+      if(!angular.isObject(response)){
+        $q.reject({error: "something error"});
+      }
+      if(!response.key){
+       $q.reject({error: "invalid user"});
+      }
+      _this.info.key = response.key;
+      _this.info.email = user.email;
+      return response;
+    }, function (error) {
+      return error;
+    });
+  };
+
 });
