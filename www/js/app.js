@@ -175,7 +175,10 @@ $translateProvider.translations('pt', {
     });
     return request.then(function (response) {
       console.log(response);
-      _this.details = response.data.User;
+      if(!response.data.User){
+        return $q.reject({error: "no user returned"});
+      }
+      _this.details = response.data.User[0];
       return response;
     }, function (error) {
       return error;
