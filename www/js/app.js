@@ -137,7 +137,7 @@ $translateProvider.translations('pt', {
       url: 'http://staging.sponzor.me/api/v1/authentication'
     });
     return request.then(function (response) {
-      // alert(response);
+      console.log(response);
       if(!angular.isObject(response)){
         $q.reject({error: "something error"});
       }
