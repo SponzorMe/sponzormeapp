@@ -170,7 +170,7 @@ $translateProvider.translations('pt', {
     }
     request = $http({
       data: {},
-      method : 'POST',
+      method : 'GET',
       url: 'http://staging.sponzor.me/api/v1/user/' + key
     });
     return request.then(function (response) {
