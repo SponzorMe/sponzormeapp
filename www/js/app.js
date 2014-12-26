@@ -113,9 +113,12 @@ $translateProvider.translations('pt', {
   $scope.signIn = function () {
     $user.signIn($scope.user).then(function (response) {
       $scope.user.key = $user.info.key;
+      debugger;
       // do more sign up things :)
       // success
     }, function (error){
+      debugger;
+      // show error message
       // maybe wrong login
       // maybe error server
     });
@@ -139,12 +142,12 @@ $translateProvider.translations('pt', {
     return request.then(function (response) {
       console.log(response);
       if(!angular.isObject(response)){
-        $q.reject({error: "something error"});
+        return $q.reject({error: "something error"});
       }
-      if(!response.key){
-       $q.reject({error: "invalid user"});
+      if(!response.data || !response.data.key){
+       return $q.reject({error: "invalid user"});
       }
-      _this.info.key = response.key;
+      _this.info.key = response.data.key;
       _this.info.email = user.email;
       return response;
     }, function (error) {
