@@ -111,9 +111,17 @@ $translateProvider.translations('pt', {
 })
 .controller('userController', function ($scope, $user) {
   $scope.signIn = function () {
+    $scope.getInfo = function () {
+      $user.getInfo($user.info.key).then(function(response){
+        debugger;
+      }, function (error) {
+        debugger;
+      });
+    };
+
     $user.signIn($scope.user).then(function (response) {
       $scope.user.key = $user.info.key;
-      debugger;
+      $scope.getInfo();
       // do more sign up things :)
       // success
     }, function (error){
@@ -128,7 +136,7 @@ $translateProvider.translations('pt', {
 .service('$user', function ($http, $q) {
   var _this = this;
   _this.info = {};
-
+  _this.details = {};
   _this.signIn = function (user) {
     var request;
     request = $http({
@@ -149,6 +157,25 @@ $translateProvider.translations('pt', {
       }
       _this.info.key = response.data.key;
       _this.info.email = user.email;
+      return response;
+    }, function (error) {
+      return error;
+    });
+  };
+
+  _this.getInfo = function (key) {
+    var request;
+    if(!key){
+      return $q.reject({error: "no key provided"});
+    }
+    request = $http({
+      data: {},
+      method : 'POST',
+      url: 'http://staging.sponzor.me/api/v1/user/' + key
+    });
+    return request.then(function (response) {
+      console.log(response);
+      _this.details = response.data.User;
       return response;
     }, function (error) {
       return error;
