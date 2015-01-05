@@ -109,7 +109,7 @@ $translateProvider.translations('pt', {
     $scope.addCard();
   };
 })
-.controller('userController', function ($scope, $user) {
+.controller('userController', function ($scope, $user, $state) {
   $scope.signIn = function () {
     $scope.getInfo = function () {
       $user.getInfo($user.info.key).then(function(response){
@@ -123,6 +123,10 @@ $translateProvider.translations('pt', {
       $scope.user.key = $user.info.key;
       $scope.getInfo();
       // do more sign up things :)
+      $scope.user.userId = $user.info.userId; 
+      if($scope.user.userId > 0){
+        $state.go('eventmenu.home');
+      }
       // success
     }, function (error){
       debugger;
@@ -156,6 +160,7 @@ $translateProvider.translations('pt', {
        return $q.reject({error: "invalid user"});
       }
       _this.info.key = response.data.key;
+      _this.info.userId = response.data.userId;
       _this.info.email = user.email;
       return response;
     }, function (error) {
@@ -169,8 +174,11 @@ $translateProvider.translations('pt', {
       return $q.reject({error: "no key provided"});
     }
     request = $http({
-      data: {},
-      method : 'GET',
+      data: {
+        key: _this.info.key,
+        userId: _this.info.userId
+      },
+      method : 'POST',
       url: 'http://staging.sponzor.me/api/v1/user/' + key
     });
     return request.then(function (response) {
@@ -184,5 +192,6 @@ $translateProvider.translations('pt', {
       return error;
     });
   };
+
 
 });
