@@ -1,5 +1,8 @@
-angular.module('App').controller('userController', function ($scope, $user, $state) {
+angular.module('App').controller('userController', function ($scope, $state) {
   $scope.signIn = function () {
+    console.log("Usuario " + $scope.user.email);
+    $state.go('eventmenu.home');
+    /*
     $scope.getInfo = function () {
       $user.getInfo($user.info.key).then(function(response){
         debugger;
@@ -7,22 +10,22 @@ angular.module('App').controller('userController', function ($scope, $user, $sta
         debugger;
       });
     };
+    */
 
+    /*
     $user.signIn($scope.user).then(function (response) {
+
+
       $scope.user.key = $user.info.key;
       $scope.getInfo();
-      // do more sign up things :)
       $scope.user.userId = $user.info.userId;
       if($scope.user.userId > 0){
         $state.go('eventmenu.home');
       }
-      // success
+
     }, function (error){
       debugger;
-      // show error message
-      // maybe wrong login
-      // maybe error server
-    });
+      });*/
   };
 
 });

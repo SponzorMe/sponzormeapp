@@ -1,4 +1,4 @@
-<ion-view view-title="Home" hide-nav-bar="true" left-buttons="leftButtons" right-buttons="rightButtons" hide-back-button="true" class="signup-background">
+<ion-view view-title="{{'LOGIN.login_title' | translate}}" hide-nav-bar="true" left-buttons="leftButtons" right-buttons="rightButtons" hide-back-button="true" class="signup-background">
   <ion-content ng-controller="userController">
 
     <div class="list" style="padding-top:80%;">
@@ -13,7 +13,7 @@
     </div>
     <div class="">
       <button class="button button-block button-positive" ng-click="signIn(user)">
-        {{"signin_message" | translate}}
+        {{"LOGIN.signin_message" | translate}}
       </button>
       <p class="text-center" style="color:white;">
         <a style="color:white;" href="#/forgot-password">Forgot password</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="color:white;" href="#/joinnow">Join now</a>
