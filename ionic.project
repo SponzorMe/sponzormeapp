@@ -1,4 +1,12 @@
 {
-  "name": "Sponzorme",
-  "app_id": "4f842624"
+  "name": "sponzormeapp",
+  "app_id": "",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
 }

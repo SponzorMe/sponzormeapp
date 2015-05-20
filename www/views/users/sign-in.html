@@ -1,0 +1,23 @@
+<ion-view view-title="Home" hide-nav-bar="true" left-buttons="leftButtons" right-buttons="rightButtons" hide-back-button="true" class="signup-background">
+  <ion-content ng-controller="userController">
+
+    <div class="list" style="padding-top:80%;">
+      <label class="item item-input">
+        <span class="input-label">Email</span>
+        <input type="text" ng-model="user.email">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Password</span>
+        <input type="password" ng-model="user.password">
+      </label>
+    </div>
+    <div class="">
+      <button class="button button-block button-positive" ng-click="signIn(user)">
+        {{"signin_message" | translate}}
+      </button>
+      <p class="text-center" style="color:white;">
+        <a style="color:white;" href="#/forgot-password">Forgot password</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="color:white;" href="#/joinnow">Join now</a>
+      </p>
+    </div>
+  </ion-content>
+</ion-view>
