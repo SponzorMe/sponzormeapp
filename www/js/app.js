@@ -23,23 +23,110 @@ $stateProvider
       url: "/joinnow",
       templateUrl: "views/users/joinnow.html"
     })
-    .state('menuorganizers.home', {
-      url: "/homeorganizers",
+    .state('menuorganizers.organizershome', {
+      url: "/organizershome",
       views: {
         'menuContent' :{
-          templateUrl: "views/dashboard/home.html"
+          templateUrl: "views/dashboard/home-organizers.html"
         }
       }
     })
-    .state('menusponzors.home', {
-      url: "/menusponzors",
+    .state('menuorganizers.organizersevents', {
+      url: "/organizersevents",
       views: {
         'menuContent' :{
-          templateUrl: "views/dashboard/home.html"
+          templateUrl: "views/events/dash-events.html"
         }
       }
     })
-
+    .state('menuorganizers.organizerssponzors', {
+      url: "/sponzorsorganizers",
+      views: {
+        'menuContent' :{
+          templateUrl: "views/sponzors/dash-sponzors.html"
+        }
+      }
+    })
+    .state('menuorganizers.organizerstask', {
+      url: "/organizerstask",
+      views: {
+        'menuContent' :{
+          templateUrl: "views/tasks/task-organizers.html"
+        }
+      }
+    })
+    .state('menuorganizers.organizersinvite', {
+      url: "/organizersinvite",
+      views: {
+        'menuContent' :{
+          templateUrl: "views/users/invite-users.html"
+        }
+      }
+    })
+    .state('menuorganizers.organizerssettings', {
+      url: "/organizerssettings",
+      views: {
+        'menuContent' :{
+          templateUrl: "views/users/settings-users.html"
+        }
+      }
+    })
+    .state('menuorganizers.organizerlogout', {
+      url: "/organizerlogout",
+      views: {
+        'menuContent' :{
+          templateUrl: "views/users/sign-in.html"
+        }
+      }
+    })
+    .state('menusponzors.homesponzors', {
+      url: "/homesponzors",
+      views: {
+        'menuContent' :{
+          templateUrl: "views/dashboard/home-sponzors.html"
+        }
+      }
+    })
+    .state('menusponzors.following', {
+      url: "/following",
+      views: {
+        'menuContent' :{
+          templateUrl: "views/events/follow-events.html"
+        }
+      }
+    })
+    .state('menusponzors.sponzoring', {
+      url: "/sponzoring",
+      views: {
+        'menuContent' :{
+          templateUrl: "views/sponzors/dash-sponzoring.html"
+        }
+      }
+    })
+    .state('menusponzors.sponzorsettings', {
+      url: "/sponzorsettings",
+      views: {
+        'menuContent' :{
+          templateUrl: "views/users/settings-users.html"
+        }
+      }
+    })
+    .state('menusponzors.sponzorsinvite', {
+      url: "/sponzorsinvite",
+      views: {
+        'menuContent' :{
+          templateUrl: "views/users/settings-users.html"
+        }
+      }
+    })
+    .state('menuorganizers.sponzorslogout', {
+      url: "/sponzorslogout",
+      views: {
+        'menuContent' :{
+          templateUrl: "views/users/sign-in.html"
+        }
+      }
+    })
     ;
 
 
@@ -58,7 +145,27 @@ $translateProvider.translations('en', {
       signin_message: "Login",
       forgot_message: "Forgot password",
       join_message: "Join now"
-     }
+    },
+
+      "DASHSPONZORS":{
+        dash_title:  "Dashboard",
+        dash_menu1:"Dashboard",
+        dash_menu2:"Following",
+        dash_menu3:"Sponzoring",
+        dash_menu4:"Settings",
+        dash_menu5:"Invite your friend",
+        dash_menu6:"Logout"
+      },
+      "DASHORGANIZERS":{
+        dash_title:  "Dashboard",
+        dash_menu1:"Events",
+        dash_menu2:"Sponzors",
+        dash_menu3:"Task List",
+        dash_menu4:"Invite your friend",
+        dash_menu5:"Settings",
+        dash_menu6:"Logout"
+      }
+
           });
 
 // Spanish

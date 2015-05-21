@@ -1,7 +1,14 @@
 angular.module('App').controller('userController', function ($scope, $state) {
   $scope.signIn = function () {
     console.log("Usuario " + $scope.user.email);
-    $state.go('eventmenu.home');
+
+    if($scope.user.email === "admin"){
+      $state.go('menusponzors.homesponzors');
+    }
+    else {
+      $state.go('menuorganizers.organizershome');
+    }
+
     /*
     $scope.getInfo = function () {
       $user.getInfo($user.info.key).then(function(response){
