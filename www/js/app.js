@@ -83,7 +83,8 @@ $stateProvider
       url: "/homesponzors",
       views: {
         'menuContent' :{
-          templateUrl: "views/dashboard/home-sponzors.html"
+          templateUrl: "views/sponzors/search.html",
+          controller: "SearchController"
         }
       }
     })
@@ -149,6 +150,7 @@ $translateProvider.translations('en', {
 
       "DASHSPONZORS":{
         dash_title:  "Dashboard",
+        menu_title:  "Navigation",
         dash_menu1:"Dashboard",
         dash_menu2:"Following",
         dash_menu3:"Sponzoring",
@@ -158,6 +160,7 @@ $translateProvider.translations('en', {
       },
       "DASHORGANIZERS":{
         dash_title:  "Dashboard",
+        menu_title:  "Navigation",
         dash_menu1:"Events",
         dash_menu2:"Sponzors",
         dash_menu3:"Task List",
