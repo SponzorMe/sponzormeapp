@@ -1,21 +1,7 @@
 .pane{
 
-  background-color: #01446d;
+  background-color: #fff;
 }
-
-.bar.bar-positive{
-  background-color: #00acb9;
-  color:#fff;
-}
-
-.bar.bar-assertive {
-border-color: #00acb9;
-background-color: #00acb9;
-background-image: linear-gradient(0deg, #cc2311, #cc2311 50%, transparent 50%);
-color: #fff;
-}
-
-
 
 .fade {
   -webkit-transition: 0.2s opacity linear;
@@ -37,9 +23,4 @@ color: #fff;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
-}
-
-.button.button-block.button-positive{
-    background-color: #00acb9;
-    border-color: #00acb9;
 }

@@ -116,7 +116,7 @@ $stateProvider
       url: "/sponzorsinvite",
       views: {
         'menuContent' :{
-          templateUrl: "views/users/settings-users.html"
+          templateUrl: "views/users/invite-users.html"
         }
       }
     })
@@ -167,6 +167,17 @@ $translateProvider.translations('en', {
         dash_menu4:"Invite your friend",
         dash_menu5:"Settings",
         dash_menu6:"Logout"
+      },
+      "SEARCH":{
+        search_title: "Find Events",
+        text_field: "Search for an event",
+        search_button: "Search"
+      },
+
+      "INVITEUSERS":{
+        search_title: "Find Events",
+        text_field: "Search for an event",
+        search_button: "Search"
       }
 
           });
