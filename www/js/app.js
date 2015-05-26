@@ -23,6 +23,15 @@ $stateProvider
       url: "/joinnow",
       templateUrl: "views/users/joinnow.html"
     })
+    .state('menuorganizers.addevent', {
+      url: "/addevent",
+      views: {
+        'menuContent' :{
+          templateUrl: "views/events/add-events.html",
+          controller: "EventsController"
+        }
+      }
+    })
     .state('menuorganizers.organizershome', {
       url: "/organizershome",
       views: {
@@ -161,12 +170,13 @@ $translateProvider.translations('en', {
       "DASHORGANIZERS":{
         dash_title:  "Dashboard",
         menu_title:  "Navigation",
-        dash_menu1:"Events",
-        dash_menu2:"Sponzors",
-        dash_menu3:"Task List",
-        dash_menu4:"Invite your friend",
-        dash_menu5:"Settings",
-        dash_menu6:"Logout"
+        dash_menu1:"Dashboard",
+        dash_menu2:"Events",
+        dash_menu3:"Sponzors",
+        dash_menu4:"Task List",
+        dash_menu5:"Invite your friend",
+        dash_menu6:"Settings",
+        dash_menu7:"Logout"
       },
       "SEARCH":{
         search_title: "Find Events",
