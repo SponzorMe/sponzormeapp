@@ -6,7 +6,8 @@ module.exports = function(config) {
       'www/lib/angular-mocks/angular-mocks.js',
       'www/js/**/*.js',
       'www/views/**/*.js',
-      'test/unit/**/*.js'
+      'tests/unit/**/*.js',
+      'tests/e2e/**/*.js',
     ],
     reporters: ['progress'],
     browsers: ['Chrome']
