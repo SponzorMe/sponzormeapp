@@ -153,8 +153,8 @@ $translateProvider.translations('en', {
       email_field: "Email",
       pass_field: "Password",
       signin_message: "Login",
-      forgot_message: "Forgot password",
-      join_message: "Join now"
+      forgot_message: "Forgot Password?",
+      join_message: "Join Now"
     },
 
       "DASHSPONZORS":{
@@ -188,7 +188,17 @@ $translateProvider.translations('en', {
         search_title: "Find Events",
         text_field: "Search for an event",
         search_button: "Search"
-      }
+      },
+
+      "ERRORS":{
+        signin_ema_required: "This field is required.",
+        signin_ema_email: "This field is must be an email.",
+        signin_ema_maxlength:"This field is must be at least 5 characters.",
+        signin_ema_minlength: "This field is must be less than 30 characters.",
+        signin_pass_required: "This field is required.",
+        signin_pass_maxlength:"This field is must be at least 5 characters.",
+        signin_pass_minlength: "This field is must be less than 30 characters.",
+      },
 
           });
 
@@ -221,7 +231,7 @@ $translateProvider.translations('en', {
 })
 .run(function($ionicPlatform, $translate) {
         $ionicPlatform.ready(function() {
-          $translate.use("es");
+          $translate.use("en");
           });
 })
 

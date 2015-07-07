@@ -1,5 +1,4 @@
 .pane{
-
   background-color: #fff;
 }
 
@@ -23,4 +22,13 @@
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
+}
+/** Styling for the error text and container **/
+.form-errors {
+  margin: 5px 0;
+  background: white;
+}
+.form-error {
+  padding: 2px 0 2px 16px;
+  color: red;
 }
