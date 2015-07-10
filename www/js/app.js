@@ -1,8 +1,9 @@
-angular.module('App', ['ionic','pascalprecht.translate'])
+angular.module('App', ['ionic','pascalprecht.translate','loginService'])
 .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 $stateProvider
     .state('signin', {
       url: '/sign-in',
+      controller: 'userController',
       templateUrl: 'views/users/sign-in.html',
     })
     .state('menuorganizers', {

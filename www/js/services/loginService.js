@@ -1,5 +1,5 @@
 /**
-* @Servicio de Login 
+* @Servicio de Login
 *
 * @author Sebastian
 * @version 0.1
@@ -22,6 +22,6 @@ angular.module('loginService', [])
 					headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
 					data: $.param(data)
 				});
-			}	
+			}
 		}
 	});
