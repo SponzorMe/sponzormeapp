@@ -1,23 +1,40 @@
 <ion-view view-title="Home" hide-nav-bar="true" left-buttons="leftButtons" right-buttons="rightButtons" hide-back-button="true" class="signup-background2">
-  <ion-content >
+  <ion-content>
+    <form name="registerForm" novalidate ng-submit="registerForm.$valid && register(user)"
+    ng-class="{ 'has-error' : registerForm.txtemail.$invalid && registerForm.$submitted }">
     <div class="list" style="padding-top:80%;">
       <label class="item item-input">
-        <input placeholder="Email" type="email">
+        <input name="txtemail" type="email" ng-model="user.email" placeholder='{{"JOINNOW.email_field" | translate}}'
+        ng-minlength="5"
+        ng-maxlength="30"
+        required>
       </label>
-      <label class="item item-input">
-        <input type="password" placeholder="Password" ng-model="user.password">
+      <div class="form-errors" ng-messages="registerForm.txtemail.$error" ng-if="registerForm.$submitted">
+        <div class="form-error" ng-message="required">{{"ERRORS.joinnow_ema_required" | translate}}</div>
+        <div class="form-error" ng-message="email">{{"ERRORS.joinnow_ema_email" | translate}}</div>
+        <div class="form-error" ng-message="maxlength">{{"ERRORS.joinnow_ema_maxlength" | translate}}</div>
+        <div class="form-error" ng-message="minlength">{{"ERRORS.joinnow_ema_minlength" | translate}}</div>
+      </div>
+      <label class="item item-input" ng-class="{ 'has-error-lr' : registerForm.txtpassword.$invalid  && registerForm.$submitted}">
+        <input name="txtpassword" type="password" ng-model="user.password" placeholder='{{"JOINNOW.pass_field" | translate}}'
+        ng-minlength="5"
+        ng-maxlength="25"
+        required>
       </label>
-      <label class="item item-input">
-        <input type="password" placeholder="Confirm Password" ng-model="user.password">
-      </label>
+      <div class="form-errors" ng-messages="registerForm.txtpassword.$error" ng-if="registerForm.$submitted">
+        <div class="form-error" ng-message="required">{{"ERRORS.joinnow_pass_required" | translate}}</div>
+        <div class="form-error" ng-message="minlength">{{"ERRORS.joinnow_pass_minlength" | translate}}</div>
+        <div class="form-error" ng-message="maxlength">{{"ERRORS.joinnow_pass_maxlength" | translate}}</div>
+      </div>
     </div>
     <div class="">
-      <button class="button button-block button-positive" ng-click="signIn(user)">
+      <button type="submit" class="button button-block button-positive">
         Join now
       </button>
-      <p class="text-center" style="color:white;">
-        <a style="color:white;" href="#/sign-in">Sign in</a>
+      <p class="text-center">
+        <a style="color:white;" class="button button-clear" href="#/sign-in"><i class="icon ion-home"></i>&nbsp;Sign-in</a>
       </p>
     </div>
+  </form>
   </ion-content>
 </ion-view>

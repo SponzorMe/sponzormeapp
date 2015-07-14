@@ -1,10 +1,10 @@
 /**
-* @Servicio de UserCategory (Categorias de preferencia de los usuarios) 
+* @Servicio de UserCategory (Categorias de preferencia de los usuarios)
 *
 * @author Sebastian
 * @version 0.1
 */
-angular.module('userInterestService', ['ngCookies'])
+angular.module('App', ['ngCookies'])
 	.factory('userInterestRequest', function($http,$cookies) {
 		var path = "http://api.sponzor.me/"; //API path
 		var token = $cookies.get('token');

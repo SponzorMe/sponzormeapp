@@ -1,21 +1,21 @@
 /**
-* @Servicio de interests_category 
+* @Servicio de interests_category
 *
 * @author Sebastian
 * @version 0.1
 */
-angular.module('eventTypeService', ['ngCookies'])
+angular.module('App', ['ngCookies'])
 	.factory('eventTypeRequest', function($http,$cookies) {
 		var path = "http://api.sponzor.me/"; //API path
 		var token = $cookies.get('token');
 		return {
 			allInterestsCategoriesId : function(){
 				return $http.get(path + 'interests_category');
-					
+
 			},
 			oneInterestsCategory : function(interestsCategoryId){
 				return $http.get(path + 'interests_category/' + interestsCategoryId);
-				
+
 			},
 			createInterestsCategory : function(data){
 				return $http({

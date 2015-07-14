@@ -1,21 +1,21 @@
 /**
-* @Servicio de Eventos 
+* @Servicio de Eventos
 *
 * @author Sebastian
 * @version 0.1
 */
-angular.module('eventService', ['ngCookies'])
+angular.module('App', ['ngCookies'])
 	.factory('eventRequest', function($http,$cookies) {
 		var path = "http://api.sponzor.me/"; //API path
 		var token = $cookies.get('token');
 		return {
 			allEvents : function(){
 				return $http.get(path + 'events');
-					
+
 			},
 			oneEvent : function(EventId){
 				return $http.get(path + 'events/' + EventId);
-				
+
 			},
 			createEvent : function(data){
 				return $http({

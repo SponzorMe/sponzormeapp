@@ -1,16 +1,16 @@
 /**
-* @Servicio de TaskSponzor (Tareas de los patrocinadores) 
+* @Servicio de TaskSponzor (Tareas de los patrocinadores)
 *
 * @author Sebastian
 * @version 0.1
 */
-angular.module('userInterestService', ['ngCookies'])
+angular.module('App', ['ngCookies'])
 	.factory('userInterestRequest', function($http,$cookies) {
 		var path = "http://api.sponzor.me/"; //API path
 		var token = $cookies.get('token');
 		return {
 			allUserInterests : function(){
-				return $http.get(path + 'user_interests');	
+				return $http.get(path + 'user_interests');
 			},
 			oneUserInterest : function(userInterestId){
 				return $http.get(path + 'user_interests/' + userInterestId);

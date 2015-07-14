@@ -1,21 +1,21 @@
 /**
-* @Servicio de Sponzorships (Beneficios) 
+* @Servicio de Sponzorships (Beneficios)
 *
 * @author Sebastian
 * @version 0.1
 */
-angular.module('sponzorshipService', ['ngCookies'])
+angular.module('App', ['ngCookies'])
 	.factory('sponzorshipRequest', function($http,$cookies) {
 		var path = "http://api.sponzor.me/"; //API path
 		var token = $cookies.get('token');
 		return {
 			allSponzorships : function(){
 				return $http.get(path + 'sponzorships');
-					
+
 			},
 			oneSponzorship : function(sponzorshipId){
 				return $http.get(path + 'sponzorships/' + sponzorshipId);
-				
+
 			},
 			createSponzorship : function(data){
 				return $http({

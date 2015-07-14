@@ -1,4 +1,4 @@
-angular.module('App', ['ionic','pascalprecht.translate','loginService'])
+angular.module('App', ['ionic','pascalprecht.translate','ngMessages', 'ngCookies'])
 .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 $stateProvider
     .state('signin', {
@@ -158,6 +158,13 @@ $translateProvider.translations('en', {
       join_message: "Join Now"
     },
 
+    "JOINNOW":{
+      login_title: "Join Now",
+      email_field: "Email",
+      pass_field: "Password",
+      button_message: "Join Now"
+    },
+
       "DASHSPONZORS":{
         dash_title:  "Dashboard",
         menu_title:  "Navigation",
@@ -199,6 +206,13 @@ $translateProvider.translations('en', {
         signin_pass_required: "This field is required.",
         signin_pass_maxlength:"This field is must be at least 5 characters.",
         signin_pass_minlength: "This field is must be less than 30 characters.",
+        joinnow_ema_required: "This field is required.",
+        joinnow_ema_email: "This field is must be an email.",
+        joinnow_ema_maxlength:"This field is must be at least 5 characters.",
+        joinnow_ema_minlength: "This field is must be less than 30 characters.",
+        joinnow_pass_required: "This field is required.",
+        joinnow_pass_maxlength:"This field is must be at least 5 characters.",
+        joinnow_pass_minlength: "This field is must be less than 30 characters.",
       },
 
           });

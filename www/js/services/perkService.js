@@ -1,21 +1,21 @@
 /**
-* @Servicio de Perks (Beneficios) 
+* @Servicio de Perks (Beneficios)
 *
 * @author Sebastian
 * @version 0.1
 */
-angular.module('perkService', ['ngCookies'])
+angular.module('App', ['ngCookies'])
 	.factory('perkRequest', function($http,$cookies) {
 		var path = "http://api.sponzor.me/"; //API path
 		var token = $cookies.get('token');
 		return {
 			allPerks : function(){
 				return $http.get(path + 'perks');
-					
+
 			},
 			onePerk : function(perkId){
 				return $http.get(path + 'perks/' + perkId);
-				
+
 			},
 			createPerk : function(data){
 				return $http({

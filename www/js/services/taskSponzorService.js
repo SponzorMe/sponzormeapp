@@ -1,21 +1,21 @@
 /**
-* @Servicio de TaskSponzor (Tareas de los patrocinadores) 
+* @Servicio de TaskSponzor (Tareas de los patrocinadores)
 *
 * @author Sebastian
 * @version 0.1
 */
-angular.module('taskSponzorService', ['ngCookies'])
+angular.module('App', ['ngCookies'])
 	.factory('taskSponzorRequest', function($http,$cookies) {
 		var path = "http://api.sponzor.me/"; //API path
 		var token = $cookies.get('token');
 		return {
 			allTaskSponzor : function(){
 				return $http.get(path + 'task_sponzor');
-					
+
 			},
 			oneTaskSponzor : function(taskSponzorId){
 				return $http.get(path + 'task_sponzor/' + taskSponzorId);
-				
+
 			},
 			createTaskSponzor : function(data){
 				return $http({

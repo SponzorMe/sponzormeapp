@@ -1,21 +1,21 @@
 /**
-* @Servicio de event_types 
+* @Servicio de event_types
 *
 * @author Sebastian
 * @version 0.1
 */
-angular.module('eventTypeService', ['ngCookies'])
+angular.module('App', ['ngCookies'])
 	.factory('eventTypeRequest', function($http,$cookies) {
 		var path = "http://api.sponzor.me/"; //API path
 		var token = $cookies.get('token');
 		return {
 			allEventTypes : function(){
 				return $http.get(path + 'event_types');
-					
+
 			},
 			oneEventTypes : function(eventTypeId){
 				return $http.get(path + 'event_types/' + categoriesId);
-				
+
 			},
 			createEventType : function(data){
 				return $http({

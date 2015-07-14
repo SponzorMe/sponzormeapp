@@ -4,7 +4,7 @@
 * @author Sebastian
 * @version 0.1
 */
-angular.module('loginService', [])
+angular.module('App', [])
 	.factory('loginRequest', function($http) {
 		var path = "http://api.sponzor.me/"; //API path
 		return {
@@ -15,12 +15,15 @@ angular.module('loginService', [])
 			* @returns success(function(data, status, headers, config)
 			*/
 			login : function(credentials){
-				data={"email":credentials.email,"password":credentials.password};
+				data={
+				"email":credentials.email,
+				"password":credentials.password
+				};
 				return $http({
 					method: 'POST',
 					url: path + 'auth',
-					headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
-					data: $.param(data)
+					data: $.param(data),
+					headers: { 'Content-Type' : 'application/x-www-form-urlencoded' }
 				});
 			}
 		}
