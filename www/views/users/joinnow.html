@@ -1,5 +1,5 @@
 <ion-view view-title="Home" hide-nav-bar="true" left-buttons="leftButtons" right-buttons="rightButtons" hide-back-button="true" class="signup-background2">
-  <ion-content>
+  <ion-content ng-controller="registerController">
     <form name="registerForm" novalidate ng-submit="registerForm.$valid && register(user)"
     ng-class="{ 'has-error' : registerForm.txtemail.$invalid && registerForm.$submitted }">
     <div class="list" style="padding-top:80%;">

@@ -6,6 +6,11 @@ $stateProvider
       controller: 'userController',
       templateUrl: 'views/users/sign-in.html',
     })
+    .state('joinnow', {
+      url: "/joinnow",
+      controller: "registerController",
+      templateUrl: "views/users/joinnow.html"
+    })
     .state('menuorganizers', {
       url: "/menuorganizers",
       abstract: true,
@@ -19,10 +24,6 @@ $stateProvider
     .state('forgotpassword', {
       url: "/forgot-password",
       templateUrl: "views/users/forgot-password.html"
-    })
-    .state('joinnow', {
-      url: "/joinnow",
-      templateUrl: "views/users/joinnow.html"
     })
     .state('menuorganizers.addevent', {
       url: "/addevent",
