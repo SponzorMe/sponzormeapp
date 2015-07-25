@@ -1,4 +1,4 @@
-angular.module('App', ['ionic','pascalprecht.translate','ngMessages', 'ngCookies'])
+angular.module('App', ['ionic','pascalprecht.translate','ngMessages', 'ngCookies','ngStorage','base64', 'loginService'])
 .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 $stateProvider
     .state('signin', {
