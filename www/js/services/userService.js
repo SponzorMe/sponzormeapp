@@ -47,6 +47,14 @@ angular.module('userService', ['ngCookies'])
 					headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
 					data: $.param(data)
 				});
+			},
+			forgotPassword : function(data){
+				return $http({
+					method: 'POST',
+					url: path + 'send_reset_password/',
+					headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+					data: $.param(data)
+				});
 			}
 		}
 	});

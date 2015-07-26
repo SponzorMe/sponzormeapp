@@ -23,7 +23,8 @@ $stateProvider
     })
     .state('forgotpassword', {
       url: "/forgot-password",
-      templateUrl: "views/users/forgot-password.html"
+      templateUrl: "views/users/forgot-password.html",
+      controller:"forgotController"
     })
     .state('menuorganizers.addevent', {
       url: "/addevent",
@@ -166,6 +167,11 @@ $translateProvider.translations('en', {
       button_message: "Join Now"
     },
 
+    "FORGOTFORM":{
+      email_field: "Email",
+      button_message: "Send Me Instructions"
+    },
+
       "DASHSPONZORS":{
         dash_title:  "Dashboard",
         menu_title:  "Navigation",
@@ -216,6 +222,10 @@ $translateProvider.translations('en', {
         joinnow_pass_required: "This field is required.",
         joinnow_pass_maxlength:"This field is must be at least 5 characters.",
         joinnow_pass_minlength: "This field is must be less than 30 characters.",
+        forgotform_ema_required: "This field is required.",
+        forgotform_ema_email: "This field is must be an email.",
+        forgotform_ema_maxlength:"This field is must be at least 5 characters.",
+        forgotform_ema_minlength: "This field is must be less than 30 characters."
       },
       "MESSAGES":{
         loading: "Loading...",

@@ -3,8 +3,8 @@
     <form name="signinForm" novalidate ng-submit="signinForm.$valid && signIn(user)">
     <div class="list" style="padding-top:80%;">
       <label class="item item-input item-floating-label" ng-class="{ 'has-error' : signinForm.txtemail.$invalid && signinForm.$submitted }">
-        <span class="input-label">Email</span>
-        <input name="txtemail" type="email" placeholder="Email" ng-model="user.email"
+        <span class="input-label">{{"LOGIN.email_field" | translate}}</span>
+        <input name="txtemail" type="email" placeholder='{{"LOGIN.email_field" | translate}}' ng-model="user.email"
         ng-minlength="5"
         ng-maxlength="30"
         required>
@@ -16,8 +16,8 @@
         <div class="form-error" ng-message="minlength">{{"ERRORS.signin_ema_minlength" | translate}}</div>
       </div>
       <label class="item item-input item-floating-label" style="background-color:white" ng-class="{ 'has-error-lr' : signinForm.password.$invalid  && signinForm.$submitted}">
-      <span class="input-label">Password</span>
-      <input name="password" type="password" placeholder="Password" ng-model="user.password"
+      <span class="input-label">{{"LOGIN.pass_field" | translate}}</span>
+      <input name="password" type="password" placeholder='{{"LOGIN.pass_field" | translate}}' ng-model="user.password"
       ng-minlength="5"
       ng-maxlength="25"
       required>
@@ -33,7 +33,7 @@
         {{"LOGIN.signin_message" | translate}}
       </button>
       <div class="text-center">
-        <a style="color:white" class="button button-clear button-positive" href="#/forgot-password">{{"LOGIN.forgot_message" | translate}}</a> | <a style="color:white" class="button button-clear button-positive" href="#/joinnow">{{"LOGIN.join_message" | translate}}</a>
+        <a style="color:white" class="button button-clear button-positive" href="#/forgot-password">{{"LOGIN.forgot_message" | translate}}</a>  <a style="color:white" class="button button-clear button-positive" href="#/joinnow">{{"LOGIN.join_message" | translate}}</a>
       </div>
     </div>
     </form>
