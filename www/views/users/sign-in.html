@@ -2,7 +2,8 @@
   <ion-content ng-controller="userController">
     <form name="signinForm" novalidate ng-submit="signinForm.$valid && signIn(user)">
     <div class="list" style="padding-top:80%;">
-      <label class="item item-input" ng-class="{ 'has-error' : signinForm.txtemail.$invalid && signinForm.$submitted }">
+      <label class="item item-input item-floating-label" ng-class="{ 'has-error' : signinForm.txtemail.$invalid && signinForm.$submitted }">
+        <span class="input-label">Email</span>
         <input name="txtemail" type="email" placeholder="Email" ng-model="user.email"
         ng-minlength="5"
         ng-maxlength="30"
@@ -14,7 +15,8 @@
         <div class="form-error" ng-message="maxlength">{{"ERRORS.signin_ema_maxlength" | translate}}</div>
         <div class="form-error" ng-message="minlength">{{"ERRORS.signin_ema_minlength" | translate}}</div>
       </div>
-      <label class="item item-input" ng-class="{ 'has-error-lr' : signinForm.password.$invalid  && signinForm.$submitted}">
+      <label class="item item-input item-floating-label" style="background-color:white" ng-class="{ 'has-error-lr' : signinForm.password.$invalid  && signinForm.$submitted}">
+      <span class="input-label">Password</span>
       <input name="password" type="password" placeholder="Password" ng-model="user.password"
       ng-minlength="5"
       ng-maxlength="25"

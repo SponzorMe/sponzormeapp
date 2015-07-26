@@ -5,10 +5,11 @@
 * @version 0.1
 */
 'use strict';
-angular.module('App', ['ngCookies'])
+angular.module('userService', ['ngCookies'])
 	.factory('userRequest', function($http,$cookies) {
 		var path = "http://api.sponzor.me/"; //API path
-		var token = $cookies.get('token');
+		//var token = $cookies.get('token');
+		var token = $cookies[token];
 		return {
 			allUsers : function(){
 				return $http.get(path + 'users');

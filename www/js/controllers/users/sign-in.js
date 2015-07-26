@@ -1,4 +1,4 @@
-angular.module('App').controller('userController', function ($scope, $state, loginRequest, $base64, $sessionStorage, $location,Utils) {
+angular.module('App').controller('userController', function ($scope, $state, loginRequest, $base64, $sessionStorage, $location, $translate, Utils) {
 
   $scope.signIn = function (user) {
     Utils.show();
@@ -61,8 +61,10 @@ angular.module('App').controller('userController', function ($scope, $state, log
     }).
     error(function (data, status, headers, config) {
             // data is always undefined here when there is an error
-            //console.error('Error fetching feed:', JSON.stringify(data));
-            Utils.alertshow("Error",data.message);
+            console.error('Error fetching feed:', JSON.stringify(data));
+            if(data.message === "Invalid credentials"){
+            Utils.alertshow($translate.instant("ERRORS.signin_title_credentials"),$translate.instant("ERRORS.signin_incorrect_credentials"));
+            }
             Utils.hide();
         });
     ;

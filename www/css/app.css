@@ -32,3 +32,24 @@
   padding: 2px 0 2px 16px;
   color: red;
 }
+
+.item-floating-label{
+  background-color: white;
+}
+
+
+/*** Sliding Background **/
+
+.cb-slideshow,
+.cb-slideshow:after {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 0;
+}
+.cb-slideshow:after {
+    content: '';
+    background: transparent url(../img/pattern.png) repeat top left;
+}

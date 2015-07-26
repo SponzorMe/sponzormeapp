@@ -1,4 +1,4 @@
-angular.module('App', ['ionic','pascalprecht.translate','ngMessages', 'ngCookies','ngStorage','base64', 'loginService'])
+angular.module('App', ['ionic', 'ngCookies', 'pascalprecht.translate','ngMessages','ngStorage','base64', 'loginService','userService'])
 .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 $stateProvider
     .state('signin', {
@@ -207,6 +207,8 @@ $translateProvider.translations('en', {
         signin_pass_required: "This field is required.",
         signin_pass_maxlength:"This field is must be at least 5 characters.",
         signin_pass_minlength: "This field is must be less than 30 characters.",
+        signin_title_credentials: "Error.",
+        signin_incorrect_credentials: "Invalid credentials.",
         joinnow_ema_required: "This field is required.",
         joinnow_ema_email: "This field is must be an email.",
         joinnow_ema_maxlength:"This field is must be at least 5 characters.",
@@ -214,6 +216,9 @@ $translateProvider.translations('en', {
         joinnow_pass_required: "This field is required.",
         joinnow_pass_maxlength:"This field is must be at least 5 characters.",
         joinnow_pass_minlength: "This field is must be less than 30 characters.",
+      },
+      "MESSAGES":{
+        loading: "Loading...",
       },
 
           });
