@@ -11,6 +11,16 @@ $stateProvider
       controller: "registerController",
       templateUrl: "views/users/joinnow.html"
     })
+    .state('introorganizers', {
+      url: "/introorganizers",
+      controller: "IntroOrgCtrl",
+      templateUrl: "views/intro/introorganizers.html"
+    })
+    .state('introsponzors', {
+      url: "/introsponzors",
+      controller: "IntroSpoCtrl",
+      templateUrl: "views/intro/introsponzors.html"
+    })
     .state('menuorganizers', {
       url: "/menuorganizers",
       abstract: true,

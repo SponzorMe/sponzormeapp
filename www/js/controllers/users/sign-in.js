@@ -52,10 +52,25 @@ angular.module('App').controller('userController', function ($scope, $state, log
           }
           */
 
-          if(adata.user.type === 1){
+          console.log("demo data " + adata.user.demo);
+
+          if(adata.user.type == 1){
+              if(adata.user.demo == 0)
+              {
+                $state.go("introorganizers");
+              }
+              else{
                 $state.go("menuorganizers.organizershome");
+              }
           }else{
-                  $state.go("menusponzors.homesponzors");
+              if(adata.user.demo == 0)
+              {
+                  $state.go("introsponzors");
+             }
+             else{
+               $state.go("menusponzors.homesponzors");
+             }
+
           }
           Utils.hide();
     }).
