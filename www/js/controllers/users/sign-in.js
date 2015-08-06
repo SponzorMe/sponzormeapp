@@ -54,7 +54,7 @@ angular.module('App').controller('userController', function ($scope, $state, log
 
           console.log("demo data " + adata.user.demo);
 
-          if(adata.user.type == 1){
+          if(adata.user.type == 0){
               if(adata.user.demo == 0)
               {
                 $state.go("introorganizers");

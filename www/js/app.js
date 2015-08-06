@@ -215,6 +215,45 @@ $translateProvider.translations('en', {
         search_button: "Search"
       },
 
+      "INTROORG":{
+        skip_nav_btn: "Skip Intro",
+        prev_nav_btn: "Previous Slide",
+        next_nav_btn: "Next",
+        start_nav_btn: "Start using MyApp",
+        head_page1: "Welcome to SponzorMe. Organizer",
+        content_page1: "We hope you enjoy using this platform as much as we did when putting it together. Any questions as meaningless as they can seem, please send them to carlos@sponzor.me",
+        head_page2: "Let’s start by exploring your dashboard.",
+        content_page2:"The first thing you will see in this area is a summary of everything that is happening. You will be able to see a global summary, an event summary, a sponsor summary and a few suggestions that our team of experts has prepared for you.",
+        head_page3: "Let’s look at our menu.",
+        content_page3: "You will be able to find the following:<br><br/><ul><li><b>Dashboard:</b> Shows a summary of all your activities.</li>" +
+        "<li><b>Events:</b> Allows you to create, edit, and manage your events.</li>" +
+        "<li><b>Sponzors:</b> Allows you to create, edit, and manage your sponsors.</li>" +
+        "<li><b>Task List:</b> You can manage your agreements with your sponsors and allows you to keep a good relationship with them.</li>" +
+        "<li><b>Invite your friends:</b> Spread the love. Send it to someone that might need something like this and that will enjoy it.</li>" +
+        "<li><b>Settings:</b>  You will be able to update your information and connect your external accounts.</li>" +
+        "<li><b>Disconnect:</b>  You can log out of our platform in a safe way. We know this will be temporal because we love you.</li>" +
+        "</ul>",
+      },
+
+      "INTROSPO":{
+        skip_nav_btn: "Skip Intro",
+        prev_nav_btn: "Previous Slide",
+        next_nav_btn: "Next",
+        start_nav_btn: "Start using MyApp",
+        head_page1: "Welcome to SponzorMe. Sponzor",
+        content_page1: "We hope you enjoy using this platform as much as we did when putting it together. Any questions as meaningless as they can seem, please send them to carlos@sponzor.me",
+        head_page2: "Let’s start by exploring your dashboard.",
+        content_page2:"The first thing you will see in this area is a search box. Simply type the magic words that describe the event that you are looking for and let us find the events that might interest you.",
+        head_page3: "Let’s look at our menu.",
+        content_page3: "You will be able to find the following:<br><br/><ul><li><b>Dashboard:</b> To come back to the search box.</li>" +
+        "<li><b>Following:</b> The events you want to sponsor which hasn’t been accepted by the organizer yet.</li>" +
+        "<li><b>Sponsored:</b> The events you are currently sponsoring, the agreements you have with the organizers, and activities that you might forget in the last minute such as sending those T-shirts.</li>" +
+        "<li><b>Invite your friends :</b> Spread the love. Send it to someone that might need something like this and that will enjoy it.</li>" +
+        "<li><b>Settings:</b>  You will be able to update your information and connect your external accounts.</li>" +
+        "<li><b>Disconnect:</b>  You can log out of our platform in a safe way. We know this will be temporal because we love you.</li>" +
+        "</ul>",
+      },
+
       "ERRORS":{
         signin_ema_required: "This field is required.",
         signin_ema_email: "This field is must be an email.",
