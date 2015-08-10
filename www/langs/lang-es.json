@@ -1,0 +1,9 @@
+{
+    "LOGIN": {
+        "login_title": "Ingresar",
+        "email_field": "Email",
+        "pass_field": "Password",
+        "forgot_message": "Olvido su Password",
+        "join_message": "Unete"
+    }
+}

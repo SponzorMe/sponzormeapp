@@ -2,7 +2,7 @@
   <ion-content ng-controller="registerController">
     <form name="registerForm" novalidate ng-submit="registerForm.$valid && register(user)"
     ng-class="{ 'has-error' : registerForm.txtemail.$invalid && registerForm.$submitted }">
-    <div class="list" style="padding-top:80%;">
+    <div class="list" style="padding-top:70%;">
       <label class="item item-input item-floating-label">
         <span class="input-label">{{"JOINNOW.email_field" | translate}}</span>
         <input name="txtemail" type="email" ng-model="user.email" placeholder='{{"JOINNOW.email_field" | translate}}'
@@ -28,10 +28,21 @@
         <div class="form-error" ng-message="minlength">{{"ERRORS.joinnow_pass_minlength" | translate}}</div>
         <div class="form-error" ng-message="maxlength">{{"ERRORS.joinnow_pass_maxlength" | translate}}</div>
       </div>
+      <div class="list">
+        <label class="item item-input item-select">
+          <div class="input-label">
+            {{"JOINNOW.kind_title" | translate}}
+          </div>
+          <select>
+            <option>{{"JOINNOW.kind_opt1" | translate}}</option>
+            <option selected>{{"JOINNOW.kind_opt2" | translate}}</option>
+          </select>
+        </label>
+      </div>
     </div>
 
 
-        <button type="submit" class="button button-block button-positive">
+        <button type="submit" class="button button-block button-dark">
           {{"JOINNOW.button_message" | translate}}
         </button>
       <div class="bar-footer">

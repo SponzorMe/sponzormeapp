@@ -1,0 +1,9 @@
+{
+    "LOGIN": {
+        "login_title": "Sign in",
+        "email_field": "Email",
+        "pass_field": "Password",
+        "forgot_message": "Sign in",
+        "join_message": "Join now"
+    }
+}

@@ -1,7 +1,26 @@
-<ion-view view-title="{{'LOGIN.login_title' | translate}}" hide-nav-bar="true" left-buttons="leftButtons" right-buttons="rightButtons" hide-back-button="true" class="signup-background">
-  <ion-content ng-controller="userController">
+<ion-view view-title="{{'LOGIN.login_title' | translate}}" hide-nav-bar="true" left-buttons="leftButtons" right-buttons="rightButtons" hide-back-button="true">
+  <ion-content ng-controller="userController" class="loginbg">
+  <!-- Slideshow in background
+    <ul class="cb-slideshow">
+    	<li>
+    		<span>Image 01</span>
+    	</li>
+    	<li>
+        <span>Image 02</span>
+      </li>
+    	<li>
+        <span>Image 03</span>
+      </li>
+      <li>
+        <span>Image 04</span>
+      </li>
+    </ul>
+ -->
     <form name="signinForm" novalidate ng-submit="signinForm.$valid && signIn(user)">
-    <div class="list" style="padding-top:80%;">
+    <div class="list" style="padding-top:20%; margin-bottom:10%">
+      <div class="text-center" style="margin-bottom:10%">
+          <img src="img/logo.png" width="50%"/>
+      </div>
       <label class="item item-input item-floating-label" ng-class="{ 'has-error' : signinForm.txtemail.$invalid && signinForm.$submitted }">
         <span class="input-label">{{"LOGIN.email_field" | translate}}</span>
         <input name="txtemail" type="email" placeholder='{{"LOGIN.email_field" | translate}}' ng-model="user.email"
