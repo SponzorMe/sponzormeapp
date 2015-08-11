@@ -1,4 +1,21 @@
 angular.module('App').controller('registerController', function ($scope, $state, userRequest, $cookies, Utils) {
+  // we will store all of our form data in this object
+  $scope.user = {};
+
+  if(!angular.isDefined($scope.step)){
+    $scope.step = 1;
+  }
+
+
+  $scope.step2 = function(){
+    $scope.step++;
+    //$state.go('joinnow.step2');
+  }
+  $scope.step3 = function(){
+    $scope.step++;
+    //$state.go('joinnow.step2');
+  }
+
   $scope.register = function (user) {
     Utils.show();
     console.log("Usuario " + user.email);

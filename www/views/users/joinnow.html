@@ -1,6 +1,6 @@
-<ion-view view-title="Home" hide-nav-bar="true" left-buttons="leftButtons" right-buttons="rightButtons" hide-back-button="true" class="signup-background2">
-  <ion-content ng-controller="registerController">
-    <form name="registerForm" novalidate ng-submit="registerForm.$valid && register(user)"
+<ion-view view-title='{{"JOINNOW.login_title" | translate}}' hide-nav-bar="true" left-buttons="leftButtons" right-buttons="rightButtons" hide-back-button="true">
+  <ion-content ng-controller="registerController" class="joinnow">
+    <form name="registerForm" novalidate ng-show="step == 1" ng-submit="registerForm.$valid && step2()"
     ng-class="{ 'has-error' : registerForm.txtemail.$invalid && registerForm.$submitted }">
     <div class="list" style="padding-top:70%;">
       <label class="item item-input item-floating-label">
@@ -50,7 +50,199 @@
         <a style="color:white;" class="button button-clear" href="#/sign-in"><i class="icon ion-home"></i>&nbsp;Sign-in</a>
       </p>
       </div>
+    </form>
+
+    <form name="registerForm2" ng-show="step == 2" ng-submit="step2()">
+    <div class="list" style="padding-top:40%;">
+      {{"JOINNOW.form2_msg" | translate}}
+    </div>
+
+    <label class="item item-input">
+       <span class="input-label">{{"JOINNOW.form2_lbl1" | translate}}</span>
+       <input type="text" ng-model="user.years" placeholder="20">
+       <span class="input-label">{{"JOINNOW.form2_lbl2" | translate}}</span>
+     </label>
+
+     <label class="item item-input item-select">
+    <div class="input-label">
+      {{"JOINNOW.form2_lbl3" | translate}}
+    </div>
+    <select ng-model="user.gender" convert-to-number>
+      <option selected>{{"JOINNOW.form2_opt1" | translate}}</option>
+      <option>{{"JOINNOW.form2_opt2" | translate}}</option>
+    </select>
+  </label>
+
+  <label class="item item-input item-select">
+ <div class="input-label">
+   {{"JOINNOW.form2_lbl4" | translate}}
+ </div>
+ <select>
+   <option selected>{{"JOINNOW.form2_opt3" | translate}}</option>
+   <option>{{"JOINNOW.form2_opt4" | translate}}</option>
+   <option>{{"JOINNOW.form2_opt5" | translate}}</option>
+ </select>
+</label>
+<label class="item item-input">
+   <span class="input-label">{{"JOINNOW.form2_lbl5" | translate}}</span>
+   <input type="text" ng-model="user.location" placeholder="San Francisco, California">
+ </label>
+
+        <button type="submit" class="button button-block button-dark">
+          {{"JOINNOW.button_message" | translate}}
+        </button>
+      <div class="bar-footer">
+      <p class="text-center">
+        <a style="color:white;" class="button button-clear" href="#/sign-in"><i class="icon ion-home"></i>&nbsp;Sign-in</a>
+      </p>
+      </div>
+
   </form>
 
+  <form name="registerForm3" class="padding" ng-show="step == 3" ng-submit="step3()">
+  <div class="list">
+    {{"JOINNOW.form3_lbl1" | translate}}
+  </div>
+<ul class="list">
+  <li class="item item-toggle">
+   {{"JOINNOW.form3_check1" | translate}}
+   <label class="toggle toggle-assertive">
+     <input type="checkbox" ng-model="user.check1">
+     <div class="track">
+       <div class="handle"></div>
+     </div>
+   </label>
+</li>
+<li class="item item-toggle">
+ {{"JOINNOW.form3_check2" | translate}}
+ <label class="toggle toggle-assertive">
+   <input type="checkbox" ng-model="user.check2">
+   <div class="track">
+     <div class="handle"></div>
+   </div>
+ </label>
+</li>
+<li class="item item-toggle">
+
+<label class="toggle toggle-assertive">
+ <input type="checkbox" ng-model="user.check3">
+ <div class="track">
+   <div class="handle"></div>
+ </div>
+</label>
+</li>
+<li class="item item-toggle">
+{{"JOINNOW.form3_check4" | translate}}
+<label class="toggle toggle-assertive">
+ <input type="checkbox" ng-model="user.check4">
+ <div class="track">
+   <div class="handle"></div>
+ </div>
+</label>
+</li>
+<li class="item item-toggle">
+{{"JOINNOW.form3_check5" | translate}}
+<label class="toggle toggle-assertive">
+ <input type="checkbox" ng-model="user.check5">
+ <div class="track">
+   <div class="handle"></div>
+ </div>
+</label>
+</li>
+<li class="item item-toggle">
+{{"JOINNOW.form3_check6" | translate}}
+<label class="toggle toggle-assertive">
+ <input type="checkbox" ng-model="user.check6">
+ <div class="track">
+   <div class="handle"></div>
+ </div>
+</label>
+</li>
+<li class="item item-toggle">
+{{"JOINNOW.form3_check7" | translate}}
+<label class="toggle toggle-assertive">
+ <input type="checkbox" ng-model="user.check7">
+ <div class="track">
+   <div class="handle"></div>
+ </div>
+</label>
+</li>
+<li class="item item-toggle">
+{{"JOINNOW.form3_check8" | translate}}
+<label class="toggle toggle-assertive">
+ <input type="checkbox" ng-model="user.check8">
+ <div class="track">
+   <div class="handle"></div>
+ </div>
+</label>
+</li>
+<li class="item item-toggle">
+{{"JOINNOW.form3_check9" | translate}}
+<label class="toggle toggle-assertive">
+ <input type="checkbox" ng-model="user.check9">
+ <div class="track">
+   <div class="handle"></div>
+ </div>
+</label>
+</li>
+<li class="item item-toggle">
+{{"JOINNOW.form3_check10" | translate}}
+<label class="toggle toggle-assertive">
+ <input type="checkbox" ng-model="user.check10">
+ <div class="track">
+   <div class="handle"></div>
+ </div>
+</label>
+</li>
+<li class="item item-toggle">
+{{"JOINNOW.form3_check11" | translate}}
+<label class="toggle toggle-assertive">
+ <input type="checkbox" ng-model="user.check11">
+ <div class="track">
+   <div class="handle"></div>
+ </div>
+</label>
+</li>
+<li class="item item-toggle">
+{{"JOINNOW.form3_check12" | translate}}
+<label class="toggle toggle-assertive">
+ <input type="checkbox" ng-model="user.check12">
+ <div class="track">
+   <div class="handle"></div>
+ </div>
+</label>
+</li>
+<li class="item item-toggle">
+{{"JOINNOW.form3_check13" | translate}}
+<label class="toggle toggle-assertive">
+ <input type="checkbox" ng-model="user.check13">
+ <div class="track">
+   <div class="handle"></div>
+ </div>
+</label>
+</li>
+
+<li class="item item-toggle">
+{{"JOINNOW.form3_check14" | translate}}
+<label class="toggle toggle-assertive">
+ <input type="checkbox" ng-model="user.check14">
+ <div class="track">
+   <div class="handle"></div>
+ </div>
+</label>
+</li>
+</ul>
+
+      <button type="submit" class="button button-block button-dark">
+        {{"JOINNOW.button_message" | translate}}
+      </button>
+    <div class="bar-footer">
+    <p class="text-center">
+      <a style="color:white;" class="button button-clear" href="#/sign-in"><i class="icon ion-home"></i>&nbsp;Sign-in</a>
+    </p>
+    </div>
+</form>
+
+    <pre>{{user}}</pre>
   </ion-content>
 </ion-view>

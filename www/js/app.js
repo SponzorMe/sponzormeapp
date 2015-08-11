@@ -11,14 +11,6 @@ $stateProvider
       controller: "registerController",
       templateUrl: "views/users/joinnow.html"
     })
-    .state('joinnowprofile', {
-      url: "/joinnow2",
-      templateUrl: "views/users/joinnow-2.html"
-    })
-    .state('joinnowinterest', {
-      url: "/joinnow3",
-      templateUrl: "views/users/joinnow-3.html"
-    })
     .state('introorganizers', {
       url: "/introorganizers",
       controller: "IntroOrgCtrl",
