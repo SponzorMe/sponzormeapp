@@ -1,5 +1,5 @@
 <ion-view view-title="{{'LOGIN.login_title' | translate}}" hide-nav-bar="true" left-buttons="leftButtons" right-buttons="rightButtons" hide-back-button="true">
-  <ion-content ng-controller="userController" class="calm-bg">
+  <ion-content ng-controller="userController" class="platform-android positive-bg">
   <!-- Slideshow in background
     <ul class="cb-slideshow">
     	<li>
@@ -17,11 +17,11 @@
     </ul>
  -->
     <form name="signinForm" novalidate ng-submit="signinForm.$valid && signIn(user)">
-    <div class="list" style="padding-top:20%; margin-bottom:10%">
+    <div class="" style="padding-top:20%; margin-bottom:10%">
       <div class="text-center" style="margin-bottom:10%">
-          <img src="img/logo.png" width="50%"/>
+          <img src="img/logo.jpg" width="50%"/>
       </div>
-      <label class="item item-input item-floating-label" ng-class="{ 'has-error' : signinForm.txtemail.$invalid && signinForm.$submitted }">
+      <label class="item item-input item-floating-label inputwhite" ng-class="{ 'has-error' : signinForm.txtemail.$invalid && signinForm.$submitted }">
         <span class="input-label">{{"LOGIN.email_field" | translate}}</span>
         <input name="txtemail" type="email" placeholder='{{"LOGIN.email_field" | translate}}' ng-model="user.email"
         ng-minlength="5"
@@ -34,7 +34,7 @@
         <div class="form-error" ng-message="maxlength">{{"ERRORS.signin_ema_maxlength" | translate}}</div>
         <div class="form-error" ng-message="minlength">{{"ERRORS.signin_ema_minlength" | translate}}</div>
       </div>
-      <label class="item item-input item-floating-label" style="background-color:white" ng-class="{ 'has-error-lr' : signinForm.password.$invalid  && signinForm.$submitted}">
+      <label class="item item-input item-floating-label inputwhite" ng-class="{ 'has-error-lr' : signinForm.password.$invalid  && signinForm.$submitted}">
       <span class="input-label">{{"LOGIN.pass_field" | translate}}</span>
       <input name="password" type="password" placeholder='{{"LOGIN.pass_field" | translate}}' ng-model="user.password"
       ng-minlength="5"
@@ -48,7 +48,7 @@
     </div>
     </div>
     <div class="">
-      <button type="submit" class="button button-block button-positive">
+      <button type="submit" class="button button-block button-calm">
         {{"LOGIN.signin_message" | translate}}
       </button>
       <div class="text-center">

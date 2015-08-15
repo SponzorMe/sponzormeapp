@@ -12,18 +12,20 @@ angular.module('ionic-timepicker', ['ionic', 'ionic-timepicker.templates'])
         etime: '=etime',        //epoch time getting from a template
         format: '=format',      //format getting from a template
         step: '=step',          //step getting from a template
-        callback: '=callback'   //callback function
+        callback: '=callback',  //callback function
+        title: '=?title'        //optional popup title
       },
       link: function (scope, element, attrs) {
 
         element.on("click", function () {
 
-          var obj = {epochTime: scope.etime, step: scope.step, format: scope.format};
+          var obj = {epochTime: scope.etime, step: scope.step, format: scope.format, title: scope.title};
 
           scope.time = {hours: 0, minutes: 0, meridian: ""};
 
           var objDate = new Date(obj.epochTime * 1000);       // Epoch time in milliseconds.
 
+          //Increasing the hours
           scope.increaseHours = function () {
             scope.time.hours = Number(scope.time.hours);
             if (obj.format == 12) {
@@ -43,6 +45,7 @@ angular.module('ionic-timepicker', ['ionic', 'ionic-timepicker.templates'])
             scope.time.hours = (scope.time.hours < 10) ? ('0' + scope.time.hours) : scope.time.hours;
           };
 
+          //Decreasing the hours
           scope.decreaseHours = function () {
             scope.time.hours = Number(scope.time.hours);
             if (obj.format == 12) {
@@ -62,6 +65,7 @@ angular.module('ionic-timepicker', ['ionic', 'ionic-timepicker.templates'])
             scope.time.hours = (scope.time.hours < 10) ? ('0' + scope.time.hours) : scope.time.hours;
           };
 
+          //Increasing the minutes
           scope.increaseMinutes = function () {
             scope.time.minutes = Number(scope.time.minutes);
 
@@ -73,6 +77,7 @@ angular.module('ionic-timepicker', ['ionic', 'ionic-timepicker.templates'])
             scope.time.minutes = (scope.time.minutes < 10) ? ('0' + scope.time.minutes) : scope.time.minutes;
           };
 
+          //Decreasing the hours
           scope.decreaseMinutes = function () {
             scope.time.minutes = Number(scope.time.minutes);
             if (scope.time.minutes != 0) {
@@ -93,13 +98,17 @@ angular.module('ionic-timepicker', ['ionic', 'ionic-timepicker.templates'])
               scope.time.hours = 12;
             }
 
+            scope.time.hours = (scope.time.hours < 10) ? ('0' + scope.time.hours) : scope.time.hours;
+            scope.time.minutes = (scope.time.minutes < 10) ? ('0' + scope.time.minutes) : scope.time.minutes;
+
             scope.changeMeridian = function () {
               scope.time.meridian = (scope.time.meridian === "AM") ? "PM" : "AM";
             };
 
+            //Showing time picker modal for 12 hour format
             $ionicPopup.show({
               templateUrl: 'time-picker-12-hour.html',
-              title: '<strong>12-Hour Format</strong>',
+              title: obj.title || '<strong>12-Hour Format</strong>',
               subTitle: '',
               scope: scope,
               buttons: [
@@ -135,14 +144,18 @@ angular.module('ionic-timepicker', ['ionic', 'ionic-timepicker.templates'])
               ]
             })
 
-          }else if (obj.format == 24) {
+          } else if (obj.format == 24) {
 
             scope.time.hours = (objDate.getUTCHours());
             scope.time.minutes = (objDate.getUTCMinutes());
 
+            scope.time.hours = (scope.time.hours < 10) ? ('0' + scope.time.hours) : scope.time.hours;
+            scope.time.minutes = (scope.time.minutes < 10) ? ('0' + scope.time.minutes) : scope.time.minutes;
+
+            //Showing time picker modal for 24 hour format
             $ionicPopup.show({
               templateUrl: 'time-picker-24-hour.html',
-              title: '<strong>24-Hour Format</strong>',
+              title: obj.title || '<strong>24-Hour Format</strong>',
               subTitle: '',
               scope: scope,
               buttons: [

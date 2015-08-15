@@ -1,12 +1,12 @@
-angular.module('App').controller('userController', function ($scope, $state, loginRequest, $base64, $sessionStorage, $location, $translate, Utils) {
+angular.module('App').controller('userController', function ($scope, $state, $base64,$localStorage, $location, $translate, loginRequest, userRequest, Utils) {
 
   $scope.signIn = function (user) {
     Utils.show();
     //console.log("Usuario " + user.email);
     //console.log("Pass " + user.password);
-    if($sessionStorage) {
+    if($localStorage) {
 
-          var cookie = $sessionStorage.cookiesponzorme;
+          var cookie = $localStorage.cookiesponzorme;
 
           if(cookie == undefined){
                 $scope.vieuser = 1;
@@ -14,7 +14,7 @@ angular.module('App').controller('userController', function ($scope, $state, log
                 $scope.vieuser = 0;
           }
 
-          var typeini = $sessionStorage.typesponzorme;
+          var typeini = $localStorage.typesponzorme;
           if (typeini != undefined){
              if(typeini == '1'){
                $scope.typeuser = 0;
@@ -35,20 +35,20 @@ angular.module('App').controller('userController', function ($scope, $state, log
     $scope.objuser.password = user.password;
 
     loginRequest.login($scope.objuser).success(function(adata){
-          console.log("adata=" +JSON.stringify(adata));
+          console.log("adata=" + JSON.stringify(adata));
           var expireDate = new Date();
           expireDate.setDate(expireDate.getDate() + 1);
-          $sessionStorage.cookiesponzorme = btoa($scope.email+':'+$scope.password);
-          $sessionStorage.typesponzorme = adata.user.type;
-          $sessionStorage.token = btoa($scope.email+':'+$scope.password);
-          $sessionStorage.id = adata.user.id;
-          $sessionStorage.email = adata.user.email;
+          $localStorage.cookiesponzorme = btoa($scope.email+':'+$scope.password);
+          $localStorage.typesponzorme = adata.user.type;
+          $localStorage.token = btoa($scope.email+':'+$scope.password);
+          $localStorage.id = adata.user.id;
+          $localStorage.email = adata.user.email;
 
           /*
           var url = $location.host();
 
           if(url == 'localhost'){
-                $sessionStorage.developer = 1;
+                $localStorage.developer = 1;
           }
           */
 
@@ -57,7 +57,14 @@ angular.module('App').controller('userController', function ($scope, $state, log
           if(adata.user.type == 0){
               if(adata.user.demo == 0)
               {
+                var user = {};
+                console.log("id de usuario:" + $localStorage.id);
+                user.demo = 1;
+                userRequest.editUserPatch($localStorage.id, user).success(function(response){
+                console.log("response" +  JSON.stringify(response));
                 $state.go("introorganizers");
+              });
+
               }
               else{
                 $state.go("menuorganizers.organizershome");
@@ -65,7 +72,13 @@ angular.module('App').controller('userController', function ($scope, $state, log
           }else{
               if(adata.user.demo == 0)
               {
-                  $state.go("introsponzors");
+                    var user = {};
+                    console.log("id de usuario:" + $localStorage.id);
+                    user.demo = 1;
+                    userRequest.editUserPatch($localStorage.id, user).success(function(response){
+                    console.log("response" +  JSON.stringify(response));
+                    $state.go("introsponzors");
+                  });
              }
              else{
                $state.go("menusponzors.homesponzors");

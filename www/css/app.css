@@ -8,21 +8,6 @@
   opacity: 0;
 }
 
-.signup-background .scroll-content{
-    background-image: url('../img/bgd5@2x.png');
-    background-position: top;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-}
-
-.signup-background2 .scroll-content{
-    background-image: url('../img/bgd2@2x.png');
-    background-position: top;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-}
 /** Styling for the error text and container **/
 .form-errors {
   margin: 5px 0;
@@ -33,17 +18,8 @@
   color: red;
 }
 
-.item-floating-label{
-  background-color: white;
-}
-
-.loginbg{
-  background-color: #00acb9;
-}
-
-.joinnow{
-background-color: #20222D;
-color: white;
+.inputwhite {
+  background-color: white !important;
 }
 
 

@@ -1,9 +1,12 @@
 <ion-view view-title='{{"JOINNOW.login_title" | translate}}' hide-nav-bar="true" left-buttons="leftButtons" right-buttons="rightButtons" hide-back-button="true">
-  <ion-content ng-controller="registerController" class="joinnow">
-    <form name="registerForm" novalidate ng-show="step == 1" ng-submit="registerForm.$valid && step2()"
+  <ion-content ng-controller="registerController" class="positive-bg">
+    <form name="registerForm" novalidate ng-show="step == 1" ng-submit="registerForm.$valid && register(user)"
     ng-class="{ 'has-error' : registerForm.txtemail.$invalid && registerForm.$submitted }">
-    <div class="list" style="padding-top:70%;">
-      <label class="item item-input item-floating-label">
+    <div class="list text-center" style="padding-top:40%">
+        <i class="icon ion-android-person-add light" style="font-size: 90px;"></i>
+    </div>
+    <div class="">
+      <label class="item item-input item-floating-label inputwhite">
         <span class="input-label">{{"JOINNOW.email_field" | translate}}</span>
         <input name="txtemail" type="email" ng-model="user.email" placeholder='{{"JOINNOW.email_field" | translate}}'
         ng-minlength="5"
@@ -16,7 +19,7 @@
         <div class="form-error" ng-message="maxlength">{{"ERRORS.joinnow_ema_maxlength" | translate}}</div>
         <div class="form-error" ng-message="minlength">{{"ERRORS.joinnow_ema_minlength" | translate}}</div>
       </div>
-      <label class="item item-input item-floating-label" ng-class="{ 'has-error-lr' : registerForm.txtpassword.$invalid  && registerForm.$submitted}">
+      <label class="item item-input item-floating-label inputwhite" ng-class="{ 'has-error-lr' : registerForm.txtpassword.$invalid  && registerForm.$submitted}">
         <span class="input-label">{{"JOINNOW.pass_field" | translate}}</span>
         <input name="txtpassword" type="password" ng-model="user.password" placeholder='{{"JOINNOW.pass_field" | translate}}'
         ng-minlength="5"
@@ -28,21 +31,19 @@
         <div class="form-error" ng-message="minlength">{{"ERRORS.joinnow_pass_minlength" | translate}}</div>
         <div class="form-error" ng-message="maxlength">{{"ERRORS.joinnow_pass_maxlength" | translate}}</div>
       </div>
-      <div class="list">
         <label class="item item-input item-select">
-          <div class="input-label">
-            {{"JOINNOW.kind_title" | translate}}
-          </div>
-          <select>
-            <option>{{"JOINNOW.kind_opt1" | translate}}</option>
-            <option selected>{{"JOINNOW.kind_opt2" | translate}}</option>
-          </select>
-        </label>
-      </div>
+       <div class="input-label">
+         {{"JOINNOW.kind_title" | translate}}
+       </div>
+       <select ng-model="user.type" convert-to-number>
+         <option value="1">{{"JOINNOW.kind_opt1" | translate}}</option>
+         <option ng-selected="true" value="0">{{"JOINNOW.kind_opt2" | translate}}</option>
+       </select>
+      </label>
     </div>
 
 
-        <button type="submit" class="button button-block button-dark">
+        <button type="submit" class="button button-block button-calm">
           {{"JOINNOW.button_message" | translate}}
         </button>
       <div class="bar-footer">
@@ -243,6 +244,6 @@
     </div>
 </form>
 
-    <pre>{{user}}</pre>
+    <!-- <pre>{{user}}</pre> -->
   </ion-content>
 </ion-view>
