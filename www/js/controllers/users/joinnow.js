@@ -1,4 +1,4 @@
-angular.module('App').controller('registerController', function ($scope, $state, userRequest, $cookies, Utils) {
+angular.module('App').controller('registerController', function ($scope, $state, userRequest, $cookies, $translate, Utils) {
   // we will store all of our form data in this object
   $scope.user = {};
   if(!angular.isDefined($scope.step)){
@@ -41,13 +41,15 @@ angular.module('App').controller('registerController', function ($scope, $state,
     error(function (data, status, headers, config) {
             // data is always undefined here when there is an error
             console.error('Error fetching feed:', JSON.stringify(data));
-            console.error("data.error.email: ",String.prototype.trim(data.error.email));
-            if(data.message === "Invalid credentials"){
-            Utils.alertshow($translate.instant("ERRORS.signin_title_credentials"),$translate.instant("ERRORS.signin_incorrect_credentials"));
+            console.error("data.error.email: ",Utils.trim(data.error.email));
+            if(Utils.trim(data.message) === "Invalid credentials"){
+              Utils.alertshow($translate.instant("ERRORS.signin_title_credentials"),$translate.instant("ERRORS.signin_incorrect_credentials"));
             }
-
-            if (String.prototype.trim(data.error.email) === "The email has already been taken.") {
-              Utils.alertshow("Error", "El correo ha sido tomado");
+            else if (Utils.trim(data.error.email) === "The email has already been taken.") {
+              Utils.alertshow($translate.instant("ERRORS.signin_taken_credentials_title"),$translate.instant("ERRORS.signin_taken_credentials_message"));
+            }
+            else if (Utils.trim(data.message) === "Not inserted") {
+              Utils.alertshow($translate.instant("ERRORS.signin_notinserted_credentials_title"),$translate.instant("ERRORS.signin_notinserted_credentials_message"));
             }
 
             Utils.hide();

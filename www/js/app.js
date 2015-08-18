@@ -161,8 +161,8 @@ $translateProvider.useStaticFilesLoader({
       suffix: '.json'
     });
 $translateProvider.useSanitizeValueStrategy('escaped');
-$translateProvider.preferredLanguage("en");
-$translateProvider.fallbackLanguage("en");
+$translateProvider.preferredLanguage("es");
+$translateProvider.fallbackLanguage("es");
 
 
 
@@ -170,7 +170,7 @@ $translateProvider.fallbackLanguage("en");
 })
 .run(function($ionicPlatform, $translate) {
         $ionicPlatform.ready(function() {
-          $translate.use("en");
+          $translate.use("es");
           });
 })
 

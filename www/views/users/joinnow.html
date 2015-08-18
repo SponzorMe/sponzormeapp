@@ -35,7 +35,7 @@
        <div class="input-label">
          {{"JOINNOW.kind_title" | translate}}
        </div>
-       <select ng-model="user.type" convert-to-number>
+       <select ng-init="user.type=0" ng-model="user.type" convert-to-number>
          <option value="1">{{"JOINNOW.kind_opt1" | translate}}</option>
          <option ng-selected="true" value="0">{{"JOINNOW.kind_opt2" | translate}}</option>
        </select>
