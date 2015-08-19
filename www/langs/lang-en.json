@@ -114,7 +114,7 @@
         "signin_taken_credentials_title": "Error.",
         "signin_taken_credentials_message": "The email has already been taken.",
         "signin_notinserted_credentials_title": "Error.",
-        "signin_notinserted_credentials_message": "Ops. Something gone wrong.",
+        "signin_notinserted_credentials_message": "Ops. Something has gone wrong.",
         "joinnow_ema_required": "This field is required.",
         "joinnow_ema_email": "This field is must be an email.",
         "joinnow_ema_maxlength": "This field is must be at least 5 characters.",
