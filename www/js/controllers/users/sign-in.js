@@ -1,4 +1,4 @@
-angular.module('App').controller('userController', function ($scope, $state, $base64,$localStorage, $location, $translate, loginRequest, userRequest, Utils) {
+angular.module('App').controller('userController', function ($scope, $state, $base64,$localStorage, $cookies, $location, $translate, loginRequest, userRequest, Utils) {
 
   $scope.signIn = function (user) {
     Utils.show();
@@ -38,19 +38,12 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
           console.log("adata=" + JSON.stringify(adata));
           var expireDate = new Date();
           expireDate.setDate(expireDate.getDate() + 1);
-          $localStorage.cookiesponzorme = btoa($scope.email+':'+$scope.password);
+          $localStorage.cookiesponzorme = $base64.encode($scope.objuser.email + ':' + $scope.objuser.password);
           $localStorage.typesponzorme = adata.user.type;
-          $localStorage.token = btoa($scope.email+':'+$scope.password);
+          $localStorage.token = $base64.encode($scope.objuser.email +':'+ $scope.objuser.password);
+          $cookies.put('token',$base64.encode($scope.objuser.email +':'+ $scope.objuser.password));
           $localStorage.id = adata.user.id;
           $localStorage.email = adata.user.email;
-
-          /*
-          var url = $location.host();
-
-          if(url == 'localhost'){
-                $localStorage.developer = 1;
-          }
-          */
 
           console.log("demo data " + adata.user.demo);
 
@@ -60,10 +53,17 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
                 var user = {};
                 console.log("id de usuario:" + $localStorage.id);
                 user.demo = 1;
-                userRequest.editUserPatch($localStorage.id, user).success(function(response){
+                userRequest.editUserPatch($localStorage.id, user)
+              .success(function(response){
                 console.log("response" +  JSON.stringify(response));
                 $state.go("introorganizers");
-              });
+              })
+              .error(function(data, status) {
+                console.error('editUserPatch error', status, data);
+                })
+              .finally(function() {
+                  console.log("finally finished editUserPatch");
+                });
 
               }
               else{
@@ -75,10 +75,17 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
                     var user = {};
                     console.log("id de usuario:" + $localStorage.id);
                     user.demo = 1;
-                    userRequest.editUserPatch($localStorage.id, user).success(function(response){
+                    userRequest.editUserPatch($localStorage.id, user)
+                    .success(function(response){
                     console.log("response" +  JSON.stringify(response));
                     $state.go("introsponzors");
-                  });
+                    })
+                    .error(function(data, status) {
+                      console.error('editUserPatch error', status, data);
+                      })
+                    .finally(function() {
+                        console.log("finally finished editUserPatch");
+                      });
              }
              else{
                $state.go("menusponzors.homesponzors");

@@ -17,8 +17,8 @@
     </ul>
  -->
     <form name="signinForm" novalidate ng-submit="signinForm.$valid && signIn(user)">
-    <div class="" style="padding-top:20%; margin-bottom:10%">
-      <div class="text-center" style="margin-bottom:10%">
+    <div class="" style="padding-top:10%; margin-bottom:0">
+      <div class="text-center" style="margin-bottom:5%">
           <img src="img/logo.jpg" width="50%"/>
       </div>
       <label class="item item-input item-floating-label inputwhite" ng-class="{ 'has-error' : signinForm.txtemail.$invalid && signinForm.$submitted }">
@@ -29,10 +29,10 @@
         required>
       </label>
       <div class="form-errors" ng-messages="signinForm.txtemail.$error" ng-if="signinForm.$submitted">
-        <div class="form-error" ng-message="required">{{"ERRORS.signin_ema_required" | translate}}</div>
-        <div class="form-error" ng-message="email">{{"ERRORS.signin_ema_email" | translate}}</div>
-        <div class="form-error" ng-message="maxlength">{{"ERRORS.signin_ema_maxlength" | translate}}</div>
-        <div class="form-error" ng-message="minlength">{{"ERRORS.signin_ema_minlength" | translate}}</div>
+        <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_required" | translate}}</div>
+        <div class="form-error" ng-message="email"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_email" | translate}}</div>
+        <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_maxlength" | translate}}</div>
+        <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_minlength" | translate}}</div>
       </div>
       <label class="item item-input item-floating-label inputwhite" ng-class="{ 'has-error-lr' : signinForm.password.$invalid  && signinForm.$submitted}">
       <span class="input-label">{{"LOGIN.pass_field" | translate}}</span>
@@ -42,9 +42,9 @@
       required>
     </label>
     <div class="form-errors" ng-messages="signinForm.password.$error" ng-if="signinForm.$submitted">
-      <div class="form-error" ng-message="required">{{"ERRORS.signin_pass_required" | translate}}</div>
-      <div class="form-error" ng-message="maxlength">{{"ERRORS.signin_pass_maxlength" | translate}}</div>
-      <div class="form-error" ng-message="minlength">{{"ERRORS.signin_pass_minlength" | translate}}</div>
+      <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_pass_required" | translate}}</div>
+      <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_pass_maxlength" | translate}}</div>
+      <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_pass_minlength" | translate}}</div>
     </div>
     </div>
     <div class="">
@@ -52,9 +52,12 @@
         {{"LOGIN.signin_message" | translate}}
       </button>
       <div class="text-center">
-        <a style="color:white" class="button button-clear button-positive" href="#/forgot-password">{{"LOGIN.forgot_message" | translate}}</a>  <a style="color:white" class="button button-clear button-positive" href="#/joinnow">{{"LOGIN.join_message" | translate}}</a>
+
       </div>
     </div>
     </form>
   </ion-content>
+  <ion-footer-bar class="bar bar-positive">
+      <a style="color:white" class="button button-clear button-positive margin" href="#/forgot-password">{{"LOGIN.forgot_message" | translate}}</a>  <a style="color:white" class="button button-clear button-positive margin" href="#/joinnow">{{"LOGIN.join_message" | translate}}</a>
+  </ion-footer-bar>
 </ion-view>

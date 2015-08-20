@@ -128,6 +128,8 @@
         "forgotform_ema_minlength": "This field is must be less than 30 characters."
     },
     "MESSAGES": {
-        "loading": "Loading..."
+        "loading": "Loading...",
+        "succ_user_tit": "Info",
+        "succ_user_mess": "Cool, User Created."
     }
 }

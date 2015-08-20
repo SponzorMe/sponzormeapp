@@ -2,7 +2,7 @@
   <ion-content ng-controller="registerController" class="positive-bg">
     <form name="registerForm" novalidate ng-show="step == 1" ng-submit="registerForm.$valid && register(user)"
     ng-class="{ 'has-error' : registerForm.txtemail.$invalid && registerForm.$submitted }">
-    <div class="list text-center" style="padding-top:40%">
+    <div class="list text-center" style="padding-top:15%">
         <i class="icon ion-android-person-add light" style="font-size: 90px;"></i>
     </div>
     <div class="">
@@ -14,10 +14,10 @@
         required>
       </label>
       <div class="form-errors" ng-messages="registerForm.txtemail.$error" ng-if="registerForm.$submitted">
-        <div class="form-error" ng-message="required">{{"ERRORS.joinnow_ema_required" | translate}}</div>
-        <div class="form-error" ng-message="email">{{"ERRORS.joinnow_ema_email" | translate}}</div>
-        <div class="form-error" ng-message="maxlength">{{"ERRORS.joinnow_ema_maxlength" | translate}}</div>
-        <div class="form-error" ng-message="minlength">{{"ERRORS.joinnow_ema_minlength" | translate}}</div>
+        <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_required" | translate}}</div>
+        <div class="form-error" ng-message="email"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_email" | translate}}</div>
+        <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_maxlength" | translate}}</div>
+        <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_minlength" | translate}}</div>
       </div>
       <label class="item item-input item-floating-label inputwhite" ng-class="{ 'has-error-lr' : registerForm.txtpassword.$invalid  && registerForm.$submitted}">
         <span class="input-label">{{"JOINNOW.pass_field" | translate}}</span>
@@ -27,9 +27,9 @@
         required>
       </label>
       <div class="form-errors" ng-messages="registerForm.txtpassword.$error" ng-if="registerForm.$submitted">
-        <div class="form-error" ng-message="required">{{"ERRORS.joinnow_pass_required" | translate}}</div>
-        <div class="form-error" ng-message="minlength">{{"ERRORS.joinnow_pass_minlength" | translate}}</div>
-        <div class="form-error" ng-message="maxlength">{{"ERRORS.joinnow_pass_maxlength" | translate}}</div>
+        <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_pass_required" | translate}}</div>
+        <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_pass_minlength" | translate}}</div>
+        <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_pass_maxlength" | translate}}</div>
       </div>
         <label class="item item-input item-select">
        <div class="input-label">
@@ -46,11 +46,7 @@
         <button type="submit" class="button button-block button-calm">
           {{"JOINNOW.button_message" | translate}}
         </button>
-      <div class="bar-footer">
-      <p class="text-center">
-        <a style="color:white;" class="button button-clear" href="#/sign-in"><i class="icon ion-home"></i>&nbsp;Sign-in</a>
-      </p>
-      </div>
+
     </form>
 
     <form name="registerForm2" ng-show="step == 2" ng-submit="step2()">
@@ -92,12 +88,6 @@
         <button type="submit" class="button button-block button-dark">
           {{"JOINNOW.button_message" | translate}}
         </button>
-      <div class="bar-footer">
-      <p class="text-center">
-        <a style="color:white;" class="button button-clear" href="#/sign-in"><i class="icon ion-home"></i>&nbsp;Sign-in</a>
-      </p>
-      </div>
-
   </form>
 
   <form name="registerForm3" class="padding" ng-show="step == 3" ng-submit="step3()">
@@ -237,13 +227,11 @@
       <button type="submit" class="button button-block button-dark">
         {{"JOINNOW.button_message" | translate}}
       </button>
-    <div class="bar-footer">
-    <p class="text-center">
-      <a style="color:white;" class="button button-clear" href="#/sign-in"><i class="icon ion-home"></i>&nbsp;Sign-in</a>
-    </p>
-    </div>
-</form>
 
+</form>
     <!-- <pre>{{user}}</pre> -->
-  </ion-content>
+</ion-content>
+  <ion-footer-bar class="bar bar-positive">
+      <div class="title"><a style="color:white;" class="button button-clear" href="#/sign-in"><i class="icon ion-home"></i>&nbsp;Sign-in</a></div>
+  </ion-footer-bar>
 </ion-view>

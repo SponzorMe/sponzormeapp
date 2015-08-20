@@ -36,6 +36,7 @@ angular.module('App').controller('registerController', function ($scope, $state,
           user.email = "";
           user.password = "";
           $state.go("signin");
+          Utils.alertshow($translate.instant("MESSAGES.succ_user_tit"),$translate.instant("MESSAGES.succ_user_mess"));
           Utils.hide();
     }).
     error(function (data, status, headers, config) {

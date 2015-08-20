@@ -9,7 +9,8 @@ angular.module('userService', ['ngCookies'])
 	.factory('userRequest', function($http,$cookies) {
 		var path = "http://api.sponzor.me/"; //API path
 		//var token = $cookies.get('token');
-		var token = $cookies[token];
+		var token = $cookies.get('token');
+		console.log("Token=", token);
 		return {
 			allUsers : function(){
 				return $http.get(path + 'users');

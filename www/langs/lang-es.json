@@ -128,6 +128,8 @@
       "forgotform_ema_minlength": "Este campo tener tener menos que 30 caracteres."
   },
   "MESSAGES": {
-      "loading": "Cargando..."
+      "loading": "Cargando...",
+      "succ_user_tit": "Info",
+      "succ_user_mess": "Cool, Usuario Creado."
   }
 }

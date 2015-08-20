@@ -1,25 +1,65 @@
-.pane{
-  background-color: #fff;
-}
-
 .fade {
   -webkit-transition: 0.2s opacity linear;
   transition: 0.2s opacity linear;
   opacity: 0;
 }
 
-/** Styling for the error text and container **/
-.form-errors {
-  margin: 5px 0;
-  background: white;
-}
-.form-error {
-  padding: 2px 0 2px 16px;
-  color: red;
-}
-
 .inputwhite {
   background-color: white !important;
+}
+
+/** Styling for the error text and container **/
+.form, .form_success, .form_warning, .form_error {
+margin: 10px 0px;
+padding:12px;
+}
+.form_info {
+    color: #00529B;
+    background-color: #BDE5F8;
+}
+.form_success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+.form_warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+.form_error {
+    color: #D8000C;
+    background-color: #FFBABA;
+}
+
+.form-errors {
+  margin: 10px 0;
+  padding:12px;
+  background: #FFBABA;
+}
+
+.form_info i, .form_success i, .form_warning i, .form_error i {
+    margin:10px 22px;
+    font-size:2em;
+    vertical-align:middle;
+}
+
+
+/**
+fixing ion-footer
+**/
+
+.scroll {
+  height: 100%;
+}
+
+.scroll-content{
+  top: 0 !important;
+  bottom: 0 !important;
+}
+
+.bar.bar-positive{
+  background-color: #191c29 !important;
+  border: none !important;
+  text-align: center !important;
 }
 
 
