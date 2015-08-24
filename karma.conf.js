@@ -10,6 +10,8 @@ module.exports = function(config) {
       'tests/e2e/**/*.js',
     ],
     reporters: ['progress'],
+    port: 9876,
+    autoWatch: true,
     browsers: ['Chrome']
   });
 };

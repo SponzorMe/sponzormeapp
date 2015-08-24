@@ -41,9 +41,10 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
           $localStorage.cookiesponzorme = $base64.encode($scope.objuser.email + ':' + $scope.objuser.password);
           $localStorage.typesponzorme = adata.user.type;
           $localStorage.token = $base64.encode($scope.objuser.email +':'+ $scope.objuser.password);
-          $cookies.put('token',$base64.encode($scope.objuser.email +':'+ $scope.objuser.password));
           $localStorage.id = adata.user.id;
           $localStorage.email = adata.user.email;
+          $cookies.put('token',$base64.encode($scope.objuser.email +':'+ $scope.objuser.password));
+          $cookies.putObject('userAuth', adata.user);
 
           console.log("demo data " + adata.user.demo);
 

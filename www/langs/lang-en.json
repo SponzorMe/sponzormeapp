@@ -67,6 +67,21 @@
         "dash_menu6": "Settings",
         "dash_menu7": "Logout"
     },
+    "SETTINGSUSER":{
+        "info_title": "Info",
+        "form_label1": "Full Name",
+        "form_label2": "Email",
+        "form_label3": "Company",
+        "form_label4": "Age",
+        "form_label5": "Sex",
+        "sel1_opt1" : "Male",
+        "sel1_opt2" : "Female",
+        "form_label6": "Location",
+        "form_label7": "Description",
+        "form_label8": "Upload",
+        "form_label9": "Save"
+
+    },
     "SEARCH": {
         "search_title": "Find Events",
         "text_field": "Search for an event",

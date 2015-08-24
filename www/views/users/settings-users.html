@@ -1,43 +1,78 @@
 <ion-view view-title="{{'DASHSPONZORS.dash_menu4' | translate}}">
       <ion-content class="padding">
-        <div class="list">
+        <div class="has-header list">
+          <div class="card">
+              <div class="item item-divider">{{'SETTINGSUSER.info_title' | translate}}
+              </div>
+            <div class="item item-text-wrap">
+          <form name="settingsForm" class="padding" novalidate ng-submit="settingsForm.$valid && editUser(user)">
           <label class="item item-input">
-            <input type="text" placeholder="Full Name">
+            <input name="txtname" type="text" placeholder="{{'SETTINGSUSER.form_label1' | translate}}" ng-model="user.name"
+            ng-minlength="5"
+            ng-maxlength="30">
           </label>
+          <div class="form-errors" ng-messages="settingsForm.txtname.$error" ng-if="settingsForm.$submitted">
+            <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_maxlength" | translate}}</div>
+            <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_minlength" | translate}}</div>
+          </div>
           <label class="item item-input">
-            <input type="text" placeholder="E-Mail">
+            <input name="txtemail" type="email" placeholder="{{'SETTINGSUSER.form_label2' | translate}}" ng-model="user.email"
+            ng-minlength="5"
+            ng-maxlength="30"
+            required>
           </label>
+          <div class="form-errors" ng-messages="settingsForm.txtemail.$error" ng-if="settingsForm.$submitted">
+            <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_required" | translate}}</div>
+            <div class="form-error" ng-message="email"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_email" | translate}}</div>
+            <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_maxlength" | translate}}</div>
+            <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_minlength" | translate}}</div>
+          </div>
           <label class="item item-input">
-            <input type="text" placeholder="Company">
+            <input name="txtcompany" type="text" placeholder="{{'SETTINGSUSER.form_label3' | translate}}" ng-model="user.company"
+            ng-minlength="5"
+            ng-maxlength="30">
           </label>
+          <div class="form-errors" ng-messages="settingsForm.txtcompany.$error" ng-if="settingsForm.$submitted">
+            <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_maxlength" | translate}}</div>
+            <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_minlength" | translate}}</div>
+          </div>
           <label class="item item-input">
-            <input type="text" placeholder="Age">
+            <input name="numage" type="number" placeholder="{{'SETTINGSUSER.form_label4' | translate}}" ng-model="user.age"
+            min="0"
+            max="110">
           </label>
+          <div class="form-errors" ng-messages="settingsForm.numage.$error" ng-if="settingsForm.$submitted">
+            <div class="form-error" ng-message="number"><i class="icon ion-close-circled"></i> debe ser numero</div>
+          </div>
           <label class="item item-input item-select">
           <div class="input-label">
             Sex
           </div>
           <select>
-            <option selected>Gender:</option>
-            <option >Male</option>
-            <option>Female</option>
+            <option selected>{{'SETTINGSUSER.form_label5' | translate}}:</option>
+            <option >{{'SETTINGSUSER.sel1_opt1' | translate}}</option>
+            <option>{{'SETTINGSUSER.sel1_opt2' | translate}}</option>
           </select>
         </label>
         <label class="item item-input">
-          <input type="text" placeholder="Location">
+          <input type="text" placeholder="{{'SETTINGSUSER.form_label6' | translate}}" ng-model="user.location">
         </label>
         <label class="item item-input">
-          <textarea placeholder="Description"></textarea>
+          <textarea placeholder="{{'SETTINGSUSER.form_label7' | translate}}" ng-model="user.description"></textarea>
         </label>
         <div class="item">
-        <button class="button button-small button-positive">
-          Upload
+        <button class="button button-small button-positive" ng-click="getPhoto()">
+          {{'SETTINGSUSER.form_label8' | translate}}
         </button>
-      </div>
+        </div>
         <button class="button button-block button-positive">
-          Submit
+          {{'SETTINGSUSER.form_label9' | translate}}
         </button>
-
+      </form>
+      </div>
+          <div class="item item-divider">
+          </div>
+        </div>
         </div>
     </ion-content>
 </ion-view>

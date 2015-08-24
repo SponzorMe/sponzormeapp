@@ -130,7 +130,8 @@ $stateProvider
       url: "/sponzorsettings",
       views: {
         'menuContent' :{
-          templateUrl: "views/users/settings-users.html"
+          templateUrl: "views/users/settings-users.html",
+          controller: 'settingUserController'
         }
       }
     })
@@ -167,6 +168,9 @@ $translateProvider.fallbackLanguage("en");
 
 
 // End Languages
+})
+.config(function($compileProvider){
+  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
 })
 .run(function($ionicPlatform, $translate) {
         $ionicPlatform.ready(function() {
