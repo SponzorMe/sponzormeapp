@@ -1,9 +1,10 @@
-angular.module('App').controller('userController', function ($scope, $state, $base64,$localStorage, $cookies, $location, $translate, loginRequest, userRequest, Utils) {
+'use strict';
+(function () {
+angular.module('App').controller('userController', function ($scope, $state, $base64,$localStorage, $cookies, $log, $location, $translate, loginRequest, userRequest, Utils) {
 
   $scope.signIn = function (user) {
     Utils.show();
-    //console.log("Usuario " + user.email);
-    //console.log("Pass " + user.password);
+
     if($localStorage) {
 
           var cookie = $localStorage.cookiesponzorme;
@@ -28,14 +29,13 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
     else{
          $location.path("/sign-in");
     }
-    //console.log(user.email);
-    //console.log(user.password);
+
     $scope.objuser = {}
     $scope.objuser.email = user.email;
     $scope.objuser.password = user.password;
 
     loginRequest.login($scope.objuser).success(function(adata){
-          console.log("adata=" + JSON.stringify(adata));
+          $log.log("adata=" + JSON.stringify(adata));
           var expireDate = new Date();
           expireDate.setDate(expireDate.getDate() + 1);
           $localStorage.cookiesponzorme = $base64.encode($scope.objuser.email + ':' + $scope.objuser.password);
@@ -46,24 +46,24 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
           $cookies.put('token',$base64.encode($scope.objuser.email +':'+ $scope.objuser.password));
           $cookies.putObject('userAuth', adata.user);
 
-          console.log("demo data " + adata.user.demo);
+          $log.log("demo data " + adata.user.demo);
 
           if(adata.user.type == 0){
               if(adata.user.demo == 0)
               {
                 var user = {};
-                console.log("id de usuario:" + $localStorage.id);
+                $log.log("id de usuario:" + $localStorage.id);
                 user.demo = 1;
                 userRequest.editUserPatch($localStorage.id, user)
               .success(function(response){
-                console.log("response" +  JSON.stringify(response));
+                $log.log("response" +  JSON.stringify(response));
                 $state.go("introorganizers");
               })
               .error(function(data, status) {
                 console.error('editUserPatch error', status, data);
                 })
               .finally(function() {
-                  console.log("finally finished editUserPatch");
+                  $log.log("finally finished editUserPatch");
                 });
 
               }
@@ -74,18 +74,18 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
               if(adata.user.demo == 0)
               {
                     var user = {};
-                    console.log("id de usuario:" + $localStorage.id);
+                    $log.log("id de usuario:" + $localStorage.id);
                     user.demo = 1;
                     userRequest.editUserPatch($localStorage.id, user)
                     .success(function(response){
-                    console.log("response" +  JSON.stringify(response));
+                    $log.log("response" +  JSON.stringify(response));
                     $state.go("introsponzors");
                     })
                     .error(function(data, status) {
                       console.error('editUserPatch error', status, data);
                       })
                     .finally(function() {
-                        console.log("finally finished editUserPatch");
+                        $log.log("finally finished editUserPatch");
                       });
              }
              else{
@@ -108,3 +108,5 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
   };
 
 });
+
+})();

@@ -46,12 +46,11 @@
           </div>
           <label class="item item-input item-select">
           <div class="input-label">
-            Sex
+            {{'SETTINGSUSER.form_label5' | translate}}
           </div>
-          <select>
-            <option selected>{{'SETTINGSUSER.form_label5' | translate}}:</option>
-            <option >{{'SETTINGSUSER.sel1_opt1' | translate}}</option>
-            <option>{{'SETTINGSUSER.sel1_opt2' | translate}}</option>
+          <select name="selsex" ng-model="user.sex" convert-to-number>
+            <option ng-selected="true" value="0">{{'SETTINGSUSER.sel1_opt1' | translate}}</option>
+            <option value="1">{{'SETTINGSUSER.sel1_opt2' | translate}}</option>
           </select>
         </label>
         <label class="item item-input">
@@ -65,7 +64,7 @@
           {{'SETTINGSUSER.form_label8' | translate}}
         </button>
         </div>
-        <button class="button button-block button-positive">
+        <button type="submit" class="button button-block button-positive">
           {{'SETTINGSUSER.form_label9' | translate}}
         </button>
       </form>

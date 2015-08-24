@@ -1,3 +1,5 @@
+'use strict';
+(function () {
 angular.module('App', ['ionic', 'ngCookies', 'pascalprecht.translate','ngMessages','ngStorage','base64', 'loginService','userService'])
 .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 $stateProvider
@@ -164,29 +166,25 @@ $translateProvider.useStaticFilesLoader({
 $translateProvider.useSanitizeValueStrategy('escaped');
 $translateProvider.preferredLanguage("en");
 $translateProvider.fallbackLanguage("en");
-
-
-
 // End Languages
 })
 .config(function($compileProvider){
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
 })
+.config(function($compileProvider) { // permance improvement
+    /*
+    if (test if in production) {
+        $compileProvider.debugInfoEnabled(false);
+    }
+    */
+})
+.config(['$logProvider', function($logProvider){ // dev: true,  staging: false, prod:false
+    $logProvider.debugEnabled(true);
+}])
 .run(function($ionicPlatform, $translate) {
         $ionicPlatform.ready(function() {
           $translate.use("en");
           });
-})
-
-.directive('noScroll', function($document) {
-
-  return {
-    restrict: 'A',
-    link: function($scope, $element, $attr) {
-
-      $document.on('touchmove', function(e) {
-        e.preventDefault();
-      });
-    }
-  }
 });
+
+})();

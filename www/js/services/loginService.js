@@ -4,8 +4,10 @@
 * @author Sebastian
 * @version 0.1
 */
+'use strict';
+(function () {
 angular.module('loginService', [])
-	.factory('loginRequest', function($http) {
+	.factory('loginRequest', function($http, $log) {
 		var path = "http://api.sponzor.me/"; //API path
 		return {
 			/**
@@ -15,8 +17,9 @@ angular.module('loginService', [])
 			* @returns success(function(data, status, headers, config)
 			*/
 			login : function(credentials){
-				console.log(credentials);
-				data={"email":credentials.email,"password":credentials.password};
+
+				$log.log("Credentials in loginService:", JSON.stringify(credentials));
+				var data={"email":credentials.email,"password":credentials.password};
 				return $http({
 					method: 'POST',
 					url: path + 'auth',
@@ -26,3 +29,4 @@ angular.module('loginService', [])
 			}
 		}
 	});
+})();

@@ -5,12 +5,13 @@
 * @version 0.1
 */
 'use strict';
+(function () {
 angular.module('userService', ['ngCookies'])
-	.factory('userRequest', function($http,$cookies) {
+	.factory('userRequest', function($http,$cookies,$log) {
 		var path = "http://api.sponzor.me/"; //API path
 		//var token = $cookies.get('token');
 		var token = $cookies.get('token');
-		console.log("Token=", token);
+		$log.info("Token in userService:", token);
 		return {
 			allUsers : function(){
 				return $http.get(path + 'users');
@@ -59,3 +60,4 @@ angular.module('userService', ['ngCookies'])
 			}
 		}
 	});
+})();

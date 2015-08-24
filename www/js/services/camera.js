@@ -1,3 +1,5 @@
+'use strict';
+(function () {
 angular.module('App').factory('Camera', ['$q', function($q) {
   return {
     getPicture: function(options) {
@@ -14,3 +16,4 @@ angular.module('App').factory('Camera', ['$q', function($q) {
     }
   }
 }]);
+})();
