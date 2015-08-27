@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-angular.module('App').controller('settingUserController', function ($scope, $state, $base64, $cookies, $location, $translate, $log, userRequest, Utils, Camera) {
+angular.module('App').controller('settingUserController', function ($scope, $state, $base64, $cookies, $location, $translate, $log, $cordovaFile, userRequest, Utils, Camera) {
   $scope.user = $cookies.getObject('userAuth');
   console.log("userAuth",JSON.stringify($scope.user));
 

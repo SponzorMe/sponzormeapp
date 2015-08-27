@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-angular.module('App', ['ionic', 'ngCookies', 'pascalprecht.translate','ngMessages','ngStorage','base64', 'loginService','userService'])
+angular.module('App', ['ionic', 'ngCookies', 'ngCordova' , 'pascalprecht.translate','ngMessages','ngStorage','base64', 'loginService','userService'])
 .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 $stateProvider
     .state('signin', {
@@ -168,6 +168,20 @@ $translateProvider.preferredLanguage("en");
 $translateProvider.fallbackLanguage("en");
 // End Languages
 })
+.constant('googleConfiguration', {
+        clientId: "471996657056-hdqf12fka31oo61jpejl0h18rf6kv28k.apps.googleusercontent.com",
+        secretClient: "j9vbNmAoQ5q4U2YDn9wwthXC",
+        project: "bionic-genre-87620",
+        apiKey: "AIzaSyDtrlagb5PNQ2M9_W3JQpySxCMTQAAMi6M",
+        teamId: "00b4903a971744dcb4ad617f7b9b90bff6bc2ca2b318744823f9e01830d448ec",
+        api_version: "v1",
+        scopes: "https://www.googleapis.com/auth/devstorage.full_control",
+        bucket: "sponzorme",
+        group: "group-00b4903a971744dcb4ad617f7b9b90bff6bc2ca2b318744823f9e01830d448ec",
+        entity: "allUsers",
+        role: "READER",
+        role_object: "READER"
+    })
 .config(function($compileProvider){
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
 })
@@ -181,9 +195,30 @@ $translateProvider.fallbackLanguage("en");
 .config(['$logProvider', function($logProvider){ // dev: true,  staging: false, prod:false
     $logProvider.debugEnabled(true);
 }])
-.run(function($ionicPlatform, $translate) {
+.run(function($ionicPlatform, $translate, $cordovaFile, $log) {
         $ionicPlatform.ready(function() {
           $translate.use("en");
+
+          // CHECK
+          var dirFiles = "";
+          if(ionic.Platform.isIOS()){ //IOS
+            dirFiles = "/var/mobile/Applications/";
+          }
+          else if(ionic.Platform.isAndroid()){ //Android
+            dirFiles = "file:///android_asset/";
+          }
+          else{
+            dirFiles = "";
+          }
+
+          $cordovaFile.checkDir(cordova.file.dataDirectory, "dir/other_dir")
+            .then(function (success) {
+              $log.log("Directory ready " + dirFiles);
+            }, function (error) {
+              // error
+              $log.log("Something has gone wrong");
+            });
+
           });
 });
 

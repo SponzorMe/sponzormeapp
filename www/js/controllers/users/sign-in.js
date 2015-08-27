@@ -5,50 +5,18 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
   $scope.signIn = function (user) {
     Utils.show();
 
-    if($localStorage) {
-
-          var cookie = $localStorage.cookiesponzorme;
-
-          if(cookie == undefined){
-                $scope.vieuser = 1;
-          }else{
-                $scope.vieuser = 0;
-          }
-
-          var typeini = $localStorage.typesponzorme;
-          if (typeini != undefined){
-             if(typeini == '1'){
-               $scope.typeuser = 0;
-            }else{
-               $scope.typeuser = 1;
-            }
-          }
-
-          $scope.userfroups = 0;
-    }
-    else{
-         $location.path("/sign-in");
-    }
-
     $scope.objuser = {}
     $scope.objuser.email = user.email;
     $scope.objuser.password = user.password;
 
     loginRequest.login($scope.objuser).success(function(adata){
           $log.log("adata=" + JSON.stringify(adata));
-          var expireDate = new Date();
-          expireDate.setDate(expireDate.getDate() + 1);
-          $localStorage.cookiesponzorme = $base64.encode($scope.objuser.email + ':' + $scope.objuser.password);
-          $localStorage.typesponzorme = adata.user.type;
-          $localStorage.token = $base64.encode($scope.objuser.email +':'+ $scope.objuser.password);
-          $localStorage.id = adata.user.id;
-          $localStorage.email = adata.user.email;
           $cookies.put('token',$base64.encode($scope.objuser.email +':'+ $scope.objuser.password));
+          // we need parse variable types in order to use in the app.
+          adata.user.age = parseInt(adata.user.age);
           $cookies.putObject('userAuth', adata.user);
 
-          $log.log("demo data " + adata.user.demo);
-
-          if(adata.user.type == 0){
+          if(adata.user.type == 0){ // is an Organizer.
               if(adata.user.demo == 0)
               {
                 var user = {};
@@ -70,7 +38,7 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
               else{
                 $state.go("menuorganizers.organizershome");
               }
-          }else{
+          }else{ // is an Sponzor
               if(adata.user.demo == 0)
               {
                     var user = {};
