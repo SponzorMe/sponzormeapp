@@ -7,8 +7,8 @@
 'use strict';
 (function () {
 angular.module('loginService', [])
-	.factory('loginRequest', function($http, $log) {
-		var path = "http://api.sponzor.me/"; //API path
+	.factory('loginRequest', function($http, $log, BackendVariables) {
+		var path = BackendVariables.url; //API path
 		return {
 			/**
 			* Login function return the user info if the credentials match

@@ -60,9 +60,13 @@
           <textarea placeholder="{{'SETTINGSUSER.form_label7' | translate}}" ng-model="user.description"></textarea>
         </label>
         <div class="item">
-        <button class="button button-small button-positive" ng-click="getPhoto()">
-          {{'SETTINGSUSER.form_label8' | translate}}
-        </button>
+        <div class="button button-block button-positive padding-vertical" ng-click="fromAlbum()">
+            <i class="icon ion-ios7-camera"> {{'SETTINGSUSER.form_label8' | translate}}</i>
+        </div>
+        <img src="/img/logo.png" id="myImage" width="50px"/>
+        </div>
+        <div class="button button-block button-positive padding-vertical" ng-click="upload()">
+            <i class="icon ion-ios7-camera"> to imgURI</i>
         </div>
         <button type="submit" class="button button-block button-positive">
           {{'SETTINGSUSER.form_label9' | translate}}
@@ -70,6 +74,7 @@
       </form>
       </div>
           <div class="item item-divider">
+            progress: {{progress}} error: {{error}}
           </div>
         </div>
         </div>

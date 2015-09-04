@@ -7,8 +7,8 @@
 'use strict';
 (function () {
 angular.module('userService', ['ngCookies'])
-	.factory('userRequest', function($http,$cookies,$log) {
-		var path = "http://api.sponzor.me/"; //API path
+	.factory('userRequest', function($http,$cookies,$log,BackendVariables) {
+		var path = BackendVariables.url; //API path
 		//var token = $cookies.get('token');
 		var token = $cookies.get('token');
 		$log.info("Token in userService:", token);
