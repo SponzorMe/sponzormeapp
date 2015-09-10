@@ -1,46 +1,19 @@
 'use strict';
 (function () {
-angular.module('App').controller('settingUserController', function ($scope, $state, $base64, $cookies, $location, $translate, $log, $cordovaFile, $cordovaCamera, userRequest, Utils, imgurConfig, imgurUpload, Camera) {
+angular.module('App').controller('settingUserController', function ($scope, $state, $base64, $cookies, $location, $translate, $log, $cordovaFile, $cordovaCamera, $cordovaFileTransfer, $imgur, userRequest, Utils, imgurConfig, Camera) {
   $scope.user = $cookies.getObject('userAuth');
   $log.log("userAuth",JSON.stringify($scope.user));
 
+  //var imgurInstance = new $imgur(imgurConfig.client_id);
+
   $scope.uploadProgress = 0;
-  $scope.imageuri = "";
+  //$scope.imageuri = "";
   $scope.file = "";
-
-  $scope.upload = function() {
-    //Utils.show();
-    var image = $scope.file;
-    $log.log("imguri:",$scope.imageuri);
-    var clientId = imgurConfig.client_id;
-    $log.log("clientId:", imgurConfig.client_id);
-          imgurUpload.setClientId("bdff09d775f47b9");
-          imgurUpload
-            .upload(image)
-            //.upload(image, {clientId: clientId})
-            .then(function(result) {
-              $scope.sending = false;
-              $scope.result = result;
-
-            }, function(err) {
-              $scope.sending = false;
-              $scope.error = err;
-
-            }, function(progress) {
-              $timeout(function() {
-                $scope.progress = progress;
-              });
-            });
-
-  $scope.sending = true;
-  $scope.error = false;
-
-      };
-
+  //$scope.picData = "";
 
   var options = {
       quality: 50,
-      destinationType: navigator.camera.DestinationType.FILE_URI,
+      destinationType: navigator.camera.DestinationType.DATA_URL,
       sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
       allowEdit: true,
       encodingType: navigator.camera.EncodingType.JPEG,
@@ -66,38 +39,21 @@ angular.module('App').controller('settingUserController', function ($scope, $sta
     });
   };
 
-  $scope.getBase64Image = function(imgElem) {
-// imgElem must be on the same server otherwise a cross-origin error will be thrown "SECURITY_ERR: DOM Exception 18"
-    var canvas = document.createElement("canvas");
-    canvas.width = imgElem.clientWidth;
-    canvas.height = imgElem.clientHeight;
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(imgElem, 0, 0);
-    var dataURL = canvas.toDataURL("image/jpeg");
-    dataURL = dataURL.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
-    return dataURL;
- };
-
- $scope.convertImgToBase64URL  =  function(url){
-            //alert();
-            var canvas = document.createElement('CANVAS'),
-                ctx = canvas.getContext('2d'),
-                img = new Image;
-            img.crossOrigin = 'Anonymous';
-            img.onload = function(){
-                var dataURL;
-                canvas.height = img.height;
-                canvas.width = img.width;
-                ctx.drawImage(img, 0, 0);
-                dataURL = canvas.toDataURL("image/jpeg");
-                dataURL = dataURL.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
-                $scope.callback(dataURL);
-                // console.log("hhhh dataurl : "dataURL);
-                canvas = null;
-            };
-            img.src = "";
-            return img;
-        }
+  /*
+  $scope.getBase64Image = function(imageUri) {
+    var c=document.createElement('canvas');
+     var ctx=c.getContext("2d");
+     var img=new Image();
+     img.onload = function(){
+       c.width=this.width;
+       c.height=this.height;
+       ctx.drawImage(img, 0,0);
+     };
+     img.src=imageUri;
+     var dataURL = c.toDataURL("image/jpeg");
+     return dataURL;
+     };
+    */
 
   document.addEventListener("deviceready", function () {
 
@@ -107,18 +63,27 @@ angular.module('App').controller('settingUserController', function ($scope, $sta
 
         $cordovaCamera.getPicture(options).then(function(imageData) {
           var image = document.getElementById('myImage');
-          $scope.file = $scope.convertImgToBase64URL(imageData);
-          $log.log("imageData: ", imageData);
+
 
           //A hack that you should include to catch bug on Android 4.4 (bug < Cordova 3.5):
+          /*
             if (imageData.substring(0,21)=="content://com.android") {
               var photo_split=imageData.split("%3A");
               imageData="content://media/external/images/media/"+photo_split[1];
             }
-          $scope.file.src = imageData;
+
+          $scope.file = $scope.getBase64Image(imageData);
+          $log.log("getBase64Image: ", $scope.file);
+
 
           $scope.imageuri = imageData;
-          image.src = imageData;
+          window.resolveLocalFileSystemURL($scope.imageuri, function(fileEntry) {
+  				$scope.picData = fileEntry.nativeURL;
+          $log.log("$scope.picData: ", $scope.picData);
+        }); */
+          image.src = "data:image/jpeg;base64," + imageData;
+          $scope.file = imageData;
+          $log.log("imageData: ", imageData);
           Utils.hide();
         }, function(err) {
           // error
@@ -126,17 +91,63 @@ angular.module('App').controller('settingUserController', function ($scope, $sta
 
     };
 
-    $scope.loadImage=function(imageSrc){
+      $scope.upload = function() {
+        //Utils.show();
+        var imageData = $scope.file;
+        $log.log("data:",imageData);
 
-          if (imageSrc.substring(0,21)=="content://com.android") {
-            photo_split=imageSrc.split("%3A");
-            imageSrc="content://media/external/images/media/"+photo_split[1];
-          }
+        var clientId = imgurConfig.client_id;
+        $log.log("clientId:", imgurConfig.client_id);
 
-          UserImages.tmpImage=imageSrc;
-          $scope.uimg=imageSrc;
-      };
-      }, false);
+
+
+        /*
+        var fileURL = $scope.picData;
+        $log.log("fileURL: ", fileURL);
+        var fileNameOpt = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+        $log.log("fileNameOpt:", fileNameOpt);
+        fileURL = fileNameOpt.replace(/\.[^/.]+$/, "");
+        $log.log("fileURL: ", fileURL);
+        */
+
+        Utils.show();
+        var params = {
+          image: imageData
+        };
+        $imgur.imageUpload(params).
+        then(function(response) {
+          $log.log('Success: ' + JSON.stringify(response));
+          Utils.hide();
+        }, function(reason) {
+          $log.error('Failed: ' + JSON.stringify(reason));
+          Utils.hide();
+        });
+        /*
+                var options = {
+                    fileKey: "file",
+                    fileName: "file.jpg",
+                    chunkedMode: false,
+                    mimeType: "image/jpeg",
+                    headers: {
+                        "Authorization": "Client-ID " + imgurConfig.client_id
+                    }
+                };
+
+                var params = {
+                  image: imageData,
+                  type: "file"
+                };
+                $cordovaFileTransfer.upload("https://api.imgur.com/3/image", params, options).then(function(result) {
+                    $log.log(result);
+                }, function(error) {
+                    $log.error(error);
+                }).then(function() {
+                    Utils.hide();
+                }); */
+
+          };
+
+  }, false);
 
 });
 })();

@@ -2,23 +2,23 @@
 
     angular.module("ngImgur", []).provider("$imgur", function () {
 
-        this.accessToken = null;
+        this.clientId = "bdff09d775f47b9";
         this.apiBase = "https://api.imgur.com/3";
 
         this.$get = ['$q', '$http', function ($q, $http) {
 
-            if(this.accessToken === null)
-                throw new Error('An access token is required to create $imgur');
+            if(this.clientId === null)
+                throw new Error('An clientid is required to create $imgur');
 
-            var Imgur = function(accessToken) {
-                this.accessToken = accessToken;
+            var Imgur = function(clientId) {
+                this.clientId = clientId;
                 this.apiBase = "https://api.imgur.com/3";
             };
 
             Imgur.prototype = {
 
-                getAccessToken: function() {
-                    return this.accessToken;
+                getclientId: function() {
+                    return this.clientId;
                 },
 
                 /*
@@ -143,7 +143,7 @@
                         method: method,
                         url: url,
                         headers: {
-                            "Authorization": "Bearer " + this.accessToken
+                            "Authorization": "Client-ID " + this.clientId
                         }
                     };
 
@@ -165,7 +165,7 @@
                 }
             };
 
-            return new Imgur(this.accessToken);
+            return new Imgur(this.clientId);
         }];
     });
 

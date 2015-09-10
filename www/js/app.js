@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-angular.module('App', ['ionic', 'ngCookies', 'ngCordova' , 'pascalprecht.translate','ngMessages','ngStorage', 'base64', 'loginService','userService', 'imgurUpload'])
+angular.module('App', ['ionic', 'ngCookies', 'ngCordova' , 'pascalprecht.translate','ngMessages','ngStorage', 'base64', 'loginService','userService','ngImgur'])
 .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 $stateProvider
     .state('signin', {
