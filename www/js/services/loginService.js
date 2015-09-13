@@ -18,7 +18,7 @@ angular.module('loginService', [])
 			*/
 			login : function(credentials){
 
-				$log.log("Credentials in loginService:", JSON.stringify(credentials));
+				$log.log("Credentials in loginService:", angular.toJson(credentials));
 				var data={"email":credentials.email,"password":credentials.password};
 				return $http({
 					method: 'POST',

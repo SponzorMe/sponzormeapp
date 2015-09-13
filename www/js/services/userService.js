@@ -6,11 +6,10 @@
 */
 'use strict';
 (function () {
-angular.module('userService', ['ngCookies'])
-	.factory('userRequest', function($http,$cookies,$log,BackendVariables) {
+angular.module('userService', ['ngStorage'])
+	.factory('userRequest', function($http,$localStorage,$log,BackendVariables) {
 		var path = BackendVariables.url; //API path
-		//var token = $cookies.get('token');
-		var token = $cookies.get('token');
+		var token = $localStorage.token;
 		$log.info("Token in userService:", token);
 		return {
 			allUsers : function(){

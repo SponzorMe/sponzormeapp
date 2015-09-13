@@ -1,6 +1,7 @@
 'use strict';
 (function () {
-angular.module('App').directive('noScroll', function($document) {
+angular.module('App')
+.directive('noScroll', function($document) {
 
   return {
     restrict: 'A',

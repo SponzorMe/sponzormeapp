@@ -18,7 +18,7 @@
     <ion-header-bar class="bar-assertive">
       <h1 class="title">{{'DASHSPONZORS.menu_title' | translate}}</h1>
     </ion-header-bar>
-    <ion-content>
+    <ion-content ng-controller="menuSponzorsController">
       <div class="has-header list">
         <!-- Note each link has the 'menu-close' attribute so the menu auto closes when clicking on one of these links -->
         <a href="#/menusponzors/homesponzors" class="item" menu-close>{{'DASHSPONZORS.dash_menu1' | translate}}</a>
@@ -26,7 +26,7 @@
         <a href="#/menusponzors/sponzoring" class="item" menu-close>{{'DASHSPONZORS.dash_menu3' | translate}}</a>
         <a href="#/menusponzors/sponzorsettings" class="item" menu-close>{{'DASHSPONZORS.dash_menu4' | translate}}</a>
         <a href="#/menusponzors/sponzorsinvite" class="item" menu-close>{{'DASHSPONZORS.dash_menu5' | translate}}</a>
-        <a href="#/sign-in" class="item" menu-close>{{'DASHSPONZORS.dash_menu6' | translate}}</a>
+        <a ng-click="logout()" class="item" menu-close>{{'DASHSPONZORS.dash_menu6' | translate}}</a>
       </div>
     </ion-content>
   </ion-side-menu>

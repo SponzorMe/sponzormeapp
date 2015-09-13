@@ -1,17 +1,21 @@
 <ion-view view-title="{{'DASHSPONZORS.dash_menu4' | translate}}">
       <ion-content class="padding">
         <div class="has-header list">
+
           <div class="card">
               <div class="item item-divider">{{'SETTINGSUSER.info_title' | translate}}
               </div>
             <div class="item item-text-wrap">
           <form name="settingsForm" class="padding" novalidate ng-submit="settingsForm.$valid && editUser(user)">
+          <div class="item text-center">
+                <img ng-src="{{myPicture}}" id="profile-image" ng-click="fromAlbum()" />
+          </div>
           <label class="item item-input">
             <input name="txtname" type="text" placeholder="{{'SETTINGSUSER.form_label1' | translate}}" ng-model="user.name"
             ng-minlength="5"
             ng-maxlength="30">
           </label>
-          <div class="form-errors" ng-messages="settingsForm.txtname.$error" ng-if="settingsForm.$submitted">
+          <div class="form-errors" ng-messages="settingsForm.txtname.$error" ng-if="settingsForm.$invalid && settingsForm.$submitted">
             <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_maxlength" | translate}}</div>
             <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_minlength" | translate}}</div>
           </div>
@@ -21,7 +25,7 @@
             ng-maxlength="30"
             required>
           </label>
-          <div class="form-errors" ng-messages="settingsForm.txtemail.$error" ng-if="settingsForm.$submitted">
+          <div class="form-errors" ng-messages="settingsForm.txtemail.$error" ng-if="settingsForm.$invalid && settingsForm.$submitted">
             <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_required" | translate}}</div>
             <div class="form-error" ng-message="email"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_email" | translate}}</div>
             <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_maxlength" | translate}}</div>
@@ -32,7 +36,7 @@
             ng-minlength="5"
             ng-maxlength="30">
           </label>
-          <div class="form-errors" ng-messages="settingsForm.txtcompany.$error" ng-if="settingsForm.$submitted">
+          <div class="form-errors" ng-messages="settingsForm.txtcompany.$error" ng-if="settingsForm.$invalid && settingsForm.$submitted">
             <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_maxlength" | translate}}</div>
             <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_minlength" | translate}}</div>
           </div>
@@ -41,7 +45,7 @@
             min="0"
             max="110">
           </label>
-          <div class="form-errors" ng-messages="settingsForm.numage.$error" ng-if="settingsForm.$submitted">
+          <div class="form-errors" ng-messages="settingsForm.numage.$error" ng-if="settingsForm.$invalid && settingsForm.$submitted">
             <div class="form-error" ng-message="number"><i class="icon ion-close-circled"></i> debe ser numero</div>
           </div>
           <label class="item item-input item-select">
@@ -59,23 +63,11 @@
         <label class="item item-input">
           <textarea placeholder="{{'SETTINGSUSER.form_label7' | translate}}" ng-model="user.description"></textarea>
         </label>
-        <div class="item">
-        <div class="button button-block button-positive padding-vertical" ng-click="fromAlbum()">
-            <i class="icon ion-ios7-camera"> {{'SETTINGSUSER.form_label8' | translate}}</i>
-        </div>
-        <img src="img/logo.png" id="myImage" width="50px"/>
-        </div>
-        <div class="button button-block button-positive padding-vertical" ng-click="upload()">
-            <i class="icon ion-ios7-camera"> to imgURI</i>
-        </div>
         <button type="submit" class="button button-block button-positive">
           {{'SETTINGSUSER.form_label9' | translate}}
         </button>
       </form>
       </div>
-          <div class="item item-divider">
-            progress: {{progress}} error: {{error}}
-          </div>
         </div>
         </div>
     </ion-content>

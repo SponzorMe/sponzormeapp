@@ -12,15 +12,15 @@ angular.module('App').factory('gStorage', function(googleConfiguration, $log, $t
           $log.log('loaded! :');
           BackendVariables.ready = "true";
           var request = gapi.client.storage.buckets.list({ project: googleConfiguration.project});
-          $log.log(JSON.stringify(request));
-          request.execute(function(response) { $log.log(JSON.stringify(request)); });
+          $log.log(angular.toJson(request));
+          request.execute(function(response) { $log.log(angular.toJson(request)); });
         });
         }
       },
       getToken: function() {
         $log.log("getToken()");
         var pHeader = {"alg":"RS256","typ":"JWT"}
-        var sHeader = JSON.stringify(pHeader);
+        var sHeader = angular.toJson(pHeader);
         var pClaim = {};
         pClaim.aud = "https://www.googleapis.com/oauth2/v3/token";
         pClaim.scope = googleConfiguration.scopes;
@@ -28,7 +28,7 @@ angular.module('App').factory('gStorage', function(googleConfiguration, $log, $t
         pClaim.exp = KJUR.jws.IntDate.get("now + 1hour");
         pClaim.iat = KJUR.jws.IntDate.get("now");
 
-        var sClaim = JSON.stringify(pClaim);
+        var sClaim = angular.toJson(pClaim);
         var sJWS = KJUR.jws.JWS.sign(null, sHeader, sClaim, googleConfiguration.private_key);
         $log.log("sJWS: ", sJWS);
         var XHR = new XMLHttpRequest();
@@ -63,8 +63,8 @@ angular.module('App').factory('gStorage', function(googleConfiguration, $log, $t
             if(BackendVariables.ready==="true"){
             $log.log('listObjects()!!');
             var request = gapi.client.storage.objects.list({ bucket : bucketObject});
-            $log.log("Info sent: ",JSON.stringify(request));
-            request.execute(function(response) { $log.log("Response: " , JSON.stringify(request)); });
+            $log.log("Info sent: ",angular.toJson(request));
+            request.execute(function(response) { $log.log("Response: " , angular.toJson(request)); });
             }
           }
         }

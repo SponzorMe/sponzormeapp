@@ -1,5 +1,5 @@
 <ion-view view-title="{{'LOGIN.login_title' | translate}}" hide-nav-bar="true" left-buttons="leftButtons" right-buttons="rightButtons" hide-back-button="true">
-  <ion-content ng-controller="userController" class="positive-bg">
+  <ion-content ng-controller="userController" class="positive-bg" ng-init="init()">
   <!-- Slideshow in background
     <ul class="cb-slideshow">
     	<li>
@@ -28,7 +28,7 @@
         ng-maxlength="30"
         required>
       </label>
-      <div class="form-errors" ng-messages="signinForm.txtemail.$error" ng-if="signinForm.$submitted">
+      <div class="form-errors" ng-messages="signinForm.txtemail.$error" ng-if="signinForm.$invalid && signInForm.$submitted">
         <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_required" | translate}}</div>
         <div class="form-error" ng-message="email"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_email" | translate}}</div>
         <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_maxlength" | translate}}</div>
@@ -41,7 +41,7 @@
       ng-maxlength="25"
       required>
     </label>
-    <div class="form-errors" ng-messages="signinForm.password.$error" ng-if="signinForm.$submitted">
+    <div class="form-errors" ng-messages="signinForm.password.$error" ng-if="signinForm.$invalid && signInForm.$submitted">
       <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_pass_required" | translate}}</div>
       <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_pass_maxlength" | translate}}</div>
       <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_pass_minlength" | translate}}</div>

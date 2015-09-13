@@ -8,6 +8,16 @@
   background-color: white !important;
 }
 
+#profile-image{
+        display: block;
+        border-radius: 100px;
+        border: 1px solid #fff;
+        width: 128px;
+        height: 128px;
+        margin: 0px auto 0;
+        box-shadow: 0px 0px 4px rgba(0,0,0,0.7);
+      }
+
 /** Styling for the error text and container **/
 .form, .form_success, .form_warning, .form_error {
 margin: 10px 0px;
@@ -61,7 +71,6 @@ fixing ion-footer
   border: none !important;
   text-align: center !important;
 }
-
 
 /*** Sliding Background **/
 

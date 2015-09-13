@@ -1,4 +1,4 @@
-angular.module('App').controller('registerController', function ($scope, $state, userRequest, $cookies, $translate, Utils) {
+angular.module('App').controller('registerController', function ($scope, $state, userRequest, $cookies, $translate, $log, Utils) {
   // we will store all of our form data in this object
   $scope.user = {};
   if(!angular.isDefined($scope.step)){
@@ -17,9 +17,9 @@ angular.module('App').controller('registerController', function ($scope, $state,
 
   $scope.register = function (user) {
     Utils.show();
-    console.log("Usuario " + user.email);
-    console.log("Pass " + user.password);
-    console.log("Type " + user.type);
+    $log.log("Usuario " + user.email);
+    $log.log("Pass " + user.password);
+    $log.log("Type " + user.type);
 
 
     $scope.objuser = {}
@@ -32,7 +32,7 @@ angular.module('App').controller('registerController', function ($scope, $state,
 
 
     userRequest.createUser($scope.objuser).success(function(adata){
-          console.log("adata=" +JSON.stringify(adata));
+          $log.log("adata=" + angular.toJson(adata));
           user.email = "";
           user.password = "";
           $state.go("signin");
@@ -41,8 +41,8 @@ angular.module('App').controller('registerController', function ($scope, $state,
     }).
     error(function (data, status, headers, config) {
             // data is always undefined here when there is an error
-            console.error('Error fetching feed:', JSON.stringify(data));
-            console.error("data.error.email: ",Utils.trim(data.error.email));
+            $log.error('Error fetching feed:', angular.toJson(data));
+            $log.error("data.error.email: ",Utils.trim(data.error.email));
             if(Utils.trim(data.message) === "Invalid credentials"){
               Utils.alertshow($translate.instant("ERRORS.signin_title_credentials"),$translate.instant("ERRORS.signin_incorrect_credentials"));
             }

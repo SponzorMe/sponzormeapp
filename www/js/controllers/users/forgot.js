@@ -1,4 +1,4 @@
-angular.module('App').controller('forgotController', function ($scope, $state, userRequest, $cookies, Utils) {
+angular.module('App').controller('forgotController', function ($scope, $state, userRequest, $cookies, $log, Utils) {
   $scope.resetPass = function (user) {
     Utils.show();
     console.log("Usuario " + user.email);
@@ -7,13 +7,13 @@ angular.module('App').controller('forgotController', function ($scope, $state, u
     $scope.objuser.email = user.email;
 
     userRequest.forgotPassword($scope.objuser).success(function(adata){
-          console.log("adata=" +JSON.stringify(adata));
+          $log.log("adata=" + angular.toJson(adata));
           user.email ="";
           Utils.hide();
     }).
     error(function (data, status, headers, config) {
             // data is always undefined here when there is an error
-            console.error('Error fetching feed:', JSON.stringify(data));
+            $log.error('Error fetching feed:', angular.toJson(data));
             if(data.message === "Invalid credentials"){
             Utils.alertshow($translate.instant("ERRORS.signin_title_credentials"),$translate.instant("ERRORS.signin_incorrect_credentials"));
             }

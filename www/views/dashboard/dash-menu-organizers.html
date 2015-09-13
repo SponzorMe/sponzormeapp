@@ -18,8 +18,8 @@
     <ion-header-bar class="bar-assertive">
       <h1 class="title">{{'DASHORGANIZERS.menu_title' | translate}}</h1>
     </ion-header-bar>
-    <ion-content>
-      
+    <ion-content ng-controller="menuOrganizersController">
+
       <ul class="list">
         <!-- Note each link has the 'menu-close' attribute so the menu auto closes when clicking on one of these links -->
         <a href="#/menuorganizers/organizershome" class="item" menu-close>{{'DASHORGANIZERS.dash_menu1' | translate}}</a>
@@ -28,7 +28,7 @@
         <a href="#/menuorganizers/organizerstask" class="item" menu-close>{{'DASHORGANIZERS.dash_menu4' | translate}}</a>
         <a href="#/menuorganizers/organizersinvite" class="item" menu-close>{{'DASHORGANIZERS.dash_menu5' | translate}}</a>
         <a href="#/menuorganizers/organizerssettings" class="item" menu-close>{{'DASHORGANIZERS.dash_menu6' | translate}}</a>
-        <a href="#/menuorganizers/organizerlogout" class="item" menu-close>{{'DASHORGANIZERS.dash_menu7' | translate}}</a>
+        <a ng-click="logout()" class="item" menu-close>{{'DASHORGANIZERS.dash_menu7' | translate}}</a>
       </ul>
     </ion-content>
   </ion-side-menu>

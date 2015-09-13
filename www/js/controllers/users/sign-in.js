@@ -1,6 +1,33 @@
 'use strict';
 (function () {
-angular.module('App').controller('userController', function ($scope, $state, $base64,$localStorage, $cookies, $log, $location, $translate, loginRequest, userRequest, Utils) {
+angular.module('App').controller('userController', function ($scope, $state, $base64,$localStorage, $log, $location, $translate, loginRequest, userRequest, Utils) {
+
+  $scope.init = function(){
+    //check the session
+    if(angular.isDefined($localStorage.token) && angular.isDefined($localStorage.userAuth)){
+
+      if($localStorage.userAuth.type == 0){ // is an Organizer
+          if($localStorage.userAuth.demo == 0)
+          {
+            $state.go("introorganizers");
+          }
+          else{
+            $state.go("menuorganizers.organizershome");
+          }
+      }
+      else{ // is a Sponzor
+        if($localStorage.userAuth.demo == 0)
+        {
+           $state.go("introsponzors");
+        }
+        else{
+           $state.go("menusponzors.homesponzors");
+        }
+      }
+
+    }
+
+  };
 
   $scope.signIn = function (user) {
     Utils.show();
@@ -10,11 +37,11 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
     $scope.objuser.password = user.password;
 
     loginRequest.login($scope.objuser).success(function(adata){
-          $log.log("adata=" + JSON.stringify(adata));
-          $cookies.put('token',$base64.encode($scope.objuser.email +':'+ $scope.objuser.password));
+          $log.log("adata=" + angular.toJson(adata));
+          $localStorage.token = $base64.encode($scope.objuser.email +':'+ $scope.objuser.password)
           // we need parse variable types in order to use in the app.
           adata.user.age = parseInt(adata.user.age);
-          $cookies.putObject('userAuth', adata.user);
+          $localStorage.userAuth = adata.user;
 
           if(adata.user.type == 0){ // is an Organizer.
               if(adata.user.demo == 0)
@@ -24,7 +51,7 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
                 user.demo = 1;
                 userRequest.editUserPatch($localStorage.id, user)
               .success(function(response){
-                $log.log("response" +  JSON.stringify(response));
+                $log.log("response" +  angular.toJson(response));
                 $state.go("introorganizers");
               })
               .error(function(data, status) {
@@ -46,7 +73,7 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
                     user.demo = 1;
                     userRequest.editUserPatch($localStorage.id, user)
                     .success(function(response){
-                    $log.log("response" +  JSON.stringify(response));
+                    $log.log("response" +  angular.toJson(response));
                     $state.go("introsponzors");
                     })
                     .error(function(data, status) {
@@ -65,14 +92,13 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
     }).
     error(function (data, status, headers, config) {
             // data is always undefined here when there is an error
-            console.error('Error fetching feed:', JSON.stringify(data));
+            console.error('Error fetching feed:', angular.toJson(data));
             if(data.message === "Invalid credentials"){
             Utils.alertshow($translate.instant("ERRORS.signin_title_credentials"),$translate.instant("ERRORS.signin_incorrect_credentials"));
             }
             Utils.hide();
         });
     ;
-    //loginRequest.login(user);
   };
 
 });
