@@ -1,6 +1,10 @@
 {
   "name": "sponzormeapp",
   "app_id": "c5c3d664",
+  "proxies": [{
+5     "path": "/api",
+6     "proxyUrl": "http://api.sponzor.me/"
+7   }],
   "gulpStartupTasks": [
     "sass",
     "watch"

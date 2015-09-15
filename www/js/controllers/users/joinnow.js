@@ -1,4 +1,4 @@
-angular.module('App').controller('registerController', function ($scope, $state, userRequest, $cookies, $translate, $log, Utils) {
+angular.module('App').controller('registerController', function ($scope, $state, userRequest, $translate, $log, Utils) {
   // we will store all of our form data in this object
   $scope.user = {};
   if(!angular.isDefined($scope.step)){

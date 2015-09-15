@@ -13,7 +13,7 @@
         ng-maxlength="30"
         required>
       </label>
-      <div class="form-errors" ng-messages="registerForm.txtemail.$error" ng-if="registerForm.$submitted">
+      <div class="form-errors" ng-messages="registerForm.txtemail.$error" ng-if="registerForm.$invalid && registerForm.$submitted">
         <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_required" | translate}}</div>
         <div class="form-error" ng-message="email"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_email" | translate}}</div>
         <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_maxlength" | translate}}</div>
@@ -26,7 +26,7 @@
         ng-maxlength="25"
         required>
       </label>
-      <div class="form-errors" ng-messages="registerForm.txtpassword.$error" ng-if="registerForm.$submitted">
+      <div class="form-errors" ng-messages="registerForm.txtpassword.$error" ng-if="registerForm.$invalid && registerForm.$submitted">
         <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_pass_required" | translate}}</div>
         <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_pass_minlength" | translate}}</div>
         <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_pass_maxlength" | translate}}</div>

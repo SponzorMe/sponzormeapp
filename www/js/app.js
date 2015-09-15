@@ -163,29 +163,38 @@ $translateProvider.useStaticFilesLoader({
       prefix: 'langs/lang-',
       suffix: '.json'
     });
+
 $translateProvider.useSanitizeValueStrategy('escaped');
+
 $translateProvider.preferredLanguage("en");
+
 $translateProvider.fallbackLanguage("en");
+
 // End Languages
 })
+
 .constant('imgurConfig',{
             client_id: "bdff09d775f47b9",
             client_secret: "c74df575cc74efa5c14c57c4620238e400a4ef32"
 })
+
 .value('BackendVariables', {
-            url: "http://api.sponzor.me/",
-            ready: "false",
-            token: ""
+            url: "http://api.sponzor.me/", // i'm using the Ionic Proxy
+            ready: "false"
         })
+
 .config(function($compileProvider){
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|file|blob|cdvfile|content):|data:image\//);
 })
+
 .config(['$logProvider', function($logProvider){ // dev: true,  staging: false, prod:false
     $logProvider.debugEnabled(true);
 }])
+
 .config(function($ionicConfigProvider) {
-    $ionicConfigProvider.views.maxCache(5);
+    $ionicConfigProvider.views.maxCache(5); // improving performance
 })
+
 .run(function($ionicPlatform, $translate, $cordovaFile, $log) {
         $ionicPlatform.ready(function() {
           $translate.use("en");
