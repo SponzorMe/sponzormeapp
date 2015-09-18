@@ -83,7 +83,8 @@ $stateProvider
       url: "/organizersinvite",
       views: {
         'menuContent' :{
-          templateUrl: "views/users/invite-users.html"
+          templateUrl: "views/users/invite-users.html",
+          controller: "InviteUsersController"
         }
       }
     })

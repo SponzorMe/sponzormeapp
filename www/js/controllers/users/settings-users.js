@@ -20,10 +20,9 @@ angular.module('App').controller('settingUserController', function ($scope, $sta
 
   $scope.init = function(){
     //check the session
-    if(angular.isDefined($localStorage.token)){
+    if(!userRequest.checkSession($localStorage.token,$localStorage.userAuth)){
       $state.go("signin");
     }
-
     // TODO - download the current user profile image and convert to base64
   };
 

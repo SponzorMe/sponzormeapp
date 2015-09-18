@@ -1,4 +1,4 @@
-angular.module('App').controller('forgotController', function ($scope, $state, userRequest, $cookies, $log, Utils) {
+angular.module('App').controller('forgotController', function ($scope, $state, userRequest, $log, Utils) {
   $scope.resetPass = function (user) {
     Utils.show();
     console.log("Usuario " + user.email);

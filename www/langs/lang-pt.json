@@ -43,6 +43,7 @@
       "form3_check14" : "Tecnologia"
   },
   "FORGOTFORM": {
+      "forgot_title": "Esqueci minha senha",
       "email_field": "Email",
       "button_message": "Envie instruções"
   },

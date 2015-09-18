@@ -4,12 +4,26 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
 
   $scope.init = function(){
     //check the session
-    if(angular.isDefined($localStorage.token) && angular.isDefined($localStorage.userAuth)){
+    if(userRequest.checkSession($localStorage.token,$localStorage.userAuth)){
 
       if($localStorage.userAuth.type == 0){ // is an Organizer
           if($localStorage.userAuth.demo == 0)
           {
+            var user = {};
+            $log.log("id de usuario:" + $localStorage.userAuth.id);
+            user.demo = 1;
+            userRequest.editUserPatch($localStorage.userAuth.id, user)
+          .success(function(response){
+            $log.log("response" +  angular.toJson(response));
+            $localStorage.userAuth.demo = 1;
             $state.go("introorganizers");
+          })
+          .error(function(data, status) {
+            $log.error('editUserPatch error', status, data);
+            })
+          .finally(function() {
+              $log.log("finally finished editUserPatch");
+            });
           }
           else{
             $state.go("menuorganizers.organizershome");
@@ -18,7 +32,21 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
       else{ // is a Sponzor
         if($localStorage.userAuth.demo == 0)
         {
+           var user = {};
+           $log.log("id de usuario:" + $localStorage.userAuth.id);
+           user.demo = 1;
+           userRequest.editUserPatch($localStorage.userAuth.id, user)
+           .success(function(response){
+           $log.log("response" +  angular.toJson(response));
+           $localStorage.userAuth.demo = 1;
            $state.go("introsponzors");
+           })
+           .error(function(data, status) {
+             $log.error('editUserPatch error', status, data);
+             })
+           .finally(function() {
+               $log.log("finally finished editUserPatch");
+             });
         }
         else{
            $state.go("menusponzors.homesponzors");
@@ -26,7 +54,6 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
       }
 
     }
-
   };
 
   $scope.signIn = function (user) {
@@ -42,20 +69,24 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
           // we need parse variable types in order to use in the app.
           adata.user.age = parseInt(adata.user.age);
           $localStorage.userAuth = adata.user;
+          $log.log("localStorage=" + angular.toJson($localStorage.userAuth));
 
           if(adata.user.type == 0){ // is an Organizer.
+              $log.info("Is an Organizer");
+
               if(adata.user.demo == 0)
               {
                 var user = {};
-                $log.log("id de usuario:" + $localStorage.id);
+                $log.log("id de usuario:" + $localStorage.userAuth.id);
                 user.demo = 1;
-                userRequest.editUserPatch($localStorage.id, user)
+                userRequest.editUserPatch($localStorage.userAuth.id, user)
               .success(function(response){
                 $log.log("response" +  angular.toJson(response));
+                $localStorage.userAuth.demo = 1;
                 $state.go("introorganizers");
               })
               .error(function(data, status) {
-                console.error('editUserPatch error', status, data);
+                $log.error('editUserPatch error', status, data);
                 })
               .finally(function() {
                   $log.log("finally finished editUserPatch");
@@ -66,18 +97,22 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
                 $state.go("menuorganizers.organizershome");
               }
           }else{ // is an Sponzor
+
+              $log.info("Is an Sponzor.");
+
               if(adata.user.demo == 0)
               {
                     var user = {};
-                    $log.log("id de usuario:" + $localStorage.id);
+                    $log.log("id de usuario:" + $localStorage.userAuth.id);
                     user.demo = 1;
-                    userRequest.editUserPatch($localStorage.id, user)
+                    userRequest.editUserPatch($localStorage.userAuth.id, user)
                     .success(function(response){
                     $log.log("response" +  angular.toJson(response));
+                    $localStorage.userAuth.demo = 1;
                     $state.go("introsponzors");
                     })
                     .error(function(data, status) {
-                      console.error('editUserPatch error', status, data);
+                      $log.error('editUserPatch error', status, data);
                       })
                     .finally(function() {
                         $log.log("finally finished editUserPatch");
@@ -92,7 +127,7 @@ angular.module('App').controller('userController', function ($scope, $state, $ba
     }).
     error(function (data, status, headers, config) {
             // data is always undefined here when there is an error
-            console.error('Error fetching feed:', angular.toJson(data));
+            $log.error('Error fetching feed:', angular.toJson(data));
             if(data.message === "Invalid credentials"){
             Utils.alertshow($translate.instant("ERRORS.signin_title_credentials"),$translate.instant("ERRORS.signin_incorrect_credentials"));
             }

@@ -1,6 +1,9 @@
+'use strict';
+(function(){
 angular.module('App')
-.controller('EventsController', function ($scope) {
+.controller('DashEventsController', function ($scope, $state, $location) {
   $scope.addEvent = function () {
     $state.go('addevent');
     };
   });
+})();

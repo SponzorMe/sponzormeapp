@@ -43,6 +43,7 @@
       "form3_check14" : "Tecnologia"
   },
   "FORGOTFORM": {
+      "forgot_title": "Forgot Password",
       "email_field": "Email",
       "button_message": "Enviame Instrucciones"
   },
@@ -72,11 +73,6 @@
       "text_field": "Buscar por un Evento",
       "search_button": "Buscar"
   },
-  "INVITEUSERS": {
-    "search_title": "Encuentra Eventos",
-    "text_field": "Buscar por un Evento",
-    "search_button": "Buscar"
-  },
   "INTROORG": {
       "skip_nav_btn": "Saltar Intro",
       "prev_nav_btn": "Anterior",
@@ -100,6 +96,11 @@
       "content_page2": "Lo primero que encontraras es un cuadro de busqueda. Simplemente ingresa las palabras magicas que describan el tipo de evento que buscas y dejanos mostrarte algunos que podrian interesarte.",
       "head_page3": "Vamos a nuestro Menu.",
       "content_page3": "Podras observar lo siguiente:<br><br/><ul><li><b>Panel:</b> Para regresar a la busqueda.</li><li><b>Siguiendo:</b> Los eventos que quieres patrocinar que no han sido aceptado por los organizadores aún.</li><li><b>Patrocinados:</b> Los eventos que estas actualmente patrocinando, los acuerdos que tienes con los organizadores, y las actividades que debes hacer para que no se te olviden ;).</li><li><b>Invitar tus amigos:</b> Comparte el amor. Enviale una invitación a alguien que nos pueda necesitar :).</li><li><b>Configuracion:</b>  Aca tu podras cambiar tu información y conectando tus cuentas externas.</li><li><b>Salir:</b>  Puedes salir de nuestra App de una manera segura. Sabemos que volveras por que te amamos ;).</li></ul>"
+  },
+  "INVITEUSERS":{
+      "invite_title": "Invitar tus amigos",
+      "email_field":"Email de mi amigo",
+      "button_message":"Enviar"
   },
   "ERRORS": {
       "signin_ema_required": "Este campo es requerido.",
@@ -125,7 +126,11 @@
       "forgotform_ema_required": "Este campo es requerido.",
       "forgotform_ema_email": "Este campo debe ser un Email.",
       "forgotform_ema_maxlength": "Este campo debe tener al menos 5 caracteres.",
-      "forgotform_ema_minlength": "Este campo tener tener menos que 30 caracteres."
+      "forgotform_ema_minlength": "Este campo tener tener menos que 30 caracteres.",
+      "inviteform_ema_required": "This field is required.",
+      "inviteform_ema_email": "Este campo debe ser un Email.",
+      "inviteform_ema_maxlength": "Este campo debe tener al menos 5 caracteres.",
+      "inviteform_ema_minlength": "Este campo tener tener menos que 30 caracteres."
   },
   "MESSAGES": {
       "loading": "Cargando...",

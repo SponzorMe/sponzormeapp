@@ -1,15 +1,24 @@
-<ion-view view-title="Invite your friend">
-      <ion-content class="padding">
-        <div class="has-header list">
-          <label class="item item-input">
-            <input type="text" placeholder="Friend's Email">
+<ion-view view-title='{{"INVITEUSERS.invite_title" | translate}}'>
+      <ion-content padding="true" ng-init="init()">
+        <form name="inviteForm" novalidate ng-submit="inviteForm.$valid && resetPass(user)">
+        <div class="list">
+          <label class="item item-input item-floating-label inputwhite" ng-class="{ 'has-error' : forgotForm.txtemail.$invalid && forgotForm.$submitted }">
+            <span class="input-label">{{"INVITEUSERS.email_field" | translate}}</span>
+            <input name="txtemail" type="email" placeholder='{{"INVITEUSERS.email_field" | translate}}' ng-model="user.email"
+            ng-minlength="5"
+            ng-maxlength="30"
+            required>
           </label>
-          <label class="item item-input">
-            <textarea placeholder="Comments"></textarea>
-          </label>
+          <div class="form-errors" ng-messages="inviteForm.txtemail.$error" ng-if="inviteForm.$invalid && inviteForm.$submitted">
+            <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.inviteform_ema_required" | translate}}</div>
+            <div class="form-error" ng-message="email"><i class="icon ion-close-circled"></i> {{"ERRORS.inviteform_ema_email" | translate}}</div>
+            <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.inviteform_ema_maxlength" | translate}}</div>
+            <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.inviteform_ema_minlength" | translate}}</div>
+          </div>
         </div>
         <button class="button button-block button-positive">
-          Send
+          {{"INVITEUSERS.button_message" | translate}}
         </button>
+      </form>
     </ion-content>
 </ion-view>
