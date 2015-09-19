@@ -58,7 +58,6 @@ angular.module('userService', ['ngStorage'])
 				});
 			},
 			invitedUser : function(data){
-					var token = $sessionStorage.token;
 					return $http({
 						method: 'POST',
 						url: path + 'invite_friend/',

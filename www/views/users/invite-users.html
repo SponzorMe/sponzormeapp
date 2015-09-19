@@ -1,7 +1,7 @@
 <ion-view view-title='{{"INVITEUSERS.invite_title" | translate}}'>
       <ion-content padding="true" ng-init="init()">
-        <form name="inviteForm" novalidate ng-submit="inviteForm.$valid && resetPass(user)">
-        <div class="list">
+        <form name="inviteForm" novalidate ng-submit="inviteForm.$valid && invitefriend(user)">
+        <div class="has-header list">
           <label class="item item-input item-floating-label inputwhite" ng-class="{ 'has-error' : forgotForm.txtemail.$invalid && forgotForm.$submitted }">
             <span class="input-label">{{"INVITEUSERS.email_field" | translate}}</span>
             <input name="txtemail" type="email" placeholder='{{"INVITEUSERS.email_field" | translate}}' ng-model="user.email"
@@ -15,10 +15,11 @@
             <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.inviteform_ema_maxlength" | translate}}</div>
             <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.inviteform_ema_minlength" | translate}}</div>
           </div>
+          <button type="submit" class="button button-block button-positive">
+            {{"INVITEUSERS.button_message" | translate}}
+          </button>
         </div>
-        <button class="button button-block button-positive">
-          {{"INVITEUSERS.button_message" | translate}}
-        </button>
+
       </form>
     </ion-content>
 </ion-view>

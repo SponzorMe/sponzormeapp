@@ -1,6 +1,7 @@
 'use strict';
 (function () {
-angular.module('App').controller('userController', function ($scope, $state, $base64,$localStorage, $log, $location, $translate, loginRequest, userRequest, Utils) {
+angular.module('App')
+.controller('userController', function ($scope, $state, $base64,$localStorage, $log, $location, $translate, loginRequest, userRequest, Utils) {
 
   $scope.init = function(){
     //check the session

@@ -1,6 +1,7 @@
 'use strict';
 (function () {
-angular.module('App').controller('settingUserController', function ($scope, $state, $base64, $localStorage, $location, $translate, $log, $cordovaFile, $cordovaCamera, $imgur, userRequest, Utils, imgurConfig) {
+angular.module('App')
+.controller('settingUserController', function ($scope, $state, $base64, $localStorage, $location, $translate, $log, $cordovaFile, $cordovaCamera, $cordovaFileTransfer, $timeout, $imgur, userRequest, Utils, imgurConfig, Camera) {
   $scope.user = $localStorage.userAuth;
   $log.log("userAuth",angular.toJson($scope.user));
 
@@ -24,6 +25,10 @@ angular.module('App').controller('settingUserController', function ($scope, $sta
       $state.go("signin");
     }
     // TODO - download the current user profile image and convert to base64
+    $log.log("User image " + $localStorage.userAuth.image);
+    var filepath = $scope.downloadImage($localStorage.userAuth.image);
+    $log.log("filepath = " + filepath);
+    $scope.savePhoto(filepath.nativeURL);
   };
 
   $scope.editUser = function(user){
@@ -69,9 +74,30 @@ angular.module('App').controller('settingUserController', function ($scope, $sta
 
   };
 
+  $scope.savePhoto = function (fileUrl) {
+            Camera.resizeImage(fileUrl).then(function (_result) {
+                var binImage = "data:image/jpeg;base64," + _result.imageData;
+                $log.log("binImage=", binImage)
+                return binImage;
+            }).then(function (_convertedBase64) {
+                $log.log("convert base image ");
+            }, function (_error) {
+                $log.log(_error);
+            });
+        };
+        /*
+        $scope.___savePhoto = function () {
+            Camera.toBase64Image($scope.lastPhoto).then(function (_result) {
+                console.log("convert base image ");
+            }, function (_error) {
+                console.log(_error);
+            });
+        };
+        */
+
   document.addEventListener("deviceready", function () {
 
-  $scope.fromAlbum=function(){
+  $scope.fromAlbum = function(){
 
         Utils.show();
 
@@ -85,6 +111,30 @@ angular.module('App').controller('settingUserController', function ($scope, $sta
         });
 
     };
+
+  $scope.downloadImage = function(urlImage){
+    var url = urlImage;
+    var targetPath = cordova.file.applicationStorageDirectory + "spzProfile.png";
+    $log.log("url " + url);
+    $log.log("targetPath " + targetPath);
+    var trustHosts = true
+    var options = {};
+
+    $cordovaFileTransfer.download(url, targetPath, options, trustHosts)
+      .then(function(result) {
+        // Success!
+        return result;
+        $log.log("Download image success" + angular.toJson(result));
+      }, function(err) {
+        // Error
+        return err;
+        $log.log("Download image Error" + angular.toJson(result));
+      }, function (progress) {
+        $timeout(function () {
+          $scope.downloadProgress = (progress.loaded / progress.total) * 100;
+        })
+      });
+  };
 
   }, false);
 

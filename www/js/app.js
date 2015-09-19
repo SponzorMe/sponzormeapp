@@ -92,7 +92,8 @@ $stateProvider
       url: "/organizerssettings",
       views: {
         'menuContent' :{
-          templateUrl: "views/users/settings-users.html"
+          templateUrl: "views/users/settings-users.html",
+          controller: 'settingUserController'
         }
       }
     })
@@ -142,7 +143,8 @@ $stateProvider
       url: "/sponzorsinvite",
       views: {
         'menuContent' :{
-          templateUrl: "views/users/invite-users.html"
+          templateUrl: "views/users/invite-users.html",
+          controller: "InviteUsersController"
         }
       }
     })

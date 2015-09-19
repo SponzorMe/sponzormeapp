@@ -1,4 +1,7 @@
-angular.module('App').controller('registerController', function ($scope, $state, userRequest, $translate, $log, Utils) {
+'use strict';
+(function () {
+angular.module('App')
+.controller('registerController', function ($scope, $state, userRequest, $translate, $log, Utils) {
   // we will store all of our form data in this object
   $scope.user = {};
   if(!angular.isDefined($scope.step)){
@@ -59,3 +62,4 @@ angular.module('App').controller('registerController', function ($scope, $state,
   };
 
 });
+})();
