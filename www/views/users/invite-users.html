@@ -2,6 +2,14 @@
       <ion-content padding="true" ng-init="init()">
         <form name="inviteForm" novalidate ng-submit="inviteForm.$valid && invitefriend(user)">
         <div class="has-header list">
+
+          <div class="card">
+              <div class="item item-divider">{{'INVITEUSERS.info_title' | translate}}
+              </div>
+
+
+        <div class="item item-text-wrap">
+
           <label class="item item-input item-floating-label inputwhite" ng-class="{ 'has-error' : forgotForm.txtemail.$invalid && forgotForm.$submitted }">
             <span class="input-label">{{"INVITEUSERS.email_field" | translate}}</span>
             <input name="txtemail" type="email" placeholder='{{"INVITEUSERS.email_field" | translate}}' ng-model="user.email"
@@ -19,6 +27,8 @@
             {{"INVITEUSERS.button_message" | translate}}
           </button>
         </div>
+      </div>
+    </div>
 
       </form>
     </ion-content>

@@ -113,9 +113,18 @@
         "content_page3": "You will be able to find the following:<br><br/><ul><li><b>Dashboard:</b> To come back to the search box.</li><li><b>Following:</b> The events you want to sponsor which hasn’t been accepted by the organizer yet.</li><li><b>Sponsored:</b> The events you are currently sponsoring, the agreements you have with the organizers, and activities that you might forget in the last minute such as sending those T-shirts.</li><li><b>Invite your friends :</b> Spread the love. Send it to someone that might need something like this and that will enjoy it.</li><li><b>Settings:</b>  You will be able to update your information and connect your external accounts.</li><li><b>Disconnect:</b>  You can log out of our platform in a safe way. We know this will be temporal because we love you.</li></ul>"
     },
     "INVITEUSERS":{
+        "info_title": "Invite your Friends",
         "invite_title": "Invite your friend",
         "email_field":"Friend's Email",
         "button_message":"Send"
+    },
+    "ADDEVENTS":{
+        "title_field" : "Title",
+        "location_field" : "Location",
+        "description_field" : "Description",
+        "starts_field" : "Starts",
+        "ends_field" : "Ends",
+        "button_message" : "Add Event"
     },
     "ERRORS": {
         "signin_ema_required": "This field is required.",
@@ -145,7 +154,16 @@
         "inviteform_ema_required": "This field is required.",
         "inviteform_ema_email": "This field is must be an email.",
         "inviteform_ema_maxlength": "This field is must be at least 5 characters.",
-        "inviteform_ema_minlength": "This field is must be less than 30 characters."
+        "inviteform_ema_minlength": "This field is must be less than 30 characters.",
+        "addeventsform_tit_required" : "This field is required.",
+        "addeventsform_tit_maxlength" : "This field is must be at least 5 characters.",
+        "addeventsform_tit_minlength" : "This field is must be less than 30 characters.",
+        "addeventsform_loc_required" : "This field is required.",
+        "addeventsform_loc_maxlength" : "This field is must be at least 5 characters.",
+        "addeventsform_loc_minlength" : "This field is must be less than 30 characters.",
+        "addeventsform_desc_required" : "This field is required.",
+        "addeventsform_desc_maxlength" : "This field is must be at least 5 characters.",
+        "addeventsform_desc_minlength" : "This field is must be less than 30 characters."
     },
     "MESSAGES": {
         "loading": "Loading...",

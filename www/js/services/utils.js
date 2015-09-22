@@ -23,6 +23,10 @@ angular.module('App').factory('Utils', function($ionicLoading,$ionicPopup,$trans
 			return str.replace(/^\s+|\s+$/g,"");
 		},
 
+		isUndefinedOrNull: function(val) {
+    return angular.isUndefined(val) || val === null
+		},
+
 		alertshow: function(tit,msg){
 			var alertPopup = $ionicPopup.alert({
 				title: tit,

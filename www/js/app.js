@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-angular.module('App', ['ionic', 'ngCordova' , 'pascalprecht.translate','ngMessages','ngStorage', 'base64', 'loginService','userService','imgurUploader'])
+angular.module('App', ['ionic', 'ngCordova' , 'pascalprecht.translate','ngMessages','ngStorage', 'base64', 'loginService','userService','imgurUploader','google.places'])
 .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 $stateProvider
     .state('signin', {
@@ -39,11 +39,11 @@ $stateProvider
       controller:"forgotController"
     })
     .state('menuorganizers.addevent', {
-      url: "/addevent",
+      url: "/menuorganizers/addevent",
       views: {
         'menuContent' :{
           templateUrl: "views/events/add-events.html",
-          controller: "EventsController"
+          controller: "AddEventsController"
         }
       }
     })
@@ -59,7 +59,8 @@ $stateProvider
       url: "/organizersevents",
       views: {
         'menuContent' :{
-          templateUrl: "views/events/dash-events.html"
+          templateUrl: "views/events/dash-events.html",
+          controller: "DashEventsController"
         }
       }
     })
