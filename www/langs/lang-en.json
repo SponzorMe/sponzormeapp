@@ -119,11 +119,12 @@
         "button_message":"Send"
     },
     "ADDEVENTS":{
+        "forgot_title" : "Add an Event",
         "title_field" : "Title",
         "location_field" : "Location",
         "description_field" : "Description",
-        "starts_field" : "Starts",
-        "ends_field" : "Ends",
+        "starts_field" : "Starts at",
+        "ends_field" : "Ends at",
         "button_message" : "Add Event"
     },
     "ERRORS": {

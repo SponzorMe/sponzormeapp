@@ -5,9 +5,8 @@
     "ionic": "driftyco/ionic-bower#1.1.0"
   },
   "dependencies": {
-    "ionic-datepicker": "~0.5.0",
-    "ionic-timepicker": "~0.2.0",
-    "angular-imgur-upload": "~0.0.1"
+    "angular-moment": "~0.10.3",
+    "ionic": "driftyco/ionic-bower#master"
   },
   "resolutions": {
     "angular": "1.4.3"

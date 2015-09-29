@@ -24,8 +24,17 @@
     "cordova-plugin-file",
     "cordova-plugin-device",
     "cordova-plugin-console",
-    "org.apache.cordova.camera",
-    "cordova-plugin-file-transfer"
+    "cordova-plugin-file-transfer",
+    "cordova-plugin-crosswalk-webview",
+    {
+      "locator": "https://github.com/timkalinowski/PhoneGap-Image-Resizer",
+      "id": "com.raananw.imageResizerTT"
+    },
+    {
+      "locator": "https://github.com/VitaliiBlagodir/cordova-plugin-datepicker.git",
+      "id": "cordova-plugin-datepicker"
+    },
+    "cordova-plugin-camera"
   ],
   "cordovaPlatforms": [
     "ios",

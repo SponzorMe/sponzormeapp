@@ -1,14 +1,14 @@
-<ion-view view-title='{{"ADDEVENTS.forgot_title" | translate}}' hide-back-button="true">
-  <ion-content padding="true" class="positive-bg">
+<ion-view view-title='{{"ADDEVENTS.forgot_title" | translate}}' hide-back-button="false">
+  <ion-content padding="true">
+    <div class="has-header list">
     <div class="card">
     <div class="item item-divider">
-    Add new Event
+    {{"ADDEVENTS.forgot_title" | translate}}
     </div>
     <div class="item item-text-wrap">
     <form name="addeventsForm" novalidate ng-submit="addeventsForm.$valid && addEvent(event)">
-   <div style="has-header list">
-     <label class="item item-input item-floating-label inputwhite" ng-class="{ 'has-error' : addeventsForm.txttitle.$invalid && addeventsForm.$submitted }">
-       <span class="input-label">{{"ADDEVENTS.title_field" | translate}}</span>
+
+     <label class="item item-input" ng-class="{ 'has-error' : addeventsForm.txttitle.$invalid && addeventsForm.$submitted }">
        <input name="txttitle" type="text" placeholder='{{"ADDEVENTS.title_field" | translate}}' ng-model="event.title"
        ng-minlength="5"
        ng-maxlength="30"
@@ -20,8 +20,7 @@
         <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_tit_minlength" | translate}}</div>
       </div>
 
-      <label class="item item-input item-floating-label inputwhite" ng-class="{ 'has-error' : addeventsForm.txtloc.$invalid && addeventsForm.$submitted }">
-        <span class="input-label">{{"ADDEVENTS.location_field" | translate}}</span>
+      <label class="item item-input" ng-class="{ 'has-error' : addeventsForm.txtloc.$invalid && addeventsForm.$submitted }">
         <input name="txtloc" type="text" placeholder='{{"ADDEVENTS.location_field" | translate}}' ng-model="event.location"
         ng-minlength="5"
         ng-maxlength="30"
@@ -33,12 +32,12 @@
          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_loc_minlength" | translate}}</div>
        </div>
 
-       <label class="item item-input item-floating-label inputwhite" ng-class="{ 'has-error' : addeventsForm.txtdesc.$invalid && addeventsForm.$submitted }">
-         <span class="input-label">{{"ADDEVENTS.description_field" | translate}}</span>
-         <textarea name="txtdesc" placeholder='{{"ADDEVENTS.description_field" | translate}}' ng-model="event.description"
+       <label class="item item-input" ng-class="{ 'has-error' : addeventsForm.txtdesc.$invalid && addeventsForm.$submitted }">
+        <textarea name="txtdesc" placeholder='{{"ADDEVENTS.description_field" | translate}}' ng-model="event.description"
          ng-minlength="5"
          ng-maxlength="30"
          required>
+       </textarea>
        </label>
         <div class="form-errors" ng-messages="addeventsForm.description_field.$error" ng-if="addeventsForm.$invalid && addeventsForm.$submitted">
           <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_desc_required" | translate}}</div>
@@ -47,13 +46,65 @@
         </div>
 
 
-      <div class="">
+        <label class="item item-input">
+          <input name="txtstart" type="text" ngReadonly="true" ng-model="event.start" placeholder="Date start" ng-click="selectStart()"
+          ng-minlength="5"
+          ng-maxlength="30"
+          required>
+        </label>
+
+        <label class="item item-input">
+          <input name="txtstarttime" type="text" ngReadonly="true" placeholder='Time start' ng-model="event.starttime" ng-click="selectStartTime()"
+          required>
+        </label>
+
+        <label class="item item-input">
+          <input name="txtend" type="text" ngReadonly="true" placeholder='{{"ADDEVENTS.ends_field" | translate}}' ng-model="event.end" value="{{ event.end | date:'yyyy-MM-dd HH:mm:ss Z'}}" ng-click="selectEnd()"
+          ng-minlength="5"
+          ng-maxlength="30"
+          required>
+        </label>
+
+        <label class="item item-input">
+          <input name="txtendtime" type="text" ngReadonly="true" placeholder='Time End' ng-model="event.endtime" ng-click="selectEndTime()"
+          required>
+        </label>
+
+        <label class="item item-radio">
+          <input type="radio" ng-model="event.public" value="0">
+          <div class="item-content">
+            Public - List this in SponzorMe for everyone.
+          </div>
+          <input type="radio" ng-model="event.public" value="1">
+          <div class="item-content">
+            Private - Don't list this in SponzorMe for everyone.
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Event type
+          </div>
+          <select name="selType" ng-model="event.type">
+            <option value="0">Outdoor</option>
+            <option selected value="1">Technology</option>
+            <option value="2">Belief</option>
+          </select>
+        </label>
+
+        <div class="item" align="center">
+          <i class="icon ion-image" ng-show="imageURI === ''" ng-click="getPhoto()" style="font-size: 90px;"></i>
+          <img ng-hide="imageURI === ''" ng-src="{{imageURI}}" width="100%" />
+        </div>
+
+
         <button type="submit" class="button button-block button-calm">
           {{"ADDEVENTS.button_message" | translate}}
         </button>
-      </div>
-    </div>
-  </form>
+
+      </form>
+  </div>
   </div>
   </div>
   </ion-content>
