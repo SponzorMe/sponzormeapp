@@ -1,5 +1,5 @@
 <ion-view view-title='{{"ADDEVENTS.forgot_title" | translate}}' hide-back-button="false">
-  <ion-content padding="true">
+  <ion-content padding="true" ng-init="init()">
     <div class="has-header list">
     <div class="card">
     <div class="item item-divider">
@@ -47,26 +47,26 @@
 
 
         <label class="item item-input">
-          <input name="txtstart" type="text" ngReadonly="true" ng-model="event.start" placeholder="Date start" ng-click="selectStart()"
+          <input name="txtstart" type="text" ngReadonly="true" ng-model="event.start" placeholder='{{"ADDEVENTS.starts_field1" | translate}}' ng-click="selectStart()"
           ng-minlength="5"
           ng-maxlength="30"
           required>
         </label>
 
         <label class="item item-input">
-          <input name="txtstarttime" type="text" ngReadonly="true" placeholder='Time start' ng-model="event.starttime" ng-click="selectStartTime()"
+          <input name="txtstarttime" type="text" ngReadonly="true" placeholder='{{"ADDEVENTS.starts_field2" | translate}}' ng-model="event.starttime" ng-click="selectStartTime()"
           required>
         </label>
 
         <label class="item item-input">
-          <input name="txtend" type="text" ngReadonly="true" placeholder='{{"ADDEVENTS.ends_field" | translate}}' ng-model="event.end" value="{{ event.end | date:'yyyy-MM-dd HH:mm:ss Z'}}" ng-click="selectEnd()"
+          <input name="txtend" type="text" ngReadonly="true" placeholder='{{"ADDEVENTS.ends_field1" | translate}}' ng-model="event.end" value="{{ event.end | date:'yyyy-MM-dd HH:mm:ss Z'}}" ng-click="selectEnd()"
           ng-minlength="5"
           ng-maxlength="30"
           required>
         </label>
 
         <label class="item item-input">
-          <input name="txtendtime" type="text" ngReadonly="true" placeholder='Time End' ng-model="event.endtime" ng-click="selectEndTime()"
+          <input name="txtendtime" type="text" ngReadonly="true" placeholder='{{"ADDEVENTS.ends_field2" | translate}}' ng-model="event.endtime" ng-click="selectEndTime()"
           required>
         </label>
 

@@ -123,8 +123,10 @@
         "title_field" : "Title",
         "location_field" : "Location",
         "description_field" : "Description",
-        "starts_field" : "Starts at",
-        "ends_field" : "Ends at",
+        "starts_field1" : "Date Starts",
+        "starts_field2" : "Time Starts",
+        "ends_field1" : "Date Ends",
+        "ends_field2" : "Time Ends",
         "button_message" : "Add Event"
     },
     "ERRORS": {

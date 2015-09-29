@@ -4,10 +4,11 @@
 * @author Sebastian
 * @version 0.1
 */
-angular.module('App', ['ngCookies'])
-	.factory('eventRequest', function($http,$cookies) {
-		var path = "http://api.sponzor.me/"; //API path
-		var token = $cookies.get('token');
+angular.module('eventService', ['ngStorage'])
+	.factory('eventRequest', function($http,$localStorage,$log,BackendVariables) {
+		var path = BackendVariables.url; //API path
+		var token = $localStorage.token;
+		$log.info("Token in userService:", token);
 		return {
 			allEvents : function(){
 				return $http.get(path + 'events');

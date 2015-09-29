@@ -1,12 +1,7 @@
 'use strict';
 (function(){
 angular.module("App")
-.controller("AddEventsController", function( $scope, $state, $location, $log, $cordovaDatePicker, Camera){
-  $scope.imageURI = "";
-  $scope.event = [];
-  $scope.event.start = "";
-  $scope.event.end = "";
-
+.controller("AddEventsController", function( $scope, $state, $location, $log, $cordovaDatePicker, Camera,eventRequest){
 
 
   document.addEventListener("deviceready", function () {
@@ -108,9 +103,23 @@ angular.module("App")
 
   }, false);
 
+  $scope.init = function(){
+    $scope.imageURI = "";
+    $scope.event = {};
+  };
 
   $scope.addEvent = function(event){
     $log.log("add Event" + angular.toJson(event));
+
+    $scope.objuser = {}
+
+    eventRequest.createUser($scope.objuser).success(function(adata){
+          $log.log("adata=" + angular.toJson(adata));
+
+    }).
+    error(function (data, status, headers, config) {
+
+        });
   };
 
 });
