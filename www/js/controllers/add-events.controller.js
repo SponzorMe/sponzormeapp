@@ -1,7 +1,7 @@
 'use strict';
 (function(){
 angular.module("App")
-.controller("AddEventsController", function( $scope, $state, $location, $log, $cordovaDatePicker, Camera,eventRequest){
+.controller("AddEventsController", function( $scope, $state, $location, $log, $translate, $localStorage, $cordovaDatePicker, Camera, eventRequest, Utils, $imgur, imgurConfig){
 
 
   document.addEventListener("deviceready", function () {
@@ -20,6 +20,7 @@ angular.module("App")
     Camera.getPicture(optionsCamera).then(function(imageURI) {
       $log.log(imageURI);
       $scope.imageURI = "data:image/jpeg;base64," + imageURI;
+      //TODO upload image to imgur and update $scope.event.image
     }, function(err) {
       $log.log(err);
     });
@@ -109,16 +110,37 @@ angular.module("App")
   };
 
   $scope.addEvent = function(event){
+    Utils.show();
     $log.log("add Event" + angular.toJson(event));
 
-    $scope.objuser = {}
+    $scope.objevent = {}
+    $scope.objevent.title = $scope.event.title;
+    $scope.objevent.location = $scope.event.location;
+    $scope.objevent.location_reference = "referencia";
+    $scope.objevent.description = $scope.event.description;
+    $scope.objevent.starts = $scope.event.start;
+    //$scope.objevent.starttime = $scope.event.starttime;
+    $scope.objevent.ends = $scope.event.end;
+    //$scope.objevent.image = $scope.event.image;
+    //$scope.objevent.image = $scope.event.image;
+    $scope.objevent.image = "http://i.imgur.com/t8YehGM.jpg";
+    $scope.objevent.privacy = $scope.event.public;
+    $scope.objevent.lang = $translate.use();
+    $scope.objevent.organizer = $localStorage.userAuth.id;
+    $scope.objevent.category = 1;
+    $scope.objevent.type = $scope.event.type;
 
-    eventRequest.createUser($scope.objuser).success(function(adata){
+
+    $log.log("Event curated:" + angular.toJson($scope.objevent));
+
+    eventRequest.createEvent($scope.objevent).success(function(adata){
           $log.log("adata=" + angular.toJson(adata));
+          Utils.hide();
 
     }).
     error(function (data, status, headers, config) {
-
+          $log.error('Error fetching feed:', angular.toJson(data));
+          Utils.hide();
         });
   };
 
