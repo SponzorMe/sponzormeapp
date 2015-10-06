@@ -16,6 +16,7 @@ angular.module('userService', ['ngStorage'])
 				return $http.get(path + 'users');
 			},
 			oneUser : function(userId){
+				$http.defaults.headers.common['Authorization'] = 'Basic ' + token;
 				return $http.get(path + 'users/' + userId);
 			},
 			createUser : function(data){

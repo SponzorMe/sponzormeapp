@@ -1,49 +1,30 @@
-<ion-view view-title="Dashboard">
-      <ion-content class="padding">
-      <div class="has-header list">
-        <div class="card">
-        <div class="item item-divider">
-        Events
-        </div>
-        <div class="item item-text-wrap">
-        <div class="row">
-        <div class="col">Name</div>
-        <div class="col">Email</div>
-        <div class="col">State</div>
-        <div class="col">Option</div>
-        </div>
-        <div class="row">
-        <div class="col">Juan Topo</div>
-        <div class="col">juantopo@dispostable.com</div>
-        <div class="col">Approved</div>
-        <div class="col">Option</div>
-        </div>
-        </div>
+<ion-view view-title="Events">
+  <ion-nav-bar class="bar-positive">
+    <ion-nav-back-button>
+    </ion-nav-back-button>
 
-        </div>
-        <div class="card">
-        <div class="item item-divider">
-        Perks
-        </div>
-        <div class="item item-text-wrap">
-        <div class="row">
-        <div class="col">Name</div>
-        <div class="col">Email</div>
-        <div class="col">State</div>
-        <div class="col">Option</div>
-        </div>
-        <div class="row">
-        <div class="col">Juan Topo</div>
-        <div class="col">juantopo@dispostable.com</div>
-        <div class="col">Approved</div>
-        <div class="col">Option</div>
-        </div>
-        </div>
+    <ion-nav-buttons side="left">
+      <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+      </button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+      <button class="button button-icon button-clear ion-plus-round" ng-click="newEvent()">
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+      <ion-content class="padding" ng-init="init()">
 
+      <div class="has-header list" ng-show="events.length>0">
+        <div class="row calm item ng-hide" ng-show="events.length>0" >
+         <div class="col">Title</div>
+         <div class="col">Date</div>
+         <div class="col">Location</div>
+       </div>
+        <div class="row item ng-hide" ng-show="events.length>0" collection-repeat="event in events">
+        <div class="col">{{event.title}}</div>
+        <div class="col">{{event.starts | date:'shortTime'}}</div>
+        <div class="col">{{event.location}}</div>
         </div>
-        <button class="button button-block button-positive" ng-click="newEvent()">
-          Add Event
-        </button>
-      </div>
+    </div>
     </ion-content>
 </ion-view>

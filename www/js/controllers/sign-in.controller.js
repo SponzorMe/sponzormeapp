@@ -6,7 +6,6 @@ angular.module('App')
   $scope.init = function(){
     //check the session
     if(userRequest.checkSession($localStorage.token,$localStorage.userAuth)){
-
       if($localStorage.userAuth.type == 0){ // is an Organizer
           if($localStorage.userAuth.demo == 0)
           {
