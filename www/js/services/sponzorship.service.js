@@ -4,10 +4,10 @@
 * @author Sebastian
 * @version 0.1
 */
-angular.module('App', ['ngCookies'])
-	.factory('sponzorshipRequest', function($http,$cookies) {
-		var path = "http://api.sponzor.me/"; //API path
-		var token = $cookies.get('token');
+angular.module('sponzorshipService', ['ngCookies'])
+	.factory('sponzorshipRequest', function($http,$localStorage,$log, BackendVariables) {
+		var path = BackendVariables.url; //API path
+		var token = $localStorage.token;
 		return {
 			allSponzorships : function(){
 				return $http.get(path + 'sponzorships');
