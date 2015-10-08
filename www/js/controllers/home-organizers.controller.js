@@ -1,7 +1,7 @@
 'use strict';
 (function(){
 angular.module('App')
-.controller('HomeOrganizersController', function ($scope, $state, $log, $location, $localStorage, userRequest, Utils) {
+.controller('HomeOrganizersController', function ($scope, $state, $log, $location, $localStorage, userRequest, sponzorshipRequest, Utils) {
   $scope.events = [];
 
   $scope.init = function(){
@@ -15,7 +15,7 @@ angular.module('App')
           element.starts = moment(element.starts).format('MMMM Do YYYY');
           $scope.events.push(element);
           if($scope.events.length > 3 ){
-            $scope.pop();
+            $scope.events.shift();
           }
         });
         Utils.hide();
@@ -26,6 +26,15 @@ angular.module('App')
         Utils.hide();
     });
   };
+
+  sponzorshipRequest.allSponzorships().success(function(adata2){
+    $log.log("all perks", angular.toJson(adata2));
+    
+  }
+  ).
+  error(function(data2, status, headers, config){
+      $log.error("Error when get events", angular.toJson(data2));
+  });
 
   });
 })();

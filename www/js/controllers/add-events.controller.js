@@ -19,8 +19,20 @@ angular.module("App")
         };
     Camera.getPicture(optionsCamera).then(function(imageURI) {
       $log.log(imageURI);
+      var imageData = imageURI;
       $scope.imageURI = "data:image/jpeg;base64," + imageURI;
       //TODO upload image to imgur and update $scope.event.image
+      var params = {
+        image: imageData
+      };
+      $imgur.imageUpload(params).
+      then(function(response) {
+        $log.log("Response: " + angular.toJson(response));
+        $scope.event.image = response.data.link;
+        $log.log("Event.image ", $scope.event.image);
+      }, function(reason) {
+        $log.error('Failed: ' + angular.toJson(reason));
+      });
     }, function(err) {
       $log.log(err);
     });
@@ -40,7 +52,7 @@ angular.module("App")
       };
 
       $cordovaDatePicker.show(options).then(function(date){
-          $scope.event.start = moment(date).format('MMMM Do YYYY');
+          $scope.event.start = moment(date).format('YYYY-MM-DD');
           $log.log("event start", $scope.event.start);
       });
     };
@@ -59,7 +71,7 @@ angular.module("App")
       };
 
       $cordovaDatePicker.show(options2).then(function(date2){
-          $scope.event.end = moment(date2).format('MMMM Do YYYY');
+          $scope.event.end = moment(date2).format('YYYY-MM-DD');
           $log.log("event end", $scope.event.end);
       });
     };
@@ -78,7 +90,7 @@ angular.module("App")
       };
 
       $cordovaDatePicker.show(options).then(function(date3){
-          $scope.event.starttime = moment(date3).format('h:mm:ss a');
+          $scope.event.starttime = moment(date3).format('HH:mm:ss');
           $log.log("event start time", $scope.event.starttime);
       });
     };
@@ -97,7 +109,7 @@ angular.module("App")
       };
 
       $cordovaDatePicker.show(options).then(function(date4){
-          $scope.event.endtime = moment(date4).format('h:mm:ss a');
+          $scope.event.endtime = moment(date4).format('HH:mm:ss');
           $log.log("event start time", $scope.event.endtime);
       });
     };
@@ -113,17 +125,36 @@ angular.module("App")
     Utils.show();
     $log.log("add Event" + angular.toJson(event));
 
+    var timeini, dateini, timedate;
+
     $scope.objevent = {}
     $scope.objevent.title = $scope.event.title;
     $scope.objevent.location = $scope.event.location;
     $scope.objevent.location_reference = "referencia";
     $scope.objevent.description = $scope.event.description;
-    $scope.objevent.starts = $scope.event.start;
+    dateini = moment($scope.event.start,"YYYY-MM-DD").format("YYYY-MM-DD");
+    $log.log("dateini ", dateini);
+    timeini = moment(dateini + " " + $scope.event.starttime).format("HH:mm:ss");
+    $log.log("timeini ", timeini);
+    timedate = dateini + " " + timeini;
+    $log.log("timedate ", timedate);
+    $scope.objevent.starts = timedate;
     //$scope.objevent.starttime = $scope.event.starttime;
     $scope.objevent.ends = $scope.event.end;
+    dateini = moment($scope.event.end).format("YYYY-MM-DD");
+    $log.log("datefin ", dateini);
+    timeini = moment(dateini + " " + $scope.event.endtime).format("HH:mm:ss");
+    $log.log("timefin ", timeini);
+    timedate = dateini + " " + timeini;
+    $log.log("timedate ", timedate);
     //$scope.objevent.image = $scope.event.image;
     //$scope.objevent.image = $scope.event.image;
+    if(angular.isDefined($scope.event.image)){
+      $scope.objevent.image = $scope.event.image;
+    }
+    else{
     $scope.objevent.image = "http://i.imgur.com/t8YehGM.jpg";
+    }
     $scope.objevent.privacy = $scope.event.public;
     $scope.objevent.lang = $translate.use();
     $scope.objevent.organizer = $localStorage.userAuth.id;
@@ -135,12 +166,20 @@ angular.module("App")
 
     eventRequest.createEvent($scope.objevent).success(function(adata){
           $log.log("adata=" + angular.toJson(adata));
+
           Utils.hide();
+          if(Utils.trim(adata.message) === "Inserted"){
+            Utils.alertshow($translate.instant("MESSAGES.succ_event_tit"),$translate.instant("MESSAGES.succ_event_mess"));
+            $scope.event = {};
+            $state.go("menuorganizers.organizershome");
+          }
 
     }).
     error(function (data, status, headers, config) {
           $log.error('Error fetching feed:', angular.toJson(data));
+          $scope.event = {};
           Utils.hide();
+          Utils.alertshow($translate.instant("ERRORS.addeventsform_error_tit"),$translate.instant("ERRORS.addeventsform_error_mess"));
         });
   };
 

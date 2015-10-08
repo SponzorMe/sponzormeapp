@@ -79,6 +79,7 @@ angular.module('App')
                 var user = {};
                 $log.log("id de usuario:" + $localStorage.userAuth.id);
                 user.demo = 1;
+
                 userRequest.editUserPatch($localStorage.userAuth.id, user)
               .success(function(response){
                 $log.log("response" +  angular.toJson(response));
@@ -91,6 +92,7 @@ angular.module('App')
               .finally(function() {
                   $log.log("finally finished editUserPatch");
                 });
+
 
               }
               else{

@@ -166,11 +166,15 @@
         "addeventsform_loc_minlength" : "This field is must be less than 30 characters.",
         "addeventsform_desc_required" : "This field is required.",
         "addeventsform_desc_maxlength" : "This field is must be at least 5 characters.",
-        "addeventsform_desc_minlength" : "This field is must be less than 30 characters."
+        "addeventsform_desc_minlength" : "This field is must be less than 30 characters.",
+        "addeventsform_error_tit": "Error",
+        "addeventsform_error_mess": "Ops, Something happened. Try later"
     },
     "MESSAGES": {
         "loading": "Loading...",
         "succ_user_tit": "Info",
-        "succ_user_mess": "Cool, User Created."
+        "succ_user_mess": "Cool, User Created.",
+        "succ_event_tit": "Info",
+        "succ_event_mess": "Cool, Event Created"
     }
 }

@@ -17,6 +17,11 @@
     <div class="item item-text-wrap">
     <form name="addeventsForm" novalidate ng-submit="addeventsForm.$valid && addEvent(event)">
 
+      <div class="item" align="center">
+        <i class="icon ion-image" ng-show="imageURI === ''" ng-click="getPhoto()" style="font-size: 90px;"></i>
+        <img ng-hide="imageURI === ''" ng-src="{{imageURI}}" width="65%" />
+      </div>
+
      <label class="item item-input" ng-class="{ 'has-error' : addeventsForm.txttitle.$invalid && addeventsForm.$submitted }">
        <input name="txttitle" type="text" placeholder='{{"ADDEVENTS.title_field" | translate}}' ng-model="event.title"
        ng-minlength="5"
@@ -101,12 +106,6 @@
             <option value="7">Belief</option>
           </select>
         </label>
-
-        <div class="item" align="center">
-          <i class="icon ion-image" ng-show="imageURI === ''" ng-click="getPhoto()" style="font-size: 90px;"></i>
-          <img ng-hide="imageURI === ''" ng-src="{{imageURI}}" width="100%" />
-        </div>
-
 
         <button type="submit" class="button button-block button-calm">
           {{"ADDEVENTS.button_message" | translate}}

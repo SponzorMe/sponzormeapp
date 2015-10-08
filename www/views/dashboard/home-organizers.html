@@ -9,22 +9,39 @@
     </ion-nav-buttons>
   </ion-nav-bar>
       <ion-content padding="true" ng-init="init()">
-        <div class="has-header list" ng-show="events.length>0">
-          <div class="row calm item ng-hide" ng-show="events.length>0" >
+        <ion-list class="has-header list" ng-show="events.length>0">
+          <ion-item  class="row calm item ng-hide" ng-show="events.length>0" >
            <div class="col" align="center">Events</div>
-         </div>
-        <div class="has-header list" ng-show="events.length>0">
-          <div class="row calm item ng-hide" ng-show="events.length>0" >
+         </ion-item >
+          <ion-item  class="row calm item ng-hide" ng-show="events.length>0" >
            <div class="col">Title</div>
            <div class="col">Date</div>
-         </div>
-          <div class="row item ng-hide" ng-show="events.length>0" collection-repeat="event in events">
+         </ion-item >
+          <ion-item  class="row item ng-hide" ng-show="events.length>0" ng-repeat="event in events">
           <div class="col">{{event.title}}</div>
           <div class="col">{{event.starts}}</div>
-          </div>
-          <div class="row calm item ng-hide" ng-show="events.length>0" >
-           <div class="col" align="right"><a class="button button-clear button-positive margin" href="#/menuorganizers/organizersevents">More...</a></div>
-         </div>
-      </div>
+          </ion-item>
+          <ion-item class="row item ng-hide" ng-show="events.length>0">
+            <a class="button button-positive" href="#/menuorganizers/organizersevents">More...</a>
+          </ion-item>
+        </ion-list>
+
+        <ion-list class="list" ng-show="events.length>0">
+          <ion-item  class="row calm item ng-hide" ng-show="events.length>0" >
+           <div class="col" align="center">Perks</div>
+         </ion-item >
+          <ion-item  class="row calm item ng-hide" ng-show="events.length>0" >
+           <div class="col">Title</div>
+           <div class="col">Date</div>
+         </ion-item >
+          <ion-item  class="row item ng-hide" ng-show="events.length>0" ng-repeat="event in events">
+          <div class="col">{{event.title}}</div>
+          <div class="col">{{event.starts}}</div>
+          </ion-item>
+          <ion-item class="row item ng-hide" ng-show="events.length>0">
+            <a class="button button-positive" href="#/menuorganizers/organizersevents">More...</a>
+          </ion-item>
+        </ion-list>
+
     </ion-content>
 </ion-view>
