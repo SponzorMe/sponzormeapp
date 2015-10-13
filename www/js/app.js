@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-angular.module('App', ['ionic', 'ngCordova' , 'pascalprecht.translate','ngMessages','ngStorage', 'base64', 'loginService','userService','eventService', 'sponzorshipService','imgurUploader', 'google.places'])
+angular.module('App', ['ionic', 'ngCordova' , 'pascalprecht.translate','ngMessages','ngStorage', 'base64', 'loginService','userService','eventService', 'sponzorshipService','eventService','perkService','imgurUploader', 'google.places'])
 .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 $stateProvider
     .state('signin', {
@@ -39,7 +39,7 @@ $stateProvider
       controller:"forgotController"
     })
     .state('menuorganizers.addevent', {
-      url: "/menuorganizers/addevent",
+      url: "/addevent",
       views: {
         'menuContent' :{
           templateUrl: "views/events/add-events.html",
@@ -66,7 +66,7 @@ $stateProvider
       }
     })
     .state('menuorganizers.organizerssponzors', {
-      url: "/sponzorsorganizers",
+      url: "/organizerssponzors",
       views: {
         'menuContent' :{
           templateUrl: "views/sponzors/dash-sponzors.html"
@@ -96,14 +96,6 @@ $stateProvider
         'menuContent' :{
           templateUrl: "views/users/settings-users.html",
           controller: 'settingUserController'
-        }
-      }
-    })
-    .state('menuorganizers.organizerlogout', {
-      url: "/organizerlogout",
-      views: {
-        'menuContent' :{
-          templateUrl: "views/users/sign-in.html"
         }
       }
     })
@@ -147,14 +139,6 @@ $stateProvider
         'menuContent' :{
           templateUrl: "views/users/invite-users.html",
           controller: "InviteUsersController"
-        }
-      }
-    })
-    .state('menuorganizers.sponzorslogout', {
-      url: "/sponzorslogout",
-      views: {
-        'menuContent' :{
-          templateUrl: "views/users/sign-in.html"
         }
       }
     })

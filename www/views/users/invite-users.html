@@ -1,4 +1,13 @@
 <ion-view view-title='{{"INVITEUSERS.invite_title" | translate}}'>
+  <ion-nav-bar class="bar-positive">
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+
+    <ion-nav-buttons side="left">
+      <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
       <ion-content padding="true" ng-init="init()">
         <form name="inviteForm" novalidate ng-submit="inviteForm.$valid && invitefriend(user)">
         <div class="has-header list">

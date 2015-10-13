@@ -3,6 +3,7 @@
 angular.module('App')
 .controller('HomeOrganizersController', function ($scope, $state, $log, $location, $localStorage, userRequest, sponzorshipRequest, Utils) {
   $scope.events = [];
+  $scope.sponzorships = [];
 
   $scope.init = function(){
     Utils.show();
@@ -25,16 +26,20 @@ angular.module('App')
         $log.error("Error when get events", angular.toJson(data));
         Utils.hide();
     });
+
+
+
+    sponzorshipRequest.organizerSponzors(userId).success(function(adata2){
+      $log.log("all perks", angular.toJson(adata2));
+      //TODO get the last three Sponzorships and save in $scope.sponzorships
+    }
+    ).
+    error(function(data2, status, headers, config){
+        $log.error("Error when get events", angular.toJson(data2));
+    });
   };
 
-  sponzorshipRequest.allSponzorships().success(function(adata2){
-    $log.log("all perks", angular.toJson(adata2));
-    
-  }
-  ).
-  error(function(data2, status, headers, config){
-      $log.error("Error when get events", angular.toJson(data2));
-  });
+
 
   });
 })();

@@ -1,8 +1,19 @@
 'use strict';
 (function(){
 angular.module("App")
-.controller("AddEventsController", function( $scope, $state, $location, $log, $translate, $localStorage, $cordovaDatePicker, Camera, eventRequest, Utils, $imgur, imgurConfig){
+.controller("AddEventsController", function( $scope, $state, $location, $log, $translate, $localStorage, $cordovaDatePicker, Camera, eventRequest, perkRequest, Utils, $imgur, imgurConfig){
+    var counter=0;
+    $scope.questionelemnt = [];
 
+    $scope.newItem = function($event){
+        $scope.questionelemnt.push(  { id:counter, text1 : '', text2 : '',text3 : '', answer : ''} );
+        $event.preventDefault();
+        counter++;
+    };
+
+    $scope.showitems = function($event){
+        $('#displayitems').css('visibility','none');
+    };
 
   document.addEventListener("deviceready", function () {
     $scope.getPhoto = function() {
@@ -123,6 +134,10 @@ angular.module("App")
 
   $scope.addEvent = function(event){
     Utils.show();
+
+    var idEvent = "";
+
+
     $log.log("add Event" + angular.toJson(event));
 
     var timeini, dateini, timedate;
@@ -166,6 +181,34 @@ angular.module("App")
 
     eventRequest.createEvent($scope.objevent).success(function(adata){
           $log.log("adata=" + angular.toJson(adata));
+          idEvent = adata.event.id;
+          $log.log("idEvent" + idEvent);
+
+          // TODO create the sponzors first.
+          var objperk = {};
+          //Utils.show();
+          angular.forEach($scope.questionelemnt,function(value,key){
+              $log.log("Sponzor Values text1" +  value.text1 + "Value text2" + value.text2 +  " key " + key);
+              objperk.kind = value.text1;
+              objperk.total_quantity = value.text2;
+              objperk.usd = value.text3;
+              objperk.reserved_quantity = 0;
+              objperk.id_event = idEvent;
+
+              perkRequest.createPerk(objperk)
+              .success(
+                function(result){
+                  $log.log("result" + angular.toJson(result));
+                }
+              )
+              .error(function(data,status, headers, config){
+                $log.log("Result" +  angular.toJson(data));
+              }
+            );
+          });
+          //Utils.hide();
+
+
 
           Utils.hide();
           if(Utils.trim(adata.message) === "Inserted"){
@@ -181,6 +224,9 @@ angular.module("App")
           Utils.hide();
           Utils.alertshow($translate.instant("ERRORS.addeventsform_error_tit"),$translate.instant("ERRORS.addeventsform_error_mess"));
         });
+
+
+
   };
 
 });

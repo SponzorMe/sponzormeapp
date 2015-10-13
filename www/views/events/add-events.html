@@ -9,14 +9,14 @@
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content padding="true" ng-init="init()">
+    <form name="addeventsForm" novalidate ng-submit="addeventsForm.$valid && addEvent(event)">
     <div class="has-header list">
     <div class="card">
     <div class="item item-divider">
     {{"ADDEVENTS.forgot_title" | translate}}
     </div>
-    <div class="item item-text-wrap">
-    <form name="addeventsForm" novalidate ng-submit="addeventsForm.$valid && addEvent(event)">
 
+      <div class="item item-text-wrap">
       <div class="item" align="center">
         <i class="icon ion-image" ng-show="imageURI === ''" ng-click="getPhoto()" style="font-size: 90px;"></i>
         <img ng-hide="imageURI === ''" ng-src="{{imageURI}}" width="65%" />
@@ -84,16 +84,14 @@
           required>
         </label>
 
-        <label class="item item-radio">
-          <input type="radio" ng-model="event.public" value="0">
-          <div class="item-content">
-            Public - List this in SponzorMe for everyone.
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Access
           </div>
-          <input type="radio" ng-model="event.public" value="1">
-          <div class="item-content">
-            Private - Don't list this in SponzorMe for everyone.
-          </div>
-          <i class="radio-icon ion-checkmark"></i>
+          <select name="selType" ng-model="event.public">
+            <option selected value="0">Public</option>
+            <option value="1">Private</option>
+          </select>
         </label>
 
         <label class="item item-input item-select">
@@ -107,13 +105,54 @@
           </select>
         </label>
 
-        <button type="submit" class="button button-block button-calm">
+        <!-- -->
+
+
+    </div>
+</div>
+
+        <!-- -->
+        <div class="card">
+        <div class="item item-divider">
+        Type of Sponzor
+        </div>
+        <div class="item item-text-wrap">
+          <div>
+              <ul>
+                  <li ng-repeat="elemnt in questionelemnt">
+
+                      <div>
+                          <div>
+                              <span>
+                                  <input name="{{elemnt.id}}text1" type="text" ng-model="elemnt.text1" placeholder="Type of Sponzor" required/>
+                                  <input name="{{elemnt.id}}text2" type="text" ng-model="elemnt.text2" placeholder="Quantity" required/>
+                                  <input name="{{elemnt.id}}text3" type="text" ng-model="elemnt.text3" placeholder="Price" required/>
+                              </span>
+                          </div>
+                          <span ng-hide="elemnt.length == 1">
+                              <a href ng-click="questionelemnt.splice($index, 1)" class="button button-clear button-calm">remove</a>
+                          </span>
+                      </div>
+                      <hr/>
+                  </li>
+                  <li>
+                      <a href ng-click="newItem($event)" class="button button-block button-calm">New Sponzor</a>
+                  </li>
+              </ul>
+          </div>
+        </div>
+        </div>
+
+        <button type="submit" class="button button-block button-calm" ng-show="questionelemnt.length > 0">
           {{"ADDEVENTS.button_message" | translate}}
         </button>
 
-      </form>
+
+
+  </div>
+
   </div>
   </div>
-  </div>
+  </form>
   </ion-content>
 </ion-view>

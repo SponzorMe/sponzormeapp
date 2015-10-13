@@ -17,6 +17,10 @@ angular.module('sponzorshipService', ['ngCookies'])
 				return $http.get(path + 'sponzorships/' + sponzorshipId);
 
 			},
+			organizerSponzors : function(organizerId){
+				return $http.get(path + 'sponzorships_organizer/' + organizerId);
+
+			},
 			createSponzorship : function(data){
 				return $http({
 					method: 'POST',
