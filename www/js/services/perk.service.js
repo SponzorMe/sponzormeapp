@@ -4,7 +4,7 @@
 * @author Sebastian
 * @version 0.1
 */
-angular.module('perkService', ['ngCookies'])
+angular.module('perkService',['ngStorage'])
 	.factory('perkRequest', function($http, $localStorage,$log, BackendVariables) {
 		var path = BackendVariables.url; //API path
 		var token = $localStorage.token;

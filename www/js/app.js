@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-angular.module('App', ['ionic', 'ngCordova' , 'pascalprecht.translate','ngMessages','ngStorage', 'base64', 'loginService','userService','eventService', 'sponzorshipService','eventService','perkService','imgurUploader', 'google.places'])
+angular.module('App', ['ionic', 'ngCordova' , 'pascalprecht.translate','ngMessages','ngStorage', 'base64', 'loginService','userService','eventService', 'sponzorshipService','eventService','perkService', 'perkTaskService', 'sponzorshipService' ,'imgurUploader', 'google.places'])
 .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 $stateProvider
     .state('signin', {
@@ -69,7 +69,8 @@ $stateProvider
       url: "/organizerssponzors",
       views: {
         'menuContent' :{
-          templateUrl: "views/sponzors/dash-sponzors.html"
+          templateUrl: "views/sponzors/dash-sponzors.html",
+          controller: "DashSponzorsController"
         }
       }
     })
@@ -77,7 +78,17 @@ $stateProvider
       url: "/organizerstask",
       views: {
         'menuContent' :{
-          templateUrl: "views/tasks/task-organizers.html"
+          templateUrl: "views/tasks/task-organizers.html",
+          controller:"taskOrganizerController"
+        }
+      }
+    })
+    .state('menuorganizers.addTask', {
+      url: "/addTask",
+      views: {
+        'menuContent' :{
+          templateUrl: "views/tasks/add-tasks.html",
+          controller: "AddTasksController"
         }
       }
     })

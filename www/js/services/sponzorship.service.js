@@ -4,7 +4,7 @@
 * @author Sebastian
 * @version 0.1
 */
-angular.module('sponzorshipService', ['ngCookies'])
+angular.module('sponzorshipService', ['ngStorage'])
 	.factory('sponzorshipRequest', function($http,$localStorage,$log, BackendVariables) {
 		var path = BackendVariables.url; //API path
 		var token = $localStorage.token;
@@ -20,6 +20,12 @@ angular.module('sponzorshipService', ['ngCookies'])
 			organizerSponzors : function(organizerId){
 				return $http.get(path + 'sponzorships_organizer/' + organizerId);
 
+			},
+			sponzorshipByOrganizer : function(organizerId){
+				return $http.get(path + 'sponzorships_organizer/' + organizerId);
+			},
+			sponzorshipBySponzor : function(sponzorId){
+				return $http.get(path + 'sponzorships_sponzor/' + sponzorId);
 			},
 			createSponzorship : function(data){
 				return $http({
