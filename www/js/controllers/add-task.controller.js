@@ -1,9 +1,10 @@
 'use strict';
 (function(){
 angular.module("App")
-.controller("AddTasksController", function($scope, $state, $log, $location, $localStorage, perkTaskRequest, Utils){
+.controller("AddTasksController", function($scope, $state, $log, $location, $localStorage, perkTaskRequest, sponzorshipRequest, Utils){
 
   $scope.addTask = function(task){
+    Utils.show();
     $log.log("task" +  angular.toJson(task));
 
     var newPerkTask = {};
@@ -17,19 +18,23 @@ angular.module("App")
 
     perkTaskRequest.createPerkTask(newPerkTask).success(function(data){
       $log.log("new Perk Task: " + angular.toJson(data));
+      Utils.hide();
     }
     ).
-    error(funtion(data, status, headers, config){
+    error(function(data, status, headers, config){
       $log.log("error perkTask:" + angular.toJson(data));
+      Utils.hide();
     }
     );
 
   };
 
-  $scope.init() = function(){
+  $scope.init = function(){
     // TODO get all users events
 
+
     // TODO get user type of sponzors
+    $log.log("init");
 
   };
 
