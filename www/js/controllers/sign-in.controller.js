@@ -1,7 +1,8 @@
 'use strict';
 (function () {
 angular.module('App')
-.controller('userController', function ($scope, $state, $base64,$localStorage, $log, $location, $translate, loginRequest, userRequest, Utils) {
+.controller('userController', userController);
+function userController($scope, $state, $base64,$localStorage, $log, $location, $translate, loginRequest, userRequest, Utils) {
 
   $scope.init = function(){
     //check the session
@@ -65,7 +66,8 @@ angular.module('App')
 
     loginRequest.login($scope.objuser).success(function(adata){
           $log.log("adata=" + angular.toJson(adata));
-          $localStorage.token = $base64.encode($scope.objuser.email +':'+ $scope.objuser.password)
+          $localStorage.token = $base64.encode($scope.objuser.email +':'+ $scope.objuser.password);
+          $log.log("")
           // we need parse variable types in order to use in the app.
           adata.user.age = parseInt(adata.user.age);
           $localStorage.userAuth = adata.user;
@@ -138,6 +140,5 @@ angular.module('App')
     ;
   };
 
-});
-
+};
 })();

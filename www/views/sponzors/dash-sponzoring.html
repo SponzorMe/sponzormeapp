@@ -1,64 +1,24 @@
-<ion-view view-title="{{'DASHSPONZORS.dash_menu3' | translate}}">
-  <ion-content class="padding">
-    <div class="card">
-<div class="item item-divider">
-  Events You are Sponzoring
-</div>
-<div class="item item-text-wrap">
-<div class="row">
-  <div class="col">Name</div>
-  <div class="col">Email</div>
-  <div class="col">State</div>
-  <div class="col">Option</div>
-</div>
-<div class="row">
-  <div class="col">Juan Topo</div>
-  <div class="col">juantopo@dispostable.com</div>
-  <div class="col">Approved</div>
-  <div class="col">Option</div>
-</div>
-</div>
+<ion-view view-title="{{'DASHSPONZORS.dash_menu2' | translate}}">
+      <ion-content class="padding" ng-init="init()">
+        <div class="has-header list">
+        <div class="card">
+  <div class="item item-divider">
+    Your Sponzored Events.
+  </div>
+  <div class="item item-text-wrap">
+    <div class="row">
+      <div class="col">Name</div>
+      <div class="col">Email</div>
+      <div class="col">Type</div>
+    </div>
+    <div class="row" ng-repeat="s in sponzorships">
+      <div class="col">{{s.title}}</div>
+      <div class="col">{{s.email}}</div>
+      <div class="col">{{s.kind}}</div>
+    </div>
+  </div>
 
 </div>
-<div class="card">
-<div class="item item-divider">
-Task Status
-</div>
-<div class="item item-text-wrap">
-<div class="row">
-<div class="col">Name</div>
-<div class="col">Email</div>
-<div class="col">State</div>
-<div class="col">Option</div>
-</div>
-<div class="row">
-<div class="col">Juan Topo</div>
-<div class="col">juantopo@dispostable.com</div>
-<div class="col">Approved</div>
-<div class="col">Option</div>
-</div>
-</div>
-
-</div>
-<div class="card">
-<div class="item item-divider">
-My Tasks
-</div>
-<div class="item item-text-wrap">
-<div class="row">
-<div class="col">Name</div>
-<div class="col">Email</div>
-<div class="col">State</div>
-<div class="col">Option</div>
-</div>
-<div class="row">
-<div class="col">Juan Topo</div>
-<div class="col">juantopo@dispostable.com</div>
-<div class="col">Approved</div>
-<div class="col">Option</div>
-</div>
-</div>
-
-</div>
-</ion-content>
+      </div>
+    </ion-content>
 </ion-view>

@@ -1,7 +1,8 @@
 'use strict';
 (function () {
 angular.module('App')
-.controller('forgotController', function ($scope, $state, userRequest, $log, Utils) {
+.controller('forgotController', forgotController);
+function forgotController($scope, $state, userRequest, $log, Utils) {
   $scope.resetPass = function (user) {
     Utils.show();
     console.log("Usuario " + user.email);
@@ -25,5 +26,5 @@ angular.module('App')
         });
   };
 
-});
+};
 })();

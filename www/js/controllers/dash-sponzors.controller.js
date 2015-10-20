@@ -1,7 +1,8 @@
 'use strict';
 (function(){
 angular.module("App")
-.controller("DashSponzorsController",function ($scope, $state, $log, $location, $localStorage, perkTaskRequest, sponzorshipRequest, Utils) {
+.controller("DashSponzorsController", DashSponzorsController);
+function DashSponzorsController($scope, $state, $log, $location, $localStorage, perkTaskRequest, sponzorshipRequest, Utils) {
     $scope.sponzorships={};
     $scope.tasks={};
 
@@ -21,5 +22,5 @@ angular.module("App")
 
     };
 
-});
+};
 })();

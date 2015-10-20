@@ -1,7 +1,8 @@
 'use strict';
 (function(){
 angular.module("App")
-.controller("AddEventsController", function( $scope, $state, $location, $log, $translate, $localStorage, $cordovaDatePicker, Camera, eventRequest, perkRequest, Utils, $imgur, imgurConfig){
+.controller("AddEventsController",AddEventsController);
+function AddEventsController( $scope, $state, $location, $log, $translate, $localStorage, $cordovaDatePicker, Camera, eventRequest, perkRequest, Utils, $imgur, imgurConfig){
     var counter=0;
     $scope.questionelemnt = [];
 
@@ -229,5 +230,5 @@ angular.module("App")
 
   };
 
-});
+};
 })();

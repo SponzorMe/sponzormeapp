@@ -1,7 +1,8 @@
 'use strict';
 (function () {
 angular.module('App')
-.controller('settingUserController', function ($scope, $state, $base64, $localStorage, $location, $translate, $log, $cordovaFile, $cordovaCamera, $cordovaFileTransfer, $timeout, $imgur, userRequest, Utils, imgurConfig, Camera) {
+.controller('settingUserController', settingUserController);
+function settingUserController($scope, $state, $base64, $localStorage, $location, $translate, $log, $cordovaFile, $cordovaCamera, $cordovaFileTransfer, $timeout, $imgur, userRequest, Utils, imgurConfig, Camera) {
   $scope.user = $localStorage.userAuth;
   $log.log("userAuth",angular.toJson($scope.user));
 
@@ -148,5 +149,5 @@ angular.module('App')
 
   }, false);
 
-});
+};
 })();

@@ -1,10 +1,22 @@
+'use strict';
+(function () {
 angular.module('App')
-.controller('SearchController', function ($scope, $http) {
-  $scope.model = {term: ''};
+.controller('SearchController', SearchController);
+function SearchController($scope, $http, $localStorage, $location, $translate, $log, eventRequest, Utils) {
+  $scope.events = [];
+  $scope.init = function(){
+      Utils.show();
+      eventRequest.allEvents().success(function(data){
+        $scope.events = data.events;
+        Utils.hide();
 
-  $scope.search = function () {
-    $http.get('https://maps.googleapis.com/maps/api/geocode/json', {params: {address: $scope.model.term}}).success(function (response) {
-      $scope.results = response.results;
-    });
+      }).error(function(data,headers,status, config){
+        $log.log("Data: " + angular.toJson(data));
+        Utils.hide();
+      }
+    );
   };
-});
+
+
+};
+})();

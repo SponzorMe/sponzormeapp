@@ -1,7 +1,8 @@
 'use strict';
 (function(){
 angular.module("App")
-.controller("AddTasksController", function($scope, $state, $log, $location, $localStorage, perkTaskRequest, sponzorshipRequest, Utils){
+.controller("AddTasksController", AddTasksController);
+function AddTasksController($scope, $state, $log, $location, $localStorage, perkTaskRequest, sponzorshipRequest, Utils){
 
   $scope.addTask = function(task){
     Utils.show();
@@ -38,5 +39,5 @@ angular.module("App")
 
   };
 
-});
+};
 })();

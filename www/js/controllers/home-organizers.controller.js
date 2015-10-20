@@ -1,7 +1,8 @@
 'use strict';
 (function(){
 angular.module('App')
-.controller('HomeOrganizersController', function ($scope, $state, $log, $location, $localStorage, userRequest, sponzorshipRequest, Utils) {
+.controller('HomeOrganizersController', HomeOrganizersController);
+function HomeOrganizersController($scope, $state, $log, $location, $localStorage, userRequest, sponzorshipRequest, Utils) {
   $scope.events = [];
   $scope.sponzorships = [];
 
@@ -41,5 +42,5 @@ angular.module('App')
 
 
 
-  });
+};
 })();

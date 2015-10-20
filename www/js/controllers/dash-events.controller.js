@@ -1,7 +1,8 @@
 'use strict';
 (function(){
 angular.module('App')
-.controller('DashEventsController', function ($scope, $state, $log, $location, $localStorage, userRequest, Utils) {
+.controller('DashEventsController', DashEventsController);
+function DashEventsController($scope, $state, $log, $location, $localStorage, userRequest, Utils) {
   $scope.events = [];
   $scope.newEvent = function () {
     $state.go('menuorganizers.addevent');
@@ -26,7 +27,5 @@ angular.module('App')
         Utils.hide();
     });
   };
-
-
-  });
+};
 })();

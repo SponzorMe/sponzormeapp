@@ -1,7 +1,8 @@
 'use strict';
 (function(){
 angular.module("App")
-.controller("taskOrganizerController", function($scope, $state, $log, $location, $localStorage, sponzorshipRequest, Utils){
+.controller("taskOrganizerController", taskOrganizerController);
+function taskOrganizerController($scope, $state, $log, $location, $localStorage, sponzorshipRequest, Utils){
 
     $scope.newEvent = function(){
       $state.go('menuorganizers.addTask');
@@ -24,5 +25,5 @@ angular.module("App")
       );
 
     };
-});
+};
 })();

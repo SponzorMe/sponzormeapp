@@ -1,5 +1,8 @@
+'use strict';
+(function(){
 angular.module('App')
-.controller('IntroOrgCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
+.controller('IntroOrgCtrl', IntroOrgCtrl);
+function IntroOrgCtrl($scope, $state, $ionicSlideBoxDelegate) {
 
   // Called to navigate to the main app
   $scope.startApp = function() {
@@ -16,5 +19,5 @@ angular.module('App')
   $scope.slideChanged = function(index) {
     $scope.slideIndex = index;
   };
-})
-;
+}
+})();

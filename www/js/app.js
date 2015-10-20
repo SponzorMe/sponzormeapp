@@ -6,7 +6,7 @@ $stateProvider
     .state('signin', {
       url: '/sign-in',
       controller: 'userController',
-      templateUrl: 'views/users/sign-in.html',
+      templateUrl: 'views/users/sign-in.html'
     })
     .state('joinnow', {
       url: "/joinnow",
@@ -123,7 +123,8 @@ $stateProvider
       url: "/following",
       views: {
         'menuContent' :{
-          templateUrl: "views/events/follow-events.html"
+          templateUrl: "views/events/follow-events.html",
+          controller: "followEventsController"
         }
       }
     })
@@ -131,7 +132,8 @@ $stateProvider
       url: "/sponzoring",
       views: {
         'menuContent' :{
-          templateUrl: "views/sponzors/dash-sponzoring.html"
+          templateUrl: "views/sponzors/dash-sponzoring.html",
+          controller: 'sponzoringEventsController'
         }
       }
     })

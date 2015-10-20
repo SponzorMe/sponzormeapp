@@ -1,13 +1,31 @@
 <ion-view view-title="{{'SEARCH.search_title' | translate}}">
-  <ion-content>
+  <ion-content ng-init="init()">
     <div class="has-header list">
       <div class="item item-input-inset">
         <label class="item-input-wrapper">
-          <input type="search" ng-model="model.term" placeholder="{{'SEARCH.text_field' | translate}}">
+          <input type="search" ng-model="search" placeholder="{{'SEARCH.text_field' | translate}}">
         </label>
-        <button class="button button-small button-positive" ng-click="search()">{{'SEARCH.search_button' | translate}}</button>
       </div>
-      <div class="item" ng-repeat="result in results" ui-sref="weather({city: result.formatted_address, lat: result.geometry.location.lat, lng: result.geometry.location.lng})">{{result.formatted_address}}</div>
     </div>
+
+    <div class="has-header list card" ng-repeat="event in events | filter:search">
+
+      <div class="item item-avatar">
+        <img ng-src="{{event.image}}">
+        <h2>{{event.title}}</h2>
+        <p>{{event.location}}</p>
+      </div>
+
+      <div class="item item-image padding">
+        {{event.description}}
+      </div>
+
+      <a class="item item-icon-left assertive" href="#">
+        <i class="icon ion-tshirt"></i>
+        Sponsor it!!!
+      </a>
+
+    </div>
+
   </ion-content>
 </ion-view>
