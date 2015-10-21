@@ -1,29 +1,28 @@
 'use strict';
 (function(){
-angular.module("App")
-.controller("taskOrganizerController", taskOrganizerController);
-function taskOrganizerController($scope, $state, $log, $location, $localStorage, sponzorshipRequest, Utils){
+  function taskOrganizerController($scope, $state, $log, $location, $localStorage, sponzorshipRequest, Utils){
 
-    $scope.newEvent = function(){
-      $state.go('menuorganizers.addTask');
-    };
+      $scope.newEvent = function(){
+        $state.go('menuorganizers.addTask');
+      };
 
-    $scope.init = function(){
+      $scope.init = function(){
 
-      var userId = $localStorage.userAuth.id;
+        var userId = $localStorage.userAuth.id;
 
 
-      sponzorshipRequest.sponzorshipByOrganizer(userId).success(
-      function(data){
-        $log.log(data);
-      }
-      ).
-      error(
-        function(data, status, headers, config){
-        $log.log(data)
+        sponzorshipRequest.sponzorshipByOrganizer(userId).success(
+        function(data){
+          $log.log(data);
         }
-      );
+        ).
+        error(
+          function(data, status, headers, config){
+          $log.log(data)
+          }
+        );
 
-    };
-};
+      };
+  };
+angular.module("App").controller("taskOrganizerController", taskOrganizerController);
 })();

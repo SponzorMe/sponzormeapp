@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-angular.module('App', ['ionic', 'ngCordova' , 'pascalprecht.translate','ngMessages','ngStorage', 'base64', 'loginService','userService','eventService', 'sponzorshipService','eventService','perkService', 'perkTaskService', 'sponzorshipService' ,'imgurUploader', 'google.places'])
+angular.module('App', ['ionic','ionic.service.core', 'ngCordova' , 'pascalprecht.translate','ngMessages','ngStorage', 'base64', 'loginService','userService','eventService', 'sponzorshipService','eventService','perkService', 'perkTaskService', 'sponzorshipService' ,'imgurUploader', 'google.places','ionic.service.core'])
 .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 $stateProvider
     .state('signin', {

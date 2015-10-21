@@ -1,30 +1,29 @@
 'use strict';
 (function () {
-angular.module('App')
-.controller('forgotController', forgotController);
-function forgotController($scope, $state, userRequest, $log, Utils) {
-  $scope.resetPass = function (user) {
-    Utils.show();
-    console.log("Usuario " + user.email);
+  function forgotController($scope, $state, userRequest, $log, Utils) {
+    $scope.resetPass = function (user) {
+      Utils.show();
+      console.log("Usuario " + user.email);
 
-    $scope.objuser = {}
-    $scope.objuser.email = user.email;
+      $scope.objuser = {}
+      $scope.objuser.email = user.email;
 
-    userRequest.forgotPassword($scope.objuser).success(function(adata){
-          $log.log("adata=" + angular.toJson(adata));
-          user.email ="";
-          Utils.hide();
-    }).
-    error(function (data, status, headers, config) {
-            // data is always undefined here when there is an error
-            $log.error('Error fetching feed:', angular.toJson(data));
-            if(data.message === "Invalid credentials"){
-            Utils.alertshow($translate.instant("ERRORS.signin_title_credentials"),$translate.instant("ERRORS.signin_incorrect_credentials"));
-            }
+      userRequest.forgotPassword($scope.objuser).success(function(adata){
+            $log.log("adata=" + angular.toJson(adata));
             user.email ="";
             Utils.hide();
-        });
-  };
+      }).
+      error(function (data, status, headers, config) {
+              // data is always undefined here when there is an error
+              $log.error('Error fetching feed:', angular.toJson(data));
+              if(data.message === "Invalid credentials"){
+              Utils.alertshow($translate.instant("ERRORS.signin_title_credentials"),$translate.instant("ERRORS.signin_incorrect_credentials"));
+              }
+              user.email ="";
+              Utils.hide();
+          });
+    };
 
-};
+  };
+angular.module('App').controller('forgotController', forgotController);
 })();
