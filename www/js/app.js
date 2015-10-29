@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-angular.module('App', ['ionic','ionic.service.core', 'ngCordova' , 'pascalprecht.translate','ngMessages','ngStorage', 'base64', 'loginService','userService','eventService', 'sponzorshipService','eventService','perkService', 'perkTaskService', 'sponzorshipService' ,'imgurUploader', 'google.places','ionic.service.core'])
+angular.module('App', ['ionic','ionic.service.core', 'ngCordova' , 'pascalprecht.translate','ngMessages','ngStorage', 'base64', 'loginService','userService','eventService', 'sponzorshipService','eventService','perkService', 'perkTaskService', 'sponzorshipService' ,'imgurUploader', 'google.places','ionic.service.core','ngIOS9UIWebViewPatch'])
 .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 $stateProvider
     .state('signin', {
@@ -167,9 +167,7 @@ $translateProvider.useStaticFilesLoader({
     });
 
 $translateProvider.useSanitizeValueStrategy('escaped');
-
 $translateProvider.preferredLanguage("en");
-
 $translateProvider.fallbackLanguage("en");
 
 // End Languages

@@ -33,14 +33,21 @@
       "locator": "https://github.com/VitaliiBlagodir/cordova-plugin-datepicker.git",
       "id": "cordova-plugin-datepicker"
     },
-    "cordova-plugin-camera"
+    "cordova-plugin-camera",
+    "cordova-plugin-crosswalk-webview"
   ],
   "cordovaPlatforms": [
+    "android",
+    "ios",
+    {
+      "platform": "android",
+      "version": "",
+      "locator": "android"
+    },
     {
       "platform": "ios",
       "version": "",
       "locator": "ios"
-    },
-    "android"
+    }
   ]
 }
