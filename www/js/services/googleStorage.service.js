@@ -1,3 +1,4 @@
+/*
 'use strict';
 (function () {
 angular.module('App').factory('gStorage', function(googleConfiguration, $log, $timeout, BackendVariables) {
@@ -72,4 +73,4 @@ angular.module('App').factory('gStorage', function(googleConfiguration, $log, $t
   }
 
 });
-})();
+})();*/

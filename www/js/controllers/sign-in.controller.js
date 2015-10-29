@@ -56,6 +56,7 @@
     };
 
     $scope.signIn = function (user) {
+      console.log(user);
       Utils.show();
 
       $scope.objuser = {}

@@ -4,6 +4,7 @@
 * @author Sebastian
 * @version 0.1
 */
+/*
 angular.module('App', ['ngCookies'])
 	.factory('categoryRequest', function($http,$cookies) {
 		var path = "http://api.sponzor.me/"; //API path
@@ -12,7 +13,7 @@ angular.module('App', ['ngCookies'])
 			/**
 			* Get all categories
 			* @returns success(function(data, status, headers, config)
-			*/
+			
 			allCategories : function(){
 				return $http.get(path + 'categories');
 
@@ -21,7 +22,7 @@ angular.module('App', ['ngCookies'])
 			* Get Category By Id
 			* @param {JSON} categoryId
 			* @returns success(function(data, status, headers, config)
-			*/
+			
 			oneCategory : function(categoryId){
 				return $http.get(path + 'categories/' + categoriesId);
 
@@ -59,3 +60,4 @@ angular.module('App', ['ngCookies'])
 			}
 		}
 	});
+*/

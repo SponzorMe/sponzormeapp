@@ -4,6 +4,7 @@
 * @author Sebastian
 * @version 0.1
 */
+/*
 angular.module('App', ['ngCookies'])
 	.factory('userInterestRequest', function($http,$cookies) {
 		var path = "http://api.sponzor.me/"; //API path
@@ -48,3 +49,4 @@ angular.module('App', ['ngCookies'])
 			}
 		}
 	});
+*/

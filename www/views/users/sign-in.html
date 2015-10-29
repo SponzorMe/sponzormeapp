@@ -16,7 +16,7 @@
       </li>
     </ul>
  -->
-    <form name="signinForm" novalidate ng-submit="signinForm.$valid && signIn(user)">
+    <form name="signinForm" novalidate ng-submit="signIn(user)">
     <div class="" style="padding-top:10%; margin-bottom:0">
       <div class="text-center" style="margin-bottom:5%">
           <img src="img/logo.jpg" width="50%"/>
@@ -25,7 +25,7 @@
         <span class="input-label">{{"LOGIN.email_field" | translate}}</span>
         <input name="txtemail" type="email" placeholder='{{"LOGIN.email_field" | translate}}' ng-model="user.email"
         ng-minlength="5"
-        ng-maxlength="30"
+        ng-maxlength="40"
         required>
       </label>
       <div class="form-errors" ng-messages="signinForm.txtemail.$error" ng-if="signinForm.$invalid && signInForm.$submitted">
