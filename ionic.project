@@ -2,7 +2,8 @@
   "name": "sponzormeapp",
   "app_id": "c5c3d664",
   "gulpStartupTasks": [
-    "watch"
+    "watch",
+    "sass"
   ],
   "watchPatterns": [
     "www/**/*",

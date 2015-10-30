@@ -9,17 +9,11 @@
       </button>
     </ion-nav-buttons>
   </ion-nav-bar>
-      <ion-content class="padding" ng-init="init()">
-
-      <div class="has-header list" ng-show="events.length>0">
-        <div class="row calm item ng-hide" ng-show="events.length>0" >
-         <div class="col">Title</div>
-         <div class="col">Date</div>
-       </div>
-        <div class="row item ng-hide" ng-show="events.length>0" collection-repeat="event in events">
-        <div class="col">{{event.title}}</div>
-        <div class="col">{{event.starts}}</div>
-        </div>
-    </div>
-    </ion-content>
+  <ion-content ng-init="init()">
+    <ion-list>
+      <ion-item href="#" class="event" collection-repeat="event in events" ng-style="{'background-image': url({{ event.image }})}">
+        <p>{{event.title}} </br> {{event.starts}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
 </ion-view>

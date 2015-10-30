@@ -1,0 +1,35 @@
+.event{
+  .item-content{
+    background-position: center;
+    background-size: cover;
+    height: 150px;
+    background-image: url('../img/banner.jpg');
+    &::before{
+      content: '';
+      height: 100%;
+      width: 100%;
+      display: block;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#87e0fd+0,000000+100 */
+      background: #87e0fd; /* Old browsers */
+      background: -moz-linear-gradient(top,  transparent 0%, rgba(0,0,0,.7) 100%); /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,transparent), color-stop(100%,rgba(0,0,0,.7))); /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top,  transparent 0%,rgba(0,0,0,.7) 100%); /* Chrome10+,Safari5.1+ */
+      background: -o-linear-gradient(top,  transparent 0%,rgba(0,0,0,.7) 100%); /* Opera 11.10+ */
+      background: -ms-linear-gradient(top,  transparent 0%,rgba(0,0,0,.7) 100%); /* IE10+ */
+      background: linear-gradient(to bottom,  transparent 0%,rgba(0,0,0,.7) 100%); /* W3C */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='transparent', endColorstr='rgba(0,0,0,.7)',GradientType=0 ); /* IE6-9 */
+    }
+    p{
+      margin-top: 90px;
+      position: relative;
+      color: white;
+    }
+    span.badge{
+      bottom: 14px;
+      top: auto;
+    }
+  }
+}
