@@ -1,9 +1,12 @@
 .event{
+  background-position: top center;
+  background-size: cover;
   .item-content{
-    background-position: center;
-    background-size: cover;
     height: 150px;
-    background-image: url('../img/banner.jpg');
+    background: transparent;
+    &.activated{
+      background: transparent;
+    }
     &::before{
       content: '';
       height: 100%;
