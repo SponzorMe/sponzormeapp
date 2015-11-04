@@ -1,63 +1,73 @@
 /**
-* @Servicio de Categories
+* @Service of Categories
 *
-* @author Sebastian
-* @version 0.1
+* @author Nicolas Molina
+* @version 0.2
 */
-/*
-angular.module('App', ['ngCookies'])
-	.factory('categoryRequest', function($http,$cookies) {
-		var path = "http://api.sponzor.me/"; //API path
-		var token = $cookies.get('token');
-		return {
-			/**
-			* Get all categories
-			* @returns success(function(data, status, headers, config)
-			
-			allCategories : function(){
-				return $http.get(path + 'categories');
+(function() {
+  'use strict';
 
-			},
-			/**
-			* Get Category By Id
-			* @param {JSON} categoryId
-			* @returns success(function(data, status, headers, config)
-			
-			oneCategory : function(categoryId){
-				return $http.get(path + 'categories/' + categoriesId);
+  angular
+    .module('App')
+    .factory('categoryService', categoryService);
 
-			},
-			createCategory : function(data){
-				return $http({
-					method: 'POST',
-					url: path + 'categories',
-					headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
-					data: $.param(data)
-				});
-			},
-			deleteCategory : function(categoryId){
-				return $http({
-					method: 'DELETE',
-					url: path + 'categories/' + categoriesId,
-					headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token}
-				});
-			},
-			editCategoryPatch : function(categoryId,data){
-				return $http({
-					method: 'PATCH',
-					url: path + 'categories/' + categoriesId,
-					headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
-					data: $.param(data)
-				});
-			},
-			editCategoryPut : function(categoryId,data){
-				return $http({
-					method: 'PUT',
-					url: path + 'categories/' + CategoryId,
-					headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
-					data: $.param(data)
-				});
-			}
-		}
-	});
-*/
+  categoryService.$inject = ['$http', '$localStorage', 'BackendVariables'];
+
+  function categoryService( $http, $localStorage, BackendVariables ) {
+
+    var path = BackendVariables.url;
+    var token = $localStorage.token;
+
+    var service = {
+      allCategories: allCategories,
+      createCategory: createCategory,
+      deleteCategory: deleteCategory,
+      editCategoryPatch: editCategoryPatch,
+      editCategoryPut: editCategoryPut
+    };
+
+    return service;
+
+    ////////////
+
+    function allCategories() {
+      return $http.get(path + '/categories');
+    }
+
+    function createCategory( data ) {
+      return $http({
+        method: 'POST',
+        url: path + '/categories',
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        data: $.param(data)
+      });
+    }
+
+    function deleteCategory( categoryId ) {
+      return $http({
+        method: 'DELETE',
+        url: path + '/categories/' + categoryId,
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token}
+      });
+    }
+
+    function editCategoryPatch( categoryId, data ) {
+      return $http({
+        method: 'PATCH',
+        url: path + '/categories/' + categoryId,
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        data: $.param(data)
+      });
+    }
+
+    function editCategoryPut( categoryId, data ) {
+      return $http({
+        method: 'PUT',
+        url: path + '/categories/' + categoryId,
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        data: $.param(data)
+      });
+    }
+
+  }
+})();
