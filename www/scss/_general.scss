@@ -1,0 +1,20 @@
+.center-block{
+	display: block;
+	margin: 0 auto;
+}
+#pageIntro{
+	background-color: $brand;
+	.logo{
+		width: 50%;
+		margin-top: 10px;
+		@extend .center-block;
+	}
+	.item-floating-label{
+		background-color: white;
+	}
+	.bar-footer{
+		a{
+			color: white;
+		}
+	}
+}

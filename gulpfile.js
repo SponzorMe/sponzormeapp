@@ -10,15 +10,10 @@ var sh = require('shelljs');
 
 var paths = {
   sass: ['./scss/**/*.scss', './www/scss/*.scss'],
-  js: {
-    controllers: ['./www/js/controllers/**/*.js'],
-    services: ['./www/js/services/**/*.js'],
-    directives: ['./www/js/directives/**/*.js'],
-    js: ['./www/js/*.js']
-  }
+  js: ['./www/app/**/*.js', './www/app/*.js'],
 };
 
-gulp.task('default', ['controllers', 'services', 'directives','js','sass']);
+gulp.task('default', [  'js','sass']);
 
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
@@ -34,43 +29,20 @@ gulp.task('sass', function(done) {
     .on('end', done);
 });
 
-gulp.task('controllers', function(done) {
-  gulp.src('./www/js/controllers/*.js')
-    .pipe(concat('controllers.js'))
-    .pipe(gulp.dest('./www/js/'))
-    .on('end', done);
-});
-
-gulp.task('directives', function(done) {
-  gulp.src('./www/js/directives/*.js')
-    .pipe(concat('directives.js'))
-    .pipe(gulp.dest('./www/js/'))
-    .on('end', done);
-});
-
-gulp.task('services', function(done) {
-  gulp.src('./www/js/services/*.js')
-    .pipe(concat('services.js'))
-    .pipe(gulp.dest('./www/js/'))
-    .on('end', done);
-});
 
 gulp.task('js', function(done) {
-  gulp.src('./www/js/*.js')
+  gulp.src(paths.js)
     .pipe(concat('app.js'))
-    .pipe(gulp.dest('./www/js/build'))
+    .pipe(gulp.dest('./www/js/'))
     //.pipe(uglify())
     .pipe(rename({ extname: '.min.js' }))
-    .pipe(gulp.dest('./www/js/build'))
+    .pipe(gulp.dest('./www/js/'))
     .on('end', done);
 });
 
 gulp.task('watch', function() {
   gulp.watch(paths.sass, ['sass']);
-  gulp.watch(paths.js.controllers, ['controllers']);
-  gulp.watch(paths.js.services, ['services']);
-  gulp.watch(paths.js.directives, ['directives']);
-  gulp.watch(paths.js.js, ['js']);
+  gulp.watch(paths.js, ['js']);
 });
 
 gulp.task('install', ['git-check'], function() {

@@ -13,6 +13,12 @@
       $scope.showitems = function($event){
           $('#displayitems').css('visibility','none');
       };
+/*
+    eventTypeService.allEventTypes()
+      .then(function( response ){
+        console.log( response );
+      });
+*/
 
     document.addEventListener("deviceready", function () {
       $scope.getPhoto = function() {

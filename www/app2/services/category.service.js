@@ -3,7 +3,7 @@
 *
 * @author Nicolas Molina
 * @version 0.2
-*/
+
 (function() {
   'use strict';
 
@@ -31,7 +31,7 @@
     ////////////
 
     function allCategories() {
-      return $http.get(path + '/categories');
+      return $http.get(path + 'categories');
     }
 
     function createCategory( data ) {
@@ -46,7 +46,7 @@
     function deleteCategory( categoryId ) {
       return $http({
         method: 'DELETE',
-        url: path + '/categories/' + categoryId,
+        url: path + 'categories/' + categoryId,
         headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token}
       });
     }
@@ -54,7 +54,7 @@
     function editCategoryPatch( categoryId, data ) {
       return $http({
         method: 'PATCH',
-        url: path + '/categories/' + categoryId,
+        url: path + 'categories/' + categoryId,
         headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
         data: $.param(data)
       });
@@ -63,7 +63,7 @@
     function editCategoryPut( categoryId, data ) {
       return $http({
         method: 'PUT',
-        url: path + '/categories/' + categoryId,
+        url: path + 'categories/' + categoryId,
         headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
         data: $.param(data)
       });
@@ -71,3 +71,4 @@
 
   }
 })();
+*/
