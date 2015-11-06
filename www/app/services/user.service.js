@@ -50,7 +50,7 @@
 
       function loginComplete( response ) {
         return response.user;
-      }
+      } 
 
       function loginFailed( error ) {
         return error;
