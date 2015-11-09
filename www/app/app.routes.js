@@ -16,8 +16,15 @@
     $stateProvider
       .state('signin', {
         url: '/sign-in',
-        templateUrl: 'app/users/sign-in.html',
+        templateUrl: 'app/users/login.html',
         controller: 'LoginController as login',
+      })
+
+      .state('joinnow', {
+        url: "/joinnow",
+        templateUrl: "views/users/joinnow.html",
+        controller: "RegisterController as register"
+        
       })
 
     // Languages
