@@ -11,9 +11,9 @@
     .module('app')
     .factory('userService', userService);
 
-  userService.$inject = ['$http', '$localStorage', 'BackendVariables'];
+  userService.$inject = ['$http', '$localStorage', 'BackendVariables', '$q'];
 
-  function userService( $http, $localStorage, BackendVariables ) {
+  function userService( $http, $localStorage, BackendVariables, $q ) {
 
     var path = BackendVariables.url;
     var token = $localStorage.token;
@@ -49,11 +49,11 @@
       .catch( loginFailed );
 
       function loginComplete( response ) {
-        return response.user;
+        return $q.when( response.user );
       } 
 
-      function loginFailed( error ) {
-        return error;
+      function loginFailed( response ) {
+        return $q.reject( response.data );
       }
     }
 
@@ -72,7 +72,17 @@
         url: path + 'users',
         headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
         data: $.param(data)
-      });
+      })
+      .then( createUserComplete )
+      .catch( createUserFailed );
+
+      function createUserComplete( response ) {
+        return $q.when( response );
+      } 
+
+      function createUserFailed( response ) {
+        return $q.reject( response.data );
+      }
     }
 
     function deleteUser( userId ){

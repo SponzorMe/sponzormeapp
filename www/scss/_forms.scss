@@ -1,0 +1,35 @@
+.pageForm{
+  background-color: $brand;
+  .logo{
+    width: 50%;
+    margin-top: 10px;
+    @extend .center-block;
+  }
+  .item-floating-label{
+    background-color: white;
+  }
+  .icon.cover{
+    @extend .center-block;
+    text-align: center;
+    color: white;
+    font-size: 90px;
+    padding-top: 15%;
+  }
+}
+form{
+  
+  label.item{
+    /** Styling for the username field **/
+    &.has-error{
+      border-bottom: 2px solid red;
+    }
+  }
+}
+/** Styling for the error text and container **/
+.form-errors {
+  background-color: white;
+}
+.form-error {
+  padding: 2px 0 2px 16px;
+  color: red;
+}

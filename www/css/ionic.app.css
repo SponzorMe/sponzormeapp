@@ -9072,19 +9072,41 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
-.center-block, #pageIntro .logo {
+.center-block, .pageForm .logo, .pageForm .icon.cover {
   display: block;
   margin: 0 auto; }
 
-#pageIntro {
+.bar-footer a.button.button-clear {
+  color: white; }
+
+.pageForm {
   background-color: #191c29; }
-  #pageIntro .logo {
+  .pageForm .logo {
     width: 50%;
     margin-top: 10px; }
-  #pageIntro .item-floating-label {
+  .pageForm .item-floating-label {
     background-color: white; }
-  #pageIntro .bar-footer a {
-    color: white; }
+  .pageForm .icon.cover {
+    text-align: center;
+    color: white;
+    font-size: 90px;
+    padding-top: 15%; }
+
+form label.item {
+  /** Styling for the username field **/ }
+  form label.item.has-error {
+    border-bottom: 2px solid red; }
+
+/** Styling for the error text and container **/
+.form-errors {
+  background-color: white; }
+
+.form-error {
+  padding: 2px 0 2px 16px;
+  color: red; }
+
+.popup-body {
+  text-align: center; }
 
 .event {
   background-position: top center;

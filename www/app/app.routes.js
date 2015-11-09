@@ -22,9 +22,8 @@
 
       .state('joinnow', {
         url: "/joinnow",
-        templateUrl: "views/users/joinnow.html",
+        templateUrl: "app/users/register.html",
         controller: "RegisterController as register"
-        
       })
 
     // Languages

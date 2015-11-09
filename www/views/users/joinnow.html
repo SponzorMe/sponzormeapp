@@ -19,7 +19,7 @@
         <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_maxlength" | translate}}</div>
         <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_minlength" | translate}}</div>
       </div>
-      <label class="item item-input item-floating-label inputwhite" ng-class="{ 'has-error-lr' : registerForm.txtpassword.$invalid  && registerForm.$submitted}">
+      <label class="item item-input item-floating-label inputwhite" ng-class="{ 'has-error' : registerForm.txtpassword.$invalid  && registerForm.$submitted}">
         <span class="input-label">{{"JOINNOW.pass_field" | translate}}</span>
         <input name="txtpassword" type="password" ng-model="user.password" placeholder='{{"JOINNOW.pass_field" | translate}}'
         ng-minlength="5"

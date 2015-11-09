@@ -11,9 +11,9 @@
     .module('app.users')
     .controller('LoginController', LoginController);
 
-  LoginController.$inject = ['$translate', 'userService', '$localStorage', '$state'];
+  LoginController.$inject = ['$translate', 'userService', '$localStorage', '$state', 'utilsService'];
 
-  function LoginController( $translate, userService, $localStorage, $state ) {
+  function LoginController( $translate, userService, $localStorage, $state , utilsService) {
 
     var vm = this;
     vm.user = {};
@@ -23,14 +23,25 @@
     ////////////
 
     function signIn(){
-      console.log( vm.user );
+      utilsService.showLoad();
       userService.login( vm.user )
         .then( signInComplete )
         .catch( showError );
 
       function signInComplete( user ){
+        utilsService.hideLoad();
         vm.userResponse = user;
         validateTutorial();
+      }
+
+      function showError( data ){
+        utilsService.hideLoad();
+        if(utilsService.trim(data.message) === "Invalid credentials"){
+          utilsService.alert({
+            title: $translate.instant("ERRORS.signin_title_credentials"),
+            template: $translate.instant("ERRORS.signin_incorrect_credentials"),
+          });
+        }
       }
     };
 
@@ -63,10 +74,6 @@
       }else{ // is an Sponzor
         $state.go("menusponzors.homesponzors");
       }
-    }
-
-    function showError( error ){
-      console.log( error );
     }
 
     

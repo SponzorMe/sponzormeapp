@@ -46,9 +46,8 @@
 
       .state('joinnow', {
         url: "/joinnow",
-        templateUrl: "views/users/joinnow.html",
+        templateUrl: "app/users/register.html",
         controller: "RegisterController as register"
-        
       })
 
     // Languages
@@ -117,9 +116,9 @@
     .module('app')
     .factory('userService', userService);
 
-  userService.$inject = ['$http', '$localStorage', 'BackendVariables'];
+  userService.$inject = ['$http', '$localStorage', 'BackendVariables', '$q'];
 
-  function userService( $http, $localStorage, BackendVariables ) {
+  function userService( $http, $localStorage, BackendVariables, $q ) {
 
     var path = BackendVariables.url;
     var token = $localStorage.token;
@@ -155,11 +154,11 @@
       .catch( loginFailed );
 
       function loginComplete( response ) {
-        return response.user;
+        return $q.when( response.user );
       } 
 
-      function loginFailed( error ) {
-        return error;
+      function loginFailed( response ) {
+        return $q.reject( response.data );
       }
     }
 
@@ -178,7 +177,17 @@
         url: path + 'users',
         headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
         data: $.param(data)
-      });
+      })
+      .then( createUserComplete )
+      .catch( createUserFailed );
+
+      function createUserComplete( response ) {
+        return $q.when( response );
+      } 
+
+      function createUserFailed( response ) {
+        return $q.reject( response.data );
+      }
     }
 
     function deleteUser( userId ){
@@ -236,6 +245,63 @@
 })();
 
 /**
+* @Servicio de utlidades
+*
+* @author Carlos, Nicolas Molina
+* @version 0.2
+*/
+(function() {
+  'use strict';
+
+  angular
+    .module('app')
+    .factory('utilsService', utilsService);
+
+  utilsService.$inject = [ '$ionicLoading', '$ionicPopup', '$translate'];
+
+  function utilsService( $ionicLoading, $ionicPopup, $translate) {
+
+    var service = {
+      showLoad: showLoad,
+      hideLoad: hideLoad,
+      alert: alert,
+      trim: trim
+    };
+
+    return service;
+
+    ////////////
+
+    function showLoad(){
+      $ionicLoading.show({
+        animation: 'fade-in',
+        showBackdrop: false,
+        maxWidth: 200,
+        showDelay: 500,
+        //template: '<p class="item-icon-left">'+ $translate.instant('MESSAGES.loading')+'<ion-spinner icon="bubbles"/></p>'
+      });
+    }
+
+    function hideLoad(){
+      $ionicLoading.hide();
+    }
+
+    function alert( msg ){
+      msg.title = msg.title || 'Ocurrió un error.';
+      msg.template  = msg.template || 'Intento de nuevo.';
+      var alertPopup = $ionicPopup.alert( msg );
+      return alert;
+    }
+
+    function trim( str ){
+      str = str.toString();
+      return str.replace(/^\s+|\s+$/g,"");
+    };
+
+  }
+})();
+
+/**
 * @Controller for Login user
 *
 * @author Nicolas Molina
@@ -248,9 +314,9 @@
     .module('app.users')
     .controller('LoginController', LoginController);
 
-  LoginController.$inject = ['$translate', 'userService', '$localStorage', '$state'];
+  LoginController.$inject = ['$translate', 'userService', '$localStorage', '$state', 'utilsService'];
 
-  function LoginController( $translate, userService, $localStorage, $state ) {
+  function LoginController( $translate, userService, $localStorage, $state , utilsService) {
 
     var vm = this;
     vm.user = {};
@@ -260,14 +326,25 @@
     ////////////
 
     function signIn(){
-      console.log( vm.user );
+      utilsService.showLoad();
       userService.login( vm.user )
         .then( signInComplete )
         .catch( showError );
 
       function signInComplete( user ){
+        utilsService.hideLoad();
         vm.userResponse = user;
         validateTutorial();
+      }
+
+      function showError( data ){
+        utilsService.hideLoad();
+        if(utilsService.trim(data.message) === "Invalid credentials"){
+          utilsService.alert({
+            title: $translate.instant("ERRORS.signin_title_credentials"),
+            template: $translate.instant("ERRORS.signin_incorrect_credentials"),
+          });
+        }
       }
     };
 
@@ -302,10 +379,6 @@
       }
     }
 
-    function showError( error ){
-      console.log( error );
-    }
-
     
 
   }
@@ -324,21 +397,77 @@
     .module('app.users')
     .controller('RegisterController', RegisterController);
 
-  //RegisterController.$inject = ['$translate', 'userService', '$localStorage', '$state'];
+  RegisterController.$inject = ['$translate', '$state', 'userService', 'utilsService'];
 
-  function RegisterController( $translate ) {
+  function RegisterController( $translate, $state, userService, utilsService ) {
 
     var vm = this;
     vm.newUser = {};
-    vm.register = register;
+    vm.registerNewUser = registerNewUser;
+
+    activate();
 
     ////////////
 
-    function register(){
-      console.log( vm.newUser );
-      
+    function activate(){
+      initUser();
+    }
+
+    function registerNewUser(){
+      utilsService.showLoad();
+      userService.createUser( preparateData() )
+      .then( registerNewUserComplete )
+      .catch( showError );
+
+      function registerNewUserComplete(){
+        $state.go("signin");
+        utilsService.hideLoad();
+        initUser();
+        utilsService.alert({
+          title: $translate.instant("MESSAGES.succ_user_tit"),
+          template: $translate.instant("MESSAGES.succ_user_mess")
+        });
+      }
+
+      function showError( data ){
+        utilsService.hideLoad();
+        if(utilsService.trim(data.message) === "Invalid credentials"){
+          utilsService.alert({
+            title: $translate.instant("ERRORS.signin_title_credentials"),
+            template: $translate.instant("ERRORS.signin_incorrect_credentials")
+          });
+        }
+        else if (utilsService.trim(data.error.email) === "The email has already been taken.") {
+          utilsService.alert({
+            title: $translate.instant("ERRORS.signin_taken_credentials_title"),
+            template: $translate.instant("ERRORS.signin_taken_credentials_message")
+          });
+        }
+        else if (utilsService.trim(data.message) === "Not inserted") {
+          utilsService.alert({
+            title: $translate.instant("ERRORS.signin_notinserted_credentials_title"),
+            template: $translate.instant("ERRORS.signin_notinserted_credentials_message")
+          });
+        }
+      }
     };
 
+    function preparateData(){
+      return {
+        email: vm.newUser.email,
+        password: vm.newUser.password,
+        password_confirmation: vm.newUser.password,
+        lang: "en", 
+        type: vm.newUser.type,
+        name: "First Name" + " " + "Last Name",
+      }
+    }
+
+    function initUser(){
+      vm.newUser = {
+        type: 0
+      };
+    }
     
 
   }
