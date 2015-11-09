@@ -18,6 +18,7 @@
     //'app.widgets',
     //Feature areas
     'app.users',
+    'app.dashboard-organizer',
     //'app.dashboard',
     //'app.layout'
   ])

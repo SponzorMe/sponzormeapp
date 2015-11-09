@@ -49,7 +49,7 @@
       .catch( loginFailed );
 
       function loginComplete( response ) {
-        return $q.when( response.user );
+        return $q.when( response.data.user );
       } 
 
       function loginFailed( response ) {
@@ -117,7 +117,17 @@
         url: path + 'send_reset_password/',
         headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
         data: $.param(data)
-      });
+      })
+      .then( forgotPasswordComplete )
+      .catch( forgotPasswordFailed );
+
+      function forgotPasswordComplete( response ) {
+        return $q.when( response );
+      } 
+
+      function forgotPasswordFailed( response ) {
+        return $q.reject( response.data );
+      }
     }
 
     function invitedUser( data ){

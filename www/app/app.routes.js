@@ -26,6 +26,38 @@
         controller: "RegisterController as register"
       })
 
+      .state('forgotpassword', {
+        url: "/forgot-password",
+        templateUrl: "app/users/forgot-password.html",
+        controller:"ForgotController as forgot"
+      })
+
+      /* Organizers */
+
+      .state('organizer', {
+        url: "/organizer",
+        abstract: true,
+        templateUrl: "app/dashboard-organizer/menu.html"
+      })
+
+      .state('organizer.home', {
+        url: "/home",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/dashboard-organizer/home.html",
+            controller: "HomeOrganizerController as home"
+          }
+        }
+      })
+
+      /* Sponzors */
+
+      .state('sponzor', {
+        url: "/sponzor",
+        abstract: true,
+        templateUrl: "app/dashboard-sponzor/menu.html"
+      })
+
     // Languages
     $translateProvider.useStaticFilesLoader({
       prefix: 'langs/lang-',

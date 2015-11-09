@@ -70,13 +70,11 @@
 
     function redirectHome(){
       if( vm.userResponse.type == 0 ){ // is an Organizer.
-        $state.go("menuorganizers.organizershome");
+        $state.go("organizer.home");
       }else{ // is an Sponzor
-        $state.go("menusponzors.homesponzors");
+        $state.go("sponzor.home");
       }
     }
-
-    
 
   }
 })();

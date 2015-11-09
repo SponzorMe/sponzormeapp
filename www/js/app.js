@@ -18,6 +18,7 @@
     //'app.widgets',
     //Feature areas
     'app.users',
+    'app.dashboard-organizer',
     //'app.dashboard',
     //'app.layout'
   ])
@@ -48,6 +49,38 @@
         url: "/joinnow",
         templateUrl: "app/users/register.html",
         controller: "RegisterController as register"
+      })
+
+      .state('forgotpassword', {
+        url: "/forgot-password",
+        templateUrl: "app/users/forgot-password.html",
+        controller:"ForgotController as forgot"
+      })
+
+      /* Organizers */
+
+      .state('organizer', {
+        url: "/organizer",
+        abstract: true,
+        templateUrl: "app/dashboard-organizer/menu.html"
+      })
+
+      .state('organizer.home', {
+        url: "/home",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/dashboard-organizer/home.html",
+            controller: "HomeOrganizerController as home"
+          }
+        }
+      })
+
+      /* Sponzors */
+
+      .state('sponzor', {
+        url: "/sponzor",
+        abstract: true,
+        templateUrl: "app/dashboard-sponzor/menu.html"
       })
 
     // Languages
@@ -103,6 +136,35 @@
     });
 })();
 
+(function() {
+  'use strict';
+  angular.module('app.dashboard-organizer', []);
+})();
+/**
+* @Controller for Home Organizer
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+*/
+(function() {
+  'use strict';
+
+  angular
+    .module('app.users')
+    .controller('HomeOrganizerController', HomeOrganizerController);
+
+  HomeOrganizerController.$inject = ['$translate', 'userService', 'utilsService'];
+
+  function HomeOrganizerController( $translate, userService , utilsService) {
+
+    var vm = this;
+
+    ////////////
+
+    
+
+  }
+})();
 /**
 * @Servicio de Usuarios
 *
@@ -154,7 +216,7 @@
       .catch( loginFailed );
 
       function loginComplete( response ) {
-        return $q.when( response.user );
+        return $q.when( response.data.user );
       } 
 
       function loginFailed( response ) {
@@ -222,7 +284,17 @@
         url: path + 'send_reset_password/',
         headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
         data: $.param(data)
-      });
+      })
+      .then( forgotPasswordComplete )
+      .catch( forgotPasswordFailed );
+
+      function forgotPasswordComplete( response ) {
+        return $q.when( response );
+      } 
+
+      function forgotPasswordFailed( response ) {
+        return $q.reject( response.data );
+      }
     }
 
     function invitedUser( data ){
@@ -302,6 +374,60 @@
 })();
 
 /**
+* @Controller for Forgot Password
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+*/
+(function() {
+  'use strict';
+
+  angular
+    .module('app.users')
+    .controller('ForgotController', ForgotController);
+
+  ForgotController.$inject = ['$translate', 'userService',  '$state', 'utilsService'];
+
+  function ForgotController( $translate, userService, $state , utilsService) {
+
+    var vm = this;
+    vm.user = {};
+    vm.resetPassword = resetPassword;
+
+    ////////////
+
+    function resetPassword(){
+      utilsService.showLoad();
+      userService.forgotPassword( preparateData() )
+        .then( resetPasswordComplete )
+        .catch( resetPasswordFailed );
+
+        function resetPasswordComplete(){
+          utilsService.hideLoad();
+          $state.go("signin");
+          vm.user = {};
+        }
+
+        function resetPasswordFailed( data ){
+          utilsService.hideLoad();
+          if(data.message === "Invalid credentials"){
+            Utils.alertshow({
+              title: $translate.instant("ERRORS.signin_title_credentials"),
+              template: $translate.instant("ERRORS.signin_incorrect_credentials")
+            });
+          }
+        }
+    };
+
+    function preparateData(){
+      return {
+        email: vm.user.email
+      }
+    }
+
+  }
+})();
+/**
 * @Controller for Login user
 *
 * @author Nicolas Molina
@@ -373,13 +499,11 @@
 
     function redirectHome(){
       if( vm.userResponse.type == 0 ){ // is an Organizer.
-        $state.go("menuorganizers.organizershome");
+        $state.go("organizer.home");
       }else{ // is an Sponzor
-        $state.go("menusponzors.homesponzors");
+        $state.go("sponzor.home");
       }
     }
-
-    
 
   }
 })();

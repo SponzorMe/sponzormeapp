@@ -1,0 +1,46 @@
+<ion-view view-title="Dashboard" hide-back-button="false">
+  <ion-nav-bar class="bar-positive">
+  <ion-nav-buttons side="left">
+    <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+    </button>
+  </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content padding="true">
+    <div class="has-header list" ng-show="events.length>0">
+      <div class="row calm item ng-hide" ng-show="events.length>0" >
+       <div class="col" align="center">Events</div>
+     </div>
+      <div class="row calm item ng-hide" ng-show="events.length>0" >
+       <div class="col">Title</div>
+       <div class="col">Date</div>
+     </div>
+      <div class="row item ng-hide" ng-show="events.length>0" ng-repeat="event in events">
+      <div class="col">{{event.title}}</div>
+      <div class="col">{{event.starts}}</div>
+      </div>
+      <div class="row item ng-hide" ng-show="events.length>0">
+        <a class="button button-small button-calm" href="#/menuorganizers/organizersevents">More...</a>
+      </div>
+    </div>
+
+    <div class="has-header list" ng-show="events.length>0">
+      <div  class="row calm item ng-hide" ng-show="events.length>0">
+       <div class="col" align="center">Perks</div>
+     </div>
+      <div  class="row calm item ng-hide" ng-show="events.length>0">
+       <div class="col">Sponzor</div>
+       <div class="col">Event</div>
+     </div>
+     <div  class="row item" ng-hide="sponzorships.length>0">
+      <div class="col" align="center">No Sponzors :( ... Maybe try create an event.</div>
+    </div>
+      <div  class="row item ng-hide" ng-show="sponzorships.length>0" ng-repeat="sponzor in sponzorships">
+      <div class="col">{{sponzor.title}}</div>
+      <div class="col">{{sponzor.starts}}</div>
+      </div>
+      <div class="row item ng-hide" ng-show="sponzorships.length>0">
+        <a class="button button-positive" href="#/menuorganizers/organizersevents">More...</a>
+      </div>
+    </div>
+</ion-content>
+</ion-view>
