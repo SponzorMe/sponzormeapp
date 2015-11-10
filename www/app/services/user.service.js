@@ -49,7 +49,7 @@
       .catch( loginFailed );
 
       function loginComplete( response ) {
-        return $q.when( response.data );
+        return $q.when( response.data.user );
       } 
 
       function loginFailed( response ) {

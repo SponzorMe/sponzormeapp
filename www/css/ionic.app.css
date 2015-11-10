@@ -9076,6 +9076,9 @@ a.button {
   display: block;
   margin: 0 auto; }
 
+.text-center {
+  text-align: center; }
+
 .bar-footer a.button.button-clear {
   color: white; }
 
@@ -9117,6 +9120,16 @@ form label.item {
     .menu .item a.item-content {
       background-color: transparent;
       color: white; }
+
+.empty-states {
+  display: block;
+  width: 100%; }
+  .empty-states .icon:before {
+    font-size: 160px;
+    color: #191c29; }
+  .empty-states h1 {
+    font-size: 20px;
+    color: #666; }
 
 .event {
   background-position: top center;

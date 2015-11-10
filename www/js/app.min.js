@@ -20,6 +20,7 @@
     //Feature areas
     'app.users',
     'app.dashboard-organizer',
+    'app.events-organizer',
     //'app.dashboard',
     //'app.layout'
   ])
@@ -72,6 +73,16 @@
           'menuContent' :{
             templateUrl: "app/dashboard-organizer/home.html",
             controller: "HomeOrganizerController as home"
+          }
+        }
+      })
+
+      .state('organizer.events', {
+        url: "/events",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/events-organizer/event-list.html",
+            controller: "EventListController as eventList"
           }
         }
       })
@@ -215,400 +226,61 @@
   }
 })();
 /**
-* @Servicio de Sponzorships (Beneficios)
+* @Controller for Home Organizer
 *
-* @author Sebastian, Nicolas Molina
+* @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
 (function() {
   'use strict';
 
   angular
-    .module('app')
-    .factory('sponzorshipService', sponzorshipService);
+    .module('app.events-organizer')
+    .controller('EventListController', EventListController);
 
-  sponzorshipService.$inject = [ '$http', '$localStorage', 'BackendVariables', '$q'];
+  EventListController.$inject = ['$translate', '$localStorage' ,'userService', 'utilsService'];
 
-  function sponzorshipService( $http, $localStorage, BackendVariables, $q ) {
+  function EventListController( $translate, $localStorage, userService , utilsService) {
 
-    var path = BackendVariables.url;
-    var token = $localStorage.token;
+    var vm = this;
+    vm.userAuth = $localStorage.userAuth;
+    vm.events = [];
+    vm.showEmptyState = false;
 
-    var service = {
-      allSponzorships: allSponzorships,
-      getSponzorship: getSponzorship,
-      sponzorshipByOrganizer: sponzorshipByOrganizer,
-      sponzorshipBySponzor: sponzorshipBySponzor,
-      createSponzorship: createSponzorship,
-      deleteSponzorship: deleteSponzorship,
-      editSponzorshipPatch: editSponzorshipPatch,
-      editSponzorshipPut: editSponzorshipPut
-    };
-
-    return service;
+    activate();
 
     ////////////
 
-    function allSponzorships(){
-      return $http.get(path + 'sponzorships')
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response );
-      }
-
-      function failed( response ){
-        return $q.reject( response );
-      }
+    function activate(){
+      getEvents();
     }
 
-    function getSponzorship( sponzorshipId ){
-      return $http.get(path + 'sponzorships/' + sponzorshipId)
-      .then( complete )
-      .catch( failed );
+    function getEvents(){
+      utilsService.showLoad();
+      userService.getUser( vm.userAuth.id )
+        .then( getEventsComplete )
+        .catch( getEventsFailed );
 
-      function complete( response ){
-        return $q.when( response );
-      }
+        function getEventsComplete( user ){
+          utilsService.hideLoad();
+          vm.showEmptyState = true;
+          vm.events = user.events;
+        }
 
-      function failed( response ){
-        return $q.reject( response );
-      }
+        function getEventsFailed( error ){
+          utilsService.hideLoad();
+          vm.showEmptyState = true;
+          console.log( error );
+        }
     }
-
-    function sponzorshipByOrganizer( organizerId ){
-      return $http.get(path + 'sponzorships_organizer/' + organizerId)
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data.SponzorsEvents );
-      }
-
-      function failed( response ){
-        return $q.reject( response );
-      }
-    }
-
-    function sponzorshipBySponzor( sponzorId ){
-      return $http.get(path + 'sponzorships_sponzor/' + organizerId)
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data.SponzorsEvents );
-      }
-
-      function failed( response ){
-        return $q.reject( response );
-      }
-    }
-
-    function createSponzorship( data ){
-      return $http({
-        method: 'POST',
-        url: path + 'sponzorships',
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
-        data: $.param(data)
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response );
-      }
-
-      function failed( response ){
-        return $q.reject( response );
-      }
-    }
-
-    function deleteSponzorship( sponzorshipId ){
-      return $http({
-        method: 'DELETE',
-        url: path + 'sponzorships/' + sponzorshipId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token}
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response );
-      }
-
-      function failed( response ){
-        return $q.reject( response );
-      }
-    }
-
-    function editSponzorshipPatch( sponzorshipId, data ){
-      return $http({
-        method: 'PATCH',
-        url: path + 'sponzorships/' + sponzorshipId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
-        data: $.param(data)
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response );
-      }
-
-      function failed( response ){
-        return $q.reject( response );
-      }
-    }
-
-    function editSponzorshipPut( sponzorshipId, data ){
-      return $http({
-        method: 'PUT',
-        url: path + 'sponzorships/' + sponzorshipId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
-        data: $.param(data)
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response );
-      }
-
-      function failed( response ){
-        return $q.reject( response );
-      }
-    }
+    
 
   }
 })();
-/**
-* @Servicio de Usuarios
-*
-* @author Sebastian, Nicolas Molina
-* @version 0.2
-*/
 (function() {
   'use strict';
-
-  angular
-    .module('app')
-    .factory('userService', userService);
-
-  userService.$inject = ['$http', '$localStorage', 'BackendVariables', '$q'];
-
-  function userService( $http, $localStorage, BackendVariables, $q ) {
-
-    var path = BackendVariables.url;
-    var token = $localStorage.token;
-
-    var service = {
-      login: login,
-      allUsers: allUsers,
-      getUser: getUser,
-      createUser: createUser,
-      deleteUser: deleteUser,
-      editUserPatch: editUserPatch,
-      editUserPut: editUserPut,
-      forgotPassword: forgotPassword,
-      invitedUser: invitedUser,
-      checkSession: checkSession
-    };
-
-    return service;
-
-    ////////////
-
-    function login( user ){
-      return $http({
-        method: 'POST',
-        url: path + 'auth',
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
-        data: $.param({
-          email: user.email,
-          password: user.password
-        })
-      })
-      .then( loginComplete )
-      .catch( loginFailed );
-
-      function loginComplete( response ) {
-        return $q.when( response.data );
-      } 
-
-      function loginFailed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function allUsers(){
-      return $http.get(path + 'users');
-    }
-
-    function getUser( userId ){
-      $http.defaults.headers.common['Authorization'] = 'Basic ' + token;
-      return $http.get(path + 'users/' + userId)
-        .then( getUserComplete )
-        .catch( getUserFailed );
-
-      function getUserComplete( response ) {
-        var data = response.data.data.user;
-        data.events = preparateEvents( data.events );
-        return $q.when( data );
-      } 
-
-      function preparateEvents( events ){
-        return events.map(function( item ){
-          item.starts = moment(item.starts).format('MMMM Do YYYY');
-          return item;
-        });
-      }
-
-      function getUserFailed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function createUser( data ){
-      return $http({
-        method: 'POST',
-        url: path + 'users',
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
-        data: $.param(data)
-      })
-      .then( createUserComplete )
-      .catch( createUserFailed );
-
-      function createUserComplete( response ) {
-        return $q.when( response );
-      } 
-
-      function createUserFailed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function deleteUser( userId ){
-      return $http({
-        method: 'DELETE',
-        url: path + 'users/' + userId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token}
-      });
-    }
-
-    function editUserPatch( userId ){
-      return $http({
-        method: 'PATCH',
-        url: path + 'users/' + userId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
-        data: $.param(data)
-      });
-    }
-
-    function editUserPut( userId ){
-      return $http({
-        method: 'PUT',
-        url: path + 'users/' + userId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
-        data: $.param(data)
-      });
-    }
-
-    function forgotPassword( data ){
-      return $http({
-        method: 'POST',
-        url: path + 'send_reset_password/',
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
-        data: $.param(data)
-      })
-      .then( forgotPasswordComplete )
-      .catch( forgotPasswordFailed );
-
-      function forgotPasswordComplete( response ) {
-        return $q.when( response );
-      } 
-
-      function forgotPasswordFailed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function invitedUser( data ){
-      return $http({
-        method: 'POST',
-        url: path + 'invite_friend/',
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
-        data: $.param(data)
-      });
-    }
-
-    function checkSession(localToken, localUser){
-      if(angular.isDefined(localToken) && angular.isDefined(localUser)){
-        return true;
-      }
-      return false;
-    }
-
-  }
+  angular.module('app.events-organizer', []);
 })();
-
-/**
-* @Servicio de utlidades
-*
-* @author Carlos, Nicolas Molina
-* @version 0.2
-*/
-(function() {
-  'use strict';
-
-  angular
-    .module('app')
-    .factory('utilsService', utilsService);
-
-  utilsService.$inject = [ '$ionicLoading', '$ionicPopup', '$translate'];
-
-  function utilsService( $ionicLoading, $ionicPopup, $translate) {
-
-    var service = {
-      showLoad: showLoad,
-      hideLoad: hideLoad,
-      alert: alert,
-      trim: trim
-    };
-
-    return service;
-
-    ////////////
-
-    function showLoad(){
-      $ionicLoading.show({
-        animation: 'fade-in',
-        showBackdrop: false,
-        maxWidth: 200,
-        showDelay: 500,
-        //template: '<p class="item-icon-left">'+ $translate.instant('MESSAGES.loading')+'<ion-spinner icon="bubbles"/></p>'
-      });
-    }
-
-    function hideLoad(){
-      $ionicLoading.hide();
-    }
-
-    function alert( msg ){
-      msg.title = msg.title || 'Ocurrió un error.';
-      msg.template  = msg.template || 'Intento de nuevo.';
-      var alertPopup = $ionicPopup.alert( msg );
-      return alert;
-    }
-
-    function trim( str ){
-      str = str.toString();
-      return str.replace(/^\s+|\s+$/g,"");
-    };
-
-  }
-})();
-
 /**
 * @Controller for Forgot Password
 *
@@ -843,4 +515,398 @@
 (function() {
   'use strict';
   angular.module('app.users', []);
+})();
+/**
+* @Servicio de Sponzorships (Beneficios)
+*
+* @author Sebastian, Nicolas Molina
+* @version 0.2
+*/
+(function() {
+  'use strict';
+
+  angular
+    .module('app')
+    .factory('sponzorshipService', sponzorshipService);
+
+  sponzorshipService.$inject = [ '$http', '$localStorage', 'BackendVariables', '$q'];
+
+  function sponzorshipService( $http, $localStorage, BackendVariables, $q ) {
+
+    var path = BackendVariables.url;
+    var token = $localStorage.token;
+
+    var service = {
+      allSponzorships: allSponzorships,
+      getSponzorship: getSponzorship,
+      sponzorshipByOrganizer: sponzorshipByOrganizer,
+      sponzorshipBySponzor: sponzorshipBySponzor,
+      createSponzorship: createSponzorship,
+      deleteSponzorship: deleteSponzorship,
+      editSponzorshipPatch: editSponzorshipPatch,
+      editSponzorshipPut: editSponzorshipPut
+    };
+
+    return service;
+
+    ////////////
+
+    function allSponzorships(){
+      return $http.get(path + 'sponzorships')
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
+    }
+
+    function getSponzorship( sponzorshipId ){
+      return $http.get(path + 'sponzorships/' + sponzorshipId)
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
+    }
+
+    function sponzorshipByOrganizer( organizerId ){
+      return $http.get(path + 'sponzorships_organizer/' + organizerId)
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response.data.SponzorsEvents );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
+    }
+
+    function sponzorshipBySponzor( sponzorId ){
+      return $http.get(path + 'sponzorships_sponzor/' + organizerId)
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response.data.SponzorsEvents );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
+    }
+
+    function createSponzorship( data ){
+      return $http({
+        method: 'POST',
+        url: path + 'sponzorships',
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        data: $.param(data)
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
+    }
+
+    function deleteSponzorship( sponzorshipId ){
+      return $http({
+        method: 'DELETE',
+        url: path + 'sponzorships/' + sponzorshipId,
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token}
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
+    }
+
+    function editSponzorshipPatch( sponzorshipId, data ){
+      return $http({
+        method: 'PATCH',
+        url: path + 'sponzorships/' + sponzorshipId,
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        data: $.param(data)
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
+    }
+
+    function editSponzorshipPut( sponzorshipId, data ){
+      return $http({
+        method: 'PUT',
+        url: path + 'sponzorships/' + sponzorshipId,
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        data: $.param(data)
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
+    }
+
+  }
+})();
+/**
+* @Servicio de Usuarios
+*
+* @author Sebastian, Nicolas Molina
+* @version 0.2
+*/
+(function() {
+  'use strict';
+
+  angular
+    .module('app')
+    .factory('userService', userService);
+
+  userService.$inject = ['$http', '$localStorage', 'BackendVariables', '$q'];
+
+  function userService( $http, $localStorage, BackendVariables, $q ) {
+
+    var path = BackendVariables.url;
+    var token = $localStorage.token;
+
+    var service = {
+      login: login,
+      allUsers: allUsers,
+      getUser: getUser,
+      createUser: createUser,
+      deleteUser: deleteUser,
+      editUserPatch: editUserPatch,
+      editUserPut: editUserPut,
+      forgotPassword: forgotPassword,
+      invitedUser: invitedUser,
+      checkSession: checkSession
+    };
+
+    return service;
+
+    ////////////
+
+    function login( user ){
+      return $http({
+        method: 'POST',
+        url: path + 'auth',
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+        data: $.param({
+          email: user.email,
+          password: user.password
+        })
+      })
+      .then( loginComplete )
+      .catch( loginFailed );
+
+      function loginComplete( response ) {
+        return $q.when( response.data.user );
+      } 
+
+      function loginFailed( response ) {
+        return $q.reject( response.data );
+      }
+    }
+
+    function allUsers(){
+      return $http.get(path + 'users');
+    }
+
+    function getUser( userId ){
+      $http.defaults.headers.common['Authorization'] = 'Basic ' + token;
+      return $http.get(path + 'users/' + userId)
+        .then( getUserComplete )
+        .catch( getUserFailed );
+
+      function getUserComplete( response ) {
+        var data = response.data.data.user;
+        data.events = preparateEvents( data.events );
+        return $q.when( data );
+      } 
+
+      function preparateEvents( events ){
+        return events.map(function( item ){
+          item.starts = moment(item.starts).format('MMMM Do YYYY');
+          return item;
+        });
+      }
+
+      function getUserFailed( response ) {
+        return $q.reject( response.data );
+      }
+    }
+
+    function createUser( data ){
+      return $http({
+        method: 'POST',
+        url: path + 'users',
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        data: $.param(data)
+      })
+      .then( createUserComplete )
+      .catch( createUserFailed );
+
+      function createUserComplete( response ) {
+        return $q.when( response );
+      } 
+
+      function createUserFailed( response ) {
+        return $q.reject( response.data );
+      }
+    }
+
+    function deleteUser( userId ){
+      return $http({
+        method: 'DELETE',
+        url: path + 'users/' + userId,
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token}
+      });
+    }
+
+    function editUserPatch( userId ){
+      return $http({
+        method: 'PATCH',
+        url: path + 'users/' + userId,
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        data: $.param(data)
+      });
+    }
+
+    function editUserPut( userId ){
+      return $http({
+        method: 'PUT',
+        url: path + 'users/' + userId,
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        data: $.param(data)
+      });
+    }
+
+    function forgotPassword( data ){
+      return $http({
+        method: 'POST',
+        url: path + 'send_reset_password/',
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        data: $.param(data)
+      })
+      .then( forgotPasswordComplete )
+      .catch( forgotPasswordFailed );
+
+      function forgotPasswordComplete( response ) {
+        return $q.when( response );
+      } 
+
+      function forgotPasswordFailed( response ) {
+        return $q.reject( response.data );
+      }
+    }
+
+    function invitedUser( data ){
+      return $http({
+        method: 'POST',
+        url: path + 'invite_friend/',
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        data: $.param(data)
+      });
+    }
+
+    function checkSession(localToken, localUser){
+      if(angular.isDefined(localToken) && angular.isDefined(localUser)){
+        return true;
+      }
+      return false;
+    }
+
+  }
+})();
+
+/**
+* @Servicio de utlidades
+*
+* @author Carlos, Nicolas Molina
+* @version 0.2
+*/
+(function() {
+  'use strict';
+
+  angular
+    .module('app')
+    .factory('utilsService', utilsService);
+
+  utilsService.$inject = [ '$ionicLoading', '$ionicPopup', '$translate'];
+
+  function utilsService( $ionicLoading, $ionicPopup, $translate) {
+
+    var service = {
+      showLoad: showLoad,
+      hideLoad: hideLoad,
+      alert: alert,
+      trim: trim
+    };
+
+    return service;
+
+    ////////////
+
+    function showLoad(){
+      $ionicLoading.show({
+        animation: 'fade-in',
+        showBackdrop: false,
+        maxWidth: 200,
+        showDelay: 500,
+        //template: '<p class="item-icon-left">'+ $translate.instant('MESSAGES.loading')+'<ion-spinner icon="bubbles"/></p>'
+      });
+    }
+
+    function hideLoad(){
+      $ionicLoading.hide();
+    }
+
+    function alert( msg ){
+      msg.title = msg.title || 'Ocurrió un error.';
+      msg.template  = msg.template || 'Intento de nuevo.';
+      var alertPopup = $ionicPopup.alert( msg );
+      return alert;
+    }
+
+    function trim( str ){
+      str = str.toString();
+      return str.replace(/^\s+|\s+$/g,"");
+    };
+
+  }
 })();

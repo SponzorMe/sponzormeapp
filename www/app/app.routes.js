@@ -50,6 +50,16 @@
         }
       })
 
+      .state('organizer.events', {
+        url: "/events",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/events-organizer/event-list.html",
+            controller: "EventListController as eventList"
+          }
+        }
+      })
+
       /* Sponzors */
 
       .state('sponzor', {

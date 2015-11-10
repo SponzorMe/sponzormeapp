@@ -20,6 +20,7 @@
     //Feature areas
     'app.users',
     'app.dashboard-organizer',
+    'app.events-organizer',
     //'app.dashboard',
     //'app.layout'
   ])

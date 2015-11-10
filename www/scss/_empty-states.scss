@@ -1,0 +1,14 @@
+.empty-states{
+  display: block;
+  width: 100%;
+  .icon{
+    &:before{
+      font-size: 160px;
+      color: $brand;
+    }
+  }
+  h1{
+    font-size: 20px;
+    color: #666;
+  }
+}
