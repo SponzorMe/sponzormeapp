@@ -15,6 +15,7 @@
     'ngStorage',
     'ngIOS9UIWebViewPatch',
     'pascalprecht.translate',
+    'base64',
     //'app.widgets',
     //Feature areas
     'app.users',

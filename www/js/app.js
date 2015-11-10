@@ -15,6 +15,7 @@
     'ngStorage',
     'ngIOS9UIWebViewPatch',
     'pascalprecht.translate',
+    'base64',
     //'app.widgets',
     //Feature areas
     'app.users',
@@ -153,15 +154,231 @@
     .module('app.users')
     .controller('HomeOrganizerController', HomeOrganizerController);
 
-  HomeOrganizerController.$inject = ['$translate', 'userService', 'utilsService'];
+  HomeOrganizerController.$inject = ['$translate', '$localStorage' ,'userService', 'utilsService', 'sponzorshipService'];
 
-  function HomeOrganizerController( $translate, userService , utilsService) {
+  function HomeOrganizerController( $translate, $localStorage, userService , utilsService, sponzorshipService) {
 
     var vm = this;
+    vm.userAuth = $localStorage.userAuth;
+    vm.events = [];
+    vm.sponzorships = [];
+
+    activate();
 
     ////////////
 
+    function activate(){
+      getEvents();
+      getSponzorships();
+    }
+
+    function getEvents(){
+      utilsService.showLoad();
+      userService.getUser( vm.userAuth.id )
+        .then( getEventsComplete )
+        .catch( getEventsFailed );
+
+        function getEventsComplete( user ){
+          utilsService.hideLoad();
+          vm.events = spliceEvents( user.events );
+        }
+
+        function spliceEvents( events ){
+          return events.length > 3 ? events.splice( events.length - 3 , events.length) : events;
+        }
+
+        function getEventsFailed( error ){
+          utilsService.hideLoad();
+          console.log( error );
+        }
+    }
+
+    function getSponzorships(){
+      sponzorshipService.sponzorshipByOrganizer( vm.userAuth.id )
+        .then( getSponzorshipsComplete )
+        .catch( getSponzorshipsFailed );
+
+        function getSponzorshipsComplete( sponzors ) {
+          vm.sponzorships = spliceSponzors( sponzors );
+        }
+
+        function spliceSponzors( sponzors ){
+          return sponzors.length > 3 ? sponzors.splice( sponzors.length - 3 , sponzors.length) : sponzors;
+        }
+
+        function getSponzorshipsFailed( error ) {
+          console.log( error );
+        }
+    }
     
+
+  }
+})();
+/**
+* @Servicio de Sponzorships (Beneficios)
+*
+* @author Sebastian, Nicolas Molina
+* @version 0.2
+*/
+(function() {
+  'use strict';
+
+  angular
+    .module('app')
+    .factory('sponzorshipService', sponzorshipService);
+
+  sponzorshipService.$inject = [ '$http', '$localStorage', 'BackendVariables', '$q'];
+
+  function sponzorshipService( $http, $localStorage, BackendVariables, $q ) {
+
+    var path = BackendVariables.url;
+    var token = $localStorage.token;
+
+    var service = {
+      allSponzorships: allSponzorships,
+      getSponzorship: getSponzorship,
+      sponzorshipByOrganizer: sponzorshipByOrganizer,
+      sponzorshipBySponzor: sponzorshipBySponzor,
+      createSponzorship: createSponzorship,
+      deleteSponzorship: deleteSponzorship,
+      editSponzorshipPatch: editSponzorshipPatch,
+      editSponzorshipPut: editSponzorshipPut
+    };
+
+    return service;
+
+    ////////////
+
+    function allSponzorships(){
+      return $http.get(path + 'sponzorships')
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
+    }
+
+    function getSponzorship( sponzorshipId ){
+      return $http.get(path + 'sponzorships/' + sponzorshipId)
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
+    }
+
+    function sponzorshipByOrganizer( organizerId ){
+      return $http.get(path + 'sponzorships_organizer/' + organizerId)
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response.data.SponzorsEvents );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
+    }
+
+    function sponzorshipBySponzor( sponzorId ){
+      return $http.get(path + 'sponzorships_sponzor/' + organizerId)
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response.data.SponzorsEvents );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
+    }
+
+    function createSponzorship( data ){
+      return $http({
+        method: 'POST',
+        url: path + 'sponzorships',
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        data: $.param(data)
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
+    }
+
+    function deleteSponzorship( sponzorshipId ){
+      return $http({
+        method: 'DELETE',
+        url: path + 'sponzorships/' + sponzorshipId,
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token}
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
+    }
+
+    function editSponzorshipPatch( sponzorshipId, data ){
+      return $http({
+        method: 'PATCH',
+        url: path + 'sponzorships/' + sponzorshipId,
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        data: $.param(data)
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
+    }
+
+    function editSponzorshipPut( sponzorshipId, data ){
+      return $http({
+        method: 'PUT',
+        url: path + 'sponzorships/' + sponzorshipId,
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        data: $.param(data)
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
+    }
 
   }
 })();
@@ -216,7 +433,7 @@
       .catch( loginFailed );
 
       function loginComplete( response ) {
-        return $q.when( response.data.user );
+        return $q.when( response.data );
       } 
 
       function loginFailed( response ) {
@@ -230,7 +447,26 @@
 
     function getUser( userId ){
       $http.defaults.headers.common['Authorization'] = 'Basic ' + token;
-      return $http.get(path + 'users/' + userId);
+      return $http.get(path + 'users/' + userId)
+        .then( getUserComplete )
+        .catch( getUserFailed );
+
+      function getUserComplete( response ) {
+        var data = response.data.data.user;
+        data.events = preparateEvents( data.events );
+        return $q.when( data );
+      } 
+
+      function preparateEvents( events ){
+        return events.map(function( item ){
+          item.starts = moment(item.starts).format('MMMM Do YYYY');
+          return item;
+        });
+      }
+
+      function getUserFailed( response ) {
+        return $q.reject( response.data );
+      }
     }
 
     function createUser( data ){
@@ -440,9 +676,9 @@
     .module('app.users')
     .controller('LoginController', LoginController);
 
-  LoginController.$inject = ['$translate', 'userService', '$localStorage', '$state', 'utilsService'];
+  LoginController.$inject = ['$translate', 'userService', '$localStorage', '$state', 'utilsService', '$base64'];
 
-  function LoginController( $translate, userService, $localStorage, $state , utilsService) {
+  function LoginController( $translate, userService, $localStorage, $state , utilsService, $base64) {
 
     var vm = this;
     vm.user = {};
@@ -460,6 +696,8 @@
       function signInComplete( user ){
         utilsService.hideLoad();
         vm.userResponse = user;
+        saveUser();
+        $localStorage.token = $base64.encode(vm.user.email +':'+ vm.user.password);
         validateTutorial();
       }
 
@@ -476,6 +714,7 @@
 
     function updateUser(){
       vm.userResponse.demo = 1;
+      saveUser();
       userService.editUserPatch( vm.userResponse.id, vm.userResponse )
         .then( redirectTutorial )
         .catch( showError );
@@ -503,6 +742,10 @@
       }else{ // is an Sponzor
         $state.go("sponzor.home");
       }
+    }
+
+    function saveUser(){
+      $localStorage.userAuth = vm.userResponse;
     }
 
   }

@@ -49,7 +49,7 @@
       .catch( loginFailed );
 
       function loginComplete( response ) {
-        return $q.when( response.data.user );
+        return $q.when( response.data );
       } 
 
       function loginFailed( response ) {
@@ -63,7 +63,26 @@
 
     function getUser( userId ){
       $http.defaults.headers.common['Authorization'] = 'Basic ' + token;
-      return $http.get(path + 'users/' + userId);
+      return $http.get(path + 'users/' + userId)
+        .then( getUserComplete )
+        .catch( getUserFailed );
+
+      function getUserComplete( response ) {
+        var data = response.data.data.user;
+        data.events = preparateEvents( data.events );
+        return $q.when( data );
+      } 
+
+      function preparateEvents( events ){
+        return events.map(function( item ){
+          item.starts = moment(item.starts).format('MMMM Do YYYY');
+          return item;
+        });
+      }
+
+      function getUserFailed( response ) {
+        return $q.reject( response.data );
+      }
     }
 
     function createUser( data ){

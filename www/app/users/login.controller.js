@@ -11,9 +11,9 @@
     .module('app.users')
     .controller('LoginController', LoginController);
 
-  LoginController.$inject = ['$translate', 'userService', '$localStorage', '$state', 'utilsService'];
+  LoginController.$inject = ['$translate', 'userService', '$localStorage', '$state', 'utilsService', '$base64'];
 
-  function LoginController( $translate, userService, $localStorage, $state , utilsService) {
+  function LoginController( $translate, userService, $localStorage, $state , utilsService, $base64) {
 
     var vm = this;
     vm.user = {};
@@ -31,6 +31,8 @@
       function signInComplete( user ){
         utilsService.hideLoad();
         vm.userResponse = user;
+        saveUser();
+        $localStorage.token = $base64.encode(vm.user.email +':'+ vm.user.password);
         validateTutorial();
       }
 
@@ -47,6 +49,7 @@
 
     function updateUser(){
       vm.userResponse.demo = 1;
+      saveUser();
       userService.editUserPatch( vm.userResponse.id, vm.userResponse )
         .then( redirectTutorial )
         .catch( showError );
@@ -74,6 +77,10 @@
       }else{ // is an Sponzor
         $state.go("sponzor.home");
       }
+    }
+
+    function saveUser(){
+      $localStorage.userAuth = vm.userResponse;
     }
 
   }

@@ -1,27 +1,12 @@
-<ion-view view-title="Dashboard" hide-back-button="false">
-  <ion-nav-bar class="bar-positive">
-  <ion-nav-buttons side="left">
-    <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
-    </button>
-  </ion-nav-buttons>
-  </ion-nav-bar>
+<ion-view view-title="Dashboard">
   <ion-content padding="true">
-    <div class="has-header list" ng-show="events.length>0">
-      <div class="row calm item ng-hide" ng-show="events.length>0" >
-       <div class="col" align="center">Events</div>
-     </div>
-      <div class="row calm item ng-hide" ng-show="events.length>0" >
-       <div class="col">Title</div>
-       <div class="col">Date</div>
-     </div>
-      <div class="row item ng-hide" ng-show="events.length>0" ng-repeat="event in events">
-      <div class="col">{{event.title}}</div>
-      <div class="col">{{event.starts}}</div>
-      </div>
-      <div class="row item ng-hide" ng-show="events.length>0">
-        <a class="button button-small button-calm" href="#/menuorganizers/organizersevents">More...</a>
-      </div>
-    </div>
+    <h5>Tu proximo evento:</h5>
+    <ion-list ng-show="home.events.length > 0">
+      <ion-item href="#" class="event" ng-repeat="event in home.events" ng-style="{'background-image': 'url(' + event.image + ')'}">
+          <p>{{event.title}} </br> {{event.starts}}</p>
+      </ion-item>
+      <a class="button button-small button-calm" href="#/organizer/events">More...</a>
+    </ion-list>
 
     <div class="has-header list" ng-show="events.length>0">
       <div  class="row calm item ng-hide" ng-show="events.length>0">
@@ -39,8 +24,8 @@
       <div class="col">{{sponzor.starts}}</div>
       </div>
       <div class="row item ng-hide" ng-show="sponzorships.length>0">
-        <a class="button button-positive" href="#/menuorganizers/organizersevents">More...</a>
-      </div>
+        <a class="button button-small button-calm" href="#/oganizers/sponzors">More...</a>
+      </div>  
     </div>
 </ion-content>
 </ion-view>

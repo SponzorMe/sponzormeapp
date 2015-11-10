@@ -1,0 +1,12 @@
+.menu{
+  background-color: $brand;
+  .item{
+    background-color: transparent;
+    border: 0px;
+    color: white;
+    a.item-content{
+      background-color: transparent;
+      color: white;
+    }
+  }
+}

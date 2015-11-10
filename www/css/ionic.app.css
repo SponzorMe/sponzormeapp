@@ -9108,6 +9108,16 @@ form label.item {
 .popup-body {
   text-align: center; }
 
+.menu {
+  background-color: #191c29; }
+  .menu .item {
+    background-color: transparent;
+    border: 0px;
+    color: white; }
+    .menu .item a.item-content {
+      background-color: transparent;
+      color: white; }
+
 .event {
   background-position: top center;
   background-size: cover; }
