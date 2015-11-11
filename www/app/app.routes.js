@@ -60,6 +60,16 @@
         }
       })
 
+      .state('organizer.addevent', {
+        url: "/addevent",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/events-organizer/add-event.html",
+            controller: "AddEventController as addEvent"
+          }
+        }
+      })
+
       /* Sponzors */
 
       .state('sponzor', {

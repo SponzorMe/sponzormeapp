@@ -1,7 +1,7 @@
-<ion-view view-title="Events" hide-back-button="true">
+<ion-view view-title="Events">
   <ion-nav-buttons side="right">
-    <button class="button button-icon button-clear ion-plus-round" ng-click="newEvent()">
-    </button>
+    <a class="button button-icon button-clear ion-plus-round" ng-href="#/organizer/addevent">
+    </a>
   </ion-nav-buttons>
   <ion-content>
     <div class="row text-center" ng-show="eventList.events.length == 0 && eventList.showEmptyState">

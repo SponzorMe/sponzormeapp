@@ -13,7 +13,7 @@ var paths = {
   js: ['./www/app/**/*.js', './www/app/*.js'],
 };
 
-gulp.task('default', [  'js','sass']);
+gulp.task('default', ['sass']);
 
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
@@ -42,7 +42,7 @@ gulp.task('js', function(done) {
 
 gulp.task('watch', function() {
   gulp.watch(paths.sass, ['sass']);
-  gulp.watch(paths.js, ['js']);
+  //gulp.watch(paths.js, ['js']);
 });
 
 gulp.task('install', ['git-check'], function() {
