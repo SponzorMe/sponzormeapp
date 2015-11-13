@@ -10,3 +10,8 @@
     color: white;
   }
 }
+.icon.cover{
+  @extend .center-block;
+	text-align: center;
+	font-size: 90px;
+}

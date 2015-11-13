@@ -167,6 +167,11 @@
         "addeventsform_desc_required" : "This field is required.",
         "addeventsform_desc_maxlength" : "This field is must be at least 5 characters.",
         "addeventsform_desc_minlength" : "This field is must be less than 30 characters.",
+        "addeventsform_startdate_required" : "This field is required.",
+        "addeventsform_starttime_required" : "This field is required.",
+        "addeventsform_enddate_required" : "This field is required.",
+        "addeventsform_endtime_required" : "This field is required.",
+        "addeventsform_startdate_required" : "This field is required.",
         "addeventsform_error_tit": "Error",
         "addeventsform_error_mess": "Ops, Something happened. Try later"
     },

@@ -11,12 +11,14 @@
     .module('app.events-organizer')
     .controller('AddEventController', AddEventController);
 
-  AddEventController.$inject = ['$translate', '$localStorage' ,'userService', 'utilsService', '$cordovaDatePicker', '$cordovaCamera'];
+  AddEventController.$inject = ['$translate', '$localStorage' ,'userService', 'utilsService', '$cordovaDatePicker', '$cordovaCamera', 'eventTypeService', 'eventService'];
 
-  function AddEventController( $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera) {
+  function AddEventController( $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService) {
 
     var vm = this;
     vm.newEvent = {};
+    vm.eventTypes = [];
+    vm.eventAccess = [];
     vm.userAuth = $localStorage.userAuth;
 
     vm.clickedStartDate = clickedStartDate;
@@ -24,14 +26,15 @@
     vm.clickedStartTime = clickedStartTime;
     vm.clickedEndTime = clickedEndTime;
     vm.getPhoto = getPhoto;
-    vm.addEvent = addEvent;
+    vm.createEvent = createEvent;
 
     activate();
 
     ////////////
 
     function activate(){
-      //getEvents();
+      getEventsTypes();
+      getEventsAccess();
     }
 
     function showDatePicker( options ) {
@@ -53,11 +56,11 @@
       .then( complete );
 
       function complete( date ){
-        vm.addEvent.start = moment(date).format('YYYY-MM-DD');
+        vm.newEvent.start = moment(date).format('YYYY-MM-DD');
       }
     }
 
-    function clickedEndDate = function(){
+    function clickedEndDate(){
       showDatePicker({
         date: new Date(),
         mode: 'date', // or 'time'
@@ -72,7 +75,7 @@
       .then( complete );
       
       function complete( date ){
-        vm.addEvent.end = moment(date).format('YYYY-MM-DD');
+        vm.newEvent.end = moment(date).format('YYYY-MM-DD');
       }
     };
 
@@ -91,7 +94,7 @@
       .then( complete );
       
       function complete( date ){
-        vm.addEvent.starttime = moment(date).format('HH:mm:ss');
+        vm.newEvent.starttime = moment(date).format('HH:mm:ss');
       }
     }
 
@@ -110,25 +113,8 @@
       .then( complete );
       
       function complete( date ){
-        vm.addEvent.endtime = moment(date).format('HH:mm:ss');
+        vm.newEvent.endtime = moment(date).format('HH:mm:ss');
       }
-    }
-
-    function selectEndTime(){
-      var options = {
-        date: new Date(),
-        mode: 'time', // or 'time'
-        minDate: new Date() - 10000,
-        allowOldDates: true,
-        allowFutureDates: true,
-        doneButtonLabel: 'DONE',
-        doneButtonColor: '#F2F3F4',
-        cancelButtonLabel: 'CANCEL',
-        cancelButtonColor: '#000000'
-      };
-      $cordovaDatePicker.show( options ).then(function( date ){
-        vm.addEvent.start = moment(date).format('YYYY-MM-DD');
-      });
     }
 
     function getPhoto(){
@@ -149,7 +135,7 @@
         .catch( failed );
 
       function complete( imageURI ){
-        console.log( imageURI );
+        vm.newEvent.image = "data:image/jpeg;base64," + imageURI;
       }
 
       function failed( error ){
@@ -157,8 +143,8 @@
       }
     }
 
-    function addEvent(){
-      eventRequest.createEvent( preparateData() )
+    function createEvent(){
+      eventService.createEvent( preparateData() )
         .then( addEventComplete )
         .catch( addEventFailed );
 
@@ -170,6 +156,35 @@
         console.log( error );
       }
 
+    }
+
+    function getEventsTypes(){
+      eventTypeService.allEventTypes()
+        .then( complete )
+        .catch( failed );
+
+        function complete( eventTypes ){
+          vm.eventTypes = eventTypes;
+          if(vm.eventTypes.length > 0) vm.newEvent.type = vm.eventTypes[0];
+        }
+
+        function failed( error ){
+          console.log( error );
+        }
+    }
+
+    function getEventsAccess(){
+      vm.eventAccess = [
+        {
+          id: 0,
+          name: "Public"
+        },
+        {
+          id: 1,
+          name: "Private"
+        }
+      ];
+      vm.newEvent.access = vm.eventAccess[0];
     }
 
     function preparateData() {
@@ -188,11 +203,11 @@
         starts: joinDate(vm.newEvent.start, vm.newEvent.starttime),
         ends: joinDate(vm.newEvent.end, vm.newEvent.endtime),
         image: vm.newEvent.image ? vm.newEvent.image : "http://i.imgur.com/t8YehGM.jpg",
-        privacy: vm.newEvent.public,
+        privacy: vm.newEvent.access.id,
         lang: $translate.use(),
         organizer: vm.userAuth.id,
         category: 1,
-        type: vm.newEvent.type
+        type: vm.newEvent.type.id
       }
     }
     

@@ -9,15 +9,14 @@
     background-color: white;
   }
   .icon.cover{
-    @extend .center-block;
-    text-align: center;
     color: white;
-    font-size: 90px;
     padding-top: 15%;
   }
 }
 form{
-  
+  input[readonly]:not(.cloned-text-input){
+    background-color: white;
+  }
   label.item{
     /** Styling for the username field **/
     &.has-error{

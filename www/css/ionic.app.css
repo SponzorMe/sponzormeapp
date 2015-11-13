@@ -9072,7 +9072,7 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
-.center-block, .pageForm .logo, .pageForm .icon.cover {
+.center-block, .icon.cover, .pageForm .logo {
   display: block;
   margin: 0 auto; }
 
@@ -9082,6 +9082,10 @@ a.button {
 .bar-footer a.button.button-clear {
   color: white; }
 
+.icon.cover {
+  text-align: center;
+  font-size: 90px; }
+
 .pageForm {
   background-color: #191c29; }
   .pageForm .logo {
@@ -9090,10 +9094,11 @@ a.button {
   .pageForm .item-floating-label {
     background-color: white; }
   .pageForm .icon.cover {
-    text-align: center;
     color: white;
-    font-size: 90px;
     padding-top: 15%; }
+
+form input[readonly]:not(.cloned-text-input) {
+  background-color: white; }
 
 form label.item {
   /** Styling for the username field **/ }

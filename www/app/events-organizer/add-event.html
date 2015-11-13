@@ -1,6 +1,138 @@
 <ion-view>
   <ion-nav-title>Add Event</ion-nav-title>
-  <ion-content padding="true">
-    <h1>Add event</h1>
+  <ion-content>
+    <form name="addEventForm" novalidate ng-submit="addEventForm.$valid && addEvent.createEvent()">
+      <ion-list type="card">  
+        <ion-item class="item-divider">
+          {{"ADDEVENTS.forgot_title" | translate}}
+        </ion-item>
+        <!-- Image  -->
+        <ion-item class="item-image"> 
+          <i class="icon ion-image cover" ng-if="!newEvent.image" ng-click="addEvent.getPhoto()"></i>
+          <img ng-if="newEvent.image" ng-src="{{newEvent.image}}" />
+        </ion-item>
+        <!-- Title  -->
+        <label class="item item-input" ng-class="{ 'has-error' : addEventForm.txttitle.$invalid && addEventForm.$submitted }">
+          <input 
+          name="txttitle" 
+          type="text" 
+          placeholder='{{"ADDEVENTS.title_field" | translate}}' 
+          ng-model="addEvent.newEvent.title"
+          ng-minlength="5"
+          ng-maxlength="30"
+          required>
+        </label>
+         <div class="form-errors" ng-messages="addEventForm.txttitle.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_tit_required" | translate}}</div>
+          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_tit_maxlength" | translate}}</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_tit_minlength" | translate}}</div>
+        </div>
+        <!-- Location  -->
+        <label class="item item-input" ng-class="{ 'has-error' : addEventForm.txtloc.$invalid && addEventForm.$submitted }">
+          <input 
+          name="txtloc" 
+          type="text" 
+          placeholder='{{"ADDEVENTS.location_field" | translate}}' 
+          ng-model="addEvent.newEvent.location"
+          ng-minlength="5"
+          ng-maxlength="30"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="addEventForm.txtloc.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_loc_required" | translate}}</div>
+          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_loc_maxlength" | translate}}</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_loc_minlength" | translate}}</div>
+        </div>
+       <!-- Description  -->
+        <label class="item item-input" ng-class="{ 'has-error' : addEventForm.txtdesc.$invalid && addEventForm.$submitted }">
+          <textarea
+          name="txtdesc"
+          placeholder='{{"ADDEVENTS.description_field" | translate}}'
+          ng-model="addEvent.newEvent.description"
+          ng-minlength="5"
+          ng-maxlength="30"
+          required>
+          </textarea>
+        </label>
+        <div class="form-errors" ng-messages="addEventForm.txtdesc.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_desc_required" | translate}}</div>
+          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_desc_maxlength" | translate}}</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_desc_minlength" | translate}}</div>
+        </div>
+        <!-- Start Date  -->
+        <label class="item item-input" ng-class="{ 'has-error' : addEventForm.txtstart.$invalid && addEventForm.$submitted }">
+          <input 
+          name="txtstart" 
+          type="text" 
+          readonly  
+          placeholder='{{"ADDEVENTS.starts_field1" | translate}}' 
+          ng-model="addEvent.newEvent.start" 
+          ng-click="addEvent.clickedStartDate()"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="addEventForm.txtstart.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_startdate_required" | translate}}</div>
+        </div>
+        <!-- Start Time  -->
+        <label class="item item-input" ng-class="{ 'has-error' : addEventForm.txtstarttime.$invalid && addEventForm.$submitted }">
+          <input
+          name="txtstarttime" 
+          type="text" 
+          readonly  
+          placeholder='{{"ADDEVENTS.starts_field2" | translate}}' 
+          ng-model="addEvent.newEvent.starttime" 
+          ng-click="addEvent.clickedStartTime()"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="addEventForm.txtstarttime.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_starttime_required" | translate}}</div>
+        </div>
+        <!-- End Date  -->
+        <label class="item item-input" ng-class="{ 'has-error' : addEventForm.txtend.$invalid && addEventForm.$submitted }">
+          <input
+          name="txtend" 
+          type="text" 
+          readonly 
+          placeholder='{{"ADDEVENTS.ends_field1" | translate}}' 
+          ng-model="addEvent.newEvent.end" 
+          ng-click="addEvent.clickedEndDate()"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="addEventForm.txtend.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_enddate_required" | translate}}</div>
+        </div>
+        <!-- End Time  -->
+        <label class="item item-input" ng-class="{ 'has-error' : addEventForm.txtendtime.$invalid && addEventForm.$submitted }">
+          <input 
+          name="txtendtime" 
+          type="text" 
+          readonly  
+          placeholder='{{"ADDEVENTS.ends_field2" | translate}}' 
+          ng-model="addEvent.newEvent.endtime" 
+          ng-click="addEvent.clickedEndTime()"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="addEventForm.txtendtime.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_endtime_required" | translate}}</div>
+        </div>
+        <!-- Access -->
+        <label class="item item-input item-select">
+          <div class="input-label">Access</div>
+          <select name="selType" ng-model="addEvent.newEvent.access" ng-options="access.name for access in addEvent.eventAccess">
+          </select>
+        </label>
+        <!-- Event type -->
+        <label class="item item-input item-select">
+          <div class="input-label">Event type</div>
+          <select name="selType" ng-model="addEvent.newEvent.type" ng-options="type.name for type in addEvent.eventTypes">
+          </select>
+        </label>
+      </ion-list>
+      <div class="padding">
+         <button type="submit" class="button button-block button-calm">
+          {{"ADDEVENTS.button_message" | translate}}
+        </button>
+      </div>
+    </form>
   </ion-content>
 </ion-view>
