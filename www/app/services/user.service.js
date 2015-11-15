@@ -158,8 +158,8 @@
       });
     }
 
-    function checkSession(localToken, localUser){
-      if(angular.isDefined(localToken) && angular.isDefined(localUser)){
+    function checkSession(){
+      if(angular.isDefined($localStorage.token) && angular.isDefined($localStorage.userAuth)){
         return true;
       }
       return false;

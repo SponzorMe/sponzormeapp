@@ -10,6 +10,11 @@
     color: white;
   }
 }
+.bar-header{
+  .button.button-clear{
+    color: white;
+  }
+}
 .icon.cover{
   @extend .center-block;
 	text-align: center;

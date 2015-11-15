@@ -13,6 +13,8 @@
 
     $urlRouterProvider.otherwise("/sign-in");
 
+
+
     $stateProvider
       .state('signin', {
         url: '/sign-in',
@@ -38,6 +40,16 @@
         url: "/organizer",
         abstract: true,
         templateUrl: "app/dashboard-organizer/menu.html"
+      })
+
+      .state('organizer.intro', {
+        url: "/intro",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/dashboard-organizer/intro.html",
+            controller: "IntroOrganizerCtrl as intro",
+          }
+        }
       })
 
       .state('organizer.home', {

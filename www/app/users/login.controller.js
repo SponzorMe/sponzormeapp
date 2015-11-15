@@ -20,7 +20,16 @@
     vm.userResponse = {};
     vm.signIn = signIn;
 
+    activate();
+
     ////////////
+    
+    function activate() {
+      if(userService.checkSession()){
+        vm.userResponse = $localStorage.userAuth;
+        validateTutorial();
+      }
+    }
 
     function signIn(){
       utilsService.showLoad();

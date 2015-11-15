@@ -9082,6 +9082,9 @@ a.button {
 .bar-footer a.button.button-clear {
   color: white; }
 
+.bar-header .button.button-clear {
+  color: white; }
+
 .icon.cover {
   text-align: center;
   font-size: 90px; }
@@ -9176,30 +9179,3 @@ form label.item {
     .event .item-content span.badge {
       bottom: 14px;
       top: auto; }
-
-/*"menu",
-  "event",
-  "items",
-  "map",
-  "picture",
-  "gallery",
-  "empty-states",
-  "video";
-  /*
-  // Components
-  //"bar",
-  //"button",
-  //"items",
-  //"menu",
-  //"profile",
-  //"picture",
-  //"tags",
-  //"chat",
-  //"map",
-  //"cards",
-  //"gallery",
-  //"popups",
-  //"table",
-  //"modal",
-  **"empty-states",
-  //"score";*/
