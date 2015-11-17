@@ -70,7 +70,7 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( response.data );
+        return $q.when( response.data.event );
       }
 
       function failed( error ) {

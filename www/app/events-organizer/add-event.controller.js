@@ -11,15 +11,33 @@
     .module('app.events-organizer')
     .controller('AddEventController', AddEventController);
 
-  AddEventController.$inject = ['$translate', '$localStorage' ,'userService', 'utilsService', '$cordovaDatePicker', '$cordovaCamera', 'eventTypeService', 'eventService'];
+  AddEventController.$inject = [
+    '$scope',
+    '$translate',
+    '$localStorage',
+    'userService',
+    'utilsService',
+    '$cordovaDatePicker',
+    '$cordovaCamera',
+    'eventTypeService',
+    'eventService',
+    'perkService',
+    '$ionicModal',
+    '$cordovaToast',
+    '$state',
+    '$ionicHistory'
+  ];
 
-  function AddEventController( $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService) {
+  function AddEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, perkService, $ionicModal, $cordovaToast, $state, $ionicHistory) {
 
     var vm = this;
     vm.newEvent = {};
+    vm.newSponsor = {};
+    vm.isNewSponsor = true;
     vm.eventTypes = [];
-    vm.eventAccess = [];
+    vm.sponsors = [];
     vm.userAuth = $localStorage.userAuth;
+    vm.modalSponsor = null;
 
     vm.clickedStartDate = clickedStartDate;
     vm.clickedEndDate = clickedEndDate;
@@ -27,15 +45,35 @@
     vm.clickedEndTime = clickedEndTime;
     vm.getPhoto = getPhoto;
     vm.createEvent = createEvent;
+    vm.openModalSponsor = openModalSponsor;
+    vm.closeModalSponsor = closeModalSponsor;
+    vm.createSponsor = createSponsor;
+    vm.editSponsor = editSponsor;
+    vm.deleteSponsor = deleteSponsor;
+    vm.submitSponsor = submitSponsor;
 
     activate();
 
     ////////////
 
     function activate(){
+
+      $ionicModal.fromTemplateUrl('app/events-organizer/sponsor-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        vm.modalSponsor = modal;
+      });
+
+      vm.newEvent.access = true;
+      /*vm.newEvent.start = '2015-03-15';
+      vm.newEvent.starttime = '12:03:15';
+      vm.newEvent.end = '2015-03-16';
+      vm.newEvent.endtime = '11:03:15';*/
       getEventsTypes();
-      getEventsAccess();
     }
+
+    
 
     function showDatePicker( options ) {
       return $cordovaDatePicker.show( options );
@@ -144,16 +182,29 @@
     }
 
     function createEvent(){
+      utilsService.showLoad();
       eventService.createEvent( preparateData() )
-        .then( addEventComplete )
-        .catch( addEventFailed );
+        .then( complete )
+        .catch( failed );
 
-      function addEventComplete( response ) {
-        console.log( response );
+      function complete( event ) {
+        utilsService.hideLoad();
+        createPerks( event.id );
+        vm.newEvent = {};
+        $ionicHistory.nextViewOptions({
+          disableAnimate: false,
+          disableBack: true
+        });
+        $state.go("organizer.events");
+        //$cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_event_mess"));
       }
 
-      function addEventFailed( error ) {
-        console.log( error );
+      function failed( error ) {
+        utilsService.hideLoad();
+        utilsService.alert({
+          title: $translate.instant("ERRORS.addeventsform_error_tit"),
+          template: $translate.instant("ERRORS.addeventsform_error_mess"),
+        });
       }
 
     }
@@ -173,20 +224,6 @@
         }
     }
 
-    function getEventsAccess(){
-      vm.eventAccess = [
-        {
-          id: 0,
-          name: "Public"
-        },
-        {
-          id: 1,
-          name: "Private"
-        }
-      ];
-      vm.newEvent.access = vm.eventAccess[0];
-    }
-
     function preparateData() {
 
       function joinDate(date, time) {
@@ -203,13 +240,80 @@
         starts: joinDate(vm.newEvent.start, vm.newEvent.starttime),
         ends: joinDate(vm.newEvent.end, vm.newEvent.endtime),
         image: vm.newEvent.image ? vm.newEvent.image : "http://i.imgur.com/t8YehGM.jpg",
-        privacy: vm.newEvent.access.id,
+        privacy: vm.newEvent.access ? 0 : 1,
         lang: $translate.use(),
         organizer: vm.userAuth.id,
         category: 1,
         type: vm.newEvent.type.id
       }
     }
+
+    function createPerks( idEvent ){
+      var size = vm.sponsors.length;
+      for (var i = 0; i < size; i++) {
+        var data = vm.sponsors[i];
+        data.id_event = idEvent;
+        createPerk( data );
+      };
+    }
+
+    function createPerk( data ){
+      return perkService.createPerk( data )
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        console.log( response );
+      }
+
+      function failed( error ){
+        console.log( error );
+      }
+    }
+
+    function openModalSponsor(){
+      vm.modalSponsor.show();
+    }
+
+    function closeModalSponsor(){
+      vm.modalSponsor.hide();
+      vm.newSponsor = {};
+    } 
+
+    function createSponsor(){
+      vm.isNewSponsor = true;
+      vm.openModalSponsor();
+    }
+
+    function editSponsor( data ){
+      vm.isNewSponsor = false;
+      vm.newSponsor = data;
+      vm.openModalSponsor();
+    }
+
+    function addSponsor(){
+      vm.sponsors.push( vm.newSponsor );
+      vm.closeModalSponsor();
+    }
+
+    function deleteSponsor(){
+      var index = vm.sponsors.indexOf( vm.newSponsor );
+      vm.sponsors.splice(index, 1);
+      vm.closeModalSponsor();
+    }
+
+    function updateSponsor(){
+      vm.closeModalSponsor();
+    }
+
+    function submitSponsor(){
+      if(vm.isNewSponsor){
+        addSponsor();
+      }else{
+        updateSponsor();
+      }
+    }
+
     
 
   }

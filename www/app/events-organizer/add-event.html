@@ -116,18 +116,37 @@
           <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_endtime_required" | translate}}</div>
         </div>
         <!-- Access -->
+        <ion-toggle ng-model="addEvent.newEvent.access" toggle-class="toggle-calm">Is it public event?</ion-toggle>
+        <!-- Access 
         <label class="item item-input item-select">
           <div class="input-label">Access</div>
           <select name="selType" ng-model="addEvent.newEvent.access" ng-options="access.name for access in addEvent.eventAccess">
           </select>
-        </label>
+        </label>-->
         <!-- Event type -->
         <label class="item item-input item-select">
           <div class="input-label">Event type</div>
           <select name="selType" ng-model="addEvent.newEvent.type" ng-options="type.name for type in addEvent.eventTypes">
           </select>
         </label>
+
+        <ion-item class="item-divider">Type of Sponzor</ion-item>
+        <ion-item ng-repeat="sponsor in addEvent.sponsors" ng-click="addEvent.editSponsor(sponsor)" class="item-icon-right">
+          {{ sponsor.kind }} - {{ sponsor.usd }}
+          <i class="icon ion-edit"></i>
+        </ion-item>
+
+        <div class="padding">
+          <button type="button" class="button button-block button-calm" ng-click="addEvent.createSponsor()">
+            New Sponzor
+          </button>
+        </div>
+        <div class="form-errors" ng-messages="addEventForm.txtendtime.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_endtime_required" | translate}}</div>
+        </div>
+        
       </ion-list>
+
       <div class="padding">
          <button type="submit" class="button button-block button-calm">
           {{"ADDEVENTS.button_message" | translate}}

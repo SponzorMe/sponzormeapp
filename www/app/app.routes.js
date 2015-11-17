@@ -70,7 +70,8 @@
             templateUrl: "app/events-organizer/event-list.html",
             controller: "EventListController as eventList"
           }
-        }
+        },
+        cache: false,
       })
 
       .state('organizer.addevent', {

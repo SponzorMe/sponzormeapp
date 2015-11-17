@@ -13,7 +13,7 @@
       </div>
     </div>
     <ion-list ng-show="eventList.events.length > 0">
-      <ion-item href="#" class="event" ng-repeat="event in eventList.events" ng-style="{'background-image': 'url(' + event.image + ')'}">
+      <ion-item href="#" class="event" collection-repeat="event in eventList.events" ng-style="{'background-image': 'url(' + event.image + ')'}">
         <p>{{event.title}} </br> {{event.starts}}</p>
       </ion-item>
     </ion-list>

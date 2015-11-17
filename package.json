@@ -36,7 +36,8 @@
     },
     "cordova-plugin-camera",
     "cordova-plugin-crosswalk-webview",
-    "ionic-plugin-keyboard"
+    "ionic-plugin-keyboard",
+    "cordova-plugin-x-toast"
   ],
   "cordovaPlatforms": [
     "android",

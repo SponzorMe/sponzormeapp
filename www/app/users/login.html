@@ -20,7 +20,7 @@
           <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_maxlength" | translate}}</div>
           <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_minlength" | translate}}</div>
         </div>
-        <label class="item item-input item-floating-label inputwhite" ng-class="{ 'has-error' : signinForm.password.$invalid  && signinForm.$submitted}">
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : signinForm.password.$invalid  && signinForm.$submitted}">
           <span class="input-label">{{"LOGIN.pass_field" | translate}}</span>
           <input 
           name="password" 

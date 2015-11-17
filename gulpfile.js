@@ -64,7 +64,7 @@ gulp.task('git-check', function(done) {
   }
   done();
 });
-
+/*
 // `npm install --save replace`
 var replace = require('replace');
 var replaceFiles = ['./www/js/app.js'];
@@ -87,4 +87,4 @@ gulp.task('remove-proxy', function() {
     recursive: false,
     silent: false,
   });
-});
+});*/
