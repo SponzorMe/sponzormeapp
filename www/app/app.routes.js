@@ -39,7 +39,8 @@
       .state('organizer', {
         url: "/organizer",
         abstract: true,
-        templateUrl: "app/dashboard-organizer/menu.html"
+        templateUrl: "app/dashboard-organizer/menu.html",
+        controller: "MenuOrganizerCtrl as menu"
       })
 
       .state('organizer.intro', {
