@@ -2,7 +2,7 @@
   <ion-content padding="true">
     <h5>Tu proximo evento:</h5>
     <ion-list ng-show="home.events.length > 0">
-      <ion-item href="#" class="event" ng-repeat="event in home.events" ng-style="{'background-image': 'url(' + event.image + ')'}">
+      <ion-item href="#/organizer/event/{{ event.id }}" class="event" ng-repeat="event in home.events" ng-style="{'background-image': 'url(' + event.image + ')'}">
           <p>{{event.title}} </br> {{event.starts}}</p>
       </ion-item>
       <a class="button button-small button-calm" href="#/organizer/events">More...</a>

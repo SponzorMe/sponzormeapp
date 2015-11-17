@@ -51,7 +51,15 @@
         .catch( failed );
 
       function complete( response ) {
-        return $q.when( response.data );
+        return $q.when( preparateData(response.data.data) );
+
+        function preparateData( data ){
+          var event = data.event;
+          event.category = data.category.length === 0 ? event.category : data.category[0];
+          event.type = data.type.length === 0 ? event.type : data.type[0];
+          event.organizer = data.organizer.length === 0 ? event.organizer : data.organizer[0];
+          return event;
+        }
       }
 
       function failed( error ) {

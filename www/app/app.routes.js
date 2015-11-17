@@ -84,6 +84,18 @@
         }
       })
 
+      .state('organizer.event', {
+        url: "/event/:idEvent",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/events-organizer/event-detail.html",
+            controller: "EventDetailController as eventInfo"
+          }
+        }
+      })
+
+      
+
       /* Sponzors */
 
       .state('sponzor', {
