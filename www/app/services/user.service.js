@@ -45,14 +45,14 @@
           password: user.password
         })
       })
-      .then( loginComplete )
-      .catch( loginFailed );
+      .then( complete )
+      .catch( failed );
 
-      function loginComplete( response ) {
+      function complete( response ) {
         return $q.when( response.data.user );
       } 
 
-      function loginFailed( response ) {
+      function failed( response ) {
         return $q.reject( response.data );
       }
     }

@@ -55,7 +55,7 @@
         </ion-slide>
         <ion-slide>
           <ion-scroll style="height:90%">
-            <div class="row text-center" ng-show="eventDetail.event.perks == 0">
+            <div class="row text-center" ng-show="eventDetail.event.perks.length == 0">
               <div class="col">
                 <div class="empty-states">
                   <i class="icon ion-android-checkmark-circle"></i>
@@ -63,7 +63,7 @@
                 </div>
               </div>
             </div>
-            <ion-list type="card" ng-show="eventDetail.event.perks > 0">
+            <ion-list type="card" ng-show="eventDetail.event.perks.length > 0">
               <ion-item class="item-divider">Perks</ion-item>
               <ion-item class="item-icon-left" ng-repeat="perk in eventDetail.event.perks">
                 <i class="icon ion-android-checkmark-circle"></i>

@@ -20,10 +20,15 @@
   function ProfileController( userService, utilsService, $localStorage) {
 
     var vm = this;
-    vm.friend = {};
-    vm.userAuth = $localStorage.userAuth;
+    vm.user = $localStorage.userAuth;
+
+    activate();
 
     ////////////
+    
+    function activate(){
+      vm.user.age = parseInt( vm.user.age );
+    }
 
     
 

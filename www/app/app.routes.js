@@ -63,6 +63,16 @@
         }
       })
 
+      .state('organizer.profile', {
+        url: "/profile",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/users/profile.html",
+            controller: "ProfileController as profile"
+          }
+        }
+      })
+
       .state('organizer.events', {
         url: "/events",
         views: {
@@ -122,6 +132,16 @@
           'menuContent' :{
             templateUrl: "app/users/invite-users.html",
             controller: "InviteUsersController as invite"
+          }
+        }
+      })
+
+      .state('organizer.settings', {
+        url: "/settings",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/users/settings.html",
+            controller: "SettingsController as settings"
           }
         }
       })

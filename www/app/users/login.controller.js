@@ -34,10 +34,10 @@
     function signIn(){
       utilsService.showLoad();
       userService.login( vm.user )
-        .then( signInComplete )
-        .catch( showError );
+        .then( complete )
+        .catch( failed );
 
-      function signInComplete( user ){
+      function complete( user ){
         utilsService.hideLoad();
         vm.userResponse = user;
         saveUser();
@@ -45,7 +45,7 @@
         validateTutorial();
       }
 
-      function showError( data ){
+      function failed( data ){
         utilsService.hideLoad();
         if(utilsService.trim(data.message) === "Invalid credentials"){
           utilsService.alert({
