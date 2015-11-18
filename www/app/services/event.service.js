@@ -55,9 +55,11 @@
 
         function preparateData( data ){
           var event = data.event;
+          event.image = (event.image == "event_dummy.png") ? 'img/banner.jpg' : event.image;
           event.category = data.category.length === 0 ? event.category : data.category[0];
           event.type = data.type.length === 0 ? event.type : data.type[0];
           event.organizer = data.organizer.length === 0 ? event.organizer : data.organizer[0];
+          event.organizer.image = (event.organizer.image == "organizer_sponzorme.png") ? 'img/photo.png' : event.organizer.image;
           return event;
         }
       }
