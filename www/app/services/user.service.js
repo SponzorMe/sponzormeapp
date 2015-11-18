@@ -64,10 +64,10 @@
     function getUser( userId ){
       $http.defaults.headers.common['Authorization'] = 'Basic ' + token;
       return $http.get(path + 'users/' + userId)
-        .then( getUserComplete )
-        .catch( getUserFailed );
+        .then( complete )
+        .catch( failed );
 
-      function getUserComplete( response ) {
+      function complete( response ) {
         var data = response.data.data.user;
         data.events = preparateEvents( data.events );
         return $q.when( data );
@@ -75,12 +75,13 @@
 
       function preparateEvents( events ){
         return events.map(function( item ){
+          item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
           item.starts = moment(item.starts).format('MMMM Do YYYY');
           return item;
         });
       }
 
-      function getUserFailed( response ) {
+      function failed( response ) {
         return $q.reject( response.data );
       }
     }

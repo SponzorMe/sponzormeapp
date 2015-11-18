@@ -89,11 +89,10 @@
         views: {
           'menuContent' :{
             templateUrl: "app/events-organizer/event-detail.html",
-            controller: "EventDetailController as eventInfo"
+            controller: "EventDetailController as eventDetail"
           }
         }
       })
-
       
 
       /* Sponzors */

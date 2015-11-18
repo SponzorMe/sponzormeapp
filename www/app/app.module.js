@@ -16,6 +16,7 @@
     'ngIOS9UIWebViewPatch',
     'pascalprecht.translate',
     'base64',
+    'tabSlideBox',
     //'app.widgets',
     //Feature areas
     'app.users',

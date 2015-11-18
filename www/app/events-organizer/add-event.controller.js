@@ -253,22 +253,23 @@
       for (var i = 0; i < size; i++) {
         var data = vm.sponsors[i];
         data.id_event = idEvent;
+        data.reserved_quantity = 0;
         createPerk( data );
       };
     }
 
     function createPerk( data ){
       return perkService.createPerk( data )
-      .then( complete )
-      .catch( failed );
+        .then( complete )
+        .catch( failed );
 
-      function complete( response ){
-        console.log( response );
-      }
+        function complete( response ){
+          console.log( response );
+        }
 
-      function failed( error ){
-        console.log( error );
-      }
+        function failed( error ){
+          console.log( error );
+        }
     }
 
     function openModalSponsor(){
