@@ -93,6 +93,38 @@
           }
         }
       })
+
+      .state('organizer.sponsors', {
+        url: "/sponsors",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/sponsors-organizer/sponzor-list.html",
+            controller: "SponzorListController as sponzorList"
+          }
+        },
+        cache: false,
+      })
+
+      .state('organizer.tasks', {
+        url: "/tasks",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/tasks-organizer/task-list.html",
+            controller: "TaskListController as taskList"
+          }
+        },
+        cache: false,
+      })
+
+      .state('organizer.invite', {
+        url: "/invite",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/users/invite-users.html",
+            controller: "InviteUsersController as invite"
+          }
+        }
+      })
       
 
       /* Sponzors */

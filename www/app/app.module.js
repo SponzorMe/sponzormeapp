@@ -22,6 +22,8 @@
     'app.users',
     'app.dashboard-organizer',
     'app.events-organizer',
+    'app.sponsors-organizer',
+    'app.tasks-organizer',
     //'app.dashboard',
     //'app.layout'
   ])

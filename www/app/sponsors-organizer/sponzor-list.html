@@ -1,0 +1,17 @@
+<ion-view view-title="Sponsors">
+  <ion-content>
+    <div class="row text-center" ng-show="sponzorList.sponsors.length == 0 && sponzorList.showEmptyState">
+      <div class="col">
+        <div class="empty-states">
+          <i class="icon ion-flag"></i>
+          <h1>No hay sponsors.</h1>
+        </div>
+      </div>
+    </div>
+    <ion-list ng-show="sponzorList.sponsors.length > 0">
+      <ion-item ng-repeat="sponzor in sponzorList.sponsors">
+        {{sponzor.name}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

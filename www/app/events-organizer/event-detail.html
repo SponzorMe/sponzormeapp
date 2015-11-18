@@ -47,20 +47,48 @@
 						  </ion-item>
 						  <ion-item class="item-divider">Event Type</ion-item>
 						  <ion-item class="item-icon-left">
-						  	<i class="icon ion-quote"></i>
-						     {{ eventDetail.event.type.name }}
-						  </ion-item>
+                <i class="icon ion-quote"></i>
+                 {{ eventDetail.event.type.name }}
+              </ion-item>
             </ion-list>	
           </ion-scroll>
         </ion-slide>
         <ion-slide>
           <ion-scroll style="height:90%">
-            <h1>asas</h1>
+            <div class="row text-center" ng-show="eventDetail.event.perks == 0">
+              <div class="col">
+                <div class="empty-states">
+                  <i class="icon ion-android-checkmark-circle"></i>
+                  <h1>No hay perks.</h1>
+                </div>
+              </div>
+            </div>
+            <ion-list type="card" ng-show="eventDetail.event.perks > 0">
+              <ion-item class="item-divider">Perks</ion-item>
+              <ion-item class="item-icon-left" ng-repeat="perk in eventDetail.event.perks">
+                <i class="icon ion-android-checkmark-circle"></i>
+                 {{ perk.kind }} - {{ perk.usd }}
+              </ion-item>
+            </ion-list> 
           </ion-scroll>
         </ion-slide>
         <ion-slide>
           <ion-scroll style="height:90%">
-            <h1>asas</h1>
+            <div class="row text-center" ng-show="eventDetail.event.sponzorship == 0">
+              <div class="col">
+                <div class="empty-states">
+                  <i class="icon ion-flag"></i>
+                  <h1>No hay sponsors.</h1>
+                </div>
+              </div>
+            </div>
+            <ion-list type="card" ng-show="eventDetail.event.sponzorship > 0">
+              <ion-item class="item-divider">Sponzorship</ion-item>
+              <ion-item class="item-icon-left" ng-repeat="sponzor in eventDetail.event.sponzorship">
+                <i class="icon ion-flag"></i>
+                 {{ sponzor.title }}
+              </ion-item>
+            </ion-list>
           </ion-scroll>
         </ion-slide>
       </ion-slide>

@@ -1,0 +1,36 @@
+<ion-view view-title="Invite Friends">
+  <ion-content>
+    <form name="inviteForm" novalidate ng-submit="inviteForm.$valid && invite.inviteFriend()">
+      <ion-list type="card">
+        <div class="padding">
+          <i class="icon ion-person-add cover"></i>
+        </div>
+        <ion-item class="item-divider">
+          {{'INVITEUSERS.info_title' | translate}}
+        </ion-item>
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : inviteForm.txtemail.$invalid && inviteForm.$submitted }">
+          <span class="input-label">{{"INVITEUSERS.email_field" | translate}}</span>
+          <input 
+          name="txtemail" 
+          type="email" 
+          placeholder='{{"INVITEUSERS.email_field" | translate}}' 
+          ng-model="invite.friend.email"
+          ng-minlength="5"
+          ng-maxlength="30"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="inviteForm.txtemail.$error" ng-if="inviteForm.$invalid && inviteForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.inviteform_ema_required" | translate}}</div>
+          <div class="form-error" ng-message="email"><i class="icon ion-close-circled"></i> {{"ERRORS.inviteform_ema_email" | translate}}</div>
+          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.inviteform_ema_maxlength" | translate}}</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.inviteform_ema_minlength" | translate}}</div>
+        </div>
+      </ion-list>
+      <div class="padding">
+        <button type="submit" class="button button-block button-positive">
+          {{"INVITEUSERS.button_message" | translate}}
+        </button>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>
