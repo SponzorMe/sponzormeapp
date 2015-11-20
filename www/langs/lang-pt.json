@@ -50,23 +50,25 @@
   "DASHSPONZORS": {
       "dash_title": "Dashboard",
       "menu_title": "Navegação",
-      "dash_menu1": "Dashboard",
-      "dash_menu2": "Seguinte",
-      "dash_menu3": "Sponzoring",
-      "dash_menu4": "Configuração",
-      "dash_menu5": "Convide seu amigo",
-      "dash_menu6": "Sair"
+      "dashboard": "Dashboard",
+      "following": "Seguinte",
+      "sponzoring": "Sponzoring",
+      "settings": "Configuração",
+      "profile": "My Profile",
+      "invite": "Convide seu amigo",
+      "logout": "Sair"
   },
   "DASHORGANIZERS": {
       "dash_title": "Dashboard",
       "menu_title": "Navegação",
-      "dash_menu1": "Dashboard",
-      "dash_menu2": "Eventos",
-      "dash_menu3": "Sponzors",
-      "dash_menu4": "Listas de tarefas",
-      "dash_menu5": "Convide seu amigo",
-      "dash_menu6": "Configuração",
-      "dash_menu7": "Sair"
+      "dashboard": "Dashboard",
+      "events": "Eventos",
+      "sponsors": "Sponsors",
+      "tasks": "Listas de tarefas",
+      "invite": "Convide seu amigo",
+      "settings": "Configuração",
+      "profile": "My profile",
+      "logout": "Sair"
   },
   "SEARCH": {
       "search_title": "Procure eventos",

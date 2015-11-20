@@ -113,7 +113,7 @@
       });
     }
 
-    function editUserPatch( userId ){
+    function editUserPatch( userId, data ){
       return $http({
         method: 'PATCH',
         url: path + 'users/' + userId,
@@ -122,7 +122,7 @@
       });
     }
 
-    function editUserPut( userId ){
+    function editUserPut( userId, data ){
       return $http({
         method: 'PUT',
         url: path + 'users/' + userId,

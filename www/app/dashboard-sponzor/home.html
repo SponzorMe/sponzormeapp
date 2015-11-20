@@ -1,0 +1,14 @@
+<ion-view view-title="{{'SEARCH.search_title' | translate}}">
+  <ion-content>
+    <ion-list ng-show="home.events.length > 0">
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <input type="search" ng-model="search" placeholder="{{'SEARCH.text_field' | translate}}">
+        </label>
+      </div>
+      <ion-item href="#/sponzor/event/{{ event.id }}" class="event" ng-repeat="event in home.events | filter:search" ng-style="{'background-image': 'url(' + event.image + ')'}">
+          <p>{{event.title}} </br> {{event.starts}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

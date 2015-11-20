@@ -74,9 +74,9 @@
 
     function redirectTutorial(){
       if( vm.userResponse.type == 0 ){ // is an Organizer.
-        $state.go("introorganizers");
+        $state.go("organizer.intro");
       }else{ // is an Sponzor
-        $state.go("introsponzors");
+        $state.go("sponzor.intro");
       }
     }
 

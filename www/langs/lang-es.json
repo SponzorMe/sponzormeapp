@@ -50,23 +50,25 @@
   "DASHSPONZORS": {
       "dash_title": "Panel",
       "menu_title": "Navegacion",
-      "dash_menu1": "Panel",
-      "dash_menu2": "Siguiendo",
-      "dash_menu3": "Patrocinando",
-      "dash_menu4": "Configuracion",
-      "dash_menu5": "Invita a tus amigos",
-      "dash_menu6": "Salir"
+      "dashboard": "Inicio",
+      "following": "Siguiendo",
+      "sponzoring": "Patrocinando",
+      "settings": "Configuración",
+      "invite": "Invita a tus amigos",
+      "profile": "Mi perfil",
+      "logout": "Salir"
   },
   "DASHORGANIZERS": {
       "dash_title": "Panel",
       "menu_title": "Navegacion",
-      "dash_menu1": "Panel",
-      "dash_menu2": "Eventos",
-      "dash_menu3": "Sponzors",
-      "dash_menu4": "Lista de Tareas",
-      "dash_menu5": "Invita a tus amigos",
-      "dash_menu6": "Configuracion",
-      "dash_menu7": "Salir"
+      "dashboard": "Panel",
+      "events": "Eventos",
+      "sponsors": "Sponsors",
+      "tasks": "Lista de Tareas",
+      "invite": "Invita a tus amigos",
+      "settings": "Configuracion",
+      "profile": "Mi perfil",
+      "logout": "Salir"
   },
   "SEARCH": {
       "search_title": "Encuentra Eventos",

@@ -99,7 +99,7 @@
         views: {
           'menuContent' :{
             templateUrl: "app/events-organizer/event-detail.html",
-            controller: "EventDetailController as eventDetail"
+            controller: "EventDetailOrganizerController as eventDetail"
           }
         }
       })
@@ -153,6 +153,66 @@
         url: "/sponzor",
         abstract: true,
         templateUrl: "app/dashboard-sponzor/menu.html"
+      })
+
+      .state('sponzor.intro', {
+        url: "/intro",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/dashboard-sponzor/intro.html",
+            controller: "IntroSponzorCtrl as intro",
+          }
+        }
+      })
+
+      .state('sponzor.home', {
+        url: "/home",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/dashboard-sponzor/home.html",
+            controller: "HomeSponzorController as home"
+          }
+        }
+      })
+
+      .state('sponzor.profile', {
+        url: "/profile",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/users/profile.html",
+            controller: "ProfileController as profile"
+          }
+        }
+      })
+
+      .state('sponzor.event', {
+        url: "/event/:idEvent",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/events-sponzor/event-detail.html",
+            controller: "EventDetailSponzorController as eventDetail"
+          }
+        }
+      })
+
+      .state('sponzor.invite', {
+        url: "/invite",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/users/invite-users.html",
+            controller: "InviteUsersController as invite"
+          }
+        }
+      })
+
+      .state('sponzor.settings', {
+        url: "/settings",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/users/settings.html",
+            controller: "SettingsController as settings"
+          }
+        }
       })
 
     // Languages

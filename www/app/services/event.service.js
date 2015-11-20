@@ -37,7 +37,16 @@
         .catch( failed );
 
       function complete( response ) {
-        return $q.when( response.data );
+        var events = preparateEvents( response.data.events );
+        return $q.when( events );
+      }
+
+      function preparateEvents( events ){
+        return events.map(function( item ){
+          item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
+          item.starts = moment(item.starts).format('MMMM Do YYYY');
+          return item;
+        });
       }
 
       function failed( error ) {

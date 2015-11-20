@@ -21,7 +21,9 @@
     //Feature areas
     'app.users',
     'app.dashboard-organizer',
+    'app.dashboard-sponzor',
     'app.events-organizer',
+    'app.events-sponzor',
     'app.sponsors-organizer',
     'app.tasks-organizer',
     //'app.dashboard',

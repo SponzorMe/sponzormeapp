@@ -50,23 +50,25 @@
     "DASHSPONZORS": {
         "dash_title": "Dashboard",
         "menu_title": "Navigation",
-        "dash_menu1": "Dashboard",
-        "dash_menu2": "Following",
-        "dash_menu3": "Sponzoring",
-        "dash_menu4": "Settings",
-        "dash_menu5": "Invite your friend",
-        "dash_menu6": "Logout"
+        "dashboard": "Dashboard",
+        "following": "Following",
+        "sponzoring": "Sponzoring",
+        "settings": "Settings",
+        "invite": "Invite your friend",
+        "profile": "My Profile",
+        "logout": "Logout"
     },
     "DASHORGANIZERS": {
         "dash_title": "Dashboard",
         "menu_title": "Navigation",
-        "dash_menu1": "Dashboard",
-        "dash_menu2": "Events",
-        "dash_menu3": "Sponzors",
-        "dash_menu4": "Task List",
-        "dash_menu5": "Invite your friend",
-        "dash_menu6": "Settings",
-        "dash_menu7": "Logout"
+        "dashboard": "Dashboard",
+        "events": "Events",
+        "sponsors": "Sponsors",
+        "tasks": "Task List",
+        "invite": "Invite your friend",
+        "settings": "Settings",
+        "profile": "My profile",
+        "logout": "Logout"
     },
     "SETTINGSUSER":{
         "info_title": "My Profile",

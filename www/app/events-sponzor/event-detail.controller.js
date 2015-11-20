@@ -8,16 +8,16 @@
   'use strict';
 
   angular
-    .module('app.events-organizer')
-    .controller('EventDetailOrganizerController', EventDetailOrganizerController);
+    .module('app.events-sponzor')
+    .controller('EventDetailSponzorController', EventDetailSponzorController);
 
-  EventDetailOrganizerController.$inject = [
+  EventDetailSponzorController.$inject = [
     'eventService',
     'utilsService',
     '$stateParams'
   ];
 
-  function EventDetailOrganizerController( eventService , utilsService, $stateParams) {
+  function EventDetailSponzorController( eventService , utilsService, $stateParams) {
 
     var vm = this;
     vm.event = {};
