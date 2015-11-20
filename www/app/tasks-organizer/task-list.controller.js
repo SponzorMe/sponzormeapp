@@ -14,10 +14,11 @@
   TaskListController.$inject = [
     '$localStorage',
     'sponzorshipService',
-    'utilsService'
+    'utilsService',
+    '$q'
   ];
 
-  function TaskListController( $localStorage, sponzorshipService , utilsService) {
+  function TaskListController( $localStorage, sponzorshipService , utilsService, $q) {
 
     var vm = this;
     vm.userAuth = $localStorage.userAuth;
@@ -51,6 +52,23 @@
           console.log( error );
         }
     }
+
+    function test(){
+      var promises = [
+        sponzorshipService.sponzorshipByOrganizer( vm.userAuth.id ),
+        sponzorshipService.sponzorshipByOrganizer( vm.userAuth.id )
+      ];
+
+      $q.all(promises)
+        .then(function( result ){
+          console.log( result );
+        })
+        .catch(function( result ){
+          console.log( result );
+        });
+    }
+
+    
     
 
   }
