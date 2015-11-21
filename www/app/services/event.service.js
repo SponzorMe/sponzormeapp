@@ -82,7 +82,10 @@
       return $http({
         method: 'POST',
         url: path + 'events',
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       })
       .then( complete )
@@ -101,15 +104,31 @@
       return $http({
         method: 'DELETE',
         url: path + 'events/' + eventId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token}
-      });
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ) {
+        return $q.when( response.data );
+      }
+
+      function failed( error ) {
+        return $q.reject( error.data );
+      }
     }
 
     function editEventPatch( eventId, data ){
       return $http({
         method: 'PATCH',
         url: path + 'events/' + eventId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       });
     }
@@ -118,9 +137,16 @@
       return $http({
         method: 'PUT',
         url: path + 'events/' + eventId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       });
+    }
+
+    function getToken(){
+      return $localStorage.token;
     }
 
   }

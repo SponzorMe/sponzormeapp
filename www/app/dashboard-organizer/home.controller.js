@@ -52,10 +52,10 @@
 
     function getSponzorships(){
       sponzorshipService.sponzorshipByOrganizer( vm.userAuth.id )
-        .then( getSponzorshipsComplete )
-        .catch( getSponzorshipsFailed );
+        .then( complete )
+        .catch( failed );
 
-        function getSponzorshipsComplete( sponzors ) {
+        function complete( sponzors ) {
           vm.sponzorships = spliceSponzors( sponzors );
         }
 
@@ -63,7 +63,7 @@
           return sponzors.length > 3 ? sponzors.splice( sponzors.length - 3 , sponzors.length) : sponzors;
         }
 
-        function getSponzorshipsFailed( error ) {
+        function failed( error ) {
           console.log( error );
         }
     }

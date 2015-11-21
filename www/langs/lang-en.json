@@ -83,7 +83,14 @@
         "form_label7": "Description",
         "form_label8": "Upload",
         "form_label9": "Save"
-
+    },
+    "SETTINGS":{
+        "title": "Settings",
+        "language_divider": "Languages",
+        "spanish_label": "Spanish",
+        "english_label": "English",
+        "portuguese_label": "Portuguese",
+        "save_button": "Save"
     },
     "SEARCH": {
         "search_title": "Find Events",

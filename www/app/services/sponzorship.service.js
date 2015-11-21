@@ -76,7 +76,7 @@
     }
 
     function sponzorshipBySponzor( sponzorId ){
-      return $http.get(path + 'sponzorships_sponzor/' + organizerId)
+      return $http.get(path + 'sponzorships_sponzor/' + sponzorId)
       .then( complete )
       .catch( failed );
 
@@ -93,18 +93,21 @@
       return $http({
         method: 'POST',
         url: path + 'sponzorships',
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       })
       .then( complete )
       .catch( failed );
 
       function complete( response ){
-        return $q.when( response );
+        return $q.when( response.data.Sponzorship );
       }
 
-      function failed( response ){
-        return $q.reject( response );
+      function failed( error ){
+        return $q.reject( error.data );
       }
     }
 
@@ -112,7 +115,10 @@
       return $http({
         method: 'DELETE',
         url: path + 'sponzorships/' + sponzorshipId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token}
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
       })
       .then( complete )
       .catch( failed );
@@ -130,7 +136,10 @@
       return $http({
         method: 'PATCH',
         url: path + 'sponzorships/' + sponzorshipId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       })
       .then( complete )
@@ -149,7 +158,10 @@
       return $http({
         method: 'PUT',
         url: path + 'sponzorships/' + sponzorshipId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       })
       .then( complete )
@@ -162,6 +174,10 @@
       function failed( response ){
         return $q.reject( response );
       }
+    }
+
+    function getToken(){
+      return $localStorage.token;
     }
 
   }

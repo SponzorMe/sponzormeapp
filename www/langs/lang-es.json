@@ -59,7 +59,7 @@
       "logout": "Salir"
   },
   "DASHORGANIZERS": {
-      "dash_title": "Panel",
+      "dash_title": "Inicio",
       "menu_title": "Navegacion",
       "dashboard": "Panel",
       "events": "Eventos",
@@ -74,6 +74,14 @@
       "search_title": "Encuentra Eventos",
       "text_field": "Buscar por un Evento",
       "search_button": "Buscar"
+  },
+  "SETTINGS":{
+    "title": "Configuración",
+    "language_divider": "Idiomas",
+    "spanish_label": "Español",
+    "english_label": "Ingles",
+    "portuguese_label": "Portugués",
+    "save_button": "Guardar"
   },
   "INTROORG": {
       "skip_nav_btn": "Saltar Intro",

@@ -63,7 +63,10 @@
       return $http({
         method: 'POST',
         url: path + 'perks',
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       })
       .then( complete )
@@ -82,7 +85,10 @@
       return $http({
         method: 'DELETE',
         url: path + 'perks/' + perkId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token}
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
       })
       .then( complete )
       .catch( failed );
@@ -100,7 +106,10 @@
       return $http({
         method: 'PATCH',
         url: path + 'perks/' + perkId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       })
       .then( complete )
@@ -119,7 +128,10 @@
       return $http({
         method: 'PUT',
         url: path + 'perks/' + perkId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       })
       .then( complete )
@@ -132,6 +144,10 @@
       function failed( error ) {
         return $q.reject( error );
       }
+    }
+
+    function getToken(){
+      return $localStorage.token;
     }
 
   }

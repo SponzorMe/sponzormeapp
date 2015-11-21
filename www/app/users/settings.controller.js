@@ -12,19 +12,20 @@
     .controller('SettingsController', SettingsController);
 
   SettingsController.$inject = [
-    'userService', 
-    'utilsService',
-    '$localStorage'
+    '$translate'
   ];
 
-  function SettingsController( userService, utilsService, $localStorage) {
+  function SettingsController( $translate) {
 
     var vm = this;
-    vm.lang;
+    vm.lang = $translate.use();
+    vm.save = save;
 
     ////////////
 
-    
+    function save(){
+      $translate.use(vm.lang);
+    }
 
   }
 })();

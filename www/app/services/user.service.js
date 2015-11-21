@@ -16,7 +16,6 @@
   function userService( $http, $localStorage, BackendVariables, $q ) {
 
     var path = BackendVariables.url;
-    var token = $localStorage.token;
 
     var service = {
       login: login,
@@ -35,14 +34,14 @@
 
     ////////////
 
-    function login( user ){
+    function login( email, password ){
       return $http({
         method: 'POST',
         url: path + 'auth',
         headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
         data: $.param({
-          email: user.email,
-          password: user.password
+          email: email,
+          password: password
         })
       })
       .then( complete )
@@ -62,10 +61,13 @@
     }
 
     function getUser( userId ){
-      $http.defaults.headers.common['Authorization'] = 'Basic ' + token;
-      return $http.get(path + 'users/' + userId)
-        .then( complete )
-        .catch( failed );
+      return $http({
+        method: 'GET',
+        url: path + 'users/' + userId,
+        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ getToken() },
+      })
+      .then( complete )
+      .catch( failed );
 
       function complete( response ) {
         var data = response.data.data.user;
@@ -90,7 +92,10 @@
       return $http({
         method: 'POST',
         url: path + 'users',
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       })
       .then( createUserComplete )
@@ -109,7 +114,10 @@
       return $http({
         method: 'DELETE',
         url: path + 'users/' + userId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token}
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
       });
     }
 
@@ -117,7 +125,10 @@
       return $http({
         method: 'PATCH',
         url: path + 'users/' + userId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       });
     }
@@ -126,7 +137,10 @@
       return $http({
         method: 'PUT',
         url: path + 'users/' + userId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       });
     }
@@ -135,7 +149,10 @@
       return $http({
         method: 'POST',
         url: path + 'send_reset_password/',
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       })
       .then( forgotPasswordComplete )
@@ -154,7 +171,10 @@
       return $http({
         method: 'POST',
         url: path + 'invite_friend/',
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       });
     }
@@ -164,6 +184,10 @@
         return true;
       }
       return false;
+    }
+
+    function getToken(){
+      return $localStorage.token;
     }
 
   }

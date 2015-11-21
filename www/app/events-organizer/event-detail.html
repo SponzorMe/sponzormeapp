@@ -50,7 +50,12 @@
                 <i class="icon ion-quote"></i>
                  {{ eventDetail.event.type.name }}
               </ion-item>
-            </ion-list>	
+            </ion-list>
+            <div class="padding">
+              <button type="button" class="button button-block button-assertive" ng-click="eventDetail.remove()">
+                Eliminar
+              </button>
+            </div>
           </ion-scroll>
         </ion-slide>
         <ion-slide>
@@ -65,16 +70,21 @@
             </div>
             <ion-list type="card" ng-show="eventDetail.event.perks.length > 0">
               <ion-item class="item-divider">Perks</ion-item>
-              <ion-item class="item-icon-left" ng-repeat="perk in eventDetail.event.perks">
-                <i class="icon ion-android-checkmark-circle"></i>
+              <ion-item class="item-icon-right" ng-repeat="perk in eventDetail.event.perks" ng-click="eventDetail.editPerk(perk)">
                  {{ perk.kind }} - {{ perk.usd }}
+                 <i class="icon ion-edit"></i>
               </ion-item>
-            </ion-list> 
+            </ion-list>
+            <div class="padding">
+              <button type="button" class="button button-block button-calm" ng-click="eventDetail.createPerk()">
+                New Sponzor
+              </button>
+            </div>
           </ion-scroll>
         </ion-slide>
         <ion-slide>
           <ion-scroll style="height:90%">
-            <div class="row text-center" ng-show="eventDetail.event.sponzorship == 0">
+            <div class="row text-center" ng-show="eventDetail.event.sponzorship.length == 0">
               <div class="col">
                 <div class="empty-states">
                   <i class="icon ion-flag"></i>
@@ -82,11 +92,11 @@
                 </div>
               </div>
             </div>
-            <ion-list type="card" ng-show="eventDetail.event.sponzorship > 0">
+            <ion-list type="card" ng-show="eventDetail.event.sponzorship.length > 0">
               <ion-item class="item-divider">Sponzorship</ion-item>
               <ion-item class="item-icon-left" ng-repeat="sponzor in eventDetail.event.sponzorship">
                 <i class="icon ion-flag"></i>
-                 {{ sponzor.title }}
+                 {{ sponzor.cause }}
               </ion-item>
             </ion-list>
           </ion-scroll>

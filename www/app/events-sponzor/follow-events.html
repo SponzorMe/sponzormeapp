@@ -1,0 +1,21 @@
+<ion-view view-title="Following">
+  <ion-nav-buttons side="right">
+    <a class="button button-icon button-clear ion-plus-round" ng-href="#/organizer/addevent">
+    </a>
+  </ion-nav-buttons>
+  <ion-content>
+    <div class="row text-center" ng-show="follow.events.length == 0 && follow.showEmptyState">
+      <div class="col">
+        <div class="empty-states">
+          <i class="icon ion-calendar"></i>
+          <h1>No hay eventos.</h1>
+        </div>
+      </div>
+    </div>
+    <ion-list ng-show="follow.events.length > 0">
+      <ion-item href="#/organizer/event/{{ event.event_id }}" collection-repeat="event in follow.events">
+        <p>{{event.kind}} </br> {{event.starts}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

@@ -33,16 +33,17 @@
 
     function signIn(){
       utilsService.showLoad();
-      userService.login( vm.user )
+      userService.login( vm.user.email, vm.user.password )
         .then( complete )
         .catch( failed );
 
       function complete( user ){
         utilsService.hideLoad();
         vm.userResponse = user;
-        saveUser();
         $localStorage.token = $base64.encode(vm.user.email +':'+ vm.user.password);
+        saveUser();
         validateTutorial();
+        vm.user = {};
       }
 
       function failed( data ){
@@ -53,6 +54,7 @@
             template: $translate.instant("ERRORS.signin_incorrect_credentials"),
           });
         }
+        vm.user.password = '';
       }
     };
 

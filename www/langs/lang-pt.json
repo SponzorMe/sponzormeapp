@@ -80,6 +80,14 @@
       "text_field": "Procure o seu próximo evento.",
       "search_button": "Busque"
   },
+  "SETTINGS":{
+    "title": "Configuración",
+    "language_divider": "Idiomas",
+    "spanish_label": "Español",
+    "english_label": "Ingles",
+    "portuguese_label": "Portugués",
+    "save_button": "Guardar"
+  },
   "INTROORG": {
       "skip_nav_btn": "Pular Intro",
       "prev_nav_btn": "Anterior ",

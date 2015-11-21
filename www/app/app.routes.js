@@ -152,7 +152,9 @@
       .state('sponzor', {
         url: "/sponzor",
         abstract: true,
-        templateUrl: "app/dashboard-sponzor/menu.html"
+        templateUrl: "app/dashboard-sponzor/menu.html",
+        controller: "MenuSponzorCtrl as menu"
+
       })
 
       .state('sponzor.intro', {
@@ -171,6 +173,16 @@
           'menuContent' :{
             templateUrl: "app/dashboard-sponzor/home.html",
             controller: "HomeSponzorController as home"
+          }
+        }
+      })
+
+      .state('sponzor.following', {
+        url: "/following",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/events-sponzor/follow-events.html",
+            controller: "FollowEventsController as follow"
           }
         }
       })

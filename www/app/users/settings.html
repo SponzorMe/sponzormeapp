@@ -1,10 +1,26 @@
-<ion-view view-title='Setttings'>
+<ion-view>
+	<ion-nav-title>{{'SETTINGS.title' | translate}}</ion-nav-title>
   <ion-content padding="true">
-    <ion-list>
-      <ion-item class="item-divider">Language</ion-item>
-      <ion-radio ng-model="lang" ng-value="es">Español</ion-radio>
-      <ion-radio ng-model="lang" ng-value="en">Choose A</ion-radio>
-      <ion-radio ng-model="lang" ng-value="po">Choose A</ion-radio>
-    </ion-list>
+  	<form name="settingsForm" novalidate ng-submit="settingsForm.$valid && settings.save()">
+	    <ion-list>
+	      <ion-item class="item-divider">
+	      	{{'SETTINGS.language_divider' | translate}}
+	      </ion-item>
+	      <ion-radio ng-model="settings.lang" ng-value="'es'">
+	      	{{'SETTINGS.spanish_label' | translate}}
+	      </ion-radio>
+	      <ion-radio ng-model="settings.lang" ng-value="'en'">
+	      	{{'SETTINGS.english_label' | translate}}
+	      </ion-radio>
+	      <ion-radio ng-model="settings.lang" ng-value="'pt'">
+	      	{{'SETTINGS.portuguese_label' | translate}}
+	      </ion-radio>
+	    </ion-list>
+	    <div class="padding">
+        <button type="submit" class="button button-block button-calm">
+          {{'SETTINGS.save_button' | translate}}
+        </button>
+      </div>
+    </form>
   </ion-content>
 </ion-view>

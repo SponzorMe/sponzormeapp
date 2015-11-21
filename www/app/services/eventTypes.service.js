@@ -16,7 +16,6 @@
   function eventTypeService( $http, $localStorage, BackendVariables, $q ) {
 
     var path = BackendVariables.url;
-    var token = $localStorage.token;
 
     var service = {
       allEventTypes: allEventTypes,
@@ -53,7 +52,10 @@
       return $http({
         method: 'POST',
         url: path + 'event_types',
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       });
     }
@@ -62,7 +64,10 @@
       return $http({
         method: 'DELETE',
         url: path + 'event_types/' + eventTypeId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token}
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
       });
     }
 
@@ -70,7 +75,10 @@
       return $http({
         method: 'PATCH',
         url: path + 'event_types/' + eventTypeId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       });
     }
@@ -79,9 +87,16 @@
       return $http({
         method: 'PUT',
         url: path + 'event_types/' + eventTypeId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ token},
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
         data: $.param(data)
       });
+    }
+
+    function getToken(){
+      return $localStorage.token;
     }
 
   }

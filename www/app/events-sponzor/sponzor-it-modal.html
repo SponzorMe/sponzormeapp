@@ -1,0 +1,29 @@
+<ion-modal-view>
+  <ion-header-bar align-title="center">
+    <h1 class="title">Sponzor it!</h1>
+    <div class="buttons">
+      <a class="button button-icon icon ion-close-circled" ng-click="eventDetail.closeModalSponsorIt()"></a>
+    </div>
+  </ion-header-bar>
+	<ion-content>
+	  <form ng-submit="eventDetail.submitSponsorIt()" name="FormSponsorIt" novalidate class="padding">
+      <ion-list>
+        <ion-item>
+          {{ eventDetail.newSponsorIt.perk.kind }} - {{ eventDetail.newSponsorIt.perk.usd }}
+        </ion-item>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Cause:</span>
+          <textarea 
+          placeholder="Cause" 
+          ng-model="eventDetail.newSponsorIt.cause" 
+          required></textarea>
+        </label>
+      </ion-list>
+      <div class="row">
+        <div class="col col-50 col-offset-25">
+          <button class="button button-block button-calm" type="submit" ng-disabled="FormSponsorIt.$invalid">Sponsor it!!</button>
+        </div>
+      </div>
+    </form>
+	</ion-content>
+</ion-modal-view>

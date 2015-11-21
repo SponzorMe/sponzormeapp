@@ -35,18 +35,12 @@
       "id": "cordova-plugin-datepicker"
     },
     "cordova-plugin-camera",
-    "cordova-plugin-crosswalk-webview",
     "ionic-plugin-keyboard",
     "cordova-plugin-x-toast"
   ],
   "cordovaPlatforms": [
-    "android",
     "ios",
-    {
-      "platform": "android",
-      "version": "",
-      "locator": "android"
-    },
+    "android",
     {
       "platform": "ios",
       "version": "",
