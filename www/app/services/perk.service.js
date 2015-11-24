@@ -37,7 +37,7 @@
         .catch( failed );
 
       function complete( response ) {
-        return $q.when( response );
+        return $q.when( response.data.Perk );
       }
 
       function failed( error ) {
@@ -73,7 +73,7 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( response );
+        return $q.when( response.data.PerkTask );
       }
 
       function failed( error ) {

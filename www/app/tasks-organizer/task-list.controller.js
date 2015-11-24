@@ -13,16 +13,15 @@
 
   TaskListController.$inject = [
     '$localStorage',
-    'sponzorshipService',
-    'utilsService',
-    '$q'
+    'perkTaskService',
+    'utilsService'  
   ];
 
-  function TaskListController( $localStorage, sponzorshipService , utilsService, $q) {
+  function TaskListController( $localStorage, perkTaskService , utilsService) {
 
     var vm = this;
     vm.userAuth = $localStorage.userAuth;
-    vm.sponsors = [];
+    vm.tasks = [];
     vm.showEmptyState = false;
 
     activate();
@@ -35,37 +34,19 @@
 
     function getTasks(){
       utilsService.showLoad();
-      sponzorshipService.sponzorshipByOrganizer( vm.userAuth.id )
+      perkTaskService.allPerkTasks(  )
         .then( complete )
         .catch( failed );
 
-        function complete( sponsors ){
+        function complete( tasks ){
           utilsService.hideLoad();
-          vm.showEmptyState = true;
-          vm.sponsors = sponsors;
-          console.log( sponsors );
+          vm.tasks = tasks;
         }
 
         function failed( error ){
           utilsService.hideLoad();
-          vm.showEmptyState = true;
           console.log( error );
         }
-    }
-
-    function test(){
-      var promises = [
-        sponzorshipService.sponzorshipByOrganizer( vm.userAuth.id ),
-        sponzorshipService.sponzorshipByOrganizer( vm.userAuth.id )
-      ];
-
-      $q.all(promises)
-        .then(function( result ){
-          console.log( result );
-        })
-        .catch(function( result ){
-          console.log( result );
-        });
     }
 
     

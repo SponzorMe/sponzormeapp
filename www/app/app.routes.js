@@ -126,6 +126,28 @@
         cache: false,
       })
 
+      .state('organizer.addTask', {
+        url: "/addTask",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/tasks-organizer/add-task.html",
+            controller: "AddTaskController as addTask"
+          }
+        },
+        cache: false,
+      })
+
+      .state('organizer.editTask', {
+        url: "/editTask/:id",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/tasks-organizer/edit-task.html",
+            controller: "EditTaskController as editTask"
+          }
+        },
+        cache: false,
+      })
+
       .state('organizer.invite', {
         url: "/invite",
         views: {

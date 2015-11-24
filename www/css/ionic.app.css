@@ -9089,6 +9089,9 @@ a.button {
   text-align: center;
   font-size: 90px; }
 
+.done .icon {
+  color: #33cd5f; }
+
 .pageForm {
   background-color: #191c29; }
   .pageForm .logo {

@@ -1,6 +1,10 @@
-<ion-view view-title="Sponsors">
+<ion-view view-title="Task List">
+  <ion-nav-buttons side="right">
+    <a class="button button-icon button-clear ion-plus-round" ng-href="#/organizer/addTask">
+    </a>
+  </ion-nav-buttons>
   <ion-content>
-    <div class="row text-center" ng-show="taskList.sponsors.length == 0 && taskList.showEmptyState">
+    <div class="row text-center" ng-show="taskList.tasks.length == 0 && taskList.showEmptyState">
       <div class="col">
         <div class="empty-states">
           <i class="icon ion-clipboard"></i>
@@ -8,9 +12,10 @@
         </div>
       </div>
     </div>
-    <ion-list ng-show="taskList.sponsors.length > 0">
-      <ion-item ng-repeat="sponzor in taskList.sponsors">
-        {{sponzor.name}}
+    <ion-list ng-show="taskList.tasks.length > 0">
+      <ion-item href="#/organizer/editTask/{{ task.id }}" ng-repeat="task in taskList.tasks" class="item-icon-left" ng-class="{done: task.status == 1}">
+        <i class="icon ion-checkmark"></i>
+        {{ task.title }}
       </ion-item>
     </ion-list>
   </ion-content>
