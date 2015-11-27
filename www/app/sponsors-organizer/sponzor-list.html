@@ -1,5 +1,13 @@
-<ion-view view-title="Sponsors">
-  <ion-content>
+<ion-view>
+  <ion-nav-title>
+    Sponsors 
+    <span class="badge badge-calm">{{ (sponzorList.sponsors | filter:sponzorList.search).length }}</span>
+  </ion-nav-title>
+  <ion-nav-buttons side="right">
+    <a class="button button-icon button-clear ion-funnel" ng-click="sponzorList.showFilter($event)">
+    </a>
+  </ion-nav-buttons>
+  <ion-content padding="true">
     <div class="row text-center" ng-show="sponzorList.sponsors.length == 0 && sponzorList.showEmptyState">
       <div class="col">
         <div class="empty-states">
@@ -8,10 +16,28 @@
         </div>
       </div>
     </div>
-    <ion-list ng-show="sponzorList.sponsors.length > 0">
-      <ion-item ng-repeat="sponzor in sponzorList.sponsors">
-        {{sponzor.name}}
-      </ion-item>
-    </ion-list>
+    <div class="list card" ng-repeat="sponzor in sponzorList.sponsors | filter:sponzorList.search">
+      <div class="item item-divider"> {{ sponzor.name }} </div>
+      <div class="item item-body">
+        <p>{{ sponzor.cause }}</p>
+        <p><strong>Email:</strong> {{ sponzor.email }}</p>
+        <p><strong>Event:</strong> {{ sponzor.title }}</p>
+        <p><strong>Perk:</strong> {{ sponzor.kind }}</p>
+      </div>
+      <div class="item tabs tabs-light tabs-icon-left">
+        <a class="tab-item" href="#">
+          <i class="icon ion-checkmark-circled"></i>
+          Accept
+        </a>
+        <a class="tab-item" href="#">
+          <i class="icon ion-close-circled"></i>
+          Reject
+        </a>
+        <a class="tab-item" href="#">
+          <i class="icon ion-eye"></i>
+          View More
+        </a>
+      </div>
+    </div>
   </ion-content>
 </ion-view>
