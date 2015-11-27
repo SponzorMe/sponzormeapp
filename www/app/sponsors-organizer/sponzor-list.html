@@ -25,11 +25,11 @@
         <p><strong>Perk:</strong> {{ sponzor.kind }}</p>
       </div>
       <div class="item tabs tabs-light tabs-icon-left">
-        <a class="tab-item" href="#">
+        <a class="tab-item" ng-click="sponzorList.sponsorAccept()">
           <i class="icon ion-checkmark-circled"></i>
           Accept
         </a>
-        <a class="tab-item" href="#">
+        <a class="tab-item" ng-click="sponzorList.sponsorReject()">
           <i class="icon ion-close-circled"></i>
           Reject
         </a>

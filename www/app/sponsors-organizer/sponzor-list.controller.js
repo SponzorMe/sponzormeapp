@@ -16,24 +16,26 @@
     'sponzorshipService',
     'utilsService',
     '$ionicPopover',
+    '$ionicPopup',
     '$scope'
   ];
 
-  function SponzorListController( $localStorage, sponzorshipService , utilsService, $ionicPopover, $scope) {
+  function SponzorListController( $localStorage, sponzorshipService , utilsService, $ionicPopover, $ionicPopup, $scope) {
 
     var vm = this;
     var eventsPopover = null;
     //Atributes
-    vm.userAuth = $localStorage.userAuth;
+    vm.search = {};
     vm.sponsors = [];
     vm.events = [];
-    vm.showEmptyState = false;
-    vm.search = {};
     vm.results = [];
+    vm.userAuth = $localStorage.userAuth;
+    vm.showEmptyState = false;
     //Accions
     vm.filterByEvent = filterByEvent;
     vm.showFilter = showFilter;
-
+    vm.sponsorAccept = sponsorAccept;
+    vm.sponsorReject = sponsorReject;
 
     activate();
 
@@ -106,8 +108,32 @@
       }else{
         vm.search = {};
       }
-      
       closePopover();
+    }
+
+    function sponsorAccept(){
+      confirmPopup('Are you sure?', 'In the accept the sponsor')
+        .then( complete );
+
+        function complete( rta ){
+          console.log(rta);
+        }
+    }
+
+    function sponsorReject(){
+      confirmPopup('Are you sure?', 'In the reject the sponsor')
+        .then( complete );
+
+        function complete( rta ){
+          console.log(rta);
+        }
+    }
+
+    function confirmPopup(title, template){
+      return $ionicPopup.confirm({
+        title: title,
+        template: template
+      });
     }
     
 
