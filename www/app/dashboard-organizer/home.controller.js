@@ -50,7 +50,7 @@
 
         function complete( data ){
           utilsService.hideLoad();
-          getEvents( data[0] );
+          getEvents( data[0]  );
           getSponzorships( data[1] );
         }
 
@@ -61,8 +61,12 @@
     }
 
     function getEvents( user ){
-      vm.count_events = user.events.length;
+      vm.count_events = user.events.filter( filterDate ).length;
       vm.count_comunity = user.comunity_size || 0;
+
+      function filterDate( item ){
+        return moment(item.ends).isAfter(new Date());
+      }
     }
 
     function getSponzorships( sponsors ){

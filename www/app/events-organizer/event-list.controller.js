@@ -37,7 +37,11 @@
         function getEventsComplete( user ){
           utilsService.hideLoad();
           vm.showEmptyState = true;
-          vm.events = user.events;
+          vm.events = user.events.filter( filterDate );
+          
+          function filterDate( item ){
+            return moment(item.ends).isAfter(new Date());
+          }
         }
 
         function getEventsFailed( error ){

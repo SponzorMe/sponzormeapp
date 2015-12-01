@@ -123,7 +123,7 @@
         title: vm.newTask.title,
         description: vm.newTask.description,
         type: 0,
-        status: vm.newTask.status ? 1 : 0
+        status: vm.newTask.status ? "1" : "0"
       }
     }
 

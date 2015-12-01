@@ -15,10 +15,11 @@
     '$http',
     '$localStorage',
     'BackendVariables',
+    '$httpParamSerializerJQLike',
     '$q'
   ];
 
-  function perkTaskService( $http, $localStorage, BackendVariables, $q) {
+  function perkTaskService( $http, $localStorage, BackendVariables, $httpParamSerializerJQLike, $q) {
 
     var path = BackendVariables.url;
 
@@ -41,7 +42,21 @@
         .catch( failed );
 
       function complete( response ) {
-        return $q.when( response.data.PerkTasks );
+        return $q.when( groupByEvent( response.data.PerkTasks ) );
+      }
+
+      function groupByEvent( data ){
+        //http://underscorejs.org/#groupBy
+        var groups = _.groupBy( data, 'eventTitle' );
+        
+        function parseEvent( value, key ){
+          return {
+            title: key,
+            tasks: value
+          }
+        }
+        //http://underscorejs.org/#map
+        return _.map( groups , parseEvent);
       }
 
       function failed( error ) {
@@ -121,7 +136,7 @@
           'Content-Type':'application/x-www-form-urlencoded',
           'Authorization': 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike( data )
       })
       .then( complete )
       .catch( failed );
