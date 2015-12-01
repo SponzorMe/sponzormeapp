@@ -104,11 +104,8 @@
     };
 
     function filterByEvent( idEvent ){
-      if(idEvent){
-        vm.search.event_id = idEvent;
-      }else{
-        vm.search = {};
-      }
+      vm.search = {};
+      if(idEvent) vm.search.event_id = idEvent;
       $ionicScrollDelegate.scrollTop();
       closePopover();
     }

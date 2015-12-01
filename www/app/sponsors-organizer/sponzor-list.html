@@ -1,10 +1,10 @@
 <ion-view>
   <ion-nav-title>
-    Sponsors 
+    {{'SPONZORLIST.title' | translate}}
     <span class="badge badge-calm">{{ (sponzorList.sponsors | filter:sponzorList.search).length }}</span>
   </ion-nav-title>
   <ion-nav-buttons side="right">
-    <a class="button button-icon button-clear ion-funnel" ng-click="sponzorList.showFilter($event)">
+    <a class="button button-icon button-clear ion-funnel" ng-click="sponzorList.showFilter($event)" ng-show="(sponzorList.sponsors | filter:sponzorList.search).length > 0">
     </a>
   </ion-nav-buttons>
   <ion-content padding="true">
@@ -12,30 +12,31 @@
       <div class="col">
         <div class="empty-states">
           <i class="icon ion-flag"></i>
-          <h1>No hay sponsors.</h1>
+         <h1>{{'SPONZORLIST.list_empty' | translate}}</h1>
         </div>
       </div>
     </div>
-    <div class="list card" ng-repeat="sponzor in sponzorList.sponsors | filter:sponzorList.search">
+    <div class="list card" ng-repeat="sponzor in sponzorList.sponsors | orderBy:'starts' | filter:sponzorList.search ">
       <div class="item item-divider"> {{ sponzor.name }} </div>
       <div class="item item-body">
         <p>{{ sponzor.cause }}</p>
         <p><strong>Email:</strong> {{ sponzor.email }}</p>
         <p><strong>Event:</strong> {{ sponzor.title }}</p>
         <p><strong>Perk:</strong> {{ sponzor.kind }}</p>
+        <p><strong>Start:</strong> {{ sponzor.starts | date: 'MMMM d, y' }}</p>
       </div>
       <div class="item tabs tabs-light tabs-icon-left">
         <a class="tab-item" ng-click="sponzorList.sponsorAccept( $index )" ng-class="{'status': sponzor.status == 1}">
           <i class="icon ion-checkmark-circled"></i>
-          Accept
+          {{'SPONZORLIST.button_accept' | translate}}
         </a>
         <a class="tab-item" ng-click="sponzorList.sponsorReject( $index )" ng-class="{'status': sponzor.status == 2}">
           <i class="icon ion-close-circled"></i>
-          Reject
+          {{'SPONZORLIST.button_reject' | translate}}
         </a>
         <a class="tab-item" href="#/organizer/sponzor/{{ sponzor.id }}">
           <i class="icon ion-eye"></i>
-          View More
+          {{'SPONZORLIST.button_more' | translate}}
         </a>
       </div>
     </div>

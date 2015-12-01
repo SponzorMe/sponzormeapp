@@ -76,7 +76,22 @@
       .catch( failed );
 
       function complete( response ){
-        return $q.when( response.data.SponzorsEvents );
+        return $q.when( getData( response.data.SponzorsEvents ) );
+      }
+
+      function getData( data ){
+        return data
+          .filter( filterDate )
+          .map( preparateItem );
+
+        function preparateItem( item ){
+          item.starts = moment(item.starts)._d;
+          return item;
+        }
+
+        function filterDate( item ){
+          return moment(item.ends).isAfter(new Date());
+        }
       }
 
       function failed( response ){

@@ -128,10 +128,19 @@
         "email_field":"Friend's Email",
         "button_message":"Send"
     },
-    "EVENTlIST": {
+    "EVENTLIST": {
         "title": "Events",
         "list_empty": "Nothing new yet",
          "button_create": "Create new event now"
+    },
+    "SPONZORLIST": {
+        "title": "Sponsors",
+        "list_empty": "Nothing new yet.",
+        "button_accept": "Accept",
+        "button_reject": "Reject",
+        "button_more": "View more",
+        "filter_title": "Filter by events",
+        "filter_all": "All events"
     },
     "ADDEVENTS":{
         "forgot_title" : "Add an Event",
