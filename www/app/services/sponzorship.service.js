@@ -53,7 +53,16 @@
       .catch( failed );
 
       function complete( response ){
-        return $q.when( response );
+        return $q.when( preparateData( response.data.data ) );
+      }
+
+      function preparateData( data ){
+        var sponzorship = data.SponzorEvent;
+        sponzorship.sponzor = data.Sponzor || {};
+        sponzorship.perk = data.Perk || {};
+        sponzorship.organizer = data.Organizer || {};
+        sponzorship.event = data.Event || {};
+        return sponzorship;
       }
 
       function failed( response ){

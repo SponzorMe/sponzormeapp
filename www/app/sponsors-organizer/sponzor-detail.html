@@ -1,0 +1,73 @@
+<ion-view view-title="Sponsorship Detail">
+  <ion-content scroll="false">
+    <tab-slide-box tab="0">
+     <div class="tsb-icons">
+        <div class="tsb-ic-wrp">
+          <ion-scroll direction="x" class="tsb-hscroll">
+            <a>Detail</a>
+            <a>Tasks</a>
+          </ion-scroll>
+        </div>
+      </div> 
+      <ion-slide-box show-pager="false" on-slide-changed="slideHasChanged($index)">
+        <ion-slide>
+          <ion-scroll style="height:90%" >
+            <div class="padding">
+              <div class="button-bar">
+                <button class="button icon-left ion-close-circled" ng-click="sponzorDetail.sponzorReject()" ng-class="{'button-balanced': sponzorDetail.sponsorship.status == '2'}">Reject</button>
+                <button class="button icon-left ion-checkmark-circled" ng-click="sponzorDetail.sponzorAccept()" ng-class="{'button-balanced': sponzorDetail.sponsorship.status == '1', 'button-calm': sponzorDetail.sponsorship.status == '0'}">Accept</button>
+              </div>
+            </div>
+            <ion-list type="card">
+              <ion-item class="item-divider">Sponzor</ion-item>
+              <ion-item class="item-avatar">
+                <img ng-src="{{ sponzorDetail.sponsorship.sponzor.image }}" alt="">
+                <h2>{{ sponzorDetail.sponsorship.sponzor.name }}</h2>
+                <p>{{ sponzorDetail.sponsorship.sponzor.email }}</p>
+              </ion-item>
+              <ion-item class="item-divider">Cause</ion-item>
+              <ion-item class="item-body">
+                {{ sponzorDetail.sponsorship.cause }}</br>
+              </ion-item>
+              <ion-item class="item-divider">Perk</ion-item>
+              <ion-item class="item-body">
+                <strong>Kind: </strong>
+                {{ sponzorDetail.sponsorship.perk.kind }}</br>
+                <strong>Quantity: </strong>
+                {{ sponzorDetail.sponsorship.perk.total_quantity }}</br>
+                <strong>Usd: </strong>
+                {{ sponzorDetail.sponsorship.perk.usd }}</br>
+              </ion-item>
+              <ion-item class="item-divider">Event</ion-item>
+              <ion-item>
+                <strong>Title: </strong>
+                {{ sponzorDetail.sponsorship.event.title }}</br>
+                <strong>Description: </strong>
+                {{ sponzorDetail.sponsorship.event.description }}</br>
+                <a class="button button-block icon-left ion-eye" href="#/organizer/event/{{ sponzorDetail.sponsorship.event.id }}">View more</a>
+              </ion-item>
+              <ion-item class="item-divider">Organizer</ion-item>
+              <ion-item class="item-avatar">
+                <img ng-src="{{ sponzorDetail.sponsorship.organizer.image }}" alt="">
+                <h2>{{ sponzorDetail.sponsorship.organizer.name }}</h2>
+                <p>{{ sponzorDetail.sponsorship.organizer.email }}</p>
+              </ion-item>
+            </ion-list>
+          </ion-scroll>
+        </ion-slide>
+        <ion-slide>
+          <ion-scroll style="height:90%" >
+            <div class="row text-center" ng-show="sponzorDetail.sponsorship.task_sponzor.length == 0">
+              <div class="col">
+                <div class="empty-states">
+                  <i class="icon ion-checkmark"></i>
+                  <h1>No hay tareas.</h1>
+                </div>
+              </div>
+            </div>
+          </ion-scroll>
+        </ion-slide>
+      </ion-slide-box>
+    </tab-slide-box>
+  </ion-content>
+</ion-view>

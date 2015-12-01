@@ -115,6 +115,17 @@
         cache: false,
       })
 
+      .state('organizer.sponzor', {
+        url: "/sponzor/:id",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/sponsors-organizer/sponzor-detail.html",
+            controller: "SponsorshipDetailController as sponzorDetail"
+          }
+        },
+        cache: false,
+      })
+
       .state('organizer.tasks', {
         url: "/tasks",
         views: {
