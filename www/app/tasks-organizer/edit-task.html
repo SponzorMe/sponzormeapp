@@ -50,14 +50,14 @@
           </select>
         </label>
         <!-- Done -->
-        <ion-toggle ng-model="editTask.newTask.status" toggle-class="toggle-calm">Done?</ion-toggle>
+        <ion-toggle ng-model="editTask.newTask.status" toggle-class="toggle-positive">Done?</ion-toggle>
       </ion-list>
       <div class="row">
         <div class="col col-50">
-          <button class="button button-block button-assertive" type="button" ng-click="editTask.deleteTask()">Delete</button>
+          <button class="button button-block" type="button" ng-click="editTask.deleteTask()">Delete</button>
         </div>
         <div class="col col-50">
-          <button class="button button-block button-calm" type="submit">Save</button>
+          <button class="button button-block button-positive" type="submit">Save</button>
         </div>
       </div>
     </form>

@@ -1,15 +1,15 @@
 .pageForm{
-  background-color: $brand;
+  background-color: white;
   .logo{
     width: 50%;
-    margin-top: 10px;
+    margin: 20px auto; 
     @extend .center-block;
   }
   .item-floating-label{
     background-color: white;
   }
   .icon.cover{
-    color: white;
+    color: $brand;
     padding-top: 15%;
   }
 }

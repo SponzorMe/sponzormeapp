@@ -116,7 +116,7 @@
           <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_endtime_required" | translate}}</div>
         </div>
         <!-- Access -->
-        <ion-toggle ng-model="addEvent.newEvent.access" toggle-class="toggle-calm">Is it public event?</ion-toggle>
+        <ion-toggle ng-model="addEvent.newEvent.access" toggle-class="toggle-positive">Is it public event?</ion-toggle>
         <!-- Access 
         <label class="item item-input item-select">
           <div class="input-label">Access</div>
@@ -137,7 +137,7 @@
         </ion-item>
 
         <div class="padding">
-          <button type="button" class="button button-block button-calm" ng-click="addEvent.createSponsor()">
+          <button type="button" class="button button-block button-positive" ng-click="addEvent.createSponsor()">
             New Sponzor
           </button>
         </div>
@@ -148,7 +148,7 @@
       </ion-list>
 
       <div class="padding">
-         <button type="submit" class="button button-block button-calm">
+         <button type="submit" class="button button-block button-positive">
           {{"ADDEVENTS.button_message" | translate}}
         </button>
       </div>

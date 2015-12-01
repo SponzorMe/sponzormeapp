@@ -2,7 +2,7 @@
   <ion-content>
     <form name="signinForm" novalidate ng-submit="signinForm.$valid && login.signIn()">
       <div class="list">
-        <img class="logo" src="img/logo.jpg"/>    
+        <img class="logo" src="img/logo.png"/>    
         <label class="item item-input item-floating-label" ng-class="{ 'has-error' : signinForm.txtemail.$invalid && signinForm.$submitted }">
           <span class="input-label">{{"LOGIN.email_field" | translate}}</span>
           <input 
@@ -38,13 +38,13 @@
         </div>
       </div>
       <div class="padding">
-        <button type="submit" class="button button-block button-calm">
+        <button type="submit" class="button button-block button-positive">
           {{"LOGIN.signin_message" | translate}}
         </button>
       </div>
     </form>
   </ion-content>
-  <ion-footer-bar class="bar bar-positive">
+  <ion-footer-bar class="bar">
     <a class="button button-clear button-positive" href="#/forgot-password">{{"LOGIN.forgot_message" | translate}}</a>  
     <a class="button button-clear button-positive" href="#/joinnow">{{"LOGIN.join_message" | translate}}</a>
   </ion-footer-bar>

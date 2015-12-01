@@ -5,14 +5,14 @@ in ionic's _variables.scss file.
 For example, you might change some of the default colors:
 */
 
-$brand: 						  #191c29;
+$brand: 						  #00838D;
 $secondary:                       #DB0032;
 
 $light:                           #fff !default;
 $stable:                          #f8f8f8 !default;
 $positive:                        $brand !default;
 $calm:                            #11c1f3 !default;
-$balanced:                        #33cd5f !default;
+$balanced:                        $brand !default;
 $energized:                       #ffc900 !default;
 $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;

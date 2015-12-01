@@ -23,10 +23,10 @@
       </ion-list>
       <div class="row">
         <div class="col col-50" ng-show="!eventDetail.isNewPerk">
-          <button class="button button-block button-assertive" type="button" ng-click="eventDetail.deletePerk()">Delete</button>
+          <button class="button button-block" type="button" ng-click="eventDetail.deletePerk()">Delete</button>
         </div>
         <div class="col col-50" ng-class="{'col-offset-25': eventDetail.isNewPerk}">
-          <button class="button button-block button-calm" type="submit" ng-disabled="FormSponsor.$invalid">Save</button>
+          <button class="button button-block button-positive" type="submit" ng-disabled="FormSponsor.$invalid">Save</button>
         </div>
       </div>
     </form>
