@@ -168,11 +168,11 @@
       .catch( failed );
 
       function complete( response ){
-        return $q.when( response );
+        return $q.when( response.data.Sponzorship );
       }
 
       function failed( response ){
-        return $q.reject( response );
+        return $q.reject( responses );
       }
     }
 

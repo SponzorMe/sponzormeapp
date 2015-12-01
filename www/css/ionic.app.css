@@ -9220,6 +9220,9 @@ form label.item {
   font-size: 1.8em;
   border-bottom: 3px solid #ccc; }
 
+.tabs .tab-item.status {
+  color: #11c1f3; }
+
 .event {
   background-position: top center;
   background-size: cover; }

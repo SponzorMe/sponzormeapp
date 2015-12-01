@@ -111,21 +111,21 @@
       closePopover();
     }
 
-    function sponsorAccept(){
+    function sponsorAccept( index ){
       confirmPopup('Are you sure?', 'In the accept the sponsor')
         .then( complete );
 
         function complete( rta ){
-          console.log(rta);
+          if( rta ) updateSponsorship( index, 1 ); //Accepted 
         }
     }
 
-    function sponsorReject(){
+    function sponsorReject( index ){
       confirmPopup('Are you sure?', 'In the reject the sponsor')
         .then( complete );
 
         function complete( rta ){
-          console.log(rta);
+          if( rta ) updateSponsorship( index, 2 ); //Deny
         }
     }
 
@@ -134,6 +134,26 @@
         title: title,
         template: template
       });
+    }
+
+    function updateSponsorship( index, status ){
+      utilsService.showLoad();
+      var sponsor = angular.copy( vm.sponsors[ index ] );
+      sponsor.status = status;
+      sponzorshipService.editSponzorshipPut( sponsor.id, sponsor )
+        .then( complete )
+        .catch( failed );
+
+        function complete( sponsor ){
+          utilsService.hideLoad();
+          vm.sponsors[ index ].status = sponsor.status;
+        }
+
+        function failed( error ){
+          utilsService.hideLoad();
+          console.log( error );
+        }
+
     }
     
 
