@@ -1,12 +1,12 @@
 <ion-view>
-  <ion-nav-title>{{'DASHORGANIZERS.dash_title' | translate}}</ion-nav-title>
+  <ion-nav-title>{{'DASHORGANIZERS.title' | translate}}</ion-nav-title>
   <ion-content padding="true">
   
     <div class="card number-bar" href="list card">
       <a class="item item-thumbnail-left number-bar-sponsors" href="#/organizer/sponsors">
         <i class="icon ion-flag item-image"></i>
         <h2>{{ home.count_sponsors }}</h2>
-        <p>Sponsors</p>
+        <p>{{'DASHORGANIZERS.sponsors' | translate}}</p>
       </a>
     </div>
 
@@ -14,44 +14,17 @@
       <a class="item item-thumbnail-left number-bar-events" href="#/organizer/events">
         <i class="icon ion-calendar item-image"></i>
         <h2>{{ home.count_events }}</h2>
-        <p>Events</p>
+        <p>{{'DASHORGANIZERS.events' | translate}}</p>
       </a>
     </div>
 
     <div class="card number-bar" href="list card">
-      <a class="item item-thumbnail-left number-bar-communtity" href="#">
+      <a class="item item-thumbnail-left number-bar-communtity" href="#/organizer/profile">
         <i class="icon ion-person-stalker item-image"></i>
-        <h2>230</h2>
-        <p>Community</p>
+        <h2>{{ home.count_comunity }}</h2>
+        <p>{{'DASHORGANIZERS.comunity' | translate}}</p>
       </a>
     </div>
-
-    <h5>Tus proximos eventos  :</h5>
-    <ion-list ng-show="home.events.length > 0">
-      <ion-item href="#/organizer/event/{{ event.id }}" class="event" ng-repeat="event in home.events" ng-style="{'background-image': 'url(' + event.image + ')'}">
-          <p>{{event.title}} </br> {{event.starts}}</p>
-      </ion-item>
-      <a class="button button-small button-calm" href="#/organizer/events">More...</a>
-    </ion-list>
-
-    <div class="has-header list" ng-show="events.length>0">
-      <div  class="row calm item ng-hide" ng-show="events.length>0">
-       <div class="col" align="center">Perks</div>
-     </div>
-      <div  class="row calm item ng-hide" ng-show="events.length>0">
-       <div class="col">Sponzor</div>
-       <div class="col">Event</div>
-     </div>
-     <div  class="row item" ng-hide="sponzorships.length>0">
-      <div class="col" align="center">No Sponzors :( ... Maybe try create an event.</div>
-    </div>
-      <div  class="row item ng-hide" ng-show="sponzorships.length>0" ng-repeat="sponzor in sponzorships">
-      <div class="col">{{sponzor.title}}</div>
-      <div class="col">{{sponzor.starts}}</div>
-      </div>
-      <div class="row item ng-hide" ng-show="sponzorships.length>0">
-        <a class="button button-small button-positive" href="#/oganizers/sponzors">More...</a>
-      </div>  
-    </div>
-</ion-content>
+    
+  </ion-content>
 </ion-view>

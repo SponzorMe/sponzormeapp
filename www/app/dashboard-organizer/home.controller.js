@@ -11,65 +11,62 @@
     .module('app.users')
     .controller('HomeOrganizerController', HomeOrganizerController);
 
-  HomeOrganizerController.$inject = ['$translate', '$localStorage' ,'userService', 'utilsService', 'sponzorshipService'];
+  HomeOrganizerController.$inject = [
+    '$localStorage',
+    'userService',
+    'utilsService',
+    'sponzorshipService',
+    '$q'
+  ];
 
-  function HomeOrganizerController( $translate, $localStorage, userService , utilsService, sponzorshipService) {
+  function HomeOrganizerController( $localStorage, userService , utilsService, sponzorshipService, $q) {
 
     var vm = this;
-    vm.userAuth = $localStorage.userAuth;
-    vm.events = [];
+    //Atributes
     vm.count_events = 0;
     vm.count_sponsors = 0;
-    vm.sponzorships = [];
+    vm.count_comunity = 0;
+    vm.userAuth = $localStorage.userAuth;
 
     activate();
 
     ////////////
 
     function activate(){
-      getEvents();
-      getSponzorships();
+      getData();
     }
 
-    function getEvents(){
+    function getData(){
       utilsService.showLoad();
-      userService.getUser( vm.userAuth.id )
-        .then( getEventsComplete )
-        .catch( getEventsFailed );
 
-        function getEventsComplete( user ){
-          utilsService.hideLoad();
-          vm.count_events = user.events.length;
-          vm.events = spliceEvents( user.events );
-        }
+      var promises = [
+        userService.getUser( vm.userAuth.id ),
+        sponzorshipService.sponzorshipByOrganizer( vm.userAuth.id )
+      ];
 
-        function spliceEvents( events ){
-          return events.length > 3 ? events.splice( events.length - 3 , events.length) : events;
-        }
-
-        function getEventsFailed( error ){
-          utilsService.hideLoad();
-          console.log( error );
-        }
-    }
-
-    function getSponzorships(){
-      sponzorshipService.sponzorshipByOrganizer( vm.userAuth.id )
+      $q.all( promises )
         .then( complete )
         .catch( failed );
 
-        function complete( sponzors ) {
-          vm.count_sponsors = sponzors.length;
-          vm.sponzorships = spliceSponzors( sponzors );
+        function complete( data ){
+          utilsService.hideLoad();
+          getEvents( data[0] );
+          getSponzorships( data[1] );
         }
 
-        function spliceSponzors( sponzors ){
-          return sponzors.length > 3 ? sponzors.splice( sponzors.length - 3 , sponzors.length) : sponzors;
-        }
-
-        function failed( error ) {
+        function failed( error ){
+          utilsService.hideLoad();
           console.log( error );
         }
+    }
+
+    function getEvents( user ){
+      vm.count_events = user.events.length;
+      vm.count_comunity = user.comunity_size || 0;
+    }
+
+    function getSponzorships( sponsors ){
+      vm.count_sponsors = sponsors.length;
     }
     
 

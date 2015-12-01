@@ -59,7 +59,7 @@
         "logout": "Logout"
     },
     "DASHORGANIZERS": {
-        "dash_title": "Dashboard",
+        "title": "Dashboard",
         "menu_title": "Navigation",
         "dashboard": "Dashboard",
         "events": "Events",
@@ -68,7 +68,8 @@
         "invite": "Invite your friend",
         "settings": "Settings",
         "profile": "My profile",
-        "logout": "Logout"
+        "logout": "Logout",
+        "comunity": "Comunity"
     },
     "SETTINGSUSER":{
         "info_title": "My Profile",

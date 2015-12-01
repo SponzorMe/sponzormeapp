@@ -48,7 +48,7 @@
       "button_message": "Enviame Instrucciones"
   },
   "DASHSPONZORS": {
-      "dash_title": "Panel",
+      "title": "Panel",
       "menu_title": "Navegacion",
       "dashboard": "Inicio",
       "following": "Siguiendo",
@@ -56,7 +56,8 @@
       "settings": "Configuración",
       "invite": "Invita a tus amigos",
       "profile": "Mi perfil",
-      "logout": "Salir"
+      "logout": "Salir",
+      "comunity": "Comunidad"
   },
   "DASHORGANIZERS": {
       "dash_title": "Inicio",

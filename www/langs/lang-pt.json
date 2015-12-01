@@ -56,10 +56,11 @@
       "settings": "Configuração",
       "profile": "My Profile",
       "invite": "Convide seu amigo",
-      "logout": "Sair"
+      "logout": "Sair",
+      "comunity": "Comunidade"
   },
   "DASHORGANIZERS": {
-      "dash_title": "Dashboard",
+      "title": "Dashboard",
       "menu_title": "Navegação",
       "dashboard": "Dashboard",
       "events": "Eventos",
