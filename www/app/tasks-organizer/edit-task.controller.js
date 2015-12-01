@@ -108,6 +108,9 @@
 
         function failed( error ){
           utilsService.hideLoad();
+          utilsService.alert({
+            template: error.data.message
+          });
           console.log( error );
         }
     }
@@ -134,14 +137,16 @@
 
     function getTask( task ){
       vm.newTask = task;
+      for (var i = 0; i < vm.events.length; i++) {
+        if(vm.events[i].id == vm.newTask.event_id){
+          vm.newTask.event = vm.events[i];
+          break;
+        }
+      }
       for (var i = 0; i < vm.perks.length; i++) {
         if(vm.perks[i].id == vm.newTask.perk.id){
           vm.newTask.perk = vm.perks[i];
-        }
-      }
-      for (var i = 0; i < vm.events.length; i++) {
-        if(vm.events[i].id == vm.newTask.event.id){
-          vm.newTask.event = vm.events[i];
+          break;
         }
       }
     }

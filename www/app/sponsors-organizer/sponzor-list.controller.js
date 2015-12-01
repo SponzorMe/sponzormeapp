@@ -17,10 +17,11 @@
     'utilsService',
     '$ionicPopover',
     '$ionicPopup',
+    '$ionicScrollDelegate',
     '$scope'
   ];
 
-  function SponzorListController( $localStorage, sponzorshipService , utilsService, $ionicPopover, $ionicPopup, $scope) {
+  function SponzorListController( $localStorage, sponzorshipService , utilsService, $ionicPopover, $ionicPopup, $ionicScrollDelegate, $scope) {
 
     var vm = this;
     var eventsPopover = null;
@@ -108,6 +109,7 @@
       }else{
         vm.search = {};
       }
+      $ionicScrollDelegate.scrollTop();
       closePopover();
     }
 
