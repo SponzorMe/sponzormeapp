@@ -1,6 +1,6 @@
 <ion-view hide-nav-bar="true" class="pageForm">
   <ion-content>
-    <form name="signinForm" novalidate ng-submit="signinForm.$valid && login.signIn()">
+    <form name="signinForm" novalidate ng-submit="signinForm.$valid && login.signIn( signinForm )">
       <div class="list">
         <img class="logo" src="img/logo.png"/>    
         <label class="item item-input item-floating-label" ng-class="{ 'has-error' : signinForm.txtemail.$invalid && signinForm.$submitted }">

@@ -31,7 +31,7 @@
       }
     }
 
-    function signIn(){
+    function signIn( form ){
       utilsService.showLoad();
       userService.login( vm.user.email, vm.user.password )
         .then( complete )
@@ -43,6 +43,10 @@
         $localStorage.token = $base64.encode(vm.user.email +':'+ vm.user.password);
         saveUser();
         validateTutorial();
+        if (form) {
+          form.$setPristine();
+          form.$setUntouched();
+        }
         vm.user = {};
       }
 

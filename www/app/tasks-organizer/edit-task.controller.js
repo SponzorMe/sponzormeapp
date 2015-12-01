@@ -137,6 +137,7 @@
 
     function getTask( task ){
       vm.newTask = task;
+      vm.newTask.status = task.status == '1' ? true : false ;
       for (var i = 0; i < vm.events.length; i++) {
         if(vm.events[i].id == vm.newTask.event_id){
           vm.newTask.event = vm.events[i];
