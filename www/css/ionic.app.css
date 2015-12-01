@@ -9223,6 +9223,27 @@ form label.item {
 .tabs .tab-item.status {
   color: #00838D; }
 
+.number-bar .icon {
+  font-size: 80px;
+  color: white; }
+
+.number-bar h2 {
+  color: white;
+  font-size: 40px; }
+
+.number-bar p {
+  color: white;
+  font-size: 20px; }
+
+.number-bar .number-bar-sponsors {
+  background: #003D6A; }
+
+.number-bar .number-bar-events {
+  background: #00838D; }
+
+.number-bar .number-bar-communtity {
+  background: #02A390; }
+
 .event {
   background-position: top center;
   background-size: cover; }

@@ -1,7 +1,32 @@
 <ion-view>
   <ion-nav-title>{{'DASHORGANIZERS.dash_title' | translate}}</ion-nav-title>
   <ion-content padding="true">
-    <h5>Tu proximo evento:</h5>
+  
+    <div class="card number-bar" href="list card">
+      <a class="item item-thumbnail-left number-bar-sponsors" href="#/organizer/sponsors">
+        <i class="icon ion-flag item-image"></i>
+        <h2>{{ home.count_sponsors }}</h2>
+        <p>Sponsors</p>
+      </a>
+    </div>
+
+    <div class="card number-bar" href="list card">
+      <a class="item item-thumbnail-left number-bar-events" href="#/organizer/events">
+        <i class="icon ion-calendar item-image"></i>
+        <h2>{{ home.count_events }}</h2>
+        <p>Events</p>
+      </a>
+    </div>
+
+    <div class="card number-bar" href="list card">
+      <a class="item item-thumbnail-left number-bar-communtity" href="#">
+        <i class="icon ion-person-stalker item-image"></i>
+        <h2>230</h2>
+        <p>Community</p>
+      </a>
+    </div>
+
+    <h5>Tus proximos eventos:</h5>
     <ion-list ng-show="home.events.length > 0">
       <ion-item href="#/organizer/event/{{ event.id }}" class="event" ng-repeat="event in home.events" ng-style="{'background-image': 'url(' + event.image + ')'}">
           <p>{{event.title}} </br> {{event.starts}}</p>
@@ -25,7 +50,7 @@
       <div class="col">{{sponzor.starts}}</div>
       </div>
       <div class="row item ng-hide" ng-show="sponzorships.length>0">
-        <a class="button button-small button-calm" href="#/oganizers/sponzors">More...</a>
+        <a class="button button-small button-positive" href="#/oganizers/sponzors">More...</a>
       </div>  
     </div>
 </ion-content>

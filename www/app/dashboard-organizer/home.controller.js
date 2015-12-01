@@ -18,6 +18,8 @@
     var vm = this;
     vm.userAuth = $localStorage.userAuth;
     vm.events = [];
+    vm.count_events = 0;
+    vm.count_sponsors = 0;
     vm.sponzorships = [];
 
     activate();
@@ -37,6 +39,7 @@
 
         function getEventsComplete( user ){
           utilsService.hideLoad();
+          vm.count_events = user.events.length;
           vm.events = spliceEvents( user.events );
         }
 
@@ -56,6 +59,7 @@
         .catch( failed );
 
         function complete( sponzors ) {
+          vm.count_sponsors = sponzors.length;
           vm.sponzorships = spliceSponzors( sponzors );
         }
 
