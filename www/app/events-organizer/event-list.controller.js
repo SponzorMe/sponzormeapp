@@ -38,7 +38,7 @@
           utilsService.hideLoad();
           vm.showEmptyState = true;
           vm.events = user.events.filter( filterDate );
-          
+
           function filterDate( item ){
             return moment(item.ends).isAfter(new Date());
           }
