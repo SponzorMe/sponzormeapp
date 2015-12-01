@@ -128,6 +128,11 @@
         "email_field":"Friend's Email",
         "button_message":"Send"
     },
+    "EVENTlIST": {
+        "title": "Events",
+        "list_empty": "Nothing new yet",
+         "button_create": "Create new event now"
+    },
     "ADDEVENTS":{
         "forgot_title" : "Add an Event",
         "title_field" : "Title",

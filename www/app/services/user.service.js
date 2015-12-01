@@ -76,11 +76,21 @@
       } 
 
       function preparateEvents( events ){
-        return events.map(function( item ){
+
+        return events
+          .filter( filterDate )
+          .map( preparateEvent );
+
+        function preparateEvent( item ){
           item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
-          item.starts = moment(item.starts).format('MMMM Do YYYY');
+          item.starts = moment(item.starts)._d;
           return item;
-        });
+        }
+
+        function filterDate( item ){
+          return moment(item.ends).isAfter(new Date());
+        }
+        
       }
 
       function failed( response ) {

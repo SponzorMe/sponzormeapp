@@ -71,6 +71,7 @@
 
     function editTask(){
       utilsService.showLoad();
+      console.log( preparateData() );
       perkTaskService.editPerkTaskPatch( $stateParams.id, preparateData() )
         .then( complete )
         .catch( failed );
@@ -111,7 +112,6 @@
           utilsService.alert({
             template: error.data.message
           });
-          console.log( error );
         }
     }
 

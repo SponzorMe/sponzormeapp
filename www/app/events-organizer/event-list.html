@@ -1,4 +1,4 @@
-<ion-view view-title="Events">
+<ion-view view-title="{{'EVENTlIST.title' | translate}}">
   <ion-nav-buttons side="right">
     <a class="button button-icon button-clear ion-plus-round" ng-href="#/organizer/addevent">
     </a>
@@ -8,13 +8,14 @@
       <div class="col">
         <div class="empty-states">
           <i class="icon ion-calendar"></i>
-          <h1>No hay eventos.</h1>
+          <h1>{{'EVENTlIST.list_empty' | translate}}</h1>
+          <a class="button button-positive icon-left ion-plus-round" ng-href="#/organizer/addevent">{{'EVENTlIST.button_create' | translate}}</a>
         </div>
       </div>
     </div>
     <ion-list ng-show="eventList.events.length > 0">
-      <ion-item href="#/organizer/event/{{ event.id }}" class="event" collection-repeat="event in eventList.events" ng-style="{'background-image': 'url(' + event.image + ')'}">
-        <p>{{event.title}} </br> {{event.starts}}</p>
+      <ion-item href="#/organizer/event/{{ event.id }}" class="event" collection-repeat="event in eventList.events | orderBy:'starts'" ng-style="{'background-image': 'url(' + event.image + ')'}">
+        <p>{{event.title}} </br> {{event.starts | date: 'MMMM d, y'}}</p>
       </ion-item>
     </ion-list>
   </ion-content>
