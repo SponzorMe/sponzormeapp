@@ -40,7 +40,11 @@
 
         function complete( events ){
           utilsService.hideLoad();
-          vm.events = events;
+          vm.events = events.filter( filterDate );
+          
+          function filterDate( item ){
+            return moment(item.ends).isAfter(new Date());
+          }
         }
 
         function failed( error ){

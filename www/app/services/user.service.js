@@ -76,7 +76,6 @@
       } 
 
       function preparateEvents( events ){
-
         return events
           .map( preparateEvent );
 
@@ -85,7 +84,6 @@
           item.starts = moment(item.starts)._d;
           return item;
         }
-        
       }
 
       function failed( response ) {
