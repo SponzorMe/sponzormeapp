@@ -131,7 +131,15 @@
     "EVENTLIST": {
         "title": "Events",
         "list_empty": "Nothing new yet",
-         "button_create": "Create new event now"
+        "button_create": "Create new event now"
+    },
+    "EVENTFOLLOWING": {
+        "title": "Following",
+        "list_empty": "Nothing new yet",
+        "button_search": "Search events...",
+        "button_accepted": "Accepted",
+        "button_rejected": "Rejected",
+        "button_more": "View event"
     },
     "SPONZORLIST": {
         "title": "Sponsors",

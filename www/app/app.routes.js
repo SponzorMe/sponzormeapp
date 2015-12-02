@@ -207,7 +207,8 @@
             templateUrl: "app/dashboard-sponzor/home.html",
             controller: "HomeSponzorController as home"
           }
-        }
+        },
+        cache: false,
       })
 
       .state('sponzor.following', {
@@ -217,7 +218,8 @@
             templateUrl: "app/events-sponzor/follow-events.html",
             controller: "FollowEventsController as follow"
           }
-        }
+        },
+        cache: false,
       })
 
       .state('sponzor.profile', {

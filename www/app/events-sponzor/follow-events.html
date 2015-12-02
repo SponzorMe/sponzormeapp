@@ -1,21 +1,38 @@
-<ion-view view-title="Following">
-  <ion-nav-buttons side="right">
-    <a class="button button-icon button-clear ion-plus-round" ng-href="#/organizer/addevent">
-    </a>
-  </ion-nav-buttons>
+<ion-view view-title="{{'EVENTFOLLOWING.title' | translate}}">
   <ion-content>
     <div class="row text-center" ng-show="follow.events.length == 0 && follow.showEmptyState">
       <div class="col">
         <div class="empty-states">
           <i class="icon ion-calendar"></i>
-          <h1>No hay eventos.</h1>
+          <h1>{{'EVENTFOLLOWING.list_empty' | translate}}</h1>
+          <a href="#/sponzor/home" class="button button-positive">
+            {{'EVENTFOLLOWING.button_more' | translate}}
+          </a>
         </div>
       </div>
     </div>
-    <ion-list ng-show="follow.events.length > 0">
-      <ion-item href="#/organizer/event/{{ event.event_id }}" collection-repeat="event in follow.events">
-        <p>{{event.kind}} </br> {{event.starts}}</p>
-      </ion-item>
-    </ion-list>
+    <div class="list card" ng-repeat="event in follow.events">
+      <div class="item item-divider"> {{ event.title }} </div>
+      <div class="item item-body">
+        <p>{{ event.cause }}</p>
+        <p><strong>Email:</strong> {{ event.email }}</p>
+        <p><strong>Perk:</strong> {{ event.kind }}</p>
+        <p><strong>Start:</strong> {{ event.starts | date: 'MMMM d, y' }}</p>
+      </div>
+      <div class="item tabs tabs-light tabs-icon-left">
+        <a class="tab-item" ng-class="{'status': event.status == 1}">
+          <i class="icon ion-checkmark-circled"></i>
+          {{'EVENTFOLLOWING.button_accepted' | translate}}
+        </a>
+        <a class="tab-item" ng-class="{'status': event.status == 2}">
+          <i class="icon ion-close-circled"></i>
+          {{'EVENTFOLLOWING.button_rejected' | translate}}
+        </a>
+        <a class="tab-item" href="#/sponzor/event/{{ event.event_id }}">
+          <i class="icon ion-eye"></i>
+          {{'EVENTFOLLOWING.button_more' | translate}}
+        </a>
+      </div>
+    </div>
   </ion-content>
 </ion-view>

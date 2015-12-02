@@ -41,7 +41,11 @@
 
         function complete( events ){
           utilsService.hideLoad();
-          vm.events = events;
+          vm.events = events.filter( filterByPending );
+
+          function filterByPending( item ){
+            return item.status != '1';
+          }
         }
 
         function failed( error ){
