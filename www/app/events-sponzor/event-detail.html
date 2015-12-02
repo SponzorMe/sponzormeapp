@@ -63,11 +63,20 @@
                 </div>
               </div>
             </div>
-            <div class="padding" ng-show="eventDetail.event.perks.length > 0">
-              <button type="button" class="button button-block button-positive" ng-repeat="perk in eventDetail.event.perks" ng-click="eventDetail.createSponsorIt(perk)">
-                Sponsor it!! {{ perk.kind }} - {{ perk.usd }}
+            <ion-list type="card" ng-repeat="perk in eventDetail.event.perks">
+              <ion-item class="item-divider">
+                {{ perk.kind }} - {{ perk.usd }}
+              </ion-item>
+              <ion-item class="item-icon-left" ng-repeat="task in perk.tasks">
+                <i class="icon ion-checkmark"></i>
+                {{ task.title }}
+              </ion-item>
+              <ion-item >
+                <button type="button" class="button button-block button-positive" ng-click="eventDetail.createSponsorIt(perk)">
+                Sponsor it!!
               </button>
-            </div>
+              </ion-item>
+            </ion-list>
           </ion-scroll>
         </ion-slide>
         <ion-slide>
