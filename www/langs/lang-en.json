@@ -141,6 +141,14 @@
         "button_rejected": "Rejected",
         "button_more": "View event"
     },
+    "EVENTSPONZORING": {
+        "title": "Sponzoring",
+        "list_empty": "Nothing new yet",
+        "button_search": "Search events...",
+        "button_accepted": "Accepted",
+        "button_rejected": "Rejected",
+        "button_more": "View event"
+    },
     "SPONZORLIST": {
         "title": "Sponsors",
         "list_empty": "Nothing new yet.",

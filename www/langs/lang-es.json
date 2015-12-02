@@ -84,6 +84,14 @@
       "button_rejected": "Rechazado",
       "button_more": "Ver evento"
   },
+  "EVENTSPONZORING": {
+      "title": "Patrocinando",
+      "list_empty": "No hay eventos aun.",
+      "button_search": "Buscar eventos...",
+      "button_accepted": "Aceptado",
+      "button_rejected": "Rechazado",
+      "button_more": "Ver evento"
+  },
   "SPONZORLIST": {
       "title": "Patrocinadores",
       "list_empty": "No hay patrocinadores aun.",

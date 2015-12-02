@@ -222,6 +222,17 @@
         cache: false,
       })
 
+      .state('sponzor.sponzoring', {
+        url: "/sponzoring",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/events-sponzor/sponzoring-events.html",
+            controller: "SponzoringEventsController as sponzoring"
+          }
+        },
+        cache: false,
+      })
+
       .state('sponzor.profile', {
         url: "/profile",
         views: {

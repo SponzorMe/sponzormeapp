@@ -1,19 +1,19 @@
-<ion-view view-title="{{'EVENTFOLLOWING.title' | translate}}">
+<ion-view view-title="{{'EVENTSPONZORING.title' | translate}}">
   <ion-content>
     <div class="row text-center" ng-show="follow.events.length == 0 && follow.showEmptyState">
       <div class="col">
         <div class="empty-states">
           <i class="icon ion-calendar"></i>
-          <h1>{{'EVENTFOLLOWING.list_empty' | translate}}</h1>
+          <h1>{{'EVENTSPONZORING.list_empty' | translate}}</h1>
           <a href="#/sponzor/home" class="button button-positive">
-            {{'EVENTFOLLOWING.button_more' | translate}}
+            {{'EVENTSPONZORING.button_more' | translate}}
           </a>
         </div>
       </div>
     </div>
-    <div class="list card" ng-repeat="event in follow.events">
+    <div class="list card" ng-repeat="event in sponzoring.events">
       <div class="item item-divider"> 
-        <i class="icon" ng-class="{'ion-pin': event.status == 0, 'ion-close': event.status == 2}"></i> {{ event.title }}
+        <i class="icon ion-checkmark"></i> {{ event.title }}
       </div>
       <a class="item item-body" href="#/sponzor/event/{{ event.event_id }}">
         <p>{{ event.cause }}</p>
