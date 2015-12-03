@@ -66,10 +66,10 @@
       });
 
       vm.newEvent.access = true;
-      vm.newEvent.start = '2015-12-4';
+      /*vm.newEvent.start = '2015-12-4';
       vm.newEvent.starttime = '12:03:15';
       vm.newEvent.end = '2015-12-4';
-      vm.newEvent.endtime = '11:03:15';
+      vm.newEvent.endtime = '11:03:15';*/
       getEventsTypes();
     }
 
