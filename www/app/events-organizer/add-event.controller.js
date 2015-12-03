@@ -61,23 +61,19 @@
 
     function activate(){
 
+      vm.newEvent.access = true;
+
       $ionicModal.fromTemplateUrl('app/events-organizer/sponsor-modal.html', {
         scope: $scope,
         animation: 'slide-in-up'
       }).then(function(modal) {
         vm.modalSponsor = modal;
       });
-
-      vm.newEvent.access = true;
-      /*
-      vm.newEvent.start = '2015-12-4';
-      vm.newEvent.starttime = '12:03:15';
-      vm.newEvent.end = '2015-12-4';
-      vm.newEvent.endtime = '11:03:15';*/
+      
       getEventsTypes();
     }
 
-    
+    /*-------------- DatePickers   --------------*/
 
     function showDatePicker( options ) {
       return $cordovaDatePicker.show( options );
@@ -159,6 +155,8 @@
       }
     }
 
+    /*-------------- Image --------------*/
+
     function getPhoto(){
       var options = {
         quality: 100,
@@ -186,6 +184,24 @@
       }
     }
 
+    function uploadImg(){
+      return $imgur.imageUpload({
+        image: vm.imageURI
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response.data.link );
+      }
+
+      function failed( error ){
+        return $q.reject( error );
+      }
+    }
+
+    /*-------------- Create Event --------------*/
+
     function createEvent( form ){
       utilsService.showLoad();
       
@@ -207,18 +223,15 @@
 
         function complete( event ) {
           utilsService.hideLoad();
+          utilsService.resetForm( form );
           createPerks( event.id );
           vm.newEvent = {};
-          if (form) {
-            form.$setPristine();
-            form.$setUntouched();
-          }
           $ionicHistory.nextViewOptions({
             disableAnimate: false,
             disableBack: true
           });
           $state.go("organizer.events");
-          //$cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_event_mess"));
+          $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_event_mess"));
         }
 
         function failed( error ) {
@@ -270,25 +283,7 @@
       }
     }
 
-    /*------IMAGE-----*/
-
-    function uploadImg(){
-      return $imgur.imageUpload({
-        image: vm.imageURI
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data.link );
-      }
-
-      function failed( error ){
-        return $q.reject( error );
-      }
-    }
-
-    /*------PERKS-----*/
+    /*-------------- Perks --------------*/
 
     function createPerks( idEvent ){
       var size = vm.sponsors.length;

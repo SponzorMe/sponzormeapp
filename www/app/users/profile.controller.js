@@ -84,12 +84,9 @@
 
         function updateUser( user ){
           utilsService.hideLoad();
+          utilsService.resetForm( form );
           vm.user = user;
           vm.user.age = parseInt( vm.user.age );
-          if (form) {
-            form.$setPristine();
-            form.$setUntouched();
-          }
           $localStorage.userAuth = user;
         }
 

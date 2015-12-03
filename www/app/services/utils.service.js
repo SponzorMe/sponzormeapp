@@ -19,7 +19,8 @@
       showLoad: showLoad,
       hideLoad: hideLoad,
       alert: alert,
-      trim: trim
+      trim: trim,
+      resetForm: resetForm
     };
 
     return service;
@@ -51,6 +52,13 @@
       str = str.toString();
       return str.replace(/^\s+|\s+$/g,"");
     };
+
+    function resetForm( form ){
+      if (form) {
+        form.$setPristine();
+        form.$setUntouched();
+      }
+    }
 
   }
 })();
