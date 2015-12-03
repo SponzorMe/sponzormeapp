@@ -1,15 +1,15 @@
 <ion-view>
   <ion-nav-title>Add Event</ion-nav-title>
   <ion-content>
-    <form name="addEventForm" novalidate ng-submit="addEventForm.$valid && addEvent.createEvent()">
+    <form name="addEventForm" novalidate ng-submit="addEventForm.$valid && addEvent.createEvent( addEventForm )">
       <ion-list type="card">  
         <ion-item class="item-divider">
           {{"ADDEVENTS.forgot_title" | translate}}
         </ion-item>
         <!-- Image  -->
         <ion-item class="item-image"> 
-          <i class="icon ion-image cover" ng-if="!newEvent.image" ng-click="addEvent.getPhoto()"></i>
-          <img ng-if="newEvent.image" ng-src="{{newEvent.image}}" />
+          <i class="icon ion-image cover" ng-if="!addEvent.newEvent.image" ng-click="addEvent.getPhoto()"></i>
+          <img ng-if="addEvent.newEvent.image" ng-src="{{addEvent.newEvent.image}}" ng-click="addEvent.getPhoto()" />
         </ion-item>
         <!-- Title  -->
         <label class="item item-input" ng-class="{ 'has-error' : addEventForm.txttitle.$invalid && addEventForm.$submitted }">

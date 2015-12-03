@@ -25,10 +25,12 @@
     '$ionicModal',
     '$cordovaToast',
     '$state',
-    '$ionicHistory'
+    '$ionicHistory',
+    '$imgur',
+    '$q'
   ];
 
-  function AddEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, perkService, $ionicModal, $cordovaToast, $state, $ionicHistory) {
+  function AddEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, perkService, $ionicModal, $cordovaToast, $state, $ionicHistory, $imgur, $q) {
 
     var vm = this;
     vm.newEvent = {};
@@ -38,6 +40,7 @@
     vm.sponsors = [];
     vm.userAuth = $localStorage.userAuth;
     vm.modalSponsor = null;
+    vm.imageURI = null;
 
     vm.clickedStartDate = clickedStartDate;
     vm.clickedEndDate = clickedEndDate;
@@ -66,7 +69,8 @@
       });
 
       vm.newEvent.access = true;
-      /*vm.newEvent.start = '2015-12-4';
+      /*
+      vm.newEvent.start = '2015-12-4';
       vm.newEvent.starttime = '12:03:15';
       vm.newEvent.end = '2015-12-4';
       vm.newEvent.endtime = '11:03:15';*/
@@ -160,7 +164,7 @@
         quality: 100,
         destinationType: Camera.DestinationType.DATA_URL,
         sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-        allowEdit: true,
+        allowEdit: false,
         encodingType: Camera.EncodingType.JPEG,
         targetWidth: 500,
         targetHeight: 500,
@@ -173,6 +177,7 @@
         .catch( failed );
 
       function complete( imageURI ){
+        vm.imageURI = imageURI;
         vm.newEvent.image = "data:image/jpeg;base64," + imageURI;
       }
 
@@ -181,31 +186,48 @@
       }
     }
 
-    function createEvent(){
+    function createEvent( form ){
       utilsService.showLoad();
-      eventService.createEvent( preparateData() )
-        .then( complete )
-        .catch( failed );
-
-      function complete( event ) {
-        utilsService.hideLoad();
-        createPerks( event.id );
-        vm.newEvent = {};
-        $ionicHistory.nextViewOptions({
-          disableAnimate: false,
-          disableBack: true
-        });
-        $state.go("organizer.events");
-        //$cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_event_mess"));
+      
+      if(vm.imageURI){
+        uploadImg()
+          .then( updateImage )
+          .then( complete )
+          .catch( failed );
+      }else{
+        eventService.createEvent( preparateData() )
+          .then( complete )
+          .catch( failed );
       }
 
-      function failed( error ) {
-        utilsService.hideLoad();
-        utilsService.alert({
-          title: $translate.instant("ERRORS.addeventsform_error_tit"),
-          template: $translate.instant("ERRORS.addeventsform_error_mess"),
-        });
-      }
+        function updateImage( image ){
+          vm.newEvent.image = image;
+          return eventService.createEvent( preparateData() );
+        }
+
+        function complete( event ) {
+          utilsService.hideLoad();
+          createPerks( event.id );
+          vm.newEvent = {};
+          if (form) {
+            form.$setPristine();
+            form.$setUntouched();
+          }
+          $ionicHistory.nextViewOptions({
+            disableAnimate: false,
+            disableBack: true
+          });
+          $state.go("organizer.events");
+          //$cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_event_mess"));
+        }
+
+        function failed( error ) {
+          utilsService.hideLoad();
+          utilsService.alert({
+            title: $translate.instant("ERRORS.addeventsform_error_tit"),
+            template: $translate.instant("ERRORS.addeventsform_error_mess"),
+          });
+        }
 
     }
 
@@ -247,6 +269,26 @@
         type: vm.newEvent.type.id
       }
     }
+
+    /*------IMAGE-----*/
+
+    function uploadImg(){
+      return $imgur.imageUpload({
+        image: vm.imageURI
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response.data.link );
+      }
+
+      function failed( error ){
+        return $q.reject( error );
+      }
+    }
+
+    /*------PERKS-----*/
 
     function createPerks( idEvent ){
       var size = vm.sponsors.length;

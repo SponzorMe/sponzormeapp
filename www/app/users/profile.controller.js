@@ -26,6 +26,7 @@
     vm.user = $localStorage.userAuth;
     vm.getPhoto = getPhoto;
     vm.updateProfile = updateProfile;
+    vm.imageURI = null;
 
     activate();
 
@@ -53,6 +54,7 @@
         .catch( failed );
 
       function complete( imageURI ){
+        vm.imageURI = imageURI;
         vm.user.image = "data:image/jpeg;base64," + imageURI;
       }
 
@@ -63,10 +65,17 @@
 
     function updateProfile( form ){
       utilsService.showLoad();
-      uploadImg()
-        .then( updateImage )
-        .then( updateUser )
-        .catch( failed );
+
+      if(vm.imageURI){
+        uploadImg()
+          .then( updateImage )
+          .then( updateUser )
+          .catch( failed );
+      }else{
+        userService.editUserPatch( vm.user.id, vm.user )
+          .then( updateUser )
+          .catch( failed );
+      }
 
         function updateImage( image ){
           vm.user.image = image;
@@ -92,7 +101,7 @@
 
     function uploadImg(){
       return $imgur.imageUpload({
-        image: vm.user.image
+        image: vm.imageURI
       })
       .then( complete )
       .catch( failed );
