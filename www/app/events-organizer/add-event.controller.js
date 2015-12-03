@@ -157,13 +157,13 @@
 
     function getPhoto(){
       var options = {
-        quality: 80,
+        quality: 100,
         destinationType: Camera.DestinationType.DATA_URL,
         sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
         allowEdit: true,
         encodingType: Camera.EncodingType.JPEG,
-        targetWidth: 150,
-        targetHeight: 150,
+        targetWidth: 500,
+        targetHeight: 500,
         popoverOptions: CameraPopoverOptions,
         saveToPhotoAlbum: false
       };

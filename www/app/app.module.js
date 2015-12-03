@@ -17,7 +17,9 @@
     'pascalprecht.translate',
     'base64',
     'tabSlideBox',
-    //'app.widgets',
+    'imgurUploader',
+    //Widgets
+    'app.widgets',
     //Feature areas
     'app.users',
     'app.dashboard-organizer',

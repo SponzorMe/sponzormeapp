@@ -9074,7 +9074,8 @@ a.button {
 
 .center-block, .icon.cover, .pageForm .logo {
   display: block;
-  margin: 0 auto; }
+  margin: 0 auto;
+  width: auto; }
 
 .text-center {
   text-align: center; }
@@ -9243,6 +9244,36 @@ form label.item {
 
 .number-bar .number-bar-communtity {
   background: #02A390; }
+
+.spm-crop {
+  height: 120px;
+  width: 120px;
+  display: block;
+  margin: 15px auto;
+  position: relative; }
+  .spm-crop ng-transclude {
+    width: 100%;
+    height: 100%;
+    display: block;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #00838D;
+    background-color: white; }
+    .spm-crop ng-transclude img {
+      position: absolute;
+      width: auto;
+      max-width: 100%;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%); }
+  .spm-crop .icon {
+    color: #00838D; }
+    .spm-crop .icon.edit {
+      position: absolute;
+      top: 0px;
+      right: 0px; }
 
 .event {
   background-position: top center;

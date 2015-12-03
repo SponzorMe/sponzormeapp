@@ -7,11 +7,10 @@
 
         this.$get = ['$q', '$http', function ($q, $http) {
 
-            var Imgur = function(clientId) {
+             var Imgur = function(clientId) {
                   this.clientId = "bdff09d775f47b9";
                   this.apiBase = "https://api.imgur.com/3";
               };
-
             Imgur.prototype = {
 
                 getclientId: function() {

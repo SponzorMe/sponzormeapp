@@ -240,7 +240,8 @@
             templateUrl: "app/users/profile.html",
             controller: "ProfileController as profile"
           }
-        }
+        },
+        cache: false
       })
 
       .state('sponzor.event', {

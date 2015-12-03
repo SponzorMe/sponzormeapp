@@ -1,15 +1,18 @@
 <ion-view view-title='Profile'>
     <ion-content padding="true">
-      <form name="profileForm" novalidate ng-submit="profileForm.$valid && profile.updateUser()">
+      <form name="profileForm" novalidate ng-submit="profileForm.$valid && profile.updateProfile( profileForm )">
         <ion-list type="card">
           <ion-item class="item-divider">
             {{'SETTINGSUSER.info_title' | translate}}
-          </ion-item>  
-          <div class="padding">
-            <img ng-src="{{myPicture}}" id="profile-image" ng-click="fromAlbum()" />
-          </div>
-
-          <label class="item item-input">
+          </ion-item>
+          <spm-crop-image edit="true" ng-click="profile.getPhoto()">
+            <i class="icon ion-image cover" ng-if="!profile.user.image"></i>
+            <img ng-if="profile.user.image" class="center-block" ng-src="{{profile.user.image}}"/>
+          </spm-crop-image>
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">
+              {{'SETTINGSUSER.form_label1' | translate}}
+            </span>
             <input name="txtname" 
             type="text" 
             placeholder="{{'SETTINGSUSER.form_label1' | translate}}" 
@@ -22,7 +25,10 @@
             <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_minlength" | translate}}</div>
           </div>
 
-          <label class="item item-input">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">
+              {{'SETTINGSUSER.form_label2' | translate}}
+            </span>
             <input 
             name="txtemail" 
             type="email" 
@@ -39,7 +45,10 @@
             <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_minlength" | translate}}</div>
           </div>
 
-          <label class="item item-input">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">
+              {{'SETTINGSUSER.form_label3' | translate}}
+            </span>
             <input 
             name="txtcompany" 
             type="text" 
@@ -53,7 +62,10 @@
             <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_minlength" | translate}}</div>
           </div>
 
-          <label class="item item-input">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">
+              {{'SETTINGSUSER.form_label4' | translate}}
+            </span>
             <input 
             name="numage" 
             type="number" 
@@ -76,7 +88,10 @@
             </select>
           </label>
 
-          <label class="item item-input">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">
+              {{'SETTINGSUSER.form_label6' | translate}}
+            </span>
             <input 
             type="text" 
             placeholder="{{'SETTINGSUSER.form_label6' | translate}}"  
@@ -84,7 +99,10 @@
             ng-model="profile.user.location" />
           </label>
 
-          <label class="item item-input">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">
+              {{'SETTINGSUSER.form_label7' | translate}}
+            </span>
             <textarea 
             placeholder="{{'SETTINGSUSER.form_label7' | translate}}" 
             ng-model="profile.user.description"></textarea>

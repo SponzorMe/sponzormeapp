@@ -133,7 +133,17 @@
           'Authorization' : 'Basic '+ getToken()
         },
         data: $.param(data)
-      });
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response.data.User );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
     }
 
     function editUserPut( userId, data ){
@@ -145,7 +155,17 @@
           'Authorization' : 'Basic '+ getToken()
         },
         data: $.param(data)
-      });
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ){
+        return $q.when( response.data.User );
+      }
+
+      function failed( response ){
+        return $q.reject( response );
+      }
     }
 
     function forgotPassword( data ){
