@@ -88,11 +88,9 @@
 
     function redirectHome(){
       if( vm.userResponse.type == 0 ){ // is an Organizer.
-        //$state.go("organizer.home");
-        $state.go("organizer.intro");
+        $state.go("organizer.home");
       }else{ // is an Sponzor
-        //$state.go("sponzor.home");
-        $state.go("sponzor.intro");
+        $state.go("sponzor.home");
       }
     }
 

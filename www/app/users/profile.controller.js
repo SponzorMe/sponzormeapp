@@ -98,7 +98,8 @@
 
     function uploadImg(){
       return $imgur.imageUpload({
-        image: vm.imageURI
+        image: vm.imageURI,
+        type: 'base64'
       })
       .then( complete )
       .catch( failed );
