@@ -11,9 +11,14 @@
     .module('app.users')
     .controller('IntroSponzorCtrl', IntroSponzorCtrl);
 
-  IntroSponzorCtrl.$inject = ['$state' ,'$ionicSlideBoxDelegate', '$ionicSideMenuDelegate'];
+  IntroSponzorCtrl.$inject = [
+    '$state',
+    '$ionicSlideBoxDelegate',
+    '$ionicHistory',
+    '$ionicSideMenuDelegate'
+  ];
 
-  function IntroSponzorCtrl( $state, $ionicSlideBoxDelegate,  $ionicSideMenuDelegate) {
+  function IntroSponzorCtrl( $state, $ionicSlideBoxDelegate, $ionicHistory, $ionicSideMenuDelegate) {
 
     var vm = this;
     vm.slideIndex = 0;
@@ -30,6 +35,10 @@
     }
 
     function startApp(){
+      $ionicHistory.nextViewOptions({
+        disableAnimate: true,
+        disableBack: true
+      });
       $state.go("organizer.home");
     }
 

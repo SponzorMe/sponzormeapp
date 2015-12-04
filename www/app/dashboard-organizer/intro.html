@@ -15,24 +15,25 @@
       {{'INTROORG.start_nav_btn' | translate}}
     </button>
   </ion-nav-buttons>
-  <ion-content>
+  <ion-content class="intro">
     <ion-slide-box on-slide-changed="intro.slideChanged(index)">
-      <ion-slide>
+      <ion-slide class="text-center">
         <h3>{{'INTROORG.head_page1' | translate}}</h3>
-        <div id="logo">
-          <img src="img/logo.png">
+        <div id="logo" class="center-block">
+          <img src="img/logo.png" class="full-image">
         </div>
         <p align="justify" class="padding">
           {{'INTROORG.content_page1' | translate}}
         </p>
       </ion-slide>
-      <ion-slide>
+      <ion-slide class="text-center">
         <h3 class="padding">{{'INTROSPO.head_page2' | translate}}</h3>
+        <i class="icon ion-wand cover"></i>
         <p align="justify" class="padding">
         {{'INTROORG.content_page2' | translate}}
         </p>
       </ion-slide>
-      <ion-slide>
+      <ion-slide class="text-center">
         <h4>{{'INTROORG.head_page3' | translate}}</h4>
         <p align="justify" class="padding" ng-bind-html="'INTROORG.content_page3' | translate">
         </p>

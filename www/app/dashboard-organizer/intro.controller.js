@@ -11,9 +11,14 @@
     .module('app.users')
     .controller('IntroOrganizerCtrl', IntroOrganizerCtrl);
 
-  IntroOrganizerCtrl.$inject = ['$state' ,'$ionicSlideBoxDelegate', '$ionicSideMenuDelegate'];
+  IntroOrganizerCtrl.$inject = [
+    '$state',
+    '$ionicSlideBoxDelegate',
+    '$ionicHistory',
+    '$ionicSideMenuDelegate'
+  ];
 
-  function IntroOrganizerCtrl( $state, $ionicSlideBoxDelegate,  $ionicSideMenuDelegate) {
+  function IntroOrganizerCtrl( $state, $ionicSlideBoxDelegate, $ionicHistory, $ionicSideMenuDelegate) {
 
     var vm = this;
     vm.slideIndex = 0;
@@ -30,6 +35,10 @@
     }
 
     function startApp(){
+      $ionicHistory.nextViewOptions({
+        disableAnimate: true,
+        disableBack: true
+      });
       $state.go("organizer.home");
     }
 

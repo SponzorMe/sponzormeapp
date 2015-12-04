@@ -26,3 +26,19 @@
     color: $balanced;
   }
 }
+.intro{
+  .scroll{
+    height: 100%;
+    .slider{
+      height: 100%;
+    }
+  }
+  #logo{
+    width: 90%;
+  }
+  .slider-pager-page.active{
+    .icon{
+      color: $brand;
+    }
+  }
+}

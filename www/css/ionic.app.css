@@ -9093,6 +9093,17 @@ a.button {
 .done .icon {
   color: #00838D; }
 
+.intro .scroll {
+  height: 100%; }
+  .intro .scroll .slider {
+    height: 100%; }
+
+.intro #logo {
+  width: 90%; }
+
+.intro .slider-pager-page.active .icon {
+  color: #00838D; }
+
 .pageForm {
   background-color: white; }
   .pageForm .logo {
