@@ -42,7 +42,7 @@
     }
 
     function getData(){
-      utilsService.hideLoad();
+      utilsService.showLoad();
 
       var promises = [
         userService.getUser( vm.userAuth.id ),

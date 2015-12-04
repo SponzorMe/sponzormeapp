@@ -34,7 +34,7 @@
 
     function getTasks(){
       utilsService.showLoad();
-      perkTaskService.allPerkTasks(  )
+      perkTaskService.getPerkTaskByOrganizer( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 
