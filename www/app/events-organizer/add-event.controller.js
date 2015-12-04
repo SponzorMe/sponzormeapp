@@ -26,11 +26,11 @@
     '$cordovaToast',
     '$state',
     '$ionicHistory',
-    '$imgur',
+    'imgurService',
     '$q'
   ];
 
-  function AddEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, perkService, $ionicModal, $cordovaToast, $state, $ionicHistory, $imgur, $q) {
+  function AddEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, perkService, $ionicModal, $cordovaToast, $state, $ionicHistory, imgurService, $q) {
 
     var vm = this;
     vm.newEvent = {};
@@ -184,29 +184,13 @@
       }
     }
 
-    function uploadImg(){
-      return $imgur.imageUpload({
-        image: vm.imageURI
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data.link );
-      }
-
-      function failed( error ){
-        return $q.reject( error );
-      }
-    }
-
     /*-------------- Create Event --------------*/
 
     function createEvent( form ){
       utilsService.showLoad();
       
       if(vm.imageURI){
-        uploadImg()
+        imgurService.uploadImage( vm.imageURI )
           .then( updateImage )
           .then( complete )
           .catch( failed );

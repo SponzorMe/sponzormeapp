@@ -16,11 +16,11 @@
     'utilsService',
     '$cordovaCamera',
     '$localStorage',
-    '$imgur',
-    '$q'
+    '$q',
+    'imgurService'
   ];
 
-  function ProfileController( userService, utilsService, $cordovaCamera, $localStorage, $imgur, $q) {
+  function ProfileController( userService, utilsService, $cordovaCamera, $localStorage, $q, imgurService) {
 
     var vm = this;
     vm.user = $localStorage.userAuth;
@@ -67,7 +67,7 @@
       utilsService.showLoad();
 
       if(vm.imageURI){
-        uploadImg()
+        imgurService.uploadImage( vm.imageURI )
           .then( updateImage )
           .then( updateUser )
           .catch( failed );
@@ -78,6 +78,7 @@
       }
 
         function updateImage( image ){
+          console.log( image );
           vm.user.image = image;
           return userService.editUserPatch( vm.user.id, vm.user );
         }
@@ -94,23 +95,6 @@
           utilsService.hideLoad();
           console.log( error );
         }
-    }
-
-    function uploadImg(){
-      return $imgur.imageUpload({
-        image: vm.imageURI,
-        type: 'base64'
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data.link );
-      }
-
-      function failed( error ){
-        return $q.reject( error );
-      }
     }
 
   }
