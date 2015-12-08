@@ -14,16 +14,20 @@
   TaskListController.$inject = [
     '$localStorage',
     'perkTaskService',
-    'utilsService'  
+    'utilsService',
+    '$scope'
   ];
 
-  function TaskListController( $localStorage, perkTaskService , utilsService) {
+  function TaskListController( $localStorage, perkTaskService , utilsService, $scope) {
 
     var vm = this;
+    //Attributes
     vm.userAuth = $localStorage.userAuth;
     vm.tasks = [];
     vm.showEmptyState = false;
-
+    //Funcions
+    vm.doRefresh = doRefresh;
+    
     activate();
 
     ////////////
@@ -49,7 +53,20 @@
         }
     }
 
-    
+    function doRefresh(){
+      perkTaskService.getPerkTaskByOrganizer( vm.userAuth.id )
+        .then( complete )
+        .catch( failed );
+
+        function complete( tasks ){
+          $scope.$broadcast('scroll.refreshComplete');
+          vm.tasks = tasks;
+        }
+
+        function failed( error ){
+          console.log( error );
+        }
+    }
     
 
   }

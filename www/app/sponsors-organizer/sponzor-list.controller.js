@@ -37,6 +37,7 @@
     vm.showFilter = showFilter;
     vm.sponsorAccept = sponsorAccept;
     vm.sponsorReject = sponsorReject;
+    vm.doRefresh = doRefresh;
 
     activate();
 
@@ -153,6 +154,24 @@
           console.log( error );
         }
 
+    }
+
+    function doRefresh(){
+      sponzorshipService.sponzorshipByOrganizer( vm.userAuth.id )
+        .then( complete )
+        .catch( failed );
+
+        function complete( sponsors ){
+          $scope.$broadcast('scroll.refreshComplete');
+          vm.search = {};
+          vm.sponsors = sponsors;
+          vm.events = getEvents( vm.sponsors );
+        }
+
+        function failed( error ){
+          vm.showEmptyState = true;
+          console.log( error );
+        }
     }
     
 

@@ -1,6 +1,8 @@
 <ion-view view-title="{{'EVENTSPONZORING.title' | translate}}">
   <ion-content>
-    <div class="row text-center" ng-show="follow.events.length == 0 && follow.showEmptyState">
+    <ion-refresher pulling-text="Pull to refresh" on-refresh="sponzoring.doRefresh()">
+    </ion-refresher>
+    <div class="row text-center" ng-show="sponzoring.events.length == 0 && sponzoring.showEmptyState">
       <div class="col">
         <div class="empty-states">
           <i class="icon ion-calendar"></i>

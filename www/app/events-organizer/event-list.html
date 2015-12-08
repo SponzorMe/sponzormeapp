@@ -4,6 +4,8 @@
     </a>
   </ion-nav-buttons>
   <ion-content>
+    <ion-refresher pulling-text="Pull to refresh" on-refresh="eventList.doRefresh()">
+    </ion-refresher>
     <div class="row text-center" ng-show="eventList.events.length == 0 && eventList.showEmptyState">
       <div class="col">
         <div class="empty-states">

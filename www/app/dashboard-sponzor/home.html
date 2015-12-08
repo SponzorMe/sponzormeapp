@@ -1,6 +1,8 @@
 <ion-view>
   <ion-nav-title>{{'SEARCH.search_title' | translate}}</ion-nav-title>
   <ion-content>
+    <ion-refresher pulling-text="Pull to refresh" on-refresh="home.doRefresh()">
+    </ion-refresher>
     <ion-list ng-show="home.events.length > 0">
       <div class="item item-input-inset">
         <label class="item-input-wrapper">

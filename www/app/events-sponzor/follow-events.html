@@ -1,5 +1,7 @@
 <ion-view view-title="{{'EVENTFOLLOWING.title' | translate}}">
   <ion-content>
+    <ion-refresher pulling-text="Pull to refresh" on-refresh="follow.doRefresh()">
+    </ion-refresher>
     <div class="row text-center" ng-show="follow.events.length == 0 && follow.showEmptyState">
       <div class="col">
         <div class="empty-states">

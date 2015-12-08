@@ -8,6 +8,8 @@
     </a>
   </ion-nav-buttons>
   <ion-content padding="true">
+    <ion-refresher pulling-text="Pull to refresh" on-refresh="sponzorList.doRefresh()">
+    </ion-refresher>
     <div class="row text-center" ng-show="sponzorList.sponsors.length == 0 && sponzorList.showEmptyState">
       <div class="col">
         <div class="empty-states">

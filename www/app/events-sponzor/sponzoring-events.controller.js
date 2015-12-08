@@ -15,16 +15,20 @@
     '$translate',
     '$localStorage',
     'utilsService',
-    'sponzorshipService'
+    'sponzorshipService',
+    '$scope'
   ];
 
-  function SponzoringEventsController( $translate, $localStorage, utilsService, sponzorshipService) {
+  function SponzoringEventsController( $translate, $localStorage, utilsService, sponzorshipService, $scope) {
 
     var vm = this;
+    //Attributes
     vm.userAuth = $localStorage.userAuth;
     vm.events = [];
     vm.showEmptyState = false;
-
+    //Funcions
+    vm.doRefresh = doRefresh;
+    
     activate();
 
     ////////////
@@ -42,15 +46,31 @@
         function complete( events ){
           utilsService.hideLoad();
           vm.events = events.filter( filterByPending );
-          function filterByPending( item ){
-            return item.status == '1';
-          }
         }
 
         function failed( error ){
           utilsService.hideLoad();
           console.log( error );
         }
+    }
+
+    function doRefresh(){
+      sponzorshipService.sponzorshipBySponzor( vm.userAuth.id )
+        .then( complete )
+        .catch( failed );
+
+        function complete( events ){
+          $scope.$broadcast('scroll.refreshComplete');
+          vm.events = events.filter( filterByPending );
+        }
+
+        function failed( error ){
+          console.log( error );
+        }
+    }
+
+    function filterByPending( item ){
+      return item.status == '1';
     }
     
 
