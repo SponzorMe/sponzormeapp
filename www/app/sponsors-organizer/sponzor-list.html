@@ -26,11 +26,11 @@
         <p><strong>Start:</strong> {{ sponzor.starts | date: 'MMMM d, y' }}</p>
       </div>
       <div class="item tabs tabs-light tabs-icon-left">
-        <a class="tab-item" ng-click="sponzorList.sponsorAccept( $index )" ng-class="{'status': sponzor.status == 1}">
+        <a class="tab-item" ng-click="sponzorList.sponsorAccept( sponzor )" ng-class="{'status': sponzor.status == 1}">
           <i class="icon ion-checkmark-circled"></i>
           {{'SPONZORLIST.button_accept' | translate}}
         </a>
-        <a class="tab-item" ng-click="sponzorList.sponsorReject( $index )" ng-class="{'status': sponzor.status == 2}">
+        <a class="tab-item" ng-click="sponzorList.sponsorReject( sponzor )" ng-class="{'status': sponzor.status == 2}">
           <i class="icon ion-close-circled"></i>
           {{'SPONZORLIST.button_reject' | translate}}
         </a>

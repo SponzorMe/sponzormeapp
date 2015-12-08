@@ -110,21 +110,21 @@
       closePopover();
     }
 
-    function sponsorAccept( index ){
+    function sponsorAccept( sponzor ){
       confirmPopup('Are you sure?', 'In the accept the sponsor')
         .then( complete );
 
         function complete( rta ){
-          if( rta ) updateSponsorship( index, 1 ); //Accepted 
+          if( rta ) updateSponsorship( sponzor, 1 ); //Accepted 
         }
     }
 
-    function sponsorReject( index ){
+    function sponsorReject( sponzor ){
       confirmPopup('Are you sure?', 'In the reject the sponsor')
         .then( complete );
 
         function complete( rta ){
-          if( rta ) updateSponsorship( index, 2 ); //Deny
+          if( rta ) updateSponsorship( sponzor, 2 ); //Deny
         }
     }
 
@@ -135,17 +135,17 @@
       });
     }
 
-    function updateSponsorship( index, status ){
+    function updateSponsorship( sponzor, status ){
       utilsService.showLoad();
-      var sponsor = angular.copy( vm.sponsors[ index ] );
-      sponsor.status = status;
-      sponzorshipService.editSponzorshipPut( sponsor.id, sponsor )
+      var sponzorCopy = angular.copy( sponzor );
+      sponzorCopy.status = status;
+      sponzorshipService.editSponzorshipPut( sponzorCopy.id, sponzorCopy )
         .then( complete )
         .catch( failed );
 
-        function complete( sponsor ){
+        function complete( sponzorRta ){
           utilsService.hideLoad();
-          vm.sponsors[ index ].status = sponsor.status;
+          sponzor.status = sponzorRta.status;
         }
 
         function failed( error ){
