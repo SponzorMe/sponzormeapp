@@ -170,7 +170,8 @@
       "forgotform_ema_required": "O campo e necessário.",
       "forgotform_ema_email": "Eo formato do campo é inválido.",
       "forgotform_ema_maxlength": "O campo deve ser inferior a 5 caracteres.",
-      "forgotform_ema_minlength": "O campo deve ser inferior a 30 caracteres."
+      "forgotform_ema_minlength": "O campo deve ser inferior a 30 caracteres.",
+      "addeventsform_error_sponsors_empty" : "You must have a sponsorship type to less."
   },
   "MESSAGES": {
       "loading": "Carregando...",

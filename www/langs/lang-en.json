@@ -216,7 +216,8 @@
         "addeventsform_endtime_required" : "This field is required.",
         "addeventsform_startdate_required" : "This field is required.",
         "addeventsform_error_tit": "Error",
-        "addeventsform_error_mess": "Ops, Something happened. Try later"
+        "addeventsform_error_mess": "Ops, Something happened. Try later",
+        "addeventsform_error_sponsors_empty" : "You must have a sponsorship type to less."
     },
     "MESSAGES": {
         "loading": "Loading...",

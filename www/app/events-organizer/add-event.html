@@ -135,16 +135,22 @@
           {{ sponsor.kind }} - {{ sponsor.usd }}
           <i class="icon ion-edit"></i>
         </ion-item>
-
+         
         <div class="padding">
           <button type="button" class="button button-block button-positive" ng-click="addEvent.createSponsor()">
             New Sponzor
           </button>
         </div>
-        <div class="form-errors" ng-messages="addEventForm.txtendtime.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
-          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_endtime_required" | translate}}</div>
+        <input
+        class="ng-hide" 
+        name="sponsors"
+        type="number" 
+        min="1" 
+        ng-model="addEvent.sponsors.length"
+        > 
+        <div class="form-errors" ng-messages="addEventForm.sponsors.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
+          <div class="form-error" ng-message="min"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_error_sponsors_empty" | translate}}</div>
         </div>
-        
       </ion-list>
 
       <div class="padding">
