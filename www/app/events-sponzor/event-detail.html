@@ -67,6 +67,9 @@
               <ion-item class="item-divider">
                 {{ perk.kind }} - {{ perk.usd }}
               </ion-item>
+              <ion-item ng-show="perk.tasks.length == 0">
+                {{'EVENTDETAIL.list_perk_task_empty' | translate}}
+              </ion-item>
               <ion-item class="item-icon-left" ng-repeat="task in perk.tasks">
                 <i class="icon ion-checkmark"></i>
                 {{ task.title }}

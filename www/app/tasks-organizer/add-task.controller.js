@@ -39,7 +39,7 @@
       getPerks();
     }
 
-    function createTask(){
+    function createTask( form ){
       utilsService.showLoad();
       perkTaskService.createPerkTask( preparateData() )
         .then( complete )
@@ -47,6 +47,7 @@
 
         function complete( data ){
           utilsService.hideLoad();
+          utilsService.resetForm( form );
           vm.newTask = {};
           $ionicHistory.nextViewOptions({
             disableAnimate: false,

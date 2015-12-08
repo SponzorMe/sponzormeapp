@@ -1,7 +1,7 @@
 <ion-view>
   <ion-nav-title>Add Task</ion-nav-title>
   <ion-content>
-    <form name="addTaskForm" novalidate ng-submit="addTaskForm.$valid && addTask.createTask()">
+    <form name="addTaskForm" novalidate ng-submit="addTaskForm.$valid && addTask.createTask( addTaskForm )">
       <ion-list type="card">  
         <ion-item class="item-divider">
           Add Task

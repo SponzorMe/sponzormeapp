@@ -169,6 +169,9 @@
         "ends_field2" : "Time Ends",
         "button_message" : "Add Event"
     },
+    "EVENTDETAIL":{
+        "list_perk_task_empty": "Nothing new yet."
+    },
     "ERRORS": {
         "signin_ema_required": "This field is required.",
         "signin_ema_email": "This field is must be an email.",

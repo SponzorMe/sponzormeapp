@@ -143,6 +143,9 @@
       "email_field":"Email de mi amigo",
       "button_message":"Enviar"
   },
+  "EVENTDETAIL":{
+      "list_perk_task_empty": "No hay ninguno aún."
+  },
   "ERRORS": {
       "signin_ema_required": "Este campo es requerido.",
       "signin_ema_email": "Este campo debe ser un Email.",

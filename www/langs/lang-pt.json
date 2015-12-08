@@ -101,6 +101,9 @@
     "filter_title": "Filtrar por eventos",
     "filter_all": "Todos los eventos"
   },
+  "EVENTDETAIL":{
+      "list_perk_task_empty": "No hay ninguno aún."
+  },
   "SEARCH": {
       "search_title": "Procure eventos",
       "text_field": "Procure o seu próximo evento.",
