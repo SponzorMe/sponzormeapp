@@ -8,7 +8,8 @@
         </label>
       </div>
       <ion-item href="#/sponzor/event/{{ event.id }}" class="event" ng-repeat="event in home.events | filter:search | orderBy:'starts' " ng-style="{'background-image': 'url(' + event.image + ')'}">
-          <p>{{event.title}} </br> {{event.starts | date: 'MMMM d, y'}}</p>
+          <p>{{event.title}} </br> 
+          {{event.starts | date: 'MMMM d, y'}} - {{event.ends | date: 'MMMM d, y'}}</p>
       </ion-item>
     </ion-list>
   </ion-content>

@@ -48,6 +48,7 @@
         function preparateEvent( item ){
           item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
           item.starts = moment(item.starts)._d;
+          item.ends = moment(item.ends)._d;
           return item;
         }
       }
