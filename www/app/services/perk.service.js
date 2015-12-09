@@ -11,9 +11,15 @@
     .module('app')
     .factory('perkService', perkService);
 
-  perkService.$inject = ['$http', '$localStorage', 'BackendVariables', '$q'];
+  perkService.$inject = [
+    '$http',
+    '$localStorage',
+    'BackendVariables',
+    '$q',
+    '$httpParamSerializerJQLike'
+  ];
 
-  function perkService( $http, $localStorage, BackendVariables, $q ) {
+  function perkService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
 
     var path = BackendVariables.url;
     var token = $localStorage.token;
@@ -67,7 +73,7 @@
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike(data)
       })
       .then( complete )
       .catch( failed );
@@ -110,7 +116,7 @@
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike(data)
       })
       .then( complete )
       .catch( failed );
@@ -132,7 +138,7 @@
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike(data)
       })
       .then( complete )
       .catch( failed );

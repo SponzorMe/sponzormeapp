@@ -122,7 +122,7 @@
           'Content-Type':'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike(data)
       })
       .then( complete )
       .catch( failed );
@@ -187,7 +187,7 @@
           'Content-Type':'application/x-www-form-urlencoded',
           'Authorization': 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike(data)
       })
       .then( complete )
       .catch( failed );

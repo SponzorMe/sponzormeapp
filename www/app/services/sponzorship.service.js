@@ -11,9 +11,15 @@
     .module('app')
     .factory('sponzorshipService', sponzorshipService);
 
-  sponzorshipService.$inject = [ '$http', '$localStorage', 'BackendVariables', '$q'];
+  sponzorshipService.$inject = [
+    '$http',
+    '$localStorage',
+    'BackendVariables',
+    '$q',
+    '$httpParamSerializerJQLike'
+  ];
 
-  function sponzorshipService( $http, $localStorage, BackendVariables, $q ) {
+  function sponzorshipService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
 
     var path = BackendVariables.url;
     var token = $localStorage.token;
@@ -131,7 +137,7 @@
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike(data)
       })
       .then( complete )
       .catch( failed );
@@ -174,7 +180,7 @@
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike(data)
       })
       .then( complete )
       .catch( failed );
@@ -196,7 +202,7 @@
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike(data)
       })
       .then( complete )
       .catch( failed );

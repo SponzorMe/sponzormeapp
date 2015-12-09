@@ -11,9 +11,15 @@
     .module('app')
     .factory('userService', userService);
 
-  userService.$inject = ['$http', '$localStorage', 'BackendVariables', '$q'];
+  userService.$inject = [
+    '$http',
+    '$localStorage',
+    'BackendVariables',
+    '$q',
+    '$httpParamSerializerJQLike'
+  ];
 
-  function userService( $http, $localStorage, BackendVariables, $q ) {
+  function userService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
 
     var path = BackendVariables.url;
 
@@ -39,7 +45,7 @@
         method: 'POST',
         url: path + 'auth',
         headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
-        data: $.param({
+        data: $httpParamSerializerJQLike({
           email: email,
           password: password
         })
@@ -100,7 +106,7 @@
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike(data)
       })
       .then( createUserComplete )
       .catch( createUserFailed );
@@ -133,7 +139,7 @@
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike(data)
       })
       .then( complete )
       .catch( failed );
@@ -155,7 +161,7 @@
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike(data)
       })
       .then( complete )
       .catch( failed );
@@ -177,7 +183,7 @@
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike(data)
       })
       .then( forgotPasswordComplete )
       .catch( forgotPasswordFailed );
@@ -199,7 +205,7 @@
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike(data)
       });
     }
 

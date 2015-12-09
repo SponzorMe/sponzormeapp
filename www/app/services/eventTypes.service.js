@@ -11,9 +11,15 @@
     .module('app')
     .factory('eventTypeService', eventTypeService);
 
-  eventTypeService.$inject = ['$http', '$localStorage', 'BackendVariables', '$q'];
+  eventTypeService.$inject = [
+    '$http',
+    '$localStorage',
+    'BackendVariables',
+    '$q',
+    '$httpParamSerializerJQLike'
+  ];
 
-  function eventTypeService( $http, $localStorage, BackendVariables, $q ) {
+  function eventTypeService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
 
     var path = BackendVariables.url;
 
@@ -56,7 +62,7 @@
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike(data)
       });
     }
 
@@ -79,7 +85,7 @@
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike(data)
       });
     }
 
@@ -91,7 +97,7 @@
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $.param(data)
+        data: $httpParamSerializerJQLike(data)
       });
     }
 
