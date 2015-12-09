@@ -88,7 +88,7 @@
           utilsService.resetForm( form );
           vm.user = user;
           vm.user.age = parseInt( vm.user.age );
-          $localStorage.userAuth = user;
+          $localStorage.userAuth = utilsService.updateUserAuth( user );
         }
 
         function failed( error ){

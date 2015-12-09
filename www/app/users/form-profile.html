@@ -47,15 +47,15 @@
          <div class="input-label">
            {{"JOINNOW.profile_gender_label" | translate}}
          </div>
-         <select ng-model="profile.newUser.gender">
+         <select ng-model="profile.newUser.sex">
            <option ng-selected="true" value="1">{{"JOINNOW.profile_male_option" | translate}}</option>
-           <option value="2">{{"JOINNOW.profile_female_option" | translate}}</option>
+           <option value="0">{{"JOINNOW.profile_female_option" | translate}}</option>
          </select>
         </label>
       </div>
       <div class="row">
         <div class="col">
-          <a href="" class="button button-block button-secondary">
+          <a href="#/interests" class="button button-block button-secondary">
             {{"JOINNOW.profile_skip_button" | translate}}
           </a>
         </div>

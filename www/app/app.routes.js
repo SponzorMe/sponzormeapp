@@ -34,6 +34,12 @@
         controller: "FormProfileController as profile"
       })
 
+      .state('interests', {
+        url: "/interests",
+        templateUrl: "app/users/form-interests.html",
+        controller: "FormInterestsController as interests"
+      })
+
       .state('forgot-password', {
         url: "/forgot-password",
         templateUrl: "app/users/forgot-password.html",

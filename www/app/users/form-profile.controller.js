@@ -48,7 +48,8 @@
           utilsService.resetForm( form );
           vm.user = user;
           vm.user.age = parseInt( vm.user.age );
-          $localStorage.userAuth = user;
+          $localStorage.userAuth = utilsService.updateUserAuth( vm.user );
+          $state.go("interests");
         }
 
         function failed( error ){
@@ -60,11 +61,15 @@
     function preparateData(){
       return {
         name: vm.newUser.name,
-        age: vm.newUser.age,
+        age: parseInt(vm.newUser.age),
         location: vm.newUser.location, 
         lang: vm.newUser.lang,
-        gender: vm.newUser.gender
+        sex: parseInt(vm.newUser.sex)
       }
+    }
+
+    function updateUserAuth(){
+
     }
 
     function changeLang(){

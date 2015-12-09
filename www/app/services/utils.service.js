@@ -20,7 +20,8 @@
       hideLoad: hideLoad,
       alert: alert,
       trim: trim,
-      resetForm: resetForm
+      resetForm: resetForm,
+      updateUserAuth: updateUserAuth
     };
 
     return service;
@@ -59,6 +60,12 @@
         form.$setUntouched();
       }
     }
+
+    function updateUserAuth( data ){
+      return angular.extend($localStorage.userAuth || {}, data);
+    }
+
+    
 
   }
 })();
