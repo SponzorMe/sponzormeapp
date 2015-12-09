@@ -11,9 +11,16 @@
     .module('app.users')
     .controller('RegisterController', RegisterController);
 
-  RegisterController.$inject = ['$translate', '$state', 'userService', 'utilsService'];
+  RegisterController.$inject = [
+    '$translate',
+    '$state',
+    'userService',
+    'utilsService',
+    '$localStorage',
+    '$base64'
+  ];
 
-  function RegisterController( $translate, $state, userService, utilsService ) {
+  function RegisterController( $translate, $state, userService, utilsService, $localStorage, $base64 ) {
 
     var vm = this;
     vm.newUser = {};
@@ -24,26 +31,31 @@
     ////////////
 
     function activate(){
-      initUser();
+      vm.newUser.type = 0;
     }
 
-    function registerNewUser(){
+    function registerNewUser( form ){
       utilsService.showLoad();
       userService.createUser( preparateData() )
-      .then( registerNewUserComplete )
-      .catch( showError );
+      .then( signIn )
+      .then( complete )
+      .catch( failed );
 
-      function registerNewUserComplete(){
-        $state.go("signin");
+      function complete( user ){
         utilsService.hideLoad();
-        initUser();
+        utilsService.resetForm( form );
         utilsService.alert({
           title: $translate.instant("MESSAGES.succ_user_tit"),
           template: $translate.instant("MESSAGES.succ_user_mess")
         });
+        $localStorage.token = $base64.encode(vm.newUser.email +':'+ vm.newUser.password);
+        vm.newUser = {}
+        vm.newUser.type = 0;
+        $localStorage.userAuth = user;
+        $state.go("profile");
       }
 
-      function showError( data ){
+      function failed( data ){
         utilsService.hideLoad();
         if(utilsService.trim(data.message) === "Invalid credentials"){
           utilsService.alert({
@@ -71,17 +83,15 @@
         email: vm.newUser.email,
         password: vm.newUser.password,
         password_confirmation: vm.newUser.password,
-        lang: "en", 
+        name: 'Username',
+        lang: 'en',
         type: vm.newUser.type,
-        name: "First Name" + " " + "Last Name",
       }
     }
 
-    function initUser(){
-      vm.newUser = {
-        type: 0
-      };
-    }
+    function signIn(){
+      return userService.login( vm.newUser.email, vm.newUser.password );
+    };
     
 
   }

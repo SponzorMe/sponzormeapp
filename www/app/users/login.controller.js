@@ -11,7 +11,14 @@
     .module('app.users')
     .controller('LoginController', LoginController);
 
-  LoginController.$inject = ['$translate', 'userService', '$localStorage', '$state', 'utilsService', '$base64'];
+  LoginController.$inject = [
+    '$translate',
+    'userService',
+    '$localStorage',
+    '$state',
+    'utilsService',
+    '$base64'
+  ];
 
   function LoginController( $translate, userService, $localStorage, $state , utilsService, $base64) {
 

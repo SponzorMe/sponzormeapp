@@ -28,7 +28,13 @@
         controller: "RegisterController as register"
       })
 
-      .state('forgotpassword', {
+      .state('profile', {
+        url: "/profile",
+        templateUrl: "app/users/form-profile.html",
+        controller: "FormProfileController as profile"
+      })
+
+      .state('forgot-password', {
         url: "/forgot-password",
         templateUrl: "app/users/forgot-password.html",
         controller:"ForgotController as forgot"

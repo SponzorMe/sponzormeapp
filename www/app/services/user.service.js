@@ -108,14 +108,14 @@
         },
         data: $httpParamSerializerJQLike(data)
       })
-      .then( createUserComplete )
-      .catch( createUserFailed );
+      .then( complete )
+      .catch( failed );
 
-      function createUserComplete( response ) {
-        return $q.when( response );
+      function complete( response ) {
+        return $q.when( response.data );
       } 
 
-      function createUserFailed( response ) {
+      function failed( response ) {
         return $q.reject( response.data );
       }
     }

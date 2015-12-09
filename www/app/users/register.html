@@ -1,6 +1,6 @@
 <ion-view hide-nav-bar="true" class="pageForm">
   <ion-content>
-    <form name="registerForm" novalidate  ng-submit="registerForm.$valid && register.registerNewUser()">
+    <form name="registerForm" novalidate  ng-submit="registerForm.$valid && register.registerNewUser( registerForm )">
       <div class="list">
         <div class="padding">
           <i class="icon ion-android-person-add cover"></i>
@@ -40,7 +40,7 @@
         </div>
         <label class="item item-input item-select">
          <div class="input-label">{{"JOINNOW.kind_title" | translate}}</div>
-         <select ng-model="register.newUser.password.type" convert-to-number>
+         <select ng-model="register.newUser.type" convert-to-number>
            <option value="1">{{"JOINNOW.kind_opt1" | translate}}</option>
            <option ng-selected="true" value="0">{{"JOINNOW.kind_opt2" | translate}}</option>
          </select>
@@ -54,7 +54,7 @@
     </form>
   </ion-content>
   <ion-footer-bar class="bar">
-    <a class="button button-clear button-positive" href="#/sign-in">{{"LOGIN.signin_message" | translate}}</a>  
-    <a class="button button-clear button-positive" href="#/joinnow">{{"LOGIN.join_message" | translate}}</a>
+    <a class="button button-clear button-positive" href="#/forgot-password">{{"LOGIN.forgot_message" | translate}}</a>  
+    <a class="button button-clear button-positive" href="#/sign-in">{{"LOGIN.signin_message" | translate}}</a>
   </ion-footer-bar>
 </ion-view>
