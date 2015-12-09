@@ -9,9 +9,9 @@
 
   angular
     .module('app')
-    .factory('eventService', eventService);
+    .factory('categoryService', categoryService);
 
-  eventService.$inject = [
+  categoryService.$inject = [
     '$http',
     '$localStorage',
     'BackendVariables',
@@ -19,7 +19,7 @@
     '$httpParamSerializerJQLike'
   ];
 
-  function eventService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
+  function categoryService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
 
     var path = BackendVariables.url;
 
