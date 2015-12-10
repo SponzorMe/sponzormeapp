@@ -42,7 +42,7 @@
       .catch( failed );
 
       function complete( response ){
-        return $q.when( response.data );
+        return $q.when( response.data.categories );
       }
 
       function failed( response ){

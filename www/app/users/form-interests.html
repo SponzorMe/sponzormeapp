@@ -1,6 +1,6 @@
 <ion-view hide-nav-bar="true" class="pageForm">
   <ion-content>
-    <form name="interestsForm" novalidate  ng-submit="interestsForm.$valid && profile.updateInterests( interestsForm )">
+    <form name="interestsForm" novalidate  ng-submit="interestsForm.$valid && interests.updateInterests( interestsForm )">
       <div class="list">
         <div class="padding">
           <i class="icon ion-android-person-add cover"></i>
@@ -8,6 +8,13 @@
         <div class="item-divider text-center">
           {{"JOINNOW.interests_title" | translate}}
         </div>
+        <ion-list ng-repeat="category in interests.categories">
+          <ion-item class="item-icon-right" ng-click="interests.getCategory( category )">
+            {{ category.title }}
+            <i class="icon" ng-class="interests.isCategorySelected(category) ? 'ion-minus' : 'ion-plus'"></i>
+          </ion-item>
+          <ion-checkbox ng-model="interest.check" class="item-accordion" ng-show="interests.isCategorySelected(category)" class="checkbox-postive" ng-repeat="interest in category.interests">{{ interest.name }}</ion-checkbox>
+        </ion-list>
       </div>
       <div class="row">
         <div class="col">
