@@ -46,14 +46,11 @@
 
       function complete( user ){
         utilsService.hideLoad();
+        userService.resetForm( form );
         vm.userResponse = user;
         $localStorage.token = $base64.encode(vm.user.email +':'+ vm.user.password);
         saveUser();
         validateTutorial();
-        if (form) {
-          form.$setPristine();
-          form.$setUntouched();
-        }
         vm.user = {};
       }
 
@@ -74,7 +71,11 @@
       saveUser();
       userService.editUserPatch( vm.userResponse.id, vm.userResponse )
         .then( redirectTutorial )
-        .catch( showError );
+        .catch( failed );
+
+        function failed( error ){
+          console.log( error );
+        }
     };
 
     function validateTutorial(){
@@ -102,7 +103,7 @@
     }
 
     function saveUser(){
-      $localStorage.userAuth = vm.userResponse;
+      $localStorage.userAuth = utilsService.updateUserAuth(vm.userResponse);
     }
 
   }

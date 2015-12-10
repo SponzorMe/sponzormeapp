@@ -83,7 +83,7 @@
         email: vm.newUser.email,
         password: vm.newUser.password,
         password_confirmation: vm.newUser.password,
-        name: 'Username',
+        name: vm.newUser.name,
         lang: 'en',
         type: vm.newUser.type,
       }

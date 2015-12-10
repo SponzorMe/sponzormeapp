@@ -16,21 +16,24 @@
     '$state',
     'utilsService',
     '$localStorage',
-    'categoryService'
+    'categoryService',
+    'userInterestService',
+    '$q'
   ];
 
-  function FormInterestsController( userService, $state , utilsService, $localStorage, categoryService) {
+  function FormInterestsController( userService, $state , utilsService, $localStorage, categoryService, userInterestService, $q) {
 
     var vm = this;
     var memorize = [];
     //Attributes
-    vm.user = $localStorage.userAuth || {};
+    vm.userAuth = $localStorage.userAuth || {};
     vm.categories = [];
     vm.categorySelected = null;
     //Funcions
     vm.updateInterests = updateInterests;
     vm.getCategory = getCategory;
     vm.isCategorySelected = isCategorySelected;
+    vm.validateTutorial = validateTutorial;
     
     activate();
 
@@ -41,13 +44,40 @@
     }
 
     function updateInterests(){
+      utilsService.showLoad();
       var interests = getInterestCheck();
+      var promises = [];
+      for (var i = 0; i < interests.length; i++) {
+        promises.push( createUserInterest( interests[i] ) );
+      };
+
+      $q.all( promises )
+        .then( complete )
+        .catch( failed );
+
+      function complete( results ){
+        utilsService.hideLoad();
+        validateTutorial();
+      }
+
+      function failed( error ){
+        utilsService.hideLoad();
+        console.log( error );
+      }
+
+    }
+
+    function createUserInterest( interest ){
+      return userInterestService.createUserInterest({
+        interest_id: interest.id_interest,
+        user_id: vm.userAuth.id
+      })
     }
 
     function getInterestCheck( data ){
       return vm.categories
         .filter( ByInterest )
-        .map( mapInterests )
+        .map( mapInterest )
         .reduce( mergeArrays, [] )
         .filter( interestCheck );
 
@@ -55,7 +85,7 @@
           return item.interests;
         }
 
-        function mapInterests( item ){
+        function mapInterest( item ){
           return item.interests;
         }
 
@@ -117,6 +147,46 @@
 
     function isCategorySelected(category){
       return vm.categorySelected == category;
+    }
+
+    function saveUser(){
+      $localStorage.userAuth = utilsService.updateUserAuth(vm.userAuth);
+    }
+
+    function updateUser(){
+      vm.userAuth.demo = 1;
+      saveUser();
+      userService.editUserPatch( vm.userAuth.id, vm.userAuth )
+        .then( redirectTutorial )
+        .catch( failed );
+
+        function failed( error ){
+          console.log( error );
+        }
+    };
+
+    function validateTutorial(){
+      if( vm.userAuth.demo == 0){
+        updateUser();
+      }else{
+        redirectHome();
+      }
+    }
+
+    function redirectTutorial(){
+      if( vm.userAuth.type == 0 ){ // is an Organizer.
+        $state.go("organizer.intro");
+      }else{ // is an Sponzor
+        $state.go("sponzor.intro");
+      }
+    }
+
+    function redirectHome(){
+      if( vm.userAuth.type == 0 ){ // is an Organizer.
+        $state.go("organizer.home");
+      }else{ // is an Sponzor
+        $state.go("sponzor.home");
+      }
     }
 
     

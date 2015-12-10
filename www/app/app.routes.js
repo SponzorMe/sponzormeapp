@@ -31,13 +31,15 @@
       .state('profile', {
         url: "/profile",
         templateUrl: "app/users/form-profile.html",
-        controller: "FormProfileController as profile"
+        controller: "FormProfileController as profile",
+        cache: false,
       })
 
       .state('interests', {
         url: "/interests",
         templateUrl: "app/users/form-interests.html",
-        controller: "FormInterestsController as interests"
+        controller: "FormInterestsController as interests",
+        cache: false,
       })
 
       .state('forgot-password', {
@@ -82,7 +84,8 @@
             templateUrl: "app/users/profile.html",
             controller: "ProfileController as profile"
           }
-        }
+        },
+        cache: false,
       })
 
       .state('organizer.events', {

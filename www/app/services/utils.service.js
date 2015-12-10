@@ -11,9 +11,14 @@
     .module('app')
     .factory('utilsService', utilsService);
 
-  utilsService.$inject = [ '$ionicLoading', '$ionicPopup', '$translate'];
+  utilsService.$inject = [
+    '$ionicLoading',
+    '$ionicPopup',
+    '$translate',
+    '$localStorage'
+  ];
 
-  function utilsService( $ionicLoading, $ionicPopup, $translate) {
+  function utilsService( $ionicLoading, $ionicPopup, $translate, $localStorage) {
 
     var service = {
       showLoad: showLoad,

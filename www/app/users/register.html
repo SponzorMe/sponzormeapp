@@ -5,6 +5,20 @@
         <div class="padding">
           <i class="icon ion-android-person-add cover"></i>
         </div>
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : registerForm.name.$invalid && registerForm.$submitted}">
+          <span class="input-label">{{"JOINNOW.register_name_label" | translate}}</span>
+          <input 
+          name="name" 
+          type="text" 
+          ng-model="register.newUser.name" 
+          placeholder='{{"JOINNOW.register_name_placeholder" | translate}}'
+          ng-minlength="4"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="registerForm.name.$error" ng-if="registerForm.$invalid && registerForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_required" | translate}}</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_minlength" | translate}}</div>
+        </div>
         <label class="item item-input item-floating-label" ng-class="{ 'has-error' : registerForm.txtemail.$invalid && registerForm.$submitted}">
           <span class="input-label">{{"JOINNOW.email_field" | translate}}</span>
           <input 

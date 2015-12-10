@@ -9,9 +9,9 @@
 
   angular
     .module('app')
-    .factory('userInterestsService', userInterestsService);
+    .factory('userInterestService', userInterestService);
 
-  userInterestsService.$inject = [
+  userInterestService.$inject = [
     '$http',
     '$localStorage',
     'BackendVariables',
@@ -19,12 +19,12 @@
     '$httpParamSerializerJQLike'
   ];
 
-  function userService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
+  function userInterestService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
 
     var path = BackendVariables.url;
 
     var service = {
-      createUserInterests: createUserInterests
+      createUserInterest: createUserInterest
     };
 
     return service;
@@ -35,7 +35,7 @@
       return $localStorage.token;
     }
 
-    function createUserInterests( data ){
+    function createUserInterest( data ){
       return $http({
         method: 'POST',
         url: path + 'user_interests',

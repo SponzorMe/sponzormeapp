@@ -8,6 +8,8 @@
       "join_message": "Unirse Ahora"
   },
   "JOINNOW": {
+      "register_name_label": "I am",
+      "register_name_placeholder": "Your name",
       "login_title": "Unirse",
       "email_field": "Email",
       "pass_field": "Contraseña",

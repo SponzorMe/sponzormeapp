@@ -7805,7 +7805,7 @@ input:checked + .checkbox-icon:after {
     background: #f8f8f8;
     color: #444; }
   .item-select.item-stable:after, .item-select.item-stable .input-label {
-    color: #656565; }
+    color: #666666; }
   .item-select.item-positive select {
     background: #00838D;
     color: #fff; }
@@ -9113,7 +9113,7 @@ a.button {
     background-color: white; }
   .pageForm .icon.cover {
     color: #00838D;
-    padding-top: 15%; }
+    padding-top: 10%; }
 
 form input[readonly]:not(.cloned-text-input) {
   background-color: white; }

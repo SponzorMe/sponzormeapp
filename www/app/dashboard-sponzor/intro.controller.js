@@ -39,7 +39,7 @@
         disableAnimate: true,
         disableBack: true
       });
-      $state.go("organizer.home");
+      $state.go("sponzor.home");
     }
 
     function nextSlide() {
