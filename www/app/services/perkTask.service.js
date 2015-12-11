@@ -30,7 +30,8 @@
       deletePerkTask: deletePerkTask,
       editPerkTaskPatch: editPerkTaskPatch,
       editPerkTaskPut: editPerkTaskPut,
-      getPerkTaskByOrganizer: getPerkTaskByOrganizer
+      getPerkTaskByOrganizer: getPerkTaskByOrganizer,
+      getPerkTaskByOrganizerGroup: getPerkTaskByOrganizerGroup
     };
 
     return service;
@@ -86,7 +87,7 @@
       }
     }
 
-    function getPerkTaskByOrganizer( userId ){
+    function getPerkTaskByOrganizerGroup( userId ){
       return $http.get(path + 'perk_tasks_organizer/' + userId)
         .then( complete )
         .catch( failed );
@@ -107,6 +108,20 @@
         }
         //http://underscorejs.org/#map
         return _.map( groups , parseEvent);
+      }
+
+      function failed(){
+        return $q.reject( error );
+      }
+    }
+
+    function getPerkTaskByOrganizer( userId ){
+      return $http.get(path + 'perk_tasks_organizer/' + userId)
+        .then( complete )
+        .catch( failed );
+
+      function complete( response ){
+        return $q.when( response.data.PerkTasks );
       }
 
       function failed(){

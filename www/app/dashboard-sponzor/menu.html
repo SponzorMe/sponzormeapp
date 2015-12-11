@@ -23,9 +23,11 @@
         </ion-item>
         <ion-item nav-clear menu-close href="#/sponzor/following" class="item-icon-left">
           <i class="icon ion-star"></i> {{'DASHSPONZORS.following' | translate}}
+          <span class="badge badge-stable" ng-show="menu.count_following > 0">{{ menu.count_following }}</span>
         </ion-item>
         <ion-item nav-clear menu-close href="#/sponzor/sponzoring" class="item-icon-left">
           <i class="icon ion-flag"></i> {{'DASHSPONZORS.sponzoring' | translate}}
+          <span class="badge badge-stable" ng-show="menu.count_sponsoring > 0">{{ menu.count_sponsoring }}</span>
         </ion-item>
         <ion-item nav-clear menu-close href="#/sponzor/invite" class="item-icon-left">
           <i class="icon ion-person-add"></i> {{'DASHSPONZORS.invite' | translate}}

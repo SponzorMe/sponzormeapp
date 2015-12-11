@@ -23,12 +23,15 @@
         </ion-item>
         <ion-item nav-clear menu-close href="#/organizer/events" class="item-icon-left">
           <i class="icon ion-calendar"></i> {{'DASHORGANIZERS.events' | translate}}
+          <span class="badge badge-stable" ng-show="menu.count_events > 0">{{ menu.count_events }}</span>
         </ion-item>
         <ion-item nav-clear menu-close href="#/organizer/sponsors" class="item-icon-left">
           <i class="icon ion-flag"></i> {{'DASHORGANIZERS.sponsors' | translate}}
+          <span class="badge badge-stable" ng-show="menu.count_sponsors > 0">{{ menu.count_sponsors }}</span>
         </ion-item>
         <ion-item nav-clear menu-close href="#/organizer/tasks" class="item-icon-left">
           <i class="icon ion-clipboard"></i> {{'DASHORGANIZERS.tasks' | translate}}
+          <span class="badge badge-stable" ng-show="menu.count_tasks > 0">{{ menu.count_tasks }}</span>
         </ion-item>
         <ion-item nav-clear menu-close href="#/organizer/invite" class="item-icon-left">
           <i class="icon ion-person-add"></i> {{'DASHORGANIZERS.invite' | translate}}

@@ -16,10 +16,11 @@
     '$localStorage',
     'utilsService',
     'sponzorshipService',
-    '$scope'
+    '$scope',
+    '$rootScope'
   ];
 
-  function SponzoringEventsController( $translate, $localStorage, utilsService, sponzorshipService, $scope) {
+  function SponzoringEventsController( $translate, $localStorage, utilsService, sponzorshipService, $scope, $rootScope) {
 
     var vm = this;
     //Attributes
@@ -45,7 +46,7 @@
 
         function complete( events ){
           utilsService.hideLoad();
-          vm.events = events.filter( filterByPending );
+          vm.events = events.filter( filterByAccepted );
         }
 
         function failed( error ){
@@ -61,7 +62,8 @@
 
         function complete( events ){
           $scope.$broadcast('scroll.refreshComplete');
-          vm.events = events.filter( filterByPending );
+          vm.events = events.filter( filterByAccepted );
+          $rootScope.$broadcast('Menu:count_sponsoring', vm.events.length);
         }
 
         function failed( error ){
@@ -69,7 +71,7 @@
         }
     }
 
-    function filterByPending( item ){
+    function filterByAccepted( item ){
       return item.status == '1';
     }
     

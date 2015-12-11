@@ -9286,6 +9286,10 @@ form label.item {
       top: 0px;
       right: 0px; }
 
+.badge-stable {
+  color: #00838D;
+  font-weight: 600; }
+
 .event {
   background-position: top center;
   background-size: cover; }

@@ -18,10 +18,11 @@
     '$ionicPopover',
     '$ionicPopup',
     '$ionicScrollDelegate',
-    '$scope'
+    '$scope',
+    '$rootScope'
   ];
 
-  function SponzorListController( $localStorage, sponzorshipService , utilsService, $ionicPopover, $ionicPopup, $ionicScrollDelegate, $scope) {
+  function SponzorListController( $localStorage, sponzorshipService , utilsService, $ionicPopover, $ionicPopup, $ionicScrollDelegate, $scope, $rootScope) {
 
     var vm = this;
     var eventsPopover = null;
@@ -166,6 +167,7 @@
           vm.search = {};
           vm.sponsors = sponsors;
           vm.events = getEvents( vm.sponsors );
+          $rootScope.$broadcast('Menu:count_sponsors', vm.sponsors.length);
         }
 
         function failed( error ){

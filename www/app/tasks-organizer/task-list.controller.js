@@ -15,10 +15,11 @@
     '$localStorage',
     'perkTaskService',
     'utilsService',
-    '$scope'
+    '$scope',
+    '$rootScope'
   ];
 
-  function TaskListController( $localStorage, perkTaskService , utilsService, $scope) {
+  function TaskListController( $localStorage, perkTaskService , utilsService, $scope, $rootScope) {
 
     var vm = this;
     //Attributes
@@ -44,7 +45,9 @@
 
         function complete( tasks ){
           utilsService.hideLoad();
-          vm.tasks = tasks;
+          vm.tasks = groupByEvent( tasks );
+          var total = tasks.filter( filterByDone ).length;
+          $rootScope.$broadcast('Menu:count_tasks', total);
         }
 
         function failed( error ){
@@ -60,13 +63,34 @@
 
         function complete( tasks ){
           $scope.$broadcast('scroll.refreshComplete');
-          vm.tasks = tasks;
+          vm.tasks = groupByEvent( tasks );
+          var total = tasks.filter( filterByDone ).length;
+          $rootScope.$broadcast('Menu:count_tasks', total);
         }
 
         function failed( error ){
           console.log( error );
         }
     }
+
+    function groupByEvent( data ){
+      //http://underscorejs.org/#groupBy
+      var groups = _.groupBy( data, 'eventTitle' );
+      
+      function parseEvent( value, key ){
+        return {
+          title: key,
+          tasks: value
+        }
+      }
+      //http://underscorejs.org/#map
+      return _.map( groups , parseEvent);
+    }
+
+    function filterByDone( item ){
+      return item.status != '1';
+    }
+
     
 
   }

@@ -16,10 +16,11 @@
     '$localStorage',
     'userService',
     'utilsService',
-    '$scope'
+    '$scope',
+    '$rootScope'
   ];
 
-  function EventListController( $translate, $localStorage, userService , utilsService, $scope) {
+  function EventListController( $translate, $localStorage, userService , utilsService, $scope, $rootScope) {
 
     var vm = this;
     //Attributes
@@ -47,6 +48,7 @@
           utilsService.hideLoad();
           vm.showEmptyState = false;
           vm.events = user.events.filter( filterDate );
+          $rootScope.$broadcast('Menu:count_events', vm.events.length);
         }
 
         function failed( error ){
@@ -64,6 +66,7 @@
         function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
           vm.events = user.events.filter( filterDate );
+          $rootScope.$broadcast('Menu:count_events', vm.events.length);
         }
 
         function failed( error ){

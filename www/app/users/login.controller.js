@@ -46,7 +46,7 @@
 
       function complete( user ){
         utilsService.hideLoad();
-        userService.resetForm( form );
+        utilsService.resetForm( form );
         vm.userResponse = user;
         $localStorage.token = $base64.encode(vm.user.email +':'+ vm.user.password);
         saveUser();

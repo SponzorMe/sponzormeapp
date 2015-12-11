@@ -16,10 +16,11 @@
     '$localStorage',
     'utilsService',
     'sponzorshipService',
-    '$scope'
+    '$scope',
+    '$rootScope'
   ];
 
-  function FollowEventsController( $translate, $localStorage, utilsService, sponzorshipService, $scope) {
+  function FollowEventsController( $translate, $localStorage, utilsService, sponzorshipService, $scope, $rootScope) {
 
     var vm = this;
     //Attributes
@@ -62,6 +63,7 @@
         function complete( events ){
           $scope.$broadcast('scroll.refreshComplete');
           vm.events = events.filter( filterByPending );
+          $rootScope.$broadcast('Menu:count_following', vm.events.length);
         }
 
         function failed( error ){
