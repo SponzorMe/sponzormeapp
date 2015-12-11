@@ -1,7 +1,7 @@
 <ion-view>
   <ion-nav-title>Edit Task</ion-nav-title>
   <ion-content>
-    <form name="editTaskForm" novalidate ng-submit="editTaskForm.$valid && editTask.editTask()">
+    <form name="editTaskForm" novalidate ng-submit="editTaskForm.$valid && editTask.editTask( editTaskForm )">
       <ion-list type="card">  
         <ion-item class="item-divider">
           Add Task

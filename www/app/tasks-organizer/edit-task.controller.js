@@ -69,7 +69,7 @@
 
     
 
-    function editTask(){
+    function editTask( form ){
       utilsService.showLoad();
       console.log( preparateData() );
       perkTaskService.editPerkTaskPatch( $stateParams.id, preparateData() )
@@ -77,7 +77,8 @@
         .catch( failed );
 
         function complete( data ){
-          
+          utilsService.hideLoad();
+          utilsService.resetForm( form );
           vm.newTask = {};
           $ionicHistory.nextViewOptions({
             disableAnimate: false,
