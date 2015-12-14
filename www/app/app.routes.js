@@ -9,8 +9,9 @@
     .module('app')
     .config(routeConfig);
 
-  function routeConfig($stateProvider, $urlRouterProvider, $translateProvider) {
+  function routeConfig($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider) {
 
+    $ionicConfigProvider.views.swipeBackEnabled(false);
     $urlRouterProvider.otherwise("/sign-in");
 
 

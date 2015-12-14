@@ -71,7 +71,6 @@
 
     function editTask( form ){
       utilsService.showLoad();
-      console.log( preparateData() );
       perkTaskService.editPerkTaskPatch( $stateParams.id, preparateData() )
         .then( complete )
         .catch( failed );
