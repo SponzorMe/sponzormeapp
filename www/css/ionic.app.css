@@ -9093,6 +9093,19 @@ a.button {
 .done .icon {
   color: #00838D; }
 
+.status-sponzorship.reject {
+  color: #444; }
+
+.status-sponzorship.accept {
+  color: #00838D; }
+
+.status-sponzorship.pending {
+  color: #444;
+  opacity: .7; }
+
+.item.item-divider .badge {
+  right: 15px; }
+
 .intro .scroll {
   height: 100%; }
   .intro .scroll .slider {
@@ -9133,6 +9146,9 @@ form label.item {
 
 .popup-body {
   text-align: center; }
+
+.popup-container .popup {
+  width: 300px; }
 
 .menu {
   background-color: #00838D; }

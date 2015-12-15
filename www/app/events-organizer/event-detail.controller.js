@@ -19,10 +19,11 @@
     '$state',
     'perkService',
     '$ionicModal',
-    'sponzorshipService'
+    'sponzorshipService',
+    '$ionicPopup'
   ];
 
-  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, perkService, $ionicModal, sponzorshipService) {
+  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, perkService, $ionicModal, sponzorshipService, $ionicPopup) {
 
     var vm = this;
     vm.event = {};
@@ -38,8 +39,6 @@
     vm.editPerk = editPerk;
     vm.deletePerk = deletePerk;
     vm.submitPerk = submitPerk;
-    vm.sponzorAccept = sponzorAccept;
-    vm.sponzorReject = sponzorReject;
     vm.confirmPopup = confirmPopup;
 
     activate();
@@ -204,24 +203,40 @@
         }
     }
 
-    function confirmPopup(title, template){
+    function confirmPopup( sponsorship ){
       var showPopup = $ionicPopup.show({
         title: "Are you sure?",
-        template: "In accept the sponsor"
+        template: "In accept the sponsor",
+        scope: $scope,
+        buttons: [
+          {
+            text: 'Cancel'
+          },
+          {
+            text: 'Reject',
+            type: 'button-positive',
+            onTap: function(){ updateSponsorship( sponsorship, 2 ) } //Reject 
+          },
+          {
+            text: 'Accept',
+            type: 'button-balanced',
+            onTap: function(){ updateSponsorship( sponsorship, 1 ) } //Accepted 
+          }
+        ]
       });
     }
 
-    function updateSponsorship( status ){
+    function updateSponsorship( sponsorship, status ){
       utilsService.showLoad();
-      var sponsorship = angular.copy( vm.sponsorship );
-      sponsorship.status = status;
-      sponzorshipService.editSponzorshipPut( sponsorship.id, sponsorship )
+      var sponsorshipCopy = angular.copy( sponsorship );
+      sponsorshipCopy.status = status;
+      sponzorshipService.editSponzorshipPut( sponsorshipCopy.id, sponsorshipCopy )
         .then( complete )
         .catch( failed );
 
-        function complete( sponsorship ){
+        function complete( sponsorshipRta ){
           utilsService.hideLoad();
-          vm.sponsorship.status = sponsorship.status;
+          sponsorship.status = sponsorshipRta.status;
         }
 
         function failed( error ){

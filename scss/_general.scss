@@ -26,6 +26,21 @@
     color: $balanced;
   }
 }
+.status-sponzorship{
+  &.reject{
+    color: $dark;
+  }
+  &.accept{
+    color: $positive;
+  }
+  &.pending{
+    color: $dark;
+    opacity: .7;
+  }
+}
+.item.item-divider .badge{
+  right: 15px;
+}
 .intro{
   .scroll{
     height: 100%;

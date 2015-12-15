@@ -74,10 +74,12 @@
                 {{ perk.kind }} - ${{ perk.usd }}
                 <span class="badge badge-positive">{{ perk.sponzorship.length }}</span>
                 </ion-item>
-              <ion-item class="item-icon-left item-icon-right" ng-repeat="sponzor in perk.sponzorship">
+              <ion-item ng-click="eventDetail.confirmPopup( sponzor )" class="item-icon-left item-icon-right" ng-repeat="sponzor in perk.sponzorship">
                 <i class="icon ion-flag"></i>
                 {{ sponzor.cause }}
-                <i class="icon ion-checkmark"></i>
+                <i class="icon ion-checkmark status-sponzorship accept" ng-if="sponzor.status == 1"></i>
+                <i class="icon ion-close status-sponzorship reject" ng-if="sponzor.status == 2"></i>
+                <i class="icon ion-alert status-sponzorship pending" ng-if="sponzor.status == 0"></i>
               </ion-item>
             </ion-list>
           </ion-scroll>
