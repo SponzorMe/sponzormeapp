@@ -8,7 +8,7 @@
   'use strict';
 
   angular
-    .module('app.users')
+    .module('app.dashboard-organizer')
     .controller('MenuOrganizerCtrl', MenuOrganizerCtrl);
 
   MenuOrganizerCtrl.$inject = [

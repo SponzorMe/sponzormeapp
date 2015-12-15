@@ -103,8 +103,8 @@
         return $q.when( response );
       }
 
-      function failed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 

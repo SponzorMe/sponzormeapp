@@ -93,7 +93,7 @@
 
     function getPerks(){
       utilsService.showLoad();
-      perkService.allPerks()
+      perkService.getPerkTaskByOrganizer( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 

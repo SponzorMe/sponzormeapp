@@ -8,7 +8,7 @@
   'use strict';
 
   angular
-    .module('app.users')
+    .module('app.dashboard-sponzor')
     .controller('IntroSponzorCtrl', IntroSponzorCtrl);
 
   IntroSponzorCtrl.$inject = [

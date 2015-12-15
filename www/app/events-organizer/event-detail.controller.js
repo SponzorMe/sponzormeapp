@@ -143,6 +143,9 @@
 
         function failed( error ){
           vm.closeModalPerk();
+          utilsService.alert({
+            template: error.message,
+          });
         }
     }
 

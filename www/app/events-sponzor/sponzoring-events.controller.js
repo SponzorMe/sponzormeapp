@@ -47,10 +47,12 @@
         function complete( events ){
           utilsService.hideLoad();
           vm.events = events.filter( filterByAccepted );
+          vm.showEmptyState = vm.events.length == 0 ? true : false;
         }
 
         function failed( error ){
           utilsService.hideLoad();
+          vm.showEmptyState = true;
           console.log( error );
         }
     }
