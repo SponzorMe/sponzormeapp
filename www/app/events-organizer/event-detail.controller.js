@@ -18,14 +18,16 @@
     '$stateParams',
     '$state',
     'perkService',
-    '$ionicModal'
+    '$ionicModal',
+    'sponzorshipService'
   ];
 
-  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, perkService, $ionicModal) {
+  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, perkService, $ionicModal, sponzorshipService) {
 
     var vm = this;
     vm.event = {};
     vm.remove = remove;
+    vm.perks = [];
     /* -- CRUD PERKS -- */
     vm.modalPerk = null;
     vm.newPerk = {};
@@ -36,6 +38,9 @@
     vm.editPerk = editPerk;
     vm.deletePerk = deletePerk;
     vm.submitPerk = submitPerk;
+    vm.sponzorAccept = sponzorAccept;
+    vm.sponzorReject = sponzorReject;
+    vm.confirmPopup = confirmPopup;
 
     activate();
 
@@ -61,12 +66,21 @@
         function complete( event ){
           utilsService.hideLoad();
           vm.event = event;
+          vm.perks = preparatePerks( vm.event );
         }
 
         function failed( error ){
           utilsService.hideLoad();
           console.log( error.data );
         }
+    }
+
+    function preparatePerks( event ){
+      var perks = event.perks;
+      for (var i = 0; i < perks.length; i++) {
+        perks[i].sponzorship = _.where(event.sponzorship, {perk_id: perks[i].id});
+      }
+      return perks;
     }
 
     function remove(){
@@ -170,6 +184,51 @@
       }else{
         updatePerk();
       }
+    }
+
+    function sponzorAccept( index ){
+      confirmPopup('Are you sure?', 'In accept the sponsor')
+        .then( complete );
+
+        function complete( rta ){
+          if( rta ) updateSponsorship( 1 ); //Accepted 
+        }
+    }
+
+    function sponzorReject( index ){
+      confirmPopup('Are you sure?', 'In reject the sponsor')
+        .then( complete );
+
+        function complete( rta ){
+          if( rta ) updateSponsorship( 2 ); //Deny
+        }
+    }
+
+    function confirmPopup(title, template){
+      var showPopup = $ionicPopup.show({
+        title: "Are you sure?",
+        template: "In accept the sponsor"
+      });
+    }
+
+    function updateSponsorship( status ){
+      utilsService.showLoad();
+      var sponsorship = angular.copy( vm.sponsorship );
+      sponsorship.status = status;
+      sponzorshipService.editSponzorshipPut( sponsorship.id, sponsorship )
+        .then( complete )
+        .catch( failed );
+
+        function complete( sponsorship ){
+          utilsService.hideLoad();
+          vm.sponsorship.status = sponsorship.status;
+        }
+
+        function failed( error ){
+          utilsService.hideLoad();
+          console.log( error );
+        }
+
     }
     
 
