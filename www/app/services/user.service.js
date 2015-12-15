@@ -55,7 +55,7 @@
 
       function complete( response ) {
         return $q.when( response.data.user );
-      } 
+      }
 
       function failed( response ) {
         return $q.reject( response.data );
@@ -79,7 +79,7 @@
         var data = response.data.data.user;
         data.events = preparateEvents( data.events );
         return $q.when( data );
-      } 
+      }
 
       function preparateEvents( events ){
         return events
@@ -113,7 +113,7 @@
 
       function complete( response ) {
         return $q.when( response.data );
-      } 
+      }
 
       function failed( response ) {
         return $q.reject( response.data );
@@ -190,7 +190,7 @@
 
       function forgotPasswordComplete( response ) {
         return $q.when( response );
-      } 
+      }
 
       function forgotPasswordFailed( response ) {
         return $q.reject( response.data );
