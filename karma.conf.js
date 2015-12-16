@@ -9,7 +9,6 @@ module.exports = function(config) {
       'www/lib/angular-messages/angular-messages.min.js',
       'www/lib/angular-base64/angular-base64.min.js',
       'www/lib/ngstorage/ngStorage.min.js',
-      'www/lib/angular-mocks/angular-mocks.js',
       'www/lib/underscore/underscore-min.js',
       'www/lib/angular-sanitize/angular-sanitize.min.js',
       'www/lib/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
@@ -19,8 +18,9 @@ module.exports = function(config) {
       'www/lib/tabbedSlideBox/tabSlideBox.js',
       'www/lib/ngCordova/dist/ng-cordova.min.js',
       'www/app/app.module.js',
-      'www/app/*.js',
+      'www/app/services/*.js',
       'tests/unit/services/userServiceTest.js',
+      'www/lib/angular-mocks/angular-mocks.js'
       //'www/app/app.routes.js',
       //'www/app/app.run.js',
       //'www/app/app.values.js',
