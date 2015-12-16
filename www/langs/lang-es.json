@@ -8,8 +8,8 @@
       "join_message": "Unirse Ahora"
   },
   "JOINNOW": {
-      "register_name_label": "I am",
-      "register_name_placeholder": "Your name",
+      "register_name_label": "Yo soy",
+      "register_name_placeholder": "Tu nombre",
       "login_title": "Unirse",
       "email_field": "Email",
       "pass_field": "Contraseña",
@@ -19,7 +19,9 @@
       "kind_opt2" : "Organizador",
       "profile_title" : "Hablanos sobre ti...",
       "profile_name_label" : "Tu Nombre",
+      "profile_name_placeholder" : "Tu Nombre",
       "profile_age_label" : "Tu edad",
+      "profile_age_placeholder" : "Cual es tu edad?",
       "profile_gender_label" : "Genero",
       "profile_male_option" : "Masculino",
       "profile_female_option" : "Femenino",
@@ -47,12 +49,12 @@
       "form3_check14" : "Tecnologia"
   },
   "FORGOTFORM": {
-      "forgot_title": "Forgot Password",
+      "forgot_title": "Olvido su clave?",
       "email_field": "Email",
       "button_message": "Enviame Instrucciones"
   },
   "DASHSPONZORS": {
-      "title": "Panel",
+      "dash_title": "Panel",
       "menu_title": "Navegacion",
       "dashboard": "Inicio",
       "following": "Siguiendo",
@@ -60,11 +62,10 @@
       "settings": "Configuración",
       "invite": "Invita a tus amigos",
       "profile": "Mi perfil",
-      "logout": "Salir",
-      "comunity": "Comunidad"
+      "logout": "Salir"
   },
   "DASHORGANIZERS": {
-      "dash_title": "Inicio",
+      "title": "Inicio",
       "menu_title": "Navegacion",
       "dashboard": "Panel",
       "events": "Eventos",
@@ -72,8 +73,66 @@
       "tasks": "Lista de Tareas",
       "invite": "Invita a tus amigos",
       "settings": "Configuracion",
-      "profile": "Mi perfil",
-      "logout": "Salir"
+      "profile": "Mi Perfil",
+      "logout": "Salir",
+      "comunity": "Comunidad"
+  },
+  "SETTINGSUSER":{
+      "info_title": "Mi Perfil",
+      "form_label1": "Nombre Completo",
+      "form_label2": "Email",
+      "form_label3": "Compañia",
+      "form_label4": "Edad",
+      "form_label5": "Sexo",
+      "sel1_opt1" : "Masculino",
+      "sel1_opt2" : "Femenino",
+      "form_label6": "Locacion",
+      "form_label7": "Descripcion",
+      "form_label8": "Subir",
+      "form_label9": "Guardar"
+  },
+  "SETTINGS":{
+    "title": "Configuración",
+    "language_divider": "Idiomas",
+    "spanish_label": "Español",
+    "english_label": "Ingles",
+    "portuguese_label": "Português",
+    "save_button": "Guardar"
+  },
+  "SEARCH": {
+      "search_title": "Encuentra Eventos",
+      "text_field": "Buscar por un Evento",
+      "search_button": "Buscar"
+  },
+  "INTROORG": {
+      "skip_nav_btn": "Saltar Intro",
+      "prev_nav_btn": "Anterior",
+      "next_nav_btn": "Proximo",
+      "start_nav_btn": "Empezar",
+      "head_page1": "Bienvenido a SponzorMe.",
+      "content_page1": "Esperamos que disfrutes utilizando esta App tanto como nosotros de construirla. Cualquier pregunta sin importar los insignificante que parezca, por favor enviala a carlos@sponzor.me",
+      "head_page2": "Empecemos por explorar tu panel.",
+      "content_page2": "Lo primero que encontraras es un resumen con todo lo que esta sucediendo. Vas a ver un resumen Global, un resumen de Eventos, un resumen de Patrocinio y algunas sugerencias que nuestro equipo a preparado para ti.",
+      "head_page3": "Vamos a nuestro Menu.",
+      "content_page3": "Podras observar lo siguiente:<br><br/><ul><li><b>Panel:</b> Muestra resumenes de tus actividades.</li><li><b>Eventos:</b> Te Permite crear, editar, y administrar tus eventos.</li><li><b>Sponzors:</b> Te Permite crear, editar, y administrar tus patrocinadores.</li><li><b>Lista de Tareas:</b> Podras administrar tus acuerdos con patrocinadores y permitir mantener buenas relaciones con ellos.</li><li><b>Invitar tus amigos:</b> Comparte el amor. Enviale una invitación a alguien que nos pueda necesitar :).</li><li><b>Configuracion:</b>  Aca tu podras cambiar tu información y conectando tus cuentas externas.</li><li><b>Salir:</b>  Puedes salir de nuestra App de una manera segura. Sabemos que volveras por que te amamos ;).</li></ul>"
+  },
+  "INTROSPO": {
+      "skip_nav_btn": "Saltar Intro",
+      "prev_nav_btn": "Anterior",
+      "next_nav_btn": "Proximo",
+      "start_nav_btn": "Empezar",
+      "head_page1": "Bienvenido a SponzorMe.",
+      "content_page1": "Esperamos que disfrutes utilizando esta App tanto como nosotros de construirla. Cualquier pregunta sin importar los insignificante que parezca, por favor enviala a carlos@sponzor.me",
+      "head_page2": "Empecemos por explorar tu panel.",
+      "content_page2": "Lo primero que encontraras es un cuadro de busqueda. Simplemente ingresa las palabras magicas que describan el tipo de evento que buscas y dejanos mostrarte algunos que podrian interesarte.",
+      "head_page3": "Vamos a nuestro Menu.",
+      "content_page3": "Podras observar lo siguiente:<br><br/><ul><li><b>Panel:</b> Para regresar a la busqueda.</li><li><b>Siguiendo:</b> Los eventos que quieres patrocinar que no han sido aceptado por los organizadores aún.</li><li><b>Patrocinados:</b> Los eventos que estas actualmente patrocinando, los acuerdos que tienes con los organizadores, y las actividades que debes hacer para que no se te olviden ;).</li><li><b>Invitar tus amigos:</b> Comparte el amor. Enviale una invitación a alguien que nos pueda necesitar :).</li><li><b>Configuracion:</b>  Aca tu podras cambiar tu información y conectando tus cuentas externas.</li><li><b>Salir:</b>  Puedes salir de nuestra App de una manera segura. Sabemos que volveras por que te amamos ;).</li></ul>"
+  },
+  "INVITEUSERS":{
+      "info_title": "Invitar tus amigos",
+      "invite_title": "Invitar tus amigos",
+      "email_field":"Email de mi amigo",
+      "button_message":"Enviar"
   },
   "EVENTLIST": {
       "title": "Eventos",
@@ -105,47 +164,16 @@
       "filter_title": "Filtrar por eventos",
       "filter_all": "Todos los eventos"
   },
-  "SEARCH": {
-      "search_title": "Encuentra Eventos",
-      "text_field": "Buscar por un Evento",
-      "search_button": "Buscar"
-  },
-  "SETTINGS":{
-    "title": "Configuración",
-    "language_divider": "Idiomas",
-    "spanish_label": "Español",
-    "english_label": "Ingles",
-    "portuguese_label": "Portugués",
-    "save_button": "Guardar"
-  },
-  "INTROORG": {
-      "skip_nav_btn": "Saltar Intro",
-      "prev_nav_btn": "Anterior",
-      "next_nav_btn": "Proximo",
-      "start_nav_btn": "Empezar",
-      "head_page1": "Bienvenido a SponzorMe.",
-      "content_page1": "Esperamos que disfrutes utilizando esta App tanto como nosotros de construirla. Cualquier pregunta sin importar los insignificante que parezca, por favor enviala a carlos@sponzor.me",
-      "head_page2": "Empecemos por explorar tu panel.",
-      "content_page2": "Lo primero que encontraras es un resumen con todo lo que esta sucediendo. Vas a ver un resumen Global, un resumen de Eventos, un resumen de Patrocinio y algunas sugerencias que nuestro equipo a preparado para ti.",
-      "head_page3": "Vamos a nuestro Menu.",
-      "content_page3": "Podras observar lo siguiente:<br><br/><ul><li><b>Panel:</b> Muestra resumenes de tus actividades.</li><li><b>Eventos:</b> Te Permite crear, editar, y administrar tus eventos.</li><li><b>Sponzors:</b> Te Permite crear, editar, y administrar tus patrocinadores.</li><li><b>Lista de Tareas:</b> Podras administrar tus acuerdos con patrocinadores y permitir mantener buenas relaciones con ellos.</li><li><b>Invitar tus amigos:</b> Comparte el amor. Enviale una invitación a alguien que nos pueda necesitar :).</li><li><b>Configuracion:</b>  Aca tu podras cambiar tu información y conectando tus cuentas externas.</li><li><b>Salir:</b>  Puedes salir de nuestra App de una manera segura. Sabemos que volveras por que te amamos ;).</li></ul>"
-  },
-  "INTROSPO": {
-      "skip_nav_btn": "Saltar Intro",
-      "prev_nav_btn": "Anterior",
-      "next_nav_btn": "Proximo",
-      "start_nav_btn": "Empezar",
-      "head_page1": "Bienvenido a SponzorMe.",
-      "content_page1": "Esperamos que disfrutes utilizando esta App tanto como nosotros de construirla. Cualquier pregunta sin importar los insignificante que parezca, por favor enviala a carlos@sponzor.me",
-      "head_page2": "Empecemos por explorar tu panel.",
-      "content_page2": "Lo primero que encontraras es un cuadro de busqueda. Simplemente ingresa las palabras magicas que describan el tipo de evento que buscas y dejanos mostrarte algunos que podrian interesarte.",
-      "head_page3": "Vamos a nuestro Menu.",
-      "content_page3": "Podras observar lo siguiente:<br><br/><ul><li><b>Panel:</b> Para regresar a la busqueda.</li><li><b>Siguiendo:</b> Los eventos que quieres patrocinar que no han sido aceptado por los organizadores aún.</li><li><b>Patrocinados:</b> Los eventos que estas actualmente patrocinando, los acuerdos que tienes con los organizadores, y las actividades que debes hacer para que no se te olviden ;).</li><li><b>Invitar tus amigos:</b> Comparte el amor. Enviale una invitación a alguien que nos pueda necesitar :).</li><li><b>Configuracion:</b>  Aca tu podras cambiar tu información y conectando tus cuentas externas.</li><li><b>Salir:</b>  Puedes salir de nuestra App de una manera segura. Sabemos que volveras por que te amamos ;).</li></ul>"
-  },
-  "INVITEUSERS":{
-      "invite_title": "Invitar tus amigos",
-      "email_field":"Email de mi amigo",
-      "button_message":"Enviar"
+  "ADDEVENTS":{
+      "forgot_title" : "Agregar un evento",
+      "title_field" : "Titulo",
+      "location_field" : "Locacion",
+      "description_field" : "Descripción",
+      "starts_field1" : "Fecha Inicia",
+      "starts_field2" : "Hora Inicia",
+      "ends_field1" : "Fecha Fin",
+      "ends_field2" : "Hora Fin",
+      "button_message" : "Agregar Evento"
   },
   "EVENTDETAIL":{
       "list_perk_task_empty": "No hay ninguno aún."
@@ -199,7 +227,9 @@
   },
   "MESSAGES": {
       "loading": "Cargando...",
-      "succ_user_tit": "Info",
-      "succ_user_mess": "Cool, Usuario Creado."
+      "succ_user_tit": "Info.",
+      "succ_user_mess": "Cool, Usuario Creado.",
+      "succ_event_tit": "Info.",
+      "succ_event_mess": "Cool, Evento Creado."
   }
 }
