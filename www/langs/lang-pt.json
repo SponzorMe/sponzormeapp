@@ -8,8 +8,8 @@
       "join_message": "Juntar"
   },
   "JOINNOW": {
-      "register_name_label": "I am",
-      "register_name_placeholder": "Your name",
+      "register_name_label": "Eu sou",
+      "register_name_placeholder": "Seu nome",
       "login_title": "Juntar",
       "email_field": "Email",
       "pass_field": "Senha",
@@ -18,8 +18,10 @@
       "kind_opt1" : "Patrocinando",
       "kind_opt2" : "Organizador",
       "profile_title" : "Algo sobre você...",
-      "profile_name_label" : "Tu Nombre",
+      "profile_name_label" : "Seu nome",
+      "profile_name_placeholder" : "Seu nome",
       "profile_age_label" : "Anos",
+      "profile_age_placeholder" : "Qual é a sua idade?",
       "profile_gender_label" : "Genero",
       "profile_male_option" : "Homem",
       "profile_female_option" : "Mulher",
@@ -58,10 +60,9 @@
       "following": "Seguinte",
       "sponzoring": "Sponzoring",
       "settings": "Configuração",
-      "profile": "My Profile",
+      "profile": "Meu perfil",
       "invite": "Convide seu amigo",
-      "logout": "Sair",
-      "comunity": "Comunidade"
+      "logout": "Sair"
   },
   "DASHORGANIZERS": {
       "title": "Dashboard",
@@ -72,59 +73,36 @@
       "tasks": "Listas de tarefas",
       "invite": "Convide seu amigo",
       "settings": "Configuração",
-      "profile": "My profile",
-      "logout": "Sair"
+      "profile": "Meu Perfil",
+      "logout": "Sair",
+      "comunity": "Comunidade"
   },
-  "EVENTLIST": {
-      "title": "Eventos",
-      "list_empty": "No hay eventos aun.",
-      "button_create": "Crear nuevo evento ahora"
+  "SETTINGSUSER":{
+      "info_title": "Meu Perfil",
+      "form_label1": "Nome Completo",
+      "form_label2": "Email",
+      "form_label3": "Companhia",
+      "form_label4": "Idade",
+      "form_label5": "Sexo",
+      "sel1_opt1" : "Masculino",
+      "sel1_opt2" : "Feminino",
+      "form_label6": "Localização",
+      "form_label7": "Descrição",
+      "form_label8": "Carregar",
+      "form_label9": "Guardar"
   },
-  "EVENTFOLLOWING": {
-      "title": "Siguiendo",
-      "list_empty": "No hay eventos aun.",
-      "button_search": "Buscar eventos...",
-      "button_accepted": "Aceptado",
-      "button_rejected": "Rechazado",
-      "button_more": "Ver evento"
-  },
-  "EVENTSPONZORING": {
-      "title": "Patrocinando",
-      "list_empty": "No hay eventos aun.",
-      "button_search": "Buscar eventos...",
-      "button_accepted": "Aceptado",
-      "button_rejected": "Rechazado",
-      "button_more": "Ver evento"
-  },
-  "SPONZORLIST": {
-    "title": "Patrocinadores",
-    "list_empty": "No hay patrocinadores aun.",
-    "button_accept": "Aceptar",
-    "button_reject": "Rechazar",
-    "button_more": "Ver más",
-    "filter_title": "Filtrar por eventos",
-    "filter_all": "Todos los eventos"
-  },
-  "EVENTDETAIL":{
-      "list_perk_task_empty": "No hay ninguno aún."
+  "SETTINGS":{
+    "title": "Configuração",
+    "language_divider": "Idiomas",
+    "spanish_label": "Espanhol",
+    "english_label": "Inglês",
+    "portuguese_label": "Português",
+    "save_button": "Salvar"
   },
   "SEARCH": {
       "search_title": "Procure eventos",
       "text_field": "Procure o seu próximo evento.",
-      "search_button": "Busque"
-  },
-  "INVITEUSERS": {
-      "search_title": "Procure eventos",
-      "text_field": "Procure o seu próximo evento.",
-      "search_button": "Busque"
-  },
-  "SETTINGS":{
-    "title": "Configuración",
-    "language_divider": "Idiomas",
-    "spanish_label": "Español",
-    "english_label": "Ingles",
-    "portuguese_label": "Portugués",
-    "save_button": "Guardar"
+      "search_button": "Buscar"
   },
   "INTROORG": {
       "skip_nav_btn": "Pular Intro",
@@ -150,6 +128,56 @@
       "head_page3": "Agora vamos olhar para alguns dos nosso menu.",
       "content_page3": "Aqui você pode encontrar o seguinte:<br><br/><ul><li><b>Dashboard:</b> ara retornar à sua buscador.</li><li><b>Siguiendo:</b> Esses eventos que você deseja patrocinar, mas ainda assim o organizador não aceita.</li><li><b>Patrocinando:</b> Estes eventos estão patrocinando, como são os acordos com seus patrocinadores, e você pode criar algumas tarefas que você não se lembra, no último minuto que você tinha que enviar para fazer essas camisas.</li><li><b>Convide seus amigos :</b> Espalhar o amor. Diga a pessoa que você sabe que você precisa de algo como isso e você vai gostar.</li><li><b>Configuração:</b>  Aqui você pode atualizar suas informações e conectar suas contas externas.</li><li><b>Sair:</b>  Aqui você pode deixar a nossa plataforma de segurança.</li></ul>"
   },
+  "INVITEUSERS":{
+      "info_title": "Convide seus amigos",
+      "invite_title": "Convide seus amigos",
+      "email_field":"Email do seu amigo",
+      "button_message":"Send"
+  },
+  "EVENTLIST": {
+      "title": "Eventos",
+      "list_empty": "Não há eventos ainda.",
+      "button_create": "Criar novo evento agora"
+  },
+  "EVENTFOLLOWING": {
+      "title": "Seguinte",
+      "list_empty": "Não há eventos ainda.",
+      "button_search": "Procurar eventos...",
+      "button_accepted": "Aceito",
+      "button_rejected": "Rejeitado",
+      "button_more": "Ver eventos"
+  },
+  "EVENTSPONZORING": {
+      "title": "Patrocinando",
+      "list_empty": "Não há eventos ainda.",
+      "button_search": "Procurar eventos...",
+      "button_accepted": "Aceito",
+      "button_rejected": "Rejeitado",
+      "button_more": "Ver eventos"
+  },
+  "SPONZORLIST": {
+    "title": "Patrocinadores",
+    "list_empty": "No hay patrocinadores aun.",
+    "button_accept": "Aceptar",
+    "button_reject": "Rechazar",
+    "button_more": "Ver más",
+    "filter_title": "Filtrar por eventos",
+    "filter_all": "Todos los eventos"
+  },
+  "ADDEVENTS":{
+      "forgot_title" : "Adicionar um Evento",
+      "title_field" : "Título",
+      "location_field" : "Localização",
+      "description_field" : "Descrição",
+      "starts_field1" : "Data de iniciação",
+      "starts_field2" : "Hora de início",
+      "ends_field1" : "data de finalização",
+      "ends_field2" : "Hora de finalização",
+      "button_message" : "Adicionar Evento"
+  },
+  "EVENTDETAIL":{
+      "list_perk_task_empty": "No hay ninguno aún."
+  },
   "ERRORS": {
       "signin_ema_required": "O campo e necessário.",
       "signin_ema_email": "Eo formato do campo é inválido.",
@@ -173,13 +201,35 @@
       "joinnow_pass_minlength": "O campo deve ser inferior a 30 caracteres.",
       "forgotform_ema_required": "O campo e necessário.",
       "forgotform_ema_email": "Eo formato do campo é inválido.",
-      "forgotform_ema_maxlength": "O campo deve ser inferior a 5 caracteres.",
+      "forgotform_ema_maxlength": "O campo deve ser superior a 5 caracteres.",
       "forgotform_ema_minlength": "O campo deve ser inferior a 30 caracteres.",
-      "addeventsform_error_sponsors_empty" : "You must have a sponsorship type to less."
+      "inviteform_ema_required": "O campo e necessário.",
+      "inviteform_ema_email": "Este campo debe ser un Email.",
+      "inviteform_ema_maxlength": "O campo deve ser superior a 5 caracteres.",
+      "inviteform_ema_minlength": "O campo deve ser inferior a 30 caracteres.",
+      "addeventsform_tit_required" : "O campo e necessário.",
+      "addeventsform_tit_maxlength" : "O campo deve ser superior a 5 caracteres.",
+      "addeventsform_tit_minlength" : "O campo deve ser inferior a 30 caracteres.",
+      "addeventsform_loc_required" : "O campo e necessário.",
+      "addeventsform_loc_maxlength" : "O campo deve ser superior a 5 caracteres.",
+      "addeventsform_loc_minlength" : "O campo deve ser inferior a 30 caracteres.",
+      "addeventsform_desc_required" : "O campo e necessário.",
+      "addeventsform_desc_maxlength" : "O campo deve ser superior a 5 caracteres.",
+      "addeventsform_desc_minlength" : "O campo deve ser inferior a 30 caracteres.",
+      "addeventsform_startdate_required" : "O campo e necessário.",
+      "addeventsform_starttime_required" : "O campo e necessário.",
+      "addeventsform_enddate_required" : "O campo e necessário.",
+      "addeventsform_endtime_required" : "O campo e necessário.",
+      "addeventsform_startdate_required" : "O campo e necessário.",
+      "addeventsform_error_tit": "Error",
+      "addeventsform_error_mess": "Ops, Algo aconteceu. Tente depois",
+      "addeventsform_error_sponsors_empty" : "Você deve ter um tipo de patrocínio para menos."
   },
   "MESSAGES": {
       "loading": "Carregando...",
       "succ_user_tit": "Info",
-      "succ_user_mess": "Legar, Usuário criado."
+      "succ_user_mess": "Legal, Usuário foi criado.",
+      "succ_event_tit": "Info",
+      "succ_event_mess": "Legal, Evento foi Criado"
   }
 }
