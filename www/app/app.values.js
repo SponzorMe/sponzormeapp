@@ -10,5 +10,9 @@
     .value('BackendVariables',{
       url: "http://apistaging.sponzor.me/", // i'm using the Ionic Proxy
       ready: "false"
-    });
+    })
+    .value('gAnalytics',{
+      trackCode: "UA-54490148-5"
+    })
+    ;
 })();
