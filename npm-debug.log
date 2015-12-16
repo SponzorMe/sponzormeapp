@@ -1,0 +1,232 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'install', '-g', 'phantomjs' ]
+2 info using npm@2.14.7
+3 info using node@v4.2.3
+4 verbose install initial load of /usr/lib/package.json
+5 verbose readDependencies loading dependencies from /usr/lib/package.json
+6 silly cache add args [ 'phantomjs', null ]
+7 verbose cache add spec phantomjs
+8 silly cache add parsed spec Result {
+8 silly cache add   raw: 'phantomjs',
+8 silly cache add   scope: null,
+8 silly cache add   name: 'phantomjs',
+8 silly cache add   rawSpec: '',
+8 silly cache add   spec: '*',
+8 silly cache add   type: 'range' }
+9 silly addNamed phantomjs@*
+10 verbose addNamed "*" is a valid semver range for phantomjs
+11 silly addNameRange { name: 'phantomjs', range: '*', hasData: false }
+12 silly mapToRegistry name phantomjs
+13 silly mapToRegistry using default registry
+14 silly mapToRegistry registry https://registry.npmjs.org/
+15 silly mapToRegistry uri https://registry.npmjs.org/phantomjs
+16 verbose addNameRange registry:https://registry.npmjs.org/phantomjs not in flight; fetching
+17 verbose request uri https://registry.npmjs.org/phantomjs
+18 verbose request no auth needed
+19 info attempt registry request try #1 at 9:38:05 AM
+20 verbose request id c2d492e4529f82aa
+21 verbose etag "C6B4UFCQ4W98EY9L3SDN379QZ"
+22 http request GET https://registry.npmjs.org/phantomjs
+23 http 304 https://registry.npmjs.org/phantomjs
+24 verbose headers { date: 'Wed, 16 Dec 2015 14:38:08 GMT',
+24 verbose headers   via: '1.1 varnish',
+24 verbose headers   'cache-control': 'max-age=300',
+24 verbose headers   etag: '"C6B4UFCQ4W98EY9L3SDN379QZ"',
+24 verbose headers   age: '277',
+24 verbose headers   connection: 'keep-alive',
+24 verbose headers   'x-served-by': 'cache-jfk1028-JFK',
+24 verbose headers   'x-cache': 'HIT',
+24 verbose headers   'x-cache-hits': '7',
+24 verbose headers   'x-timer': 'S1450276688.232965,VS0,VE0',
+24 verbose headers   vary: 'Accept' }
+25 silly get cb [ 304,
+25 silly get   { date: 'Wed, 16 Dec 2015 14:38:08 GMT',
+25 silly get     via: '1.1 varnish',
+25 silly get     'cache-control': 'max-age=300',
+25 silly get     etag: '"C6B4UFCQ4W98EY9L3SDN379QZ"',
+25 silly get     age: '277',
+25 silly get     connection: 'keep-alive',
+25 silly get     'x-served-by': 'cache-jfk1028-JFK',
+25 silly get     'x-cache': 'HIT',
+25 silly get     'x-cache-hits': '7',
+25 silly get     'x-timer': 'S1450276688.232965,VS0,VE0',
+25 silly get     vary: 'Accept' } ]
+26 verbose etag https://registry.npmjs.org/phantomjs from cache
+27 verbose get saving phantomjs to /home/nicobytes/.npm/registry.npmjs.org/phantomjs/.cache.json
+28 silly addNameRange number 2 { name: 'phantomjs', range: '*', hasData: true }
+29 silly addNameRange versions [ 'phantomjs',
+29 silly addNameRange   [ '0.0.1',
+29 silly addNameRange     '0.0.2',
+29 silly addNameRange     '0.0.3',
+29 silly addNameRange     '0.0.4',
+29 silly addNameRange     '0.0.5',
+29 silly addNameRange     '0.0.6',
+29 silly addNameRange     '0.0.7',
+29 silly addNameRange     '0.0.8',
+29 silly addNameRange     '0.0.9',
+29 silly addNameRange     '0.1.0',
+29 silly addNameRange     '0.1.1',
+29 silly addNameRange     '0.2.0',
+29 silly addNameRange     '0.2.1',
+29 silly addNameRange     '0.2.2',
+29 silly addNameRange     '0.2.3',
+29 silly addNameRange     '0.2.4',
+29 silly addNameRange     '0.2.5',
+29 silly addNameRange     '0.2.6',
+29 silly addNameRange     '1.8.0-1',
+29 silly addNameRange     '1.8.1-1',
+29 silly addNameRange     '1.8.1-2',
+29 silly addNameRange     '1.8.1-3',
+29 silly addNameRange     '1.8.2-0',
+29 silly addNameRange     '1.8.2-1',
+29 silly addNameRange     '1.8.2-2',
+29 silly addNameRange     '1.9.0-0',
+29 silly addNameRange     '1.9.0-1',
+29 silly addNameRange     '1.9.0-2',
+29 silly addNameRange     '1.9.0-3',
+29 silly addNameRange     '1.9.0-4',
+29 silly addNameRange     '1.9.0-5',
+29 silly addNameRange     '1.9.0-6',
+29 silly addNameRange     '1.9.1-0',
+29 silly addNameRange     '1.9.1-2',
+29 silly addNameRange     '1.9.1-3',
+29 silly addNameRange     '1.9.1-4',
+29 silly addNameRange     '1.9.1-5',
+29 silly addNameRange     '1.9.1-6',
+29 silly addNameRange     '1.9.1-7',
+29 silly addNameRange     '1.9.1-8',
+29 silly addNameRange     '1.9.1-9',
+29 silly addNameRange     '1.9.2-0',
+29 silly addNameRange     '1.9.2-1',
+29 silly addNameRange     '1.9.2-2',
+29 silly addNameRange     '1.9.2-3',
+29 silly addNameRange     '1.9.2-4',
+29 silly addNameRange     '1.9.2-5',
+29 silly addNameRange     '1.9.2-6',
+29 silly addNameRange     '1.9.6-0',
+29 silly addNameRange     '1.9.7-1',
+29 silly addNameRange     '1.9.7-3',
+29 silly addNameRange     '1.9.7-4',
+29 silly addNameRange     '1.9.7-5',
+29 silly addNameRange     '1.9.7-6',
+29 silly addNameRange     '1.9.7-7',
+29 silly addNameRange     '1.9.7-8',
+29 silly addNameRange     '1.9.7-9',
+29 silly addNameRange     '1.9.7-10',
+29 silly addNameRange     '1.9.7-11',
+29 silly addNameRange     '1.9.7-12',
+29 silly addNameRange     '1.9.7-13',
+29 silly addNameRange     '1.9.7-14',
+29 silly addNameRange     '1.9.7-15',
+29 silly addNameRange     '1.8.2-3',
+29 silly addNameRange     '1.9.8',
+29 silly addNameRange     '1.9.9',
+29 silly addNameRange     '1.9.10',
+29 silly addNameRange     '1.9.11',
+29 silly addNameRange     '1.9.12',
+29 silly addNameRange     '1.9.13',
+29 silly addNameRange     '1.9.15',
+29 silly addNameRange     '1.9.16',
+29 silly addNameRange     '1.9.17',
+29 silly addNameRange     '1.9.18',
+29 silly addNameRange     '1.9.19' ] ]
+30 silly addNamed phantomjs@1.9.19
+31 verbose addNamed "1.9.19" is a plain semver version for phantomjs
+32 silly cache afterAdd phantomjs@1.9.19
+33 verbose afterAdd /home/nicobytes/.npm/phantomjs/1.9.19/package/package.json not in flight; writing
+34 verbose afterAdd /home/nicobytes/.npm/phantomjs/1.9.19/package/package.json written
+35 silly install resolved [ { name: 'phantomjs',
+35 silly install resolved     version: '1.9.19',
+35 silly install resolved     keywords: [ 'phantomjs', 'headless', 'webkit' ],
+35 silly install resolved     description: 'Headless WebKit with JS API',
+35 silly install resolved     homepage: 'https://github.com/Medium/phantomjs',
+35 silly install resolved     repository: { type: 'git', url: 'git://github.com/Medium/phantomjs.git' },
+35 silly install resolved     license: 'Apache-2.0',
+35 silly install resolved     author:
+35 silly install resolved      { name: 'Dan Pupius',
+35 silly install resolved        email: 'dan@obvious.com',
+35 silly install resolved        url: 'http://pupius.co.uk' },
+35 silly install resolved     maintainers: [ [Object], [Object], [Object] ],
+35 silly install resolved     main: 'lib/phantomjs',
+35 silly install resolved     bin: { phantomjs: './bin/phantomjs' },
+35 silly install resolved     scripts:
+35 silly install resolved      { install: 'node install.js',
+35 silly install resolved        test: 'nodeunit --reporter=minimal test/tests.js && eslint install.js' },
+35 silly install resolved     dependencies:
+35 silly install resolved      { 'adm-zip': '0.4.4',
+35 silly install resolved        'fs-extra': '~0.23.1',
+35 silly install resolved        kew: '0.4.0',
+35 silly install resolved        md5: '~2.0.0',
+35 silly install resolved        npmconf: '2.1.1',
+35 silly install resolved        progress: '1.1.8',
+35 silly install resolved        request: '2.42.0',
+35 silly install resolved        'request-progress': '0.3.1',
+35 silly install resolved        which: '~1.0.5' },
+35 silly install resolved     devDependencies: { eslint: '1.5.1', nodeunit: '0.9.0' },
+35 silly install resolved     gitHead: '3ad7dad059c7b51acda95af3b8c2869253712bc4',
+35 silly install resolved     bugs: { url: 'https://github.com/Medium/phantomjs/issues' },
+35 silly install resolved     _id: 'phantomjs@1.9.19',
+35 silly install resolved     _shasum: 'a7f2cef5eba7343e1a729ce9922a95a6d0a11c07',
+35 silly install resolved     _from: 'phantomjs@*',
+35 silly install resolved     _npmVersion: '2.14.4',
+35 silly install resolved     _nodeVersion: '4.1.2',
+35 silly install resolved     _npmUser: { name: 'nicks', email: 'nicholas.j.santos@gmail.com' },
+35 silly install resolved     dist:
+35 silly install resolved      { shasum: 'a7f2cef5eba7343e1a729ce9922a95a6d0a11c07',
+35 silly install resolved        tarball: 'http://registry.npmjs.org/phantomjs/-/phantomjs-1.9.19.tgz' },
+35 silly install resolved     directories: {},
+35 silly install resolved     _resolved: 'https://registry.npmjs.org/phantomjs/-/phantomjs-1.9.19.tgz',
+35 silly install resolved     readme: 'ERROR: No README data found!' } ]
+36 info install phantomjs@1.9.19 into /usr/lib
+37 info installOne phantomjs@1.9.19
+38 verbose installOne of phantomjs to /usr/lib not in flight; installing
+39 verbose lock using /home/nicobytes/.npm/_locks/phantomjs-79bbd37a98d1e067.lock for /usr/lib/node_modules/phantomjs
+40 silly install write writing phantomjs 1.9.19 to /usr/lib/node_modules/phantomjs
+41 verbose unbuild lib/node_modules/phantomjs
+42 info preuninstall phantomjs@1.9.19
+43 info uninstall phantomjs@1.9.19
+44 verbose unbuild rmStuff phantomjs@1.9.19 from /usr/lib/node_modules
+45 silly gentlyRm /usr/bin/phantomjs is being gently removed
+46 silly gentlyRm verifying /usr is an npm working directory
+47 silly gentlyRm containing path /usr is under npm's control, in /usr
+48 silly gentlyRm deletion target /usr/bin/phantomjs is under /usr
+49 verbose gentlyRm vacuuming from /usr/bin/phantomjs up to /usr
+50 silly vacuum-fs removing /usr/bin/phantomjs
+51 verbose unlock done using /home/nicobytes/.npm/_locks/phantomjs-79bbd37a98d1e067.lock for /usr/lib/node_modules/phantomjs
+52 verbose stack Error: EACCES: permission denied, unlink '/usr/bin/phantomjs'
+52 verbose stack     at Error (native)
+53 verbose cwd /home/nicobytes/projects/apps/sponzormeapp
+54 error Linux 4.2.0-19-generic
+55 error argv "/usr/bin/nodejs" "/usr/bin/npm" "install" "-g" "phantomjs"
+56 error node v4.2.3
+57 error npm  v2.14.7
+58 error path /usr/bin/phantomjs
+59 error code EACCES
+60 error errno -13
+61 error syscall unlink
+62 error Error: EACCES: permission denied, unlink '/usr/bin/phantomjs'
+62 error     at Error (native)
+62 error  { [Error: EACCES: permission denied, unlink '/usr/bin/phantomjs']
+62 error   errno: -13,
+62 error   code: 'EACCES',
+62 error   syscall: 'unlink',
+62 error   path: '/usr/bin/phantomjs' }
+63 error Please try running this command again as root/Administrator.
+64 verbose exit [ -13, true ]
+65 verbose unbuild lib/node_modules/phantomjs
+66 info preuninstall phantomjs@1.9.19
+67 info uninstall phantomjs@1.9.19
+68 verbose unbuild rmStuff phantomjs@1.9.19 from /usr/lib/node_modules
+69 silly gentlyRm /usr/bin/phantomjs is being gently removed
+70 silly gentlyRm verifying /usr is an npm working directory
+71 silly gentlyRm containing path /usr is under npm's control, in /usr
+72 silly gentlyRm deletion target /usr/bin/phantomjs is under /usr
+73 verbose gentlyRm vacuuming from /usr/bin/phantomjs up to /usr
+74 silly vacuum-fs removing /usr/bin/phantomjs
+75 error error rolling back Error: EACCES: permission denied, unlink '/usr/bin/phantomjs'
+75 error error rolling back     at Error (native)
+75 error error rolling back  { [Error: EACCES: permission denied, unlink '/usr/bin/phantomjs']
+75 error error rolling back   errno: -13,
+75 error error rolling back   code: 'EACCES',
+75 error error rolling back   syscall: 'unlink',
+75 error error rolling back   path: '/usr/bin/phantomjs' }

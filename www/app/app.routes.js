@@ -117,7 +117,8 @@
             templateUrl: "app/events-organizer/event-detail.html",
             controller: "EventDetailOrganizerController as eventDetail"
           }
-        }
+        },
+        cache: false,
       })
 
       .state('organizer.sponsors', {

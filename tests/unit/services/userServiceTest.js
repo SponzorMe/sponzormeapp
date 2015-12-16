@@ -1,42 +1,89 @@
-describe("User Service Unit Tests", function() {
+describe("UserService Unit Tests", function() {
 
-  beforeEach(function() {
-    module('userService');
-  });
+  var $httpBackend, $rootScope, userService;
+  var mocks = {};
 
-  var userService;
+  // load the module for our app
+  beforeEach(module('app'));
 
-  var httpBackend = null;
-
-  beforeEach(inject(function(userService) {
+  // disable template caching
+  beforeEach(module(function($provide, $urlRouterProvider) {
+    $provide.value('$ionicTemplateCache', function(){} );
+    $urlRouterProvider.deferIntercept();
+  }));
+  
+  beforeEach(inject(function($injector, _userService_) {
+    // Set up the mock http service responses
+    $httpBackend = $injector.get('$httpBackend');
+    // Get hold of a scope (i.e. the root scope)
+    $rootScope = $injector.get('$rootScope');
+    //Service
     userService = _userService_;
+    //Mocks
+    mocks.login = mockData.UserService.login();
+    mocks.getUser = mockData.UserService.getUser();
   }));
 
-  //allCategories
-  describe('All Categories', function() {
+  it('should be registered', function() {
+    expect(userService).not.toBe(null);
+  });
 
-    var $httpBackend;
-    //var token;
+  /*-------------  LOGIN  --------------- */
+  describe('login function', function() {
 
-    beforeEach(inject(function($injector) {
-      // Set up the mock http service responses
-      $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('GET', 'http://api.sponzor.me/users').respond(200, {
-        "success": true
-      });
-    }));
-
-    afterEach(function() {
-      $httpBackend.verifyNoOutstandingExpectation();
-      $httpBackend.verifyNoOutstandingRequest();
+    it('should exist', function () {
+      expect(userService.login).not.toBe(null);
     });
+    
+    it('login success', function (done) {
 
+      $httpBackend
+        .when('POST', 'http://apistaging.sponzor.me/auth')
+        .respond(200, mocks.login );
 
+      userService
+        .login('organizer@sponzor.me', 'sponzorme')
+        .then(function( user ){
+          expect(user).toEqual(jasmine.any(Object));
+          expect(user.email).toEqual("organizer@sponzor.me");
+          done();
+        });
 
+      $rootScope.$apply();
+      $httpBackend.flush();
+      
+    });
+    
   });
-  //oneUser
+
+  //getUser
   describe('Get One User', function() {
+    it('should exist', function () {
+      expect(userService.getUser).not.toBe(null);
+    });
+    
+    it('get success', function (done) {
+
+      var eventId = '1';
+
+      $httpBackend
+        .when('GET', 'http://apistaging.sponzor.me/users/' + eventId)
+        .respond(200, mocks.getUser );
+
+      userService
+        .getUser( eventId )
+        .then(function( event ){
+          expect(event).toEqual(jasmine.any(Object));
+          done();
+        });
+
+      $rootScope.$apply();
+      $httpBackend.flush();
+      
+    });
   });
+  
+  
   //createUser
   describe('create User', function() {
   });

@@ -20,15 +20,17 @@
     'perkService',
     '$ionicModal',
     'sponzorshipService',
-    '$ionicPopup'
+    '$ionicPopup',
+    'userService'
   ];
 
-  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, perkService, $ionicModal, sponzorshipService, $ionicPopup) {
+  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, perkService, $ionicModal, sponzorshipService, $ionicPopup, userService) {
 
     var vm = this;
     vm.event = {};
     vm.remove = remove;
     vm.perks = [];
+    vm.detailSponzor = {};
     /* -- CRUD PERKS -- */
     vm.modalPerk = null;
     vm.newPerk = {};
@@ -40,6 +42,7 @@
     vm.deletePerk = deletePerk;
     vm.submitPerk = submitPerk;
     vm.confirmPopup = confirmPopup;
+    vm.getSponzor = getSponzor;
 
     activate();
 
@@ -77,7 +80,7 @@
     function preparatePerks( event ){
       var perks = event.perks;
       for (var i = 0; i < perks.length; i++) {
-        perks[i].sponzorship = _.where(event.sponzorship, {perk_id: perks[i].id});
+        perks[i].sponzorships = _.where(event.sponzorships, {perk_id: perks[i].id});
       }
       return perks;
     }
@@ -203,26 +206,27 @@
         }
     }
 
+    function getSponzor( sponsorship ){
+      userService.getUser( sponsorship.sponzor_id )
+        .then( complete )
+        .catch( failed );
+
+        function complete( sponzor ){
+          console.log( sponzor );
+          vm.detailSponzor = sponzor;
+          confirmPopup();
+        }
+
+        function failed( error ){
+          console.log( error );
+        }
+    }
+
     function confirmPopup( sponsorship ){
-      var showPopup = $ionicPopup.show({
-        title: "Are you sure?",
-        template: "In accept the sponsor",
+      return $ionicPopup.show({
+        title: "Sponzor",
+        templateUrl: "app/events-organizer/detail-sponzor.html",
         scope: $scope,
-        buttons: [
-          {
-            text: 'Cancel'
-          },
-          {
-            text: 'Reject',
-            type: 'button-positive',
-            onTap: function(){ updateSponsorship( sponsorship, 2 ) } //Reject 
-          },
-          {
-            text: 'Accept',
-            type: 'button-balanced',
-            onTap: function(){ updateSponsorship( sponsorship, 1 ) } //Accepted 
-          }
-        ]
       });
     }
 
