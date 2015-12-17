@@ -17,7 +17,7 @@ test:
     - karma start karma.conf.js --single-run
 
 deployment:
-    branch: test
+    branch: tests
     commands:
         - npm install -g cordova ionic
         - ionic upload --email $IONIC_EMAIL --password $IONIC_PASSWORD
