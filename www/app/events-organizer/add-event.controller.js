@@ -61,11 +61,12 @@
 
     function activate(){
 
+      vm.sponsors = [];
       vm.newEvent.access = true;
-      vm.newEvent.starttime = "00:00:00";
+      /*vm.newEvent.starttime = "00:00:00";
       vm.newEvent.start = "2015-12-15";
       vm.newEvent.endtime = "00:00:00";
-      vm.newEvent.end = "2015-12-24";
+      vm.newEvent.end = "2015-12-24";*/
 
       $ionicModal.fromTemplateUrl('app/events-organizer/sponsor-modal.html', {
         scope: $scope,
@@ -214,7 +215,6 @@
           utilsService.resetForm( form );
           createPerks( event.id );
           vm.newEvent = {};
-          vm.sponsors = [];
           $ionicHistory.nextViewOptions({
             disableAnimate: false,
             disableBack: true
