@@ -19,14 +19,17 @@
     '$state',
     'sponzorshipService',
     '$ionicPopup',
-    '$ionicActionSheet'
+    '$ionicActionSheet',
+    '$cordovaSocialSharing',
+    '$cordovaCalendar'
   ];
 
-  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponzorshipService, $ionicPopup, $ionicActionSheet) {
+  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponzorshipService, $ionicPopup, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar) {
 
     var vm = this;
     var popupOptionsSponsorship = null;
     var hideSheet = null;
+    var optionsActionSheet = [];
     //Attributes
     vm.event = {};
     vm.deleteEvent = deleteEvent;
@@ -47,6 +50,11 @@
 
     function activate(){
       getEvent();
+      optionsActionSheet = [
+        editEvent,
+        shareEvent,
+        addToCalendar
+      ];
     }
 
     function getEvent(){
@@ -141,6 +149,7 @@
 
       hideSheet = $ionicActionSheet.show({
         buttons: [
+          { text: '<i class="icon ion-edit"></i> Edit event' },
           { text: '<i class="icon ion-share"></i> <b>Share</b> This' },
           { text: '<i class="icon ion-calendar"></i> Add to calendar' }
         ],
@@ -148,7 +157,7 @@
         titleText: 'Options',
         cancelText: '<i class="icon ion-close"></i> Cancel',
         buttonClicked: function(index) {
-          console.log(index);
+          optionsActionSheet[index]();
           return true;
         },
         destructiveButtonClicked: deleteEvent
@@ -157,6 +166,50 @@
 
     function hideActionSheet(){
       hideSheet();
+    }
+
+    function shareEvent(){
+      var message = vm.event.description;
+      var subject = vm.event.title
+      var image = null;
+      var link = 'http://app.sponzor.me/#/event/' + vm.event.id;
+      $cordovaSocialSharing
+        .share( message, subject, image, link) // Share via native share sheet
+        .then( complete )
+        .catch( failed );
+
+        function complete(){
+          console.log( 'exit' );
+        }
+
+        function failed( error ){
+          console.log( error );
+        }
+    }
+
+    function editEvent(){
+      console.log('edit event');
+    }
+
+    function addToCalendar(){
+      $cordovaCalendar
+        .createEvent({
+          title: vm.event.title,
+          location: vm.event.location,
+          notes: vm.event.description,
+          startDate: vm.event.starts,
+          endDate: vm.event.ends
+        })
+        .then( complete )
+        .catch( failed );
+
+        function complete(){
+          console.log( 'exit' );
+        }
+
+        function failed( error ){
+          console.log( error );
+        }
     }
     
 

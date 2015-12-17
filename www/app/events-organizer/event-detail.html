@@ -25,12 +25,12 @@
             	<ion-item class="item-divider">Start Day</ion-item>
 						  <ion-item class="item-icon-left">
 						  	<i class="icon ion-clock"></i>
-						     {{ eventDetail.event.starts }}
+						     {{ eventDetail.event.starts | date: 'short' }}
 						  </ion-item>
 						  <ion-item class="item-divider">End Day</ion-item>
 						  <ion-item class="item-icon-left">
 						  	<i class="icon ion-clock"></i>
-						    {{ eventDetail.event.ends }}
+						    {{ eventDetail.event.ends | date: 'short' }}
 						  </ion-item>
 						  <ion-item class="item-body">
 						  	<img ng-src="{{ eventDetail.event.image }}" class="full-image">
