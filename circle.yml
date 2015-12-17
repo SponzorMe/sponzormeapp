@@ -1,6 +1,6 @@
 machine:
-node:
-  version: v0.10.26
+  node:
+    version: v0.10.26
 test:
   pre:
       - npm install
