@@ -18,6 +18,8 @@ test:
 
 deployment:
     branch: tests
+    heroku:
+      appname: foo-bar-123
     commands:
         - npm install -g cordova ionic
         - ionic upload --email $IONIC_EMAIL --password $IONIC_PASSWORD
