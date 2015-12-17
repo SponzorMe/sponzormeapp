@@ -17,32 +17,32 @@
     'utilsService',
     '$stateParams',
     '$state',
-    'perkService',
-    '$ionicModal',
     'sponzorshipService',
     '$ionicPopup',
-    'userService'
+    '$ionicActionSheet',
+    '$cordovaSocialSharing',
+    '$cordovaCalendar'
   ];
 
-  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, perkService, $ionicModal, sponzorshipService, $ionicPopup, userService) {
+  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponzorshipService, $ionicPopup, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar) {
 
     var vm = this;
+    var popupOptionsSponsorship = null;
+    var hideSheet = null;
+    var optionsActionSheet = [];
+    //Attributes
     vm.event = {};
-    vm.remove = remove;
+    vm.deleteEvent = deleteEvent;
     vm.perks = [];
-    vm.detailSponzor = {};
-    /* -- CRUD PERKS -- */
-    vm.modalPerk = null;
-    vm.newPerk = {};
-    vm.isNewPerk = true;
-    vm.openModalPerk = openModalPerk;
-    vm.closeModalPerk = closeModalPerk;
-    vm.createPerk = createPerk;
-    vm.editPerk = editPerk;
-    vm.deletePerk = deletePerk;
-    vm.submitPerk = submitPerk;
-    vm.confirmPopup = confirmPopup;
-    vm.getSponzor = getSponzor;
+    
+    /*----- Options sponsorship  -----*/
+    vm.sponsorshipSelected = {};
+    vm.openOptionsSponsorship = openOptionsSponsorship;
+    vm.closeOptionsSponsorship = closeOptionsSponsorship;
+    vm.updateSponsorship = updateSponsorship;
+    /*----- Options ActionSheet  -----*/
+    vm.showActionSheet = showActionSheet;
+    vm.hideActionSheet = hideActionSheet;
 
     activate();
 
@@ -50,13 +50,11 @@
 
     function activate(){
       getEvent();
-
-      $ionicModal.fromTemplateUrl('app/events-organizer/perk-modal-edit.html', {
-        scope: $scope,
-        animation: 'slide-in-up'
-      }).then(function(modal) {
-        vm.modalPerk = modal;
-      });
+      optionsActionSheet = [
+        editEvent,
+        shareEvent,
+        addToCalendar
+      ];
     }
 
     function getEvent(){
@@ -80,12 +78,13 @@
     function preparatePerks( event ){
       var perks = event.perks;
       for (var i = 0; i < perks.length; i++) {
-        perks[i].sponzorships = _.where(event.sponzorships, {perk_id: perks[i].id});
+        perks[i].sponsorships = _.where(event.sponzorships, {perk_id: perks[i].id});
+        perks[i].tasks = _.where(event.perk_tasks, {perk_id: perks[i].id});
       }
       return perks;
     }
 
-    function remove(){
+    function deleteEvent(){
       utilsService.showLoad();
       eventService.deleteEvent( $stateParams.idEvent )
         .then( complete )
@@ -93,12 +92,14 @@
 
         function complete( event ){
           utilsService.hideLoad();
+          hideActionSheet();
           $state.go('organizer.events');
         }
 
         function failed( error ){
           console.log( error );
           utilsService.hideLoad();
+          hideActionSheet();
           utilsService.alert({
             title: 'Error',
             template: error.message
@@ -106,148 +107,110 @@
         }
     }
 
-    function openModalPerk(){
-      vm.modalPerk.show();
-    }
+    /*---------*/
 
-    function closeModalPerk(){
-      vm.modalPerk.hide();
-      vm.newPerk = {};
-    } 
-
-    function createPerk(){
-      vm.isNewPerk = true;
-      vm.openModalPerk();
-    }
-
-    function editPerk( data ){
-      vm.isNewPerk = false;
-      vm.newPerk = data;
-      vm.newPerk.total_quantity = parseInt( vm.newPerk.total_quantity );
-      vm.newPerk.usd = parseInt( vm.newPerk.usd );
-      vm.openModalPerk();
-    }
-
-    function addPerk(){
-      var data = vm.newPerk;
-      data.id_event = $stateParams.idEvent;
-      data.reserved_quantity = 0;
-      perkService.createPerk( data )
-        .then( complete )
-        .catch( failed );
-
-        function complete( response ){
-          vm.closeModalPerk();
-          getEvent();
-        }
-
-        function failed( error ){
-          vm.closeModalPerk();
-        }
-      
-    }
-
-    function deletePerk(){
-      perkService.deletePerk( vm.newPerk.id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( response ){
-          vm.closeModalPerk();
-          getEvent();
-        }
-
-        function failed( error ){
-          vm.closeModalPerk();
-          utilsService.alert({
-            template: error.message,
-          });
-        }
-    }
-
-    function updatePerk(){
-      perkService.editPerkPatch( vm.newPerk.id , vm.newPerk )
-        .then( complete )
-        .catch( failed );
-
-        function complete( response ){
-          vm.closeModalPerk();
-          getEvent();
-        }
-
-        function failed( error ){
-          vm.closeModalPerk();
-        }
-    }
-
-    function submitPerk(){
-      if(vm.isNewPerk){
-        addPerk();
-      }else{
-        updatePerk();
-      }
-    }
-
-    function sponzorAccept( index ){
-      confirmPopup('Are you sure?', 'In accept the sponsor')
-        .then( complete );
-
-        function complete( rta ){
-          if( rta ) updateSponsorship( 1 ); //Accepted 
-        }
-    }
-
-    function sponzorReject( index ){
-      confirmPopup('Are you sure?', 'In reject the sponsor')
-        .then( complete );
-
-        function complete( rta ){
-          if( rta ) updateSponsorship( 2 ); //Deny
-        }
-    }
-
-    function getSponzor( sponsorship ){
-      userService.getUser( sponsorship.sponzor_id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( sponzor ){
-          console.log( sponzor );
-          vm.detailSponzor = sponzor;
-          confirmPopup();
-        }
-
-        function failed( error ){
-          console.log( error );
-        }
-    }
-
-    function confirmPopup( sponsorship ){
-      return $ionicPopup.show({
-        title: "Sponzor",
-        templateUrl: "app/events-organizer/detail-sponzor.html",
+    function openOptionsSponsorship( sponsorship ){
+      vm.sponsorshipSelected = sponsorship;
+      popupOptionsSponsorship = $ionicPopup.show({
+        title: "Options",
+        templateUrl: "app/events-organizer/options-sponsorship.html",
         scope: $scope,
       });
     }
 
-    function updateSponsorship( sponsorship, status ){
+    function closeOptionsSponsorship(){
+      popupOptionsSponsorship.close();
+    }
+
+    function updateSponsorship( status ){
       utilsService.showLoad();
-      var sponsorshipCopy = angular.copy( sponsorship );
-      sponsorshipCopy.status = status;
-      sponzorshipService.editSponzorshipPut( sponsorshipCopy.id, sponsorshipCopy )
+      var sponsorship = angular.copy( vm.sponsorshipSelected );
+      sponsorship.status = status;
+      sponzorshipService.editSponzorshipPut( sponsorship.id, sponsorship )
         .then( complete )
         .catch( failed );
 
         function complete( sponsorshipRta ){
           utilsService.hideLoad();
-          sponsorship.status = sponsorshipRta.status;
+          closeOptionsSponsorship();
+          vm.sponsorshipSelected.status = sponsorshipRta.status;  
         }
 
         function failed( error ){
           utilsService.hideLoad();
+          closeOptionsSponsorship();
           console.log( error );
         }
 
+    }
+
+    /**/
+    function showActionSheet(){
+
+      hideSheet = $ionicActionSheet.show({
+        buttons: [
+          { text: '<i class="icon ion-edit"></i> Edit event' },
+          { text: '<i class="icon ion-share"></i> <b>Share</b> This' },
+          { text: '<i class="icon ion-calendar"></i> Add to calendar' }
+        ],
+        destructiveText: '<i class="icon ion-trash-a"></i> Delete event',
+        titleText: 'Options',
+        cancelText: '<i class="icon ion-close"></i> Cancel',
+        buttonClicked: function(index) {
+          optionsActionSheet[index]();
+          return true;
+        },
+        destructiveButtonClicked: deleteEvent
+     });
+    }
+
+    function hideActionSheet(){
+      hideSheet();
+    }
+
+    function shareEvent(){
+      var message = vm.event.description;
+      var subject = vm.event.title
+      var image = null;
+      //var link = 'http://app.sponzor.me/#/event/' + vm.event.id;
+      var link = 'http://carlosrojaso.github.io/sponzormefront/dist/#/event/' + vm.event.id;
+      $cordovaSocialSharing
+        .share( message, subject, image, link) // Share via native share sheet
+        .then( complete )
+        .catch( failed );
+
+        function complete(){
+          console.log( 'exit' );
+        }
+
+        function failed( error ){
+          console.log( error );
+        }
+    }
+
+    function editEvent(){
+      console.log('edit event');
+    }
+
+    function addToCalendar(){
+      $cordovaCalendar
+        .createEvent({
+          title: vm.event.title,
+          location: vm.event.location,
+          notes: vm.event.description,
+          startDate: vm.event.starts,
+          endDate: vm.event.ends
+        })
+        .then( complete )
+        .catch( failed );
+
+        function complete(){
+          console.log( 'exit' );
+        }
+
+        function failed( error ){
+          console.log( error );
+        }
     }
     
 

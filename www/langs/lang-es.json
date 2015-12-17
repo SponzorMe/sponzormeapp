@@ -178,6 +178,15 @@
   "EVENTDETAIL":{
       "list_perk_task_empty": "No hay ninguno aún."
   },
+  "ADDSPONSORSHIPTYPE":{
+    "title": "Nuevo tipo de patrocinio",
+    "type_label": "Tipo de patrocinio",
+    "type_placeholder": "Comida, sitio, camisas y otros",
+    "quantity_label": "Cantidad",
+    "quantity_placeholder": "Cantidad",
+    "price_label": "Precio",
+    "price_placeholder": "Precio"
+  },
   "ERRORS": {
       "signin_ema_required": "Este campo es requerido.",
       "signin_ema_email": "Este campo debe ser un Email.",
@@ -223,7 +232,13 @@
       "addeventsform_startdate_required" : "Este campo es requerido.",
       "addeventsform_error_tit": "Error",
       "addeventsform_error_mess": "Ops, Something happened. Try later",
-      "addeventsform_error_sponsors_empty" : "You must have a sponsorship type to less."
+      "addeventsform_error_sponsors_empty" : "You must have a sponsorship type to less.",
+      "addsponsorshiptype_error_type_required": "This field is required.",
+      "addsponsorshiptype_error_quantity_required": "This field is required.",
+      "addsponsorshiptype_error_quantity_min": "This field is must be  greater than 1.",
+      "addsponsorshiptype_error_price_required": "This field is required.",
+      "addsponsorshiptype_error_price_min": "This field is must be greater than 1.",
+      "addsponsorshiptype_error_price_max": "This field is must be one is less than 200."
   },
   "MESSAGES": {
       "loading": "Cargando...",

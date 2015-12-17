@@ -36,17 +36,11 @@
       "id": "cordova-plugin-datepicker"
     },
     "cordova-plugin-camera",
-    "cordova-plugin-crosswalk-webview",
     "ionic-plugin-keyboard",
     "cordova-plugin-x-toast",
-    {
-      "locator": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-globalization.git",
-      "id": "cordova-plugin-globalization"
-    },
-    {
-      "locator": "https://github.com/danwilson/google-analytics-plugin.git",
-      "id": "cordova-plugin-google-analytics"
-    }
+    "cordova-plugin-crosswalk-webview",
+    "cordova-plugin-x-socialsharing",
+    "cordova-plugin-calendar"
   ],
   "cordovaPlatforms": [
     "ios",

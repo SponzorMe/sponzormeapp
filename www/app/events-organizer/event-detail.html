@@ -1,5 +1,9 @@
 <ion-view>
 	<ion-nav-title>{{ eventDetail.event.title }}</ion-nav-title>
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear ion-android-more-vertical"
+    ng-click="eventDetail.showActionSheet()"></button>
+  </ion-nav-buttons>
   <ion-content scroll="false">
      <tab-slide-box tab="0">
       <div class="tsb-icons">
@@ -21,12 +25,12 @@
             	<ion-item class="item-divider">Start Day</ion-item>
 						  <ion-item class="item-icon-left">
 						  	<i class="icon ion-clock"></i>
-						     {{ eventDetail.event.starts }}
+						     {{ eventDetail.event.starts | date: 'short' }}
 						  </ion-item>
 						  <ion-item class="item-divider">End Day</ion-item>
 						  <ion-item class="item-icon-left">
 						  	<i class="icon ion-clock"></i>
-						    {{ eventDetail.event.ends }}
+						    {{ eventDetail.event.ends | date: 'short' }}
 						  </ion-item>
 						  <ion-item class="item-body">
 						  	<img ng-src="{{ eventDetail.event.image }}" class="full-image">
@@ -51,63 +55,65 @@
                  {{ eventDetail.event.type.name }}
               </ion-item>
             </ion-list>
-            <div class="padding">
-              <button type="button" class="button button-block button-assertive" ng-click="eventDetail.remove()">
-                Eliminar
-              </button>
-            </div>
           </ion-scroll>
         </ion-slide>
         
         <ion-slide>
           <ion-scroll style="height:90%">
-            <div class="row text-center" ng-show="eventDetail.perks.length == 0">
+            <div class="row text-center" ng-show="eventDetail.perks == 0">
               <div class="col">
                 <div class="empty-states">
                   <i class="icon ion-flag"></i>
-                  <h1>No hay sponsors.</h1>
+                  <h1>Nothing new yet.</h1>
                 </div>
               </div>
             </div>
             <ion-list type="card" ng-show="eventDetail.perks.length > 0" ng-repeat="perk in eventDetail.perks">
               <ion-item class="item-divider">
                 {{ perk.kind }} - ${{ perk.usd }}
-                <span class="badge badge-positive">{{ perk.sponzorships.length }}</span>
+                <span class="badge badge-positive">{{ perk.sponsorships.length }}</span>
               </ion-item>
-              <div ng-repeat="sponzor in perk.sponzorships">
-              <ion-item href="#/organizer/sponzor/{{ sponzor.id }}" class="item-icon-left item-icon-right" >
+              <ion-item ng-show="perk.sponsorships.length == 0">
+                Nothing new yet.
+              </ion-item>
+              <ion-item ng-click="eventDetail.openOptionsSponsorship( sponzorship )" class="item-icon-left item-icon-right" ng-repeat="sponzorship in perk.sponsorships">
                 <i class="icon ion-flag"></i>
-                <h2>{{ sponzor.cause }}</h2>
-                <p>{{ sponzor.name }}</p>
-                <i class="icon ion-checkmark status-sponzorship accept" ng-if="sponzor.status == 1"></i>
-                <i class="icon ion-close status-sponzorship reject" ng-if="sponzor.status == 2"></i>
-                <i class="icon ion-alert status-sponzorship pending" ng-if="sponzor.status == 0"></i>
+                <h2> {{ sponzorship.cause }} </h2>
+                <p> {{ sponzorship.name }} </p>
+                <i class="icon ion-checkmark-circled status-sponzorship accept" ng-if="sponzorship.status == 1"></i>
+                <i class="icon ion-close-circled status-sponzorship reject" ng-if="sponzorship.status == 2"></i>
+                <i class="icon ion-alert status-sponzorship pending" ng-if="sponzorship.status == 0"></i>
               </ion-item>
-              </div>
             </ion-list>
           </ion-scroll>
         </ion-slide>
         <ion-slide>
           <ion-scroll style="height:90%">
-            <div class="row text-center" ng-show="eventDetail.event.perks.length == 0">
+            <div class="row text-center" ng-show="eventDetail.perks == 0">
               <div class="col">
                 <div class="empty-states">
-                  <i class="icon ion-android-checkmark-circle"></i>
-                  <h1>No hay perks.</h1>
+                  <i class="icon ion-flag"></i>
+                  <h1>Nothing new yet.</h1>
                 </div>
               </div>
             </div>
-            <ion-list type="card" ng-show="eventDetail.event.perks.length > 0">
-              <ion-item class="item-divider">Perks</ion-item>
-              <ion-item class="item-icon-right" ng-repeat="perk in eventDetail.event.perks" ng-click="eventDetail.editPerk(perk)">
-                 {{ perk.kind }} - {{ perk.usd }}
-                 <i class="icon ion-edit"></i>
+            <ion-list type="card" ng-show="eventDetail.perks.length > 0" ng-repeat="perk in eventDetail.perks">
+              <ion-item class="item-divider">
+                Perks: {{ perk.kind }} - ${{ perk.usd }}
+                <span class="badge badge-positive">{{ perk.tasks.length }}</span>
+              </ion-item>
+              <ion-item ng-show="perk.tasks.length == 0">
+                Nothing new yet.
+              </ion-item>
+              <ion-item href="#/organizer/editTask/{{ task.id }}" class="item-icon-left" ng-repeat="task in perk.tasks" ng-class="{done: task.status == 1}">
+                <i class="icon ion-checkmark"></i>
+                <i class="icon ion-checkmark"></i>
+                <h2> {{ task.title }} </h2>
+                <p> {{ task.description }} </p>
               </ion-item>
             </ion-list>
             <div class="padding">
-              <button type="button" class="button button-block button-positive" ng-click="eventDetail.createPerk()">
-                New Sponzor
-              </button>
+              <a ng-href="#/organizer/addTask" class="button button-positive button-block icon-left ion-plus-round">Create new task</a>
             </div>
           </ion-scroll>
         </ion-slide>

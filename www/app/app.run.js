@@ -13,13 +13,13 @@
     $ionicPlatform.ready(function() {
       // TODO - if lang in profile is different to device language ask the user if want switch else use the profile language
       if(typeof navigator.globalization !== "undefined") {
-                navigator.globalization.getPreferredLanguage(function(language) {
-                    $translate.use((language.value).split("-")[0]).then(function(data) {
-                        //console.log("SUCCESS -> " + data);
-                    }, function(error) {
-                        //console.log("ERROR -> " + error);
-                    });
-                }, null);
+        navigator.globalization.getPreferredLanguage(function(language) {
+            $translate.use((language.value).split("-")[0]).then(function(data) {
+                //console.log("SUCCESS -> " + data);
+            }, function(error) {
+                //console.log("ERROR -> " + error);
+            });
+        }, null);
       }
       else{
       $translate.use("en");

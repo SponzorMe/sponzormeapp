@@ -61,11 +61,12 @@
 
     function activate(){
 
+      vm.sponsors = [];
       vm.newEvent.access = true;
-      vm.newEvent.starttime = "00:00:00";
+      /*vm.newEvent.starttime = "00:00:00";
       vm.newEvent.start = "2015-12-15";
       vm.newEvent.endtime = "00:00:00";
-      vm.newEvent.end = "2015-12-24";
+      vm.newEvent.end = "2015-12-24";*/
 
       $ionicModal.fromTemplateUrl('app/events-organizer/sponsor-modal.html', {
         scope: $scope,
@@ -301,8 +302,9 @@
       vm.modalSponsor.show();
     }
 
-    function closeModalSponsor(){
+    function closeModalSponsor( form ){
       vm.modalSponsor.hide();
+      utilsService.resetForm( form );
       vm.newSponsor = {};
     } 
 
@@ -332,11 +334,13 @@
       vm.closeModalSponsor();
     }
 
-    function submitSponsor(){
+    function submitSponsor( form ){
       if(vm.isNewSponsor){
         addSponsor();
+        utilsService.resetForm( form );
       }else{
         updateSponsor();
+        utilsService.resetForm( form );
       }
     }
 

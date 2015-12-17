@@ -48,6 +48,7 @@
           utilsService.hideLoad();
           vm.showEmptyState = false;
           vm.events = user.events.filter( filterDate );
+          vm.showEmptyState = vm.events.length == 0 ? true : false;
           $rootScope.$broadcast('Menu:count_events', vm.events.length);
         }
 

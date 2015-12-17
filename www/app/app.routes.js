@@ -14,8 +14,6 @@
     $ionicConfigProvider.views.swipeBackEnabled(false);
     $urlRouterProvider.otherwise("/sign-in");
 
-
-
     $stateProvider
       .state('signin', {
         url: '/sign-in',
