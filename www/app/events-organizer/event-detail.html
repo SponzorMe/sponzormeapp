@@ -1,5 +1,9 @@
 <ion-view>
 	<ion-nav-title>{{ eventDetail.event.title }}</ion-nav-title>
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear ion-android-more-vertical"
+    ng-click="eventDetail.showActionSheet()"></button>
+  </ion-nav-buttons>
   <ion-content scroll="false">
      <tab-slide-box tab="0">
       <div class="tsb-icons">
@@ -51,11 +55,6 @@
                  {{ eventDetail.event.type.name }}
               </ion-item>
             </ion-list>
-            <div class="padding">
-              <button type="button" class="button button-block button-assertive" ng-click="eventDetail.deleteEvent()">
-                Delete Event
-              </button>
-            </div>
           </ion-scroll>
         </ion-slide>
         
