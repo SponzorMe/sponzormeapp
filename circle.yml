@@ -15,11 +15,3 @@ test:
       - bower install --config.cwd=./www/app --config.directory=./www/lib
   override:
     - karma start karma.conf.js --single-run
-
-deployment:
-    branch: tests
-    heroku:
-      appname: foo-bar-123
-    commands:
-        - npm install -g cordova ionic
-        - ionic upload --email $IONIC_EMAIL --password $IONIC_PASSWORD
