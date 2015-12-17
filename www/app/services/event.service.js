@@ -79,7 +79,8 @@
           event.type = data.type.length === 0 ? event.type : data.type[0];
           event.organizer = data.organizer.length === 0 ? event.organizer : data.organizer[0];
           event.organizer.image = (event.organizer.image == "organizer_sponzorme.png") ? 'img/photo.png' : event.organizer.image;
-          
+          event.sponzorships = data.sponzorships;
+
           for (var i = 0; i < event.perks.length; i++) {
             event.perks[i].tasks = [];
             for (var j = 0; j < event.perk_tasks.length; j++) {

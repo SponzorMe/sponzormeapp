@@ -72,14 +72,15 @@
             <ion-list type="card" ng-show="eventDetail.perks.length > 0" ng-repeat="perk in eventDetail.perks">
               <ion-item class="item-divider">
                 {{ perk.kind }} - ${{ perk.usd }}
-                <span class="badge badge-positive">{{ perk.sponzorship.length }}</span>
+                <span class="badge badge-positive">{{ perk.sponsorships.length }}</span>
                 </ion-item>
-              <ion-item ng-click="eventDetail.confirmPopup( sponzor )" class="item-icon-left item-icon-right" ng-repeat="sponzor in perk.sponzorship">
+              <ion-item ng-click="eventDetail.openOptionsSponsorship( sponzorship )" class="item-icon-left item-icon-right" ng-repeat="sponzorship in perk.sponsorships">
                 <i class="icon ion-flag"></i>
-                {{ sponzor.cause }}
-                <i class="icon ion-checkmark status-sponzorship accept" ng-if="sponzor.status == 1"></i>
-                <i class="icon ion-close status-sponzorship reject" ng-if="sponzor.status == 2"></i>
-                <i class="icon ion-alert status-sponzorship pending" ng-if="sponzor.status == 0"></i>
+                <h2> {{ sponzorship.cause }} </h2>
+                <p> {{ sponzorship.name }} </p>
+                <i class="icon ion-checkmark status-sponzorship accept" ng-if="sponzorship.status == 1"></i>
+                <i class="icon ion-close status-sponzorship reject" ng-if="sponzorship.status == 2"></i>
+                <i class="icon ion-alert status-sponzorship pending" ng-if="sponzorship.status == 0"></i>
               </ion-item>
             </ion-list>
           </ion-scroll>

@@ -1,15 +1,7 @@
 <ion-view>
   <ion-nav-title>{{'DASHORGANIZERS.title' | translate}}</ion-nav-title>
   <ion-content padding="true">
-  
-    <div class="card number-bar" href="list card">
-      <a class="item item-thumbnail-left number-bar-sponsors" href="#/organizer/sponsors">
-        <i class="icon ion-flag item-image"></i>
-        <h2>{{ home.count_sponsors }}</h2>
-        <p>{{'DASHORGANIZERS.sponsors' | translate}}</p>
-      </a>
-    </div>
-
+    <!-- Events -->
     <div class="card number-bar" href="list card">
       <a class="item item-thumbnail-left number-bar-events" href="#/organizer/events">
         <i class="icon ion-calendar item-image"></i>
@@ -17,7 +9,15 @@
         <p>{{'DASHORGANIZERS.events' | translate}}</p>
       </a>
     </div>
-
+    <!-- Sponsors -->
+    <div class="card number-bar" href="list card">
+      <a class="item item-thumbnail-left number-bar-sponsors" href="#/organizer/sponsors">
+        <i class="icon ion-flag item-image"></i>
+        <h2>{{ home.count_sponsors }}</h2>
+        <p>{{'DASHORGANIZERS.sponsors' | translate}}</p>
+      </a>
+    </div>
+    <!-- Community -->
     <div class="card number-bar" href="list card">
       <a class="item item-thumbnail-left number-bar-communtity" href="#/organizer/profile">
         <i class="icon ion-person-stalker item-image"></i>

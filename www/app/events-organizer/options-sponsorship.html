@@ -1,0 +1,21 @@
+<button 
+class="button button-block button-positive icon-left ion-checkmark-circled" 
+ng-click="eventDetail.updateSponsorship(1)">
+Accept
+</button>
+<button 
+class="button button-block icon-left ion-close-circled" 
+ng-click="eventDetail.updateSponsorship(2)">
+Reject
+</button>
+<a 
+href="#/organizer/sponzor/{{ eventDetail.sponsorshipSelected.id }}" 
+class="button button-block icon-left ion-eye" 
+ng-click="eventDetail.closeOptionsSponsorship()">
+View detail
+</a>
+<button 
+class="button button-block icon-left ion-close" 
+ng-click="eventDetail.closeOptionsSponsorship()">
+Cancel
+</button>

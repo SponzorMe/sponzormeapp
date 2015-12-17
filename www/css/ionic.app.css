@@ -9147,9 +9147,10 @@ form label.item {
 .popup-body {
   text-align: center; }
 
-.popup-container .popup {
-  width: 300px; }
-
+/*
+.popup-container .popup{
+	width: 300px;
+}*/
 .menu {
   background-color: #00838D; }
   .menu .item {
@@ -9264,10 +9265,10 @@ form label.item {
   font-size: 20px; }
 
 .number-bar .number-bar-sponsors {
-  background: #003D6A; }
+  background: #00838D; }
 
 .number-bar .number-bar-events {
-  background: #00838D; }
+  background: #003D6A; }
 
 .number-bar .number-bar-communtity {
   background: #02A390; }

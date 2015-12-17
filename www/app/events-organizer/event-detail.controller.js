@@ -26,6 +26,7 @@
   function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, perkService, $ionicModal, sponzorshipService, $ionicPopup) {
 
     var vm = this;
+    var popupOptionsSponsorship = null;
     vm.event = {};
     vm.remove = remove;
     vm.perks = [];
@@ -39,7 +40,12 @@
     vm.editPerk = editPerk;
     vm.deletePerk = deletePerk;
     vm.submitPerk = submitPerk;
-    vm.confirmPopup = confirmPopup;
+    
+    /*----- Options sponsorship  -----*/
+    vm.sponsorshipSelected = {};
+    vm.openOptionsSponsorship = openOptionsSponsorship;
+    vm.closeOptionsSponsorship = closeOptionsSponsorship;
+    vm.updateSponsorship = updateSponsorship;
 
     activate();
 
@@ -77,7 +83,7 @@
     function preparatePerks( event ){
       var perks = event.perks;
       for (var i = 0; i < perks.length; i++) {
-        perks[i].sponzorship = _.where(event.sponzorship, {perk_id: perks[i].id});
+        perks[i].sponsorships = _.where(event.sponzorships, {perk_id: perks[i].id});
       }
       return perks;
     }
@@ -185,62 +191,38 @@
       }
     }
 
-    function sponzorAccept( index ){
-      confirmPopup('Are you sure?', 'In accept the sponsor')
-        .then( complete );
+    /*---------*/
 
-        function complete( rta ){
-          if( rta ) updateSponsorship( 1 ); //Accepted 
-        }
-    }
-
-    function sponzorReject( index ){
-      confirmPopup('Are you sure?', 'In reject the sponsor')
-        .then( complete );
-
-        function complete( rta ){
-          if( rta ) updateSponsorship( 2 ); //Deny
-        }
-    }
-
-    function confirmPopup( sponsorship ){
-      var showPopup = $ionicPopup.show({
-        title: "Are you sure?",
-        template: "In accept the sponsor",
+    function openOptionsSponsorship( sponsorship ){
+      vm.sponsorshipSelected = sponsorship;
+      popupOptionsSponsorship = $ionicPopup.show({
+        title: "Options",
+        templateUrl: "app/events-organizer/options-sponsorship.html",
         scope: $scope,
-        buttons: [
-          {
-            text: 'Cancel'
-          },
-          {
-            text: 'Reject',
-            type: 'button-positive',
-            onTap: function(){ updateSponsorship( sponsorship, 2 ) } //Reject 
-          },
-          {
-            text: 'Accept',
-            type: 'button-balanced',
-            onTap: function(){ updateSponsorship( sponsorship, 1 ) } //Accepted 
-          }
-        ]
       });
     }
 
-    function updateSponsorship( sponsorship, status ){
+    function closeOptionsSponsorship(){
+      popupOptionsSponsorship.close();
+    }
+
+    function updateSponsorship( status ){
       utilsService.showLoad();
-      var sponsorshipCopy = angular.copy( sponsorship );
-      sponsorshipCopy.status = status;
-      sponzorshipService.editSponzorshipPut( sponsorshipCopy.id, sponsorshipCopy )
+      var sponsorship = angular.copy( vm.sponsorshipSelected );
+      sponsorship.status = status;
+      sponzorshipService.editSponzorshipPut( sponsorship.id, sponsorship )
         .then( complete )
         .catch( failed );
 
         function complete( sponsorshipRta ){
           utilsService.hideLoad();
-          sponsorship.status = sponsorshipRta.status;
+          closeOptionsSponsorship();
+          vm.sponsorshipSelected.status = sponsorshipRta.status;  
         }
 
         function failed( error ){
           utilsService.hideLoad();
+          closeOptionsSponsorship();
           console.log( error );
         }
 
