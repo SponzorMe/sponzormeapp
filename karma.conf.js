@@ -1,6 +1,7 @@
 module.exports = function(config) {
   config.set({
     frameworks: ['jasmine'],
+    plugins = ['karma-jasmine', 'karma-phantomjs-launcher', 'karma-coverage'],
     files: [
       //'www/lib/angular/angular.min.js',
       'www/lib/ionic/js/ionic.bundle.min.js',
