@@ -301,8 +301,9 @@
       vm.modalSponsor.show();
     }
 
-    function closeModalSponsor(){
+    function closeModalSponsor( form ){
       vm.modalSponsor.hide();
+      utilsService.resetForm( form );
       vm.newSponsor = {};
     } 
 
@@ -332,11 +333,13 @@
       vm.closeModalSponsor();
     }
 
-    function submitSponsor(){
+    function submitSponsor( form ){
       if(vm.isNewSponsor){
         addSponsor();
+        utilsService.resetForm( form );
       }else{
         updateSponsor();
+        utilsService.resetForm( form );
       }
     }
 
