@@ -1,15 +1,21 @@
-describe("User Category Service Unit Tests", function() {
+describe("User Service Unit Tests", function() {
 
   beforeEach(function() {
-    module('userInterestService');
+    module('app');
   });
 
-  var userInterestRequest;
+  // disable template caching
+  beforeEach(module(function($provide, $urlRouterProvider) {
+    $provide.value('$ionicTemplateCache', function(){} );
+    $urlRouterProvider.deferIntercept();
+  }));
+
+  var userRequest;
 
   var httpBackend = null;
 
-  beforeEach(inject(function(_userInterestRequest_) {
-    userInterestRequest = _userInterestRequest_;
+  beforeEach(inject(function($injector, _userService_) {
+    userRequest = _userService_;
   }));
   //allCategories
   describe('All Categories', function() {
@@ -20,8 +26,16 @@ describe("User Category Service Unit Tests", function() {
     beforeEach(inject(function($injector) {
       // Set up the mock http service responses
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('GET', 'http://apistaging.sponzor.me/user_interests').respond(200, {
+      $httpBackend.when('GET', 'http://apistaging.sponzor.me/users').respond(200, {
         "success": true
+      });$httpBackend.whenGET('langs/lang-en.json').respond(200, {
+        "title": 'Sponzorme EN'
+      });
+      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
+        "title": 'Sponzorme PT'
+      });
+      $httpBackend.whenGET('langs/lang-es.json').respond(200, {
+        "title": 'Sponzorme ES'
       });
     }));
 
@@ -29,11 +43,11 @@ describe("User Category Service Unit Tests", function() {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
-    it('All user_interests.', function() {
+    it('All users.', function() {
       var returnData = {
         "success": true
       };
-      var returnedPromise = userInterestRequest.allUserInterests();
+      var returnedPromise = userRequest.allUsers();
       var result;
       returnedPromise.then(function(response) {
         result = response;
@@ -42,16 +56,17 @@ describe("User Category Service Unit Tests", function() {
       expect(result.data.success).toEqual(returnData.success);
     });
   });
-  //oneCategory
-  describe('One Category', function() {
+  //oneUser
+
+  describe('One User', function() {
     var $httpBackend;
-    var userInterestId = '3';
+    var userId = '3';
     beforeEach(inject(function($injector) {
       // Set up the mock http service responses
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('GET', 'http://apistaging.sponzor.me/user_interests/'+userInterestId).respond(200, {
+      $httpBackend.when('GET', 'http://apistaging.sponzor.me/users/'+userId).respond(200, {
       "data": {
-        "category": {
+        "user": {
           "id": "3",
           "title": "Dancing",
           "body": "All About the Bussines!",
@@ -59,16 +74,24 @@ describe("User Category Service Unit Tests", function() {
           "events": []
         }
       }
+    });$httpBackend.whenGET('langs/lang-en.json').respond(200, {
+      "title": 'Sponzorme EN'
+    });
+    $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
+      "title": 'Sponzorme PT'
+    });
+    $httpBackend.whenGET('langs/lang-es.json').respond(200, {
+      "title": 'Sponzorme ES'
     });
     }));
     afterEach(function() {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
-    it('A category.', function() {
+    it('A user.', function() {
       var returnData = {
         "data": {
-          "category": {
+          "user": {
             "id": "3",
             "title": "Dancing",
             "body": "All About the Bussines!",
@@ -77,76 +100,94 @@ describe("User Category Service Unit Tests", function() {
           }
         }
       };
-      var returnedPromise = userInterestRequest.oneUserInterest(userInterestId);
+      var returnedPromise = userRequest.getUser(userId);
       var result;
       returnedPromise.then(function(response) {
         result = response;
       });
       $httpBackend.flush();
-      expect(result.data.data.category.id).toEqual(userInterestId);
+      expect(result.id).toEqual(userId);
     });
   });
-  //createCategory
-  describe('create Category', function() {
+  //createUser
+  describe('create User', function() {
     var $httpBackend;
-    var category = {
+    var user = {
       "title": "Test",
       "body": "test",
       "lang": "123"};
     beforeEach(inject(function($injector) {
       // Set up the mock http service responses
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('POST', 'http://apistaging.sponzor.me/user_interests').respond(200, {
+      $httpBackend.when('POST', 'http://apistaging.sponzor.me/users').respond(200, {
         "message": "Inserted",
-        "category": {
+        "user": {
           "title": "Test",
           "body": "test",
           "lang": "123",
           "id": 15
         }
+      });
+      $httpBackend.whenGET('langs/lang-en.json').respond(200, {
+        "title": 'Sponzorme EN'
+      });
+      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
+        "title": 'Sponzorme PT'
+      });
+      $httpBackend.whenGET('langs/lang-es.json').respond(200, {
+        "title": 'Sponzorme ES'
       });
     }));
     afterEach(function() {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
-    it('Create User Interest.', function() {
+    it('Create User.', function() {
       var returnData = {
         "message": "Inserted",
-        "category": {
+        "user": {
           "title": "Test",
           "body": "test",
           "lang": "123",
           "id": 15
         }
       };
-      var returnedPromise = userInterestRequest.createUserInterest(category);
+      var returnedPromise = userRequest.createUser(user);
       var result;
       returnedPromise.then(function(response) {
         result = response;
       });
       $httpBackend.flush();
-      expect(result.data.message).toEqual(returnData.message);
+      expect(result.message).toEqual(returnData.message);
     });
   });
-  //deleteCategory
-  describe('Delete Category', function() {
+
+  //deleteUser
+  describe('Delete User', function() {
     var $httpBackend;
-    var userInterestId = '15';
+    var userId = '15';
     beforeEach(inject(function($injector) {
       // Set up the mock http service responses
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('DELETE', 'http://apistaging.sponzor.me/user_interests/'+userInterestId).respond(200, {
+      $httpBackend.when('DELETE', 'http://apistaging.sponzor.me/users/'+userId).respond(200, {
         "message": "Deleted"
-      })
+      });$httpBackend.whenGET('langs/lang-en.json').respond(200, {
+        "title": 'Sponzorme EN'
+      });
+      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
+        "title": 'Sponzorme PT'
+      });
+      $httpBackend.whenGET('langs/lang-es.json').respond(200, {
+        "title": 'Sponzorme ES'
+      });
     }));
     afterEach(function() {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
-    it('Delete User Interest.', function() {
+    it('Delete User.', function() {
       var returnData = {"message": "Deleted"};
-      var returnedPromise = userInterestRequest.deleteUserInterest(userInterestId);
+      var returnedPromise = userRequest.deleteUser(userId);
       var result;
       returnedPromise.then(function(response) {
         result = response;
@@ -155,96 +196,122 @@ describe("User Category Service Unit Tests", function() {
       expect(result.data.message).toEqual(returnData.message);
     });
   });
-  //editCategoryPatch
-  describe('Edit Category PATCH', function() {
+  //editUserPatch
+  /*
+  describe('Edit User PATCH', function() {
     var $httpBackend;
-    var userInterestId = '15';
-    var category = {
+    var userId = '15';
+    var user = {
       "title": "Test",
       "body": "test",
       "lang": "123"};
     beforeEach(inject(function($injector) {
       // Set up the mock http service responses
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('PATCH', 'http://apistaging.sponzor.me/user_interests/'+userInterestId).respond(200, {
+      $httpBackend.when('PATCH', 'http://apistaging.sponzor.me/users/'+userId).respond(200, {
         "message": "Updated",
         "warnings": [],
-        "category": {
+        "user": {
           "id": "15",
           "title": "Test",
           "body": "test",
           "lang": "123"
         }
+      });
+
+      $httpBackend.whenGET('langs/lang-en.json').respond(200, {
+        "title": 'Sponzorme EN'
+      });
+      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
+        "title": 'Sponzorme PT'
+      });
+      $httpBackend.whenGET('langs/lang-es.json').respond(200, {
+        "title": 'Sponzorme ES'
       });
     }));
     afterEach(function() {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
-    it('Edit Category PATCH', function() {
+    it('Edit User PATCH', function() {
       var returnData = {
         "message": "Updated",
         "warnings": [],
-        "category": {
+        "user": {
           "id": "15",
           "title": "Test",
           "body": "test",
           "lang": "123"
         }
       };
-      var returnedPromise = userInterestRequest.editUserInterestPatch(userInterestId, category);
+      console.log("userID: " + userId);
+      console.log("user:" + JSON.stringify(user));
+      var returnedPromise = userRequest.editUserPatch(userId, user);
       var result;
+      $httpBackend.flush();
       returnedPromise.then(function(response) {
         result = response;
       });
-      $httpBackend.flush();
+      console.log(result);
       expect(result.data.message).toEqual(returnData.message);
     });
   });
-  //editCategoryPut
-  describe('Edit Category PUT', function() {
+  */
+
+  //editUserPut
+ /*
+  describe('Edit User PUT', function() {
     var $httpBackend;
-    var userInterestId = '15';
-    var category = {
+    var userId = '15';
+    var user = {
       "title": "Test",
       "body": "test",
       "lang": "123"};
     beforeEach(inject(function($injector) {
       // Set up the mock http service responses
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('PUT', 'http://apistaging.sponzor.me/user_interests/'+userInterestId).respond(200, {
+      $httpBackend.when('PUT', 'http://apistaging.sponzor.me/users/'+userId).respond(200, {
         "message": "Updated",
         "warnings": [],
-        "category": {
+        "user": {
           "id": "15",
           "title": "Test",
           "body": "test",
           "lang": "123"
         }
+      });$httpBackend.whenGET('langs/lang-en.json').respond(200, {
+        "title": 'Sponzorme EN'
+      });
+      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
+        "title": 'Sponzorme PT'
+      });
+      $httpBackend.whenGET('langs/lang-es.json').respond(200, {
+        "title": 'Sponzorme ES'
       });
     }));
     afterEach(function() {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
-    it('Edit Category PUT', function() {
+    it('Edit User PUT', function() {
       var returnData = {
         "message": "Updated",
         "warnings": [],
-        "category": {
+        "user": {
           "id": "15",
           "title": "Test",
           "body": "test",
           "lang": "123"
         }
       };
-      var returnedPromise = userInterestRequest.editUserInterestPut(userInterestId, category);
+      var returnedPromise = userRequest.editUserPut(userId, user);
       var result;
       returnedPromise.then(function(response) {
         result = response;
       });
+      console.log(result);
       $httpBackend.flush();
       expect(result.data.message).toEqual(returnData.message);
     });
-  });
+  });*/
 });
