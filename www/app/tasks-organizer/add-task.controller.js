@@ -53,7 +53,7 @@
             disableAnimate: false,
             disableBack: true
           });
-          $state.go("organizer.tasks");
+          $ionicHistory.goBack();
         }
 
         function failed( error ){
@@ -93,7 +93,7 @@
 
     function getPerks(){
       utilsService.showLoad();
-      perkService.getPerkTaskByOrganizer( vm.userAuth.id )
+      perkService.allPerks()
         .then( complete )
         .catch( failed );
 

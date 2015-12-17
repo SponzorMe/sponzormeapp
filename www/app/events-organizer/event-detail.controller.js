@@ -27,8 +27,9 @@
 
     var vm = this;
     var popupOptionsSponsorship = null;
+    //Attributes
     vm.event = {};
-    vm.remove = remove;
+    vm.deleteEvent = deleteEvent;
     vm.perks = [];
     /* -- CRUD PERKS -- */
     vm.modalPerk = null;
@@ -84,11 +85,12 @@
       var perks = event.perks;
       for (var i = 0; i < perks.length; i++) {
         perks[i].sponsorships = _.where(event.sponzorships, {perk_id: perks[i].id});
+        perks[i].tasks = _.where(event.perk_tasks, {perk_id: perks[i].id});
       }
       return perks;
     }
 
-    function remove(){
+    function deleteEvent(){
       utilsService.showLoad();
       eventService.deleteEvent( $stateParams.idEvent )
         .then( complete )

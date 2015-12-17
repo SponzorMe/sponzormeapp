@@ -83,7 +83,7 @@
             disableAnimate: false,
             disableBack: true
           });
-          $state.go("organizer.tasks");
+          $ionicHistory.goBack();
         }
 
         function failed( error ){
