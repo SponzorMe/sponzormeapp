@@ -1,0 +1,23 @@
+machine:
+  node:
+    version: v0.12.6
+
+test:
+  pre:
+      - npm install -g bower
+      - npm install -g karma-cli
+      - npm install -g karma
+      - npm install -g phantomjs
+      - npm install -g karma-chrome-launcher
+      - npm install -g karma-phantomjs-launcher
+      - npm install -g karma-html-reporter
+      - npm install -g karma-coverage
+      - bower install --config.cwd=./www/app --config.directory=./www/lib
+  override:
+    - karma start karma.conf.js --single-run
+
+deployment:
+    branch: test
+    commands:
+        - npm install -g cordova ionic
+        - ionic upload --email $IONIC_EMAIL --password $IONIC_PASSWORD

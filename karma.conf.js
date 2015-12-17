@@ -28,7 +28,7 @@ module.exports = function(config) {
       //Services
       'www/app/services/*.js',
       'tests/unit/services/userServiceTest.spec.js',
-      'tests/unit/services/UserInterestServiceTest.spec.js',
+      //'tests/unit/services/UserInterestServiceTest.spec.js',
       //'www/app/app.routes.js',
       //'www/app/app.run.js',
       //'www/app/app.values.js',
