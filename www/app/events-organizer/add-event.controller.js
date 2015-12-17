@@ -214,6 +214,7 @@
           utilsService.resetForm( form );
           createPerks( event.id );
           vm.newEvent = {};
+          vm.sponsors = [];
           $ionicHistory.nextViewOptions({
             disableAnimate: false,
             disableBack: true
