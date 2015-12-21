@@ -85,10 +85,11 @@
     }
 
     function clickedStartDate(){
+      var minDate = ionic.Platform.isIOS() ? new Date() : new Date().getTime();
       showDatePicker({
         date: new Date(),
         mode: 'date', // or 'time'
-        minDate: new Date() - 10000,
+        minDate: minDate,
         allowOldDates: true,
         allowFutureDates: true,
         doneButtonLabel: 'DONE',
@@ -104,10 +105,11 @@
     }
 
     function clickedEndDate(){
+      var minDate = ionic.Platform.isIOS() ? new Date() : new Date().getTime();
       showDatePicker({
         date: new Date(),
         mode: 'date', // or 'time'
-        minDate: new Date() - 10000,
+        minDate: minDate,
         allowOldDates: true,
         allowFutureDates: true,
         doneButtonLabel: 'DONE',
@@ -123,10 +125,11 @@
     };
 
     function clickedStartTime(){
+      var minDate = ionic.Platform.isIOS() ? new Date() : new Date().getTime();
       showDatePicker({
         date: new Date(),
         mode: 'time', // or 'time'
-        minDate: new Date() - 10000,
+        minDate: minDate,
         allowOldDates: true,
         allowFutureDates: true,
         doneButtonLabel: 'DONE',
@@ -142,10 +145,11 @@
     }
 
     function clickedEndTime(){
+      var minDate = ionic.Platform.isIOS() ? new Date() : new Date().getTime();
       showDatePicker({
         date: new Date(),
         mode: 'time', // or 'time'
-        minDate: new Date() - 10000,
+        minDate: minDate,
         allowOldDates: true,
         allowFutureDates: true,
         doneButtonLabel: 'DONE',
