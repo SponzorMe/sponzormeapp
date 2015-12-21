@@ -19,8 +19,8 @@
         </label>
         <div class="form-errors" ng-messages="editTaskForm.title.$error" ng-if="editTaskForm.$invalid && editTaskForm.$submitted">
           <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> Es requerido</div>
-          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> Muy pequeño</div>
-          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> Muy largo</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> Muy pequeño</div>
+          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> Muy largo</div>
         </div>
         <!-- Description  -->
         <label class="item item-input" ng-class="{ 'has-error' : editTaskForm.txttitle.$invalid && editTaskForm.$submitted }">
@@ -31,24 +31,35 @@
           required
           ></textarea>
         </label>
+        <div class="form-errors" ng-messages="editTaskForm.description.$error" ng-if="editTaskForm.$invalid && editTaskForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> Es requerido</div>
+        </div>
         <!-- Event -->
-        <label class="item item-input item-select">
+        <label class="item item-input item-select" ng-class="{ 'has-error' : editTaskForm.event.$invalid && editTaskForm.$submitted }">
           <div class="input-label">Event</div>
           <select 
           name="event" 
           ng-model="editTask.newTask.event" 
-          ng-options="event.title for event in editTask.events">
+          ng-options="event.title for event in editTask.events" 
+          required >
           </select>
         </label>
+        <div class="form-errors" ng-messages="editTaskForm.event.$error" ng-if="editTaskForm.$invalid && editTaskForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> Es requerido</div>
+        </div>
         <!-- Perk -->
-        <label class="item item-input item-select">
+        <label class="item item-input item-select" ng-class="{ 'has-error' : editTaskForm.perk.$invalid && editTaskForm.$submitted }">
           <div class="input-label">Perk</div>
           <select 
           name="perk" 
           ng-model="editTask.newTask.perk" 
-          ng-options="perk.kind for perk in editTask.perks | filter:{id_event: editTask.newTask.event.id}">
+          ng-options="perk.kind for perk in editTask.perks | filter:{id_event: editTask.newTask.event.id}" 
+          required>
           </select>
         </label>
+        <div class="form-errors" ng-messages="editTaskForm.perk.$error" ng-if="editTaskForm.$invalid && editTaskForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> Es requerido</div>
+        </div>
         <!-- Done -->
         <ion-toggle ng-model="editTask.newTask.status" toggle-class="toggle-positive">Done?</ion-toggle>
       </ion-list>
