@@ -13,7 +13,7 @@
     {
       "platform": "android",
       "browser": "crosswalk-lite",
-      "version": "12.41.296.5"
+      "version": "10.39.236.1"
     }
   ],
   "proxies": [
