@@ -11,7 +11,12 @@
     .module('app.users')
     .controller('ForgotController', ForgotController);
 
-  ForgotController.$inject = ['$translate', 'userService',  '$state', 'utilsService'];
+  ForgotController.$inject = [
+    '$translate',
+    'userService', 
+    '$state',
+    'utilsService'
+  ];
 
   function ForgotController( $translate, userService, $state , utilsService) {
 
