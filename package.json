@@ -38,7 +38,8 @@
     "ionic-plugin-keyboard",
     "cordova-plugin-x-toast",
     "cordova-plugin-x-socialsharing",
-    "cordova-plugin-calendar"
+    "cordova-plugin-calendar",
+    "cordova-plugin-crosswalk-webview"
   ],
   "cordovaPlatforms": [
     "ios",
@@ -47,6 +48,11 @@
       "version": "",
       "locator": "ios"
     },
-    "android"
+    "android",
+    {
+      "platform": "android",
+      "version": "",
+      "locator": "android"
+    }
   ]
 }
