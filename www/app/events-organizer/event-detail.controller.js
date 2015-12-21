@@ -181,7 +181,7 @@
       var subject = vm.event.title
       var image = null;
       //var link = 'http://app.sponzor.me/#/event/' + vm.event.id;
-      var link = 'http://sponzor.me/#/event/' + vm.event.id;
+      var link = 'https://sponzor.me/#/event/' + vm.event.id;
       $cordovaSocialSharing
         .share( message, subject, image, link) // Share via native share sheet
         .then( complete )

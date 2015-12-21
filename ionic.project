@@ -19,7 +19,7 @@
   "proxies": [
     {
       "path": "/api",
-      "proxyUrl": "http://api.sponzor.me"
+      "proxyUrl": "https://api.sponzor.me"
     }
   ]
 }
