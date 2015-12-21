@@ -17,10 +17,11 @@
     '$cordovaCamera',
     '$localStorage',
     '$q',
-    'imgurService'
+    'imgurService',
+    '$cordovaToast'
   ];
 
-  function ProfileController( userService, utilsService, $cordovaCamera, $localStorage, $q, imgurService) {
+  function ProfileController( userService, utilsService, $cordovaCamera, $localStorage, $q, imgurService, $cordovaToast) {
 
     var vm = this;
     vm.user = $localStorage.userAuth;
@@ -34,6 +35,9 @@
     
     function activate(){
       vm.user.age = parseInt( vm.user.age );
+      vm.user.comunity_size = vm.user.comunity_size || 0;
+      vm.user.comunity_size = parseInt( vm.user.comunity_size );
+      console.log( vm.user );
     }
 
     function getPhoto(){
@@ -89,6 +93,7 @@
           vm.user = user;
           vm.user.age = parseInt( vm.user.age );
           $localStorage.userAuth = utilsService.updateUserAuth( user );
+          $cordovaToast.showShortBottom("Su perfil se ha actulizado");
         }
 
         function failed( error ){
