@@ -21,10 +21,12 @@
     '$ionicPopup',
     '$ionicActionSheet',
     '$cordovaSocialSharing',
-    '$cordovaCalendar'
+    '$cordovaCalendar',
+    '$ionicSideMenuDelegate',
+    '$ionicHistory'
   ];
 
-  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponzorshipService, $ionicPopup, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar) {
+  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponzorshipService, $ionicPopup, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory) {
 
     var vm = this;
     var popupOptionsSponsorship = null;
@@ -43,6 +45,7 @@
     /*----- Options ActionSheet  -----*/
     vm.showActionSheet = showActionSheet;
     vm.hideActionSheet = hideActionSheet;
+    vm.goBack = goBack;
 
     activate();
 
@@ -50,11 +53,16 @@
 
     function activate(){
       getEvent();
+      $ionicSideMenuDelegate.canDragContent(false);
       optionsActionSheet = [
         editEvent,
         shareEvent,
         addToCalendar
       ];
+    }
+
+    function goBack(){
+      $ionicHistory.goBack();
     }
 
     function getEvent(){

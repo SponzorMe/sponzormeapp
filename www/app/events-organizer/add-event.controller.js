@@ -219,7 +219,7 @@
             disableAnimate: false,
             disableBack: true
           });
-          $state.go("organizer.events");
+          $state.go("organizer.events.list");
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_event_mess"));
         }
 

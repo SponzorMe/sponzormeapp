@@ -89,13 +89,34 @@
 
       .state('organizer.events', {
         url: "/events",
+        abstract: true,
         views: {
           'menuContent' :{
+            templateUrl: "app/events-organizer/event-list-tabs.html"
+          }
+        },
+      })
+
+      .state('organizer.events.list', {
+        url: "/list",
+        views: {
+          'tabEventList' :{
             templateUrl: "app/events-organizer/event-list.html",
             controller: "EventListController as eventList"
           }
         },
-        cache: false,
+        cache: false
+      })
+
+      .state('organizer.events.past', {
+        url: "/past",
+        views: {
+          'tabPastEvents' :{
+            templateUrl: "app/events-organizer/past-events.html",
+            controller: "PastEventsController as eventList"
+          }
+        },
+        cache: false
       })
 
       .state('organizer.addevent', {
