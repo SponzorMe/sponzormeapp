@@ -24,6 +24,7 @@
       showLoad: showLoad,
       hideLoad: hideLoad,
       alert: alert,
+      confirm: confirm,
       trim: trim,
       resetForm: resetForm,
       updateUserAuth: updateUserAuth
@@ -50,8 +51,13 @@
     function alert( msg ){
       msg.title = msg.title || 'Ocurrió un error.';
       msg.template  = msg.template || 'Intento de nuevo.';
-      var alertPopup = $ionicPopup.alert( msg );
-      return alert;
+      return $ionicPopup.alert( msg );
+    }
+
+    function confirm( msg ){
+      msg.title = msg.title || '¿ Estas seguro ?';
+      msg.template  = msg.template || 'Estas seguro de eliminar.';
+      return $ionicPopup.confirm( msg );
     }
 
     function trim( str ){

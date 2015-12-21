@@ -352,9 +352,41 @@
     }
 
     function deleteSponsor(){
-      var index = vm.sponsors.indexOf( vm.newSponsor );
-      vm.sponsors.splice(index, 1);
-      vm.closeModalSponsor();
+        utilsService.confirm({
+          template: 'Esta seguro de eliminar este tipo de patronicio.'
+        })
+        .then( complete );
+
+        function complete( rta ){
+          if(rta){
+            var index = vm.sponsors.indexOf( vm.newSponsor );
+            if(vm.newSponsor.id){
+              deletePerk( index, vm.newSponsor.id );
+            }else{
+              vm.sponsors.splice(index, 1);
+              vm.closeModalSponsor();
+            }
+          }else{
+            vm.closeModalSponsor();
+          }
+        }
+    }
+
+    function deletePerk(index, id){
+      perkService.deletePerk( id )
+        .then( complete )
+        .catch( failed );
+
+        function complete( response ){
+          console.log( response );
+          vm.sponsors.splice(index, 1);
+          vm.closeModalSponsor();
+        }
+
+        function failed( error ){
+          console.log( error );
+          vm.closeModalSponsor();
+        }
     }
 
     function updateSponsor(){
