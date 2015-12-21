@@ -9,21 +9,38 @@
     .module('app')
     .run(run);
 
-  function run($ionicPlatform, $translate) {
+  function run($ionicPlatform, $translate, $cordovaGlobalization) {
     $ionicPlatform.ready(function() {
-      // TODO - if lang in profile is different to device language ask the user if want switch else use the profile language
-      if(typeof navigator.globalization !== "undefined") {
-        navigator.globalization.getPreferredLanguage(function(language) {
-            $translate.use((language.value).split("-")[0]).then(function(data) {
-                //console.log("SUCCESS -> " + data);
-            }, function(error) {
-                //console.log("ERROR -> " + error);
-            });
-        }, null);
-      }
-      else{
-      $translate.use("en");
-      }
+
+      $cordovaGlobalization.getPreferredLanguage()
+        .then( complete )
+        .catch( failed );
+
+        function complete( language ){
+          var lang = (language.value).split("-")[0];
+          var messages = {
+            'es': '¿Quieres cambiar el lenguaje a Español?',
+            'en': ' Do you want changue the language to English?',
+            'pt': '¿Você quer mudar a língua para Português?'
+          };
+          $ionicPopup.confirm({
+            title: 'Language',
+            template: messages[lang]
+          })
+          .then(function( rta ){
+            if(rta){
+              $translate.use( lang );
+            }else{
+              $translate.use("en");
+            }
+          });
+          
+        }
+
+        function failed(){
+          $translate.use("en");
+        }
+
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if(window.cordova && window.cordova.plugins.Keyboard) {
