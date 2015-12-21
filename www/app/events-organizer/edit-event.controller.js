@@ -9,9 +9,9 @@
 
   angular
     .module('app.events-organizer')
-    .controller('AddEventController', AddEventController);
+    .controller('EditEventController', EditEventController);
 
-  AddEventController.$inject = [
+  EditEventController.$inject = [
     '$scope',
     '$translate',
     '$localStorage',
@@ -27,10 +27,11 @@
     '$state',
     '$ionicHistory',
     'imgurService',
-    '$q'
+    '$q',
+    '$stateParams'
   ];
 
-  function AddEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, perkService, $ionicModal, $cordovaToast, $state, $ionicHistory, imgurService, $q) {
+  function EditEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, perkService, $ionicModal, $cordovaToast, $state, $ionicHistory, imgurService, $q, $stateParams) {
 
     var vm = this;
     vm.newEvent = {};
@@ -47,7 +48,7 @@
     vm.clickedStartTime = clickedStartTime;
     vm.clickedEndTime = clickedEndTime;
     vm.getPhoto = getPhoto;
-    vm.createEvent = createEvent;
+    vm.updateEvent = updateEvent;
     vm.openModalSponsor = openModalSponsor;
     vm.closeModalSponsor = closeModalSponsor;
     vm.createSponsor = createSponsor;
@@ -62,20 +63,42 @@
     function activate(){
 
       vm.sponsors = [];
-      vm.newEvent.access = true;
       /*vm.newEvent.starttime = "00:00:00";
       vm.newEvent.start = "2015-12-15";
       vm.newEvent.endtime = "00:00:00";
       vm.newEvent.end = "2015-12-24";*/
 
-      $ionicModal.fromTemplateUrl('app/events-organizer/sponsor-modal.html', {
+      $ionicModal.fromTemplateUrl('app/events-organizer/sponsor-edit-modal.html', {
         scope: $scope,
         animation: 'slide-in-up'
       }).then(function(modal) {
         vm.modalSponsor = modal;
       });
-      
-      getEventsTypes();
+      getEvent();
+    }
+
+    function getEvent(){
+      utilsService.showLoad();
+      eventService.getEvent( $stateParams.id )
+        .then( complete )
+        .catch( failed );
+
+        function complete( event ){
+          utilsService.hideLoad();
+          vm.newEvent = event;
+          vm.newEvent.start = moment(vm.starts).format('YYYY-MM-DD');
+          vm.newEvent.starttime = moment(vm.starts).format('HH:mm:ss');
+          vm.newEvent.end = moment(vm.ends).format('YYYY-MM-DD');
+          vm.newEvent.endtime = moment(vm.ends).format('HH:mm:ss');
+          vm.newEvent.access = vm.newEvent.privacy == '1' ? true : false;
+          vm.sponsors = vm.newEvent.perks;
+          getEventsTypes();
+        }
+
+        function failed( error ){
+          utilsService.hideLoad();
+          console.log( error.data );
+        }
     }
 
     /*-------------- DatePickers   --------------*/
@@ -86,6 +109,7 @@
 
     function clickedStartDate(){
       var minDate = ionic.Platform.isIOS() ? new Date() : new Date().getTime();
+      
       showDatePicker({
         date: new Date(),
         mode: 'date', // or 'time'
@@ -106,6 +130,7 @@
 
     function clickedEndDate(){
       var minDate = ionic.Platform.isIOS() ? new Date() : new Date().getTime();
+
       showDatePicker({
         date: new Date(),
         mode: 'date', // or 'time'
@@ -126,6 +151,7 @@
 
     function clickedStartTime(){
       var minDate = ionic.Platform.isIOS() ? new Date() : new Date().getTime();
+
       showDatePicker({
         date: new Date(),
         mode: 'time', // or 'time'
@@ -146,6 +172,7 @@
 
     function clickedEndTime(){
       var minDate = ionic.Platform.isIOS() ? new Date() : new Date().getTime();
+
       showDatePicker({
         date: new Date(),
         mode: 'time', // or 'time'
@@ -195,36 +222,41 @@
 
     /*-------------- Create Event --------------*/
 
-    function createEvent( form ){
+    function updateEvent( form ){
       utilsService.showLoad();
       
       if(vm.imageURI){
         imgurService.uploadImage( vm.imageURI )
           .then( updateImage )
+          .then( createPerks )
           .then( complete )
           .catch( failed );
       }else{
-        eventService.createEvent( preparateData() )
+        eventService.editEventPatch( vm.newEvent.id, preparateData() )
+          .then( createPerks )
           .then( complete )
           .catch( failed );
       }
 
         function updateImage( image ){
           vm.newEvent.image = image;
-          return eventService.createEvent( preparateData() );
+          return eventService.editEventPatch( vm.newEvent.id, preparateData() );
         }
 
         function complete( event ) {
           utilsService.hideLoad();
           utilsService.resetForm( form );
-          createPerks( event.id );
           vm.newEvent = {};
           $ionicHistory.nextViewOptions({
             disableAnimate: false,
             disableBack: true
           });
-          $state.go("organizer.events.list");
+          $ionicHistory.goBack();
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_event_mess"));
+        }
+
+        function createPerks( event ){
+          return getPerksPromises( event.id );
         }
 
         function failed( error ) {
@@ -244,7 +276,12 @@
 
         function complete( eventTypes ){
           vm.eventTypes = eventTypes;
-          if(vm.eventTypes.length > 0) vm.newEvent.type = vm.eventTypes[0];
+          for (var i = 0; i < vm.eventTypes.length; i++) {
+            if(vm.eventTypes[i].id == vm.newEvent.type.id){
+              vm.newEvent.type = vm.eventTypes[i];
+              break;
+            }
+          };
         }
 
         function failed( error ){
@@ -278,28 +315,20 @@
 
     /*-------------- Perks --------------*/
 
-    function createPerks( idEvent ){
+    function getPerksPromises( idEvent ){
+      var promises = [];
       var size = vm.sponsors.length;
       for (var i = 0; i < size; i++) {
         var data = vm.sponsors[i];
-        data.id_event = idEvent;
-        data.reserved_quantity = 0;
-        createPerk( data );
+        if(data.id){
+          promises.push( perkService.editPerkPatch( data.id, data ) );
+        }else{
+          data.id_event = idEvent;
+          data.reserved_quantity = 0;
+          promises.push( perkService.createPerk( data ) );
+        }
       };
-    }
-
-    function createPerk( data ){
-      return perkService.createPerk( data )
-        .then( complete )
-        .catch( failed );
-
-        function complete( response ){
-          console.log( response );
-        }
-
-        function failed( error ){
-          console.log( error );
-        }
+      return $q.all( promises );
     }
 
     function openModalSponsor(){
@@ -320,6 +349,8 @@
     function editSponsor( data ){
       vm.isNewSponsor = false;
       vm.newSponsor = data;
+      vm.newSponsor.total_quantity = parseInt( vm.newSponsor.total_quantity );
+      vm.newSponsor.usd = parseInt( vm.newSponsor.usd );
       vm.openModalSponsor();
     }
 
@@ -329,9 +360,41 @@
     }
 
     function deleteSponsor(){
-      var index = vm.sponsors.indexOf( vm.newSponsor );
-      vm.sponsors.splice(index, 1);
-      vm.closeModalSponsor();
+        utilsService.confirm({
+          template: 'Esta seguro de eliminar este tipo de patronicio.'
+        })
+        .then( complete );
+
+        function complete( rta ){
+          if(rta){
+            var index = vm.sponsors.indexOf( vm.newSponsor );
+            if(vm.newSponsor.id){
+              deletePerk( index, vm.newSponsor.id );
+            }else{
+              vm.sponsors.splice(index, 1);
+              vm.closeModalSponsor();
+            }
+          }else{
+            vm.closeModalSponsor();
+          }
+        }
+    }
+
+    function deletePerk(index, id){
+      perkService.deletePerk( id )
+        .then( complete )
+        .catch( failed );
+
+        function complete( response ){
+          console.log( response );
+          vm.sponsors.splice(index, 1);
+          vm.closeModalSponsor();
+        }
+
+        function failed( error ){
+          console.log( error );
+          vm.closeModalSponsor();
+        }
     }
 
     function updateSponsor(){
