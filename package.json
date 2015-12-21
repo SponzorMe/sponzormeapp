@@ -39,20 +39,18 @@
     "cordova-plugin-x-toast",
     "cordova-plugin-x-socialsharing",
     "cordova-plugin-calendar",
+    {
+      "locator": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-globalization.git",
+      "id": "cordova-plugin-globalization"
+    },
+    {
+      "locator": "https://github.com/danwilson/google-analytics-plugin.git",
+      "id": "cordova-plugin-google-analytics"
+    },
     "cordova-plugin-crosswalk-webview"
   ],
   "cordovaPlatforms": [
     "ios",
-    {
-      "platform": "ios",
-      "version": "",
-      "locator": "ios"
-    },
-    "android",
-    {
-      "platform": "android",
-      "version": "",
-      "locator": "android"
-    }
+    "android"
   ]
 }
