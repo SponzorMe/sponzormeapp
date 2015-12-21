@@ -197,7 +197,7 @@
     }
 
     function editEvent(){
-      console.log('edit event');
+      $state.go('organizer.editevent', { id: vm.event.id });
     }
 
     function addToCalendar(){

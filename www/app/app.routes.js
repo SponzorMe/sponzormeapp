@@ -129,6 +129,17 @@
         }
       })
 
+      .state('organizer.editevent', {
+        url: "/editevent/:id",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/events-organizer/edit-event.html",
+            controller: "EditEventController as editEvent"
+          }
+        },
+        cache: false
+      })
+
       .state('organizer.event', {
         url: "/event/:idEvent",
         views: {

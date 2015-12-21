@@ -152,7 +152,17 @@
           'Authorization' : 'Basic '+ getToken()
         },
         data: $httpParamSerializerJQLike(data)
-      });
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ) {
+        return $q.when( response.data.event );
+      }
+
+      function failed( error ) {
+        return $q.reject( error.data );
+      }
     }
 
     function editEventPut( eventId, data ){
@@ -164,7 +174,17 @@
           'Authorization' : 'Basic '+ getToken()
         },
         data: $httpParamSerializerJQLike(data)
-      });
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ) {
+        return $q.when( response.data.data.event );
+      }
+
+      function failed( error ) {
+        return $q.reject( error.data );
+      }
     }
 
     function getToken(){
