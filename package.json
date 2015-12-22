@@ -50,17 +50,12 @@
     "cordova-plugin-crosswalk-webview"
   ],
   "cordovaPlatforms": [
-    "ios",
     "android",
     {
       "platform": "android",
       "version": "",
       "locator": "android"
     },
-    {
-      "platform": "ios",
-      "version": "",
-      "locator": "ios"
-    }
+    "ios"
   ]
 }
