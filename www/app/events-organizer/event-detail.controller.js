@@ -45,7 +45,6 @@
     /*----- Options ActionSheet  -----*/
     vm.showActionSheet = showActionSheet;
     vm.hideActionSheet = hideActionSheet;
-    vm.goBack = goBack;
 
     activate();
 
@@ -59,10 +58,6 @@
         shareEvent,
         addToCalendar
       ];
-    }
-
-    function goBack(){
-      $ionicHistory.goBack();
     }
 
     function getEvent(){

@@ -1,10 +1,5 @@
-<ion-view hide-back-button="true">
+<ion-view spm-hide-tabs>
 	<ion-nav-title>{{ eventDetail.event.title }}</ion-nav-title>
-  <ion-nav-buttons side="left">
-    <button class="button back-button buttons  button-clear header-item" ng-click="eventDetail.goBack()">
-      <i class="icon ion-ios-arrow-back"></i>
-    </button>
-  </ion-nav-buttons>
   <ion-nav-buttons side="right">
     <button class="button button-icon button-clear ion-android-more-vertical"
     ng-click="eventDetail.showActionSheet()"></button>

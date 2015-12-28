@@ -108,6 +108,18 @@
         cache: false
       })
 
+      .state('organizer.events.detail-list', {
+        url: "/event/:idEvent",
+        views: {
+          'tabEventList' :{
+            templateUrl: "app/events-organizer/event-detail.html",
+            controller: "EventDetailOrganizerController as eventDetail"
+          }
+        },
+        cache: false,
+      })
+
+
       .state('organizer.events.past', {
         url: "/past",
         views: {
@@ -117,6 +129,17 @@
           }
         },
         cache: false
+      })
+
+      .state('organizer.events.detail-past', {
+        url: "/past-event/:idEvent",
+        views: {
+          'tabPastEvents' :{
+            templateUrl: "app/events-organizer/event-detail.html",
+            controller: "EventDetailOrganizerController as eventDetail"
+          }
+        },
+        cache: false,
       })
 
       .state('organizer.addevent', {

@@ -16,7 +16,7 @@
       </div>
     </div>
     <ion-list ng-show="eventList.events.length > 0">
-      <ion-item href="#/organizer/event/{{ event.id }}" class="event" collection-repeat="event in eventList.events | orderBy:'starts'" ng-style="{'background-image': 'url(' + event.image + ')'}">
+      <ion-item ng-href="#/organizer/events/event/{{ event.id }}" class="event" collection-repeat="event in eventList.events | orderBy:'starts'" ng-style="{'background-image': 'url(' + event.image + ')'}">
         <p>{{event.title}} </br> 
         {{event.starts | date: 'MMMM d, y'}} - {{event.ends | date: 'MMMM d, y'}}</p>
       </ion-item>
