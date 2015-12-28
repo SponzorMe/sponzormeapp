@@ -110,7 +110,7 @@
         return _.map( groups , parseEvent);
       }
 
-      function failed(){
+      function failed( error ){
         return $q.reject( error );
       }
     }
@@ -124,7 +124,7 @@
         return $q.when( response.data.PerkTasks );
       }
 
-      function failed(){
+      function failed( error ){
         return $q.reject( error );
       }
     }
