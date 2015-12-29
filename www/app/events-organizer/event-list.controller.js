@@ -76,7 +76,8 @@
     }
 
     function filterDate( item ){
-      return moment(item.ends).isAfter(new Date());
+      var today = moment( new Date() ).subtract(1, 'days');
+      return moment(item.ends).isAfter( today );
     }
     
 

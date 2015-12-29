@@ -78,7 +78,8 @@
     }
 
     function filterDate( item ){
-      return moment(item.ends).isBefore(new Date());
+      var today = moment( new Date() ).subtract(1, 'days');
+      return moment(item.ends).isBefore( today );
     }
     
 
