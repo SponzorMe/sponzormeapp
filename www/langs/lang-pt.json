@@ -1,4 +1,5 @@
 {
+  "NETWORK": "Error de Conexión. No se ha podido conectar con el servidor. Comprueba tu conexión a internet y vuelve a intentarlo.",
   "LOGIN": {
       "login_title": "Juntar",
       "email_field": "Email",
