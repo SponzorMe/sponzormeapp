@@ -1,6 +1,6 @@
 <ion-view view-title="Invite Friends">
   <ion-content>
-    <form name="inviteForm" novalidate ng-submit="inviteForm.$valid && invite.inviteFriend()">
+    <form name="inviteForm" novalidate ng-submit="inviteForm.$valid && invite.inviteFriend( inviteForm )">
       <ion-list type="card">
         <div class="padding">
           <i class="icon ion-person-add cover"></i>

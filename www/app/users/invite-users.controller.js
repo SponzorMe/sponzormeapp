@@ -26,7 +26,7 @@
 
     ////////////
 
-    function inviteFriend(){
+    function inviteFriend( form ){
       utilsService.showLoad();
       userService.invitedUser( preparateData() )
         .then( complete )
@@ -34,6 +34,7 @@
 
         function complete(){
           utilsService.hideLoad();
+          utilsService.resetForm( form );
           vm.friend = {};
           utilsService.alert({
             title: "Nice!",
