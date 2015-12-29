@@ -19,15 +19,15 @@
 						  	<strong>{{ eventDetail.event.title }}</strong>
 						  </ion-item>
             	<ion-item class="item-divider">Start Day</ion-item>
-						  <ion-item class="item-icon-left">
-						  	<i class="icon ion-clock"></i>
-						     {{ eventDetail.event.starts }}
-						  </ion-item>
-						  <ion-item class="item-divider">End Day</ion-item>
-						  <ion-item class="item-icon-left">
-						  	<i class="icon ion-clock"></i>
-						    {{ eventDetail.event.ends }}
-						  </ion-item>
+              <ion-item class="item-icon-left">
+                <i class="icon ion-clock"></i>
+                 {{ eventDetail.event.starts | date: 'MMMM d, y - HH:mm:ss' }}
+              </ion-item>
+              <ion-item class="item-divider">End Day</ion-item>
+              <ion-item class="item-icon-left">
+                <i class="icon ion-clock"></i>
+                {{ eventDetail.event.ends | date: 'MMMM d, y - HH:mm:ss' }}
+              </ion-item>
 						  <ion-item class="item-body">
 						  	<img ng-src="{{ eventDetail.event.image }}" class="full-image">
 						    {{ eventDetail.event.description }}
