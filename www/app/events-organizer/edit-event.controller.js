@@ -86,10 +86,10 @@
         function complete( event ){
           utilsService.hideLoad();
           vm.newEvent = event;
-          vm.newEvent.start = moment(vm.starts).format('YYYY-MM-DD');
-          vm.newEvent.starttime = moment(vm.starts).format('HH:mm:ss');
-          vm.newEvent.end = moment(vm.ends).format('YYYY-MM-DD');
-          vm.newEvent.endtime = moment(vm.ends).format('HH:mm:ss');
+          vm.newEvent.start = moment(event.starts).format('YYYY-MM-DD');
+          vm.newEvent.starttime = moment(event.starts).format('HH:mm:ss');
+          vm.newEvent.end = moment(event.ends).format('YYYY-MM-DD');
+          vm.newEvent.endtime = moment(event.ends).format('HH:mm:ss');
           vm.newEvent.access = vm.newEvent.privacy == '1' ? true : false;
           vm.sponsors = vm.newEvent.perks;
           getEventsTypes();

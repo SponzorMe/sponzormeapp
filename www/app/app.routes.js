@@ -15,23 +15,16 @@
 
     function getDefaultRoute(){
 
-      function checkSession(){
-        console.log( localStorage.getItem('ngStorage-userAuth') );
-        console.log( JSON.parse(localStorage.getItem('ngStorage-userAuth')) );
-        if(localStorage.getItem('ngStorage-token') && localStorage.getItem('ngStorage-userAuth')){
-          return true;
-        }
-        return false;
-      }
-
       function userType(){
         var userAuth = JSON.parse(localStorage.getItem('ngStorage-userAuth'));
         if( userAuth.type == 0 ) return "/organizer/home";
         return "/sponzor/home";
       }
-
-      if( checkSession() ) return userType();
-      return "/sign-in";
+      
+      if(localStorage.getItem('ngStorage-token') && localStorage.getItem('ngStorage-userAuth')){
+        return userType();
+      }
+      return "/sign-in"
     }
 
     $urlRouterProvider.otherwise( getDefaultRoute() );    

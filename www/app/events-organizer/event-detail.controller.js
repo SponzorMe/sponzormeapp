@@ -23,10 +23,12 @@
     '$cordovaSocialSharing',
     '$cordovaCalendar',
     '$ionicSideMenuDelegate',
-    '$ionicHistory'
+    '$ionicHistory',
+    '$cordovaToast',
+    '$translate'
   ];
 
-  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponzorshipService, $ionicPopup, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory) {
+  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponzorshipService, $ionicPopup, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory, $cordovaToast, $translate) {
 
     var vm = this;
     var popupOptionsSponsorship = null;
@@ -208,7 +210,7 @@
         .catch( failed );
 
         function complete(){
-          console.log( 'exit' );
+          $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_add_to_calendar"));
         }
 
         function failed( error ){

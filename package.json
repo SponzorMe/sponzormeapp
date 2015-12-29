@@ -47,7 +47,8 @@
     "cordova-plugin-x-toast",
     "cordova-plugin-x-socialsharing",
     "cordova-plugin-calendar",
-    "cordova-plugin-crosswalk-webview"
+    "cordova-plugin-crosswalk-webview",
+    "cordova-plugin-network-information"
   ],
   "cordovaPlatforms": [
     "android",

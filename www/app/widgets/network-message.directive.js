@@ -25,15 +25,23 @@
 
     function controller( $scope ) {
 
-      $scope.message = $cordovaNetwork.isOffline();
+      var vm = this;
+      //Attributes
+      vm.message = false;
+      
+      //activate();
+      //////////////
 
-      // listen for Online event
-      $rootScope.$on('$cordovaNetwork:online', updateNetworkState);
-      // listen for Offline event
-      $rootScope.$on('$cordovaNetwork:offline', updateNetworkState);
+      function activate(){
+        vm.message = $cordovaNetwork.isOffline();
+        // listen for Online event
+        $rootScope.$on('$cordovaNetwork:online', updateNetworkState);
+        // listen for Offline event
+        $rootScope.$on('$cordovaNetwork:offline', updateNetworkState);
+      }
 
       function updateNetworkState(event, networkState){
-        $scope.message = $cordovaNetwork.isOffline();
+        vm.message = $cordovaNetwork.isOffline();
       }
 
     }

@@ -246,6 +246,7 @@
       "succ_user_tit": "Info",
       "succ_user_mess": "Legal, Usuário foi criado.",
       "succ_event_tit": "Info",
-      "succ_event_mess": "Legal, Evento foi Criado"
+      "succ_event_mess": "Legal, Evento foi Criado",
+      "succ_add_to_calendar": "Legal, Seu evento foi adicionado ao calendário"
   }
 }
