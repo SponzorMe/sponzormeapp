@@ -103,6 +103,7 @@ describe("User Category Service Unit Tests", function() {
   });
   */
   //createCategory
+  /*
   describe('create Category', function() {
     var category = {
       "title": "Test",
