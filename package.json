@@ -14,9 +14,19 @@
     "bower": "^1.3.3",
     "gulp-util": "^2.2.14",
     "jasmine-core": "^2.3.4",
+    "jasmine-core": "^2.3.4",
+    "jasmine-expect": "^1.22.3",
     "karma": "^0.13.15",
     "karma-chrome-launcher": "^0.2.1",
+    "karma-coverage": "^0.5.3",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-htmlfile-reporter": "^0.2.2",
     "karma-jasmine": "^0.3.6",
+    "karma-jasmine-runner-reporter": "^0.2.0",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "main-bower-files": "^2.5.0",
+    "ng-annotate": "^1.0.2",
+    "phantomjs": "^1.9.19",
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
@@ -34,29 +44,25 @@
       "locator": "https://github.com/VitaliiBlagodir/cordova-plugin-datepicker.git",
       "id": "cordova-plugin-datepicker"
     },
-    {
-      "locator": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-globalization.git",
-      "id": "cordova-plugin-globalization"
-    },
-    {
-      "locator": "https://github.com/danwilson/google-analytics-plugin.git",
-      "id": "cordova-plugin-google-analytics"
-    },
     "cordova-plugin-camera",
     "ionic-plugin-keyboard",
     "cordova-plugin-x-toast",
-    "cordova-plugin-x-socialsharing",
-    "cordova-plugin-calendar",
     "cordova-plugin-crosswalk-webview",
-    "cordova-plugin-network-information"
+    "cordova-plugin-x-socialsharing",
+    "cordova-plugin-calendar"
   ],
   "cordovaPlatforms": [
+    "ios",
     "android",
+    {
+      "platform": "ios",
+      "version": "",
+      "locator": "ios"
+    },
     {
       "platform": "android",
       "version": "",
       "locator": "android"
-    },
-    "ios"
+    }
   ]
 }
