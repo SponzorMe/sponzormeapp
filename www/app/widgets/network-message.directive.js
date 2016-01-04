@@ -19,6 +19,7 @@
     var directive = {
       restrict: 'E',
       controller: controller,
+      controllerAs: 'vm',
       templateUrl: 'app/widgets/network-message.html'
     };
     return directive;
