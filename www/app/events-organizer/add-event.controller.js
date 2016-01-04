@@ -26,11 +26,12 @@
     '$cordovaToast',
     '$state',
     '$ionicHistory',
+    'awsImageService',
     'imgurService',
     '$q'
   ];
 
-  function AddEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, perkService, $ionicModal, $cordovaToast, $state, $ionicHistory, imgurService, $q) {
+  function AddEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, perkService, $ionicModal, $cordovaToast, $state, $ionicHistory, awsImageService, imgurService, $q) {
 
     var vm = this;
     vm.newEvent = {};

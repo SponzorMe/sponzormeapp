@@ -49,7 +49,7 @@
       } 
 
       function failed( response ) {
-        return $q.reject( response.data );
+        return $q.reject( response.data.data );
       }
     }
 

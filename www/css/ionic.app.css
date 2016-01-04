@@ -9144,9 +9144,9 @@ form label.item {
   padding: 2px 0 2px 16px;
   color: red; }
 
-.popup-body {
-  text-align: center; }
-
+/*.popup-body{
+  text-align: center;
+}
 /*
 .popup-container .popup{
 	width: 300px;
