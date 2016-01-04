@@ -13,7 +13,7 @@ describe("Imagur Service Unit Tests -", function() {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function($injector, _imgurService_) {
+  beforeEach(inject(function(_imgurService_) {
     imgurService = _imgurService_;
   }));
 

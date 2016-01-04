@@ -1,7 +1,6 @@
 module.exports = function(config) {
   config.set({
     basePath: '',
-
     frameworks: ['jasmine'],
     /*plugins : [
       'karma-jasmine',
@@ -34,7 +33,10 @@ module.exports = function(config) {
       'www/app/app.run.js',
       'www/app/**/*.module.js',
       //Services
+      'www/app/services/*.service.js',
+      //Controllers
       'www/app/events-organizer/add-event.controller.js',
+      //Test
       'tests/unit/services/imgur.service.spec.js',
       'tests/unit/events-organizer/add-event.controller.spec.js',
       //'tests/unit/services/UserInterestServiceTest.spec.js',
