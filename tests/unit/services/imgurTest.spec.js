@@ -22,7 +22,7 @@ describe("Imagur Service Unit Tests -", function() {
   });
 
   //Upload image
-  describe('Upload Success Image', function() {
+  describe('- Test of upload Success Image', function() {
 
     var $httpBackend;
     var rtaImage = 'http://i.imgur.com/SpKEBB5.jpg';
@@ -63,7 +63,7 @@ describe("Imagur Service Unit Tests -", function() {
   });
 
   //Upload image
-  describe('Upload Failed Image', function() {
+  describe('- Test upload Failed Image', function() {
 
     var $httpBackend;
 
