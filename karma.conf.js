@@ -35,7 +35,9 @@ module.exports = function(config) {
       'www/app/**/*.module.js',
       //Services
       'www/app/services/*.js',
-      'tests/unit/services/imgurTest.spec.js',
+      'www/app/events-organizer/add-event.controller.js',
+      'tests/unit/services/imgur.service.spec.js',
+      'tests/unit/events-organizer/add-event.controller.spec.js',
       //'tests/unit/services/UserInterestServiceTest.spec.js',
       //'www/app/app.routes.js',
       //'www/app/app.run.js',
