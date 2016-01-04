@@ -18,6 +18,7 @@ describe("User Service Unit Tests", function() {
     userRequest = _userService_;
   }));
   //allCategories
+
   describe('All Categories', function() {
 
     var $httpBackend;
@@ -26,10 +27,9 @@ describe("User Service Unit Tests", function() {
     beforeEach(inject(function($injector) {
       // Set up the mock http service responses
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('GET', 'http://apistaging.sponzor.me/users').respond(200, {
+      $httpBackend.when('GET', 'https://apistaging.sponzor.me/users').respond(200, {
         "success": true
-      });
-      $httpBackend.whenGET('langs/lang-en.json').respond(200, {
+      });$httpBackend.whenGET('langs/lang-en.json').respond(200, {
         "title": 'Sponzorme EN'
       });
       $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
@@ -57,8 +57,9 @@ describe("User Service Unit Tests", function() {
       expect(result.data.success).toEqual(returnData.success);
     });
   });
-  //oneUser
 
+  //oneUser
+  /*
   describe('One User', function() {
     var $httpBackend;
     var userId = '3';
@@ -111,6 +112,7 @@ describe("User Service Unit Tests", function() {
     });
   });
   //createUser
+/*
   describe('create User', function() {
     var $httpBackend;
     var user = {
@@ -162,7 +164,6 @@ describe("User Service Unit Tests", function() {
       expect(result.message).toEqual(returnData.message);
     });
   });
-
   //deleteUser
   describe('Delete User', function() {
     var $httpBackend;
@@ -198,7 +199,6 @@ describe("User Service Unit Tests", function() {
     });
   });
   //editUserPatch
-  /*
   describe('Edit User PATCH', function() {
     var $httpBackend;
     var userId = '15';
@@ -219,7 +219,6 @@ describe("User Service Unit Tests", function() {
           "lang": "123"
         }
       });
-
       $httpBackend.whenGET('langs/lang-en.json').respond(200, {
         "title": 'Sponzorme EN'
       });
