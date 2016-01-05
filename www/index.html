@@ -5,110 +5,22 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <meta http-equiv="Content-Security-Policy" content="default-src *; style-src &apos;self&apos; &apos;unsafe-inline&apos;; script-src &apos;self&apos; &apos;unsafe-inline&apos; &apos;unsafe-eval&apos;">
     <title>SponzorMe</title>
-    <!-- ionic css -->
-    <link rel="stylesheet" href="css/ionic.app.min.css">
-    <link rel="stylesheet" href="lib/angular-google-places-autocomplete/src/autocomplete.css">
-    <!-- <link rel="stylesheet" href="css/bgslider.css"> -->
+    
+    <!-- inject:css -->
+    <link rel="stylesheet" href="build/css/app.min.css">
+    <!-- endinject -->
 
+    <!-- head:js -->
+    <script src="build/js/vendors.min.js"></script>
+    <!-- endinject -->
+    
+    <!-- Cordova is bootstrapped by ionic-platform-web-client, uncomment this if you remove ionic-platform-web-client... -->
+    <!-- <script src="cordova.js"></script> -->
 
-    <!--<script src="lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js"></script>-->
-
-
-     <!-- libraries -->
-    <script src="lib/ionic/js/ionic.bundle.min.js"></script>
-    <script src="lib/angular-google-places-autocomplete/src/autocomplete.js"></script>
-    <script src="lib/angular-translate/angular-translate.min.js"></script>
-    <script src="lib/angular-messages/angular-messages.min.js"></script>
-    <script src="lib/angular-base64/angular-base64.min.js"></script>
-    <script src="lib/ngstorage/ngStorage.min.js"></script>
-    <script src="lib/angular-mocks/angular-mocks.js"></script>
-    <script src="lib/underscore/underscore-min.js"></script>
-    <script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
-    <script src="lib/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
-    <script src="lib/moment/min/moment.min.js"></script>
-    <script src="lib/angular-ios9-uiwebview/angular-ios9-uiwebview.patch.js"></script>
-    <script src="lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js"></script>
-    <script src="lib/tabbedSlideBox/tabSlideBox.js"></script>
-    <script src="lib/aws-sdk/dist/aws-sdk.min.js"></script>
-
-    <!-- Ionic scripts -->
-
-    <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
-     <!-- Cordova is bootstrapped by ionic-platform-web-client, uncomment this if you remove ionic-platform-web-client... -->
-<!-- <script src="cordova.js"></script> -->
-
-    <script src="app/app.module.js"></script>
-    <script src="app/app.routes.js"></script>
-    <script src="app/app.constants.js"></script>
-    <script src="app/app.values.js"></script>
-    <script src="app/app.run.js"></script>
-
-    <!-- services module -->
-    <script src="app/services/user.service.js"></script>
-    <script src="app/services/sponzorship.service.js"></script>
-    <script src="app/services/eventTypes.service.js"></script>
-    <script src="app/services/event.service.js"></script>
-    <script src="app/services/perk.service.js"></script>
-    <script src="app/services/perkTask.service.js"></script>
-    <script src="app/services/utils.service.js"></script>
-    <script src="app/services/imgur.service.js"></script>
-    <script src="app/services/category.service.js"></script>
-    <script src="app/services/userInterests.service.js"></script>
-    <script src="app/services/awsImage.service.js"></script>
-
-    <!--  widgets -->
-    <script src="app/widgets/widgets.module.js"></script>
-    <script src="app/widgets/crop-image.directive.js"></script>
-    <script src="app/widgets/hide-tabs.directive.js"></script>
-    <script src="app/widgets/network-message.directive.js"></script>
-
-    <!-- users module -->
-    <script src="app/users/users.module.js"></script>
-    <script src="app/users/login.controller.js"></script>
-    <script src="app/users/forgot.controller.js"></script>
-    <script src="app/users/register.controller.js"></script>
-    <script src="app/users/form-interests.controller.js"></script>
-    <script src="app/users/form-profile.controller.js"></script>
-    <script src="app/users/invite-users.controller.js"></script>
-    <script src="app/users/profile.controller.js"></script>
-    <script src="app/users/settings.controller.js"></script>
-
-    <!-- dashboard-organizer module -->
-    <script src="app/dashboard-organizer/dashboard-organizer.module.js"></script>
-    <script src="app/dashboard-organizer/home.controller.js"></script>
-    <script src="app/dashboard-organizer/intro.controller.js"></script>
-    <script src="app/dashboard-organizer/menu.controller.js"></script>
-
-    <!-- dashboard-sponzor module -->
-    <script src="app/dashboard-sponzor/dashboard-sponzor.module.js"></script>
-    <script src="app/dashboard-sponzor/home.controller.js"></script>
-    <script src="app/dashboard-sponzor/intro.controller.js"></script>
-    <script src="app/dashboard-sponzor/menu.controller.js"></script>
-
-    <!-- events-organizer module -->
-    <script src="app/events-organizer/events-organizer.module.js"></script>
-    <script src="app/events-organizer/event-list.controller.js"></script>
-    <script src="app/events-organizer/past-events.controller.js"></script>
-    <script src="app/events-organizer/add-event.controller.js"></script>
-    <script src="app/events-organizer/edit-event.controller.js"></script>
-    <script src="app/events-organizer/event-detail.controller.js"></script>
-
-    <!-- events-sponzor module -->
-    <script src="app/events-sponzor/events-sponzor.module.js"></script>
-    <script src="app/events-sponzor/event-detail.controller.js"></script>
-    <script src="app/events-sponzor/follow-events.controller.js"></script>
-    <script src="app/events-sponzor/sponzoring-events.controller.js"></script>
-
-    <!-- sponsors-organizer module -->
-    <script src="app/sponsors-organizer/sponsors-organizer.module.js"></script>
-    <script src="app/sponsors-organizer/sponzor-list.controller.js"></script>
-    <script src="app/sponsors-organizer/sponzor-detail.controller.js"></script>
-
-    <!-- tasks-organizer module -->
-    <script src="app/tasks-organizer/task-organizer.module.js"></script>
-    <script src="app/tasks-organizer/task-list.controller.js"></script>
-    <script src="app/tasks-organizer/add-task.controller.js"></script>
-    <script src="app/tasks-organizer/edit-task.controller.js"></script>
+    <!-- inject:js -->
+    <script src="build/js/app.min.js"></script>
+    <!-- endinject -->
+    
   </head>
 
   <body ng-app="app">

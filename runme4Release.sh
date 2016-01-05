@@ -1,4 +1,5 @@
 #!/bin/bash -x
+gulp release
 file="SponzorMeRelease.apk"
 [[ -f "$file" ]] && rm -f "$file"
 ionic build --release android
