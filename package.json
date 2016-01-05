@@ -36,32 +36,28 @@
     "cordova-plugin-console",
     "cordova-plugin-file-transfer",
     {
-      "locator": "https://github.com/timkalinowski/PhoneGap-Image-Resizer",
-      "id": "com.raananw.imageResizerTT"
-    },
-    {
       "locator": "https://github.com/VitaliiBlagodir/cordova-plugin-datepicker.git",
       "id": "cordova-plugin-datepicker"
+    },
+    {
+      "locator": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-globalization.git",
+      "id": "cordova-plugin-globalization"
     },
     "cordova-plugin-camera",
     "ionic-plugin-keyboard",
     "cordova-plugin-x-toast",
-    "cordova-plugin-crosswalk-webview",
     "cordova-plugin-x-socialsharing",
-    "cordova-plugin-calendar"
+    "cordova-plugin-calendar",
+    "cordova-plugin-crosswalk-webview",
+    "cordova-plugin-network-information"
   ],
   "cordovaPlatforms": [
     "ios",
-    "android",
     {
       "platform": "ios",
       "version": "",
       "locator": "ios"
     },
-    {
-      "platform": "android",
-      "version": "",
-      "locator": "android"
-    }
+    "android"
   ]
 }
