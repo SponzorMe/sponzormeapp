@@ -47,6 +47,7 @@
           utilsService.hideLoad();
           vm.tasks = groupByEvent( tasks );
           var total = tasks.filter( filterByDone ).length;
+          vm.showEmptyState = vm.tasks.length == 0 ? true : false;
           $rootScope.$broadcast('Menu:count_tasks', total);
         }
 

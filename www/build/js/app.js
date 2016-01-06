@@ -422,7 +422,7 @@
   function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup) {
     $ionicPlatform.ready(function() {
 
-      $cordovaGlobalization.getPreferredLanguage()
+      /*$cordovaGlobalization.getPreferredLanguage()
         .then( complete )
         .catch( failed );
 
@@ -449,7 +449,7 @@
 
         function failed( error ){
           $translate.use("en");
-        }
+        }*/
 
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -725,15 +725,6 @@
           event.sponzorships = data.sponzorships;
           event.starts = moment(event.starts)._d;
           event.ends = moment(event.ends)._d;
-
-          for (var i = 0; i < event.perks.length; i++) {
-            event.perks[i].tasks = [];
-            for (var j = 0; j < event.perk_tasks.length; j++) {
-              if(event.perks[i].id == event.perk_tasks[j].perk_id){
-                event.perks[i].tasks.push(event.perk_tasks[j]);
-              }
-            }
-          }
           return event;
         }
       }
@@ -2008,11 +1999,11 @@
 })();
 (function() {
   'use strict';
-  angular.module('app.users', []);
+  angular.module('app.widgets', []);
 })();
 (function() {
   'use strict';
-  angular.module('app.widgets', []);
+  angular.module('app.users', []);
 })();
 // Description:
 //  Creates a new Spinner and sets its options
@@ -2105,7 +2096,7 @@
       //Attributes
       vm.message = false;
       
-      activate();
+      //activate();
       //////////////
 
       function activate(){
@@ -2568,6 +2559,8 @@
         function complete( events ){
           vm.count_following = events.filter( filterByPending ).length;
           vm.count_sponsoring = events.filter( filterByAccepted ).length;
+          console.log(vm.count_following);
+          console.log(vm.count_sponsoring);
         }
 
         function failed( error ){
@@ -3781,6 +3774,7 @@
     var vm = this;
     vm.event = {};
     vm.userAuth = $localStorage.userAuth;
+    vm.perks = [];
 
     vm.modalSponsorIt = null;
     vm.newSponsorIt = {};
@@ -3813,12 +3807,22 @@
         function complete( event ){
           utilsService.hideLoad();
           vm.event = event;
+          vm.perks = preparatePerks( vm.event );
         }
 
         function failed( error ){
           utilsService.hideLoad();
           console.log( error );
         }
+    }
+
+    function preparatePerks( event ){
+      var perks = event.perks;
+      for (var i = 0; i < perks.length; i++) {
+        perks[i].sponsorships = _.where(event.sponzorships, {perk_id: perks[i].id});
+        perks[i].tasks = _.where(event.perk_tasks, {perk_id: perks[i].id});
+      }
+      return perks;
     }
     
 
@@ -4638,6 +4642,7 @@
           utilsService.hideLoad();
           vm.tasks = groupByEvent( tasks );
           var total = tasks.filter( filterByDone ).length;
+          vm.showEmptyState = vm.tasks.length == 0 ? true : false;
           $rootScope.$broadcast('Menu:count_tasks', total);
         }
 

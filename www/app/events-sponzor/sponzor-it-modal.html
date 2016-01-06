@@ -9,7 +9,7 @@
 	  <form ng-submit="eventDetail.submitSponsorIt()" name="FormSponsorIt" novalidate class="padding">
       <ion-list>
         <ion-item>
-          {{ eventDetail.newSponsorIt.perk.kind }} - {{ eventDetail.newSponsorIt.perk.usd }}
+          {{ eventDetail.newSponsorIt.perk.kind }} - ${{ eventDetail.newSponsorIt.perk.usd }}
         </ion-item>
         <label class="item item-input item-floating-label">
           <span class="input-label">Cause:</span>
@@ -24,7 +24,7 @@
           <button class="button button-block" type="button" ng-click="eventDetail.closeModalSponsorIt()">Cancel</button>
         </div>
         <div class="col">
-          <button class="button button-block button-postive" type="submit" ng-disabled="FormSponsorIt.$invalid">Sponsor it!!</button>
+          <button class="button button-block button-positive" type="submit" ng-disabled="FormSponsorIt.$invalid">Sponsor it!!</button>
         </div>
       </div>
     </form>

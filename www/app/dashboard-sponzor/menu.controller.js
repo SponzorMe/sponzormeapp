@@ -58,6 +58,8 @@
         function complete( events ){
           vm.count_following = events.filter( filterByPending ).length;
           vm.count_sponsoring = events.filter( filterByAccepted ).length;
+          console.log(vm.count_following);
+          console.log(vm.count_sponsoring);
         }
 
         function failed( error ){

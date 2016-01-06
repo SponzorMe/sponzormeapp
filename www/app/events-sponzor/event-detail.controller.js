@@ -26,6 +26,7 @@
     var vm = this;
     vm.event = {};
     vm.userAuth = $localStorage.userAuth;
+    vm.perks = [];
 
     vm.modalSponsorIt = null;
     vm.newSponsorIt = {};
@@ -58,12 +59,22 @@
         function complete( event ){
           utilsService.hideLoad();
           vm.event = event;
+          vm.perks = preparatePerks( vm.event );
         }
 
         function failed( error ){
           utilsService.hideLoad();
           console.log( error );
         }
+    }
+
+    function preparatePerks( event ){
+      var perks = event.perks;
+      for (var i = 0; i < perks.length; i++) {
+        perks[i].sponsorships = _.where(event.sponzorships, {perk_id: perks[i].id});
+        perks[i].tasks = _.where(event.perk_tasks, {perk_id: perks[i].id});
+      }
+      return perks;
     }
     
 

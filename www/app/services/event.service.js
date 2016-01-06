@@ -82,15 +82,6 @@
           event.sponzorships = data.sponzorships;
           event.starts = moment(event.starts)._d;
           event.ends = moment(event.ends)._d;
-
-          for (var i = 0; i < event.perks.length; i++) {
-            event.perks[i].tasks = [];
-            for (var j = 0; j < event.perk_tasks.length; j++) {
-              if(event.perks[i].id == event.perk_tasks[j].perk_id){
-                event.perks[i].tasks.push(event.perk_tasks[j]);
-              }
-            }
-          }
           return event;
         }
       }
