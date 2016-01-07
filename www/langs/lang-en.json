@@ -247,6 +247,7 @@
         "succ_user_mess": "Cool, User Created.",
         "succ_event_tit": "Info",
         "succ_event_mess": "Cool, Event Created",
-        "succ_add_to_calendar": "Nice, Your event has been added to the calendar"
+        "succ_add_to_calendar": "Nice, Your event has been added to the calendar",
+        "succ_sponsor_it": "Cool, Now you are sponsor of this event."
     }
 }
