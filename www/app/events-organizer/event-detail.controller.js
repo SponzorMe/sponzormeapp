@@ -35,7 +35,7 @@
     var popupOptionsSponsorship = null;
     var hideSheet = null;
     var optionsActionSheet = [];
-    var url = BackendVariables.url;
+    var url = BackendVariables.url_web;
     //Attributes
     vm.event = {};
     vm.deleteEvent = deleteEvent;
@@ -182,8 +182,8 @@
     }
 
     function shareEvent(){
-      var message = vm.event.description;
-      var subject = vm.event.title
+      var message = vm.event.title;
+      var subject = vm.event.description;
       var image = vm.event.image;
       var link =  url + '#/event/' + vm.event.id;
       $cordovaSocialSharing

@@ -8,7 +8,8 @@
   angular
     .module('app')
     .value('BackendVariables',{
-      url: "http://apilocal.sponzor.me/", // i'm using the Ionic Proxy
+      url: "https://apilocal.sponzor.me/", // i'm using the Ionic Proxy
+      url_web: "https://staging.sponzor.me/",
       ready: "false"
     })
     .value('gAnalytics',{
