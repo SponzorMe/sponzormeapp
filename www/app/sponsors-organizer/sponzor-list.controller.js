@@ -19,10 +19,11 @@
     '$ionicPopup',
     '$ionicScrollDelegate',
     '$scope',
-    '$rootScope'
+    '$rootScope',
+    '$ionicHistory'
   ];
 
-  function SponzorListController( $localStorage, sponzorshipService , utilsService, $ionicPopover, $ionicPopup, $ionicScrollDelegate, $scope, $rootScope) {
+  function SponzorListController( $localStorage, sponzorshipService , utilsService, $ionicPopover, $ionicPopup, $ionicScrollDelegate, $scope, $rootScope, $ionicHistory) {
 
     var vm = this;
     var eventsPopover = null;
@@ -148,6 +149,7 @@
         function complete( sponzorRta ){
           utilsService.hideLoad();
           sponzor.status = sponzorRta.status;
+          $ionicHistory.clearCache();
         }
 
         function failed( error ){

@@ -46,7 +46,9 @@
   "images": [
     "./src/client/content/images/**/*"
   ],
+  "fonts": [
+    "./www/lib/ionic/fonts/**/*.*"
+  ],
   "report": "./report/",
-  "buildjs": "./www/build/js",
-  "buildcss": "./www/build/css"
+  "build": "./www/build/"
 }

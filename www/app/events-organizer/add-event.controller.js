@@ -64,10 +64,10 @@
 
       vm.sponsors = [];
       vm.newEvent.access = true;
-      vm.newEvent.starttime = "00:00:00";
-      vm.newEvent.start = "2015-12-28";
-      vm.newEvent.endtime = "01:00:00";
-      vm.newEvent.end = "2015-12-28";
+      vm.newEvent.starttime = "13:00:00";
+      vm.newEvent.start = "2016-01-09";
+      vm.newEvent.endtime = "15:00:00";
+      vm.newEvent.end = "2016-01-09";
 
       $ionicModal.fromTemplateUrl('app/events-organizer/sponsor-modal.html', {
         scope: $scope,
@@ -224,7 +224,9 @@
             disableAnimate: false,
             disableBack: true
           });
-          $state.go("organizer.events.list");
+          $ionicHistory.clearCache().then(function(){
+            $state.go("organizer.events.list");
+          });
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_event_mess"));
         }
 

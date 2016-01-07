@@ -15,10 +15,11 @@
     '$state',
     '$localStorage',
     'sponzorshipService',
-    '$rootScope'
+    '$rootScope',
+    '$ionicHistory'
   ];
 
-  function MenuSponzorCtrl( $state, $localStorage, sponzorshipService, $rootScope ) {
+  function MenuSponzorCtrl( $state, $localStorage, sponzorshipService, $rootScope, $ionicHistory ) {
 
     var vm = this;
     //Attributes
@@ -47,7 +48,9 @@
 
     function logout(){
       $localStorage.$reset();
-      $state.go('signin');
+      $ionicHistory.clearCache().then(function(){
+        $state.go('signin');
+      });
     }
 
     function getCounts(){

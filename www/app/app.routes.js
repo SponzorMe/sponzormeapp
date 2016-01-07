@@ -12,6 +12,7 @@
   function routeConfig($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider) {
 
     $ionicConfigProvider.views.swipeBackEnabled(false);
+    $ionicConfigProvider.views.maxCache(10);
 
     function getDefaultRoute(){
 
@@ -46,14 +47,12 @@
         url: "/profile",
         templateUrl: "app/users/form-profile.html",
         controller: "FormProfileController as profile",
-        cache: false,
       })
 
       .state('interests', {
         url: "/interests",
         templateUrl: "app/users/form-interests.html",
         controller: "FormInterestsController as interests",
-        cache: false,
       })
 
       .state('forgot-password', {
@@ -99,7 +98,6 @@
             controller: "ProfileController as profile"
           }
         },
-        cache: false,
       })
 
       .state('organizer.events', {
@@ -119,8 +117,7 @@
             templateUrl: "app/events-organizer/event-list.html",
             controller: "EventListController as eventList"
           }
-        },
-        cache: false
+        }
       })
 
       .state('organizer.events.detail-list', {
@@ -131,7 +128,6 @@
             controller: "EventDetailOrganizerController as eventDetail"
           }
         },
-        cache: false,
       })
 
 
@@ -142,8 +138,7 @@
             templateUrl: "app/events-organizer/past-events.html",
             controller: "PastEventsController as eventList"
           }
-        },
-        cache: false
+        }
       })
 
       .state('organizer.events.detail-past', {
@@ -153,8 +148,7 @@
             templateUrl: "app/events-organizer/event-detail.html",
             controller: "EventDetailOrganizerController as eventDetail"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('organizer.addevent', {
@@ -174,8 +168,7 @@
             templateUrl: "app/events-organizer/edit-event.html",
             controller: "EditEventController as editEvent"
           }
-        },
-        cache: false
+        }
       })
 
       .state('organizer.event', {
@@ -185,8 +178,7 @@
             templateUrl: "app/events-organizer/event-detail.html",
             controller: "EventDetailOrganizerController as eventDetail"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('organizer.sponsors', {
@@ -196,8 +188,7 @@
             templateUrl: "app/sponsors-organizer/sponzor-list.html",
             controller: "SponzorListController as sponzorList"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('organizer.sponzor', {
@@ -207,8 +198,7 @@
             templateUrl: "app/sponsors-organizer/sponzor-detail.html",
             controller: "SponsorshipDetailController as sponzorDetail"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('organizer.tasks', {
@@ -218,8 +208,7 @@
             templateUrl: "app/tasks-organizer/task-list.html",
             controller: "TaskListController as taskList"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('organizer.addTask', {
@@ -229,8 +218,7 @@
             templateUrl: "app/tasks-organizer/add-task.html",
             controller: "AddTaskController as addTask"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('organizer.editTask', {
@@ -240,8 +228,7 @@
             templateUrl: "app/tasks-organizer/edit-task.html",
             controller: "EditTaskController as editTask"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('organizer.invite', {
@@ -292,8 +279,7 @@
             templateUrl: "app/dashboard-sponzor/home.html",
             controller: "HomeSponzorController as home"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('sponzor.following', {
@@ -303,8 +289,7 @@
             templateUrl: "app/events-sponzor/follow-events.html",
             controller: "FollowEventsController as follow"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('sponzor.sponzoring', {
@@ -314,8 +299,7 @@
             templateUrl: "app/events-sponzor/sponzoring-events.html",
             controller: "SponzoringEventsController as sponzoring"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('sponzor.profile', {
@@ -325,8 +309,7 @@
             templateUrl: "app/users/profile.html",
             controller: "ProfileController as profile"
           }
-        },
-        cache: false
+        }
       })
 
       .state('sponzor.event', {

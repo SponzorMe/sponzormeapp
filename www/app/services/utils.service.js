@@ -15,7 +15,8 @@
     '$ionicLoading',
     '$ionicPopup',
     '$translate',
-    '$localStorage'
+    '$localStorage',
+    '$ionicHistory'
   ];
 
   function utilsService( $ionicLoading, $ionicPopup, $translate, $localStorage) {

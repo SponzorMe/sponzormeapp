@@ -16,18 +16,21 @@ var inject = require('gulp-inject');
 gulp.task('default', ['dev']);
 
 gulp.task('sass', function(done) {
+
+  var dest = paths.build + 'css';
+
   gulp.src( paths.sass )
     .pipe(sass({
       errLogToConsole: true
     }))
-    .pipe(gulp.dest( paths.buildcss ))
+    .pipe(gulp.dest( dest ))
     .pipe(bytediff.start())
     .pipe(minifyCss({
       keepSpecialComments: 0
     }))
     .pipe(bytediff.stop(bytediffFormatter))
     .pipe(rename({ extname: '.min.css' }))
-    .pipe(gulp.dest( paths.buildcss ))
+    .pipe(gulp.dest( dest ))
     .on('end', done);
 });
 
@@ -35,14 +38,17 @@ gulp.task('sass', function(done) {
  * Minify and bundle the js
  */
 gulp.task('js', function(done) {
+
+  var dest = paths.build + 'js';
+
   gulp.src( paths.js )
     .pipe(concat('app.js'))
     .pipe(bytediff.start())
-    .pipe(gulp.dest( paths.buildjs ))
+    .pipe(gulp.dest( dest))
     .pipe(uglify())
     .pipe(bytediff.stop(bytediffFormatter))
     .pipe(rename({ extname: '.min.js' }))
-    .pipe(gulp.dest(paths.buildjs))
+    .pipe(gulp.dest( dest ))
     .on('end', done);
 });
 
@@ -63,14 +69,16 @@ gulp.task('watch', function() {
 gulp.task('vendorjs', function( done ) {
   //Bundling, minifying, and copying the Vendor JavaScript
 
+  var dest = paths.build + 'js';
+
   gulp.src( paths.vendorjs )
     .pipe(concat('vendors.js'))
     .pipe(bytediff.start())
-    .pipe(gulp.dest( paths.buildjs ))
+    .pipe(gulp.dest( dest ))
     .pipe(uglify())
     .pipe(bytediff.stop(bytediffFormatter))
     .pipe(rename({ extname: '.min.js' }))
-    .pipe(gulp.dest(paths.buildjs))
+    .pipe(gulp.dest( dest ))
     .on('end', done);
 });
 
@@ -79,14 +87,16 @@ gulp.task('vendorjs', function( done ) {
  */
 gulp.task('css', function( done ) {
 
+  var dest = paths.build + 'css';
+
   gulp.src( paths.css )
     .pipe(concat('app.css'))
     .pipe(bytediff.start())
-    .pipe(gulp.dest( paths.buildcss ))
+    .pipe(gulp.dest( dest ))
     .pipe(minifyCss())
     .pipe(bytediff.stop(bytediffFormatter))
     .pipe(rename({ extname: '.min.css' }))
-    .pipe(gulp.dest( paths.buildcss ))
+    .pipe(gulp.dest( dest ))
     .on('end', done);
 });
 
@@ -100,6 +110,17 @@ gulp.task('release', [ 'sass', 'css', 'vendorjs', 'js' ] , function ( done ) {
     .pipe( inject( vendors , {relative: true, name: 'head'} ))
     .pipe( inject( js, {relative: true} ))
     .pipe( gulp.dest('./www') )
+    .on('end', done);
+});
+
+/**
+ * Copy fonts
+ */
+gulp.task('fonts', function( done ) {
+  var dest = paths.build + 'fonts';
+  gulp
+    .src(paths.fonts)
+    .pipe(gulp.dest(dest))
     .on('end', done);
 });
 

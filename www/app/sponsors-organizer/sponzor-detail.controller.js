@@ -17,10 +17,11 @@
     'utilsService',
     '$ionicPopup',
     '$stateParams',
-    '$scope'
+    '$scope',
+    '$ionicHistory'
   ];
 
-  function SponsorshipDetailController( $localStorage, sponzorshipService , utilsService, $ionicPopup, $stateParams, $scope) {
+  function SponsorshipDetailController( $localStorage, sponzorshipService , utilsService, $ionicPopup, $stateParams, $scope, $ionicHistory) {
 
     var vm = this;
     //Atributes
@@ -94,6 +95,7 @@
         function complete( sponsorship ){
           utilsService.hideLoad();
           vm.sponsorship.status = sponsorship.status;
+          $ionicHistory.clearCache();
         }
 
         function failed( error ){

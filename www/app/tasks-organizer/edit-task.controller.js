@@ -83,7 +83,9 @@
             disableAnimate: false,
             disableBack: true
           });
-          $ionicHistory.goBack();
+          $ionicHistory.clearCache().then(function(){
+            $ionicHistory.goBack();
+          });
         }
 
         function failed( error ){

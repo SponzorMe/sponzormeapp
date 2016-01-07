@@ -15,10 +15,11 @@
     '$translate',
     'userService', 
     '$state',
-    'utilsService'
+    'utilsService',
+    '$ionicHistory'
   ];
 
-  function ForgotController( $translate, userService, $state , utilsService) {
+  function ForgotController( $translate, userService, $state , utilsService, $ionicHistory) {
 
     var vm = this;
     vm.user = {};
@@ -34,7 +35,9 @@
 
         function resetPasswordComplete(){
           utilsService.hideLoad();
-          $state.go("signin");
+          $ionicHistory.clearCache().then(function(){
+            $state.go("signin");
+          });
           vm.user = {};
         }
 

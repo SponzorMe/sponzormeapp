@@ -251,7 +251,9 @@
             disableAnimate: false,
             disableBack: true
           });
-          $ionicHistory.goBack();
+          $ionicHistory.clearCache().then(function(){
+            $ionicHistory.goBack();
+          });
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_event_mess"));
         }
 

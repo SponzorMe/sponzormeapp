@@ -18,10 +18,11 @@
     '$stateParams',
     'sponzorshipService',
     '$localStorage',
-    '$ionicModal'
+    '$ionicModal',
+    '$ionicHistory'
   ];
 
-  function EventDetailSponzorController( $scope, eventService , utilsService, $stateParams, sponzorshipService, $localStorage, $ionicModal) {
+  function EventDetailSponzorController( $scope, eventService , utilsService, $stateParams, sponzorshipService, $localStorage, $ionicModal, $ionicHistory) {
 
     var vm = this;
     vm.event = {};
@@ -99,6 +100,7 @@
 
         function complete( event ){
           vm.closeModalSponsorIt();
+          $ionicHistory.clearCache();
           console.log( event );
         }
 
