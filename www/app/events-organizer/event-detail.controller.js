@@ -25,15 +25,17 @@
     '$ionicSideMenuDelegate',
     '$ionicHistory',
     '$cordovaToast',
-    '$translate'
+    '$translate',
+    'BackendVariables'
   ];
 
-  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponzorshipService, $ionicPopup, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory, $cordovaToast, $translate) {
+  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponzorshipService, $ionicPopup, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory, $cordovaToast, $translate, BackendVariables) {
 
     var vm = this;
     var popupOptionsSponsorship = null;
     var hideSheet = null;
     var optionsActionSheet = [];
+    var url = BackendVariables.url;
     //Attributes
     vm.event = {};
     vm.deleteEvent = deleteEvent;
@@ -182,9 +184,8 @@
     function shareEvent(){
       var message = vm.event.description;
       var subject = vm.event.title
-      var image = null;
-      //var link = 'http://app.sponzor.me/#/event/' + vm.event.id;
-      var link = 'https://sponzor.me/#/event/' + vm.event.id;
+      var image = vm.event.image;
+      var link =  url + '#/event/' + vm.event.id;
       $cordovaSocialSharing
         .share( message, subject, image, link) // Share via native share sheet
         .then( complete )
