@@ -36,7 +36,7 @@
     ////////////
 
     function showLoad(){
-      $ionicLoading.show({
+      return $ionicLoading.show({
         animation: 'fade-in',
         showBackdrop: false,
         maxWidth: 200,
@@ -50,20 +50,24 @@
     }
 
     function alert( msg ){
-      msg.title = msg.title || 'Ocurrió un error.';
-      msg.template  = msg.template || 'Intento de nuevo.';
-      return $ionicPopup.alert( msg );
+      var options = msg || {};
+      options.title = options.title || 'Ocurrió un error.';
+      options.template  = options.template || 'Intento de nuevo.';
+      return $ionicPopup.alert( options );
     }
 
     function confirm( msg ){
-      msg.title = msg.title || '¿ Estas seguro ?';
-      msg.template  = msg.template || 'Estas seguro de eliminar.';
-      return $ionicPopup.confirm( msg );
+      var options = msg || {};
+      options.title = options.title || '¿ Estas seguro ?';
+      options.template  = options.template || 'Estas seguro de eliminar.';
+      return $ionicPopup.confirm( options );
     }
 
     function trim( str ){
-      str = str.toString();
-      return str.replace(/^\s+|\s+$/g,"");
+      if(typeof(str) == "string" || typeof(str) == "number" || typeof(str) == "boolean"){
+        return str.toString().replace(/^\s+|\s+$/g,"");
+      }
+      return "";
     };
 
     function resetForm( form ){
