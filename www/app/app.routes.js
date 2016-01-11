@@ -322,6 +322,16 @@
         }
       })
 
+      .state('sponzor.event-tasks', {
+        url: "/event-tasks/:idEvent",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/events-sponsor/event-detail-tasks.html",
+            controller: "EventDetailTasksSponzorController as eventDetail"
+          }
+        }
+      })
+
       .state('sponzor.invite', {
         url: "/invite",
         views: {
