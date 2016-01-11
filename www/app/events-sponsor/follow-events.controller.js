@@ -77,6 +77,9 @@
       return item.status != '1';
     }
     
+    function filterDate( item ){
+      return moment(item.ends).isAfter(new Date());
+    }
 
   }
 })();

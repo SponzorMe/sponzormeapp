@@ -45,7 +45,7 @@
     function activate(){
       getEvent();
 
-      $ionicModal.fromTemplateUrl('app/events-sponzor/sponzor-it-modal.html', {
+      $ionicModal.fromTemplateUrl('app/events-sponsor/sponsor-it-modal.html', {
         scope: $scope,
         animation: 'slide-in-up'
       }).then(function(modal) {

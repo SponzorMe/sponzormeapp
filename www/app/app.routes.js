@@ -286,7 +286,7 @@
         url: "/following",
         views: {
           'menuContent' :{
-            templateUrl: "app/events-sponzor/follow-events.html",
+            templateUrl: "app/events-sponsor/follow-events.html",
             controller: "FollowEventsController as follow"
           }
         }
@@ -296,7 +296,7 @@
         url: "/sponzoring",
         views: {
           'menuContent' :{
-            templateUrl: "app/events-sponzor/sponzoring-events.html",
+            templateUrl: "app/events-sponsor/sponsoring-events.html",
             controller: "SponzoringEventsController as sponzoring"
           }
         }
@@ -316,7 +316,7 @@
         url: "/event/:idEvent",
         views: {
           'menuContent' :{
-            templateUrl: "app/events-sponzor/event-detail.html",
+            templateUrl: "app/events-sponsor/event-detail.html",
             controller: "EventDetailSponzorController as eventDetail"
           }
         }

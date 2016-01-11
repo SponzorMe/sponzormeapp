@@ -13,16 +13,16 @@
         </div>
       </div>
     </div>
-    <div class="list card" ng-repeat="event in follow.events">
-      <div class="item item-divider"> 
-        <i class="icon" ng-class="{'ion-pin': event.status == 0, 'ion-close': event.status == 2}"></i> {{ event.title }}
-      </div>
-      <a class="item item-body" href="#/sponzor/event/{{ event.event_id }}">
-        <p>{{ event.cause }}</p>
-        <p><strong>Email:</strong> {{ event.email }}</p>
-        <p><strong>Perk:</strong> {{ event.kind }}</p>
-        <p><strong>Start:</strong> {{ event.starts | date: 'MMMM d, y' }}</p>
-      </a>
-    </div>
+    <ion-list>
+      <ion-item href="#/sponzor/event/{{ event.event_id }}" class="event" ng-repeat="event in follow.events | filter:search | orderBy:'starts' " ng-style="{'background-image': 'url(' + event.image + ')'}">
+        <i class="icon" ng-class="{'ion-pin': event.status == 0, 'ion-close': event.status == 2}"></i> 
+        <p>
+          {{ event.cause | limitTo:40 }}... </br> 
+          <strong>Perk:</strong> {{ event.kind }} </br> 
+          {{event.title}} </br> 
+          {{event.starts | date: 'MMMM d, y'}} - {{event.ends | date: 'MMMM d, y'}}
+        </p>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

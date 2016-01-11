@@ -9352,9 +9352,10 @@ form label.item {
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='transparent', endColorstr='rgba(0,0,0,.7)',GradientType=0 );
       /* IE6-9 */ }
     .event .item-content p {
-      margin-top: 90px;
-      position: relative;
-      color: white; }
+      position: absolute;
+      color: #fff;
+      bottom: 5px;
+      width: 100%; }
     .event .item-content span.badge {
       bottom: 14px;
       top: auto; }

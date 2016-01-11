@@ -68,6 +68,7 @@
         sponzorship.perk = data.Perk || {};
         sponzorship.organizer = data.Organizer || {};
         sponzorship.event = data.Event || {};
+        sponzorship.tasks = data.Tasks || [];
         return sponzorship;
       }
 
@@ -92,12 +93,10 @@
 
         function preparateItem( item ){
           item.starts = moment(item.starts)._d;
+          item.ends = moment(item.ends)._d;
           return item;
         }
-
-        function filterDate( item ){
-          return moment(item.ends).isAfter(new Date());
-        }
+        
       }
 
       function failed( response ){
@@ -120,6 +119,7 @@
 
         function preparateItem( item ){
           item.starts = moment(item.starts)._d;
+          item.ends = moment(item.ends)._d;
           return item;
         }
       }
