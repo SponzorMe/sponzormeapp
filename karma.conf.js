@@ -37,7 +37,8 @@ module.exports = function(config) {
       //Controllers
       'www/app/**/*.controller.js',
       //Test
-      'tests/unit/services/*.service.spec.js',
+      'tests/unit/**/*.service.spec.js',
+      'tests/unit/**/*.controller.spec.js',
     ],
     singleRun : false,
     autowatch : false,

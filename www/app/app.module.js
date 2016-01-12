@@ -27,5 +27,6 @@
     'app.events-sponzor',
     'app.sponsors-organizer',
     'app.tasks-organizer',
+    'app.tasks-sponsor',
   ])
 })();

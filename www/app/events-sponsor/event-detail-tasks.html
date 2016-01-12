@@ -14,7 +14,7 @@
       <ion-slide-box show-pager="false" on-slide-changed="slideHasChanged($index)">
         <ion-slide>
           <ion-scroll style="height:90%">
-            <div class="row text-center" ng-show="eventDetail.perks.length == 0">
+            <div class="row text-center" ng-show="eventDetail.perks_tasks.length == 0">
               <div class="col">
                 <div class="empty-states">
                   <i class="icon ion-android-checkmark-circle"></i>
@@ -22,9 +22,12 @@
                 </div>
               </div>
             </div>
-            <ion-list type="card" ng-repeat="perk in eventDetail.perks">
-              <ion-item class="item-divider">
+            <ion-list type="card" ng-repeat="perk in eventDetail.perks_tasks">
+              <ion-item class="item-button-right">
                 {{ perk.kind }} - ${{ perk.usd }}
+                <a class="button button-positive" ng-href="#/sponzor/addTask/{{ eventDetail.event.id }}/{{ perk.id }}">
+                  <i class="icon ion-plus-round"></i>
+                </a>
               </ion-item>
               <ion-item ng-show="perk.tasks.length == 0">
                 {{'EVENTDETAIL.list_perk_task_empty' | translate}}
@@ -34,17 +37,12 @@
                 <h2> {{ task.title }} </h2>
                 <p> {{ task.description }} </p>
               </ion-item>
-              <ion-item >
-                <button type="button" class="button button-block button-positive" ng-click="eventDetail.createSponsorIt(perk)">
-                Sponsor it!!
-              </button>
-              </ion-item>
             </ion-list>
           </ion-scroll>
         </ion-slide>
         <ion-slide>
           <ion-scroll style="height:90%">
-            <div class="row text-center" ng-show="eventDetail.perks.length == 0">
+            <div class="row text-center" ng-show="eventDetail.perks_sponsorships.length == 0">
               <div class="col">
                 <div class="empty-states">
                   <i class="icon ion-flag"></i>
@@ -52,7 +50,7 @@
                 </div>
               </div>
             </div>
-            <ion-list type="card" ng-repeat="perk in eventDetail.perks">
+            <ion-list type="card" ng-repeat="perk in eventDetail.perks_sponsorships">
               <ion-item class="item-divider">
                 {{ perk.kind }} - ${{ perk.usd }}
               </ion-item>

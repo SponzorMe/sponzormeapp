@@ -29,14 +29,8 @@
     var vm = this;
     vm.event = {};
     vm.userAuth = $localStorage.userAuth;
-    vm.perks = [];
-
-    vm.modalSponsorIt = null;
-    vm.newSponsorIt = {};
-    vm.openModalSponsorIt = openModalSponsorIt;
-    vm.closeModalSponsorIt = closeModalSponsorIt;
-    vm.createSponsorIt = createSponsorIt;
-    vm.submitSponsorIt = submitSponsorIt;
+    vm.perks_tasks = [];
+    vm.perks_sponsorships = [];
 
     activate();
 
@@ -62,7 +56,8 @@
         function complete( event ){
           utilsService.hideLoad();
           vm.event = event;
-          vm.perks = preparatePerks( vm.event );
+          vm.perks_tasks = preparatePerksTasks( vm.event );
+          vm.perks_sponsorships = preparatePerksSponsorships( vm.event );
         }
 
         function failed( error ){
@@ -71,61 +66,34 @@
         }
     }
 
-    function preparatePerks( event ){
-      var perks = event.perks;
+    function preparatePerksTasks( event ){
+      var perks = filterBySponsorship( event );
       for (var i = 0; i < perks.length; i++) {
-        perks[i].sponsorships = _.where(event.sponzorships, {perk_id: perks[i].id});
-        perks[i].tasks = _.where( event.perk_tasks.filter( filterByTypePerk ), {perk_id: perks[i].id});
+        perks[i].tasks = _.where( event.perk_tasks.filter( filterByUser ), {perk_id: perks[i].id});
       }
       return perks;
     }
 
-    function filterByTypePerk( task ){
-      return task.type == '0'; //Organizer
-    }
-    
-
-    function openModalSponsorIt(){
-      vm.modalSponsorIt.show();
-    }
-
-    function closeModalSponsorIt(){
-      vm.modalSponsorIt.hide();
-      vm.newSponsorIt = {};
-    } 
-
-    function createSponsorIt( perk ){
-      vm.newSponsorIt.perk = perk;
-      vm.openModalSponsorIt();
-    } 
-
-    function submitSponsorIt(){
-      sponzorshipService.createSponzorship( preparateDataSponzorship() )
-        .then( complete )
-        .catch( failed );
-
-        function complete( event ){
-          vm.closeModalSponsorIt();
-          $ionicHistory.clearCache();
-          $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_sponsor_it"));
-          console.log( event );
-        }
-
-        function failed( error ){
-          vm.closeModalSponsorIt();
-          console.log( error );
-        }
-    }
-
-    function preparateDataSponzorship(){
-      return {
-        sponzor_id: vm.userAuth.id,
-        perk_id: vm.newSponsorIt.perk.id,
-        event_id: vm.event.id,
-        organizer_id: vm.event.organizer.id,
-        status: 0,
-        cause: vm.newSponsorIt.cause
+    function preparatePerksSponsorships( event ){
+      var perks = event.perks;
+      for (var i = 0; i < perks.length; i++) {
+        perks[i].sponsorships = _.where(event.sponzorships, {perk_id: perks[i].id});
       }
+      return perks;
+    }
+
+    function filterBySponsorship( event ){
+      var perks = [];
+      for (var i = 0; i < event.sponzorships.length; i++) {
+        if (event.sponzorships[i].sponzor_id == vm.userAuth.id) perks.push(event.sponzorships[i].perk_id);
+      };
+      return event.perks.filter(function( perk ){
+        return perks.indexOf( perk.id ) !== -1;
+      });
+    }
+
+    function filterByUser( task ){
+      return task.type == '1' && vm.userAuth.id == task.user_id; //Is a sponsor
     }
     
 

@@ -302,6 +302,16 @@
         }
       })
 
+      .state('sponzor.addTask', {
+        url: "/addTask/:idEvent/:idPerk",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/tasks-sponsor/add-task.html",
+            controller: "AddTaskSponsorController as addTask"
+          }
+        }
+      })
+
       .state('sponzor.profile', {
         url: "/profile",
         views: {
