@@ -20,10 +20,11 @@
     '$state',
     '$stateParams',
     '$ionicHistory',
-    '$q'
+    '$q',
+    'tasksSponsorService'
   ];
 
-  function EditTaskSponsorController( $localStorage, perkTaskService, perkService, userService, utilsService, $state, $stateParams, $ionicHistory, $q) {
+  function EditTaskSponsorController( $localStorage, perkTaskService, perkService, userService, utilsService, $state, $stateParams, $ionicHistory, $q, tasksSponsorService) {
 
     var vm = this;
     vm.newTask = {};
