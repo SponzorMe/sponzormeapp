@@ -25,7 +25,7 @@
             <ion-list type="card" ng-repeat="perk in eventDetail.perks_tasks">
               <ion-item class="item-button-right">
                 {{ perk.kind }} - ${{ perk.usd }}
-                <a class="button button-positive" ng-href="#/sponzor/addTask/{{ eventDetail.event.id }}/{{ perk.id }}">
+                <a class="button button-positive" ng-href="#/sponzor/addTask/{{ eventDetail.event.id }}/{{ perk.id }}/{{ eventDetail.event.organizer.id }}/{{ eventDetail.idSponsorShip }}">
                   <i class="icon ion-plus-round"></i>
                 </a>
               </ion-item>

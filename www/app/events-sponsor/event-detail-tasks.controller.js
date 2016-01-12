@@ -31,6 +31,7 @@
     vm.userAuth = $localStorage.userAuth;
     vm.perks_tasks = [];
     vm.perks_sponsorships = [];
+    vm.idSponsorShip = null;
 
     activate();
 
@@ -56,6 +57,7 @@
         function complete( event ){
           utilsService.hideLoad();
           vm.event = event;
+          vm.idSponsorShip = getIdSponsorship( vm.event.sponzorships ).id;
           vm.perks_tasks = preparatePerksTasks( vm.event );
           vm.perks_sponsorships = preparatePerksSponsorships( vm.event );
         }
@@ -64,6 +66,14 @@
           utilsService.hideLoad();
           console.log( error );
         }
+    }
+
+    function getIdSponsorship( sponzorships ){
+      sponzorships = sponzorships.filter(function( sponsorship ){
+        return sponsorship.sponzor_id == vm.userAuth.id;
+      });
+      if(sponzorships.length > 0) return sponzorships[0];
+      return null;
     }
 
     function preparatePerksTasks( event ){

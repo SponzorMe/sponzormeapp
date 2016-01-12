@@ -303,7 +303,7 @@
       })
 
       .state('sponzor.addTask', {
-        url: "/addTask/:idEvent/:idPerk",
+        url: "/addTask/:idEvent/:idPerk/:idOrganizer/:idSponsorship",
         views: {
           'menuContent' :{
             templateUrl: "app/tasks-sponsor/add-task.html",
