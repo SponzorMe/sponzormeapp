@@ -14,7 +14,11 @@ describe('when using a EventDetailTasksSponzorController', function(){
 		});
 	});
 
-	it('1. should define a array of tasks', function(){
-		expect(controller.tasks).toBeDefined();
+	it('1. should define a array of perks_tasks', function(){
+		expect(controller.perks_tasks).toBeDefined();
+	});
+
+	it('2. should define a array of perks_sponsorships', function(){
+		expect(controller.perks_sponsorships).toBeDefined();
 	});
 });

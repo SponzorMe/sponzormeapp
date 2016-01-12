@@ -312,6 +312,16 @@
         }
       })
 
+      .state('sponzor.editTask', {
+        url: "/editTask/:id",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/tasks-sponsor/edit-task.html",
+            controller: "EditTaskSponsorController as editTask"
+          }
+        }
+      })
+
       .state('sponzor.profile', {
         url: "/profile",
         views: {

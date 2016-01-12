@@ -8,10 +8,10 @@
   'use strict';
 
   angular
-    .module('app.tasks-organizer')
-    .controller('EditTaskController', EditTaskController);
+    .module('app.tasks-sponsor')
+    .controller('EditTaskSponsorController', EditTaskSponsorController);
 
-  EditTaskController.$inject = [
+  EditTaskSponsorController.$inject = [
     '$localStorage',
     'perkTaskService',
     'perkService',
@@ -23,11 +23,13 @@
     '$q'
   ];
 
-  function EditTaskController( $localStorage, perkTaskService, perkService, userService, utilsService, $state, $stateParams, $ionicHistory, $q) {
+  function EditTaskSponsorController( $localStorage, perkTaskService, perkService, userService, utilsService, $state, $stateParams, $ionicHistory, $q) {
 
     var vm = this;
     vm.newTask = {};
     vm.userAuth = $localStorage.userAuth;
+    vm.events = [];
+    vm.perks = [];
     vm.editTask = editTask;
     vm.deleteTask = deleteTask;
 
@@ -36,20 +38,27 @@
     ////////////
 
     function activate(){
-      getTask( $stateParams.id );
+      getData();
     }
 
-    function getTask( idTask ){
+    function getData(){
       utilsService.showLoad();
 
-      perkTaskService.getPerkTask( idTask )
+      var promises = [
+        userService.getUser( vm.userAuth.id ),
+        perkService.allPerks(),
+        perkTaskService.getPerkTask( $stateParams.id ),
+      ];
+
+      $q.all(promises)
         .then( complete )
         .catch( failed );
 
-        function complete( task ){
+        function complete( data ){
           utilsService.hideLoad();
-          vm.newTask = task;
-          vm.newTask.status = task.status == '1' ? true : false ;
+          getEvents( data[0] );
+          getPerks( data[1] );
+          getTask( data[2] );
         }
 
         function failed( error ){
@@ -57,8 +66,6 @@
           console.log( error );
         }
     }
-
-    
 
     function editTask( form ){
       utilsService.showLoad();
@@ -118,7 +125,33 @@
         type: 0,
         status: vm.newTask.status ? "1" : "0"
       }
-    }    
+    }
+
+    function getEvents( user ){
+      vm.events = user.events;
+    }
+
+    function getPerks( perks ){
+      vm.perks = perks;
+    }
+
+    function getTask( task ){
+      vm.newTask = task;
+      vm.newTask.status = task.status == '1' ? true : false ;
+      for (var i = 0; i < vm.events.length; i++) {
+        if(vm.events[i].id == vm.newTask.event_id){
+          vm.newTask.event = vm.events[i];
+          break;
+        }
+      }
+      for (var i = 0; i < vm.perks.length; i++) {
+        if(vm.perks[i].id == vm.newTask.perk.id){
+          vm.newTask.perk = vm.perks[i];
+          break;
+        }
+      }
+    }
+    
 
   }
 })();
