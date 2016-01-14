@@ -5,10 +5,13 @@
     "ionic": "driftyco/ionic-bower#1.1.0",
     "ionic-platform-web-client": "~0.2.1",
     "underscore": "~1.8.3",
-    "aws-sdk": "aws-sdk-js#~2.2.26"
+    "aws-sdk": "aws-sdk-js#~2.2.26",
+    "moment": "~2.11.1",
+    "angular-mocks": "~1.4.8",
+    "angular-base64": "~2.0.5",
+    "ngCordova": "~0.1.23-alpha"
   },
   "dependencies": {
-    "angular-moment": "~0.10.3",
     "ionic": "driftyco/ionic-bower#master"
   },
   "resolutions": {

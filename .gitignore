@@ -4,8 +4,7 @@
 node_modules/
 platforms/
 plugins/
-karma_html/
-test-reports/
+tests/coverage
 resources/ios/
 resources/android/
-SponzorMe.apk
+*.apk
