@@ -8,7 +8,7 @@ var bytediff = require('gulp-bytediff');
 var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
-var minifyCss = require('gulp-minify-css');
+var cssnano = require('gulp-cssnano');
 var rename = require('gulp-rename');
 var inject = require('gulp-inject');
 
@@ -25,9 +25,7 @@ gulp.task('sass', function(done) {
     }))
     .pipe(gulp.dest( dest ))
     .pipe(bytediff.start())
-    .pipe(minifyCss({
-      keepSpecialComments: 0
-    }))
+    .pipe(cssnano())
     .pipe(bytediff.stop(bytediffFormatter))
     .pipe(rename({ extname: '.min.css' }))
     .pipe(gulp.dest( dest ))
@@ -93,7 +91,7 @@ gulp.task('css', function( done ) {
     .pipe(concat('app.css'))
     .pipe(bytediff.start())
     .pipe(gulp.dest( dest ))
-    .pipe(minifyCss())
+    .pipe(cssnano())
     .pipe(bytediff.stop(bytediffFormatter))
     .pipe(rename({ extname: '.min.css' }))
     .pipe(gulp.dest( dest ))
