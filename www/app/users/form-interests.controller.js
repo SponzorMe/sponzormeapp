@@ -5,7 +5,7 @@
 * @version 0.1
 */
 (function() {
-  'use strict';
+  //'use strict';
 
   angular
     .module('app.users')

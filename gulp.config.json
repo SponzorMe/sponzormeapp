@@ -1,6 +1,7 @@
 {
   "test": "./tests/",
   "index": "./www/index.html",
+  "indexMocha": "./tests/unit/index.html",
   "includeCss": "./www/build/css/app.min.css",
   "includeVendors": "./www/build/js/vendors.min.js",
   "includeJs": "./www/build/js/app.min.js",
@@ -40,8 +41,8 @@
     "./www/app/**/*.directive.js",
     "./www/app/**/*.controller.js"
   ],
-  "specs": [
-    "./src/client/test/specs/*.spec.js"
+  "tests": [
+    "./tests/unit/**/*.spec.js"
   ],
   "images": [
     "./src/client/content/images/**/*"

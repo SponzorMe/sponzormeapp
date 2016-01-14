@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>Mocha Spec Runner</title>
+    <link rel="stylesheet" href="lib/mocha/mocha.css">
+    <!-- head:js -->
+    <script src="build/js/vendors.min.js"></script>
+    <!-- endinject -->
+  </head>
+  <body ng-app="app">
+    <div id="mocha"></div>
+    <script src="lib/mocha/mocha.js"></script>
+    <script src="lib/chai/chai.js"></script>
+    <script>
+        mocha.setup('bdd');
+    </script>
+    <script src="lib/angular-mocks/angular-mocks.js"></script>  
+    
+    <!-- inject:js -->
+    <script src="build/js/app.min.js"></script>
+    <!-- endinject -->
+
+    <!-- tests:js -->
+    <script src="services/test.spec.js"></script>
+    <!-- endinject -->
+
+    <script>
+        mocha.run();
+    </script>
+  </body>
+</html>

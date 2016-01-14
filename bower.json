@@ -9,7 +9,9 @@
     "moment": "~2.11.1",
     "angular-mocks": "~1.4.8",
     "angular-base64": "~2.0.5",
-    "ngCordova": "~0.1.23-alpha"
+    "ngCordova": "~0.1.23-alpha",
+    "mocha": "~2.3.4",
+    "chai": "~3.4.2"
   },
   "dependencies": {
     "ionic": "driftyco/ionic-bower#master"

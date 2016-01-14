@@ -1,6 +1,8 @@
 var gulp = require('gulp');
 var bower = require('bower');
 var sh = require('shelljs');
+var browserSync = require("browser-sync");
+var karmaServer = require("karma").Server;
 var paths = require('./gulp.config.json');
 //Gulps
 var gutil = require('gulp-util');
@@ -11,10 +13,16 @@ var uglify = require('gulp-uglify');
 var cssnano = require('gulp-cssnano');
 var rename = require('gulp-rename');
 var inject = require('gulp-inject');
+ 
 
+var isRelease = gutil.env.release;
+var isCoverage = gutil.env.coverage;
 
-gulp.task('default', ['dev']);
+gulp.task('default', ['sass']);
 
+/**
+ * Compile SASS to css
+ */
 gulp.task('sass', function(done) {
 
   var dest = paths.build + 'css';
@@ -65,7 +73,6 @@ gulp.task('watch', function() {
  * Minify and bundle the vendors js
  */
 gulp.task('vendorjs', function( done ) {
-  //Bundling, minifying, and copying the Vendor JavaScript
 
   var dest = paths.build + 'js';
 
@@ -98,6 +105,9 @@ gulp.task('css', function( done ) {
     .on('end', done);
 });
 
+/**
+ * Bundling, minifying, and copying the vendors for production
+ */
 gulp.task('release', [ 'sass', 'css', 'vendorjs', 'js' ] , function ( done ) {
   var css = gulp.src( paths.includeCss, {read: false});
   var vendors = gulp.src( paths.includeVendors, {read: false});
@@ -122,6 +132,9 @@ gulp.task('fonts', function( done ) {
     .on('end', done);
 });
 
+/**
+ * Bundling vendors for develop
+ */
 gulp.task('dev', [ 'sass' ] , function ( done ) {
   var css = gulp.src( paths.css, {read: false});
   var vendors = gulp.src( paths.vendorjs, {read: false});
@@ -134,6 +147,77 @@ gulp.task('dev', [ 'sass' ] , function ( done ) {
     .pipe( gulp.dest('./www') )
     .on('end', done);
 });
+
+/**
+ * Run tests unit
+ */
+gulp.task('run-test-unit', function( done ){
+
+  var reporters = ['mocha'];
+  if(isCoverage){
+    reporters.push('coverage');
+  }
+
+  var config = {
+    configFile: __dirname + getKarmaFile(),
+    singleRun: true,
+    reporters: reporters
+  };
+  new karmaServer(config, done).start();
+});
+
+/**
+ * Show Coverange
+ */
+gulp.task('test', ['run-test-unit'], function( done ){
+  if (isCoverage) {
+    browserSync.init({
+      notify: false,
+      port: 7777,
+      server: {
+        baseDir: ['tests/coverage']
+      }
+    });
+  }else{
+    done();
+  }
+});
+
+gulp.task('serve-mocha', ['build-mocha'], function(){
+  browserSync.init({
+    notify: false,
+    port: 8081,
+    server: {
+      baseDir: ['tests/unit', 'www']
+    },
+  });
+  gulp.watch(['www/**/*.*', 'tests/unit/**/*.spec.js'])
+    .on('change', browserSync.reload);
+});
+
+/**
+ * Bundling, minifying, and copying the vendors for production
+ */
+gulp.task('build-mocha', function ( done ) {
+
+  if(isRelease){
+    var vendors = gulp.src( paths.includeVendors, {read: false});
+    var js = gulp.src( paths.includeJs, {read: false});
+  }else{
+    var vendors = gulp.src( paths.vendorjs, {read: false});
+    var js = gulp.src( paths.js, {read: false});
+  }
+  var tests = gulp.src( paths.tests, {read: false});
+  
+  gulp.src( paths.indexMocha )
+    .pipe( inject( vendors , { ignorePath: ["/www/"], addRootSlash: false, name: 'head'} ))
+    .pipe( inject( js, { ignorePath: ["/www/"], addRootSlash: false } ))
+    .pipe( inject( tests , { relative: true, name: 'tests'} ))
+    .pipe( gulp.dest('./tests/unit') )
+    .on('end', done);
+
+});
+
 
 gulp.task('install', ['git-check'], function() {
   return bower.commands.install()
@@ -175,4 +259,9 @@ function bytediffFormatter(data) {
  */
 function formatPercent(num, precision) {  
     return (num * 100).toFixed(precision);
+}
+
+function getKarmaFile(){
+  if(isRelease) return '/karma.conf.release.js';
+  return '/karma.conf.js'
 }
