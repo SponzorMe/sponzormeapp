@@ -1,4 +1,4 @@
-describe("Imagur Service Unit Tests -", function() {
+describe("Service: imgurService", function() {
 
   var imgurService;
   var httpBackend;
@@ -17,12 +17,12 @@ describe("Imagur Service Unit Tests -", function() {
     imgurService = _imgurService_;
   }));
 
-  it('should define a uploadImage function', function(){
-    expect(imgurService.uploadImage).toBeDefined();
+  it('Should define a uploadImage function', function(){
+    chai.assert.isDefined(imgurService.uploadImage);
   });
 
   //Upload image
-  describe('- Test of upload Success Image', function() {
+  describe('Test of upload Success Image', function() {
 
     var $httpBackend;
     var rtaImage = 'http://i.imgur.com/SpKEBB5.jpg';
@@ -51,19 +51,19 @@ describe("Imagur Service Unit Tests -", function() {
       $httpBackend.verifyNoOutstandingRequest();
     });
 
-    it('Return Image.', function(  ) {
+    it('Return image', function(  ) {
       var returnedPromise = imgurService.uploadImage( 'database64' );
       var result;
       returnedPromise.then(function(image) {
         result = image;
       });
       $httpBackend.flush();
-      expect(result).toEqual(rtaImage);
+      chai.assert.equal(result, rtaImage);
     });
   });
 
   //Upload image
-  describe('- Test upload Failed Image', function() {
+  describe('Test upload Failed Image', function() {
 
     var $httpBackend;
 
@@ -91,7 +91,7 @@ describe("Imagur Service Unit Tests -", function() {
       $httpBackend.verifyNoOutstandingRequest();
     });
 
-    it('Return Image.', function(  ) {
+    it('Return error', function(  ) {
       var returnedPromise = imgurService.uploadImage( 'database64' );
       var result, error;
       returnedPromise.then(function(image) {
@@ -100,7 +100,7 @@ describe("Imagur Service Unit Tests -", function() {
         result = error;
       });
       $httpBackend.flush();
-      expect(result.message).toEqual('error');
+      chai.assert.equal(result.message, 'error');
     });
   });
   

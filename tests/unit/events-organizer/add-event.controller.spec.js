@@ -1,4 +1,4 @@
-describe('when using a AddEventController', function(){
+describe('Controller: AddEventController', function(){
 
 	//scope
 	var controller = {};
@@ -15,6 +15,6 @@ describe('when using a AddEventController', function(){
 	});
 
 	it('should define a createEvent function', function(){
-		expect(controller.createEvent).toBeDefined();
+		chai.assert.isDefined( controller.createEvent );
 	});
 });
