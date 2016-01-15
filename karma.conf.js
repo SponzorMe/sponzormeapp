@@ -39,6 +39,7 @@ module.exports = function( config ){
       "www/lib/angular-mocks/angular-mocks.js",
       'www/lib/chai/chai.js',
       'www/lib/chai-spies/chai-spies.js',
+      'tests/unit/mockData.js',
       //App
       "www/app/app.module.js",
       "www/app/app.routes.js",

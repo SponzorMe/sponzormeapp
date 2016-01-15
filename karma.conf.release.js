@@ -25,6 +25,7 @@ module.exports = function( config ){
       "www/lib/angular-mocks/angular-mocks.js",
       'www/lib/chai/chai.js',
       'www/lib/chai-spies/chai-spies.js',
+      'tests/unit/mockData.js',
       //App
       "www/build/js/app.js",
       //Tests
