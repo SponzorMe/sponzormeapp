@@ -1,4 +1,4 @@
-describe("Tasks Sponsors Service Testing -", function(){
+describe("Service: tasksSponsorService", function(){
 
 	var tasksSponsorService;
 
@@ -16,33 +16,37 @@ describe("Tasks Sponsors Service Testing -", function(){
     tasksSponsorService = _tasksSponsorService_;
   }));
 
- 	it('1 should define a getAllTasks function', function(){
-    expect(tasksSponsorService.getAllTasks).toBeDefined();
+ 	it('Should define a getAllTasks function', function(){
+    chai.assert.isDefined(tasksSponsorService.getAllTasks);
   });
 
-  it('2 should define a getTask function', function(){
-    expect(tasksSponsorService.getTask).toBeDefined();
+  it('Should define a getTask function', function(){
+    chai.assert.isDefined(tasksSponsorService.getTask);
   });
 
-  it('3 should define a editPutTask function', function(){
-    expect(tasksSponsorService.editPutTask).toBeDefined();
+  it('Should define a editPutTask function', function(){
+    chai.assert.isDefined(tasksSponsorService.editPutTask);
   });
 
-  it('4 should define a editPatchTask function', function(){
-    expect(tasksSponsorService.editPatchTask).toBeDefined();
+  it('Should define a editPatchTask function', function(){
+    chai.assert.isDefined(tasksSponsorService.editPatchTask);
   });
 
-  it('5 should define a editPacthTask function', function(){
-    expect(tasksSponsorService.deleteTask).toBeDefined();
+  it('Should define a editPacthTask function', function(){
+    chai.assert.isDefined(tasksSponsorService.editPatchTask);
   });
 
-  it('6 should define a editPacthTask function', function(){
-    expect(tasksSponsorService.createTask).toBeDefined();
+  it('Should define a editPacthTask function', function(){
+    chai.assert.isDefined(tasksSponsorService.createTask);
+  });
+
+  it('Should define a deleteTask function', function(){
+    chai.assert.isDefined(tasksSponsorService.deleteTask);
   });
 
  	///////////////////////////////////////////////////////////
 
-  describe('2. Test get all Tasks', function() {
+  describe('Test get all Tasks', function() {
 
     var $httpBackend;
     var response = {
@@ -70,19 +74,19 @@ describe("Tasks Sponsors Service Testing -", function(){
       $httpBackend.verifyNoOutstandingRequest();
     });
 
-	  it('2.1 should return a array of tasks', function(){
+	  it('Should return a array of tasks', function(){
       var result;
       tasksSponsorService.getAllTasks().then(function( tasks ) {
         result = tasks;
       });
       $httpBackend.flush();
-      expect(response.TasksSponzor).toEqual(result);
+      chai.expect(response.TasksSponzor).to.eql(result);
 	  });
   });
 
  	///////////////////////////////////////////////////////////
  	
-  describe('3. Test get Task', function() {
+  describe('Test get Task', function() {
 
     var $httpBackend;
     var response = {
@@ -113,23 +117,19 @@ describe("Tasks Sponsors Service Testing -", function(){
       $httpBackend.verifyNoOutstandingRequest();
     });
 
-	  it('3.1 should return the task object', function(){
+	  it('Should return the task object', function(){
       var result;
       tasksSponsorService.getTask( 1 ).then(function( task ) {
         result = task;
       });
       $httpBackend.flush();
-      expect(result).toEqual(jasmine.objectContaining({
-	      "organizer": {},
-		  	"sponzor": {},
-		  	"event": {}
-	    }));
+      chai.expect( result ).to.include.keys('organizer', 'sponzor', 'event');
 	  });
   });
 
 	///////////////////////////////////////////////////////////
  	
-  describe('4. Test create a task', function() {
+  describe('Test create a task', function() {
 
     var $httpBackend;
     var response = {
@@ -165,19 +165,19 @@ describe("Tasks Sponsors Service Testing -", function(){
       $httpBackend.verifyNoOutstandingRequest();
     });
 
-	  it('4.1 should return the new task object', function(){
+	  it('Should return the new task object', function(){
       var result;
       tasksSponsorService.createTask( {} ).then(function( task ) {
         result = task;
       });
       $httpBackend.flush();
-      expect(response.TaskSponzor).toEqual( result );
+      chai.expect(response.TaskSponzor).to.eql( result );
 	  });
   });
 
 	///////////////////////////////////////////////////////////
  	
-  describe('5. Test update task PATCH', function() {
+  describe('Test update task PATCH', function() {
 
     var $httpBackend;
     var response = {
@@ -215,19 +215,19 @@ describe("Tasks Sponsors Service Testing -", function(){
       $httpBackend.verifyNoOutstandingRequest();
     });
 
-	  it('5.1 should return the new task object', function(){
+	  it('Should return the new task object', function(){
       var result;
       tasksSponsorService.editPatchTask( 1, {} ).then(function( task ) {
         result = task;
       });
       $httpBackend.flush();
-      expect(response.TaskSponzor).toEqual( result );
+      chai.expect(response.TaskSponzor).to.eql( result );
 	  });
   });
 
 	///////////////////////////////////////////////////////////
  	
-  describe('6. Test update task PUT', function() {
+  describe('Test update task PUT', function() {
 
     var $httpBackend;
     var response = {
@@ -264,19 +264,19 @@ describe("Tasks Sponsors Service Testing -", function(){
       $httpBackend.verifyNoOutstandingRequest();
     });
 
-	  it('6.1 should return the new task object', function(){
+	  it('Should return the new task object', function(){
       var result;
       tasksSponsorService.editPutTask( 1, {} ).then(function( task ) {
         result = task;
       });
       $httpBackend.flush();
-      expect(response.TaskSponzor).toEqual( result );
+      chai.expect(response.TaskSponzor).to.eql( result );
 	  });
   });
 
 	///////////////////////////////////////////////////////////
  	
-  describe('7. Test delete task', function() {
+  describe('Test delete task', function() {
 
     var $httpBackend;
     var response = {
@@ -303,13 +303,13 @@ describe("Tasks Sponsors Service Testing -", function(){
       $httpBackend.verifyNoOutstandingRequest();
     });
 
-	  it('6.1 should return a message', function(){
+	  it('Should return a message', function(){
       var result;
       tasksSponsorService.deleteTask( 1 ).then(function( rta ) {
         result = rta;
       });
       $httpBackend.flush();
-      expect(response.message).toEqual( result.message );
+      chai.expect(response.message).to.eql( result.message );
 	  });
   });
 

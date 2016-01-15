@@ -24,6 +24,7 @@ module.exports = function( config ){
       //Vendors for testing
       "www/lib/angular-mocks/angular-mocks.js",
       'www/lib/chai/chai.js',
+      'www/lib/chai-spies/chai-spies.js',
       //App
       "www/build/js/app.js",
       //Tests
