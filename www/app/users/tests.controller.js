@@ -16,15 +16,16 @@
     'userInterestService',
     'userService',
     'sponsorshipService',
-    'perkTaskService'
+    'perkTaskService',
+    'perkService'
   ];
 
-  function TestsController( $localStorage, userInterestService, userService, sponsorshipService, perkTaskService) {
+  function TestsController( $localStorage, userInterestService, userService, sponsorshipService, perkTaskService, perkService) {
 
     var vm = this;
     vm.userAuth = $localStorage.userAuth || {};
 
-    getPerkTaskByOrganizer();
+    editPerkPatch();
     //////////////////////////////////////
 
     function rta( response ){
@@ -208,6 +209,42 @@
       .catch( rta );
     }
 
-    
+    function allPerks(){
+      perkService.allPerks()
+      .then( rta )
+      .catch( rta );
+    }
+
+    function getPerk(){
+      perkService.getPerk(3)
+      .then( rta )
+      .catch( rta );
+    }
+
+    function createPerk(){
+      perkService.createPerk({
+        id_event: 1018,
+        reserved_quantity: 0,
+        kind: 'Food',
+        total_quantity: 1,
+        usd: 1
+      })
+      .then( rta )
+      .catch( rta );
+    }
+
+    function deletePerk(){
+      perkService.deletePerk( 55 )
+      .then( rta )
+      .catch( rta );
+    }
+
+    function editPerkPatch(){
+      perkService.editPerkPatch( 56, {
+        kind: 'sd',
+      })
+      .then( rta )
+      .catch( rta );
+    }
   }
 })();

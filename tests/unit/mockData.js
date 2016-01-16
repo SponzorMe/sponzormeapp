@@ -33,6 +33,20 @@ var mockData = (function() {
       editPerkTaskPatch: editPerkTaskPatch,
       editPerkTaskPut: editPerkTaskPut,
       getPerkTaskByOrganizer: getPerkTaskByOrganizer
+    },
+    perkService: {
+      allPerks: allPerks,
+      getPerk: getPerk,
+      createPerk: createPerk,
+      deletePerk: deletePerk,
+      editPerkPatch: editPerkPatch,
+      editPerkPut: editPerkPut
+    }
+  }
+
+  function failed(){
+    return {
+      message: "message"
     }
   }
   
@@ -353,12 +367,97 @@ var mockData = (function() {
     }
   }
   
-
-  function failed(){
+  function allPerks(){
     return {
-      message: "message"
+      Perk: [
+        {
+          id: "3",
+          id_event: "1002",
+          kind: "A",
+          reserved_quantity: "0",
+          total_quantity: "2",
+          usd: "10"
+        },
+        {
+          id: "4",
+          id_event: "1004",
+          kind: "Food",
+          reserved_quantity: "0",
+          total_quantity: "1",
+          usd: "202"
+        },
+      ],
+      success: true
     }
   }
+
+  function getPerk(){
+    return {
+      data: {
+        Event: {},
+        Perk: {},
+        SponzorTasks: [],
+        Tasks: [
+          {
+            description: "asas sdsd",
+            event_id: "1002",
+            id: "11",
+            perk_id: "3",
+            status: "1",
+            title: "Prueba",
+            type: "1",
+            user_id: "1002"
+          },
+          {
+            description: "as",
+            event_id: "1002",
+            id: "15",
+            perk_id: "3",
+            status: "0",
+            title: "UNa tarea",
+            type: "1",
+            user_id: "1002"
+          }
+        ],
+      }
+    }
+  }
+
+  function createPerk(){
+    return {
+      Perk: {
+        id: 55,
+        id_event: "1018",
+        kind: "Food",
+        reserved_quantity: "0",
+        total_quantity: "1",
+        usd: "1"
+      },
+      message: "Inserted"
+    }
+  }
+
+  function deletePerk(){
+    return {
+      message: "Deleted"
+    }
+  }
+
+  function editPerkPatch(){
+    return {
+      Perk: {},
+      message: "Updated",
+      warnings: []
+    }
+  }
+
+  function editPerkPut(){
+    return {
+      Perk: {},
+      message: "Updated",
+    }
+  }
+  
 
   
 })();

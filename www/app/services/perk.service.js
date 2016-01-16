@@ -22,7 +22,6 @@
   function perkService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
 
     var path = BackendVariables.url;
-    var token = $localStorage.token;
 
     var service = {
       allPerks: allPerks,
@@ -38,34 +37,58 @@
     ////////////
 
     function allPerks(){
-      return $http.get(path + 'perks')
-        .then( complete )
-        .catch( failed );
+      return $http({
+        method: 'GET',
+        url: path + 'perks'
+      })
+      .then( complete )
+      .catch( failed );
 
       function complete( response ) {
         return $q.when( response.data.Perk );
       }
 
-      function failed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function getPerk( perkId ){
-      return $http.get(path + 'perks/' + perkId)
-        .then( complete )
-        .catch( failed );
+
+      //Validate
+      var typePerkId = typeof perkId;
+      if(typePerkId !== 'string' && typePerkId !== 'number') throw new Error();
+
+      return $http({
+        method: 'GET',
+        url: path + 'perks/' + perkId
+      })
+      .then( complete )
+      .catch( failed );
 
       function complete( response ) {
-        return $q.when( response );
+        return $q.when( preparateData(response.data.data) );
       }
 
-      function failed( error ) {
-        return $q.reject( error );
+      function preparateData( data ){
+        var perk = data.Perk;
+        perk.event = data.Event || {};
+        perk.sponzorTasks = data.SponzorTasks || [];
+        perk.tasks = data.Tasks || [];
+        return perk;
+      }
+
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function createPerk( data ){
+
+      //Validate
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'POST',
         url: path + 'perks',
@@ -79,15 +102,20 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( response.data.PerkTask );
+        return $q.when( response.data.Perk );
       }
 
-      function failed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function deletePerk( perkId ){
+
+      //Validate
+      var typePerkId = typeof perkId;
+      if(typePerkId !== 'string' && typePerkId !== 'number') throw new Error();
+
       return $http({
         method: 'DELETE',
         url: path + 'perks/' + perkId,
@@ -100,7 +128,7 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( response );
+        return $q.when( response.data );
       }
 
       function failed( response ) {
@@ -109,6 +137,13 @@
     }
 
     function editPerkPatch( perkId, data ){
+
+      //Validate
+      var typePerkId = typeof perkId;
+      if(typePerkId !== 'string' && typePerkId !== 'number') throw new Error();
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'PATCH',
         url: path + 'perks/' + perkId,
@@ -122,15 +157,22 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( response );
+        return $q.when( response.data.Perk );
       }
 
-      function failed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function editPerkPut( perkId, data ){
+
+      //Validate
+      var typePerkId = typeof perkId;
+      if(typePerkId !== 'string' && typePerkId !== 'number') throw new Error();
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'PUT',
         url: path + 'perks/' + perkId,
@@ -144,11 +186,11 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( response );
+        return $q.when( response.data.Perk );
       }
 
-      function failed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
