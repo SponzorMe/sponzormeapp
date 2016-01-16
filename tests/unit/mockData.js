@@ -41,6 +41,9 @@ var mockData = (function() {
       deletePerk: deletePerk,
       editPerkPatch: editPerkPatch,
       editPerkPut: editPerkPut
+    },
+    imgurService: {
+      uploadImage: uploadImage
     }
   }
 
@@ -455,6 +458,14 @@ var mockData = (function() {
     return {
       Perk: {},
       message: "Updated",
+    }
+  }
+
+  function uploadImage(){
+    return {
+      data: {
+        link : 'http://i.imgur.com/SpKEBB5.jpg'
+      }
     }
   }
   

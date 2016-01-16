@@ -30,6 +30,10 @@
     ////////////
 
     function uploadImage( image ){
+
+      var typeImage = typeof image;
+      if(typeImage !== 'string') throw new Error();
+
       return $http({
         method: 'POST',
         url: path + 'image',
@@ -49,7 +53,7 @@
       } 
 
       function failed( response ) {
-        return $q.reject( response.data.data );
+        return $q.reject( response.data );
       }
     }
 
