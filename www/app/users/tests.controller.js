@@ -17,15 +17,16 @@
     'userService',
     'sponsorshipService',
     'perkTaskService',
-    'perkService'
+    'perkService',
+    'eventTypeService'
   ];
 
-  function TestsController( $localStorage, userInterestService, userService, sponsorshipService, perkTaskService, perkService) {
+  function TestsController( $localStorage, userInterestService, userService, sponsorshipService, perkTaskService, perkService, eventTypeService) {
 
     var vm = this;
     vm.userAuth = $localStorage.userAuth || {};
 
-    editPerkPatch();
+    getEventType();
     //////////////////////////////////////
 
     function rta( response ){
@@ -243,6 +244,18 @@
       perkService.editPerkPatch( 56, {
         kind: 'sd',
       })
+      .then( rta )
+      .catch( rta );
+    }
+
+    function allEventTypes(){
+      eventTypeService.allEventTypes()
+      .then( rta )
+      .catch( rta );
+    }
+
+    function getEventType(){
+      eventTypeService.getEventType(1)
       .then( rta )
       .catch( rta );
     }

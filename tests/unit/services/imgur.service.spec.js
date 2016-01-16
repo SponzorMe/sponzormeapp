@@ -1,7 +1,6 @@
 describe("Service: imgurService", function() {
 
   var imgurService;
-  var httpBackend;
 
   beforeEach(function() {
     module('app');

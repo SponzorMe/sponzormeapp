@@ -73,6 +73,31 @@ describe("Service: utilsService", function(){
     });
   });
 
+  describe('When I use confirm method', function(){
+    //Assemble
+    it('Should have confirm method', function() {
+      //Act and Assert
+      chai.expect(utilsService.confirm).to.be.defined;
+    });
+    //Assemble
+    it('The alert method should return a object without parameters', function() {
+      //Act 
+      var response = utilsService.confirm();
+      //Assert
+      chai.assert.isObject( response );
+    });
+    //Assemble
+    it('The alert method should return a object with parameters', function() {
+      //Act 
+      var response = utilsService.confirm({
+        title: 'Prueba',
+        template: 'Mensaje'
+      });
+      //Assert
+      chai.assert.isObject( response );
+    });
+  });
+
   describe('When I use trim method', function(){
     //Assemble
     it('Should have trim method', function() {
@@ -98,6 +123,44 @@ describe("Service: utilsService", function(){
     it('Should have resetForm method', function() {
       //Act and Assert
       chai.assert.isDefined(utilsService.resetForm);
+    });
+
+    it('Should throw an error on an incompatible type', function(){
+      chai.assert.throws(function(){
+        utilsService.resetForm();
+      });
+      chai.assert.throws(function(){
+        utilsService.resetForm([]);
+      });
+      chai.assert.throws(function(){
+        utilsService.resetForm("as");
+      });
+      chai.assert.throws(function(){
+        utilsService.resetForm(1);
+      });
+      chai.assert.throws(function(){
+        utilsService.resetForm(Object);
+      });
+    });
+
+    it("Should not throw an error in case a string or number", function(){
+      chai.assert.doesNotThrow(function(){
+        var mockForm = {
+          $setPristine: function() {},
+          $setUntouched: function() {},
+        }
+        utilsService.resetForm(mockForm);
+      });
+    });
+
+    //Assemble
+    it('Should return an Undefined', function() {
+      //Act and Assert
+      var mockForm = {
+        $setPristine: function() {},
+        $setUntouched: function() {},
+      }
+      chai.assert.isUndefined(utilsService.resetForm( mockForm ));
     });
   });
 

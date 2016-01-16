@@ -71,10 +71,12 @@
     };
 
     function resetForm( form ){
-      if (form) {
-        form.$setPristine();
-        form.$setUntouched();
-      }
+      //Validate
+      var typeForm = typeof form;
+      if(typeForm !== 'object' || Array.isArray(form)) throw new Error();
+      
+      form.$setPristine();
+      form.$setUntouched();
     }
 
     function updateUserAuth( data ){

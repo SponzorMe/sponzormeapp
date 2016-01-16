@@ -44,6 +44,18 @@ var mockData = (function() {
     },
     imgurService: {
       uploadImage: uploadImage
+    },
+    eventTypeService: {
+      allEventTypes: allEventTypes,
+      getEventType: getEventType
+    },
+    tasksSponsorService: {
+      getAllTasks: getAllTasks,
+      getTask: getTask,
+      createTask: createTask,
+      editPutTask: editPutTask,
+      editPatchTask: editPatchTask,
+      deleteTask: deleteTask
     }
   }
 
@@ -468,7 +480,113 @@ var mockData = (function() {
       }
     }
   }
+
+  function allEventTypes(){
+    return {
+      eventTypes: [
+        {
+          description: "Give us your money",
+          id: "1",
+          lang: "en",
+          name: "Charity"
+        },
+        {
+          description: "Recruitment",
+          id: "2",
+          lang: "en",
+          name: "Recruitment"
+        }
+      ]
+    }
+  }
+
+  function getEventType(){
+    return {
+      data: {
+        eventTypes: {
+          description: "Give us your money",
+          events: [],
+          id: "1",
+          lang: "en",
+          name: "Charity"
+        }
+      }
+    }
+  }
   
+
+  function getAllTasks(){
+    return {
+      success: true,
+      TasksSponzor: []
+    }
+  }
+
+  function getTask(){
+    return {
+      data: {
+        Task: {},
+        Organizer: {},
+        Sponzor: {},
+        Event: {}
+      },
+      success: true,
+    }
+  }
+
+  function createTask(){
+    return {
+      message: "Inserted",
+      TaskSponzor: {
+        sponzor_id: "1",
+        perk_id: "1",
+        event_id: "1",
+        task_id: "1",
+        sponzorship_id: "1",
+        organizer_id: "2",
+        id: 2
+      }
+    }
+  }
+
+  function editPatchTask(){
+    return {
+      message: "Updated",
+      TaskSponzor: {
+        id: 2,
+        task_id: "1",
+        perk_id: "1",
+        sponzor_id: "1",
+        organizer_id: "2",
+        event_id: "1",
+        sponzorship_id: "1",
+        status: 0
+      }
+    }
+  }
+
+  function editPutTask(){
+    return {
+      message: "Updated",
+      warnings: [],
+      TaskSponzor: {
+        id: 2,
+        task_id: "1",
+        perk_id: "1",
+        sponzor_id: "1",
+        organizer_id: "2",
+        event_id: "1",
+        sponzorship_id: "1",
+        status: 0
+      }
+    }
+  }
+
+  function deleteTask(){
+    return {
+      message: "Deleted"
+    }
+  }
 
   
 })();

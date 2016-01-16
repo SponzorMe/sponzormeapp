@@ -57,14 +57,19 @@
       }
 
       function failed( response ) {
-        return $q.reject( response );
+        return $q.reject( response.data );
       }
     }
 
-    function getTask( id ){
+    function getTask( taskId ){
+
+      //Validate
+      var typeTaskId = typeof taskId;
+      if(typeTaskId !== 'string' && typeTaskId !== 'number') throw new Error();
+
       return $http({
         method: 'GET',
-        url: path + 'task_sponzor/' +  id,
+        url: path + 'task_sponzor/' +  taskId,
         headers: {
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
@@ -74,7 +79,7 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( preparateTask( response.data ) );
+        return $q.when( preparateTask( response.data.data ) );
       }
 
       function preparateTask( data ){
@@ -86,11 +91,16 @@
       }
 
       function failed( response ) {
-        return $q.reject( response );
+        return $q.reject( response.data );
       }
     }
 
     function createTask( data ){
+
+      //Validate
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'POST',
         url: path + 'task_sponzor',
@@ -108,14 +118,22 @@
       }
 
       function failed( response ) {
-        return $q.reject( response );
+        return $q.reject( response.data );
       }
     }
 
-    function editPutTask( id, data ){
+    function editPutTask( taskId, data ){
+
+
+      //Validate
+      var typeTaskId = typeof taskId;
+      if(typeTaskId !== 'string' && typeTaskId !== 'number') throw new Error();
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'PUT',
-        url: path + 'task_sponzor/' +  id,
+        url: path + 'task_sponzor/' +  taskId,
         headers: {
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
@@ -130,14 +148,21 @@
       }
 
       function failed( response ) {
-        return $q.reject( response );
+        return $q.reject( response.data );
       }
     }
 
-    function editPatchTask( id, data ){
+    function editPatchTask( taskId, data ){
+
+      //Validate
+      var typeTaskId = typeof taskId;
+      if(typeTaskId !== 'string' && typeTaskId !== 'number') throw new Error();
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'PATCH',
-        url: path + 'task_sponzor/' +  id,
+        url: path + 'task_sponzor/' +  taskId,
         headers: {
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
@@ -152,14 +177,19 @@
       }
 
       function failed( response ) {
-        return $q.reject( response );
+        return $q.reject( response.data );
       }
     }
 
-    function deleteTask( id ){
+    function deleteTask( taskId ){
+
+      //Validate
+      var typeTaskId = typeof taskId;
+      if(typeTaskId !== 'string' && typeTaskId !== 'number') throw new Error();
+
       return $http({
         method: 'DELETE',
-        url: path + 'task_sponzor/' +  id,
+        url: path + 'task_sponzor/' +  taskId,
         headers: {
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
@@ -173,7 +203,7 @@
       }
 
       function failed( response ) {
-        return $q.reject( response );
+        return $q.reject( response.data );
       }
     }
 
