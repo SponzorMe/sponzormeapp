@@ -24,6 +24,15 @@ var mockData = (function() {
       deleteSponzorship: deleteSponzorship,
       editSponzorshipPatch: editSponzorshipPatch,
       editSponzorshipPut: editSponzorshipPut
+    },
+    perkTaskService:{
+      allPerkTasks: allPerkTasks,
+      getPerkTask: getPerkTask,
+      createPerkTask: createPerkTask,
+      deletePerkTask: deletePerkTask,
+      editPerkTaskPatch: editPerkTaskPatch,
+      editPerkTaskPut: editPerkTaskPut,
+      getPerkTaskByOrganizer: getPerkTaskByOrganizer
     }
   }
   
@@ -228,7 +237,121 @@ var mockData = (function() {
     }
   }
   
+  function allPerkTasks(){
+    return {
+      PerkTasks: [
+        {
+          description: "asas sdsd",
+          eventEnds: "2016-01-31 09:57:00",
+          eventStart: "2016-01-30 03:54:00",
+          eventTitle: "My Second Event",
+          event_id: "1002",
+          id: "11",
+          perk_id: "3",
+          status: "1",
+          title: "Prueba",
+          type: "1",
+          user_id: "1002"
+        },
+        {
+          description: "asas sdsd",
+          eventEnds: "2016-01-31 09:57:00",
+          eventStart: "2016-01-30 03:54:00",
+          eventTitle: "My Second Event",
+          event_id: "1002",
+          id: "11",
+          perk_id: "3",
+          status: "1",
+          title: "Prueba",
+          type: "1",
+          user_id: "1002"
+        },
+      ],
+      success: true
+    }
+  }
 
+  function getPerkTask(){
+    return {
+      data: {
+        Event: {},
+        Perk: {},
+        PerkTask: {},
+        User: {}
+      }
+    }
+  }
+
+  function createPerkTask(){
+    return {
+      PerkTask: {
+        description: "Bla bla",
+        event_id: "1018",
+        id: 35,
+        perk_id: "18",
+        status: "0",
+        title: "Tarea",
+        type: "0",
+        user_id: "1007",
+      },
+      message: "Inserted"
+    }
+  }
+
+  function deletePerkTask(){
+    return {
+      message: "Deleted"
+    }
+  }
+
+  function editPerkTaskPatch(){
+    return {
+      PerkTask:{},
+      message: "Updated",
+      warnings: []
+    }
+  }
+
+  function editPerkTaskPut(){
+    return {
+      PerkTask:{},
+      message: "Updated",
+    }
+  }
+
+  function getPerkTaskByOrganizer(){
+    return {
+      PerkTasks: [
+        {
+          description: "Bla bla",
+          eventEnds: "2016-01-07 19:57:00",
+          eventStart: "2016-01-07 14:57:00",
+          eventTitle: "evento de prueba fhh",
+          event_id: "1018",
+          id: "36",
+          perk_id: "18",
+          status: "0",
+          title: "Tarea",
+          type: "0",
+          user_id: "1007"
+        },
+        {
+          description: "Bla bla",
+          eventEnds: "2016-01-07 19:57:00",
+          eventStart: "2016-01-07 14:57:00",
+          eventTitle: "evento de prueba fhh",
+          event_id: "1018",
+          id: "36",
+          perk_id: "18",
+          status: "0",
+          title: "Tarea",
+          type: "0",
+          user_id: "1007"
+        }
+      ],
+      success: true
+    }
+  }
   
 
   function failed(){

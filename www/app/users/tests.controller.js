@@ -15,15 +15,16 @@
     '$localStorage',
     'userInterestService',
     'userService',
-    'sponsorshipService'
+    'sponsorshipService',
+    'perkTaskService'
   ];
 
-  function TestsController( $localStorage, userInterestService, userService, sponsorshipService) {
+  function TestsController( $localStorage, userInterestService, userService, sponsorshipService, perkTaskService) {
 
     var vm = this;
     vm.userAuth = $localStorage.userAuth || {};
 
-    editSponzorshipPut();
+    getPerkTaskByOrganizer();
     //////////////////////////////////////
 
     function rta( response ){
@@ -149,6 +150,60 @@
       sponsorshipService.editSponzorshipPut( 32, {
         cause: 'as'
       })
+      .then( rta )
+      .catch( rta );
+    }
+
+    function allPerkTasks(){
+      perkTaskService.allPerkTasks()
+      .then( rta )
+      .catch( rta );
+    }
+
+    function getPerkTask(){
+      perkTaskService.getPerkTask(11)
+      .then( rta )
+      .catch( rta );
+    }
+
+    function createPerkTask(){
+      perkTaskService.createPerkTask({
+        user_id: 1007,
+        event_id: 1018,
+        perk_id: 18,
+        title: "Tarea",
+        description: "Bla bla",
+        type: 0,
+        status: 0
+      })
+      .then( rta )
+      .catch( rta );
+    }
+
+    function deletePerkTask(){
+      perkTaskService.deletePerkTask(35)
+      .then( rta )
+      .catch( rta );
+    }
+
+    function editPerkTaskPatch(){
+      perkTaskService.editPerkTaskPatch(36, {
+        title: 'asas'
+      })
+      .then( rta )
+      .catch( rta );
+    }
+
+    function editPerkTaskPut(){
+      perkTaskService.editPerkTaskPut(36, {
+        title: 'asas'
+      })
+      .then( rta )
+      .catch( rta );
+    }
+
+    function getPerkTaskByOrganizer(){
+      perkTaskService.getPerkTaskByOrganizer(1007)
       .then( rta )
       .catch( rta );
     }
