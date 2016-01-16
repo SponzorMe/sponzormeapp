@@ -9,9 +9,9 @@
 
   angular
     .module('app')
-    .factory('sponzorshipService', sponzorshipService);
+    .factory('sponsorshipService', sponsorshipService);
 
-  sponzorshipService.$inject = [
+  sponsorshipService.$inject = [
     '$http',
     '$localStorage',
     'BackendVariables',
@@ -19,13 +19,12 @@
     '$httpParamSerializerJQLike'
   ];
 
-  function sponzorshipService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
+  function sponsorshipService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
 
     var path = BackendVariables.url;
-    var token = $localStorage.token;
 
     var service = {
-      allSponzorships: allSponzorships,
+      allSponsorships: allSponsorships,
       getSponzorship: getSponzorship,
       sponzorshipByOrganizer: sponzorshipByOrganizer,
       sponzorshipBySponzor: sponzorshipBySponzor,
@@ -39,21 +38,26 @@
 
     ////////////
 
-    function allSponzorships(){
+    function allSponsorships(){
       return $http.get(path + 'sponzorships')
       .then( complete )
       .catch( failed );
 
       function complete( response ){
-        return $q.when( response );
+        return $q.when( response.data.SponzorsEvents );
       }
 
       function failed( response ){
-        return $q.reject( response );
+        return $q.reject( response.data );
       }
     }
 
     function getSponzorship( sponzorshipId ){
+
+      //Validate
+      var typeSponzorshipId = typeof sponzorshipId;
+      if(typeSponzorshipId !== 'string' && typeSponzorshipId !== 'number') throw new Error();
+
       return $http.get(path + 'sponzorships/' + sponzorshipId)
       .then( complete )
       .catch( failed );
@@ -73,23 +77,29 @@
       }
 
       function failed( response ){
-        return $q.reject( response );
+        return $q.reject( response.data );
       }
     }
 
     function sponzorshipByOrganizer( organizerId ){
-      return $http.get(path + 'sponzorships_organizer/' + organizerId)
+
+      //Validate
+      var typeOrganizerId = typeof organizerId;
+      if(typeOrganizerId !== 'string' && typeOrganizerId !== 'number') throw new Error();
+
+      return $http({
+        method: 'GET',
+        url: path + 'sponzorships_organizer/' + organizerId,
+      })
       .then( complete )
       .catch( failed );
 
       function complete( response ){
-        return $q.when( getData( response.data.SponzorsEvents ) );
+        return $q.when( preparateData( response.data.SponzorsEvents ) );
       }
 
-      function getData( data ){
-        return data
-          .filter( filterDate )
-          .map( preparateItem );
+      function preparateData( data ){
+        return data.map( preparateItem );
 
         function preparateItem( item ){
           item.starts = moment(item.starts)._d;
@@ -100,22 +110,29 @@
       }
 
       function failed( response ){
-        return $q.reject( response );
+        return $q.reject( response.data );
       }
     }
 
     function sponzorshipBySponzor( sponzorId ){
-      return $http.get(path + 'sponzorships_sponzor/' + sponzorId)
+
+      //Validate
+      var typeSponzorId = typeof sponzorId;
+      if( typeSponzorId !== 'string' && typeSponzorId !== 'number') throw new Error();
+
+      return $http({
+        method: 'GET',
+        url: path + 'sponzorships_sponzor/' + sponzorId,
+      })
       .then( complete )
       .catch( failed );
 
       function complete( response ){
-        return $q.when( getData( response.data.SponzorsEvents ) );
+        return $q.when( preparateData( response.data.SponzorsEvents ) );
       }
 
-      function getData( data ){
-        return data
-          .map( preparateItem );
+      function preparateData( data ){
+        return data.map( preparateItem );
 
         function preparateItem( item ){
           item.starts = moment(item.starts)._d;
@@ -125,11 +142,16 @@
       }
 
       function failed( response ){
-        return $q.reject( response );
+        return $q.reject( response.data );
       }
     }
 
     function createSponzorship( data ){
+
+      //Validate
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'POST',
         url: path + 'sponzorships',
@@ -146,12 +168,17 @@
         return $q.when( response.data.Sponzorship );
       }
 
-      function failed( error ){
-        return $q.reject( error.data );
+      function failed( response ){
+        return $q.reject( response.data );
       }
     }
 
     function deleteSponzorship( sponzorshipId ){
+
+      //Validate
+      var typeSponzorshipId = typeof sponzorshipId;
+      if( typeSponzorshipId !== 'string' && typeSponzorshipId !== 'number') throw new Error();
+
       return $http({
         method: 'DELETE',
         url: path + 'sponzorships/' + sponzorshipId,
@@ -164,15 +191,22 @@
       .catch( failed );
 
       function complete( response ){
-        return $q.when( response );
+        return $q.when( response.data );
       }
 
       function failed( response ){
-        return $q.reject( response );
+        return $q.reject( response.data );
       }
     }
 
     function editSponzorshipPatch( sponzorshipId, data ){
+
+      //Validate
+      var typeSponzorshipId = typeof sponzorshipId;
+      if(typeSponzorshipId !== 'number' && typeSponzorshipId !== 'string') throw new Error();
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'PATCH',
         url: path + 'sponzorships/' + sponzorshipId,
@@ -186,15 +220,22 @@
       .catch( failed );
 
       function complete( response ){
-        return $q.when( response );
+        return $q.when( response.data.Sponzorship );
       }
 
       function failed( response ){
-        return $q.reject( response );
+        return $q.reject( response.data );
       }
     }
 
     function editSponzorshipPut( sponzorshipId, data ){
+
+      //Validate
+      var typeSponzorshipId = typeof sponzorshipId;
+      if(typeSponzorshipId !== 'number' && typeSponzorshipId !== 'string') throw new Error();
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'PUT',
         url: path + 'sponzorships/' + sponzorshipId,
@@ -212,7 +253,7 @@
       }
 
       function failed( response ){
-        return $q.reject( responses );
+        return $q.reject( response.data );
       }
     }
 

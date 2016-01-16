@@ -14,15 +14,16 @@
   TestsController.$inject = [
     '$localStorage',
     'userInterestService',
-    'userService'
+    'userService',
+    'sponsorshipService'
   ];
 
-  function TestsController( $localStorage, userInterestService, userService ) {
+  function TestsController( $localStorage, userInterestService, userService, sponsorshipService) {
 
     var vm = this;
     vm.userAuth = $localStorage.userAuth || {};
 
-    invitedUser();
+    editSponzorshipPut();
     //////////////////////////////////////
 
     function rta( response ){
@@ -88,6 +89,65 @@
         user_id: 1007,
         email: "nicolas.molina.monroy@gmail.com",
         message: "Try this ;)"
+      })
+      .then( rta )
+      .catch( rta );
+    }
+
+    function allSponsorships(){
+      sponsorshipService.allSponsorships()
+      .then( rta )
+      .catch( rta );
+    }
+
+    function getSponzorship(){
+      sponsorshipService.getSponzorship( 12 )
+      .then( rta )
+      .catch( rta );
+    }
+
+    function sponzorshipByOrganizer(){
+      sponsorshipService.sponzorshipByOrganizer( 1002 )
+      .then( rta )
+      .catch( rta );
+    }
+
+    function sponzorshipBySponzor(){
+      sponsorshipService.sponzorshipBySponzor( 1002 )
+      .then( rta )
+      .catch( rta );
+    }
+
+    function createSponzorship(){
+      sponsorshipService.createSponzorship({
+        sponzor_id: 1002,
+        perk_id: 18,
+        event_id: 1018,
+        organizer_id: 1003,
+        status: 0,
+        cause: 'YOLO'
+      })
+      .then( rta )
+      .catch( rta );
+    }
+
+    function deleteSponzorship(){
+      sponsorshipService.deleteSponzorship( 31 )
+      .then( rta )
+      .catch( rta );
+    }
+
+    function editSponzorshipPatch(){
+      sponsorshipService.editSponzorshipPatch( 32, {
+        cause: 'as'
+      })
+      .then( rta )
+      .catch( rta );
+    }
+
+    function editSponzorshipPut(){
+      sponsorshipService.editSponzorshipPut( 32, {
+        cause: 'as'
       })
       .then( rta )
       .catch( rta );

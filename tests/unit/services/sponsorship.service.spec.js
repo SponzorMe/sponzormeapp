@@ -1,6 +1,6 @@
-describe("Service: userService", function(){
+describe("Service: sponsorshipService", function(){
 
-  var userService;
+	var sponsorshipService;
 
   beforeEach(function() {
     module('app');
@@ -12,56 +12,32 @@ describe("Service: userService", function(){
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function(_userService_) {
-    userService = _userService_;
+  beforeEach(inject(function( _sponsorshipService_ ) {
+    sponsorshipService = _sponsorshipService_;
   }));
 
-  ////////////////////////////////////////////////////////////
-  describe('Test to login method', function(){
+	////////////////////////////////////////////////////////////
+  describe('Test to allSponsorships method', function(){
 
-    it('Should define a login function', function(){
-      chai.assert.isDefined(userService.login);
-    });
-
-    it('Should throw an error on an incompatible type', function(){
-      chai.assert.throws(function(){
-        userService.login();
-      });
-      chai.assert.throws(function(){
-        userService.login("test");
-      });
-      chai.assert.throws(function(){
-        userService.login("test", []);
-      });
-      chai.assert.throws(function(){
-        userService.login(1, "123");
-      });
-    });
-
-    it("Should not throw an error in case a string or number", function(){
-      chai.assert.doesNotThrow(function(){
-        userService.login("asas", "123");
-      });
-      chai.assert.doesNotThrow(function(){
-        userService.login("asas", 121212);
-      });
+  	it('Should define a allSponsorships function', function(){
+      chai.assert.isDefined(sponsorshipService.allSponsorships);
     });
 
     it('Should return a promise', function(){
-      var promise = userService.login("mail@domain.co", "123");
+      var promise = sponsorshipService.allSponsorships();
       chai.assert.instanceOf( promise.then, Function);
       chai.assert.property( promise, '$$state');
     });
 
     ////////////////////////////////////////////////////////////
-    describe('login failed', function() {
+    describe('allSponsorships failed', function() {
       var $httpBackend;
       var data = mockData.failed();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/auth')
+        $httpBackend.when('GET', 'https://apilocal.sponzor.me/sponzorships')
           .respond(400, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -81,7 +57,7 @@ describe("Service: userService", function(){
 
       it('Should return an error message', function(){
         var result;
-        userService.login( 'mail@domain.com', '123455' )
+        sponsorshipService.allSponsorships()
           .catch(function( rta ) {
             result = rta;
           });
@@ -90,15 +66,15 @@ describe("Service: userService", function(){
       });
     });
 
-    ////////////////////////////////////////////////////////////
-    describe('login success', function() {
+		////////////////////////////////////////////////////////////
+    describe('allSponsorships success', function() {
       var $httpBackend;
-      var data = mockData.userService.login();
+      var data = mockData.sponsorshipService.allSponsorships();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/auth')
+        $httpBackend.when('GET', 'https://apilocal.sponzor.me/sponzorships')
           .respond(200, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -116,62 +92,66 @@ describe("Service: userService", function(){
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an user', function(){
+      it('Should return an array of sponsorships', function(){
         var result;
-        userService.login( 'mail@domain.com', '123456' )
+        sponsorshipService.allSponsorships()
           .then(function( rta ) {
             result = rta;
           });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.user );
+        chai.assert.isArray( result );
+        chai.expect( result ).to.eql( data.SponzorsEvents );
       });
     });
 
   });
 
-  ////////////////////////////////////////////////////////////
-  describe('Test to getUser method', function(){
+	////////////////////////////////////////////////////////////
+  describe('Test to getSponzorship method', function(){
 
-    it('Should define a getUser function', function(){
-      chai.assert.isDefined(userService.getUser);
+  	it('Should define a getSponzorship function', function(){
+      chai.assert.isDefined(sponsorshipService.getSponzorship);
     });
-    
+
     it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
-        userService.getUser();
+        sponsorshipService.getSponzorship();
       });
       chai.assert.throws(function(){
-        userService.getUser([]);
+        sponsorshipService.getSponzorship([]);
       });
       chai.assert.throws(function(){
-        userService.getUser({});
+        sponsorshipService.getSponzorship(Object);
+      });
+      chai.assert.throws(function(){
+        sponsorshipService.getSponzorship({});
       });
     });
 
     it("Should not throw an error in case a string or number", function(){
       chai.assert.doesNotThrow(function(){
-        userService.getUser(1);
+        sponsorshipService.getSponzorship("1");
       });
       chai.assert.doesNotThrow(function(){
-        userService.getUser("1");
+        sponsorshipService.getSponzorship(1);
       });
     });
 
     it('Should return a promise', function(){
-      var promise = userService.getUser("123");
+      var promise = sponsorshipService.getSponzorship(1);
       chai.assert.instanceOf( promise.then, Function);
       chai.assert.property( promise, '$$state');
     });
 
     ////////////////////////////////////////////////////////////
-    describe('getUser failed', function() {
+    describe('getSponzorship failed', function() {
       var $httpBackend;
       var data = mockData.failed();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/users/1')
+        $httpBackend.when('GET', 'https://apilocal.sponzor.me/sponzorships/1')
           .respond(400, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -191,25 +171,24 @@ describe("Service: userService", function(){
 
       it('Should return an error message', function(){
         var result;
-        userService.getUser( 1 )
+        sponsorshipService.getSponzorship(1)
           .catch(function( rta ) {
             result = rta;
           });
         $httpBackend.flush();
         chai.assert.isDefined( result.message )
-      }); 
+      });
     });
 
-    ////////////////////////////////////////////////////////////
-    describe('getUser success', function() {
-      //Assemble  
+		////////////////////////////////////////////////////////////
+    describe('getSponzorship success', function() {
       var $httpBackend;
-      var data = mockData.userService.getUser();
+      var data = mockData.sponsorshipService.getSponzorship();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/users/1')
+        $httpBackend.when('GET', 'https://apilocal.sponzor.me/sponzorships/1')
           .respond(200, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -227,89 +206,203 @@ describe("Service: userService", function(){
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return the user', function(){
-        var user;
-        userService.getUser( 1 )
+      it('Should return the sponzorship', function(){
+        var result;
+        sponsorshipService.getSponzorship(1)
           .then(function( rta ) {
-            user = rta;
+            result = rta;
           });
         $httpBackend.flush();
-        chai.expect( user.email ).to.eql( data.data.user.email );
-        chai.expect( user ).to.have.property( 'events' );
+        chai.assert.isObject( result );
+	      chai.expect( result ).to.have.all.keys([
+	        'event',
+	        'organizer',
+	        'perk',
+	        'sponzor',
+	        'tasks'
+	      ]);
+	      chai.assert.isObject( result.event );
+	      chai.assert.isObject( result.organizer );
+	      chai.assert.isObject( result.perk );
+	      chai.assert.isObject( result.sponzor );
+	      chai.assert.isArray( result.tasks );
+      });
+    });
+
+  });
+
+	////////////////////////////////////////////////////////////
+  describe('Test to sponzorshipByOrganizer method', function(){
+
+  	it('Should define a sponzorshipByOrganizer function', function(){
+      chai.assert.isDefined(sponsorshipService.sponzorshipByOrganizer);
+    });
+
+    it('Should throw an error on an incompatible type', function(){
+      chai.assert.throws(function(){
+        sponsorshipService.sponzorshipByOrganizer();
+      });
+      chai.assert.throws(function(){
+        sponsorshipService.sponzorshipByOrganizer([]);
+      });
+      chai.assert.throws(function(){
+        sponsorshipService.sponzorshipByOrganizer(Object);
+      });
+      chai.assert.throws(function(){
+        sponsorshipService.sponzorshipByOrganizer({});
+      });
+    });
+
+    it("Should not throw an error in case a string or number", function(){
+      chai.assert.doesNotThrow(function(){
+        sponsorshipService.sponzorshipByOrganizer("1");
+      });
+      chai.assert.doesNotThrow(function(){
+        sponsorshipService.sponzorshipByOrganizer(1);
+      });
+    });
+
+    it('Should return a promise', function(){
+      var promise = sponsorshipService.sponzorshipByOrganizer(1);
+      chai.assert.instanceOf( promise.then, Function);
+      chai.assert.property( promise, '$$state');
+    });
+
+    ////////////////////////////////////////////////////////////
+    describe('sponzorshipByOrganizer failed', function() {
+      var $httpBackend;
+      var data = mockData.failed();
+
+      beforeEach(inject(function($injector) {
+        // Set up the mock http service responses
+        $httpBackend = $injector.get('$httpBackend');
+        $httpBackend.when('GET', 'https://apilocal.sponzor.me/sponzorships_organizer/1')
+          .respond(400, data);
+        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
+          "title": 'Sponzorme EN'
+        });
+        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
+          "title": 'Sponzorme PT'
+        });
+        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
+          "title": 'Sponzorme ES'
+        });
+      }));
+
+      afterEach(function() {
+        $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should be instance Of Date the events', function(){
-        var user;
-        userService.getUser( 1 )
-          .then(function( rta ) {
-            user = rta;
+      it('Should return an error message', function(){
+        var result;
+        sponsorshipService.sponzorshipByOrganizer(1)
+          .catch(function( rta ) {
+            result = rta;
           });
         $httpBackend.flush();
-        for (var i = 0; i < user.events.length; i++) {
-          chai.assert.instanceOf( user.events[i].starts, Date );
-          chai.assert.instanceOf( user.events[i].ends, Date );
+        chai.assert.isDefined( result.message )
+      });
+    });
+
+		////////////////////////////////////////////////////////////
+    describe('sponzorshipByOrganizer success', function() {
+      var $httpBackend;
+      var data = mockData.sponsorshipService.sponzorshipByOrganizer();
+
+      beforeEach(inject(function($injector) {
+        // Set up the mock http service responses
+        $httpBackend = $injector.get('$httpBackend');
+        $httpBackend.when('GET', 'https://apilocal.sponzor.me/sponzorships_organizer/1')
+          .respond(200, data);
+        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
+          "title": 'Sponzorme EN'
+        });
+        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
+          "title": 'Sponzorme PT'
+        });
+        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
+          "title": 'Sponzorme ES'
+        });
+      }));
+
+      afterEach(function() {
+        $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingRequest();
+      });
+
+      it('Should return an array of events', function(){
+        var result;
+        sponsorshipService.sponzorshipByOrganizer(1)
+          .then(function( rta ) {
+            result = rta;
+          });
+        $httpBackend.flush();
+        chai.assert.isArray( result );
+      });
+
+      it('Should be instance Of Date in the array of events', function(){
+        var result;
+        sponsorshipService.sponzorshipByOrganizer(1)
+          .then(function( rta ) {
+            result = rta;
+          });
+        $httpBackend.flush();
+        for (var i = 0; i < result.length; i++) {
+          chai.assert.instanceOf( result[i].starts, Date );
+          chai.assert.instanceOf( result[i].ends, Date );
         };
       });
-
-      it('Should be match with images', function(){
-        var user;
-        userService.getUser( 1 )
-          .then(function( rta ) {
-            user = rta;
-          });
-        $httpBackend.flush();
-        chai.expect( user.events[0].image ).to.eql( 'img/banner.jpg' );
-        chai.expect( user.events[1].image ).to.eql( 'https://staging.sponzor.me/#/event/1' );
-      });
     });
+
   });
 
-  ////////////////////////////////////////////////////////////
-  describe('Test to createUser method', function(){
+	////////////////////////////////////////////////////////////
+  describe('Test to sponzorshipBySponzor method', function(){
 
-    it('Should define a createUser function', function(){
-      chai.assert.isDefined(userService.createUser);
+  	it('Should define a sponzorshipBySponzor function', function(){
+      chai.assert.isDefined(sponsorshipService.sponzorshipBySponzor);
     });
 
     it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
-        userService.createUser();
+        sponsorshipService.sponzorshipBySponzor();
       });
       chai.assert.throws(function(){
-        userService.createUser("test");
+        sponsorshipService.sponzorshipBySponzor([]);
       });
       chai.assert.throws(function(){
-        userService.createUser("test", []);
+        sponsorshipService.sponzorshipBySponzor(Object);
       });
       chai.assert.throws(function(){
-        userService.createUser([]);
-      });
-      chai.assert.throws(function(){
-        userService.createUser(Object);
+        sponsorshipService.sponzorshipBySponzor({});
       });
     });
 
-    it('Should not throw an error in case a Object', function(){
+    it("Should not throw an error in case a string or number", function(){
       chai.assert.doesNotThrow(function(){
-        userService.createUser({});
+        sponsorshipService.sponzorshipBySponzor("1");
+      });
+      chai.assert.doesNotThrow(function(){
+        sponsorshipService.sponzorshipBySponzor(1);
       });
     });
 
     it('Should return a promise', function(){
-      var promise = userService.createUser({});
+      var promise = sponsorshipService.sponzorshipBySponzor(1);
       chai.assert.instanceOf( promise.then, Function);
       chai.assert.property( promise, '$$state');
     });
 
     ////////////////////////////////////////////////////////////
-    describe('createUser failed', function() {
+    describe('sponzorshipBySponzor failed', function() {
       var $httpBackend;
       var data = mockData.failed();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/users')
+        $httpBackend.when('GET', 'https://apilocal.sponzor.me/sponzorships_sponzor/1')
           .respond(400, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -329,24 +422,24 @@ describe("Service: userService", function(){
 
       it('Should return an error message', function(){
         var result;
-        userService.createUser( {} )
+        sponsorshipService.sponzorshipBySponzor(1)
           .catch(function( rta ) {
             result = rta;
           });
         $httpBackend.flush();
         chai.assert.isDefined( result.message )
-      }); 
+      });
     });
 
-    ////////////////////////////////////////////////////////////
-    describe('createUser success', function() {
+		////////////////////////////////////////////////////////////
+    describe('sponzorshipBySponzor success', function() {
       var $httpBackend;
-      var data = mockData.userService.createUser();
+      var data = mockData.sponsorshipService.sponzorshipBySponzor();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/users')
+        $httpBackend.when('GET', 'https://apilocal.sponzor.me/sponzorships_sponzor/1')
           .respond(200, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -364,65 +457,78 @@ describe("Service: userService", function(){
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return the user', function(){
+      it('Should return an array of events', function(){
         var result;
-        userService.createUser( {} )
+        sponsorshipService.sponzorshipBySponzor(1)
           .then(function( rta ) {
             result = rta;
           });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.User );
-      }); 
+        chai.assert.isArray( result );
+      });
+
+      it('Should be instance Of Date in the array of events', function(){
+        var result;
+        sponsorshipService.sponzorshipBySponzor(1)
+          .then(function( rta ) {
+            result = rta;
+          });
+        $httpBackend.flush();
+        for (var i = 0; i < result.length; i++) {
+          chai.assert.instanceOf( result[i].starts, Date );
+          chai.assert.instanceOf( result[i].ends, Date );
+        };
+      });
     });
 
   });
 
-  ////////////////////////////////////////////////////////////
-  describe('Test to deleteUser method', function(){
+	////////////////////////////////////////////////////////////
+  describe('Test to createSponzorship method', function(){
 
-    it('Should define a deleteUser function', function(){
-      chai.assert.isDefined(userService.deleteUser);
+  	it('Should define a createSponzorship function', function(){
+      chai.assert.isDefined(sponsorshipService.createSponzorship);
     });
 
     it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
-        userService.deleteUser();
+        sponsorshipService.createSponzorship();
       });
       chai.assert.throws(function(){
-        userService.deleteUser([]);
+        sponsorshipService.createSponzorship([]);
       });
       chai.assert.throws(function(){
-        userService.deleteUser({});
+        sponsorshipService.createSponzorship(Object);
       });
       chai.assert.throws(function(){
-        userService.deleteUser(Object);
+        sponsorshipService.createSponzorship("asas");
+      });
+      chai.assert.throws(function(){
+        sponsorshipService.createSponzorship(1);
       });
     });
 
-    it('Should not throw an error in case a number or string', function(){
+    it("Should not throw an error in case a Object", function(){
       chai.assert.doesNotThrow(function(){
-        userService.deleteUser(1);
-      });
-      chai.assert.doesNotThrow(function(){
-        userService.deleteUser("1");
+        sponsorshipService.createSponzorship({});
       });
     });
 
     it('Should return a promise', function(){
-      var promise = userService.deleteUser(1);
+      var promise = sponsorshipService.createSponzorship({});
       chai.assert.instanceOf( promise.then, Function);
       chai.assert.property( promise, '$$state');
     });
 
     ////////////////////////////////////////////////////////////
-    describe('deleteUser failed', function() {
+    describe('createSponzorship failed', function() {
       var $httpBackend;
       var data = mockData.failed();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/users/1')
+        $httpBackend.when('POST', 'https://apilocal.sponzor.me/sponzorships')
           .respond(400, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -442,24 +548,24 @@ describe("Service: userService", function(){
 
       it('Should return an error message', function(){
         var result;
-        userService.deleteUser( 1 )
+        sponsorshipService.createSponzorship({})
           .catch(function( rta ) {
             result = rta;
           });
         $httpBackend.flush();
         chai.assert.isDefined( result.message )
-      }); 
+      });
     });
 
-    ////////////////////////////////////////////////////////////
-    describe('deleteUser success', function() {
+		////////////////////////////////////////////////////////////
+    describe('createSponzorship success', function() {
       var $httpBackend;
-      var data = mockData.userService.deleteUser();
+      var data = mockData.sponsorshipService.createSponzorship();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/users/1')
+        $httpBackend.when('POST', 'https://apilocal.sponzor.me/sponzorships')
           .respond(200, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -477,77 +583,187 @@ describe("Service: userService", function(){
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an message', function(){
+      it('Should return an sponzorship', function(){
         var result;
-        userService.deleteUser( 1 )
+        sponsorshipService.createSponzorship({})
+          .then(function( rta ) {
+            result = rta;
+          });
+        $httpBackend.flush();
+        chai.assert.isObject( result );
+      });
+
+    });
+  });
+
+	////////////////////////////////////////////////////////////
+  describe('Test to deleteSponzorship method', function(){
+
+  	it('Should define a deleteSponzorship function', function(){
+      chai.assert.isDefined(sponsorshipService.deleteSponzorship);
+    });
+
+    it('Should throw an error on an incompatible type', function(){
+      chai.assert.throws(function(){
+        sponsorshipService.deleteSponzorship();
+      });
+      chai.assert.throws(function(){
+        sponsorshipService.deleteSponzorship([]);
+      });
+      chai.assert.throws(function(){
+        sponsorshipService.deleteSponzorship(Object);
+      });
+      chai.assert.throws(function(){
+        sponsorshipService.deleteSponzorship({});
+      });
+    });
+
+    it("Should not throw an error in case a string or number", function(){
+      chai.assert.doesNotThrow(function(){
+        sponsorshipService.deleteSponzorship("1");
+      });
+      chai.assert.doesNotThrow(function(){
+        sponsorshipService.deleteSponzorship(1);
+      });
+    });
+
+    it('Should return a promise', function(){
+      var promise = sponsorshipService.deleteSponzorship(1);
+      chai.assert.instanceOf( promise.then, Function);
+      chai.assert.property( promise, '$$state');
+    });
+
+    ////////////////////////////////////////////////////////////
+    describe('deleteSponzorship failed', function() {
+      var $httpBackend;
+      var data = mockData.failed();
+
+      beforeEach(inject(function($injector) {
+        // Set up the mock http service responses
+        $httpBackend = $injector.get('$httpBackend');
+        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/sponzorships/1')
+          .respond(400, data);
+        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
+          "title": 'Sponzorme EN'
+        });
+        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
+          "title": 'Sponzorme PT'
+        });
+        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
+          "title": 'Sponzorme ES'
+        });
+      }));
+
+      afterEach(function() {
+        $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingRequest();
+      });
+
+      it('Should return an error message', function(){
+        var result;
+        sponsorshipService.deleteSponzorship(1)
+          .catch(function( rta ) {
+            result = rta;
+          });
+        $httpBackend.flush();
+        chai.assert.isDefined( result.message )
+      });
+    });
+
+		////////////////////////////////////////////////////////////
+    describe('deleteSponzorship success', function() {
+      var $httpBackend;
+      var data = mockData.sponsorshipService.deleteSponzorship();
+
+      beforeEach(inject(function($injector) {
+        // Set up the mock http service responses
+        $httpBackend = $injector.get('$httpBackend');
+        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/sponzorships/1')
+          .respond(200, data);
+        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
+          "title": 'Sponzorme EN'
+        });
+        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
+          "title": 'Sponzorme PT'
+        });
+        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
+          "title": 'Sponzorme ES'
+        });
+      }));
+
+      afterEach(function() {
+        $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingRequest();
+      });
+
+      it('Should return an sponzorship', function(){
+        var result;
+        sponsorshipService.deleteSponzorship(1)
           .then(function( rta ) {
             result = rta;
           });
         $httpBackend.flush();
         chai.expect( result.message ).to.eql( data.message );
-      }); 
-    });
+      });
 
+    });
   });
 
-  ////////////////////////////////////////////////////////////
-  describe('Test to editUserPatch method', function(){
+	////////////////////////////////////////////////////////////
+  describe('Test to editSponzorshipPatch method', function(){
 
-    it('Should define a editUserPatch function', function(){
-      chai.assert.isDefined(userService.editUserPatch);
+  	it('Should define a editSponzorshipPatch function', function(){
+      chai.assert.isDefined(sponsorshipService.editSponzorshipPatch);
     });
 
     it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
-        userService.editUserPatch();
+        sponsorshipService.editSponzorshipPatch();
       });
       chai.assert.throws(function(){
-        userService.editUserPatch([], {});
+        sponsorshipService.editSponzorshipPatch([], {});
       });
       chai.assert.throws(function(){
-        userService.editUserPatch({}, {});
+        sponsorshipService.editSponzorshipPatch(Object, {});
       });
       chai.assert.throws(function(){
-        userService.editUserPatch(Object, {});
+        sponsorshipService.editSponzorshipPatch({}, {});
       });
       chai.assert.throws(function(){
-        userService.editUserPatch(1, []);
+        sponsorshipService.editSponzorshipPatch(1, []);
       });
       chai.assert.throws(function(){
-        userService.editUserPatch(2, 1);
+        sponsorshipService.editSponzorshipPatch("1", Object);
       });
       chai.assert.throws(function(){
-        userService.editUserPatch(2, "as");
-      });
-      chai.assert.throws(function(){
-        userService.editUserPatch("2", Object);
+        sponsorshipService.editSponzorshipPatch(2, "as");
       });
     });
 
-    it('Should not throw an error in case a number or string and Object', function(){
+    it("Should not throw an error in case a string or number and an Object", function(){
       chai.assert.doesNotThrow(function(){
-        userService.editUserPatch(1, {});
+        sponsorshipService.editSponzorshipPatch("1", {});
       });
       chai.assert.doesNotThrow(function(){
-        userService.editUserPatch("1", {});
+        sponsorshipService.editSponzorshipPatch(1, {});
       });
     });
 
     it('Should return a promise', function(){
-      var promise = userService.editUserPatch(1, {});
+      var promise = sponsorshipService.editSponzorshipPatch(1, {});
       chai.assert.instanceOf( promise.then, Function);
       chai.assert.property( promise, '$$state');
     });
 
     ////////////////////////////////////////////////////////////
-    describe('editUserPatch failed', function() {
+    describe('editSponzorshipPatch failed', function() {
       var $httpBackend;
       var data = mockData.failed();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/users/1')
+        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/sponzorships/1')
           .respond(400, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -567,24 +783,24 @@ describe("Service: userService", function(){
 
       it('Should return an error message', function(){
         var result;
-        userService.editUserPatch( 1, {} )
+        sponsorshipService.editSponzorshipPatch(1, {})
           .catch(function( rta ) {
             result = rta;
           });
         $httpBackend.flush();
         chai.assert.isDefined( result.message )
-      }); 
+      });
     });
 
-    ////////////////////////////////////////////////////////////
-    describe('editUserPatch success', function() {
+		////////////////////////////////////////////////////////////
+    describe('editSponzorshipPatch success', function() {
       var $httpBackend;
-      var data = mockData.userService.editUserPatch();
+      var data = mockData.sponsorshipService.editSponzorshipPatch();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/users/1')
+        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/sponzorships/1')
           .respond(200, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -602,77 +818,74 @@ describe("Service: userService", function(){
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return the user', function(){
+      it('Should return an sponzorship', function(){
         var result;
-        userService.editUserPatch( 1, {} )
+        sponsorshipService.editSponzorshipPatch(1, {})
           .then(function( rta ) {
             result = rta;
           });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.User );
-      }); 
-    });
+        chai.expect( result ).to.eql( data.Sponzorship );
+      });
 
+    });
   });
 
-  ////////////////////////////////////////////////////////////
-  describe('Test to editUserPut method', function(){
+	////////////////////////////////////////////////////////////
+  describe('Test to editSponzorshipPut method', function(){
 
-    it('Should define a editUserPut function', function(){
-      chai.assert.isDefined(userService.editUserPut);
+  	it('Should define a editSponzorshipPut function', function(){
+      chai.assert.isDefined(sponsorshipService.editSponzorshipPut);
     });
 
     it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
-        userService.editUserPut();
+        sponsorshipService.editSponzorshipPut();
       });
       chai.assert.throws(function(){
-        userService.editUserPut([], {});
+        sponsorshipService.editSponzorshipPut([], {});
       });
       chai.assert.throws(function(){
-        userService.editUserPut({}, {});
+        sponsorshipService.editSponzorshipPut(Object, {});
       });
       chai.assert.throws(function(){
-        userService.editUserPut(Object, {});
+        sponsorshipService.editSponzorshipPut({}, {});
       });
       chai.assert.throws(function(){
-        userService.editUserPut(1, []);
+        sponsorshipService.editSponzorshipPut(1, []);
       });
       chai.assert.throws(function(){
-        userService.editUserPut(2, 1);
+        sponsorshipService.editSponzorshipPut("1", Object);
       });
       chai.assert.throws(function(){
-        userService.editUserPut(2, "as");
-      });
-      chai.assert.throws(function(){
-        userService.editUserPut("2", Object);
+        sponsorshipService.editSponzorshipPut(2, "as");
       });
     });
 
-    it('Should not throw an error in case a number or string and Object', function(){
+    it("Should not throw an error in case a string or number and an Object", function(){
       chai.assert.doesNotThrow(function(){
-        userService.editUserPut(1, {});
+        sponsorshipService.editSponzorshipPut("1", {});
       });
       chai.assert.doesNotThrow(function(){
-        userService.editUserPut("1", {});
+        sponsorshipService.editSponzorshipPut(1, {});
       });
     });
 
     it('Should return a promise', function(){
-      var promise = userService.editUserPut(1, {});
+      var promise = sponsorshipService.editSponzorshipPut(1, {});
       chai.assert.instanceOf( promise.then, Function);
       chai.assert.property( promise, '$$state');
     });
 
     ////////////////////////////////////////////////////////////
-    describe('editUserPut failed', function() {
+    describe('editSponzorshipPut failed', function() {
       var $httpBackend;
       var data = mockData.failed();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/users/1')
+        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/sponzorships/1')
           .respond(400, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -692,24 +905,24 @@ describe("Service: userService", function(){
 
       it('Should return an error message', function(){
         var result;
-        userService.editUserPut( 1, {} )
+        sponsorshipService.editSponzorshipPut(1, {})
           .catch(function( rta ) {
             result = rta;
           });
         $httpBackend.flush();
         chai.assert.isDefined( result.message )
-      }); 
+      });
     });
 
-    ////////////////////////////////////////////////////////////
-    describe('editUserPut success', function() {
+		////////////////////////////////////////////////////////////
+    describe('editSponzorshipPut success', function() {
       var $httpBackend;
-      var data = mockData.userService.editUserPut();
+      var data = mockData.sponsorshipService.editSponzorshipPut();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/users/1')
+        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/sponzorships/1')
           .respond(200, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -727,275 +940,17 @@ describe("Service: userService", function(){
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return the user', function(){
+      it('Should return an sponzorship', function(){
         var result;
-        userService.editUserPut( 1, {} )
+        sponsorshipService.editSponzorshipPut(1, {})
           .then(function( rta ) {
             result = rta;
           });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.User );
-      }); 
-    });
+        chai.expect( result ).to.eql( data.Sponzorship );
+      });
 
+    });
   });
-
-  ////////////////////////////////////////////////////////////
-  describe('Test to forgotPassword method', function(){
-
-    it('Should define a forgotPassword function', function(){
-      chai.assert.isDefined(userService.forgotPassword);
-    });
-
-    it('Should throw an error on an incompatible type', function(){
-      chai.assert.throws(function(){
-        userService.forgotPassword();
-      });
-      chai.assert.throws(function(){
-        userService.forgotPassword(121212);
-      });
-      chai.assert.throws(function(){
-        userService.forgotPassword([]);
-      });
-      chai.assert.throws(function(){
-        userService.forgotPassword({});
-      });
-      chai.assert.throws(function(){
-        userService.forgotPassword(Object);
-      });
-    });
-
-    it('Should not throw an error in case a string', function(){
-      chai.assert.doesNotThrow(function(){
-        userService.forgotPassword("mail@domain.com");
-      });
-    });
-
-    it('Should return a promise', function(){
-      var promise = userService.forgotPassword("mail@domain.com");
-      chai.assert.instanceOf( promise.then, Function);
-      chai.assert.property( promise, '$$state');
-    });
-
-    ////////////////////////////////////////////////////////////
-    describe('forgotPassword failed', function() {
-      var $httpBackend;
-      var data = mockData.failed();
-
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/send_reset_password')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-      });
-
-      it('Should return an error message', function(){
-        var result;
-        userService.forgotPassword( "mail@domain.com" )
-          .catch(function( rta ) {
-            result = rta;
-          });
-        $httpBackend.flush();
-        chai.assert.isDefined( result.message )
-      }); 
-    });
-
-    ////////////////////////////////////////////////////////////
-    describe('forgotPassword success', function() {
-      var $httpBackend;
-      var data = mockData.userService.forgotPassword();
-
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/send_reset_password')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-      });
-
-      it('Should return the user', function(){
-        var result;
-        userService.forgotPassword( "mail@domain.com" )
-          .then(function( rta ) {
-            result = rta;
-          });
-        $httpBackend.flush();
-        chai.expect( result ).to.eql( data );
-      }); 
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Test to invitedUser method', function(){
-
-    it('Should define a invitedUser function', function(){
-      chai.assert.isDefined(userService.invitedUser);
-    });
-
-    it('Should throw an error on an incompatible type', function(){
-      chai.assert.throws(function(){
-        userService.invitedUser();
-      });
-      chai.assert.throws(function(){
-        userService.invitedUser("test");
-      });
-      chai.assert.throws(function(){
-        userService.invitedUser("test", []);
-      });
-      chai.assert.throws(function(){
-        userService.invitedUser([]);
-      });
-      chai.assert.throws(function(){
-        userService.invitedUser(Object);
-      });
-    });
-
-    it('Should not throw an error in case a Object', function(){
-      chai.assert.doesNotThrow(function(){
-        userService.invitedUser({});
-      });
-    });
-
-    it('Should return a promise', function(){
-      var promise = userService.invitedUser({});
-      chai.assert.instanceOf( promise.then, Function);
-      chai.assert.property( promise, '$$state');
-    });
-
-    ////////////////////////////////////////////////////////////
-    describe('invitedUser failed', function() {
-      var $httpBackend;
-      var data = mockData.failed();
-
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/invite_friend')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-      });
-
-      it('Should return an error message', function(){
-        var result;
-        userService.invitedUser( {} )
-          .catch(function( rta ) {
-            result = rta;
-          });
-        $httpBackend.flush();
-        chai.assert.isDefined( result.message )
-      }); 
-    });
-
-    ////////////////////////////////////////////////////////////
-    describe('invitedUser success', function() {
-      var $httpBackend;
-      var data = mockData.userService.invitedUser();
-
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/invite_friend')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-      });
-
-      it('Should return an message', function(){
-        var result;
-        userService.invitedUser({})
-          .then(function( rta ) {
-            result = rta;
-          });
-        $httpBackend.flush();
-        chai.expect( result.message ).to.eql( data.message );
-      }); 
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Test to checkSession method', function(){
-
-    var $localStorage;
-
-    beforeEach(inject(function(_$localStorage_) {
-      // Set up the mock http service responses
-      $localStorage = _$localStorage_;
-    }));
-
-    it('Should define a checkSession function', function(){
-      chai.assert.isDefined(userService.checkSession);
-    });
-
-    it('Should return true', function(){
-      $localStorage.userAuth = {};
-      $localStorage.token = "";
-      chai.assert.isTrue( userService.checkSession() );
-    });
-
-    it('Should return false', function(){
-      $localStorage.$reset();
-      chai.assert.isFalse( userService.checkSession() );
-    });
-
-    
-
-  });
-
-
-
 
 });

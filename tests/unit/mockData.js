@@ -15,6 +15,16 @@ var mockData = (function() {
       forgotPassword: forgotPassword,
       invitedUser: invitedUser
     },
+    sponsorshipService: {
+      allSponsorships: allSponsorships,
+      getSponzorship: getSponzorship,
+      sponzorshipByOrganizer: sponzorshipByOrganizer,
+      sponzorshipBySponzor: sponzorshipBySponzor,
+      createSponzorship: createSponzorship,
+      deleteSponzorship: deleteSponzorship,
+      editSponzorshipPatch: editSponzorshipPatch,
+      editSponzorshipPut: editSponzorshipPut
+    }
   }
   
   function createUserInterestSuccess(){
@@ -112,6 +122,114 @@ var mockData = (function() {
       code: "200"
     }
   }
+
+  function allSponsorships(){
+    return {
+      SponzorsEvents: [
+        {
+          cause: "asas",
+          event_id: "1018",
+          id: "12",
+          organizer_id: "1003",
+          perk_id: "18",
+          sponzor_id: "1002",
+          status: "3"
+        },
+        {
+          cause: "asas",
+          event_id: "1018",
+          id: "12",
+          organizer_id: "1003",
+          perk_id: "18",
+          sponzor_id: "1002",
+          status: "3"
+        }
+      ],
+      success: true
+    }
+  }
+
+  function getSponzorship(){
+    return {
+      data: {
+        Event: {},
+        Organizer: {},
+        Perk: {},
+        Sponzor: {},
+        SponzorEvent: {},
+        Tasks: []
+      }
+    }
+  }
+
+  function sponzorshipByOrganizer(){
+    return {
+      SponzorsEvents: [
+        {
+          starts: "2016-01-09 15:00:00",
+          ends: "2016-01-09 15:00:00"
+        },
+        {
+          starts: "2016-01-09 15:00:00",
+          ends: "2016-01-09 15:00:00"
+        }
+      ]
+    }
+  }
+
+  function sponzorshipBySponzor(){
+    return {
+      SponzorsEvents: [
+        {
+          starts: "2016-01-09 15:00:00",
+          ends: "2016-01-09 15:00:00"
+        },
+        {
+          starts: "2016-01-09 15:00:00",
+          ends: "2016-01-09 15:00:00"
+        }
+      ]
+    }
+  }
+
+  function createSponzorship(){
+    return {
+      Sponzorship: {
+        cause: "YOLO",
+        event_id: "1018",
+        id: 31,
+        organizer_id: "1003",
+        perk_id: "18",
+        sponzor_id: "1002",
+        status: "0"
+      },
+      message: "Inserted"
+    }
+  }
+
+  function deleteSponzorship(){
+    return {
+      message: "Deleted"
+    }
+  }
+
+  function editSponzorshipPatch(){
+    return {
+      Sponzorship:{},
+      message: "Updated",
+      warnings: []
+    }
+  }
+
+  function editSponzorshipPut(){
+    return {
+      Sponzorship:{},
+      message: "Updated",
+    }
+  }
+  
+
+  
 
   function failed(){
     return {

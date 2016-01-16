@@ -16,11 +16,11 @@
     '$localStorage',
     '$rootScope',
     'userService',
-    'sponzorshipService',
+    'sponsorshipService',
     'perkTaskService'
   ];
 
-  function MenuOrganizerCtrl( $state, $localStorage, $rootScope, userService, sponzorshipService, perkTaskService ) {
+  function MenuOrganizerCtrl( $state, $localStorage, $rootScope, userService, sponsorshipService, perkTaskService ) {
 
     var vm = this;
     //Attributes
@@ -79,7 +79,7 @@
     }
 
     function getSponsors(){
-      sponzorshipService.sponzorshipByOrganizer( vm.userAuth.id )
+      sponsorshipService.sponzorshipByOrganizer( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 

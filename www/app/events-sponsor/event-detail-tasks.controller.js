@@ -16,7 +16,7 @@
     'eventService',
     'utilsService',
     '$stateParams',
-    'sponzorshipService',
+    'sponsorshipService',
     '$localStorage',
     '$ionicModal',
     '$ionicHistory',
@@ -24,7 +24,7 @@
     '$translate'
   ];
 
-  function EventDetailTasksSponzorController( $scope, eventService, utilsService, $stateParams, sponzorshipService, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate) {
+  function EventDetailTasksSponzorController( $scope, eventService, utilsService, $stateParams, sponsorshipService, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate) {
 
     var vm = this;
     vm.event = {};

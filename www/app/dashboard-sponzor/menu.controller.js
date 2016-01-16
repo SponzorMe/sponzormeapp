@@ -14,12 +14,12 @@
   MenuSponzorCtrl.$inject = [
     '$state',
     '$localStorage',
-    'sponzorshipService',
+    'sponsorshipService',
     '$rootScope',
     '$ionicHistory'
   ];
 
-  function MenuSponzorCtrl( $state, $localStorage, sponzorshipService, $rootScope, $ionicHistory ) {
+  function MenuSponzorCtrl( $state, $localStorage, sponsorshipService, $rootScope, $ionicHistory ) {
 
     var vm = this;
     //Attributes
@@ -54,7 +54,7 @@
     }
 
     function getCounts(){
-      sponzorshipService.sponzorshipBySponzor( vm.userAuth.id )
+      sponsorshipService.sponzorshipBySponzor( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 
