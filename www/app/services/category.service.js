@@ -32,12 +32,16 @@
 
     ////////////
 
+    /*
     function getToken(){
       return $localStorage.token;
-    }
+    }*/
 
     function allCategories(){
-      return $http.get(path + 'categories')
+      return $http({
+        method: 'GET',
+        url: path + 'categories'
+      })
       .then( complete )
       .catch( failed );
 
@@ -51,7 +55,15 @@
     }
 
     function getCategory( categoryId ){
-      return $http.get(path + 'categories/' + categoryId )
+
+      //Validate
+      var typeCategoryId = typeof categoryId;
+      if(typeCategoryId !== 'string' && typeCategoryId !== 'number') throw new Error();
+
+      return $http({
+        method: 'GET',
+        url: path + 'categories/' + categoryId
+      })
       .then( complete )
       .catch( failed );
 

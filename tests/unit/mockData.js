@@ -56,6 +56,10 @@ var mockData = (function() {
       editPutTask: editPutTask,
       editPatchTask: editPatchTask,
       deleteTask: deleteTask
+    },
+    categoryService: {
+      allCategories: allCategories,
+      getCategory: getCategory
     }
   }
 
@@ -585,6 +589,85 @@ var mockData = (function() {
   function deleteTask(){
     return {
       message: "Deleted"
+    }
+  }
+
+  function allCategories() {
+    return {
+      categories: [
+        {
+          body: "All About the Bussines!",
+          id: "1",
+          lang: "en",
+          title: "Outdoor",
+        },
+        {
+          body: "All About the Bussines!",
+          id: "2",
+          lang: "en",
+          title: "Art & Culture"
+        }
+      ],
+      success: true
+    }
+  }
+
+  function getCategory(){
+    return {
+      data: {
+        category: {
+          body: "All About the Bussines!",
+          events: [
+            {
+              category: "2",
+              description: "asas",
+              ends: "2016-01-28 21:00:00",
+              id: "1015",
+              image: "https://s3-us-west-2.amazonaws.com/sponzormewebappimages/event_default.jpg",
+              lang: "en",
+              location: "San Bernardo, San Bernardo, Región Metropolitana, Chile",
+              location_reference: "ChIJ-y1tA2LZYpYRBUJ1tdTUjT0",
+              privacy: "0",
+              starts: "2016-01-28 18:57:00",
+              title: "Un vistazo a Ionic 1.2.x",
+              type: "2"
+            },
+            {
+              category: "2",
+              description: "asas",
+              ends: "2016-01-28 21:00:00",
+              id: "1015",
+              image: "https://s3-us-west-2.amazonaws.com/sponzormewebappimages/event_default.jpg",
+              lang: "en",
+              location: "San Bernardo, San Bernardo, Región Metropolitana, Chile",
+              location_reference: "ChIJ-y1tA2LZYpYRBUJ1tdTUjT0",
+              privacy: "0",
+              starts: "2016-01-28 18:57:00",
+              title: "Un vistazo a Ionic 1.2.x",
+              type: "2"
+            }
+          ],
+          id: "2",
+          interests: [
+            {
+              category_id: "2",
+              description: "Tutorials About Photoshop",
+              id_interest: "13",
+              lang: "en",
+              name: "Live Music"
+            },
+            {
+              category_id: "2",
+              description: "Tutorials About Photoshop",
+              id_interest: "14",
+              lang: "en",
+              name: "Performing Arts"
+            }
+          ],
+          lang: "en",
+          title: "Art & Culture"
+        }
+      }
     }
   }
 
