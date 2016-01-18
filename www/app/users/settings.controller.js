@@ -15,7 +15,7 @@
     '$translate'
   ];
 
-  function SettingsController( $translate) {
+  function SettingsController( $translate ) {
 
     var vm = this;
     vm.lang = $translate.use();

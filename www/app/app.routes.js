@@ -32,11 +32,11 @@
 
     $stateProvider
 
-      .state('tests', {
+      /*.state('tests', {
         url: '/tests',
         templateUrl: 'app/users/tests.html',
         controller: 'TestsController as test',
-      })
+      })*/
 
       .state('signin', {
         url: '/sign-in',

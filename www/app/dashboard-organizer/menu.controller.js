@@ -79,7 +79,7 @@
     }
 
     function getSponsors(){
-      sponsorshipService.sponzorshipByOrganizer( vm.userAuth.id )
+      /*sponsorshipService.sponzorshipByOrganizer( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 
@@ -89,7 +89,7 @@
 
         function failed( error ){
           console.log( error );
-        }
+        }*/
     }
 
     function getTasks(){
