@@ -19,15 +19,16 @@
     'perkTaskService',
     'perkService',
     'eventTypeService',
-    'categoryService'
+    'categoryService',
+    'eventService'
   ];
 
-  function TestsController( $localStorage, userInterestService, userService, sponsorshipService, perkTaskService, perkService, eventTypeService, categoryService) {
+  function TestsController( $localStorage, userInterestService, userService, sponsorshipService, perkTaskService, perkService, eventTypeService, categoryService, eventService) {
 
     var vm = this;
     vm.userAuth = $localStorage.userAuth || {};
 
-    getCategory();
+    getEvent();
     //////////////////////////////////////
 
     function rta( response ){
@@ -269,6 +270,18 @@
 
     function getCategory(){
       categoryService.getCategory(2)
+      .then( rta )
+      .catch( rta );
+    }
+
+    function allEvents(){
+      eventService.allEvents()
+      .then( rta )
+      .catch( rta );
+    }
+
+    function getEvent(){
+      eventService.getEvent(1002)
       .then( rta )
       .catch( rta );
     }

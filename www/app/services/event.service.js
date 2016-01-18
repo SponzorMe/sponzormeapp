@@ -22,7 +22,6 @@
   function eventService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
 
     var path = BackendVariables.url;
-    var token = $localStorage.token;
 
     var service = {
       allEvents: allEvents,
@@ -36,20 +35,26 @@
     return service;
 
     ////////////
+    function getToken(){
+      return $localStorage.token;
+    }
 
     function allEvents(){
-      return $http.get(path + 'events')
-        .then( complete )
-        .catch( failed );
+      
+      return $http({
+        method: 'GET',
+        url: path + 'events'
+      })
+      .then( complete )
+      .catch( failed );
 
       function complete( response ) {
-        var events = preparateEvents( response.data.events );
+        var events = preparateData( response.data.events );
         return $q.when( events );
       }
 
-      function preparateEvents( events ){
-        return events
-          .map( preparateEvent );
+      function preparateData( events ){
+        return events.map( preparateEvent );
 
         function preparateEvent( item ){
           item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
@@ -59,8 +64,8 @@
         }
       }
 
-      function failed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
@@ -178,9 +183,7 @@
       }
     }
 
-    function getToken(){
-      return $localStorage.token;
-    }
+    
 
   }
 })();
