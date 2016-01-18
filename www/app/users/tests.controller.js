@@ -28,7 +28,7 @@
     var vm = this;
     vm.userAuth = $localStorage.userAuth || {};
 
-    getEvent();
+    editEventPut();
     //////////////////////////////////////
 
     function rta( response ){
@@ -282,6 +282,47 @@
 
     function getEvent(){
       eventService.getEvent(1002)
+      .then( rta )
+      .catch( rta );
+    }
+
+    function createEvent(){
+      eventService.createEvent({
+        title: "Test Event",
+        location: "event",
+        location_reference: "referencia",
+        description: "Una prueba",
+        starts: "2010-01-01 00:00:00",
+        ends: "2010-01-01 00:00:00",
+        image: "http://i.imgur.com/t8YehGM.jpg",
+        privacy: 1,
+        lang: "es",
+        organizer: 1007,
+        category: 1,
+        type: 1
+      })
+      .then( rta )
+      .catch( rta );
+    }
+
+    function deleteEvent(){
+      eventService.deleteEvent(1044)
+      .then( rta )
+      .catch( rta );
+    }
+
+    function editEventPatch(){
+      eventService.editEventPatch(1045, {
+        title: "Test Event 2",
+      })
+      .then( rta )
+      .catch( rta );
+    }
+
+    function editEventPut(){
+      eventService.editEventPut(1045, {
+        title: "Test Event 2",
+      })
       .then( rta )
       .catch( rta );
     }

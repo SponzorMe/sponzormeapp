@@ -63,7 +63,11 @@ var mockData = (function() {
     },
     eventService:{
       allEvents: allEvents,
-      getEvent: getEvent
+      getEvent: getEvent,
+      createEvent: createEvent,
+      deleteEvent: deleteEvent,
+      editEventPatch: editEventPatch,
+      editEventPut: editEventPut
     }
   }
 
@@ -533,7 +537,7 @@ var mockData = (function() {
   function getTask(){
     return {
       data: {
-        Task: {},
+        Task:{},
         Organizer: {},
         Sponzor: {},
         Event: {}
@@ -810,5 +814,70 @@ var mockData = (function() {
     }
   }
 
-  
+  function createEvent(){
+    return {
+      event: {
+        category: "1",
+        description: "Una prueba",
+        ends: "2010-01-01 00:00:00",
+        image: "http://i.imgur.com/t8YehGM.jpg",
+        lang: "es",
+        location: "event",
+        location_reference: "referencia",
+        privacy: "1",
+        starts: "2010-01-01 00:00:00",
+        title: "Test Event",
+        type: "1"
+      },
+      message: "Inserted"
+    }
+  }
+
+  function deleteEvent(){
+    return {
+      message: "Deleted"
+    }
+  }
+
+  function editEventPatch(){
+    return {
+      event: {
+        category: "1",
+        description: "Una prueba",
+        ends: "2010-01-01 00:00:00",
+        id: "1045",
+        image: "http://i.imgur.com/t8YehGM.jpg",
+        lang: "es",
+        location: "event",
+        location_reference: "referencia",
+        privacy: "1",
+        starts: "2010-01-01 00:00:00",
+        title: "Test Event 2",
+        type: "1",
+        message: "Updated"
+      },
+      warnings: []
+    }
+  }
+
+  function editEventPut(){
+    return {
+      event: {
+        category: "1",
+        description: "Una prueba",
+        ends: "2010-01-01 00:00:00",
+        id: "1045",
+        image: "http://i.imgur.com/t8YehGM.jpg",
+        lang: "es",
+        location: "event",
+        location_reference: "referencia",
+        privacy: "1",
+        starts: "2010-01-01 00:00:00",
+        title: "Test Event 2",
+        type: "1",
+        message: "Updated"
+      }
+    }
+  }
+
 })();

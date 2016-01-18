@@ -70,9 +70,17 @@
     }
 
     function getEvent( eventId ){
-      return $http.get(path + 'events/' + eventId )
-        .then( complete )
-        .catch( failed );
+
+      //Validate
+      var typeEventId = typeof eventId;
+      if(typeEventId !== 'string' && typeEventId !== 'number') throw new Error();
+
+      return $http({
+        method: 'GET',
+        url: path + 'events/' + eventId
+      })
+      .then( complete )
+      .catch( failed );
 
       function complete( response ) {
         return $q.when( preparateData(response.data.data) );
@@ -91,12 +99,17 @@
         }
       }
 
-      function failed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function createEvent( data ){
+
+      //Validate
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'POST',
         url: path + 'events',
@@ -113,12 +126,17 @@
         return $q.when( response.data.event );
       }
 
-      function failed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function deleteEvent( eventId ){
+
+      //Validate
+      var typeEventId = typeof eventId;
+      if(typeEventId !== 'string' && typeEventId !== 'number') throw new Error();
+
       return $http({
         method: 'DELETE',
         url: path + 'events/' + eventId,
@@ -134,12 +152,19 @@
         return $q.when( response.data );
       }
 
-      function failed( error ) {
-        return $q.reject( error.data );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function editEventPatch( eventId, data ){
+
+      //Validate
+      var typeEventId = typeof eventId;
+      if(typeEventId !== 'string' && typeEventId !== 'number') throw new Error();
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'PATCH',
         url: path + 'events/' + eventId,
@@ -156,12 +181,19 @@
         return $q.when( response.data.event );
       }
 
-      function failed( error ) {
-        return $q.reject( error.data );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function editEventPut( eventId, data ){
+
+      //Validate
+      var typeEventId = typeof eventId;
+      if(typeEventId !== 'string' && typeEventId !== 'number') throw new Error();
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'PUT',
         url: path + 'events/' + eventId,
@@ -175,11 +207,11 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( response.data.data.event );
+        return $q.when( response.data.event );
       }
 
-      function failed( error ) {
-        return $q.reject( error.data );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 

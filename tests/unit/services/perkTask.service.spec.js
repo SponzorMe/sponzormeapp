@@ -564,7 +564,7 @@ describe("Service: perkTaskService", function(){
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an message', function(){
+      it('Should return a perkTaks', function(){
         var result;
         perkTaskService.editPerkTaskPatch(1, {})
           .then(function( rta ) {
