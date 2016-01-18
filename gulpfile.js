@@ -161,9 +161,9 @@ gulp.task('run-test-unit', function( done ){
   var config = {
     configFile: __dirname + getKarmaFile(),
     singleRun: true,
-    reporters: reporters
-  };
-  new karmaServer(config, done).start();
+    reporters: reporters                                                           
+  };                                                                                          
+  new karmaServer                                                                                                                                                                                                                                                                                                                                                             (config, done).start();
 });
 
 /**
