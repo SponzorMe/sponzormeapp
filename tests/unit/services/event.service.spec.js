@@ -1,6 +1,6 @@
-describe("Service: perkTaskService", function(){
+describe("Service: eventService", function() {
 
-	var perkTaskService;
+	var eventService;
 
   beforeEach(function() {
     module('app');
@@ -12,32 +12,32 @@ describe("Service: perkTaskService", function(){
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function( _perkTaskService_ ) {
-    perkTaskService = _perkTaskService_;
+  beforeEach(inject(function(_eventService_) {
+    eventService = _eventService_;
   }));
 
   ////////////////////////////////////////////////////////////
-  describe('Test to allPerkTasks method', function(){
+  describe('Test to eventService method', function(){
 
-    it('Should define a allPerkTasks function', function(){
-      chai.assert.isDefined(perkTaskService.allPerkTasks);
+    it('Should define a eventService function', function(){
+      chai.assert.isDefined(eventService.allEvents);
     });
 
     it('Should return a promise', function(){
-      var promise = perkTaskService.allPerkTasks();
+      var promise = eventService.allEvents();
       chai.assert.instanceOf( promise.then, Function);
       chai.assert.property( promise, '$$state');
     });
 
     ////////////////////////////////////////////////////////////
-    describe('allPerkTasks failed', function() {
+    describe('allEvents failed', function() {
       var $httpBackend;
       var data = mockData.failed();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/perk_tasks')
+        $httpBackend.when('GET', 'https://apilocal.sponzor.me/events')
           .respond(400, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -57,7 +57,7 @@ describe("Service: perkTaskService", function(){
 
       it('Should return an error message', function(){
         var result;
-        perkTaskService.allPerkTasks()
+        eventService.allEvents()
           .catch(function( rta ) {
             result = rta;
           });
@@ -67,14 +67,14 @@ describe("Service: perkTaskService", function(){
     });
 
     ////////////////////////////////////////////////////////////
-    describe('allPerkTasks success', function() {
+    describe('allEvents success', function() {
       var $httpBackend;
-      var data = mockData.perkTaskService.allPerkTasks();
+      var data = mockData.eventService.allEvents();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/perk_tasks')
+        $httpBackend.when('GET', 'https://apilocal.sponzor.me/events')
           .respond(200, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -92,67 +92,90 @@ describe("Service: perkTaskService", function(){
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an array of perks tasks', function(){
+      it('Should return an array of events', function(){
         var result;
-        perkTaskService.allPerkTasks()
+        eventService.allEvents()
           .then(function( rta ) {
             result = rta;
           });
         $httpBackend.flush();
         chai.assert.isArray( result );
-        chai.expect( result ).to.eql( data.PerkTasks );
       });
+
+      it('Should be match with images', function(){
+        var result;
+        eventService.allEvents()
+          .then(function( rta ) {
+            result = rta;
+          });
+        $httpBackend.flush();
+        chai.expect( result[0].image ).to.eql( 'img/banner.jpg' );
+        chai.expect( result[1].image ).to.eql( 'http://i.imgur.com/t8YehGM.jpg' );
+      });
+
+      it('Should be instance Of Date the events', function(){
+        var result;
+        eventService.allEvents()
+          .then(function( rta ) {
+            result = rta;
+          });
+        $httpBackend.flush();
+        for (var i = 0; i < result.length; i++) {
+          chai.assert.instanceOf( result[i].starts, Date );
+          chai.assert.instanceOf( result[i].ends, Date );
+        };
+      });
+
     });
 
   });
 
+	////////////////////////////////////////////////////////////
+  describe('Test to getEvent method', function(){
 
-  ////////////////////////////////////////////////////////////
-  describe('Test to getPerkTask method', function(){
-
-    it('Should define a getPerkTask function', function(){
-      chai.assert.isDefined(perkTaskService.getPerkTask);
+    it('Should define a getUser function', function(){
+      chai.assert.isDefined(eventService.getEvent);
     });
-
+    
     it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
-        perkTaskService.getPerkTask();
+        eventService.getEvent();
       });
       chai.assert.throws(function(){
-        perkTaskService.getPerkTask([]);
+        eventService.getEvent([]);
       });
       chai.assert.throws(function(){
-        perkTaskService.getPerkTask({});
+        eventService.getEvent({});
       });
       chai.assert.throws(function(){
-        perkTaskService.getPerkTask(Object);
+        eventService.getEvent(Object);
       });
     });
 
     it("Should not throw an error in case a string or number", function(){
       chai.assert.doesNotThrow(function(){
-        perkTaskService.getPerkTask("1");
+        eventService.getEvent(1);
       });
       chai.assert.doesNotThrow(function(){
-        perkTaskService.getPerkTask(1);
+        eventService.getEvent("1");
       });
     });
 
     it('Should return a promise', function(){
-      var promise = perkTaskService.getPerkTask(1);
+      var promise = eventService.getEvent("123");
       chai.assert.instanceOf( promise.then, Function);
       chai.assert.property( promise, '$$state');
     });
 
     ////////////////////////////////////////////////////////////
-    describe('getPerkTask failed', function() {
+    describe('getEvent failed', function() {
       var $httpBackend;
       var data = mockData.failed();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/perk_tasks/1')
+        $httpBackend.when('GET', 'https://apilocal.sponzor.me/events/1')
           .respond(400, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -172,24 +195,25 @@ describe("Service: perkTaskService", function(){
 
       it('Should return an error message', function(){
         var result;
-        perkTaskService.getPerkTask(1)
+        eventService.getEvent( 1 )
           .catch(function( rta ) {
             result = rta;
           });
         $httpBackend.flush();
         chai.assert.isDefined( result.message )
-      });
+      }); 
     });
 
     ////////////////////////////////////////////////////////////
-    describe('getPerkTask success', function() {
+    describe('getEvent success', function() {
+      //Assemble  
       var $httpBackend;
-      var data = mockData.perkTaskService.getPerkTask();
+      var data = mockData.eventService.getEvent();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/perk_tasks/1')
+        $httpBackend.when('GET', 'https://apilocal.sponzor.me/events/1')
           .respond(200, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -207,73 +231,70 @@ describe("Service: perkTaskService", function(){
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return a PerkTask', function(){
+      it('Should return an event', function(){
         var result;
-        perkTaskService.getPerkTask(1)
+        eventService.getEvent( 1 )
           .then(function( rta ) {
             result = rta;
           });
         $httpBackend.flush();
         chai.assert.isObject( result );
-        chai.expect( result ).to.have.all.keys([
-          'event',
-          'perk',
-          'user'
-        ]);
-        chai.assert.isObject( result.event );
-        chai.assert.isObject( result.perk );
-        chai.assert.isObject( result.user );
+        chai.assert.isObject( result.category );
+        chai.assert.isObject( result.type );
+        chai.assert.isObject( result.organizer );
+        chai.assert.isArray( result.sponzorships );
+        chai.assert.instanceOf( result.starts, Date );
+        chai.assert.instanceOf( result.ends, Date );
       });
     });
-
   });
 
-  ////////////////////////////////////////////////////////////
-  describe('Test to createPerkTask method', function(){
+	////////////////////////////////////////////////////////////
+  describe('Test to createEvent method', function(){
 
-    it('Should define a createPerkTask function', function(){
-      chai.assert.isDefined(perkTaskService.createPerkTask);
+    it('Should define a createEvent function', function(){
+      chai.assert.isDefined(eventService.createEvent);
     });
 
     it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
-        perkTaskService.createPerkTask();
+        eventService.createEvent();
       });
       chai.assert.throws(function(){
-        perkTaskService.createPerkTask([]);
+        eventService.createEvent([]);
       });
       chai.assert.throws(function(){
-        perkTaskService.createPerkTask("as");
+        eventService.createEvent("as");
       });
       chai.assert.throws(function(){
-        perkTaskService.createPerkTask(1);
+        eventService.createEvent(1);
       });
       chai.assert.throws(function(){
-        perkTaskService.createPerkTask(Object);
+        eventService.createEvent(Object);
       });
     });
 
     it("Should not throw an error in case a string or number", function(){
       chai.assert.doesNotThrow(function(){
-        perkTaskService.createPerkTask({});
+        eventService.createEvent({});
       });
     });
 
     it('Should return a promise', function(){
-      var promise = perkTaskService.createPerkTask({});
+      var promise = eventService.createEvent({});
       chai.assert.instanceOf( promise.then, Function);
       chai.assert.property( promise, '$$state');
     });
 
     ////////////////////////////////////////////////////////////
-    describe('createPerkTask failed', function() {
+    describe('createEvent failed', function() {
       var $httpBackend;
       var data = mockData.failed();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/perk_tasks')
+        $httpBackend.when('POST', 'https://apilocal.sponzor.me/events')
           .respond(400, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -293,7 +314,7 @@ describe("Service: perkTaskService", function(){
 
       it('Should return an error message', function(){
         var result;
-        perkTaskService.createPerkTask({})
+        eventService.createEvent({})
           .catch(function( rta ) {
             result = rta;
           });
@@ -303,14 +324,14 @@ describe("Service: perkTaskService", function(){
     });
 
     ////////////////////////////////////////////////////////////
-    describe('createPerkTask success', function() {
+    describe('createEvent success', function() {
       var $httpBackend;
-      var data = mockData.perkTaskService.createPerkTask();
+      var data = mockData.eventService.createEvent();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/perk_tasks')
+        $httpBackend.when('POST', 'https://apilocal.sponzor.me/events')
           .respond(200, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -328,66 +349,66 @@ describe("Service: perkTaskService", function(){
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return a PerkTask', function(){
+      it('Should return an event', function(){
         var result;
-        perkTaskService.createPerkTask({})
+        eventService.createEvent({})
           .then(function( rta ) {
             result = rta;
           });
         $httpBackend.flush();
         chai.assert.isObject( result );
-        chai.expect( result ).to.eql( data.PerkTask );
+        chai.expect( result ).to.eql( data.event );
       });
     });
 
   });
 
-  ////////////////////////////////////////////////////////////
-  describe('Test to deletePerkTask method', function(){
+	////////////////////////////////////////////////////////////
+  describe('Test to deleteEvent method', function(){
 
-    it('Should define a deletePerkTask function', function(){
-      chai.assert.isDefined(perkTaskService.deletePerkTask);
+    it('Should define a deleteEvent function', function(){
+      chai.assert.isDefined(eventService.deleteEvent);
     });
 
     it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
-        perkTaskService.deletePerkTask();
+        eventService.deleteEvent();
       });
       chai.assert.throws(function(){
-        perkTaskService.deletePerkTask([]);
+        eventService.deleteEvent([]);
       });
       chai.assert.throws(function(){
-        perkTaskService.deletePerkTask({});
+        eventService.deleteEvent({});
       });
       chai.assert.throws(function(){
-        perkTaskService.deletePerkTask(Object);
+        eventService.deleteEvent(Object);
       });
     });
 
     it("Should not throw an error in case a string or number", function(){
       chai.assert.doesNotThrow(function(){
-        perkTaskService.deletePerkTask("1");
+        eventService.deleteEvent("1");
       });
       chai.assert.doesNotThrow(function(){
-        perkTaskService.deletePerkTask(1);
+        eventService.deleteEvent(1);
       });
     });
 
     it('Should return a promise', function(){
-      var promise = perkTaskService.deletePerkTask(1);
+      var promise = eventService.deleteEvent(1);
       chai.assert.instanceOf( promise.then, Function);
       chai.assert.property( promise, '$$state');
     });
 
     ////////////////////////////////////////////////////////////
-    describe('deletePerkTask failed', function() {
+    describe('deleteEvent failed', function() {
       var $httpBackend;
       var data = mockData.failed();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/perk_tasks/1')
+        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/events/1')
           .respond(400, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -407,7 +428,7 @@ describe("Service: perkTaskService", function(){
 
       it('Should return an error message', function(){
         var result;
-        perkTaskService.deletePerkTask(1)
+        eventService.deleteEvent(1)
           .catch(function( rta ) {
             result = rta;
           });
@@ -417,14 +438,14 @@ describe("Service: perkTaskService", function(){
     });
 
     ////////////////////////////////////////////////////////////
-    describe('deletePerkTask success', function() {
+    describe('deleteEvent success', function() {
       var $httpBackend;
-      var data = mockData.perkTaskService.deletePerkTask();
+      var data = mockData.eventService.deleteEvent();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/perk_tasks/1')
+        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/events/1')
           .respond(200, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -444,7 +465,7 @@ describe("Service: perkTaskService", function(){
 
       it('Should return an message', function(){
         var result;
-        perkTaskService.deletePerkTask(1)
+        eventService.deleteEvent(1)
           .then(function( rta ) {
             result = rta;
           });
@@ -455,61 +476,61 @@ describe("Service: perkTaskService", function(){
 
   });
 
-  ////////////////////////////////////////////////////////////
-  describe('Test to editPerkTaskPatch method', function(){
+	////////////////////////////////////////////////////////////
+  describe('Test to editEventPatch method', function(){
 
-    it('Should define a editPerkTaskPatch function', function(){
-      chai.assert.isDefined(perkTaskService.editPerkTaskPatch);
+    it('Should define a editEventPatch function', function(){
+      chai.assert.isDefined(eventService.editEventPatch);
     });
 
     it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
-        perkTaskService.editPerkTaskPatch();
+        eventService.editEventPatch();
       });
       chai.assert.throws(function(){
-        perkTaskService.editPerkTaskPatch([], {});
+        eventService.editEventPatch([], {});
       });
       chai.assert.throws(function(){
-        perkTaskService.editPerkTaskPatch(Object, {});
+        eventService.editEventPatch(Object, {});
       });
       chai.assert.throws(function(){
-        perkTaskService.editPerkTaskPatch({}, {});
+        eventService.editEventPatch({}, {});
       });
       chai.assert.throws(function(){
-        perkTaskService.editPerkTaskPatch(1, []);
+        eventService.editEventPatch(1, []);
       });
       chai.assert.throws(function(){
-        perkTaskService.editPerkTaskPatch("1", Object);
+        eventService.editEventPatch("1", Object);
       });
       chai.assert.throws(function(){
-        perkTaskService.editPerkTaskPatch(2, "as");
+        eventService.editEventPatch(2, "as");
       });
     });
 
     it("Should not throw an error in case a string or number and an Object", function(){
       chai.assert.doesNotThrow(function(){
-        perkTaskService.editPerkTaskPatch("1", {});
+        eventService.editEventPatch("1", {});
       });
       chai.assert.doesNotThrow(function(){
-        perkTaskService.editPerkTaskPatch(1, {});
+        eventService.editEventPatch(1, {});
       });
     });
 
     it('Should return a promise', function(){
-      var promise = perkTaskService.editPerkTaskPatch(1, {});
+      var promise = eventService.editEventPatch(1, {});
       chai.assert.instanceOf( promise.then, Function);
       chai.assert.property( promise, '$$state');
     });
 
     ////////////////////////////////////////////////////////////
-    describe('editPerkTaskPatch failed', function() {
+    describe('editEventPatch failed', function() {
       var $httpBackend;
       var data = mockData.failed();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/perk_tasks/1')
+        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/events/1')
           .respond(400, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -529,7 +550,7 @@ describe("Service: perkTaskService", function(){
 
       it('Should return an error message', function(){
         var result;
-        perkTaskService.editPerkTaskPatch(1, {})
+        eventService.editEventPatch(1, {})
           .catch(function( rta ) {
             result = rta;
           });
@@ -539,14 +560,14 @@ describe("Service: perkTaskService", function(){
     });
 
     ////////////////////////////////////////////////////////////
-    describe('editPerkTaskPatch success', function() {
+    describe('editEventPatch success', function() {
       var $httpBackend;
-      var data = mockData.perkTaskService.editPerkTaskPatch();
+      var data = mockData.eventService.editEventPatch();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/perk_tasks/1')
+        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/events/1')
           .respond(200, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -564,74 +585,74 @@ describe("Service: perkTaskService", function(){
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return a perkTaks', function(){
+      it('Should return an event', function(){
         var result;
-        perkTaskService.editPerkTaskPatch(1, {})
+        eventService.editEventPatch(1, {})
           .then(function( rta ) {
             result = rta;
           });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.PerkTask );
+        chai.expect( result ).to.eql( data.event );
       });
     });
 
   });
 
-  ////////////////////////////////////////////////////////////
-  describe('Test to editPerkTaskPut method', function(){
+	////////////////////////////////////////////////////////////
+  describe('Test to editEventPut method', function(){
 
-    it('Should define a editPerkTaskPut function', function(){
-      chai.assert.isDefined(perkTaskService.editPerkTaskPut);
+    it('Should define a editEventPut function', function(){
+      chai.assert.isDefined(eventService.editEventPut);
     });
 
     it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
-        perkTaskService.editPerkTaskPut();
+        eventService.editEventPut();
       });
       chai.assert.throws(function(){
-        perkTaskService.editPerkTaskPut([], {});
+        eventService.editEventPut([], {});
       });
       chai.assert.throws(function(){
-        perkTaskService.editPerkTaskPut(Object, {});
+        eventService.editEventPut(Object, {});
       });
       chai.assert.throws(function(){
-        perkTaskService.editPerkTaskPut({}, {});
+        eventService.editEventPut({}, {});
       });
       chai.assert.throws(function(){
-        perkTaskService.editPerkTaskPut(1, []);
+        eventService.editEventPut(1, []);
       });
       chai.assert.throws(function(){
-        perkTaskService.editPerkTaskPut("1", Object);
+        eventService.editEventPut("1", Object);
       });
       chai.assert.throws(function(){
-        perkTaskService.editPerkTaskPut(2, "as");
+        eventService.editEventPut(2, "as");
       });
     });
 
     it("Should not throw an error in case a string or number and an Object", function(){
       chai.assert.doesNotThrow(function(){
-        perkTaskService.editPerkTaskPut("1", {});
+        eventService.editEventPut("1", {});
       });
       chai.assert.doesNotThrow(function(){
-        perkTaskService.editPerkTaskPut(1, {});
+        eventService.editEventPut(1, {});
       });
     });
 
     it('Should return a promise', function(){
-      var promise = perkTaskService.editPerkTaskPut(1, {});
+      var promise = eventService.editEventPut(1, {});
       chai.assert.instanceOf( promise.then, Function);
       chai.assert.property( promise, '$$state');
     });
 
     ////////////////////////////////////////////////////////////
-    describe('editPerkTaskPut failed', function() {
+    describe('editEventPut failed', function() {
       var $httpBackend;
       var data = mockData.failed();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/perk_tasks/1')
+        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/events/1')
           .respond(400, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -651,7 +672,7 @@ describe("Service: perkTaskService", function(){
 
       it('Should return an error message', function(){
         var result;
-        perkTaskService.editPerkTaskPut(1, {})
+        eventService.editEventPut(1, {})
           .catch(function( rta ) {
             result = rta;
           });
@@ -661,14 +682,14 @@ describe("Service: perkTaskService", function(){
     });
 
     ////////////////////////////////////////////////////////////
-    describe('editPerkTaskPut success', function() {
+    describe('editEventPut success', function() {
       var $httpBackend;
-      var data = mockData.perkTaskService.editPerkTaskPut();
+      var data = mockData.eventService.editEventPut();
 
       beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/perk_tasks/1')
+        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/events/1')
           .respond(200, data);
         $httpBackend.whenGET('langs/lang-en.json').respond(200, {
           "title": 'Sponzorme EN'
@@ -686,131 +707,17 @@ describe("Service: perkTaskService", function(){
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an message', function(){
+      it('Should return an event', function(){
         var result;
-        perkTaskService.editPerkTaskPut(1, {})
+        eventService.editEventPut(1, {})
           .then(function( rta ) {
             result = rta;
           });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.PerkTask );
+        chai.expect( result ).to.eql( data.event );
       });
     });
 
   });
-
-  ////////////////////////////////////////////////////////////
-  describe('Test to getPerkTaskByOrganizer method', function(){
-
-    it('Should define a getPerkTaskByOrganizer function', function(){
-      chai.assert.isDefined(perkTaskService.getPerkTaskByOrganizer);
-    });
-
-    it('Should throw an error on an incompatible type', function(){
-      chai.assert.throws(function(){
-        perkTaskService.getPerkTaskByOrganizer();
-      });
-      chai.assert.throws(function(){
-        perkTaskService.getPerkTaskByOrganizer([]);
-      });
-      chai.assert.throws(function(){
-        perkTaskService.getPerkTaskByOrganizer({});
-      });
-      chai.assert.throws(function(){
-        perkTaskService.getPerkTaskByOrganizer(Object);
-      });
-    });
-
-    it("Should not throw an error in case a string or number", function(){
-      chai.assert.doesNotThrow(function(){
-        perkTaskService.getPerkTaskByOrganizer("1");
-      });
-      chai.assert.doesNotThrow(function(){
-        perkTaskService.getPerkTaskByOrganizer(1);
-      });
-    });
-
-    it('Should return a promise', function(){
-      var promise = perkTaskService.getPerkTaskByOrganizer(1);
-      chai.assert.instanceOf( promise.then, Function);
-      chai.assert.property( promise, '$$state');
-    });
-
-    ////////////////////////////////////////////////////////////
-    describe('getPerkTaskByOrganizer failed', function() {
-      var $httpBackend;
-      var data = mockData.failed();
-
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/perk_tasks_organizer/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-      });
-
-      it('Should return an error message', function(){
-        var result;
-        perkTaskService.getPerkTaskByOrganizer(1)
-          .catch(function( rta ) {
-            result = rta;
-          });
-        $httpBackend.flush();
-        chai.assert.isDefined( result.message )
-      });
-    });
-
-    ////////////////////////////////////////////////////////////
-    describe('getPerkTaskByOrganizer success', function() {
-      var $httpBackend;
-      var data = mockData.perkTaskService.getPerkTaskByOrganizer();
-
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/perk_tasks_organizer/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-      });
-
-      it('Should return an array of perk tasks', function(){
-        var result;
-        perkTaskService.getPerkTaskByOrganizer(1)
-          .then(function( rta ) {
-            result = rta;
-          });
-        $httpBackend.flush();
-        chai.assert.isArray( result );
-        chai.expect( result ).to.eql( data.PerkTasks );
-      });
-    });
-
-  });
-
-}); 
+	
+});

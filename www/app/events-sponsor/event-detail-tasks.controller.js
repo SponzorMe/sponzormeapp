@@ -50,7 +50,8 @@
 
     function getEvent(){
       utilsService.showLoad();
-      eventService.getEvent( $stateParams.idEvent )
+      //eventService.getEvent( $stateParams.idEvent )
+      eventService.getEvent( 1 )
         .then( complete )
         .catch( failed );
 

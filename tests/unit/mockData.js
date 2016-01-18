@@ -60,6 +60,14 @@ var mockData = (function() {
     categoryService: {
       allCategories: allCategories,
       getCategory: getCategory
+    },
+    eventService:{
+      allEvents: allEvents,
+      getEvent: getEvent,
+      createEvent: createEvent,
+      deleteEvent: deleteEvent,
+      editEventPatch: editEventPatch,
+      editEventPut: editEventPut
     }
   }
 
@@ -529,7 +537,7 @@ var mockData = (function() {
   function getTask(){
     return {
       data: {
-        Task: {},
+        Task:{},
         Organizer: {},
         Sponzor: {},
         Event: {}
@@ -671,5 +679,205 @@ var mockData = (function() {
     }
   }
 
+  function allEvents(){
+    return {
+      events: [
+        {
+          category: "1",
+          description: "",
+          ends: "2016-01-31 09:57:00",
+          id: "1002",
+          image: "event_dummy.png",
+          lang: "en",
+          location: "Medellin Colombia",
+          location_reference: "referenceafsddf",
+          privacy: "0",
+          starts: "2016-01-30 03:54:00",
+          title: "My Second Event",
+          type: "1"
+        },
+        {
+          category: "1",
+          description: "Una intro",
+          ends: "2016-01-31 17:45:00",
+          id: "1004",
+          image: "http://i.imgur.com/t8YehGM.jpg",
+          lang: "en",
+          location: "Bogota",
+          location_reference: "referencia",
+          privacy: "1",
+          starts: "2016-01-30 17:45:00",
+          title: "Ionic 102 - Workshop",
+          type: "1"
+        }
+      ],
+      success: true
+    }
+  }
   
+  function getEvent(){
+    return {
+      data: {
+        category: [
+          {
+            id: "1",
+            title: "Outdoor",
+            body: "All About the Bussines!",
+            lang: "en"
+          }
+        ],
+        event: {
+          id: "1002",
+          title: "My Second Event",
+          location: "Medellin Colombia",
+          ends: "2016-01-31 09:57:00",
+          starts: "2016-01-31 09:57:00",
+          perk_tasks: [
+            {
+              description: "asas sdsd",
+              event_id: "1002",
+              id: "11",
+              perk_id: "3",
+              status: "1",
+              title: "Prueba",
+              type: "1",
+              user_id: "1002"
+            },
+            {
+              description: "as",
+              event_id: "1002",
+              id: "15",
+              perk_id: "3",
+              status: "0",
+              title: "UNa tarea",
+              type: "1",
+              user_id: "1002"
+            }
+          ],
+          perks: [
+            {
+              id: "3",
+              id_event: "1002",
+              kind: "A",
+              reserved_quantity: "0",
+              total_quantity: "2",
+              usd: "10"
+            },
+            {
+              id: "14",
+              id_event: "1002",
+              kind: "C",
+              reserved_quantity: "0",
+              total_quantity: "4",
+              usd: "8"
+            }
+          ],
+          sponzor_tasks: [],
+          sponzorship: [
+            {
+              cause: "test",
+              event_id: "1002",
+              id: "30",
+              organizer_id: "1003",
+              perk_id: "3",
+              sponzor_id: "1002",
+              status: "0"
+            }
+          ]
+        },
+        organizer: [
+          {
+            id: "1003",
+            name: "Organizer Sponzorme",
+            email: "organizer@sponzor.me",
+            activated: "1"
+          }
+        ],
+        sponzorships: [
+          {
+            name: "Sponzor Sponzorme",
+            id: "30",
+            sponzor_id: "1002",
+            organizer_id: "1003",
+            perk_id: "3"
+          }
+        ],
+        type:[
+          {
+            description: "Give us your money",
+            id: "1",
+            lang: "en",
+            name: "Charity"
+          }
+        ]
+      }
+    }
+  }
+
+  function createEvent(){
+    return {
+      event: {
+        category: "1",
+        description: "Una prueba",
+        ends: "2010-01-01 00:00:00",
+        image: "http://i.imgur.com/t8YehGM.jpg",
+        lang: "es",
+        location: "event",
+        location_reference: "referencia",
+        privacy: "1",
+        starts: "2010-01-01 00:00:00",
+        title: "Test Event",
+        type: "1"
+      },
+      message: "Inserted"
+    }
+  }
+
+  function deleteEvent(){
+    return {
+      message: "Deleted"
+    }
+  }
+
+  function editEventPatch(){
+    return {
+      event: {
+        category: "1",
+        description: "Una prueba",
+        ends: "2010-01-01 00:00:00",
+        id: "1045",
+        image: "http://i.imgur.com/t8YehGM.jpg",
+        lang: "es",
+        location: "event",
+        location_reference: "referencia",
+        privacy: "1",
+        starts: "2010-01-01 00:00:00",
+        title: "Test Event 2",
+        type: "1",
+        message: "Updated"
+      },
+      warnings: []
+    }
+  }
+
+  function editEventPut(){
+    return {
+      event: {
+        category: "1",
+        description: "Una prueba",
+        ends: "2010-01-01 00:00:00",
+        id: "1045",
+        image: "http://i.imgur.com/t8YehGM.jpg",
+        lang: "es",
+        location: "event",
+        location_reference: "referencia",
+        privacy: "1",
+        starts: "2010-01-01 00:00:00",
+        title: "Test Event 2",
+        type: "1",
+        message: "Updated"
+      }
+    }
+  }
+
 })();

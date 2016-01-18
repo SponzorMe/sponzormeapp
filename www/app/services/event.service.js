@@ -22,7 +22,6 @@
   function eventService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
 
     var path = BackendVariables.url;
-    var token = $localStorage.token;
 
     var service = {
       allEvents: allEvents,
@@ -36,20 +35,26 @@
     return service;
 
     ////////////
+    function getToken(){
+      return $localStorage.token;
+    }
 
     function allEvents(){
-      return $http.get(path + 'events')
-        .then( complete )
-        .catch( failed );
+      
+      return $http({
+        method: 'GET',
+        url: path + 'events'
+      })
+      .then( complete )
+      .catch( failed );
 
       function complete( response ) {
-        var events = preparateEvents( response.data.events );
+        var events = preparateData( response.data.events );
         return $q.when( events );
       }
 
-      function preparateEvents( events ){
-        return events
-          .map( preparateEvent );
+      function preparateData( events ){
+        return events.map( preparateEvent );
 
         function preparateEvent( item ){
           item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
@@ -59,15 +64,23 @@
         }
       }
 
-      function failed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function getEvent( eventId ){
-      return $http.get(path + 'events/' + eventId )
-        .then( complete )
-        .catch( failed );
+
+      //Validate
+      var typeEventId = typeof eventId;
+      if(typeEventId !== 'string' && typeEventId !== 'number') throw new Error();
+
+      return $http({
+        method: 'GET',
+        url: path + 'events/' + eventId
+      })
+      .then( complete )
+      .catch( failed );
 
       function complete( response ) {
         return $q.when( preparateData(response.data.data) );
@@ -86,12 +99,17 @@
         }
       }
 
-      function failed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function createEvent( data ){
+
+      //Validate
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'POST',
         url: path + 'events',
@@ -108,12 +126,17 @@
         return $q.when( response.data.event );
       }
 
-      function failed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function deleteEvent( eventId ){
+
+      //Validate
+      var typeEventId = typeof eventId;
+      if(typeEventId !== 'string' && typeEventId !== 'number') throw new Error();
+
       return $http({
         method: 'DELETE',
         url: path + 'events/' + eventId,
@@ -129,12 +152,19 @@
         return $q.when( response.data );
       }
 
-      function failed( error ) {
-        return $q.reject( error.data );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function editEventPatch( eventId, data ){
+
+      //Validate
+      var typeEventId = typeof eventId;
+      if(typeEventId !== 'string' && typeEventId !== 'number') throw new Error();
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'PATCH',
         url: path + 'events/' + eventId,
@@ -151,12 +181,19 @@
         return $q.when( response.data.event );
       }
 
-      function failed( error ) {
-        return $q.reject( error.data );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function editEventPut( eventId, data ){
+
+      //Validate
+      var typeEventId = typeof eventId;
+      if(typeEventId !== 'string' && typeEventId !== 'number') throw new Error();
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'PUT',
         url: path + 'events/' + eventId,
@@ -170,17 +207,15 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( response.data.data.event );
+        return $q.when( response.data.event );
       }
 
-      function failed( error ) {
-        return $q.reject( error.data );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
-    function getToken(){
-      return $localStorage.token;
-    }
+    
 
   }
 })();
