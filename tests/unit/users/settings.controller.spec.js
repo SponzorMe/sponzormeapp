@@ -14,7 +14,7 @@ describe("Controller: SettingsController", function() {
   }));
 
 	beforeEach(inject(function($injector, $rootScope, $controller) {
-		$translate = $injector.get('$translate');
+    $translate = $injector.get('$translate');
     settingsController = $controller('SettingsController', {
     	'$translate': $translate
     });
@@ -34,7 +34,7 @@ describe("Controller: SettingsController", function() {
   });
 
   ////////////////////////////////////////////////////////////
-  describe('Test to save', function(){
+  describe('Test to save method', function(){
 
   	var $httpBackend;
 

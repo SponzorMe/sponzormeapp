@@ -27,7 +27,6 @@
     vm.registerNewUser = registerNewUser;
 
     activate();
-
     ////////////
 
     function activate(){
@@ -63,18 +62,19 @@
             template: $translate.instant("ERRORS.signin_incorrect_credentials")
           });
         }
-        else if (utilsService.trim(data.error.email) === "The email has already been taken.") {
-          utilsService.alert({
-            title: $translate.instant("ERRORS.signin_taken_credentials_title"),
-            template: $translate.instant("ERRORS.signin_taken_credentials_message")
-          });
-        }
         else if (utilsService.trim(data.message) === "Not inserted") {
           utilsService.alert({
             title: $translate.instant("ERRORS.signin_notinserted_credentials_title"),
             template: $translate.instant("ERRORS.signin_notinserted_credentials_message")
           });
         }
+        else if (data.error && utilsService.trim(data.error.email) === "The email has already been taken.") {
+          utilsService.alert({
+            title: $translate.instant("ERRORS.signin_taken_credentials_title"),
+            template: $translate.instant("ERRORS.signin_taken_credentials_message")
+          });
+        }
+        
       }
     };
 
