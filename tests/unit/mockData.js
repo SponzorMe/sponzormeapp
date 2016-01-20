@@ -95,7 +95,9 @@ var mockData = (function() {
       token: null,
       user: {
         id: "1",
-        email: "mail@domain.com"
+        email: "mail@domain.com",
+        age: "12",
+        comunity_size: "0"
       }
     }
   }
@@ -145,7 +147,13 @@ var mockData = (function() {
 
   function editUserPatch(){
     return {
-      User:{},
+      User:{
+        id: "1", 
+        email: "mail@domain.com",
+        age: "12",
+        comunity_size: "0",
+        image: 'http://i.imgur.com/SpKEBB5.jpg'
+      },
       message: "Updated",
       warnings: []
     }

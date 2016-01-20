@@ -11,6 +11,7 @@
     'ionic',
     'ionic.service.core',
     'ngCordova',
+    //'ngCordovaMocks',
     'ngMessages',
     'ngStorage',
     'ngIOS9UIWebViewPatch',

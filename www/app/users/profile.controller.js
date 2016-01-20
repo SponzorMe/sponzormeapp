@@ -24,46 +24,49 @@
   function ProfileController( userService, utilsService, $cordovaCamera, $localStorage, $q, imgurService, $cordovaToast) {
 
     var vm = this;
-    vm.user = $localStorage.userAuth;
+    vm.userAuth = $localStorage.userAuth;
+    vm.imageURI = null;
     vm.getPhoto = getPhoto;
     vm.updateProfile = updateProfile;
-    vm.imageURI = null;
+    
 
     activate();
 
     ////////////
     
     function activate(){
-      vm.user.age = parseInt( vm.user.age );
-      vm.user.comunity_size = vm.user.comunity_size || 0;
-      vm.user.comunity_size = parseInt( vm.user.comunity_size );
-      console.log( vm.user );
+      vm.userAuth.age = parseInt( vm.userAuth.age );
+      vm.userAuth.comunity_size = vm.userAuth.comunity_size || 0;
+      vm.userAuth.comunity_size = parseInt( vm.userAuth.comunity_size );
     }
 
     function getPhoto(){
+
+      var Camera = Camera || null;
+      var CameraPopoverOptions = CameraPopoverOptions || null;
+
       var options = {
         quality: 100,
-        destinationType: Camera.DestinationType.DATA_URL,
-        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+        destinationType: Camera ? Camera.DestinationType.DATA_URL : null,
+        sourceType: Camera ? Camera.PictureSourceType.PHOTOLIBRARY : null,
         allowEdit: true,
-        encodingType: Camera.EncodingType.JPEG,
+        encodingType: Camera ? Camera.EncodingType.JPEG : null,
         targetWidth: 500,
         targetHeight: 500,
         popoverOptions: CameraPopoverOptions,
         saveToPhotoAlbum: false,
       };
-
       $cordovaCamera.getPicture( options )
         .then( complete )
         .catch( failed );
 
       function complete( imageURI ){
         vm.imageURI = imageURI;
-        vm.user.image = "data:image/jpeg;base64," + imageURI;
+        vm.userAuth.image = "data:image/jpeg;base64," + imageURI;
       }
 
       function failed( error ){
-        console.log( error );
+        //console.log( error );
       }
     }
 
@@ -76,29 +79,28 @@
           .then( updateUser )
           .catch( failed );
       }else{
-        userService.editUserPatch( vm.user.id, vm.user )
+        userService.editUserPatch( vm.userAuth.id, vm.userAuth )
           .then( updateUser )
           .catch( failed );
       }
 
         function updateImage( image ){
-          console.log( image );
-          vm.user.image = image;
-          return userService.editUserPatch( vm.user.id, vm.user );
+          vm.userAuth.image = image;
+          return userService.editUserPatch( vm.userAuth.id, vm.userAuth );
         }
 
         function updateUser( user ){
           utilsService.hideLoad();
           utilsService.resetForm( form );
-          vm.user = user;
-          vm.user.age = parseInt( vm.user.age );
-          $localStorage.userAuth = utilsService.updateUserAuth( user );
+          vm.userAuth = user;
+          vm.userAuth.age = parseInt( vm.userAuth.age );
+          $localStorage.userAuth = utilsService.updateUserAuth( vm.userAuth );
           $cordovaToast.showShortBottom("Su perfil se ha actulizado");
         }
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
+          //console.log( error );
         }
     }
 

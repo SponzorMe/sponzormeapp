@@ -36,6 +36,7 @@ module.exports = function( config ){
       "www/lib/moment/min/moment.min.js",
       "www/lib/ngCordova/dist/ng-cordova.min.js",
       //Vendors for testing
+      //"www/lib/ngCordova/dist/ng-cordova-mocks.min.js",
       "www/lib/angular-mocks/angular-mocks.js",
       'www/lib/chai/chai.js',
       'www/lib/chai-spies/chai-spies.js',

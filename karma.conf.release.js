@@ -22,6 +22,7 @@ module.exports = function( config ){
       //Vendors
       "www/build/js/vendors.js",
       //Vendors for testing
+      //"www/lib/ngCordova/dist/ng-cordova-mocks.min.js",
       "www/lib/angular-mocks/angular-mocks.js",
       'www/lib/chai/chai.js',
       'www/lib/chai-spies/chai-spies.js',
