@@ -23,7 +23,7 @@
 
     var vm = this;
     //Attributes
-    vm.user = $localStorage.userAuth || {};
+    vm.userAuth = $localStorage.userAuth || {};
     //Funcions
     vm.updateProfile = updateProfile;
     vm.changeLang = changeLang;
@@ -33,24 +33,23 @@
     ////////////
     
     function activate(){
-      vm.user.lang = 'en';
-      vm.user.gender = 1;
-      vm.user.age = vm.user.age == '0' ? null: parseInt( vm.user.age );
+      vm.userAuth.lang = 'en';
+      vm.userAuth.gender = 1;
+      vm.userAuth.age = vm.userAuth.age == '0' ? null : parseInt( vm.userAuth.age );
     }
 
     function updateProfile( form ){
       utilsService.showLoad();
-      userService.editUserPatch( vm.user.id, preparateData() )
+      userService.editUserPatch( vm.userAuth.id, preparateData() )
         .then( updateUser )
         .catch( failed );
 
       function updateUser( user ){
           utilsService.hideLoad();
           utilsService.resetForm( form );
-          vm.user = user;
-          vm.user.age = parseInt( vm.user.age );
-          $localStorage.userAuth = utilsService.updateUserAuth( vm.user );
-          vm.user = {};
+          user.age = parseInt( user.age );
+          $localStorage.userAuth = utilsService.updateUserAuth( user );
+          vm.userAuth = {};
           $state.go("interests");
         }
 
@@ -62,16 +61,16 @@
 
     function preparateData(){
       return {
-        name: vm.user.name,
-        age: parseInt(vm.user.age),
-        location: vm.user.location, 
-        lang: vm.user.lang,
-        sex: parseInt(vm.user.sex)
+        name: vm.userAuth.name,
+        age: parseInt(vm.userAuth.age),
+        location: vm.userAuth.location, 
+        lang: vm.userAuth.lang,
+        sex: parseInt(vm.userAuth.sex)
       }
     }
 
     function changeLang(){
-      $translate.use(vm.newUser.lang);
+      $translate.use(vm.userAuth.lang);
     }
 
   }
