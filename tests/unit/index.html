@@ -51,12 +51,12 @@
     <script src="app/dashboard-organizer/dashboard-organizer.module.js"></script>
     <script src="app/dashboard-sponzor/dashboard-sponzor.module.js"></script>
     <script src="app/events-organizer/events-organizer.module.js"></script>
+    <script src="app/events-sponsor/events-sponzor.module.js"></script>
+    <script src="app/sponsors-organizer/sponsors-organizer.module.js"></script>
     <script src="app/tasks-organizer/task-organizer.module.js"></script>
     <script src="app/tasks-sponsor/tasks-sponsor.module.js"></script>
     <script src="app/users/users.module.js"></script>
     <script src="app/widgets/widgets.module.js"></script>
-    <script src="app/events-sponsor/events-sponzor.module.js"></script>
-    <script src="app/sponsors-organizer/sponsors-organizer.module.js"></script>
     <script src="app/widgets/crop-image.directive.js"></script>
     <script src="app/widgets/hide-tabs.directive.js"></script>
     <script src="app/widgets/network-message.directive.js"></script>
@@ -71,6 +71,12 @@
     <script src="app/events-organizer/event-detail.controller.js"></script>
     <script src="app/events-organizer/event-list.controller.js"></script>
     <script src="app/events-organizer/past-events.controller.js"></script>
+    <script src="app/events-sponsor/event-detail-tasks.controller.js"></script>
+    <script src="app/events-sponsor/event-detail.controller.js"></script>
+    <script src="app/events-sponsor/follow-events.controller.js"></script>
+    <script src="app/events-sponsor/sponsoring-events.controller.js"></script>
+    <script src="app/sponsors-organizer/sponzor-detail.controller.js"></script>
+    <script src="app/sponsors-organizer/sponzor-list.controller.js"></script>
     <script src="app/tasks-organizer/add-task.controller.js"></script>
     <script src="app/tasks-organizer/edit-task.controller.js"></script>
     <script src="app/tasks-organizer/task-list.controller.js"></script>
@@ -84,12 +90,6 @@
     <script src="app/users/profile.controller.js"></script>
     <script src="app/users/register.controller.js"></script>
     <script src="app/users/settings.controller.js"></script>
-    <script src="app/events-sponsor/event-detail-tasks.controller.js"></script>
-    <script src="app/events-sponsor/event-detail.controller.js"></script>
-    <script src="app/events-sponsor/follow-events.controller.js"></script>
-    <script src="app/events-sponsor/sponsoring-events.controller.js"></script>
-    <script src="app/sponsors-organizer/sponzor-detail.controller.js"></script>
-    <script src="app/sponsors-organizer/sponzor-list.controller.js"></script>
     <!-- endinject -->
 
     <!-- tests:js -->
@@ -106,6 +106,7 @@
     <script src="services/user.service.spec.js"></script>
     <script src="services/userInterests.service.spec.js"></script>
     <script src="services/utils.service.spec.js"></script>
+    <script src="users/invite-users.controller.spec.js"></script>
     <script src="users/login.controller.spec.js"></script>
     <script src="users/profile.controller.spec.js"></script>
     <script src="users/register.controller.spec.js"></script>

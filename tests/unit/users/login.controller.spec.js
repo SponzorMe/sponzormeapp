@@ -236,7 +236,7 @@ describe("Controller: LoginController", function() {
   });
 
   ////////////////////////////////////////////////////////////
-  describe('Tests to variables with session demo is 1 and type is 1', function(){
+  describe('Tests to signIn with session demo is 1 and type is 1', function(){
 
   	var loginControllerSession;
 
@@ -271,7 +271,7 @@ describe("Controller: LoginController", function() {
   });
 
 	////////////////////////////////////////////////////////////
-  describe('Tests to variables with session demo is 0 and type is 1', function(){
+  describe('Tests to signIn with session demo is 0 and type is 1', function(){
 
   	var loginControllerSession;
   	var data = mockData.userService.login().user;
@@ -322,7 +322,7 @@ describe("Controller: LoginController", function() {
   });
 
 	////////////////////////////////////////////////////////////
-  describe('Tests to variables with session demo is 1 and type is 0', function(){
+  describe('Tests to signIn with session demo is 1 and type is 0', function(){
 
   	var loginControllerSession;
 
@@ -357,7 +357,7 @@ describe("Controller: LoginController", function() {
   });
 
   ////////////////////////////////////////////////////////////
-  describe('Tests to variables with session demo is 0 and type is 0', function(){
+  describe('Tests to signIn with session demo is 0 and type is 0', function(){
 
   	var loginControllerSession;
   	var data = mockData.userService.login().user;
