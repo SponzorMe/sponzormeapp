@@ -53,7 +53,6 @@
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
         }
     }
 

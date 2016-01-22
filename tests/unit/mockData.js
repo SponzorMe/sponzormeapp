@@ -380,7 +380,7 @@ var mockData = (function() {
           event_id: "1018",
           id: "36",
           perk_id: "18",
-          status: "0",
+          status: "1",
           title: "Tarea",
           type: "0",
           user_id: "1007"
