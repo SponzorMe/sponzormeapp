@@ -59,7 +59,8 @@ var mockData = (function() {
     },
     categoryService: {
       allCategories: allCategories,
-      getCategory: getCategory
+      getCategory: getCategory,
+      getInterests: getInterests
     },
     eventService:{
       allEvents: allEvents,
@@ -685,6 +686,59 @@ var mockData = (function() {
         }
       }
     }
+  }
+
+  function getInterests(){
+    return [
+      {
+        body: "All About the Bussines!",
+        id: "1",
+        lang: "en",
+        title: "Outdoor",
+        interests: [
+          {
+            category_id: "2",
+            description: "Tutorials About Photoshop",
+            id_interest: "1",
+            lang: "en",
+            name: "Live Music",
+            check: true
+          },
+          {
+            category_id: "2",
+            description: "Tutorials About Photoshop",
+            id_interest: "2",
+            lang: "en",
+            name: "Performing Arts",
+            check: false
+          }
+        ]
+      },
+      {
+        body: "All About the Bussines!",
+        id: "2",
+        lang: "en",
+        title: "Outdoor",
+        interests: [
+          {
+            category_id: "2",
+            description: "Tutorials About Photoshop",
+            id_interest: "3",
+            lang: "en",
+            name: "Live Music",
+            check: true
+          },
+          {
+            category_id: "2",
+            description: "Tutorials About Photoshop",
+            id_interest: "4",
+            lang: "en",
+            name: "Performing Arts",
+            check: true
+          }
+        ]
+      },
+    ]
   }
 
   function allEvents(){
