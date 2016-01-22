@@ -14,16 +14,12 @@
   EditTaskController.$inject = [
     '$localStorage',
     'perkTaskService',
-    'perkService',
-    'userService',
     'utilsService',
-    '$state',
     '$stateParams',
-    '$ionicHistory',
-    '$q'
+    '$ionicHistory'
   ];
 
-  function EditTaskController( $localStorage, perkTaskService, perkService, userService, utilsService, $state, $stateParams, $ionicHistory, $q) {
+  function EditTaskController( $localStorage, perkTaskService, utilsService, $stateParams, $ionicHistory) {
 
     var vm = this;
     vm.newTask = {};
@@ -47,6 +43,7 @@
         .catch( failed );
 
         function complete( task ){
+
           utilsService.hideLoad();
           vm.newTask = task;
           vm.newTask.status = task.status == '1' ? true : false ;
@@ -54,7 +51,6 @@
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
         }
     }
 
@@ -74,14 +70,12 @@
             disableAnimate: false,
             disableBack: true
           });
-          $ionicHistory.clearCache().then(function(){
-            $ionicHistory.goBack();
-          });
+          $ionicHistory.clearCache();
+          $ionicHistory.goBack();
         }
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
         }
     }
 
@@ -93,17 +87,19 @@
 
         function complete( data ){
           vm.newTask = {};
+          utilsService.hideLoad();
           $ionicHistory.nextViewOptions({
             disableAnimate: false,
             disableBack: true
           });
-          $state.go("organizer.tasks");
+          $ionicHistory.clearCache();
+          $ionicHistory.goBack();
         }
 
         function failed( error ){
           utilsService.hideLoad();
           utilsService.alert({
-            template: error.data.message
+            template: error.message
           });
         }
     }

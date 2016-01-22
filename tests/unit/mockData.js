@@ -324,8 +324,12 @@ var mockData = (function() {
   function getPerkTask(){
     return {
       data: {
-        Event: {},
-        Perk: {},
+        Event: {
+          id: 1
+        },
+        Perk: {
+          id: 2
+        },
         PerkTask: {},
         User: {}
       }
