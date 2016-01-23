@@ -225,10 +225,14 @@ var mockData = (function() {
     return {
       SponzorsEvents: [
         {
+          event_id: 1,
+          title: 'event',
           starts: "2016-01-09 15:00:00",
           ends: "2016-01-09 15:00:00"
         },
         {
+          event_id: 1,
+          title: 'event',
           starts: "2016-01-09 15:00:00",
           ends: "2016-01-09 15:00:00"
         }
