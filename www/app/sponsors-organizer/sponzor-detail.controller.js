@@ -13,15 +13,14 @@
 
   SponsorshipDetailController.$inject = [
     '$localStorage',
-    'sponzorshipService',
+    'sponsorshipService',
     'utilsService',
     '$ionicPopup',
     '$stateParams',
-    '$scope',
     '$ionicHistory'
   ];
 
-  function SponsorshipDetailController( $localStorage, sponzorshipService , utilsService, $ionicPopup, $stateParams, $scope, $ionicHistory) {
+  function SponsorshipDetailController( $localStorage, sponsorshipService , utilsService, $ionicPopup, $stateParams, $ionicHistory) {
 
     var vm = this;
     //Atributes
@@ -29,8 +28,8 @@
     vm.userAuth = $localStorage.userAuth;
     vm.showEmptyState = false;
     //Accions
-    vm.sponzorAccept = sponzorAccept;
-    vm.sponzorReject = sponzorReject;
+    vm.sponsorAccept = sponsorAccept;
+    vm.sponsorReject = sponsorReject;
 
     activate();
 
@@ -42,24 +41,22 @@
 
     function getSponsorship(){
       utilsService.showLoad();
-      sponzorshipService.getSponzorship( $stateParams.id )
+      sponsorshipService.getSponzorship( $stateParams.id )
         .then( complete )
         .catch( failed );
 
         function complete( sponsorship ){
           utilsService.hideLoad();
-          console.log( sponsorship );
           vm.sponsorship = sponsorship;
         }
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
         }
     }
 
 
-    function sponzorAccept( index ){
+    function sponsorAccept(){
       confirmPopup('Are you sure?', 'In accept the sponsor')
         .then( complete );
 
@@ -68,7 +65,7 @@
         }
     }
 
-    function sponzorReject( index ){
+    function sponsorReject(){
       confirmPopup('Are you sure?', 'In reject the sponsor')
         .then( complete );
 
@@ -88,7 +85,7 @@
       utilsService.showLoad();
       var sponsorship = angular.copy( vm.sponsorship );
       sponsorship.status = status;
-      sponzorshipService.editSponzorshipPut( sponsorship.id, sponsorship )
+      sponsorshipService.editSponzorshipPut( sponsorship.id, sponsorship )
         .then( complete )
         .catch( failed );
 
@@ -100,7 +97,6 @@
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
         }
 
     }

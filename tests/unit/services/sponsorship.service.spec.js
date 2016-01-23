@@ -219,7 +219,8 @@ describe("Service: sponsorshipService", function(){
 	        'organizer',
 	        'perk',
 	        'sponzor',
-	        'tasks'
+	        'tasks',
+          'id'
 	      ]);
 	      chai.assert.isObject( result.event );
 	      chai.assert.isObject( result.organizer );

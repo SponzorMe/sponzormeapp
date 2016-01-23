@@ -215,7 +215,9 @@ var mockData = (function() {
         Organizer: {},
         Perk: {},
         Sponzor: {},
-        SponzorEvent: {},
+        SponzorEvent: {
+          id: 1
+        },
         Tasks: []
       }
     }
