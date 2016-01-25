@@ -12,7 +12,6 @@
     .controller('EventListController', EventListController);
 
   EventListController.$inject = [
-    '$translate',
     '$localStorage',
     'userService',
     'utilsService',
@@ -20,7 +19,7 @@
     '$rootScope'
   ];
 
-  function EventListController( $translate, $localStorage, userService , utilsService, $scope, $rootScope) {
+  function EventListController( $localStorage, userService , utilsService, $scope, $rootScope) {
 
     var vm = this;
     //Attributes
@@ -54,8 +53,7 @@
 
         function failed( error ){
           utilsService.hideLoad();
-          vm.showEmptyState = true;
-          console.log( error );
+          vm.showEmptyState = true;;
         }
     }
 
@@ -72,7 +70,7 @@
         }
 
         function failed( error ){
-          console.log( error );
+          $scope.$broadcast('scroll.refreshComplete');
         }
     }
 
