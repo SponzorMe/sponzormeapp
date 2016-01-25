@@ -12,7 +12,6 @@
     .controller('PastEventsController', PastEventsController);
 
   PastEventsController.$inject = [
-    '$translate',
     '$localStorage',
     'userService',
     'utilsService',
@@ -20,7 +19,7 @@
     '$rootScope'
   ];
 
-  function PastEventsController( $translate, $localStorage, userService , utilsService, $scope, $rootScope) {
+  function PastEventsController( $localStorage, userService , utilsService, $scope, $rootScope) {
 
     var vm = this;
     //Attributes
@@ -46,17 +45,14 @@
 
         function complete( user ){
           utilsService.hideLoad();
-          vm.showEmptyState = false;
-          console.log( user.events.length );
           vm.events = user.events.filter( filterDate );
           vm.showEmptyState = vm.events.length == 0 ? true : false;
-          $rootScope.$broadcast('Menu:count_events', vm.events.length);
+          $rootScope.$broadcast('Menu:count_events', user.events.length - vm.events.length);
         }
 
         function failed( error ){
           utilsService.hideLoad();
           vm.showEmptyState = true;
-          console.log( error );
         }
     }
 
@@ -67,13 +63,12 @@
 
         function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
-          console.log( user.events.length );
           vm.events = user.events.filter( filterDate );
-          $rootScope.$broadcast('Menu:count_events', vm.events.length);
+          $rootScope.$broadcast('Menu:count_events', user.events.length - vm.events.length);
         }
 
         function failed( error ){
-          console.log( error );
+          $scope.$broadcast('scroll.refreshComplete');
         }
     }
 

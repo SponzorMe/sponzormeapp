@@ -118,7 +118,7 @@ var mockData = (function() {
             {
               image: "https://staging.sponzor.me/#/event/1",
               starts: "2016-01-09 15:00:00",
-              ends: "2016-01-09 15:00:00"
+              ends: "2016-02-09 15:00:00"
             }
           ]
         }
