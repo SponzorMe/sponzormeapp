@@ -16,7 +16,7 @@
     'eventService',
     'utilsService',
     '$stateParams',
-    'sponzorshipService',
+    'sponsorshipService',
     '$localStorage',
     '$ionicModal',
     '$ionicHistory',
@@ -24,7 +24,7 @@
     '$translate'
   ];
 
-  function EventDetailSponzorController( $scope, eventService, utilsService, $stateParams, sponzorshipService, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate) {
+  function EventDetailSponzorController( $scope, eventService, utilsService, $stateParams, sponsorshipService, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate) {
 
     var vm = this;
     vm.event = {};
@@ -67,7 +67,6 @@
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
         }
     }
 
@@ -100,7 +99,7 @@
     } 
 
     function submitSponsorIt(){
-      sponzorshipService.createSponzorship( preparateDataSponzorship() )
+      sponsorshipService.createSponzorship( preparateDataSponzorship() )
         .then( complete )
         .catch( failed );
 
@@ -108,12 +107,10 @@
           vm.closeModalSponsorIt();
           $ionicHistory.clearCache();
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_sponsor_it"));
-          console.log( event );
         }
 
         function failed( error ){
           vm.closeModalSponsorIt();
-          console.log( error );
         }
     }
 
