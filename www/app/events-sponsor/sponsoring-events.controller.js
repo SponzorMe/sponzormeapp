@@ -12,15 +12,14 @@
     .controller('SponzoringEventsController', SponzoringEventsController);
 
   SponzoringEventsController.$inject = [
-    '$translate',
     '$localStorage',
     'utilsService',
-    'sponzorshipService',
+    'sponsorshipService',
     '$scope',
     '$rootScope'
   ];
 
-  function SponzoringEventsController( $translate, $localStorage, utilsService, sponzorshipService, $scope, $rootScope) {
+  function SponzoringEventsController( $localStorage, utilsService, sponsorshipService, $scope, $rootScope) {
 
     var vm = this;
     //Attributes
@@ -40,7 +39,7 @@
 
     function getEvents(){
       utilsService.showLoad();
-      sponzorshipService.sponzorshipBySponzor( vm.userAuth.id )
+      sponsorshipService.sponzorshipBySponzor( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 
@@ -53,12 +52,11 @@
         function failed( error ){
           utilsService.hideLoad();
           vm.showEmptyState = true;
-          console.log( error );
         }
     }
 
     function doRefresh(){
-      sponzorshipService.sponzorshipBySponzor( vm.userAuth.id )
+      sponsorshipService.sponzorshipBySponzor( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 
@@ -69,7 +67,7 @@
         }
 
         function failed( error ){
-          console.log( error );
+          $scope.$broadcast('scroll.refreshComplete');
         }
     }
 
