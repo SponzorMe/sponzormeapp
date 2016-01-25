@@ -8,19 +8,18 @@
   'use strict';
 
   angular
-    .module('app.events-organizer')
+    .module('app.events-sponzor')
     .controller('FollowEventsController', FollowEventsController);
 
   FollowEventsController.$inject = [
-    '$translate',
     '$localStorage',
     'utilsService',
-    'sponzorshipService',
+    'sponsorshipService',
     '$scope',
     '$rootScope'
   ];
 
-  function FollowEventsController( $translate, $localStorage, utilsService, sponzorshipService, $scope, $rootScope) {
+  function FollowEventsController( $localStorage, utilsService, sponsorshipService, $scope, $rootScope) {
 
     var vm = this;
     //Attributes
@@ -40,7 +39,7 @@
 
     function getEvents(){
       utilsService.showLoad();
-      sponzorshipService.sponzorshipBySponzor( vm.userAuth.id )
+      sponsorshipService.sponzorshipBySponzor( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 
@@ -53,12 +52,11 @@
         function failed( error ){
           utilsService.hideLoad();
           vm.showEmptyState = true;
-          console.log( error );
         }
     }
 
     function doRefresh(){
-      sponzorshipService.sponzorshipBySponzor( vm.userAuth.id )
+      sponsorshipService.sponzorshipBySponzor( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 
@@ -69,7 +67,7 @@
         }
 
         function failed( error ){
-          console.log( error );
+          $scope.$broadcast('scroll.refreshComplete');
         }
     }
 
@@ -77,9 +75,9 @@
       return item.status != '1';
     }
     
-    function filterDate( item ){
+    /*function filterDate( item ){
       return moment(item.ends).isAfter(new Date());
-    }
+    }*/
 
   }
 })();

@@ -8,7 +8,7 @@
   'use strict';
 
   angular
-    .module('app.events-organizer')
+    .module('app.events-sponzor')
     .controller('SponzoringEventsController', SponzoringEventsController);
 
   SponzoringEventsController.$inject = [

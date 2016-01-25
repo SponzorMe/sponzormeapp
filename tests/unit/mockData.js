@@ -255,6 +255,13 @@ var mockData = (function() {
         {
           event_id: 1,
           title: 'event',
+          status: 0,
+          starts: "2016-01-09 15:00:00",
+          ends: "2016-01-09 15:00:00"
+        },
+        {
+          event_id: 1,
+          title: 'event',
           status: 2,
           starts: "2016-01-09 15:00:00",
           ends: "2016-01-09 15:00:00"

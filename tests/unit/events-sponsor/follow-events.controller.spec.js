@@ -1,6 +1,6 @@
-describe("Controller: SponzoringEventsController", function() {
+describe("Controller: FollowEventsController", function() {
 
-	var sponzoringEventsController, utilsService, sponsorshipService;
+	var followEventsController, utilsService, sponsorshipService;
 	var $rootScope, $httpBackend, $localStorage, $ionicHistory, $q, $rootScopeBroadcast, $scopeBroadcast;
 
   beforeEach(function() {
@@ -34,7 +34,7 @@ describe("Controller: SponzoringEventsController", function() {
     $scope = $rootScope.$new();
     $scopeBroadcast = chai.spy.on($scope, '$broadcast');
 
-    sponzoringEventsController = $controller('SponzoringEventsController', {
+    followEventsController = $controller('FollowEventsController', {
   		'$localStorage': $localStorage,
 	    'utilsService': utilsService,
 	    'sponsorshipService': sponsorshipService,
@@ -48,9 +48,9 @@ describe("Controller: SponzoringEventsController", function() {
   describe('Tests to events array', function(){
 
     it('Should have events array', function() {
-      chai.assert.isDefined( sponzoringEventsController.events );
-      chai.assert.isArray( sponzoringEventsController.events );
-      chai.expect( sponzoringEventsController.events ).to.be.empty;
+      chai.assert.isDefined( followEventsController.events );
+      chai.assert.isArray( followEventsController.events );
+      chai.expect( followEventsController.events ).to.be.empty;
     });
 
   });
@@ -59,12 +59,12 @@ describe("Controller: SponzoringEventsController", function() {
   describe('Tests to userAuth variable', function(){
 
     it('Should have user variable', function() {
-      chai.assert.isDefined( sponzoringEventsController.userAuth );
-      chai.assert.isObject( sponzoringEventsController.userAuth );
+      chai.assert.isDefined( followEventsController.userAuth );
+      chai.assert.isObject( followEventsController.userAuth );
     });
 
     it('Should userAuth be equal that $localStorage.userAuth', function() {
-      chai.assert.equal( sponzoringEventsController.userAuth, $localStorage.userAuth );
+      chai.assert.equal( followEventsController.userAuth, $localStorage.userAuth );
     });
 
   });
@@ -73,8 +73,8 @@ describe("Controller: SponzoringEventsController", function() {
   describe('Tests to showEmptyState variable', function(){
 
     it('Should have showEmptyState variable', function() {
-      chai.assert.isDefined( sponzoringEventsController.showEmptyState );
-      chai.assert.isFalse( sponzoringEventsController.showEmptyState );
+      chai.assert.isDefined( followEventsController.showEmptyState );
+      chai.assert.isFalse( followEventsController.showEmptyState );
     });
 
   });
@@ -98,7 +98,7 @@ describe("Controller: SponzoringEventsController", function() {
     it('Should have an event array', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( sponzoringEventsController.events.length, 1);
+      chai.assert.equal( followEventsController.events.length, 2);
     });
 
   });
@@ -122,7 +122,7 @@ describe("Controller: SponzoringEventsController", function() {
     it('Should showEmptyState be true', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.isTrue( sponzoringEventsController.showEmptyState );
+      chai.assert.isTrue( followEventsController.showEmptyState );
     });
 
   });
@@ -131,8 +131,8 @@ describe("Controller: SponzoringEventsController", function() {
   describe('Tests to doRefresh method', function(){
 
     it('Should have doRefresh method', function() {
-      chai.assert.isDefined( sponzoringEventsController.doRefresh );
-      chai.assert.isFunction( sponzoringEventsController.doRefresh );
+      chai.assert.isDefined( followEventsController.doRefresh );
+      chai.assert.isFunction( followEventsController.doRefresh );
     });
 
   });
@@ -147,22 +147,22 @@ describe("Controller: SponzoringEventsController", function() {
   	});
 
     it('Should have an event array', function() {
-      sponzoringEventsController.doRefresh();
+      followEventsController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( sponzoringEventsController.events.length, 1);
+      chai.assert.equal( followEventsController.events.length, 2);
     });
 
-    it('Should be called broadcast Menu:count_tasks', function() {
-    	sponzoringEventsController.doRefresh();
+    it('Should be called broadcast Menu:count_following', function() {
+    	followEventsController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
       chai.expect($rootScopeBroadcast).to.have.been.called();
-      chai.expect($rootScopeBroadcast).to.have.been.with('Menu:count_sponsoring', 1);
+      chai.expect($rootScopeBroadcast).to.have.been.with('Menu:count_following', 2);
     });
 
     it('Should be called broadcast scroll.refreshComplete', function() {
-    	sponzoringEventsController.doRefresh();
+    	followEventsController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
       chai.expect($scopeBroadcast).to.have.been.called();
@@ -171,7 +171,7 @@ describe("Controller: SponzoringEventsController", function() {
 
   });
 
-  ////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////
   describe('Tests to doRefresh failed', function(){
 
   	var dataSponzorship = mockData.sponsorshipService.sponzorshipBySponzor();
@@ -181,7 +181,7 @@ describe("Controller: SponzoringEventsController", function() {
   	});
 
   	it('Should be called broadcast scroll.refreshComplete', function() {
-    	sponzoringEventsController.doRefresh();
+    	followEventsController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
       chai.expect($scopeBroadcast).to.have.been.called();
