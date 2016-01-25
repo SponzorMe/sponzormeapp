@@ -17,7 +17,7 @@
     'utilsService',
     '$stateParams',
     '$state',
-    'sponzorshipService',
+    'sponsorshipService',
     '$ionicPopup',
     '$ionicActionSheet',
     '$cordovaSocialSharing',
@@ -29,12 +29,12 @@
     'BackendVariables'
   ];
 
-  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponzorshipService, $ionicPopup, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory, $cordovaToast, $translate, BackendVariables) {
+  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponsorshipService, $ionicPopup, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory, $cordovaToast, $translate, BackendVariables) {
 
     var vm = this;
     var popupOptionsSponsorship = null;
     var hideSheet = null;
-    var optionsActionSheet = [];
+    vm.optionsActionSheet = [];
     var url = BackendVariables.url_web;
     //Attributes
     vm.event = {};
@@ -57,7 +57,7 @@
     function activate(){
       getEvent();
       $ionicSideMenuDelegate.canDragContent(false);
-      optionsActionSheet = [
+      vm.optionsActionSheet = [
         editEvent,
         shareEvent,
         addToCalendar
@@ -78,7 +78,6 @@
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error.data );
         }
     }
 
@@ -104,13 +103,11 @@
         function complete( event ){
           utilsService.hideLoad();
           hideActionSheet();
-          $ionicHistory.clearCache().then(function(){
-            $ionicHistory.goBack();
-          });
+          $ionicHistory.clearCache();
+          $ionicHistory.goBack();
         }
 
         function failed( error ){
-          console.log( error );
           utilsService.hideLoad();
           hideActionSheet();
           utilsService.alert({
@@ -139,7 +136,7 @@
       utilsService.showLoad();
       var sponsorship = angular.copy( vm.sponsorshipSelected );
       sponsorship.status = status;
-      sponzorshipService.editSponzorshipPut( sponsorship.id, sponsorship )
+      sponsorshipService.editSponzorshipPut( sponsorship.id, sponsorship )
         .then( complete )
         .catch( failed );
 
@@ -152,7 +149,6 @@
         function failed( error ){
           utilsService.hideLoad();
           closeOptionsSponsorship();
-          console.log( error );
         }
 
     }
@@ -170,7 +166,7 @@
         titleText: 'Options',
         cancelText: '<i class="icon ion-close"></i> Cancel',
         buttonClicked: function(index) {
-          optionsActionSheet[index]();
+          vm.optionsActionSheet[index]();
           return true;
         },
         destructiveButtonClicked: deleteEvent
@@ -188,16 +184,16 @@
       var link =  url + '#/event/' + vm.event.id;
       $cordovaSocialSharing
         .share( message, subject, image, link) // Share via native share sheet
-        .then( complete )
-        .catch( failed );
+        .then( complete );
+        //.catch( failed );
 
         function complete(){
-          console.log( 'exit' );
+          $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_add_to_calendar"));
         }
-
+        /*
         function failed( error ){
           console.log( error );
-        }
+        }*/
     }
 
     function editEvent(){
@@ -213,16 +209,17 @@
           startDate: vm.event.starts,
           endDate: vm.event.ends
         })
-        .then( complete )
-        .catch( failed );
+        .then( complete );
+        //.catch( failed );
 
         function complete(){
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_add_to_calendar"));
         }
 
+        /*
         function failed( error ){
           console.log( error );
-        }
+        }*/
     }
     
 

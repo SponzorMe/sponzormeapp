@@ -119,7 +119,7 @@ var mockData = (function() {
               image: "https://staging.sponzor.me/#/event/1",
               starts: "2016-01-09 15:00:00",
               ends: "2016-02-09 15:00:00"
-            }
+            }                                                         
           ]
         }
       }
@@ -836,6 +836,16 @@ var mockData = (function() {
               status: "0",
               title: "UNa tarea",
               type: "1",
+              user_id: "1002"
+            },
+            {
+              description: "as",
+              event_id: "1002",
+              id: "15",
+              perk_id: "3",
+              status: "0",
+              title: "UNa tarea",
+              type: "0",
               user_id: "1002"
             }
           ],

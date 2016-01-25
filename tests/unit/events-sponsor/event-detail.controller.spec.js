@@ -68,8 +68,6 @@ describe("Controller: EventDetailSponzorController", function() {
 	    '$translate': $translate
   	});
 
-  	eventDetailSponzorController.modalSponsorIt
-
   }));
 
 	////////////////////////////////////////////////////////////
