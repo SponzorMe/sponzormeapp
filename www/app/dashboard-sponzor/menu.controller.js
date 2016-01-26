@@ -48,26 +48,24 @@
 
     function logout(){
       $localStorage.$reset();
-      $ionicHistory.clearCache().then(function(){
-        $state.go('signin');
-      });
+      $state.go('signin');
+      $ionicHistory.clearCache();
     }
 
     function getCounts(){
       sponsorshipService.sponzorshipBySponzor( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
+        .then( complete );
+        //.catch( failed );
 
         function complete( events ){
           vm.count_following = events.filter( filterByPending ).length;
           vm.count_sponsoring = events.filter( filterByAccepted ).length;
-          console.log(vm.count_following);
-          console.log(vm.count_sponsoring);
         }
 
+        /*
         function failed( error ){
           console.log( error );
-        }
+        }*/
     }
 
     function filterByPending( item ){
