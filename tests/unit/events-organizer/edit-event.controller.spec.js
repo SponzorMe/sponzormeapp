@@ -447,6 +447,16 @@ describe("Controller: EditEventController", function() {
 
   });
 
+  ////////////////////////////////////////////////////////////
+  describe('Tests to updateEvent method', function(){
+
+    it('Should have updateEvent method', function() {
+      chai.assert.isDefined( editEventController.updateEvent );
+      chai.assert.isFunction( editEventController.updateEvent );
+    });
+
+  });
+
 	////////////////////////////////////////////////////////////
   describe('Test to updateEvent method success with imageURI', function(){
 
@@ -872,63 +882,6 @@ describe("Controller: EditEventController", function() {
       editEventController.createSponsor();
       $rootScope.$digest();
       chai.assert.isTrue(editEventController.isNewSponsor);
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Tests to editSponsor method', function(){
-
-  	var dataEvent = mockData.eventService.getEvent();
-  	var dataEventTypes = mockData.eventTypeService.allEventTypes();
-
-    beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
-  	});
-
-    it('Should have editSponsor method', function() {
-      chai.assert.isDefined( editEventController.editSponsor );
-      chai.assert.isFunction( editEventController.editSponsor );
-    });
-
-    it('Should be called modalSponsor.show method', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      var mockPerk = {
-      	kind: "asas",
-      	total_quantity: 0,
-      	usd: 0
-      }
-      editEventController.editSponsor( mockPerk );
-      $rootScope.$digest();
-      chai.assert.isTrue(editEventController.modalSponsor._isShown);
-    });
-
-    it('Should newSponsor be that mockPerk', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      var mockPerk = {
-      	kind: "asas",
-      	total_quantity: 0,
-      	usd: 0,
-      }
-      editEventController.editSponsor( mockPerk );
-      $rootScope.$digest();
-      chai.expect( editEventController.newSponsor ).to.eql( mockPerk );
-    });
-
-    it('Should isNewSponsor be false', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      var mockPerk = {
-      	kind: "asas",
-      	total_quantity: 0,
-      	usd: 0
-      }
-      editEventController.editSponsor( mockPerk );
-      $rootScope.$digest();
-      chai.assert.isFalse(editEventController.isNewSponsor);
     });
 
   });
