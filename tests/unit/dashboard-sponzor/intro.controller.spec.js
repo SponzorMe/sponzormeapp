@@ -1,6 +1,6 @@
 describe('Controller: IntroSponzorCtrl', function(){
 
-	var introSponzorCtrl, sponsorshipService;
+	var introSponzorCtrl;
 	var $rootScope, $q, $httpBackend, $state, $ionicSlideBoxDelegate, $ionicHistory, $ionicSideMenuDelegate;
 
   beforeEach(function() {
