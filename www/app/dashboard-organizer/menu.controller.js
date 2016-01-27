@@ -17,10 +17,11 @@
     '$rootScope',
     'userService',
     'sponsorshipService',
-    'perkTaskService'
+    'perkTaskService',
+    '$ionicHistory'
   ];
 
-  function MenuOrganizerCtrl( $state, $localStorage, $rootScope, userService, sponsorshipService, perkTaskService ) {
+  function MenuOrganizerCtrl( $state, $localStorage, $rootScope, userService, sponsorshipService, perkTaskService, $ionicHistory ) {
 
     var vm = this;
     //Attributes
@@ -37,6 +38,7 @@
     function logout(){
       $localStorage.$reset();
       $state.go('signin');
+      $ionicHistory.clearCache();
     }
 
     function activate(){
@@ -62,16 +64,16 @@
 
     function getEvents(){
       userService.getUser( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
+        .then( complete );
+        //.catch( failed );
 
         function complete( user ){
           vm.count_events = user.events.filter( filterDate ).length;
         }
-
+        /*
         function failed( error ){
           console.log( error );
-        }
+        }*/
     }
 
     function filterDate( item ){
@@ -79,14 +81,15 @@
     }
 
     function getSponsors(){
-      /*sponsorshipService.sponzorshipByOrganizer( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
+      sponsorshipService.sponzorshipByOrganizer( vm.userAuth.id )
+        .then( complete );
+        //.catch( failed );
 
         function complete( sponsors ){
           vm.count_sponsors = sponsors.length;
         }
 
+        /*
         function failed( error ){
           console.log( error );
         }*/
@@ -94,16 +97,17 @@
 
     function getTasks(){
       perkTaskService.getPerkTaskByOrganizer( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
+        .then( complete );
+        //.catch( failed );
 
         function complete( tasks ){
           vm.count_tasks = tasks.filter( filterByDone ).length;
         }
 
+        /*
         function failed( error ){
           console.log( error );
-        }
+        }*/
     }
 
     function filterByDone( item ){
