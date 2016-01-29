@@ -1,12 +1,12 @@
 {
   "NETWORK": "Error de Conexión. No se ha podido conectar con el servidor. Comprueba tu conexión a internet y vuelve a intentarlo.",
   "LOGIN": {
-      "login_title": "Juntar",
-      "email_field": "Email",
-      "pass_field": "Senha",
-      "signin_message": "Login",
-      "forgot_message": "Esqueceu sua senha?",
-      "join_message": "Juntar"
+    "login_title": "Juntar",
+    "email_field": "Email",
+    "pass_field": "Senha",
+    "signin_message": "Login",
+    "forgot_message": "Esqueceu sua senha?",
+    "join_message": "Juntar"
   },
   "JOINNOW": {
       "register_name_label": "Eu sou",
@@ -98,7 +98,9 @@
     "spanish_label": "Espanhol",
     "english_label": "Inglês",
     "portuguese_label": "Português",
-    "save_button": "Salvar"
+    "save_button": "Salvar",
+    "app_divider": "Aplicacion",
+    "check_update": "Buscar actualizaciones"
   },
   "SEARCH": {
       "search_title": "Procure eventos",
@@ -220,7 +222,7 @@
       "addeventsform_tit_required" : "O campo e necessário.",
       "addeventsform_tit_minlength" : "O campo deve ser superior a 5 caracteres.",
       "addeventsform_tit_maxlength" : "O campo deve ser inferior a 30 caracteres.",
-      "addeventsform_loc_requiredfjoinnow_ema_maxlength: "O campo e necessário.",
+      "addeventsform_loc_requiredfjoinnow_ema_maxlength": "O campo e necessário.",
       "addeventsform_loc_minlength" : "O campo deve ser superior a 5 caracteres.",
       "addeventsform_loc_maxlength" : "O campo deve ser inferior a 30 caracteres.",
       "addeventsform_desc_required" : "O campo e necessário.",
@@ -248,6 +250,10 @@
       "succ_event_tit": "Info",
       "succ_event_mess": "Legal, Evento foi Criado",
       "succ_add_to_calendar": "Legal, Seu evento foi adicionado ao calendário",
-      "succ_sponsor_it": "Bien, Ahora tu eres patrocinador de este evento."
+      "succ_sponsor_it": "Bien, Ahora tu eres patrocinador de este evento.",
+      "update_title": "Actualizaciones",
+      "update_text_nothing": "No hay nada aun.",
+      "update_text": "Hay una nueva actulizacion, ¿Desea descargarla?",
+      "update_success": "Felicitaciones, ya tienes la nueva version"
   }
 }

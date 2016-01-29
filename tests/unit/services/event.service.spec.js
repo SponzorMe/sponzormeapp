@@ -1,7 +1,5 @@
 describe("Service: eventService", function() {
 
-	var eventService;
-
   beforeEach(function() {
     module('app');
   });
@@ -12,8 +10,13 @@ describe("Service: eventService", function() {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function(_eventService_) {
+  beforeEach(inject(function($injector, _eventService_) {
     eventService = _eventService_;
+
+    $httpBackend = $injector.get('$httpBackend');
+    $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
   }));
 
   ////////////////////////////////////////////////////////////
@@ -31,99 +34,73 @@ describe("Service: eventService", function() {
 
     ////////////////////////////////////////////////////////////
     describe('allEvents failed', function() {
-      var $httpBackend;
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/events')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.when('GET', 'https://apilocal.sponzor.me/events').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         eventService.allEvents()
-          .catch(function( rta ) {
-            result = rta;
+          .catch(function( result ) {
+            chai.assert.isDefined( result.message )
+            done();
           });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
+        
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('allEvents success', function() {
-      var $httpBackend;
+
       var data = mockData.eventService.allEvents();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/events')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/events').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an array of events', function(){
-        var result;
+      it('Should return an array of events', function( done ){
         eventService.allEvents()
-          .then(function( rta ) {
-            result = rta;
+          .then(function( result ) {
+            chai.assert.isArray( result );
+            done();
           });
         $httpBackend.flush();
-        chai.assert.isArray( result );
+        
       });
 
-      it('Should be match with images', function(){
-        var result;
+      it('Should be match with images', function( done ){
         eventService.allEvents()
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result[0].image ).to.eql( 'img/banner.jpg' );
+          chai.expect( result[1].image ).to.eql( 'http://i.imgur.com/t8YehGM.jpg' );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( result[0].image ).to.eql( 'img/banner.jpg' );
-        chai.expect( result[1].image ).to.eql( 'http://i.imgur.com/t8YehGM.jpg' );
+        
       });
 
-      it('Should be instance Of Date the events', function(){
-        var result;
+      it('Should be instance Of Date the events', function( done ){
         eventService.allEvents()
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          for (var i = 0; i < result.length; i++) {
+            chai.assert.instanceOf( result[i].starts, Date );
+            chai.assert.instanceOf( result[i].ends, Date );
+          };
+          done();
+        });
         $httpBackend.flush();
-        for (var i = 0; i < result.length; i++) {
-          chai.assert.instanceOf( result[i].starts, Date );
-          chai.assert.instanceOf( result[i].ends, Date );
-        };
       });
 
     });
@@ -169,82 +146,57 @@ describe("Service: eventService", function() {
 
     ////////////////////////////////////////////////////////////
     describe('getEvent failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/events/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         eventService.getEvent( 1 )
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
+        
       }); 
     });
 
     ////////////////////////////////////////////////////////////
     describe('getEvent success', function() {
       //Assemble  
-      var $httpBackend;
+
       var data = mockData.eventService.getEvent();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/events/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an event', function(){
-        var result;
+      it('Should return an event', function( done ){
         eventService.getEvent( 1 )
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.assert.isObject( result );
+          chai.assert.isObject( result.category );
+          chai.assert.isObject( result.type );
+          chai.assert.isObject( result.organizer );
+          chai.assert.isArray( result.sponzorships );
+          chai.assert.instanceOf( result.starts, Date );
+          chai.assert.instanceOf( result.ends, Date );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isObject( result );
-        chai.assert.isObject( result.category );
-        chai.assert.isObject( result.type );
-        chai.assert.isObject( result.organizer );
-        chai.assert.isArray( result.sponzorships );
-        chai.assert.instanceOf( result.starts, Date );
-        chai.assert.instanceOf( result.ends, Date );
       });
     });
   });
@@ -288,76 +240,53 @@ describe("Service: eventService", function() {
 
     ////////////////////////////////////////////////////////////
     describe('createEvent failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/events')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPOST('https://apilocal.sponzor.me/events').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         eventService.createEvent({})
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
+        
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('createEvent success', function() {
-      var $httpBackend;
+
       var data = mockData.eventService.createEvent();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/events')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPOST('https://apilocal.sponzor.me/events').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an event', function(){
+      it('Should return an event', function( done ){
         var result;
         eventService.createEvent({})
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.assert.isObject( result );
+          chai.expect( result ).to.eql( data.event );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isObject( result );
-        chai.expect( result ).to.eql( data.event );
+        
       });
     });
 
@@ -402,75 +331,50 @@ describe("Service: eventService", function() {
 
     ////////////////////////////////////////////////////////////
     describe('deleteEvent failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/events/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenDELETE('https://apilocal.sponzor.me/events/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         eventService.deleteEvent(1)
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('deleteEvent success', function() {
-      var $httpBackend;
+
       var data = mockData.eventService.deleteEvent();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/events/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenDELETE('https://apilocal.sponzor.me/events/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an message', function(){
-        var result;
+      it('Should return an message', function( done ){
         eventService.deleteEvent(1)
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result.message ).to.eql( data.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( result.message ).to.eql( data.message );
+        
       });
     });
 
@@ -524,75 +428,51 @@ describe("Service: eventService", function() {
 
     ////////////////////////////////////////////////////////////
     describe('editEventPatch failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/events/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPATCH('https://apilocal.sponzor.me/events/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         eventService.editEventPatch(1, {})
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
+        
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('editEventPatch success', function() {
-      var $httpBackend;
+
       var data = mockData.eventService.editEventPatch();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/events/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPATCH('https://apilocal.sponzor.me/events/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an event', function(){
-        var result;
+      it('Should return an event', function( done ){
         eventService.editEventPatch(1, {})
-          .then(function( rta ) {
-            result = rta;
+          .then(function( result ) {
+            chai.expect( result ).to.eql( data.event );
+            done();
           });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.event );
+        
       });
     });
 
@@ -646,75 +526,51 @@ describe("Service: eventService", function() {
 
     ////////////////////////////////////////////////////////////
     describe('editEventPut failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/events/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPUT('https://apilocal.sponzor.me/events/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
+      it('Should return an error message', function( done ){
         var result;
         eventService.editEventPut(1, {})
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message )
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
+        
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('editEventPut success', function() {
-      var $httpBackend;
+
       var data = mockData.eventService.editEventPut();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/events/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPUT('https://apilocal.sponzor.me/events/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an event', function(){
-        var result;
+      it('Should return an event', function( done ){
         eventService.editEventPut(1, {})
-          .then(function( rta ) {
-            result = rta;
+          .then(function( result ) {
+            chai.expect( result ).to.eql( data.event );
+            done();
           });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.event );
       });
     });
 

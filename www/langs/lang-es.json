@@ -98,7 +98,9 @@
     "spanish_label": "Español",
     "english_label": "Ingles",
     "portuguese_label": "Português",
-    "save_button": "Guardar"
+    "save_button": "Guardar",
+    "app_divider": "Aplicacion",
+    "check_update": "Buscar actualizaciones"
   },
   "SEARCH": {
       "search_title": "Encuentra Eventos",
@@ -248,6 +250,10 @@
       "succ_event_tit": "Info.",
       "succ_event_mess": "Cool, Evento Creado.",
       "succ_add_to_calendar": "Tu evento ha sido agregado al calendario",
-      "succ_sponsor_it": "Bien, Ahora tu eres patrocinador de este evento."
+      "succ_sponsor_it": "Bien, Ahora tu eres patrocinador de este evento.",
+      "update_title": "Actualizaciones",
+      "update_text_nothing": "No hay nada aun.",
+      "update_text": "Hay una nueva actulizacion, ¿Desea descargarla?",
+      "update_success": "Felicitaciones, ya tienes la nueva version"
   }
 }

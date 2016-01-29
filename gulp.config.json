@@ -42,7 +42,8 @@
     "./www/app/**/*.controller.js"
   ],
   "tests": [
-    "./tests/unit/**/*.spec.js"
+    "./tests/unit/**/*.service.spec.js",
+    "./tests/unit/**/*.controller.spec.js"
   ],
   "images": [
     "./src/client/content/images/**/*"

@@ -1,7 +1,5 @@
 describe("Service: categoryService", function() {
 
-	var categoryService;
-
   beforeEach(function() {
     module('app');
   });
@@ -12,8 +10,12 @@ describe("Service: categoryService", function() {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function(_categoryService_) {
+  beforeEach(inject(function( $injector, _categoryService_) {
     categoryService = _categoryService_;
+    $httpBackend = $injector.get('$httpBackend');
+    $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
   }));
 
   ////////////////////////////////////////////////////////////
@@ -31,76 +33,49 @@ describe("Service: categoryService", function() {
 
     ////////////////////////////////////////////////////////////
     describe('allCategories failed', function() {
-      var $httpBackend;
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/categories')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function(){
+        $httpBackend.whenGET('https://apilocal.sponzor.me/categories').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         categoryService.allCategories()
-          .catch(function( rta ) {
-            result = rta;
+          .catch(function( result ) {
+            chai.assert.isDefined( result.message );
+            done();
           });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('allCategories success', function() {
-      var $httpBackend;
+
       var data = mockData.categoryService.allCategories();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/categories')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/categories').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an array of categories', function(){
-        var result;
+      it('Should return an array of categories', function( done ){
         categoryService.allCategories()
           .then(function( rta ) {
-            result = rta;
+            chai.assert.isArray( rta );
+            chai.expect( rta ).to.eql( data.categories );
+            done();
           });
         $httpBackend.flush();
-        chai.assert.isArray( result );
-        chai.expect( result ).to.eql( data.categories );
       });
     });
 
@@ -145,78 +120,53 @@ describe("Service: categoryService", function() {
 
     ////////////////////////////////////////////////////////////
     describe('getCategory failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/categories/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/categories/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         categoryService.getCategory(1)
-          .catch(function( rta ) {
-            result = rta;
+          .catch(function( result ) {
+            chai.assert.isDefined( result.message );
+            done();
           });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
+        
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('getCategory success', function() {
-      var $httpBackend;
+
       var data = mockData.categoryService.getCategory();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/categories/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/categories/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return a Category', function(){
-        var result;
+      it('Should return a Category', function( done ){
         categoryService.getCategory(1)
-          .then(function( rta ) {
-            result = rta;
+          .then(function( result ) {
+            chai.assert.isObject( result );
+            chai.expect( result ).to.eql( data.data.category );
+            chai.assert.isArray( result.events );
+            chai.assert.isArray( result.interests );
+            done();
           });
         $httpBackend.flush();
-        chai.assert.isObject( result );
-        chai.expect( result ).to.eql( data.data.category );
-        chai.assert.isArray( result.events );
-        chai.assert.isArray( result.interests );
       });
     });
 

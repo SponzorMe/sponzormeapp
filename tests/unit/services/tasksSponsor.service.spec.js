@@ -12,8 +12,12 @@ describe("Service: tasksSponsorService", function(){
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function(_tasksSponsorService_) {
+  beforeEach(inject(function($injector, _tasksSponsorService_) {
     tasksSponsorService = _tasksSponsorService_;
+    $httpBackend = $injector.get('$httpBackend');
+    $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
   }));
 
   ////////////////////////////////////////////////////////////
@@ -31,76 +35,50 @@ describe("Service: tasksSponsorService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('getAllTasks failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/task_sponzor')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/task_sponzor').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         tasksSponsorService.getAllTasks()
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message )
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('getAllTasks success', function() {
-      var $httpBackend;
+
       var data = mockData.tasksSponsorService.getAllTasks();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/task_sponzor')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/task_sponzor').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an array of TasksSponzor', function(){
-        var result;
+      it('Should return an array of TasksSponzor', function( done ){
         tasksSponsorService.getAllTasks()
-          .then(function( rta ) {
-            result = rta;
+          .then(function( result ) {
+            chai.assert.isArray( result );
+            chai.expect( result ).to.eql( data.TasksSponzor );
+            done();
           });
         $httpBackend.flush();
-        chai.assert.isArray( result );
-        chai.expect( result ).to.eql( data.TasksSponzor );
       });
     });
 
@@ -145,83 +123,58 @@ describe("Service: tasksSponsorService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('getTask failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/task_sponzor/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/task_sponzor/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         tasksSponsorService.getTask(1)
-          .catch(function( rta ) {
-            result = rta;
+          .catch(function( result ) {
+            chai.assert.isDefined( result.message )
+            done();
           });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('getTask success', function() {
-      var $httpBackend;
+
       var data = mockData.tasksSponsorService.getTask();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/task_sponzor/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/task_sponzor/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return a Task', function(){
-        var result;
+      it('Should return a Task', function( done ){
         tasksSponsorService.getTask(1)
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.assert.isObject( result );
+          chai.expect( result ).to.have.all.keys([
+            'organizer',
+            'event',
+            'sponzor'
+          ]);
+          chai.assert.isObject( result.event );
+          chai.assert.isObject( result.organizer );
+          chai.assert.isObject( result.sponzor );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isObject( result );
-        chai.expect( result ).to.have.all.keys([
-          'organizer',
-          'event',
-          'sponzor'
-        ]);
-        chai.assert.isObject( result.event );
-        chai.assert.isObject( result.organizer );
-        chai.assert.isObject( result.sponzor );
+        
       });
     });
 
@@ -266,76 +219,50 @@ describe("Service: tasksSponsorService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('createTask failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/task_sponzor')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPOST('https://apilocal.sponzor.me/task_sponzor').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         tasksSponsorService.createTask({})
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('createTask success', function() {
-      var $httpBackend;
+
       var data = mockData.tasksSponsorService.createTask();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/task_sponzor')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPOST('https://apilocal.sponzor.me/task_sponzor').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return a TaskSponzor', function(){
-        var result;
+      it('Should return a TaskSponzor', function( done ){
         tasksSponsorService.createTask({})
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.assert.isObject( result );
+          chai.expect( result ).to.eql( data.TaskSponzor );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isObject( result );
-        chai.expect( result ).to.eql( data.TaskSponzor );
       });
     });
 
@@ -380,75 +307,49 @@ describe("Service: tasksSponsorService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('deletePerk failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/task_sponzor/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenDELETE('https://apilocal.sponzor.me/task_sponzor/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         tasksSponsorService.deleteTask(1)
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('deleteTask success', function() {
-      var $httpBackend;
+
       var data = mockData.tasksSponsorService.deleteTask();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/task_sponzor/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenDELETE('https://apilocal.sponzor.me/task_sponzor/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return a message', function(){
-        var result;
+      it('Should return a message', function( done ){
         tasksSponsorService.deleteTask(1)
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result.message ).to.eql( data.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( result.message ).to.eql( data.message );
       });
     });
 
@@ -502,75 +403,50 @@ describe("Service: tasksSponsorService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('editPatchTask failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/task_sponzor/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPATCH('https://apilocal.sponzor.me/task_sponzor/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         tasksSponsorService.editPatchTask(1, {})
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
+        
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('editPatchTask success', function() {
-      var $httpBackend;
+
       var data = mockData.tasksSponsorService.editPatchTask();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/task_sponzor/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPATCH('https://apilocal.sponzor.me/task_sponzor/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an message', function(){
-        var result;
+      it('Should return an message', function( done ){
         tasksSponsorService.editPatchTask(1, {})
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result ).to.eql( data.TaskSponzor );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.TaskSponzor );
       });
     });
 
@@ -624,75 +500,50 @@ describe("Service: tasksSponsorService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('editPutTask failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/task_sponzor/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPUT('https://apilocal.sponzor.me/task_sponzor/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         tasksSponsorService.editPutTask(1, {})
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('editPutTask success', function() {
-      var $httpBackend;
+
       var data = mockData.tasksSponsorService.editPutTask();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/task_sponzor/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPUT('https://apilocal.sponzor.me/task_sponzor/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an message', function(){
+      it('Should return an message', function( done ){
         var result;
         tasksSponsorService.editPutTask(1, {})
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result ).to.eql( data.TaskSponzor );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.TaskSponzor );
       });
     });
 

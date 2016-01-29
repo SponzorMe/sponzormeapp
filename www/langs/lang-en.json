@@ -98,7 +98,9 @@
         "spanish_label": "Spanish",
         "english_label": "English",
         "portuguese_label": "Portuguese",
-        "save_button": "Save"
+        "save_button": "Save",
+        "app_divider": "About the Aplication",
+        "check_update": "Look updates"
     },
     "SEARCH": {
         "search_title": "Find Events",
@@ -248,6 +250,10 @@
         "succ_event_tit": "Info",
         "succ_event_mess": "Cool, Event Created",
         "succ_add_to_calendar": "Nice, Your event has been added to the calendar",
-        "succ_sponsor_it": "Cool, Now you are sponsor of this event."
+        "succ_sponsor_it": "Cool, Now you are sponsor of this event.",
+        "update_title": "Updates",
+        "update_text_nothing": "Nothing new yet.",
+        "update_text": "Cool you have new updates, ¿Do you wish download?",
+        "update_success": "Cool, you have new updates"
     }
 }

@@ -12,8 +12,12 @@ describe("Service: sponsorshipService", function(){
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function( _sponsorshipService_ ) {
+  beforeEach(inject(function($injector, _sponsorshipService_ ) {
     sponsorshipService = _sponsorshipService_;
+    $httpBackend = $injector.get('$httpBackend');
+    $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
   }));
 
 	////////////////////////////////////////////////////////////
@@ -31,61 +35,36 @@ describe("Service: sponsorshipService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('allSponsorships failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/sponzorships')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         sponsorshipService.allSponsorships()
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message )
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
 		////////////////////////////////////////////////////////////
     describe('allSponsorships success', function() {
-      var $httpBackend;
+
       var data = mockData.sponsorshipService.allSponsorships();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/sponzorships')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
@@ -93,14 +72,12 @@ describe("Service: sponsorshipService", function(){
       });
 
       it('Should return an array of sponsorships', function(){
-        var result;
         sponsorshipService.allSponsorships()
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.assert.isArray( result );
+          chai.expect( result ).to.eql( data.SponzorsEvents );
+        });
         $httpBackend.flush();
-        chai.assert.isArray( result );
-        chai.expect( result ).to.eql( data.SponzorsEvents );
       });
     });
 
@@ -145,88 +122,63 @@ describe("Service: sponsorshipService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('getSponzorship failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/sponzorships/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
+      it('Should return an error message', function( done ){
         var result;
         sponsorshipService.getSponzorship(1)
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message )
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
 		////////////////////////////////////////////////////////////
     describe('getSponzorship success', function() {
-      var $httpBackend;
+
       var data = mockData.sponsorshipService.getSponzorship();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/sponzorships/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return the sponzorship', function(){
-        var result;
+      it('Should return the sponzorship', function( done ){
         sponsorshipService.getSponzorship(1)
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.assert.isObject( result );
+          chai.expect( result ).to.have.all.keys([
+            'event',
+            'organizer',
+            'perk',
+            'sponzor',
+            'tasks',
+            'id'
+          ]);
+          chai.assert.isObject( result.event );
+          chai.assert.isObject( result.organizer );
+          chai.assert.isObject( result.perk );
+          chai.assert.isObject( result.sponzor );
+          chai.assert.isArray( result.tasks );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isObject( result );
-	      chai.expect( result ).to.have.all.keys([
-	        'event',
-	        'organizer',
-	        'perk',
-	        'sponzor',
-	        'tasks',
-          'id'
-	      ]);
-	      chai.assert.isObject( result.event );
-	      chai.assert.isObject( result.organizer );
-	      chai.assert.isObject( result.perk );
-	      chai.assert.isObject( result.sponzor );
-	      chai.assert.isArray( result.tasks );
       });
     });
 
@@ -271,88 +223,61 @@ describe("Service: sponsorshipService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('sponzorshipByOrganizer failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/sponzorships_organizer/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         sponsorshipService.sponzorshipByOrganizer(1)
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
 		////////////////////////////////////////////////////////////
     describe('sponzorshipByOrganizer success', function() {
-      var $httpBackend;
+
       var data = mockData.sponsorshipService.sponzorshipByOrganizer();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/sponzorships_organizer/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1') .respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an array of events', function(){
-        var result;
+      it('Should return an array of events', function( done ){
         sponsorshipService.sponzorshipByOrganizer(1)
-          .then(function( rta ) {
-            result = rta;
+          .then(function( result ) {
+            chai.assert.isArray( result );
+            done();
           });
         $httpBackend.flush();
-        chai.assert.isArray( result );
       });
 
-      it('Should be instance Of Date in the array of events', function(){
-        var result;
+      it('Should be instance Of Date in the array of events', function( done ){
         sponsorshipService.sponzorshipByOrganizer(1)
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          for (var i = 0; i < result.length; i++) {
+            chai.assert.instanceOf( result[i].starts, Date );
+            chai.assert.instanceOf( result[i].ends, Date );
+          };
+          done();
+        });
         $httpBackend.flush();
-        for (var i = 0; i < result.length; i++) {
-          chai.assert.instanceOf( result[i].starts, Date );
-          chai.assert.instanceOf( result[i].ends, Date );
-        };
       });
     });
 
@@ -397,88 +322,61 @@ describe("Service: sponsorshipService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('sponzorshipBySponzor failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/sponzorships_sponzor/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_sponzor/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         sponsorshipService.sponzorshipBySponzor(1)
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message )
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
 		////////////////////////////////////////////////////////////
     describe('sponzorshipBySponzor success', function() {
-      var $httpBackend;
+
       var data = mockData.sponsorshipService.sponzorshipBySponzor();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/sponzorships_sponzor/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_sponzor/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an array of events', function(){
-        var result;
+      it('Should return an array of events', function( done ){
         sponsorshipService.sponzorshipBySponzor(1)
-          .then(function( rta ) {
-            result = rta;
+          .then(function( result ) {
+            chai.assert.isArray( result );
+            done();
           });
         $httpBackend.flush();
-        chai.assert.isArray( result );
       });
 
-      it('Should be instance Of Date in the array of events', function(){
-        var result;
+      it('Should be instance Of Date in the array of events', function( done ){
         sponsorshipService.sponzorshipBySponzor(1)
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          for (var i = 0; i < result.length; i++) {
+            chai.assert.instanceOf( result[i].starts, Date );
+            chai.assert.instanceOf( result[i].ends, Date );
+          };
+          done();
+        });
         $httpBackend.flush();
-        for (var i = 0; i < result.length; i++) {
-          chai.assert.instanceOf( result[i].starts, Date );
-          chai.assert.instanceOf( result[i].ends, Date );
-        };
       });
     });
 
@@ -523,75 +421,49 @@ describe("Service: sponsorshipService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('createSponzorship failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/sponzorships')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPOST('https://apilocal.sponzor.me/sponzorships').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         sponsorshipService.createSponzorship({})
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message )
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
 		////////////////////////////////////////////////////////////
     describe('createSponzorship success', function() {
-      var $httpBackend;
+
       var data = mockData.sponsorshipService.createSponzorship();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/sponzorships')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPOST('https://apilocal.sponzor.me/sponzorships').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an sponzorship', function(){
-        var result;
+      it('Should return an sponzorship', function( done ){
         sponsorshipService.createSponzorship({})
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.assert.isObject( result );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isObject( result );
       });
 
     });
@@ -636,75 +508,49 @@ describe("Service: sponsorshipService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('deleteSponzorship failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/sponzorships/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/sponzorships/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         sponsorshipService.deleteSponzorship(1)
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
 		////////////////////////////////////////////////////////////
     describe('deleteSponzorship success', function() {
-      var $httpBackend;
+
       var data = mockData.sponsorshipService.deleteSponzorship();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/sponzorships/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenDELETE('https://apilocal.sponzor.me/sponzorships/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an sponzorship', function(){
-        var result;
+      it('Should return an sponzorship', function( done ){
         sponsorshipService.deleteSponzorship(1)
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result.message ).to.eql( data.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( result.message ).to.eql( data.message );
       });
 
     });
@@ -758,24 +604,12 @@ describe("Service: sponsorshipService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('editSponzorshipPatch failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/sponzorships/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPATCH('https://apilocal.sponzor.me/sponzorships/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
@@ -783,50 +617,35 @@ describe("Service: sponsorshipService", function(){
       });
 
       it('Should return an error message', function(){
-        var result;
         sponsorshipService.editSponzorshipPatch(1, {})
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
 		////////////////////////////////////////////////////////////
     describe('editSponzorshipPatch success', function() {
-      var $httpBackend;
+
       var data = mockData.sponsorshipService.editSponzorshipPatch();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/sponzorships/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPATCH('https://apilocal.sponzor.me/sponzorships/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an sponzorship', function(){
-        var result;
+      it('Should return an sponzorship', function( done ){
         sponsorshipService.editSponzorshipPatch(1, {})
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result ).to.eql( data.Sponzorship );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.Sponzorship );
       });
 
     });
@@ -880,75 +699,49 @@ describe("Service: sponsorshipService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('editSponzorshipPut failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/sponzorships/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPUT('https://apilocal.sponzor.me/sponzorships/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         sponsorshipService.editSponzorshipPut(1, {})
-          .catch(function( rta ) {
-            result = rta;
+          .catch(function( result ) {
+            chai.assert.isDefined( result.message );
+            done();
           });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
 		////////////////////////////////////////////////////////////
     describe('editSponzorshipPut success', function() {
-      var $httpBackend;
+
       var data = mockData.sponsorshipService.editSponzorshipPut();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/sponzorships/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPUT('https://apilocal.sponzor.me/sponzorships/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an sponzorship', function(){
-        var result;
+      it('Should return an sponzorship', function( done ){
         sponsorshipService.editSponzorshipPut(1, {})
-          .then(function( rta ) {
-            result = rta;
+          .then(function( result ) {
+            chai.expect( result ).to.eql( data.Sponzorship );
+            done();
           });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.Sponzorship );
       });
 
     });

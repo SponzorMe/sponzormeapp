@@ -50,8 +50,7 @@
 
     function getEvent(){
       utilsService.showLoad();
-      //eventService.getEvent( $stateParams.idEvent )
-      eventService.getEvent( 1 )
+      eventService.getEvent( $stateParams.idEvent )
         .then( complete )
         .catch( failed );
 
@@ -65,7 +64,6 @@
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
         }
     }
 

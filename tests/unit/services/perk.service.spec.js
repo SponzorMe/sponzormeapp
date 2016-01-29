@@ -1,6 +1,5 @@
 describe("Service: perkService", function(){
 
-	var perkService;
 
   beforeEach(function() {
     module('app');
@@ -12,8 +11,12 @@ describe("Service: perkService", function(){
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function( _perkService_ ) {
+  beforeEach(inject(function($injector, _perkService_ ) {
     perkService = _perkService_;
+    $httpBackend = $injector.get('$httpBackend');
+    $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
   }));
 
   ////////////////////////////////////////////////////////////
@@ -31,23 +34,11 @@ describe("Service: perkService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('allPerks failed', function() {
-      var $httpBackend;
+      
       var data = mockData.failed();
 
       beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/perks')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
+        $httpBackend.whenGET('https://apilocal.sponzor.me/perks').respond(400, data);
       }));
 
       afterEach(function() {
@@ -55,52 +46,38 @@ describe("Service: perkService", function(){
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         perkService.allPerks()
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('allPerks success', function() {
-      var $httpBackend;
+
       var data = mockData.perkService.allPerks();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/perks')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/perks').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an array of perks tasks', function(){
-        var result;
+      it('Should return an array of perks tasks', function( done ){
         perkService.allPerks()
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.assert.isArray( result );
+          chai.expect( result ).to.eql( data.Perk );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isArray( result );
-        chai.expect( result ).to.eql( data.Perk );
       });
     });
 
@@ -145,83 +122,58 @@ describe("Service: perkService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('getPerk failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/perks/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/perks/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         perkService.getPerk(1)
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
+
     });
 
     ////////////////////////////////////////////////////////////
     describe('getPerk success', function() {
-      var $httpBackend;
+      
       var data = mockData.perkService.getPerk();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/perks/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/perks/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return a Perk', function(){
-        var result;
+      it('Should return a Perk', function( done ){
         perkService.getPerk(1)
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.assert.isObject( result );
+          chai.expect( result ).to.have.all.keys([
+            'event',
+            'sponzorTasks',
+            'tasks'
+          ]);
+          chai.assert.isObject( result.event );
+          chai.assert.isArray( result.sponzorTasks );
+          chai.assert.isArray( result.tasks );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isObject( result );
-        chai.expect( result ).to.have.all.keys([
-          'event',
-          'sponzorTasks',
-          'tasks'
-        ]);
-        chai.assert.isObject( result.event );
-        chai.assert.isArray( result.sponzorTasks );
-        chai.assert.isArray( result.tasks );
       });
     });
 
@@ -266,76 +218,50 @@ describe("Service: perkService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('createPerk failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/perks')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPOST('https://apilocal.sponzor.me/perks').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         perkService.createPerk({})
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message )
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('createPerk success', function() {
-      var $httpBackend;
+
       var data = mockData.perkService.createPerk();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/perks')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.when('POST', 'https://apilocal.sponzor.me/perks').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return a Perk', function(){
-        var result;
+      it('Should return a Perk', function( done ){
         perkService.createPerk({})
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.assert.isObject( result );
+          chai.expect( result ).to.eql( data.Perk );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isObject( result );
-        chai.expect( result ).to.eql( data.Perk );
       });
     });
 
@@ -380,75 +306,49 @@ describe("Service: perkService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('deletePerk failed', function() {
-      var $httpBackend;
+   
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/perks/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenDELETE('https://apilocal.sponzor.me/perks/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         perkService.deletePerk(1)
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('deletePerk success', function() {
-      var $httpBackend;
+
       var data = mockData.perkService.deletePerk();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/perks/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenDELETE('https://apilocal.sponzor.me/perks/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return a message', function(){
-        var result;
+      it('Should return a message', function( done ){
         perkService.deletePerk(1)
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result.message ).to.eql( data.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( result.message ).to.eql( data.message );
       });
     });
 
@@ -502,75 +402,49 @@ describe("Service: perkService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('editPerkPatch failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/perks/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPATCH('https://apilocal.sponzor.me/perks/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         perkService.editPerkPatch(1, {})
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message )
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('editPerkPatch success', function() {
-      var $httpBackend;
+
       var data = mockData.perkService.editPerkPatch();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/perks/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPATCH('https://apilocal.sponzor.me/perks/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an message', function(){
-        var result;
+      it('Should return an message', function( done ){
         perkService.editPerkPatch(1, {})
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result ).to.eql( data.Perk );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.Perk );
       });
     });
 
@@ -624,75 +498,49 @@ describe("Service: perkService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('editPerkPut failed', function() {
-      var $httpBackend;
+  
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/perks/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPUT('https://apilocal.sponzor.me/perks/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         perkService.editPerkPut(1, {})
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message )
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('editPerkPut success', function() {
-      var $httpBackend;
+
       var data = mockData.perkService.editPerkPut();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/perks/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPUT('https://apilocal.sponzor.me/perks/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an message', function(){
-        var result;
+      it('Should return an message', function( done ){
         perkService.editPerkPut(1, {})
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result ).to.eql( data.Perk );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.Perk );
       });
     });
 

@@ -51,8 +51,8 @@
 
     function alert( msg ){
       var options = msg || {};
-      options.title = options.title || 'Ocurrió un error.';
-      options.template  = options.template || 'Intento de nuevo.';
+      options.title = options.title || '<p>Ocurrió un error.</p>';
+      options.template  = options.template || '<p class="text-center">Intento de nuevo.</p>';
       return $ionicPopup.alert( options );
     }
 

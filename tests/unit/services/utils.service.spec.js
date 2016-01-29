@@ -13,9 +13,13 @@ describe("Service: utilsService", function(){
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function(_utilsService_, _$localStorage_) {
+  beforeEach(inject(function(_utilsService_, _$localStorage_, $injector) {
     utilsService = _utilsService_;
     $localStorage = _$localStorage_;
+    $httpBackend = $injector.get('$httpBackend');
+    $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
   }));
 
 

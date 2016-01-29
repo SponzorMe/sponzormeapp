@@ -12,8 +12,12 @@ describe("Service: imgurService", function() {
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function(_imgurService_) {
+  beforeEach(inject(function($injector, _imgurService_) {
     imgurService = _imgurService_;
+    $httpBackend = $injector.get('$httpBackend');
+    $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
   }));
   
   ////////////////////////////////////////////////////////////
@@ -55,76 +59,51 @@ describe("Service: imgurService", function() {
 
     ////////////////////////////////////////////////////////////
     describe('uploadImage failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://api.imgur.com/3/image')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPOST('https://api.imgur.com/3/image').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         imgurService.uploadImage("asas")
-          .catch(function( rta ) {
-            result = rta;
+          .catch(function( result ) {
+            chai.assert.isDefined( result.message );
+            done();
           });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
+        
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('uploadImage success', function() {
-      var $httpBackend;
+
       var data = mockData.imgurService.uploadImage();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://api.imgur.com/3/image')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPOST('https://api.imgur.com/3/image').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an image', function(){
-        var result;
+      it('Should return an image', function( done ){
         imgurService.uploadImage("asas")
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.assert.isString( result );
+          chai.expect( result ).to.eql( data.data.link );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isString( result );
-        chai.expect( result ).to.eql( data.data.link );
       });
     });
 

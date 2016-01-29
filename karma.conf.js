@@ -52,7 +52,8 @@ module.exports = function( config ){
       "www/app/**/*.directive.js",
       "www/app/**/*.controller.js",
       //Tests
-      'tests/unit/**/*.spec.js'
+      'tests/unit/**/*.service.spec.js',
+      'tests/unit/**/*.controller.spec.js'
     ]
   });
 };

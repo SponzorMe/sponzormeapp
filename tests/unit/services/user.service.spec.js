@@ -12,8 +12,12 @@ describe("Service: userService", function(){
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function(_userService_) {
+  beforeEach(inject(function($injector, _userService_) {
     userService = _userService_;
+    $httpBackend = $injector.get('$httpBackend');
+    $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
   }));
 
   ////////////////////////////////////////////////////////////
@@ -55,75 +59,49 @@ describe("Service: userService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('login failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/auth')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPOST('https://apilocal.sponzor.me/auth').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         userService.login( 'mail@domain.com', '123455' )
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message )
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('login success', function() {
-      var $httpBackend;
+
       var data = mockData.userService.login();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/auth')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.when('POST', 'https://apilocal.sponzor.me/auth').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an user', function(){
-        var result;
+      it('Should return an user', function( done ){
         userService.login( 'mail@domain.com', '123456' )
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result ).to.eql( data.user );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.user );
       });
     });
 
@@ -165,101 +143,72 @@ describe("Service: userService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('getUser failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/users/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         userService.getUser( 1 )
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message )
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       }); 
     });
 
     ////////////////////////////////////////////////////////////
     describe('getUser success', function() {
       //Assemble  
-      var $httpBackend;
       var data = mockData.userService.getUser();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/users/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return the user', function(){
-        var user;
+      it('Should return the user', function( done ){
         userService.getUser( 1 )
-          .then(function( rta ) {
-            user = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result.email ).to.eql( data.data.user.email );
+          chai.expect( result ).to.have.property( 'events' );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( user.email ).to.eql( data.data.user.email );
-        chai.expect( user ).to.have.property( 'events' );
       });
 
-      it('Should be instance Of Date the events', function(){
-        var user;
+      it('Should be instance Of Date the events', function( done ){
         userService.getUser( 1 )
-          .then(function( rta ) {
-            user = rta;
-          });
+        .then(function( result ) {
+          for (var i = 0; i < result.events.length; i++) {
+            chai.assert.instanceOf( result.events[i].starts, Date );
+            chai.assert.instanceOf( result.events[i].ends, Date );
+          };
+          done();
+        });
         $httpBackend.flush();
-        for (var i = 0; i < user.events.length; i++) {
-          chai.assert.instanceOf( user.events[i].starts, Date );
-          chai.assert.instanceOf( user.events[i].ends, Date );
-        };
       });
 
-      it('Should be match with images', function(){
-        var user;
+      it('Should be match with images', function( done ){
         userService.getUser( 1 )
-          .then(function( rta ) {
-            user = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result.events[0].image ).to.eql( 'img/banner.jpg' );
+          chai.expect( result.events[1].image ).to.eql( 'https://staging.sponzor.me/#/event/1' );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( user.events[0].image ).to.eql( 'img/banner.jpg' );
-        chai.expect( user.events[1].image ).to.eql( 'https://staging.sponzor.me/#/event/1' );
       });
     });
   });
@@ -303,23 +252,11 @@ describe("Service: userService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('createUser failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/users')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
+      beforeEach(inject(function() {
+        $httpBackend.when('POST', 'https://apilocal.sponzor.me/users').respond(400, data);
       }));
 
       afterEach(function() {
@@ -327,51 +264,37 @@ describe("Service: userService", function(){
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         userService.createUser( {} )
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message )
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       }); 
     });
 
     ////////////////////////////////////////////////////////////
     describe('createUser success', function() {
-      var $httpBackend;
+
       var data = mockData.userService.createUser();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/users')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPOST('https://apilocal.sponzor.me/users').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return the user', function(){
-        var result;
+      it('Should return the user', function( done ){
         userService.createUser( {} )
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result ).to.eql( data.User );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.User );
       }); 
     });
 
@@ -416,75 +339,49 @@ describe("Service: userService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('deleteUser failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/users/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenDELETE('https://apilocal.sponzor.me/users/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         userService.deleteUser( 1 )
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       }); 
     });
 
     ////////////////////////////////////////////////////////////
     describe('deleteUser success', function() {
-      var $httpBackend;
+
       var data = mockData.userService.deleteUser();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('DELETE', 'https://apilocal.sponzor.me/users/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenDELETE('https://apilocal.sponzor.me/users/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an message', function(){
-        var result;
+      it('Should return an message', function( done ){
         userService.deleteUser( 1 )
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result.message ).to.eql( data.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( result.message ).to.eql( data.message );
       }); 
     });
 
@@ -541,75 +438,49 @@ describe("Service: userService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('editUserPatch failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/users/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPATCH('https://apilocal.sponzor.me/users/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         userService.editUserPatch( 1, {} )
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       }); 
     });
 
     ////////////////////////////////////////////////////////////
     describe('editUserPatch success', function() {
-      var $httpBackend;
+
       var data = mockData.userService.editUserPatch();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PATCH', 'https://apilocal.sponzor.me/users/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPATCH('https://apilocal.sponzor.me/users/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return the user', function(){
-        var result;
+      it('Should return the user', function( done ){
         userService.editUserPatch( 1, {} )
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result ).to.eql( data.User );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data.User );
       }); 
     });
 
@@ -666,75 +537,48 @@ describe("Service: userService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('editUserPut failed', function() {
-      var $httpBackend;
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/users/1')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPUT('https://apilocal.sponzor.me/users/1').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         userService.editUserPut( 1, {} )
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       }); 
     });
 
     ////////////////////////////////////////////////////////////
     describe('editUserPut success', function() {
-      var $httpBackend;
+
       var data = mockData.userService.editUserPut();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('PUT', 'https://apilocal.sponzor.me/users/1')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPUT('https://apilocal.sponzor.me/users/1').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return the user', function(){
-        var result;
+      it('Should return the user', function( done ){
         userService.editUserPut( 1, {} )
-          .then(function( rta ) {
-            result = rta;
-          });
-        $httpBackend.flush();
-        chai.expect( result ).to.eql( data.User );
+        .then(function( result ) {
+          chai.expect( result ).to.eql( data.User );
+          done();
+        });
+        $httpBackend.flush(); 
       }); 
     });
 
@@ -779,75 +623,49 @@ describe("Service: userService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('forgotPassword failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/send_reset_password')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPOST('https://apilocal.sponzor.me/send_reset_password').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         userService.forgotPassword( "mail@domain.com" )
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       }); 
     });
 
     ////////////////////////////////////////////////////////////
     describe('forgotPassword success', function() {
-      var $httpBackend;
+
       var data = mockData.userService.forgotPassword();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/send_reset_password')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPOST('https://apilocal.sponzor.me/send_reset_password').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return the user', function(){
-        var result;
+      it('Should return the user', function( done ){
         userService.forgotPassword( "mail@domain.com" )
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result ).to.eql( data );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( result ).to.eql( data );
       }); 
     });
 
@@ -892,75 +710,49 @@ describe("Service: userService", function(){
 
     ////////////////////////////////////////////////////////////
     describe('invitedUser failed', function() {
-      var $httpBackend;
+
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/invite_friend')
-          .respond(400, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPOST('https://apilocal.sponzor.me/invite_friend').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an error message', function(){
-        var result;
+      it('Should return an error message', function( done ){
         userService.invitedUser( {} )
-          .catch(function( rta ) {
-            result = rta;
-          });
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.assert.isDefined( result.message )
       }); 
     });
 
     ////////////////////////////////////////////////////////////
     describe('invitedUser success', function() {
-      var $httpBackend;
+
       var data = mockData.userService.invitedUser();
 
-      beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/invite_friend')
-          .respond(200, data);
-        $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-          "title": 'Sponzorme EN'
-        });
-        $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-          "title": 'Sponzorme PT'
-        });
-        $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-          "title": 'Sponzorme ES'
-        });
-      }));
+      beforeEach(function() {
+        $httpBackend.whenPOST('https://apilocal.sponzor.me/invite_friend').respond(200, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an message', function(){
-        var result;
+      it('Should return an message', function( done ){
         userService.invitedUser({})
-          .then(function( rta ) {
-            result = rta;
-          });
+        .then(function( result ) {
+          chai.expect( result.message ).to.eql( data.message );
+          done();
+        });
         $httpBackend.flush();
-        chai.expect( result.message ).to.eql( data.message );
       }); 
     });
 
@@ -991,11 +783,5 @@ describe("Service: userService", function(){
       chai.assert.isFalse( userService.checkSession() );
     });
 
-    
-
   });
-
-
-
-
 });

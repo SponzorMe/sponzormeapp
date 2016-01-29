@@ -29,7 +29,6 @@
     vm.getPhoto = getPhoto;
     vm.updateProfile = updateProfile;
     
-
     activate();
 
     ////////////

@@ -11,8 +11,12 @@ describe("Service: userInterestService", function(){
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function(_userInterestService_) {
+  beforeEach(inject(function($injector, _userInterestService_) {
     userInterestService = _userInterestService_;
+    $httpBackend = $injector.get('$httpBackend');
+    $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
   }));
 
   it('Should define a createUserInterest function', function(){
@@ -22,74 +26,48 @@ describe("Service: userInterestService", function(){
   ///////////////////////////////////////////////////////////
 
   describe('Test createUserInterest success', function() {
-  	var $httpBackend;
+
   	var data = mockData.userInterestService.createUserInterestSuccess();
 
-  	beforeEach(inject(function($injector) {
-      // Set up the mock http service responses
-      $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('POST', 'https://apilocal.sponzor.me/user_interests')
-      	.respond(200, data);
-      $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-        "title": 'Sponzorme EN'
-      });
-      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-        "title": 'Sponzorme PT'
-      });
-      $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-        "title": 'Sponzorme ES'
-      });
-    }));
+  	beforeEach(function() {
+      $httpBackend.whenPOST('https://apilocal.sponzor.me/user_interests').respond(200, data);
+    });
 
     afterEach(function() {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
 
-    it('Should return a the new user interests', function(){
-      var result;
+    it('Should return a the new user interests', function( done ){
       userInterestService.createUserInterest( {} )
-      	.then(function( rta ) {
-	        result = rta;
-	      });
+    	.then(function( result ) {
+        chai.expect( result ).to.eql( data.UserInterest );
+        done();
+      });
       $httpBackend.flush();
-      chai.expect( result ).to.eql( data.UserInterest );
 	  });
   });
 
 	describe('Test createUserInterest failed', function() {
-		var $httpBackend;
+
   	var data = mockData.failed();
 
-  	beforeEach(inject(function($injector) {
-      // Set up the mock http service responses
-      $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.when('POST', 'https://apilocal.sponzor.me/user_interests')
-      	.respond(401, data);
-      $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-        "title": 'Sponzorme EN'
-      });
-      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-        "title": 'Sponzorme PT'
-      });
-      $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-        "title": 'Sponzorme ES'
-      });
-    }));
+  	beforeEach(function() {
+      $httpBackend.whenPOST('https://apilocal.sponzor.me/user_interests').respond(401, data);
+    });
 
     afterEach(function() {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
 
-    it('Should return an error message', function(){
-      var result;
+    it('Should return an error message', function( done ){
       userInterestService.createUserInterest( {} )
-      	.catch(function( rta ) {
-	        result = rta;
-	      });
+    	.catch(function( result ) {
+        chai.assert.isDefined( result.message );
+        done();
+      });
       $httpBackend.flush();
-      chai.assert.isDefined( result.message );
 	  });
 	});
   
