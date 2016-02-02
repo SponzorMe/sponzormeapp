@@ -9,10 +9,12 @@
     .module('app')
     .config(routeConfig);
 
-  function routeConfig($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider) {
+  function routeConfig($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider, $ionicAutoTrackProvider) {
 
     $ionicConfigProvider.views.swipeBackEnabled(false);
     $ionicConfigProvider.views.maxCache(10);
+    $ionicAutoTrackProvider.disableTracking('Tap');
+    $ionicAutoTrackProvider.disableTracking('Load');
 
     function getDefaultRoute(){
 

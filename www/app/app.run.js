@@ -9,9 +9,14 @@
     .module('app')
     .run(run);
 
-  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast ) {
+  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics ) {
     $ionicPlatform.ready(function() {
-
+      Ionic.io();
+      $ionicAnalytics.register();
+      $ionicAnalytics.setGlobalProperties({
+        app_version_number: '1.0.6',
+        day_of_week: (new Date()).getDay()
+      });
       $ionicDeploy.setChannel("production");
 
       $cordovaGlobalization.getPreferredLanguage()
@@ -70,11 +75,6 @@
             function complete( rta ){
               if(rta) doUpdate();
             }
-          }else{
-            utilsService.alert({
-              title: $translate.instant("MESSAGES.update_title"),
-              template: '<p class="text-center">'+ $translate.instant("MESSAGES.update_text_nothing") +'</p>'
-            });
           }
         }
       }

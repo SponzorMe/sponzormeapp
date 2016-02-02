@@ -68,8 +68,8 @@
     }
 
     function filterDate( item ){
-      return true
-      //return moment(item.ends).isAfter(new Date());
+      //return true
+      return moment(item.ends).isAfter(new Date());
     }
     
 

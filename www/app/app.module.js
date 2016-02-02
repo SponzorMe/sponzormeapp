@@ -11,6 +11,7 @@
     'ionic',
     'ionic.service.core',
     'ionic.service.deploy',
+    'ionic.service.analytics',
     'ngCordova',
     //'ngCordovaMocks',
     'ngMessages',
