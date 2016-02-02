@@ -9,8 +9,10 @@
     .module('app')
     .run(run);
 
-  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup) {
+  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast ) {
     $ionicPlatform.ready(function() {
+
+      $ionicDeploy.setChannel("production");
 
       $cordovaGlobalization.getPreferredLanguage()
         .then( complete )
@@ -48,6 +50,50 @@
       }
       if(window.StatusBar) {
         StatusBar.styleDefault();
+      }
+
+      checkForUpdates();
+
+      function checkForUpdates(){
+        $ionicDeploy.check()
+        .then( complete );
+
+        function complete( hasUpdate ){
+          if (hasUpdate){
+
+            utilsService.confirm({
+              title: $translate.instant("MESSAGES.update_title"),
+              template: '<p class="text-center">'+ $translate.instant("MESSAGES.update_text") +'</p>'
+            })
+            .then( complete );
+
+            function complete( rta ){
+              if(rta) doUpdate();
+            }
+          }else{
+            utilsService.alert({
+              title: $translate.instant("MESSAGES.update_title"),
+              template: '<p class="text-center">'+ $translate.instant("MESSAGES.update_text_nothing") +'</p>'
+            });
+          }
+        }
+      }
+
+      function doUpdate(){
+        utilsService.showLoad();
+        $ionicDeploy.update()
+        .then( complete )
+        .catch( failed );
+
+        function complete(){
+          utilsService.hideLoad();
+          $cordovaToast.showShortBottom($translate.instant("MESSAGES.update_success"));
+        }
+
+        function failed(){
+          utilsService.hideLoad();
+          utilsService.alert();
+        }
       }
     });
   }
