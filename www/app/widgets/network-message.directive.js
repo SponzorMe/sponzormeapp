@@ -30,7 +30,7 @@
       //Attributes
       vm.message = false;
       
-      //activate();
+      activate();
       //////////////
 
       function activate(){

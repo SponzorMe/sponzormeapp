@@ -8,12 +8,9 @@
   angular
     .module('app')
     .value('BackendVariables',{
-      url: "https://apilocal.sponzor.me/", // i'm using the Ionic Proxy
-      url_web: "https://staging.sponzor.me/",
-      ready: "false"
-    })
-    .value('gAnalytics',{
-      trackCode: "UA-54490148-5"
+      url: "https://api.sponzor.me/", // i'm using the Ionic Proxy
+      url_web: "https://sponzor.me/",
+      ready: false
     })
     .value('AMAZON',{
       'AMAZONSECRET': 'RlzqEBFUlJW/8YGkeasfmTZRLTlWMWwaBpJNBxu6',

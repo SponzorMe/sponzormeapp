@@ -12,7 +12,7 @@
   function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup) {
     $ionicPlatform.ready(function() {
 
-      /*$cordovaGlobalization.getPreferredLanguage()
+      $cordovaGlobalization.getPreferredLanguage()
         .then( complete )
         .catch( failed );
 
@@ -39,7 +39,7 @@
 
         function failed( error ){
           $translate.use("en");
-        }*/
+        }
 
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)

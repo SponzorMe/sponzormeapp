@@ -29,7 +29,8 @@
     var vm = this;
     vm.event = {};
     vm.userAuth = $localStorage.userAuth;
-    vm.perks_tasks = [];
+    vm.tasks_organizer = [];
+    vm.tasks_sponsor = [];
     vm.perks_sponsorships = [];
     vm.idSponsorShip = null;
 
@@ -58,8 +59,10 @@
           utilsService.hideLoad();
           vm.event = event;
           vm.idSponsorShip = getIdSponsorship( vm.event.sponzorships ).id;
-          vm.perks_tasks = preparatePerksTasks( vm.event );
-          vm.perks_sponsorships = preparatePerksSponsorships( vm.event );
+          vm.perks_sponsorships = preparatePerksSponsorships( angular.copy(vm.event) );
+          vm.tasks_organizer = preparatePerksTasksOrganizer( angular.copy(vm.event) );
+          vm.tasks_sponsor = preparatePerksTasks( angular.copy(vm.event) );
+          
         }
 
         function failed( error ){
@@ -79,6 +82,14 @@
       var perks = filterBySponsorship( event );
       for (var i = 0; i < perks.length; i++) {
         perks[i].tasks = _.where( event.perk_tasks.filter( filterByUser ), {perk_id: perks[i].id});
+      }
+      return perks;
+    }
+
+    function preparatePerksTasksOrganizer( event ){
+      var perks = event.perks;
+      for (var i = 0; i < perks.length; i++) {
+        perks[i].tasks = _.where( event.perk_tasks.filter( filterByOrganizer ), {perk_id: perks[i].id});
       }
       return perks;
     }
@@ -103,6 +114,10 @@
 
     function filterByUser( task ){
       return task.type == '1' && vm.userAuth.id == task.user_id; //Is a sponsor
+    }
+
+    function filterByOrganizer( task ){
+      return task.type == '0'; //Is a sponsor
     }
     
 
