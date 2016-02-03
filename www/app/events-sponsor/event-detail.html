@@ -30,7 +30,7 @@
               </ion-item>
 						  <ion-item class="item-body">
 						  	<img ng-src="{{ eventDetail.event.image }}" class="full-image">
-						    {{ eventDetail.event.description }}
+                <span ng-bind-html="eventDetail.event.description"></span>
 						  </ion-item>
 						  <ion-item class="item-divider">
 						    Organizer

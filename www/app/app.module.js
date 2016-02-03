@@ -16,6 +16,7 @@
     //'ngCordovaMocks',
     'ngMessages',
     'ngStorage',
+    'ngSanitize',
     'ngIOS9UIWebViewPatch',
     'pascalprecht.translate',
     'base64',
