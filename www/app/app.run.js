@@ -9,45 +9,10 @@
     .module('app')
     .run(run);
 
-  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics ) {
+  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics, $localStorage ) {
+    
+
     $ionicPlatform.ready(function() {
-      Ionic.io();
-      $ionicAnalytics.register();
-      $ionicAnalytics.setGlobalProperties({
-        app_version_number: '1.0.6',
-        day_of_week: (new Date()).getDay()
-      });
-      $ionicDeploy.setChannel("production");
-
-      $cordovaGlobalization.getPreferredLanguage()
-        .then( complete )
-        .catch( failed );
-
-        function complete( language ){
-          var lang = (language.value).split("-")[0];
-          var messages = {
-            'es': '¿Quieres cambiar el lenguaje a Español?',
-            'en': ' Do you want changue the language to English?',
-            'pt': '¿Você quer mudar a língua para Português?'
-          };
-          $ionicPopup.confirm({
-            title: 'Language',
-            template: '<p class="text-center">' + messages[lang] + '</p>'
-          })
-          .then(function( rta ){
-            if(rta){
-              $translate.use( lang );
-            }else{
-              $translate.use("en");
-            }
-          });
-          
-        }
-
-        function failed( error ){
-          $translate.use("en");
-        }
-
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -58,44 +23,97 @@
       }
 
       checkForUpdates();
+      chooseLanguage();
+      ionicAnalytics();
+    });
 
-      function checkForUpdates(){
-        $ionicDeploy.check()
-        .then( complete );
+    function ionicAnalytics(){
+      $ionicAnalytics.register();
+      $ionicAnalytics.setGlobalProperties({
+        app_version_number: '1.0.6',
+        day_of_week: (new Date()).getDay()
+      });
+    }
 
-        function complete( hasUpdate ){
-          if (hasUpdate){
+    function chooseLanguage(){
 
-            utilsService.confirm({
-              title: $translate.instant("MESSAGES.update_title"),
-              template: '<p class="text-center">'+ $translate.instant("MESSAGES.update_text") +'</p>'
-            })
-            .then( complete );
+      if(!checkChooseLang()){
+        $cordovaGlobalization.getPreferredLanguage()
+        .then( complete )
+        .catch( failed );
+      }
 
-            function complete( rta ){
-              if(rta) doUpdate();
-            }
+      function complete( language ){
+        var lang = (language.value).split("-")[0];
+        var messages = {
+          'es': '¿Quieres cambiar el lenguaje a Español?',
+          'en': ' Do you want changue the language to English?',
+          'pt': '¿Você quer mudar a língua para Português?'
+        };
+        $ionicPopup.confirm({
+          title: 'Language',
+          template: '<p class="text-center">' + messages[lang] + '</p>'
+        })
+        .then(function( rta ){
+          if(rta){
+            $translate.use( lang );
+          }else{
+            $translate.use("en");
+          }
+          $localStorage.chooseLang = true;
+        });
+        
+      }
+
+      function failed( error ){
+        $translate.use("en");
+      }
+    }
+
+    function checkChooseLang(){
+      if(angular.isDefined($localStorage.chooseLang)){
+        return true;
+      }
+      return false;
+    }
+
+    function checkForUpdates(){
+      $ionicDeploy.setChannel("production");
+      $ionicDeploy.check()
+      .then( complete );
+
+      function complete( hasUpdate ){
+        if (hasUpdate){
+
+          utilsService.confirm({
+            title: $translate.instant("MESSAGES.update_title"),
+            template: '<p class="text-center">'+ $translate.instant("MESSAGES.update_text") +'</p>'
+          })
+          .then( complete );
+
+          function complete( rta ){
+            if(rta) doUpdate();
           }
         }
       }
+    }
 
-      function doUpdate(){
-        utilsService.showLoad();
-        $ionicDeploy.update()
-        .then( complete )
-        .catch( failed );
+    function doUpdate(){
+      utilsService.showLoad();
+      $ionicDeploy.update()
+      .then( complete )
+      .catch( failed );
 
-        function complete(){
-          utilsService.hideLoad();
-          $cordovaToast.showShortBottom($translate.instant("MESSAGES.update_success"));
-        }
-
-        function failed(){
-          utilsService.hideLoad();
-          utilsService.alert();
-        }
+      function complete(){
+        utilsService.hideLoad();
+        $cordovaToast.showShortBottom($translate.instant("MESSAGES.update_success"));
       }
-    });
+
+      function failed(){
+        utilsService.hideLoad();
+        utilsService.alert();
+      }
+    }
   }
 
 })();
