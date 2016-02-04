@@ -17,7 +17,9 @@
     '$localStorage',
     '$state',
     'utilsService',
-    '$base64'
+    '$base64',
+    '$ionicUser', 
+    '$ionicAnalytics'
   ];
 
   function LoginController( $translate, userService, $localStorage, $state , utilsService, $base64, $ionicUser, $ionicAnalytics) {

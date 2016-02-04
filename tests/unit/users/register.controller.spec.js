@@ -1,8 +1,5 @@
 describe("Controller: RegisterController", function() {
 
-	var registerController, userService, utilsService;
-	var $translate, $localStorage, $base64;
-
   beforeEach(function() {
     module('app');
   });
@@ -21,6 +18,9 @@ describe("Controller: RegisterController", function() {
 		utilsService = chai.spy.object($injector.get('utilsService'), ['showLoad', 'hideLoad','alert', 'resetForm','trim']);
     $localStorage = $injector.get('$localStorage');
     $base64 = $injector.get('$base64');
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
 
     registerController = $controller('RegisterController', {
       '$translate': $translate,
@@ -61,28 +61,11 @@ describe("Controller: RegisterController", function() {
     beforeEach(inject(function($injector) {
       // Set up the mock http service responses
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.whenPOST('https://apilocal.sponzor.me/users')
-        .respond(200, dataCreateUser);
-      $httpBackend.whenPOST('https://apilocal.sponzor.me/auth')
-        .respond(200, dataLogin);
-      $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-        "title": 'Sponzorme EN',
-        "MESSAGES": {
-          "succ_user_tit": "as"
-        }
-      });
-      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-        "title": 'Sponzorme PT',
-        "MESSAGES": {
-          "succ_user_tit": "as"
-        }
-      });
-      $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-        "title": 'Sponzorme ES',
-        "MESSAGES": {
-          "succ_user_tit": "as"
-        }
-      });
+      $httpBackend.whenPOST( URL_REST + 'users').respond(200, dataCreateUser);
+      $httpBackend.whenPOST( URL_REST + 'auth').respond(200, dataLogin);
+      $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
+      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
+      $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
       $httpBackend.whenGET('app/users/form-profile.html').respond(200,"");
     }));
 
@@ -155,26 +138,10 @@ describe("Controller: RegisterController", function() {
     beforeEach(inject(function($injector) {
       // Set up the mock http service responses
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.whenPOST('https://apilocal.sponzor.me/users')
-        .respond(400, data);
-      $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-        "title": 'Sponzorme EN',
-        "MESSAGES": {
-          "succ_user_tit": "as"
-        }
-      });
-      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-        "title": 'Sponzorme PT',
-        "MESSAGES": {
-          "succ_user_tit": "as"
-        }
-      });
-      $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-        "title": 'Sponzorme ES',
-        "MESSAGES": {
-          "succ_user_tit": "as"
-        }
-      });
+      $httpBackend.whenPOST( URL_REST + 'users').respond(400, data);
+      $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
+      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
+      $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
       $httpBackend.whenGET('app/users/form-profile.html').respond(200,"");
     }));
 
@@ -214,29 +181,13 @@ describe("Controller: RegisterController", function() {
       $setUntouched: function() {},
     }
 
-    beforeEach(inject(function($injector) {
+    beforeEach(inject(function($injector) { 
       // Set up the mock http service responses
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.whenPOST('https://apilocal.sponzor.me/users')
-        .respond(400, data);
-      $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-        "title": 'Sponzorme EN',
-        "MESSAGES": {
-          "succ_user_tit": "as"
-        }
-      });
-      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-        "title": 'Sponzorme PT',
-        "MESSAGES": {
-          "succ_user_tit": "as"
-        }
-      });
-      $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-        "title": 'Sponzorme ES',
-        "MESSAGES": {
-          "succ_user_tit": "as"
-        }
-      });
+      $httpBackend.whenPOST( URL_REST + 'users').respond(400, data);
+      $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
+      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
+      $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
       $httpBackend.whenGET('app/users/form-profile.html').respond(200,"");
     }));
 
@@ -277,26 +228,10 @@ describe("Controller: RegisterController", function() {
     beforeEach(inject(function($injector) {
       // Set up the mock http service responses
       $httpBackend = $injector.get('$httpBackend');
-      $httpBackend.whenPOST('https://apilocal.sponzor.me/users')
-        .respond(400, data);
-      $httpBackend.whenGET('langs/lang-en.json').respond(200, {
-        "title": 'Sponzorme EN',
-        "MESSAGES": {
-          "succ_user_tit": "as"
-        }
-      });
-      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {
-        "title": 'Sponzorme PT',
-        "MESSAGES": {
-          "succ_user_tit": "as"
-        }
-      });
-      $httpBackend.whenGET('langs/lang-es.json').respond(200, {
-        "title": 'Sponzorme ES',
-        "MESSAGES": {
-          "succ_user_tit": "as"
-        }
-      });
+      $httpBackend.whenPOST( URL_REST + 'users').respond(400, data);
+      $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
+      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
+      $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
       $httpBackend.whenGET('app/users/form-profile.html').respond(200,"");
     }));
 

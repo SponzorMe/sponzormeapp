@@ -1,8 +1,5 @@
 describe("Controller: ProfileController", function() {
 
-	var profileController, userService, utilsService, imgurService, mockForm;
-	var $cordovaCameraMock, $localStorage, $q, $cordovaToast, $rootScope, $httpBackend;
-
   beforeEach(function() {
     module('app');
   });
@@ -16,6 +13,9 @@ describe("Controller: ProfileController", function() {
   beforeEach(inject(function($injector, _$rootScope_, $controller) {
     $rootScope = _$rootScope_;
     $httpBackend = $injector.get('$httpBackend');
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
 
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
@@ -127,7 +127,7 @@ describe("Controller: ProfileController", function() {
     beforeEach(function() {
       // Set up the mock http service responses
       $httpBackend.whenPOST('https://api.imgur.com/3/image').respond(200, dataImage);
-      $httpBackend.whenPATCH('https://apilocal.sponzor.me/users/1').respond(200, dataUser);
+      $httpBackend.whenPATCH( URL_REST + 'users/1').respond(200, dataUser);
     });
 
     it('Should be called uploadImage', function() {
@@ -178,7 +178,7 @@ describe("Controller: ProfileController", function() {
 
     beforeEach(function() {
       // Set up the mock http service responses
-      $httpBackend.whenPATCH('https://apilocal.sponzor.me/users/1').respond(200, dataUser);
+      $httpBackend.whenPATCH( URL_REST + 'users/1').respond(200, dataUser);
     });
 
     it('Should be called utilsService and cordovaToast', function() {
@@ -231,7 +231,7 @@ describe("Controller: ProfileController", function() {
 
     beforeEach(function() {
       // Set up the mock http service responses
-      $httpBackend.whenPATCH('https://apilocal.sponzor.me/users/1').respond(400, data);
+      $httpBackend.whenPATCH( URL_REST + 'users/1').respond(400, data);
     });
 
     it('Should be called utilsService.hideLoad', function() {

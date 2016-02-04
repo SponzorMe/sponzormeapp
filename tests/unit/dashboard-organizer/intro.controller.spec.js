@@ -1,8 +1,5 @@
 describe('Controller: IntroOrganizerCtrl', function(){
 
-	var introOrganizerCtrl;
-	var $rootScope, $q, $httpBackend, $state, $ionicSlideBoxDelegate, $ionicHistory, $ionicSideMenuDelegate;
-
   beforeEach(function() {
     module('app');
   });
@@ -17,6 +14,9 @@ describe('Controller: IntroOrganizerCtrl', function(){
 
   	$rootScope = _$rootScope_;
   	$q = $injector.get('$q');
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
 
   	$httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});

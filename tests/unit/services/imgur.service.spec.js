@@ -1,6 +1,5 @@
 describe("Service: imgurService", function() {
 
-  var imgurService;
 
   beforeEach(function() {
     module('app');
@@ -14,6 +13,7 @@ describe("Service: imgurService", function() {
 
   beforeEach(inject(function($injector, _imgurService_) {
     imgurService = _imgurService_;
+
     $httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});

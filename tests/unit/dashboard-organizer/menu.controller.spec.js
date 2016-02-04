@@ -1,8 +1,5 @@
 describe('Controller: MenuOrganizerCtrl', function(){
 
-	var menuOrganizerCtrl, userService, sponsorshipService, perkTaskService;
-	var $rootScope, $q, $httpBackend, $localStorage, $ionicHistory, $rootScopeOn;
-
   beforeEach(function() {
     module('app');
   });
@@ -18,6 +15,9 @@ describe('Controller: MenuOrganizerCtrl', function(){
   	$rootScope = _$rootScope_;
   	$rootScopeOn = chai.spy.on($rootScope, '$on');
   	$q = $injector.get('$q');
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
 
   	$httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
@@ -101,9 +101,9 @@ describe('Controller: MenuOrganizerCtrl', function(){
     var dataTasks = mockData.perkTaskService.getPerkTaskByOrganizer();
 
   	beforeEach(function() {
-      $httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(200, dataEvents);
-      $httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(200, dataSponsors);
-      $httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks_organizer/1').respond(200, dataTasks);
+      $httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
+      $httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataSponsors);
+      $httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(200, dataTasks);
     });
 
     it('Should have called a Menu:count_following and Menu:count_sponsoring', function() {
@@ -144,9 +144,9 @@ describe('Controller: MenuOrganizerCtrl', function(){
     var dataTasks = mockData.perkTaskService.getPerkTaskByOrganizer();
 
     beforeEach(function() {
-      $httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(200, dataEvents);
-      $httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(200, dataSponsors);
-      $httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks_organizer/1').respond(200, dataTasks);
+      $httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
+      $httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataSponsors);
+      $httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(200, dataTasks);
     });
   	
     it('Should count_events be 1', function() {
@@ -165,9 +165,9 @@ describe('Controller: MenuOrganizerCtrl', function(){
     var dataTasks = mockData.perkTaskService.getPerkTaskByOrganizer();
 
     beforeEach(function() {
-      $httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(200, dataEvents);
-      $httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(200, dataSponsors);
-      $httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks_organizer/1').respond(200, dataTasks);
+      $httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
+      $httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataSponsors);
+      $httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(200, dataTasks);
     });
     
     it('Should count_sponsors be 2', function() {
@@ -186,9 +186,9 @@ describe('Controller: MenuOrganizerCtrl', function(){
     var dataTasks = mockData.perkTaskService.getPerkTaskByOrganizer();
 
     beforeEach(function() {
-      $httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(200, dataEvents);
-      $httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(200, dataSponsors);
-      $httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks_organizer/1').respond(200, dataTasks);
+      $httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
+      $httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataSponsors);
+      $httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(200, dataTasks);
     });
     
     it('Should count_tasks be 1', function() {
@@ -207,9 +207,9 @@ describe('Controller: MenuOrganizerCtrl', function(){
     var dataTasks = mockData.perkTaskService.getPerkTaskByOrganizer();
 
     beforeEach(function() {
-      $httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(200, dataEvents);
-      $httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(200, dataSponsors);
-      $httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks_organizer/1').respond(200, dataTasks);
+      $httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
+      $httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataSponsors);
+      $httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(200, dataTasks);
     });
   	
     it('Should have createEvent method', function() {

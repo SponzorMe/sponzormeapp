@@ -1,7 +1,5 @@
 describe("Service: eventTypeService", function() {
 
-  var eventTypeService;
-
   beforeEach(function() {
     module('app');
   });
@@ -14,6 +12,10 @@ describe("Service: eventTypeService", function() {
 
   beforeEach(inject(function($injector, _eventTypeService_) {
     eventTypeService = _eventTypeService_;
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
     $httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
@@ -39,7 +41,7 @@ describe("Service: eventTypeService", function() {
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(400, data);
+        $httpBackend.whenGET(URL_REST + 'event_types').respond(400, data);
       });
 
       afterEach(function() {
@@ -63,7 +65,7 @@ describe("Service: eventTypeService", function() {
       var data = mockData.eventTypeService.allEventTypes();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, data);
+        $httpBackend.whenGET(URL_REST + 'event_types').respond(200, data);
       });
 
       afterEach(function() {
@@ -127,7 +129,7 @@ describe("Service: eventTypeService", function() {
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/event_types/1').respond(400, data);
+        $httpBackend.whenGET( URL_REST + 'event_types/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -151,7 +153,7 @@ describe("Service: eventTypeService", function() {
       var data = mockData.eventTypeService.getEventType();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/event_types/1').respond(200, data);
+        $httpBackend.whenGET( URL_REST + 'event_types/1').respond(200, data);
       });
 
       afterEach(function() {

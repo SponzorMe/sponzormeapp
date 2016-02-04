@@ -18,6 +18,9 @@ describe("Controller: EditEventController", function() {
   	$rootScope = _$rootScope_;
   	$q = $injector.get('$q');
 
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
   	$httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
@@ -244,8 +247,8 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -298,8 +301,8 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(400, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(400, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -318,8 +321,8 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
     it('Should have clickedStartDate method', function() {
@@ -345,8 +348,8 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
     it('Should have clickedEndDate method', function() {
@@ -372,8 +375,8 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
     it('Should have clickedStartTime method', function() {
@@ -399,8 +402,8 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
     it('Should have clickedEndTime method', function() {
@@ -426,8 +429,8 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
     it('Should have getPhoto method', function() {
@@ -468,13 +471,13 @@ describe("Controller: EditEventController", function() {
   	var dataCreatePerk = mockData.perkService.createPerk();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   		$httpBackend.whenPOST('https://api.imgur.com/3/image').respond(200, dataImage);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/events/1002').respond(200, dataEditEvent);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/perks/3').respond(200, dataPerk);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/perks/14').respond(200, dataPerk);
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/perks').respond(200, dataCreatePerk);
+  		$httpBackend.whenPATCH( URL_REST + 'events/1').respond(200, dataEditEvent);
+  		$httpBackend.whenPATCH( URL_REST + 'perks/3').respond(200, dataPerk);
+  		$httpBackend.whenPATCH( URL_REST + 'perks/14').respond(200, dataPerk);
+  		$httpBackend.whenPOST( URL_REST + 'perks').respond(200, dataCreatePerk);
   	});
 
   	it('Should be called uploadImage', function() {
@@ -571,12 +574,12 @@ describe("Controller: EditEventController", function() {
   	var dataCreatePerk = mockData.perkService.createPerk();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/events/1002').respond(200, dataEditEvent);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/perks/3').respond(200, dataPerk);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/perks/14').respond(200, dataPerk);
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/perks').respond(200, dataCreatePerk);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenPATCH( URL_REST + 'events/1').respond(200, dataEditEvent);
+  		$httpBackend.whenPATCH( URL_REST + 'perks/3').respond(200, dataPerk);
+  		$httpBackend.whenPATCH( URL_REST + 'perks/14').respond(200, dataPerk);
+  		$httpBackend.whenPOST( URL_REST + 'perks').respond(200, dataCreatePerk);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -657,13 +660,13 @@ describe("Controller: EditEventController", function() {
   	var dataCreatePerk = mockData.perkService.createPerk();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   		$httpBackend.whenPOST('https://api.imgur.com/3/image').respond(400, dataImage);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/events/1002').respond(200, dataEditEvent);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/perks/3').respond(200, dataPerk);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/perks/14').respond(200, dataPerk);
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/perks').respond(200, dataCreatePerk);
+  		$httpBackend.whenPATCH( URL_REST + 'events/1').respond(200, dataEditEvent);
+  		$httpBackend.whenPATCH( URL_REST + 'perks/3').respond(200, dataPerk);
+  		$httpBackend.whenPATCH( URL_REST + 'perks/14').respond(200, dataPerk);
+  		$httpBackend.whenPOST( URL_REST + 'perks').respond(200, dataCreatePerk);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -692,13 +695,13 @@ describe("Controller: EditEventController", function() {
   	var dataCreatePerk = mockData.perkService.createPerk();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   		$httpBackend.whenPOST('https://api.imgur.com/3/image').respond(200, dataImage);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/events/1002').respond(400, dataEditEvent);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/perks/3').respond(200, dataPerk);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/perks/14').respond(200, dataPerk);
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/perks').respond(200, dataCreatePerk);
+  		$httpBackend.whenPATCH( URL_REST + 'events/1').respond(400, dataEditEvent);
+  		$httpBackend.whenPATCH( URL_REST + 'perks/3').respond(200, dataPerk);
+  		$httpBackend.whenPATCH( URL_REST + 'perks/14').respond(200, dataPerk);
+  		$httpBackend.whenPOST( URL_REST + 'perks').respond(200, dataCreatePerk);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -726,13 +729,14 @@ describe("Controller: EditEventController", function() {
   	var dataCreatePerk = mockData.perkService.createPerk();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   		$httpBackend.whenPOST('https://api.imgur.com/3/image').respond(200, dataImage);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/events/1002').respond(400, dataEditEvent);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/perks/3').respond(400, dataPerk);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/perks/14').respond(400, dataPerk);
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/perks').respond(200, dataCreatePerk);
+  		$httpBackend.whenPATCH( URL_REST + 'events/1').respond(400, dataEditEvent);
+  		$httpBackend.whenPATCH( URL_REST + 'perks/3').respond(400, dataPerk);
+  		$httpBackend.whenPATCH( URL_REST + 'perks/14').respond(400, dataPerk);
+  		$httpBackend.whenPOST( URL_REST + 'perks').respond(200, dataCreatePerk);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -760,13 +764,13 @@ describe("Controller: EditEventController", function() {
   	var dataCreatePerk = mockData.failed();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   		$httpBackend.whenPOST('https://api.imgur.com/3/image').respond(200, dataImage);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/events/1002').respond(400, dataEditEvent);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/perks/3').respond(200, dataPerk);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/perks/14').respond(200, dataPerk);
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/perks').respond(400, dataCreatePerk);
+  		$httpBackend.whenPATCH( URL_REST + 'events/1').respond(400, dataEditEvent);
+  		$httpBackend.whenPATCH( URL_REST + 'perks/3').respond(200, dataPerk);
+  		$httpBackend.whenPATCH( URL_REST + 'perks/14').respond(200, dataPerk);
+  		$httpBackend.whenPOST( URL_REST + 'perks').respond(400, dataCreatePerk);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -790,8 +794,8 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
     it('Should have openModalSponsor method', function() {
@@ -816,8 +820,8 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
     it('Should have closeModalSponsor method', function() {
@@ -858,8 +862,8 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
     it('Should have createSponsor method', function() {
@@ -893,8 +897,8 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
     it('Should have editSponsor method', function() {
@@ -971,9 +975,9 @@ describe("Controller: EditEventController", function() {
   	var dataPerk = mockData.perkService.deletePerk();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
-  		$httpBackend.whenDELETE('https://apilocal.sponzor.me/perks/3').respond(200, dataPerk);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenDELETE( URL_REST + 'perks/3').respond(200, dataPerk);
   	});
 
   	it('Should be called modalSponsor.hide method', function() {
@@ -981,7 +985,7 @@ describe("Controller: EditEventController", function() {
       $httpBackend.flush();
       editEventController.newSponsor = {
       	id: "3",
-				id_event: "1002",
+				id_event: "1",
 				kind: "A",
 				reserved_quantity: "0",
 				total_quantity: "2",
@@ -999,7 +1003,7 @@ describe("Controller: EditEventController", function() {
       var size = editEventController.sponsors.length;
       editEventController.newSponsor = {
       	id: "3",
-				id_event: "1002",
+				id_event: "1",
 				kind: "A",
 				reserved_quantity: "0",
 				total_quantity: "2",
@@ -1020,15 +1024,15 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
   	it('Should be called modalSponsor.hide method', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
       var mockPerk = {
-      	id_event: "1002",
+      	id_event: "1",
 				kind: "A",
 				reserved_quantity: "0",
 				total_quantity: "2",
@@ -1046,7 +1050,7 @@ describe("Controller: EditEventController", function() {
       $httpBackend.flush();
       
       var mockPerk = {
-      	id_event: "1002",
+      	id_event: "1",
 				kind: "A",
 				reserved_quantity: "0",
 				total_quantity: "2",
@@ -1070,9 +1074,9 @@ describe("Controller: EditEventController", function() {
   	var dataPerk = mockData.failed();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
-  		$httpBackend.whenDELETE('https://apilocal.sponzor.me/perks/3').respond(400, dataPerk);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenDELETE( URL_REST + 'perks/3').respond(400, dataPerk);
   	});
 
   	it('Should be called modalSponsor.hide method', function() {
@@ -1080,7 +1084,7 @@ describe("Controller: EditEventController", function() {
       $httpBackend.flush();
       editEventController.newSponsor = {
       	id: "3",
-				id_event: "1002",
+				id_event: "1",
 				kind: "A",
 				reserved_quantity: "0",
 				total_quantity: "2",
@@ -1101,8 +1105,8 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
   	it('Should be called modalSponsor.hide method', function() {
@@ -1124,8 +1128,8 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
   	it('Should have submitSponsor method', function() {
@@ -1138,7 +1142,7 @@ describe("Controller: EditEventController", function() {
       $httpBackend.flush();
       editEventController.isNewSponsor = true;
       var mockPerk = {
-      	id_event: "1002",
+      	id_event: "1",
 				kind: "A",
 				reserved_quantity: "0",
 				total_quantity: "2",
@@ -1155,7 +1159,7 @@ describe("Controller: EditEventController", function() {
       $httpBackend.flush();
       var size = editEventController.sponsors.length;
       var mockPerk = {
-      	id_event: "1002",
+      	id_event: "1",
 				kind: "A",
 				reserved_quantity: "0",
 				total_quantity: "2",
@@ -1173,7 +1177,7 @@ describe("Controller: EditEventController", function() {
       $httpBackend.flush();
       editEventController.isNewSponsor = true;
       var mockPerk = {
-      	id_event: "1002",
+      	id_event: "1",
 				kind: "A",
 				reserved_quantity: "0",
 				total_quantity: "2",
@@ -1194,8 +1198,8 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
   	it('Should have submitSponsor method', function() {
@@ -1208,7 +1212,7 @@ describe("Controller: EditEventController", function() {
       $httpBackend.flush();
       editEventController.isNewSponsor = false;
       var mockPerk = {
-      	id_event: "1002",
+      	id_event: "1",
 				kind: "A",
 				reserved_quantity: "0",
 				total_quantity: "2",
@@ -1225,7 +1229,7 @@ describe("Controller: EditEventController", function() {
       $httpBackend.flush();
       var size = editEventController.sponsors.length;
       var mockPerk = {
-      	id_event: "1002",
+      	id_event: "1",
 				kind: "A",
 				reserved_quantity: "0",
 				total_quantity: "2",
@@ -1243,7 +1247,7 @@ describe("Controller: EditEventController", function() {
       $httpBackend.flush();
       editEventController.isNewSponsor = false;
       var mockPerk = {
-      	id_event: "1002",
+      	id_event: "1",
 				kind: "A",
 				reserved_quantity: "0",
 				total_quantity: "2",

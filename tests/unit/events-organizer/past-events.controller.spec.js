@@ -17,8 +17,11 @@ describe('Controller: PastEventsController', function(){
 
   	$rootScope = _$rootScope_;
   	$rootScopeBroadcast = chai.spy.on( $rootScope, '$broadcast' );
-  	$httpBackend = $injector.get('$httpBackend');
 
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
+  	$httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});	
@@ -84,7 +87,7 @@ describe('Controller: PastEventsController', function(){
   	var dataEvents = mockData.userService.getUser();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(200, dataEvents);
+  		$httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -121,7 +124,7 @@ describe('Controller: PastEventsController', function(){
   	var dataEvents = mockData.failed();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(400, dataEvents);
+  		$httpBackend.whenGET( URL_REST + 'users/1').respond(400, dataEvents);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -155,7 +158,7 @@ describe('Controller: PastEventsController', function(){
   	var dataEvents = mockData.userService.getUser();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(200, dataEvents);
+  		$httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
   	});
 
     it('Should showEmptyState be boolean', function() {
@@ -204,7 +207,7 @@ describe('Controller: PastEventsController', function(){
   	var dataEvents = mockData.failed();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(400, dataEvents);
+  		$httpBackend.whenGET( URL_REST + 'users/1').respond(400, dataEvents);
   	});
 
     it('Should be called broadcast scroll.refreshComplete', function() {

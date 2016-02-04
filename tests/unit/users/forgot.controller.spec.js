@@ -1,7 +1,5 @@
 describe("Controller: ForgotController", function() {
 
-	var forgotController, userService, utilsService, mockForm;
-	var $rootScope, $httpBackend, $localStorage, $translate, $state, $q, $ionicHistory;
 
   beforeEach(function() {
     module('app');
@@ -17,6 +15,9 @@ describe("Controller: ForgotController", function() {
 
   	$rootScope = _$rootScope_;
     $httpBackend = $injector.get('$httpBackend');
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
 
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
@@ -72,10 +73,10 @@ describe("Controller: ForgotController", function() {
 
     var data = mockData.userService.forgotPassword();
   	
-    beforeEach(inject(function($controller) {
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/send_reset_password').respond(200, data);
+    beforeEach(function() {
+  		$httpBackend.whenPOST( URL_REST + 'send_reset_password').respond(200, data);
   		$httpBackend.whenGET('app/users/login.html').respond(200, '');
-  	}));
+  	});
 
     it('Should be called utilsService methods', function() {
 			forgotController.user.email = "mail@domain.com";
@@ -111,7 +112,7 @@ describe("Controller: ForgotController", function() {
     var data = mockData.failed();
   	
     beforeEach(inject(function($controller) {
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/send_reset_password').respond(400, data);
+  		$httpBackend.whenPOST( URL_REST + 'send_reset_password').respond(400, data);
   		$httpBackend.whenGET('app/users/login.html').respond(200, '');
   	}));
 

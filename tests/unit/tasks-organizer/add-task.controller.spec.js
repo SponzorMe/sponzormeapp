@@ -18,6 +18,9 @@ describe("Controller: AddTaskController", function() {
   	$rootScope = _$rootScope_;
   	$httpBackend = $injector.get('$httpBackend');
 
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
@@ -99,8 +102,8 @@ describe("Controller: AddTaskController", function() {
   	var dataPerks = mockData.perkService.allPerks();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(200, dataUser);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/perks').respond(200, dataPerks);
+			$httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataUser);
+  		$httpBackend.whenGET( URL_REST + 'perks').respond(200, dataPerks);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -125,8 +128,8 @@ describe("Controller: AddTaskController", function() {
   	var dataPerks = mockData.perkService.allPerks();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(400, dataUser);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/perks').respond(200, dataPerks);
+			$httpBackend.whenGET( URL_REST + 'users/1').respond(400, dataUser);
+  		$httpBackend.whenGET( URL_REST + 'perks').respond(200, dataPerks);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -145,8 +148,8 @@ describe("Controller: AddTaskController", function() {
   	var dataPerks = mockData.perkService.allPerks();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(200, dataUser);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/perks').respond(200, dataPerks);
+			$httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataUser);
+  		$httpBackend.whenGET( URL_REST + 'perks').respond(200, dataPerks);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -171,8 +174,8 @@ describe("Controller: AddTaskController", function() {
   	var dataPerks = mockData.failed();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(200, dataUser);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/perks').respond(400, dataPerks);
+			$httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataUser);
+  		$httpBackend.whenGET( URL_REST + 'perks').respond(400, dataPerks);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -202,9 +205,9 @@ describe("Controller: AddTaskController", function() {
   	var dataPerkCreate = mockData.perkTaskService.createPerkTask();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(200, dataUser);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/perks').respond(200, dataPerks);
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/perk_tasks').respond(200, dataPerkCreate);
+			$httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataUser);
+  		$httpBackend.whenGET( URL_REST + 'perks').respond(200, dataPerks);
+  		$httpBackend.whenPOST( URL_REST + 'perk_tasks').respond(200, dataPerkCreate);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -272,9 +275,9 @@ describe("Controller: AddTaskController", function() {
   	var dataPerkCreate = mockData.failed();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(200, dataUser);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/perks').respond(200, dataPerks);
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/perk_tasks').respond(400, dataPerkCreate);
+			$httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataUser);
+  		$httpBackend.whenGET( URL_REST + 'perks').respond(200, dataPerks);
+  		$httpBackend.whenPOST( URL_REST + 'perk_tasks').respond(400, dataPerkCreate);
   	});
 
   	it('Should be called utilsService methods', function() {

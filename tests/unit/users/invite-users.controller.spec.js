@@ -18,6 +18,9 @@ describe("Controller: InviteUsersController", function() {
   	$rootScope = _$rootScope_;
     $httpBackend = $injector.get('$httpBackend');
 
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
@@ -81,9 +84,9 @@ describe("Controller: InviteUsersController", function() {
 
   	var data = mockData.userService.invitedUser();
   	
-    beforeEach(inject(function($controller) {
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/invite_friend').respond(200, data);
-  	}));
+    beforeEach(function() {
+  		$httpBackend.whenPOST( URL_REST + 'invite_friend').respond(200, data);
+  	});
 
     it('Should be called utilsService methods', function() {
     	inviteUsersController.friend.email = 'mail@domain.com';
@@ -111,9 +114,9 @@ describe("Controller: InviteUsersController", function() {
 
   	var data = mockData.failed();
   	
-    beforeEach(inject(function($controller) {
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/invite_friend').respond(400, data);
-  	}));
+    beforeEach(function() {
+  		$httpBackend.whenPOST( URL_REST + 'invite_friend').respond(400, data);
+  	});
 
     it('Should be called utilsService methods', function() {
     	inviteUsersController.friend.email = 'mail@domain.com';

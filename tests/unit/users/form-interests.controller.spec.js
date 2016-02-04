@@ -1,8 +1,5 @@
 describe("Controller: FormInterestsController", function() {
 
-	var formInterestsController, userService, utilsService, mockForm, categoryService;
-	var $rootScope, $httpBackend, $localStorage, $translate, $state, $q;
-
   beforeEach(function() {
     module('app');
   });
@@ -17,6 +14,9 @@ describe("Controller: FormInterestsController", function() {
 
   	$rootScope = _$rootScope_;
     $httpBackend = $injector.get('$httpBackend');
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
 
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
@@ -102,8 +102,8 @@ describe("Controller: FormInterestsController", function() {
   	var dataCategories = mockData.categoryService.allCategories();
   	
     beforeEach(inject(function($controller) {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/categories/1').respond(200, dataCategory);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/categories').respond(200, dataCategories);
+  		$httpBackend.whenGET( URL_REST + 'categories/1').respond(200, dataCategory);
+  		$httpBackend.whenGET( URL_REST + 'categories').respond(200, dataCategories);
   	}));
 
     it('Should be called utilsService methods', function() {
@@ -169,8 +169,8 @@ describe("Controller: FormInterestsController", function() {
   	var dataCategories = mockData.categoryService.allCategories();
   	
     beforeEach(inject(function($controller) {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/categories/1').respond(400, data);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/categories').respond(200, dataCategories);
+  		$httpBackend.whenGET( URL_REST + 'categories/1').respond(400, data);
+  		$httpBackend.whenGET( URL_REST + 'categories').respond(200, dataCategories);
   	}));
 
     it('Should be called utilsService methods', function() {
@@ -238,13 +238,13 @@ describe("Controller: FormInterestsController", function() {
   	var dataInterests = mockData.categoryService.getInterests();
   	var dataCategories = mockData.categoryService.allCategories();
 
-  	 beforeEach(inject(function($controller) {
+  	 beforeEach(function() {
 
   	 	$localStorage.userAuth.type = 0;
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/user_interests').respond(400, data);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/categories').respond(200, dataCategories);
+  		$httpBackend.whenPOST( URL_REST + 'user_interests').respond(400, data);
+  		$httpBackend.whenGET( URL_REST + 'categories').respond(200, dataCategories);
   	
-  	}));
+  	});
 
     it('Should be called utilsService methods', function() {
 			formInterestsController.categories = dataInterests;
@@ -266,8 +266,8 @@ describe("Controller: FormInterestsController", function() {
   	 beforeEach(inject(function($controller) {
 
   	 	$localStorage.userAuth.type = 0;
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/user_interests').respond(200, dataInterest);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/categories').respond(400, data);
+  		$httpBackend.whenPOST( URL_REST + 'user_interests').respond(200, dataInterest);
+  		$httpBackend.whenGET( URL_REST + 'categories').respond(400, data);
   	
   	}));
 
@@ -290,8 +290,8 @@ describe("Controller: FormInterestsController", function() {
   	 beforeEach(inject(function($controller) {
 
   	 	$localStorage.userAuth.type = 0;
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/user_interests').respond(200, dataInterest);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/categories').respond(400, data);
+  		$httpBackend.whenPOST( URL_REST + 'user_interests').respond(200, dataInterest);
+  		$httpBackend.whenGET( URL_REST + 'categories').respond(400, data);
   	
   	}));
 
@@ -315,8 +315,8 @@ describe("Controller: FormInterestsController", function() {
 
   	 	$localStorage.userAuth.type = 0;
 
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/user_interests').respond(200, data);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/categories').respond(200, dataCategories);
+  		$httpBackend.whenPOST( URL_REST + 'user_interests').respond(200, data);
+  		$httpBackend.whenGET( URL_REST + 'categories').respond(200, dataCategories);
   		$httpBackend.whenGET('app/dashboard-organizer/menu.html').respond(200, dataCategories);
   		$httpBackend.whenGET('app/dashboard-organizer/intro.html').respond(200, dataCategories);
   	
@@ -361,8 +361,8 @@ describe("Controller: FormInterestsController", function() {
 
   	 	$localStorage.userAuth.type = 1;
 
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/user_interests').respond(200, data);
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/categories').respond(200, dataCategories);
+  		$httpBackend.whenPOST( URL_REST + 'user_interests').respond(200, data);
+  		$httpBackend.whenGET( URL_REST + 'categories').respond(200, dataCategories);
   		$httpBackend.whenGET('app/dashboard-sponzor/menu.html').respond(200, dataCategories);
   		$httpBackend.whenGET('app/dashboard-sponzor/intro.html').respond(200, dataCategories);
   	

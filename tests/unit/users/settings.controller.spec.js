@@ -16,6 +16,9 @@ describe("Controller: SettingsController", function() {
     $rootScope = _$rootScope_;
     $translate = $injector.get('$translate');
 
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
     $httpBackend = $injector.get('$httpBackend');
     utilsService = $injector.get('utilsService');
     utilsService.confirm = function(){

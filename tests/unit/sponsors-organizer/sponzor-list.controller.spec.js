@@ -17,8 +17,11 @@ describe("Controller: SponzorListController", function() {
 
   	$rootScope = _$rootScope_;
   	$rootScopeBroadcast = chai.spy.on( $rootScope, '$broadcast' );
-  	$httpBackend = $injector.get('$httpBackend');
 
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
+  	$httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
@@ -144,7 +147,7 @@ describe("Controller: SponzorListController", function() {
   	var dataOrganizer = mockData.sponsorshipService.sponzorshipByOrganizer();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(200, dataOrganizer);
+			$httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataOrganizer);
   	});
 
     it('Should be called ionicPopover.fromTemplateUrl method', function() {
@@ -161,7 +164,7 @@ describe("Controller: SponzorListController", function() {
   	var dataOrganizer = mockData.sponsorshipService.sponzorshipByOrganizer();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(200, dataOrganizer);
+			$httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataOrganizer);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -197,7 +200,7 @@ describe("Controller: SponzorListController", function() {
   	var dataOrganizer = mockData.failed();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(400, dataOrganizer);
+			$httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(400, dataOrganizer);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -221,7 +224,7 @@ describe("Controller: SponzorListController", function() {
   	var dataOrganizer = mockData.sponsorshipService.sponzorshipByOrganizer();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(200, dataOrganizer);
+			$httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataOrganizer);
   	});
 
     it('Should have showFilter method', function() {
@@ -243,7 +246,7 @@ describe("Controller: SponzorListController", function() {
   	var dataOrganizer = mockData.sponsorshipService.sponzorshipByOrganizer();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(200, dataOrganizer);
+			$httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataOrganizer);
   	});
 
     it('Should have filterByEvent method', function() {
@@ -285,8 +288,8 @@ describe("Controller: SponzorListController", function() {
   	dataEdit.Sponzorship.status = 1;
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(200, dataOrganizer);
-  		$httpBackend.whenPUT('https://apilocal.sponzor.me/sponzorships/1').respond(200, dataEdit);
+			$httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataOrganizer);
+  		$httpBackend.whenPUT( URL_REST + 'sponzorships/1').respond(200, dataEdit);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -335,8 +338,8 @@ describe("Controller: SponzorListController", function() {
   	var dataEdit = mockData.failed();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(200, dataOrganizer);
-  		$httpBackend.whenPUT('https://apilocal.sponzor.me/sponzorships/1').respond(400, dataEdit);
+			$httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataOrganizer);
+  		$httpBackend.whenPUT( URL_REST + 'sponzorships/1').respond(400, dataEdit);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -372,8 +375,8 @@ describe("Controller: SponzorListController", function() {
   	dataEdit.Sponzorship.status = 2;
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(200, dataOrganizer);
-  		$httpBackend.whenPUT('https://apilocal.sponzor.me/sponzorships/1').respond(200, dataEdit);
+			$httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataOrganizer);
+  		$httpBackend.whenPUT( URL_REST + 'sponzorships/1').respond(200, dataEdit);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -422,8 +425,8 @@ describe("Controller: SponzorListController", function() {
   	var dataEdit = mockData.failed();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(200, dataOrganizer);
-  		$httpBackend.whenPUT('https://apilocal.sponzor.me/sponzorships/1').respond(400, dataEdit);
+			$httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataOrganizer);
+  		$httpBackend.whenPUT( URL_REST + 'sponzorships/1').respond(400, dataEdit);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -458,7 +461,7 @@ describe("Controller: SponzorListController", function() {
     console.log();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(200, dataOrganizer);
+			$httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataOrganizer);
   	});
 
 		it('Should have a sponsors array', function() {
@@ -513,7 +516,7 @@ describe("Controller: SponzorListController", function() {
     var dataOrganizer = mockData.failed();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(400, dataOrganizer);
+			$httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(400, dataOrganizer);
   	});
 
   	it('Should showEmptyState be true', function() {

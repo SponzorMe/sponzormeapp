@@ -1,8 +1,5 @@
 describe('Controller: HomeOrganizerController', function(){
 
-	var homeOrganizerController, sponsorshipService, userService;
-	var $rootScope, $q, $httpBackend, $scope, $localStorage;
-
   beforeEach(function() {
     module('app');
   });
@@ -17,6 +14,9 @@ describe('Controller: HomeOrganizerController', function(){
 
   	$rootScope = _$rootScope_;
   	$q = $injector.get('$q');
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
 
   	$httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
@@ -112,8 +112,8 @@ describe('Controller: HomeOrganizerController', function(){
     var dataSponsors = mockData.sponsorshipService.sponzorshipByOrganizer();
 
     beforeEach(function() {
-      $httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(200, dataEvents);
-      $httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(200, dataSponsors);
+      $httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
+      $httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataSponsors);
     });
 
     it('Should be called utilsService methods', function() {
@@ -150,8 +150,8 @@ describe('Controller: HomeOrganizerController', function(){
     var dataSponsors = mockData.sponsorshipService.sponzorshipByOrganizer();
 
     beforeEach(function() {
-      $httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(400, dataEvents);
-      $httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(200, dataSponsors);
+      $httpBackend.whenGET( URL_REST + 'users/1').respond(400, dataEvents);
+      $httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataSponsors);
     });
 
     it('Should be called utilsService methods', function() {
@@ -170,8 +170,8 @@ describe('Controller: HomeOrganizerController', function(){
     var dataSponsors = mockData.failed();
 
     beforeEach(function() {
-      $httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(200, dataEvents);
-      $httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_organizer/1').respond(400, dataSponsors);
+      $httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
+      $httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(400, dataSponsors);
     });
 
     it('Should be called utilsService methods', function() {

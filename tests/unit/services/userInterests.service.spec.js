@@ -13,6 +13,10 @@ describe("Service: userInterestService", function(){
 
   beforeEach(inject(function($injector, _userInterestService_) {
     userInterestService = _userInterestService_;
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
     $httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
@@ -30,7 +34,7 @@ describe("Service: userInterestService", function(){
   	var data = mockData.userInterestService.createUserInterestSuccess();
 
   	beforeEach(function() {
-      $httpBackend.whenPOST('https://apilocal.sponzor.me/user_interests').respond(200, data);
+      $httpBackend.whenPOST( URL_REST + 'user_interests').respond(200, data);
     });
 
     afterEach(function() {
@@ -53,7 +57,7 @@ describe("Service: userInterestService", function(){
   	var data = mockData.failed();
 
   	beforeEach(function() {
-      $httpBackend.whenPOST('https://apilocal.sponzor.me/user_interests').respond(401, data);
+      $httpBackend.whenPOST( URL_REST + 'user_interests').respond(401, data);
     });
 
     afterEach(function() {

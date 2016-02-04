@@ -22,6 +22,9 @@ describe("Controller: FormProfileController", function() {
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
 
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
     //Dependences with spy
     utilsService = chai.spy.object($injector.get('utilsService'), ['showLoad', 'hideLoad','alert', 'resetForm','trim']);
     $localStorage = $injector.get('$localStorage');
@@ -90,10 +93,10 @@ describe("Controller: FormProfileController", function() {
 
   	var dataUser = mockData.userService.editUserPatch();
   	
-    beforeEach(inject(function($controller) {
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/users/1').respond(200, dataUser);
+    beforeEach(function() {
+  		$httpBackend.whenPATCH( URL_REST + 'users/1').respond(200, dataUser);
   		$httpBackend.whenGET('app/users/form-interests.html').respond(200, '');
-  	}));
+  	});
 
     it('Should be called utilsService methods', function() {
     	formProfileController.userAuth.name = "Nicolas";
@@ -151,9 +154,9 @@ describe("Controller: FormProfileController", function() {
 
   	var data = mockData.failed();
   	
-    beforeEach(inject(function($controller) {
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/users/1').respond(400, data);
-  	}));
+    beforeEach(function() {
+  		$httpBackend.whenPATCH( URL_REST + 'users/1').respond(400, data);
+  	});
 
     it('Should be called utilsService methods', function() {
     	formProfileController.userAuth.name = "Nicolas";

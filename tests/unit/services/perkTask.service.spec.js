@@ -1,7 +1,5 @@
 describe("Service: perkTaskService", function(){
 
-	var perkTaskService;
-
   beforeEach(function() {
     module('app');
   });
@@ -14,6 +12,10 @@ describe("Service: perkTaskService", function(){
 
   beforeEach(inject(function( $injector, _perkTaskService_ ) {
     perkTaskService = _perkTaskService_;
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
     $httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
@@ -39,7 +41,7 @@ describe("Service: perkTaskService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks').respond(400, data);
+        $httpBackend.whenGET( URL_REST + 'perk_tasks').respond(400, data);
       });
 
       afterEach(function() {
@@ -63,7 +65,7 @@ describe("Service: perkTaskService", function(){
       var data = mockData.perkTaskService.allPerkTasks();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks').respond(200, data);
+        $httpBackend.whenGET( URL_REST + 'perk_tasks').respond(200, data);
       });
 
       afterEach(function() {
@@ -127,7 +129,7 @@ describe("Service: perkTaskService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks/1').respond(400, data);
+        $httpBackend.whenGET( URL_REST + 'perk_tasks/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -150,7 +152,7 @@ describe("Service: perkTaskService", function(){
       var data = mockData.perkTaskService.getPerkTask();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks/1').respond(200, data);
+        $httpBackend.whenGET( URL_REST + 'perk_tasks/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -221,7 +223,7 @@ describe("Service: perkTaskService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPOST('https://apilocal.sponzor.me/perk_tasks').respond(400, data);
+        $httpBackend.whenPOST( URL_REST + 'perk_tasks').respond(400, data);
       });
 
       afterEach(function() {
@@ -245,7 +247,7 @@ describe("Service: perkTaskService", function(){
       var data = mockData.perkTaskService.createPerkTask();
 
       beforeEach(function() {
-        $httpBackend.whenPOST('https://apilocal.sponzor.me/perk_tasks').respond(200, data);
+        $httpBackend.whenPOST( URL_REST + 'perk_tasks').respond(200, data);
       });
 
       afterEach(function() {
@@ -309,7 +311,7 @@ describe("Service: perkTaskService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenDELETE('https://apilocal.sponzor.me/perk_tasks/1').respond(400, data);
+        $httpBackend.whenDELETE( URL_REST + 'perk_tasks/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -334,7 +336,7 @@ describe("Service: perkTaskService", function(){
       var data = mockData.perkTaskService.deletePerkTask();
 
       beforeEach(function() {
-        $httpBackend.whenDELETE('https://apilocal.sponzor.me/perk_tasks/1').respond(200, data);
+        $httpBackend.whenDELETE( URL_REST + 'perk_tasks/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -406,7 +408,7 @@ describe("Service: perkTaskService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPATCH('https://apilocal.sponzor.me/perk_tasks/1').respond(400, data);
+        $httpBackend.whenPATCH( URL_REST + 'perk_tasks/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -431,7 +433,7 @@ describe("Service: perkTaskService", function(){
       var data = mockData.perkTaskService.editPerkTaskPatch();
 
       beforeEach(function() {
-        $httpBackend.whenPATCH('https://apilocal.sponzor.me/perk_tasks/1').respond(200, data);
+        $httpBackend.whenPATCH(URL_REST + 'perk_tasks/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -504,7 +506,7 @@ describe("Service: perkTaskService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPUT('https://apilocal.sponzor.me/perk_tasks/1').respond(400, data);
+        $httpBackend.whenPUT( URL_REST + 'perk_tasks/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -528,7 +530,7 @@ describe("Service: perkTaskService", function(){
       var data = mockData.perkTaskService.editPerkTaskPut();
 
       beforeEach(function() {
-        $httpBackend.whenPUT('https://apilocal.sponzor.me/perk_tasks/1').respond(200, data);
+        $httpBackend.whenPUT(URL_REST + 'perk_tasks/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -591,7 +593,7 @@ describe("Service: perkTaskService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks_organizer/1').respond(400, data);
+        $httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -615,7 +617,7 @@ describe("Service: perkTaskService", function(){
       var data = mockData.perkTaskService.getPerkTaskByOrganizer();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks_organizer/1').respond(200, data);
+        $httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(200, data);
       });
 
       afterEach(function() {

@@ -1,8 +1,5 @@
 describe('Controller: MenuSponzorCtrl', function(){
 
-	var menuSponzorCtrl, sponsorshipService;
-	var $rootScope, $q, $httpBackend, $localStorage, $ionicHistory, $rootScopeOn;
-
   beforeEach(function() {
     module('app');
   });
@@ -18,6 +15,9 @@ describe('Controller: MenuSponzorCtrl', function(){
   	$rootScope = _$rootScope_;
   	$rootScopeOn = chai.spy.on($rootScope, '$on');
   	$q = $injector.get('$q');
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
 
   	$httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
@@ -95,7 +95,7 @@ describe('Controller: MenuSponzorCtrl', function(){
   	var data = mockData.sponsorshipService.sponzorshipBySponzor();
 
   	beforeEach(function() {
-    	$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_sponzor/1').respond(200, data);
+    	$httpBackend.whenGET( URL_REST + 'sponzorships_sponzor/1').respond(200, data);
   	});
 
     it('Should have called a Menu:count_following and Menu:count_sponsoring', function() {
@@ -141,7 +141,7 @@ describe('Controller: MenuSponzorCtrl', function(){
   	var data = mockData.sponsorshipService.sponzorshipBySponzor();
 
   	beforeEach(function() {
-    	$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_sponzor/1').respond(200, data);
+    	$httpBackend.whenGET( URL_REST + 'sponzorships_sponzor/1').respond(200, data);
   	});
   	
     it('Should count_following be 2', function() {
@@ -164,7 +164,7 @@ describe('Controller: MenuSponzorCtrl', function(){
   	var data = mockData.sponsorshipService.sponzorshipBySponzor();
 
   	beforeEach(function() {
-    	$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_sponzor/1').respond(200, data);
+    	$httpBackend.whenGET( URL_REST + 'sponzorships_sponzor/1').respond(200, data);
   	});
   	
     it('Should have createEvent method', function() {

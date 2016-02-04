@@ -1,9 +1,5 @@
 describe("Controller: LoginController", function() {
 
-
-	var loginController, userService, utilsService, mockForm;
-	var $rootScope, $httpBackend, $q, $state, $localStorage, $translate, $base64;
-
   beforeEach(function() {
     module('app');
   });
@@ -18,6 +14,9 @@ describe("Controller: LoginController", function() {
 
   	$rootScope = _$rootScope_;
     $httpBackend = $injector.get('$httpBackend');
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
 
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
@@ -42,7 +41,9 @@ describe("Controller: LoginController", function() {
 	    '$localStorage': $localStorage,
 	    '$state': $state,
 	    'utilsService': utilsService,
-	    '$base64': $base64
+	    '$base64': $base64,
+      '$ionicUser': $injector.get('$ionicUser'),
+      '$ionicAnalytics': $injector.get('$ionicAnalytics')
   	});
 
   }));
@@ -76,9 +77,9 @@ describe("Controller: LoginController", function() {
   describe('Tests to signIn method failed', function(){
   	var data = mockData.failed();
   	data.message = "Invalid credentials";
-  	beforeEach(inject(function($controller) {
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/auth').respond(400, data);
-  	}));
+  	beforeEach(function() {
+  		$httpBackend.whenPOST( URL_REST + 'auth').respond(400, data);
+  	});
 
     it('Should be called utilsService methods', function() {
     	loginController.user.email = "mail@domain.com";
@@ -108,10 +109,10 @@ describe("Controller: LoginController", function() {
   	var dataUser = mockData.failed();
   	data.user.type = 0;
   	data.user.demo = 0;
-  	beforeEach(inject(function($controller) {
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/auth').respond(200, data);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/users/1').respond(400, dataUser);
-  	}));
+  	beforeEach(function() {
+  		$httpBackend.whenPOST( URL_REST + 'auth').respond(200, data);
+  		$httpBackend.whenPATCH( URL_REST + 'users/1').respond(400, dataUser);
+  	});
 
     it('Should be failed', function() {
     	loginController.user.email = "mail@domain.com";
@@ -129,12 +130,12 @@ describe("Controller: LoginController", function() {
   	var dataUser = mockData.userService.editUserPatch();
   	data.user.type = 0;
   	data.user.demo = 0;
-  	beforeEach(inject(function($controller) {
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/auth').respond(200, data);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/users/1').respond(200, dataUser);
+  	beforeEach(function() {
+  		$httpBackend.whenPOST( URL_REST + 'auth').respond(200, data);
+  		$httpBackend.whenPATCH( URL_REST + 'users/1').respond(200, dataUser);
   		$httpBackend.whenGET('app/dashboard-organizer/menu.html').respond(200, '');
   		$httpBackend.whenGET('app/dashboard-organizer/intro.html').respond(200, '');
-  	}));
+  	});
 
     it('Should be called utilsService', function() {
     	loginController.user.email = "mail@domain.com";
@@ -185,12 +186,12 @@ describe("Controller: LoginController", function() {
   	var dataUser = mockData.userService.editUserPatch();
   	data.user.type = 1;
   	data.user.demo = 0;
-  	beforeEach(inject(function($controller) {
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/auth').respond(200, data);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/users/1').respond(200, dataUser);
+  	beforeEach(function() {
+  		$httpBackend.whenPOST( URL_REST + 'auth').respond(200, data);
+  		$httpBackend.whenPATCH( URL_REST + 'users/1').respond(200, dataUser);
   		$httpBackend.whenGET('app/dashboard-sponzor/menu.html').respond(200, '');
   		$httpBackend.whenGET('app/dashboard-sponzor/intro.html').respond(200, '');
-  	}));
+  	});
 
     it('Should be called utilsService', function() {
     	loginController.user.email = "mail@domain.com";
@@ -279,7 +280,7 @@ describe("Controller: LoginController", function() {
 
   	beforeEach(inject(function($controller) {
 
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/users/1').respond(200, dataUser);
+  		$httpBackend.whenPATCH( URL_REST + 'users/1').respond(200, dataUser);
   		$httpBackend.whenGET('app/dashboard-sponzor/menu.html').respond(200, '');
   		$httpBackend.whenGET('app/dashboard-sponzor/intro.html').respond(200, '');
 			//Start session
@@ -365,7 +366,7 @@ describe("Controller: LoginController", function() {
 
   	beforeEach(inject(function($controller) {
 
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/users/1').respond(200, dataUser);
+  		$httpBackend.whenPATCH( URL_REST + 'users/1').respond(200, dataUser);
   		$httpBackend.whenGET('app/dashboard-organizer/menu.html').respond(200, '');
   		$httpBackend.whenGET('app/dashboard-organizer/intro.html').respond(200, '');
 			//Start session

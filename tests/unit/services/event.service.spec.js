@@ -461,7 +461,7 @@ describe("Service: eventService", function() {
       var data = mockData.eventService.editEventPatch();
 
       beforeEach(function() {
-        $httpBackend.whenPATCH(URL_REST + 'events/1').respond(200, data);
+        $httpBackend.whenPATCH( URL_REST + 'events/1').respond(200, data);
       });
 
       afterEach(function() {

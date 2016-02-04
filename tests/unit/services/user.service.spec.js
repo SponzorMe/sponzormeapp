@@ -14,6 +14,10 @@ describe("Service: userService", function(){
 
   beforeEach(inject(function($injector, _userService_) {
     userService = _userService_;
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
     $httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
@@ -63,7 +67,7 @@ describe("Service: userService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPOST('https://apilocal.sponzor.me/auth').respond(400, data);
+        $httpBackend.whenPOST( URL_REST + 'auth').respond(400, data);
       });
 
       afterEach(function() {
@@ -87,7 +91,7 @@ describe("Service: userService", function(){
       var data = mockData.userService.login();
 
       beforeEach(function() {
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/auth').respond(200, data);
+        $httpBackend.whenPOST(URL_REST + 'auth').respond(200, data);
       });
 
       afterEach(function() {
@@ -147,7 +151,7 @@ describe("Service: userService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(400, data);
+        $httpBackend.whenGET( URL_REST + 'users/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -171,7 +175,7 @@ describe("Service: userService", function(){
       var data = mockData.userService.getUser();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/users/1').respond(200, data);
+        $httpBackend.whenGET( URL_REST + 'users/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -256,7 +260,7 @@ describe("Service: userService", function(){
       var data = mockData.failed();
 
       beforeEach(inject(function() {
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/users').respond(400, data);
+        $httpBackend.whenPOST( URL_REST + 'users').respond(400, data);
       }));
 
       afterEach(function() {
@@ -280,7 +284,7 @@ describe("Service: userService", function(){
       var data = mockData.userService.createUser();
 
       beforeEach(function() {
-        $httpBackend.whenPOST('https://apilocal.sponzor.me/users').respond(200, data);
+        $httpBackend.whenPOST( URL_REST + 'users').respond(200, data);
       });
 
       afterEach(function() {
@@ -343,7 +347,7 @@ describe("Service: userService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenDELETE('https://apilocal.sponzor.me/users/1').respond(400, data);
+        $httpBackend.whenDELETE( URL_REST + 'users/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -367,7 +371,7 @@ describe("Service: userService", function(){
       var data = mockData.userService.deleteUser();
 
       beforeEach(function() {
-        $httpBackend.whenDELETE('https://apilocal.sponzor.me/users/1').respond(200, data);
+        $httpBackend.whenDELETE( URL_REST + 'users/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -442,7 +446,7 @@ describe("Service: userService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPATCH('https://apilocal.sponzor.me/users/1').respond(400, data);
+        $httpBackend.whenPATCH( URL_REST + 'users/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -466,7 +470,7 @@ describe("Service: userService", function(){
       var data = mockData.userService.editUserPatch();
 
       beforeEach(function() {
-        $httpBackend.whenPATCH('https://apilocal.sponzor.me/users/1').respond(200, data);
+        $httpBackend.whenPATCH( URL_REST + 'users/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -540,7 +544,7 @@ describe("Service: userService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPUT('https://apilocal.sponzor.me/users/1').respond(400, data);
+        $httpBackend.whenPUT( URL_REST + 'users/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -564,7 +568,7 @@ describe("Service: userService", function(){
       var data = mockData.userService.editUserPut();
 
       beforeEach(function() {
-        $httpBackend.whenPUT('https://apilocal.sponzor.me/users/1').respond(200, data);
+        $httpBackend.whenPUT( URL_REST + 'users/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -627,7 +631,7 @@ describe("Service: userService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPOST('https://apilocal.sponzor.me/send_reset_password').respond(400, data);
+        $httpBackend.whenPOST( URL_REST + 'send_reset_password').respond(400, data);
       });
 
       afterEach(function() {
@@ -651,7 +655,7 @@ describe("Service: userService", function(){
       var data = mockData.userService.forgotPassword();
 
       beforeEach(function() {
-        $httpBackend.whenPOST('https://apilocal.sponzor.me/send_reset_password').respond(200, data);
+        $httpBackend.whenPOST( URL_REST + 'send_reset_password').respond(200, data);
       });
 
       afterEach(function() {
@@ -714,7 +718,7 @@ describe("Service: userService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPOST('https://apilocal.sponzor.me/invite_friend').respond(400, data);
+        $httpBackend.whenPOST( URL_REST + 'invite_friend').respond(400, data);
       });
 
       afterEach(function() {
@@ -738,7 +742,7 @@ describe("Service: userService", function(){
       var data = mockData.userService.invitedUser();
 
       beforeEach(function() {
-        $httpBackend.whenPOST('https://apilocal.sponzor.me/invite_friend').respond(200, data);
+        $httpBackend.whenPOST( URL_REST + 'invite_friend').respond(200, data);
       });
 
       afterEach(function() {

@@ -63,10 +63,10 @@
 
       vm.sponsors = [];
       vm.newEvent.access = true;
-      vm.newEvent.starttime = "13:00:00";
+      /*vm.newEvent.starttime = "13:00:00";
       vm.newEvent.start = "2016-01-09";
       vm.newEvent.endtime = "15:00:00";
-      vm.newEvent.end = "2016-01-09";
+      vm.newEvent.end = "2016-01-09";*/
 
       $ionicModal.fromTemplateUrl('app/events-organizer/sponsor-modal.html', {
         scope: $scope,

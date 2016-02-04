@@ -17,8 +17,11 @@ describe("Controller: FollowEventsController", function() {
 
   	$rootScope = _$rootScope_;
   	$rootScopeBroadcast = chai.spy.on( $rootScope, '$broadcast' );
-  	$httpBackend = $injector.get('$httpBackend');
 
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
+  	$httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
@@ -85,7 +88,7 @@ describe("Controller: FollowEventsController", function() {
   	var dataSponzorship = mockData.sponsorshipService.sponzorshipBySponzor();
 
   	beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_sponzor/1').respond(200, dataSponzorship);
+  		$httpBackend.whenGET( URL_REST + 'sponzorships_sponzor/1').respond(200, dataSponzorship);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -109,7 +112,7 @@ describe("Controller: FollowEventsController", function() {
   	var dataSponzorship = mockData.failed();
 
   	beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_sponzor/1').respond(400, dataSponzorship);
+  		$httpBackend.whenGET( URL_REST + 'sponzorships_sponzor/1').respond(400, dataSponzorship);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -143,7 +146,7 @@ describe("Controller: FollowEventsController", function() {
   	var dataSponzorship = mockData.sponsorshipService.sponzorshipBySponzor();
 
   	beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_sponzor/1').respond(200, dataSponzorship);
+  		$httpBackend.whenGET( URL_REST + 'sponzorships_sponzor/1').respond(200, dataSponzorship);
   	});
 
     it('Should have an event array', function() {
@@ -177,7 +180,7 @@ describe("Controller: FollowEventsController", function() {
   	var dataSponzorship = mockData.sponsorshipService.sponzorshipBySponzor();
 
   	beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships_sponzor/1').respond(400, dataSponzorship);
+  		$httpBackend.whenGET( URL_REST + 'sponzorships_sponzor/1').respond(400, dataSponzorship);
   	});
 
   	it('Should be called broadcast scroll.refreshComplete', function() {

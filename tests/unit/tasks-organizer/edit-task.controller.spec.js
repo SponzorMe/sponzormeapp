@@ -19,6 +19,9 @@ describe("Controller: EditTaskController", function() {
   	$broadcastSpy = chai.spy.on(_$rootScope_, '$broadcast');
     $httpBackend = $injector.get('$httpBackend');
 
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
@@ -80,7 +83,7 @@ describe("Controller: EditTaskController", function() {
   	var dataPerkTask = mockData.perkTaskService.getPerkTask();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks/1').respond(200, dataPerkTask);
+			$httpBackend.whenGET( URL_REST + 'perk_tasks/1').respond(200, dataPerkTask);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -114,7 +117,7 @@ describe("Controller: EditTaskController", function() {
   	var dataPerkTask = mockData.failed();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks/1').respond(400, dataPerkTask);
+			$httpBackend.whenGET( URL_REST + 'perk_tasks/1').respond(400, dataPerkTask);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -142,8 +145,8 @@ describe("Controller: EditTaskController", function() {
     var dataEditPerkTask = mockData.perkTaskService.editPerkTaskPatch();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks/1').respond(200, dataPerkTask);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/perk_tasks/1').respond(200, dataEditPerkTask);
+			$httpBackend.whenGET( URL_REST + 'perk_tasks/1').respond(200, dataPerkTask);
+  		$httpBackend.whenPATCH( URL_REST + 'perk_tasks/1').respond(200, dataEditPerkTask);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -186,8 +189,8 @@ describe("Controller: EditTaskController", function() {
     var data = mockData.failed();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks/1').respond(200, dataPerkTask);
-  		$httpBackend.whenPATCH('https://apilocal.sponzor.me/perk_tasks/1').respond(400, data);
+			$httpBackend.whenGET( URL_REST + 'perk_tasks/1').respond(200, dataPerkTask);
+  		$httpBackend.whenPATCH( URL_REST + 'perk_tasks/1').respond(400, data);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -219,8 +222,8 @@ describe("Controller: EditTaskController", function() {
 
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks/1').respond(200, dataPerkTask);
-  		$httpBackend.whenDELETE('https://apilocal.sponzor.me/perk_tasks/1')
+			$httpBackend.whenGET( URL_REST + 'perk_tasks/1').respond(200, dataPerkTask);
+  		$httpBackend.whenDELETE( URL_REST + 'perk_tasks/1')
           .respond(200, dataDeletePerkTask);
   	});
 
@@ -264,8 +267,8 @@ describe("Controller: EditTaskController", function() {
 
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks/1').respond(200, dataPerkTask);
-  		$httpBackend.whenDELETE('https://apilocal.sponzor.me/perk_tasks/1')
+			$httpBackend.whenGET( URL_REST + 'perk_tasks/1').respond(200, dataPerkTask);
+  		$httpBackend.whenDELETE( URL_REST + 'perk_tasks/1')
           .respond(400, dataDeletePerkTask);
   	});
 

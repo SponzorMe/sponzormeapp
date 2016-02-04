@@ -13,6 +13,10 @@ describe("Service: perkService", function(){
 
   beforeEach(inject(function($injector, _perkService_ ) {
     perkService = _perkService_;
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
     $httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
@@ -37,9 +41,9 @@ describe("Service: perkService", function(){
       
       var data = mockData.failed();
 
-      beforeEach(inject(function($injector) {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/perks').respond(400, data);
-      }));
+      beforeEach(function() {
+        $httpBackend.whenGET(URL_REST + 'perks').respond(400, data);
+      });
 
       afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
@@ -62,7 +66,7 @@ describe("Service: perkService", function(){
       var data = mockData.perkService.allPerks();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/perks').respond(200, data);
+        $httpBackend.whenGET(URL_REST + 'perks').respond(200, data);
       });
 
       afterEach(function() {
@@ -126,7 +130,7 @@ describe("Service: perkService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/perks/1').respond(400, data);
+        $httpBackend.whenGET( URL_REST + 'perks/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -151,7 +155,7 @@ describe("Service: perkService", function(){
       var data = mockData.perkService.getPerk();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/perks/1').respond(200, data);
+        $httpBackend.whenGET( URL_REST + 'perks/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -222,7 +226,7 @@ describe("Service: perkService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPOST('https://apilocal.sponzor.me/perks').respond(400, data);
+        $httpBackend.whenPOST( URL_REST + 'perks').respond(400, data);
       });
 
       afterEach(function() {
@@ -246,7 +250,7 @@ describe("Service: perkService", function(){
       var data = mockData.perkService.createPerk();
 
       beforeEach(function() {
-        $httpBackend.when('POST', 'https://apilocal.sponzor.me/perks').respond(200, data);
+        $httpBackend.whenPOST(URL_REST + 'perks').respond(200, data);
       });
 
       afterEach(function() {
@@ -310,7 +314,7 @@ describe("Service: perkService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenDELETE('https://apilocal.sponzor.me/perks/1').respond(400, data);
+        $httpBackend.whenDELETE( URL_REST + 'perks/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -334,7 +338,7 @@ describe("Service: perkService", function(){
       var data = mockData.perkService.deletePerk();
 
       beforeEach(function() {
-        $httpBackend.whenDELETE('https://apilocal.sponzor.me/perks/1').respond(200, data);
+        $httpBackend.whenDELETE( URL_REST + 'perks/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -406,7 +410,7 @@ describe("Service: perkService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPATCH('https://apilocal.sponzor.me/perks/1').respond(400, data);
+        $httpBackend.whenPATCH( URL_REST + 'perks/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -430,7 +434,7 @@ describe("Service: perkService", function(){
       var data = mockData.perkService.editPerkPatch();
 
       beforeEach(function() {
-        $httpBackend.whenPATCH('https://apilocal.sponzor.me/perks/1').respond(200, data);
+        $httpBackend.whenPATCH( URL_REST + 'perks/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -502,7 +506,7 @@ describe("Service: perkService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPUT('https://apilocal.sponzor.me/perks/1').respond(400, data);
+        $httpBackend.whenPUT( URL_REST + 'perks/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -526,7 +530,7 @@ describe("Service: perkService", function(){
       var data = mockData.perkService.editPerkPut();
 
       beforeEach(function() {
-        $httpBackend.whenPUT('https://apilocal.sponzor.me/perks/1').respond(200, data);
+        $httpBackend.whenPUT( URL_REST + 'perks/1').respond(200, data);
       });
 
       afterEach(function() {

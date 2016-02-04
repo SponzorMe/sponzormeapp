@@ -14,6 +14,10 @@ describe("Service: tasksSponsorService", function(){
 
   beforeEach(inject(function($injector, _tasksSponsorService_) {
     tasksSponsorService = _tasksSponsorService_;
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
     $httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
@@ -39,7 +43,7 @@ describe("Service: tasksSponsorService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/task_sponzor').respond(400, data);
+        $httpBackend.whenGET( URL_REST + 'task_sponzor').respond(400, data);
       });
 
       afterEach(function() {
@@ -63,7 +67,7 @@ describe("Service: tasksSponsorService", function(){
       var data = mockData.tasksSponsorService.getAllTasks();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/task_sponzor').respond(200, data);
+        $httpBackend.whenGET( URL_REST + 'task_sponzor').respond(200, data);
       });
 
       afterEach(function() {
@@ -127,7 +131,7 @@ describe("Service: tasksSponsorService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/task_sponzor/1').respond(400, data);
+        $httpBackend.whenGET( URL_REST + 'task_sponzor/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -151,7 +155,7 @@ describe("Service: tasksSponsorService", function(){
       var data = mockData.tasksSponsorService.getTask();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/task_sponzor/1').respond(200, data);
+        $httpBackend.whenGET( URL_REST + 'task_sponzor/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -223,7 +227,7 @@ describe("Service: tasksSponsorService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPOST('https://apilocal.sponzor.me/task_sponzor').respond(400, data);
+        $httpBackend.whenPOST( URL_REST + 'task_sponzor').respond(400, data);
       });
 
       afterEach(function() {
@@ -247,7 +251,7 @@ describe("Service: tasksSponsorService", function(){
       var data = mockData.tasksSponsorService.createTask();
 
       beforeEach(function() {
-        $httpBackend.whenPOST('https://apilocal.sponzor.me/task_sponzor').respond(200, data);
+        $httpBackend.whenPOST( URL_REST + 'task_sponzor').respond(200, data);
       });
 
       afterEach(function() {
@@ -311,7 +315,7 @@ describe("Service: tasksSponsorService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenDELETE('https://apilocal.sponzor.me/task_sponzor/1').respond(400, data);
+        $httpBackend.whenDELETE( URL_REST + 'task_sponzor/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -335,7 +339,7 @@ describe("Service: tasksSponsorService", function(){
       var data = mockData.tasksSponsorService.deleteTask();
 
       beforeEach(function() {
-        $httpBackend.whenDELETE('https://apilocal.sponzor.me/task_sponzor/1').respond(200, data);
+        $httpBackend.whenDELETE( URL_REST + 'task_sponzor/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -407,7 +411,7 @@ describe("Service: tasksSponsorService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPATCH('https://apilocal.sponzor.me/task_sponzor/1').respond(400, data);
+        $httpBackend.whenPATCH( URL_REST + 'task_sponzor/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -432,7 +436,7 @@ describe("Service: tasksSponsorService", function(){
       var data = mockData.tasksSponsorService.editPatchTask();
 
       beforeEach(function() {
-        $httpBackend.whenPATCH('https://apilocal.sponzor.me/task_sponzor/1').respond(200, data);
+        $httpBackend.whenPATCH( URL_REST + 'task_sponzor/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -504,7 +508,7 @@ describe("Service: tasksSponsorService", function(){
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPUT('https://apilocal.sponzor.me/task_sponzor/1').respond(400, data);
+        $httpBackend.whenPUT( URL_REST + 'task_sponzor/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -528,7 +532,7 @@ describe("Service: tasksSponsorService", function(){
       var data = mockData.tasksSponsorService.editPutTask();
 
       beforeEach(function() {
-        $httpBackend.whenPUT('https://apilocal.sponzor.me/task_sponzor/1').respond(200, data);
+        $httpBackend.whenPUT( URL_REST + 'task_sponzor/1').respond(200, data);
       });
 
       afterEach(function() {

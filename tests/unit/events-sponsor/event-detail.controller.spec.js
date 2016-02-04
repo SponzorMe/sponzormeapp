@@ -17,8 +17,11 @@ describe("Controller: EventDetailSponzorController", function() {
 
   	$rootScope = _$rootScope_;
   	$rootScopeBroadcast = chai.spy.on( $rootScope, '$broadcast' );
-  	$httpBackend = $injector.get('$httpBackend');
 
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
+  	$httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
@@ -112,7 +115,7 @@ describe("Controller: EventDetailSponzorController", function() {
 		var dataEvent = mockData.eventService.getEvent();
  
   	beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -152,7 +155,7 @@ describe("Controller: EventDetailSponzorController", function() {
 		var dataEvent = mockData.failed();
  
   	beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(400, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(400, dataEvent);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -170,7 +173,7 @@ describe("Controller: EventDetailSponzorController", function() {
   	var dataEvent = mockData.eventService.getEvent();
  
   	beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
   	});
 
     it('Should have openModalSponsorIt method', function() {
@@ -193,7 +196,7 @@ describe("Controller: EventDetailSponzorController", function() {
   	var dataEvent = mockData.eventService.getEvent();
  
   	beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
   	});
 
     it('Should have closeModalSponsorIt method', function() {
@@ -224,7 +227,7 @@ describe("Controller: EventDetailSponzorController", function() {
   	var dataEvent = mockData.eventService.getEvent();
  
   	beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
   	});
 
     it('Should have createSponsorIt method', function() {
@@ -273,8 +276,8 @@ describe("Controller: EventDetailSponzorController", function() {
 
  
   	beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/sponzorships').respond(200, dataSponzorship);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenPOST( URL_REST + 'sponzorships').respond(200, dataSponzorship);
   	});
 
     it('Should be called modal.hide method', function() {
@@ -315,8 +318,8 @@ describe("Controller: EventDetailSponzorController", function() {
 
  
   	beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, dataEvent);
-  		$httpBackend.whenPOST('https://apilocal.sponzor.me/sponzorships').respond(400, dataSponzorship);
+  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
+  		$httpBackend.whenPOST( URL_REST + 'sponzorships').respond(400, dataSponzorship);
   	});
 
     it('Should be called modal.hide method', function() {

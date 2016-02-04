@@ -14,11 +14,12 @@ describe('Controller: EventDetailTasksSponzorController', function(){
 		});
 	});
 
-	it('Should define a array of perks_tasks', function(){
-		chai.assert.isDefined(controller.perks_tasks);
+	/*
+	it('Should define a array of tasks_sponsors', function(){
+		chai.assert.isDefined(controller.tasks_sponsors);
 	});
 
-	it('Should define a array of perks_sponsorships', function(){
-		chai.assert.isDefined(controller.perks_sponsorships);
-	});
+	it('Should define a array of tasks_organizer', function(){
+		chai.assert.isDefined(controller.tasks_organizer);
+	});*/
 });

@@ -1,8 +1,5 @@
 describe('Controller: HomeSponzorController', function(){
 
-	var homeSponzorController, eventService;
-	var $rootScope, $q, $httpBackend, $scope, $scopeBroadcast, $localStorage;
-
   beforeEach(function() {
     module('app');
   });
@@ -17,6 +14,9 @@ describe('Controller: HomeSponzorController', function(){
 
   	$rootScope = _$rootScope_;
   	$q = $injector.get('$q');
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
 
   	$httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
@@ -83,7 +83,7 @@ describe('Controller: HomeSponzorController', function(){
     var dataEvents = mockData.eventService.allEvents();
  
     beforeEach(function() {
-      $httpBackend.whenGET('https://apilocal.sponzor.me/events').respond(200, dataEvents);
+      $httpBackend.whenGET( URL_REST + 'events').respond(200, dataEvents);
     });
 
     it('Should be called utilsService methods', function() {
@@ -96,7 +96,7 @@ describe('Controller: HomeSponzorController', function(){
     it('Should be events.length', function() {
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( homeSponzorController.events.length, 2 );
+      chai.assert.equal( homeSponzorController.events.length, 0 );
     });
 
   });
@@ -107,7 +107,7 @@ describe('Controller: HomeSponzorController', function(){
     var dataEvents = mockData.failed();
  
     beforeEach(function() {
-      $httpBackend.whenGET('https://apilocal.sponzor.me/events').respond(400, dataEvents);
+      $httpBackend.whenGET( URL_REST +'events').respond(400, dataEvents);
     });
 
     it('Should be called utilsService methods', function() {
@@ -135,7 +135,7 @@ describe('Controller: HomeSponzorController', function(){
     var dataEvents = mockData.eventService.allEvents();
  
     beforeEach(function() {
-      $httpBackend.whenGET('https://apilocal.sponzor.me/events').respond(200, dataEvents);
+      $httpBackend.whenGET( URL_REST + 'events').respond(200, dataEvents);
     });
 
     it('Should be called $scopeBroadcast', function() {
@@ -154,7 +154,7 @@ describe('Controller: HomeSponzorController', function(){
       homeSponzorController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( homeSponzorController.events.length, 2 );
+      chai.assert.equal( homeSponzorController.events.length, 0 );
     });
 
   });

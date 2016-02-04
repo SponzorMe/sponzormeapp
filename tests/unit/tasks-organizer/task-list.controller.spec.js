@@ -19,6 +19,9 @@ describe("Controller: TaskListController", function() {
   	$broadcastSpy = chai.spy.on(_$rootScope_, '$broadcast');
     $httpBackend = $injector.get('$httpBackend');
 
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
@@ -86,7 +89,7 @@ describe("Controller: TaskListController", function() {
   	var data = mockData.perkTaskService.getPerkTaskByOrganizer();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks_organizer/1').respond(200, data);
+  		$httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(200, data);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -131,7 +134,7 @@ describe("Controller: TaskListController", function() {
   	var data = mockData.failed();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks_organizer/1').respond(400, data);
+  		$httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(400, data);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -158,7 +161,7 @@ describe("Controller: TaskListController", function() {
   	var data = mockData.perkTaskService.getPerkTaskByOrganizer();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks_organizer/1').respond(200, data);
+  		$httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(200, data);
   	});
 
   	it('Should showEmptyState be boolean', function() {
@@ -208,7 +211,7 @@ describe("Controller: TaskListController", function() {
   	var data = mockData.failed();
 
     beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/perk_tasks_organizer/1').respond(400, data);
+  		$httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(400, data);
   	});
 
   	it('Should be called utilsService methods', function() {

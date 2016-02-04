@@ -17,8 +17,11 @@ describe("Controller: SponsorshipDetailController", function() {
 
   	$rootScope = _$rootScope_;
   	$rootScopeBroadcast = chai.spy.on( $rootScope, '$broadcast' );
-  	$httpBackend = $injector.get('$httpBackend');
 
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
+  	$httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
@@ -103,7 +106,7 @@ describe("Controller: SponsorshipDetailController", function() {
   	var dataSponzorship = mockData.sponsorshipService.getSponzorship();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships/1').respond(200, dataSponzorship);
+			$httpBackend.whenGET( URL_REST + 'sponzorships/1').respond(200, dataSponzorship);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -140,7 +143,7 @@ describe("Controller: SponsorshipDetailController", function() {
   	var dataSponzorship = mockData.failed();
 
   	beforeEach(function() {
-			$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships/1').respond(400, dataSponzorship);
+			$httpBackend.whenGET( URL_REST + 'sponzorships/1').respond(400, dataSponzorship);
   	});
 
   	it('Should be called utilsService methods', function() {
@@ -170,8 +173,8 @@ describe("Controller: SponsorshipDetailController", function() {
   	dataEdit.Sponzorship.status = 1;
 
   	beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships/1').respond(200, dataSponzorship);
-  		$httpBackend.whenPUT('https://apilocal.sponzor.me/sponzorships/1').respond(200, dataEdit);
+  		$httpBackend.whenGET( URL_REST + 'sponzorships/1').respond(200, dataSponzorship);
+  		$httpBackend.whenPUT( URL_REST + 'sponzorships/1').respond(200, dataEdit);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -211,8 +214,8 @@ describe("Controller: SponsorshipDetailController", function() {
   	var dataEdit = mockData.failed();
 
   	beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships/1').respond(200, dataSponzorship);
-  		$httpBackend.whenPUT('https://apilocal.sponzor.me/sponzorships/1').respond(400, dataEdit);
+  		$httpBackend.whenGET( URL_REST + 'sponzorships/1').respond(200, dataSponzorship);
+  		$httpBackend.whenPUT( URL_REST + 'sponzorships/1').respond(400, dataEdit);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -245,8 +248,8 @@ describe("Controller: SponsorshipDetailController", function() {
   	dataEdit.Sponzorship.status = 2;
 
   	beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships/1').respond(200, dataSponzorship);
-  		$httpBackend.whenPUT('https://apilocal.sponzor.me/sponzorships/1').respond(200, dataEdit);
+  		$httpBackend.whenGET( URL_REST + 'sponzorships/1').respond(200, dataSponzorship);
+  		$httpBackend.whenPUT( URL_REST + 'sponzorships/1').respond(200, dataEdit);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -286,8 +289,8 @@ describe("Controller: SponsorshipDetailController", function() {
   	var dataEdit = mockData.failed();
 
   	beforeEach(function() {
-  		$httpBackend.whenGET('https://apilocal.sponzor.me/sponzorships/1').respond(200, dataSponzorship);
-  		$httpBackend.whenPUT('https://apilocal.sponzor.me/sponzorships/1').respond(400, dataEdit);
+  		$httpBackend.whenGET( URL_REST + 'sponzorships/1').respond(200, dataSponzorship);
+  		$httpBackend.whenPUT( URL_REST + 'sponzorships/1').respond(400, dataEdit);
   	});
 
     it('Should be called utilsService methods', function() {
