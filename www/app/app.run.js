@@ -23,7 +23,7 @@
       }
 
       checkForUpdates();
-      chooseLanguage();
+      //chooseLanguage();
       ionicAnalytics();
     });
 
@@ -31,6 +31,7 @@
       $ionicAnalytics.register();
       $ionicAnalytics.setGlobalProperties({
         app_version_number: '1.0.6',
+        type: 'develop',
         day_of_week: (new Date()).getDay()
       });
     }

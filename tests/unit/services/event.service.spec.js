@@ -13,6 +13,9 @@ describe("Service: eventService", function() {
   beforeEach(inject(function($injector, _eventService_) {
     eventService = _eventService_;
 
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
     $httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
@@ -37,7 +40,7 @@ describe("Service: eventService", function() {
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.when('GET', 'https://apilocal.sponzor.me/events').respond(400, data);
+        $httpBackend.whenGET(URL_REST + 'events').respond(400, data);
       });
 
       afterEach(function() {
@@ -62,7 +65,7 @@ describe("Service: eventService", function() {
       var data = mockData.eventService.allEvents();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/events').respond(200, data);
+        $httpBackend.whenGET(URL_REST + 'events').respond(200, data);
       });
 
       afterEach(function() {
@@ -150,7 +153,8 @@ describe("Service: eventService", function() {
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(400, data);
+        console.log(URL_REST + 'events/1')
+        $httpBackend.whenGET(URL_REST + 'events/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -176,7 +180,7 @@ describe("Service: eventService", function() {
       var data = mockData.eventService.getEvent();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/events/1').respond(200, data);
+        $httpBackend.whenGET(URL_REST + 'events/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -244,7 +248,7 @@ describe("Service: eventService", function() {
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPOST('https://apilocal.sponzor.me/events').respond(400, data);
+        $httpBackend.whenPOST(URL_REST + 'events').respond(400, data);
       });
 
       afterEach(function() {
@@ -269,7 +273,7 @@ describe("Service: eventService", function() {
       var data = mockData.eventService.createEvent();
 
       beforeEach(function() {
-        $httpBackend.whenPOST('https://apilocal.sponzor.me/events').respond(200, data);
+        $httpBackend.whenPOST(URL_REST + 'events').respond(200, data);
       });
 
       afterEach(function() {
@@ -335,7 +339,7 @@ describe("Service: eventService", function() {
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenDELETE('https://apilocal.sponzor.me/events/1').respond(400, data);
+        $httpBackend.whenDELETE(URL_REST + 'events/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -359,7 +363,7 @@ describe("Service: eventService", function() {
       var data = mockData.eventService.deleteEvent();
 
       beforeEach(function() {
-        $httpBackend.whenDELETE('https://apilocal.sponzor.me/events/1').respond(200, data);
+        $httpBackend.whenDELETE(URL_REST + 'events/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -432,7 +436,7 @@ describe("Service: eventService", function() {
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPATCH('https://apilocal.sponzor.me/events/1').respond(400, data);
+        $httpBackend.whenPATCH(URL_REST + 'events/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -457,7 +461,7 @@ describe("Service: eventService", function() {
       var data = mockData.eventService.editEventPatch();
 
       beforeEach(function() {
-        $httpBackend.whenPATCH('https://apilocal.sponzor.me/events/1').respond(200, data);
+        $httpBackend.whenPATCH(URL_REST + 'events/1').respond(200, data);
       });
 
       afterEach(function() {
@@ -530,7 +534,7 @@ describe("Service: eventService", function() {
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenPUT('https://apilocal.sponzor.me/events/1').respond(400, data);
+        $httpBackend.whenPUT(URL_REST + 'events/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -556,7 +560,7 @@ describe("Service: eventService", function() {
       var data = mockData.eventService.editEventPut();
 
       beforeEach(function() {
-        $httpBackend.whenPUT('https://apilocal.sponzor.me/events/1').respond(200, data);
+        $httpBackend.whenPUT(URL_REST + 'events/1').respond(200, data);
       });
 
       afterEach(function() {

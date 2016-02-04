@@ -160,6 +160,8 @@
         }
       })
 
+
+
       .state('organizer.addevent', {
         url: "/addevent",
         views: {

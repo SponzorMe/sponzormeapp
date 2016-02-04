@@ -12,6 +12,10 @@ describe("Service: categoryService", function() {
 
   beforeEach(inject(function( $injector, _categoryService_) {
     categoryService = _categoryService_;
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+    
     $httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
@@ -36,7 +40,7 @@ describe("Service: categoryService", function() {
       var data = mockData.failed();
 
       beforeEach(function(){
-        $httpBackend.whenGET('https://apilocal.sponzor.me/categories').respond(400, data);
+        $httpBackend.whenGET(URL_REST + 'categories').respond(400, data);
       });
 
       afterEach(function() {
@@ -60,7 +64,7 @@ describe("Service: categoryService", function() {
       var data = mockData.categoryService.allCategories();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/categories').respond(200, data);
+        $httpBackend.whenGET(URL_REST + 'categories').respond(200, data);
       });
 
       afterEach(function() {
@@ -124,7 +128,7 @@ describe("Service: categoryService", function() {
       var data = mockData.failed();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/categories/1').respond(400, data);
+        $httpBackend.whenGET(URL_REST + 'categories/1').respond(400, data);
       });
 
       afterEach(function() {
@@ -149,7 +153,7 @@ describe("Service: categoryService", function() {
       var data = mockData.categoryService.getCategory();
 
       beforeEach(function() {
-        $httpBackend.whenGET('https://apilocal.sponzor.me/categories/1').respond(200, data);
+        $httpBackend.whenGET(URL_REST + 'categories/1').respond(200, data);
       });
 
       afterEach(function() {

@@ -19,6 +19,7 @@
     '$state',
     'sponsorshipService',
     '$ionicPopup',
+    '$ionicModal',
     '$ionicActionSheet',
     '$cordovaSocialSharing',
     '$cordovaCalendar',
@@ -26,10 +27,12 @@
     '$ionicHistory',
     '$cordovaToast',
     '$translate',
-    'BackendVariables'
+    'BackendVariables',
+    'perkTaskService',
+    '$localStorage'
   ];
 
-  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponsorshipService, $ionicPopup, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory, $cordovaToast, $translate, BackendVariables) {
+  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponsorshipService, $ionicPopup, $ionicModal, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory, $cordovaToast, $translate, BackendVariables, perkTaskService, $localStorage) {
 
     var vm = this;
     var popupOptionsSponsorship = null;
@@ -40,6 +43,18 @@
     vm.event = {};
     vm.deleteEvent = deleteEvent;
     vm.perks = [];
+    vm.userAuth = $localStorage.userAuth;
+
+    vm.modalTask = null;
+    vm.isNewTask = true;
+    vm.task = {};
+    vm.showModalTask = showModalTask;
+    vm.newTask = newTask;
+    vm.hideModalTask = hideModalTask;
+    vm.editTask = editTask;
+    vm.submitTask = submitTask;
+    vm.deleteTask = deleteTask;
+    
     
     /*----- Options sponsorship  -----*/
     vm.sponsorshipSelected = {};
@@ -62,6 +77,13 @@
         shareEvent,
         addToCalendar
       ];
+
+      $ionicModal.fromTemplateUrl('app/events-organizer/task-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        vm.modalTask = modal;
+      });
     }
 
     function getEvent(){
@@ -221,7 +243,103 @@
           console.log( error );
         }*/
     }
-    
+
+    function showModalTask(){
+      vm.modalTask.show();
+    }
+
+    function newTask( perk ){
+      vm.isNewTask = true;
+      vm.task.perk_id = perk.id;
+      vm.task.event_id = vm.event.id;
+      vm.showModalTask();
+    }
+
+    function hideModalTask( form ){
+      vm.modalTask.hide();
+      if (form) utilsService.resetForm( form );
+      vm.task = {};
+    }
+
+    function editTask( task ){
+      vm.isNewTask = false;
+      vm.task = task;
+      vm.showModalTask();
+    }
+
+    function createTask( form ){
+      perkTaskService.createPerkTask( preparateTask() )
+        .then( complete )
+        .catch( failed );
+
+        function complete( data ){
+          getEvent();
+          utilsService.resetForm( form );
+          vm.hideModalTask();
+        }
+
+        function failed( error ){
+          utilsService.resetForm( form );
+          vm.hideModalTask();
+        }
+    }
+
+    function preparateTask(){
+      return {
+        user_id: vm.userAuth.id,
+        event_id: vm.task.event_id,
+        perk_id: vm.task.perk_id,
+        title: vm.task.title,
+        description: vm.task.description,
+        type: 0,
+        status: 0
+      }
+    }
+
+    function deleteTask( form ){
+      perkTaskService.deletePerkTask( vm.task.id )
+      .then( complete )
+      .catch( failed );
+
+      function complete( data ){
+        getEvent();
+        if( form ) utilsService.resetForm( form );
+        vm.hideModalTask();
+      }
+
+      function failed( error ){
+        vm.hideModalTask();
+        if( form ) utilsService.resetForm( form );
+        utilsService.alert({
+          template: error.message
+        });
+      }
+    }
+
+    function updateTask( form ){
+      perkTaskService.editPerkTaskPatch( vm.task.id, vm.task )
+      .then( complete )
+      .catch( failed );
+
+      function complete( data ){
+        getEvent();
+        utilsService.resetForm( form );
+        vm.hideModalTask();
+      }
+
+      function failed( error ){
+        utilsService.resetForm( form );
+        vm.hideModalTask();
+      }
+    }
+
+    function submitTask( form ){
+      if(vm.isNewTask){
+        createTask( form );
+      }else{
+        updateTask( form );
+      }
+    }
 
   }
 })();

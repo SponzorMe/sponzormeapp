@@ -812,7 +812,7 @@ var mockData = (function() {
           }
         ],
         event: {
-          id: "1002",
+          id: "1",
           title: "My Second Event",
           location: "Medellin Colombia",
           ends: "2016-01-31 09:57:00",
