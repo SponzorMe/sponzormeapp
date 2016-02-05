@@ -1,8 +1,8 @@
 machine:
-  node:
+   node:
     version: v0.10.26
 test:
- pre:
+   pre:
      - npm install
      - npm install -g bower
      - npm install -g karma
@@ -14,7 +14,7 @@ test:
      - npm install -g karma-html-reporter
      - npm install -g karma-coverage
      - bower install
- override:
+   override:
      - karma start karma.conf.js
 deployment:
    branch: local
@@ -25,7 +25,7 @@ deployment:
    commands:
        - npm install -g cordova ionic
        - ionic upload --deploy=production --email $IONIC_EMAIL --password $IONIC_PASSWORD
-    branch: staging
-   	commands:
+   branch: staging
+   commands:
        - npm install -g cordova ionic
        - ionic upload --deploy=staging --email $IONIC_EMAIL --password $IONIC_PASSWORD
