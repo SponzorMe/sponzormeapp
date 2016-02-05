@@ -21,11 +21,3 @@ deployment:
    commands:
        - npm install -g cordova ionic
        - ionic upload --deploy=dev --email $IONIC_EMAIL --password $IONIC_PASSWORD
-   branch: master
-   commands:
-       - npm install -g cordova ionic
-       - ionic upload --deploy=production --email $IONIC_EMAIL --password $IONIC_PASSWORD
-   branch: staging
-   commands:
-       - npm install -g cordova ionic
-       - ionic upload --deploy=staging --email $IONIC_EMAIL --password $IONIC_PASSWORD
