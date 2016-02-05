@@ -23,7 +23,7 @@
       }
 
       checkForUpdates();
-      //chooseLanguage();
+      chooseLanguage();
       ionicAnalytics();
     });
 
