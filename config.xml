@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget android-versionCode="92" id="me.sponzor.mobile" ios-CFBundleVersion="92" version="1.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="99" id="me.sponzor.mobile" ios-CFBundleVersion="99" version="1.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>SponzorMe</name>
   <description>SponzorME App</description>
   <author email="carlos@sponzor.me" href="http://www.sponzor.me">
@@ -7,7 +7,7 @@
     </author>
   <content src="index.html"/>
   <access origin="*"/>
-  <allow-navigation href="*" />
+  <allow-navigation href="*"/>
   <allow-navigation href="file://*/*"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
