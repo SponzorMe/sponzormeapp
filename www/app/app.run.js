@@ -90,11 +90,9 @@
             title: $translate.instant("MESSAGES.update_title"),
             template: '<p class="text-center">'+ $translate.instant("MESSAGES.update_text") +'</p>'
           })
-          .then( response );
-
-          function response( rta ){
+          .then(function(rta){
             if(rta) doUpdate();
-          }
+          });
         }
       }
     }
