@@ -3,7 +3,21 @@ machine:
     version: v0.10.26
 test:
   pre:
+  		- npm install -g karma-cli
       - npm install
       - bower install
   override:
       - gulp test
+deployment:
+   branch: local
+   commands:
+       - npm install -g cordova ionic
+       - ionic upload --deploy=dev --email $IONIC_EMAIL --password $IONIC_PASSWORD
+   branch: master
+   commands:
+       - npm install -g cordova ionic
+       - ionic upload --deploy=production --email $IONIC_EMAIL --password $IONIC_PASSWORD
+    branch: staging
+   	commands:
+       - npm install -g cordova ionic
+       - ionic upload --deploy=staging --email $IONIC_EMAIL --password $IONIC_PASSWORD
