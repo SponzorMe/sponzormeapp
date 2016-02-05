@@ -23,7 +23,7 @@
       }
 
       checkForUpdates();
-      chooseLanguage();
+      //chooseLanguage();
       ionicAnalytics();
     });
 
@@ -90,9 +90,9 @@
             title: $translate.instant("MESSAGES.update_title"),
             template: '<p class="text-center">'+ $translate.instant("MESSAGES.update_text") +'</p>'
           })
-          .then( complete );
+          .then( response );
 
-          function complete( rta ){
+          function response( rta ){
             if(rta) doUpdate();
           }
         }
