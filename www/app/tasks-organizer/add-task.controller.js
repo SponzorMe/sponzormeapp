@@ -17,11 +17,10 @@
     'perkService',
     'userService',
     'utilsService',
-    '$state',
     '$ionicHistory'
   ];
 
-  function AddTaskController( $localStorage, perkTaskService, perkService, userService, utilsService, $state, $ionicHistory) {
+  function AddTaskController( $localStorage, perkTaskService, perkService, userService, utilsService, $ionicHistory) {
 
     var vm = this;
     vm.newTask = {};
@@ -53,12 +52,12 @@
             disableAnimate: false,
             disableBack: true
           });
+          $ionicHistory.clearCache();
           $ionicHistory.goBack();
         }
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
         }
     }
 
@@ -87,7 +86,6 @@
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
         }
     }
 
@@ -104,7 +102,6 @@
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
         }
     }
     

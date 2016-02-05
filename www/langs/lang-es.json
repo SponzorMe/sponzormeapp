@@ -1,4 +1,5 @@
 {
+  "NETWORK": "Error de Conexión. No se ha podido conectar con el servidor. Comprueba tu conexión a internet y vuelve a intentarlo.",
   "LOGIN": {
       "login_title": "Ingresar",
       "email_field": "Email",
@@ -97,7 +98,9 @@
     "spanish_label": "Español",
     "english_label": "Ingles",
     "portuguese_label": "Português",
-    "save_button": "Guardar"
+    "save_button": "Guardar",
+    "app_divider": "Aplicacion",
+    "check_update": "Buscar actualizaciones"
   },
   "SEARCH": {
       "search_title": "Encuentra Eventos",
@@ -203,8 +206,8 @@
       "signin_notinserted_credentials_message": "Ops. Algo fue mal.",
       "joinnow_ema_required": "Este campo es requerido.",
       "joinnow_ema_email": "Este campo debe ser un Email.",
-      "joinnow_ema_maxlength": "Este campo debe tener al menos 5 caracteres.",
-      "joinnow_ema_minlength": "Este campo tener tener menos que 30 caracteres.",
+      "joinnow_ema_minlength": "Este campo debe tener al menos 5 caracteres.",
+      "joinnow_ema_maxlength": "Este campo tener tener menos que 40 caracteres.",
       "joinnow_pass_required": "Este campo es requerido.",
       "joinnow_pass_maxlength": "Este campo debe tener al menos 5 caracteres.",
       "joinnow_pass_minlength": "Este campo tener tener menos que 30 caracteres.",
@@ -217,14 +220,14 @@
       "inviteform_ema_maxlength": "Este campo debe tener al menos 5 caracteres.",
       "inviteform_ema_minlength": "Este campo tener tener menos que 30 caracteres.",
       "addeventsform_tit_required" : "Este campo es requerido.",
-      "addeventsform_tit_maxlength" : "This field is must be at least 5 characters.",
-      "addeventsform_tit_minlength" : "This field is must be less than 30 characters.",
+      "addeventsform_tit_minlength" : "Este campo debe tener al menos 5 caracteres.",
+      "addeventsform_tit_maxlength" : "Este campo tener tener menos que 30 caracteres.",
       "addeventsform_loc_required" : "Este campo es requerido.",
-      "addeventsform_loc_maxlength" : "This field is must be at least 5 characters.",
-      "addeventsform_loc_minlength" : "This field is must be less than 30 characters.",
+      "addeventsform_loc_minlength" : "Este campo debe tener al menos 5 caracteres.",
+      "addeventsform_loc_maxlength" : "Este campo tener tener menos que 30 caracteres.",
       "addeventsform_desc_required" : "Este campo es requerido.",
-      "addeventsform_desc_maxlength" : "This field is must be at least 5 characters.",
-      "addeventsform_desc_minlength" : "This field is must be less than 30 characters.",
+      "addeventsform_desc_minlength" : "Este campo debe tener al menos 5 caracteres.",
+      "addeventsform_desc_maxlength" : "Este campo tener tener menos que 30 caracteres.",
       "addeventsform_startdate_required" : "Este campo es requerido.",
       "addeventsform_starttime_required" : "Este campo es requerido.",
       "addeventsform_enddate_required" : "Este campo es requerido.",
@@ -245,6 +248,12 @@
       "succ_user_tit": "Info.",
       "succ_user_mess": "Cool, Usuario Creado.",
       "succ_event_tit": "Info.",
-      "succ_event_mess": "Cool, Evento Creado."
+      "succ_event_mess": "Cool, Evento Creado.",
+      "succ_add_to_calendar": "Tu evento ha sido agregado al calendario",
+      "succ_sponsor_it": "Bien, Ahora tu eres patrocinador de este evento.",
+      "update_title": "Actualizaciones",
+      "update_text_nothing": "No hay nada aun.",
+      "update_text": "Hay una nueva actulizacion, ¿Desea descargarla?",
+      "update_success": "Felicitaciones, ya tienes la nueva version"
   }
 }

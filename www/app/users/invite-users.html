@@ -1,6 +1,6 @@
 <ion-view view-title="Invite Friends">
   <ion-content>
-    <form name="inviteForm" novalidate ng-submit="inviteForm.$valid && invite.inviteFriend()">
+    <form name="inviteForm" novalidate ng-submit="inviteForm.$valid && invite.inviteFriend( inviteForm )">
       <ion-list type="card">
         <div class="padding">
           <i class="icon ion-person-add cover"></i>
@@ -16,7 +16,7 @@
           placeholder='{{"INVITEUSERS.email_field" | translate}}' 
           ng-model="invite.friend.email"
           ng-minlength="5"
-          ng-maxlength="30"
+          ng-maxlength="40"
           required>
         </label>
         <div class="form-errors" ng-messages="inviteForm.txtemail.$error" ng-if="inviteForm.$invalid && inviteForm.$submitted">

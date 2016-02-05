@@ -14,11 +14,12 @@
   MenuSponzorCtrl.$inject = [
     '$state',
     '$localStorage',
-    'sponzorshipService',
-    '$rootScope'
+    'sponsorshipService',
+    '$rootScope',
+    '$ionicHistory'
   ];
 
-  function MenuSponzorCtrl( $state, $localStorage, sponzorshipService, $rootScope ) {
+  function MenuSponzorCtrl( $state, $localStorage, sponsorshipService, $rootScope, $ionicHistory ) {
 
     var vm = this;
     //Attributes
@@ -48,21 +49,23 @@
     function logout(){
       $localStorage.$reset();
       $state.go('signin');
+      $ionicHistory.clearCache();
     }
 
     function getCounts(){
-      sponzorshipService.sponzorshipBySponzor( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
+      sponsorshipService.sponzorshipBySponzor( vm.userAuth.id )
+        .then( complete );
+        //.catch( failed );
 
         function complete( events ){
           vm.count_following = events.filter( filterByPending ).length;
           vm.count_sponsoring = events.filter( filterByAccepted ).length;
         }
 
+        /*
         function failed( error ){
           console.log( error );
-        }
+        }*/
     }
 
     function filterByPending( item ){

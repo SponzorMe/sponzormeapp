@@ -1,0 +1,29 @@
+<ion-view view-title="{{'EVENTSPONZORING.title' | translate}}">
+  <ion-content>
+    <ion-refresher pulling-text="Pull to refresh" on-refresh="sponzoring.doRefresh()">
+    </ion-refresher>
+    <div class="row text-center" ng-show="sponzoring.events.length == 0 && sponzoring.showEmptyState">
+      <div class="col">
+        <div class="empty-states">
+          <i class="icon ion-calendar"></i>
+          <h1>{{'EVENTSPONZORING.list_empty' | translate}}</h1>
+          <a href="#/sponzor/home" class="button button-positive">
+            {{'EVENTSPONZORING.button_more' | translate}}
+          </a>
+        </div>
+      </div>
+    </div>
+    <ion-list>
+      <ion-item href="#/sponzor/event-tasks/{{ event.event_id }}" class="event" ng-repeat="event in sponzoring.events | filter:search | orderBy:'starts' " ng-style="{'background-image': 'url(' + event.image + ')'}">
+        <i class="icon ion-checkmark"></i>
+        <p>
+          {{ event.cause | limitTo:40 }}... </br> 
+          <strong>Perk:</strong> {{ event.kind }} </br> 
+          <strong>Organizer:</strong> {{ event.email }} </br>
+          {{event.title}} </br> 
+          {{event.starts | date: 'MMMM d, y'}} - {{event.ends | date: 'MMMM d, y'}}
+        </p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

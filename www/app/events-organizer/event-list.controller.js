@@ -12,7 +12,6 @@
     .controller('EventListController', EventListController);
 
   EventListController.$inject = [
-    '$translate',
     '$localStorage',
     'userService',
     'utilsService',
@@ -20,7 +19,7 @@
     '$rootScope'
   ];
 
-  function EventListController( $translate, $localStorage, userService , utilsService, $scope, $rootScope) {
+  function EventListController( $localStorage, userService , utilsService, $scope, $rootScope) {
 
     var vm = this;
     //Attributes
@@ -54,8 +53,7 @@
 
         function failed( error ){
           utilsService.hideLoad();
-          vm.showEmptyState = true;
-          console.log( error );
+          vm.showEmptyState = true;;
         }
     }
 
@@ -67,16 +65,18 @@
         function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
           vm.events = user.events.filter( filterDate );
+          vm.showEmptyState = vm.events.length == 0 ? true : false;
           $rootScope.$broadcast('Menu:count_events', vm.events.length);
         }
 
         function failed( error ){
-          console.log( error );
+          $scope.$broadcast('scroll.refreshComplete');
         }
     }
 
     function filterDate( item ){
-      return moment(item.ends).isAfter(new Date());
+      var today = moment( new Date() ).subtract(1, 'days');
+      return moment(item.ends).isAfter( today );
     }
     
 

@@ -9,12 +9,37 @@
     .module('app')
     .config(routeConfig);
 
-  function routeConfig($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider) {
+  function routeConfig($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider, $ionicAutoTrackProvider) {
 
     $ionicConfigProvider.views.swipeBackEnabled(false);
-    $urlRouterProvider.otherwise("/sign-in");
+    $ionicConfigProvider.views.maxCache(10);
+    $ionicAutoTrackProvider.disableTracking('Tap');
+    $ionicAutoTrackProvider.disableTracking('Load');
+
+    function getDefaultRoute(){
+
+      function userType(){
+        var userAuth = JSON.parse(localStorage.getItem('ngStorage-userAuth'));
+        if( userAuth.type == 0 ) return "/organizer/home";
+        return "/sponzor/home";
+      }
+      
+      if(localStorage.getItem('ngStorage-token') && localStorage.getItem('ngStorage-userAuth')){
+        return userType();
+      }
+      return "/sign-in"
+    }
+
+    $urlRouterProvider.otherwise( getDefaultRoute() );    
 
     $stateProvider
+
+      /*.state('tests', {
+        url: '/tests',
+        templateUrl: 'app/users/tests.html',
+        controller: 'TestsController as test',
+      })*/
+
       .state('signin', {
         url: '/sign-in',
         templateUrl: 'app/users/login.html',
@@ -31,14 +56,12 @@
         url: "/profile",
         templateUrl: "app/users/form-profile.html",
         controller: "FormProfileController as profile",
-        cache: false,
       })
 
       .state('interests', {
         url: "/interests",
         templateUrl: "app/users/form-interests.html",
         controller: "FormInterestsController as interests",
-        cache: false,
       })
 
       .state('forgot-password', {
@@ -84,7 +107,6 @@
             controller: "ProfileController as profile"
           }
         },
-        cache: false,
       })
 
       .state('organizer.events', {
@@ -104,9 +126,19 @@
             templateUrl: "app/events-organizer/event-list.html",
             controller: "EventListController as eventList"
           }
-        },
-        cache: false
+        }
       })
+
+      .state('organizer.events.detail-list', {
+        url: "/event/:idEvent",
+        views: {
+          'tabEventList' :{
+            templateUrl: "app/events-organizer/event-detail.html",
+            controller: "EventDetailOrganizerController as eventDetail"
+          }
+        },
+      })
+
 
       .state('organizer.events.past', {
         url: "/past",
@@ -115,9 +147,20 @@
             templateUrl: "app/events-organizer/past-events.html",
             controller: "PastEventsController as eventList"
           }
-        },
-        cache: false
+        }
       })
+
+      .state('organizer.events.detail-past', {
+        url: "/past-event/:idEvent",
+        views: {
+          'tabPastEvents' :{
+            templateUrl: "app/events-organizer/event-detail.html",
+            controller: "EventDetailOrganizerController as eventDetail"
+          }
+        }
+      })
+
+
 
       .state('organizer.addevent', {
         url: "/addevent",
@@ -136,8 +179,7 @@
             templateUrl: "app/events-organizer/edit-event.html",
             controller: "EditEventController as editEvent"
           }
-        },
-        cache: false
+        }
       })
 
       .state('organizer.event', {
@@ -147,8 +189,7 @@
             templateUrl: "app/events-organizer/event-detail.html",
             controller: "EventDetailOrganizerController as eventDetail"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('organizer.sponsors', {
@@ -158,8 +199,7 @@
             templateUrl: "app/sponsors-organizer/sponzor-list.html",
             controller: "SponzorListController as sponzorList"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('organizer.sponzor', {
@@ -169,8 +209,7 @@
             templateUrl: "app/sponsors-organizer/sponzor-detail.html",
             controller: "SponsorshipDetailController as sponzorDetail"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('organizer.tasks', {
@@ -180,8 +219,7 @@
             templateUrl: "app/tasks-organizer/task-list.html",
             controller: "TaskListController as taskList"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('organizer.addTask', {
@@ -191,8 +229,7 @@
             templateUrl: "app/tasks-organizer/add-task.html",
             controller: "AddTaskController as addTask"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('organizer.editTask', {
@@ -202,8 +239,7 @@
             templateUrl: "app/tasks-organizer/edit-task.html",
             controller: "EditTaskController as editTask"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('organizer.invite', {
@@ -254,30 +290,47 @@
             templateUrl: "app/dashboard-sponzor/home.html",
             controller: "HomeSponzorController as home"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('sponzor.following', {
         url: "/following",
         views: {
           'menuContent' :{
-            templateUrl: "app/events-sponzor/follow-events.html",
+            templateUrl: "app/events-sponsor/follow-events.html",
             controller: "FollowEventsController as follow"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('sponzor.sponzoring', {
         url: "/sponzoring",
         views: {
           'menuContent' :{
-            templateUrl: "app/events-sponzor/sponzoring-events.html",
+            templateUrl: "app/events-sponsor/sponsoring-events.html",
             controller: "SponzoringEventsController as sponzoring"
           }
-        },
-        cache: false,
+        }
+      })
+
+      .state('sponzor.addTask', {
+        url: "/addTask/:idEvent/:idPerk/:idOrganizer/:idSponsorship",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/tasks-sponsor/add-task.html",
+            controller: "AddTaskSponsorController as addTask"
+          }
+        }
+      })
+
+      .state('sponzor.editTask', {
+        url: "/editTask/:id",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/tasks-sponsor/edit-task.html",
+            controller: "EditTaskSponsorController as editTask"
+          }
+        }
       })
 
       .state('sponzor.profile', {
@@ -287,16 +340,25 @@
             templateUrl: "app/users/profile.html",
             controller: "ProfileController as profile"
           }
-        },
-        cache: false
+        }
       })
 
       .state('sponzor.event', {
         url: "/event/:idEvent",
         views: {
           'menuContent' :{
-            templateUrl: "app/events-sponzor/event-detail.html",
+            templateUrl: "app/events-sponsor/event-detail.html",
             controller: "EventDetailSponzorController as eventDetail"
+          }
+        }
+      })
+
+      .state('sponzor.event-tasks', {
+        url: "/event-tasks/:idEvent",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/events-sponsor/event-detail-tasks.html",
+            controller: "EventDetailTasksSponzorController as eventDetail"
           }
         }
       })

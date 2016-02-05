@@ -27,6 +27,22 @@
           <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_tit_maxlength" | translate}}</div>
           <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_tit_minlength" | translate}}</div>
         </div>
+        <!-- Description  -->
+        <label class="item item-input" ng-class="{ 'has-error' : addEventForm.txtdesc.$invalid && addEventForm.$submitted }">
+          <textarea
+          name="txtdesc"
+          placeholder='{{"ADDEVENTS.description_field" | translate}}'
+          ng-model="addEvent.newEvent.description"
+          ng-minlength="5"
+          ng-maxlength="255"
+          required>
+          </textarea>
+        </label>
+        <div class="form-errors" ng-messages="addEventForm.txtdesc.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_desc_required" | translate}}</div>
+          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_desc_maxlength" | translate}}</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_desc_minlength" | translate}}</div>
+        </div>
         <!-- Location  -->
         <label class="item item-input" ng-class="{ 'has-error' : addEventForm.txtloc.$invalid && addEventForm.$submitted }">
           <input 
@@ -43,22 +59,7 @@
           <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_loc_maxlength" | translate}}</div>
           <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_loc_minlength" | translate}}</div>
         </div>
-       <!-- Description  -->
-        <label class="item item-input" ng-class="{ 'has-error' : addEventForm.txtdesc.$invalid && addEventForm.$submitted }">
-          <textarea
-          name="txtdesc"
-          placeholder='{{"ADDEVENTS.description_field" | translate}}'
-          ng-model="addEvent.newEvent.description"
-          ng-minlength="5"
-          ng-maxlength="30"
-          required>
-          </textarea>
-        </label>
-        <div class="form-errors" ng-messages="addEventForm.txtdesc.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
-          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_desc_required" | translate}}</div>
-          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_desc_maxlength" | translate}}</div>
-          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_desc_minlength" | translate}}</div>
-        </div>
+       
         <!-- Start Date  -->
         <label class="item item-input" ng-class="{ 'has-error' : addEventForm.txtstart.$invalid && addEventForm.$submitted }">
           <input 

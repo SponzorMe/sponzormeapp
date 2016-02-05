@@ -14,22 +14,16 @@
   EditTaskController.$inject = [
     '$localStorage',
     'perkTaskService',
-    'perkService',
-    'userService',
     'utilsService',
-    '$state',
     '$stateParams',
-    '$ionicHistory',
-    '$q'
+    '$ionicHistory'
   ];
 
-  function EditTaskController( $localStorage, perkTaskService, perkService, userService, utilsService, $state, $stateParams, $ionicHistory, $q) {
+  function EditTaskController( $localStorage, perkTaskService, utilsService, $stateParams, $ionicHistory) {
 
     var vm = this;
     vm.newTask = {};
     vm.userAuth = $localStorage.userAuth;
-    vm.events = [];
-    vm.perks = [];
     vm.editTask = editTask;
     vm.deleteTask = deleteTask;
 
@@ -38,32 +32,25 @@
     ////////////
 
     function activate(){
-      getData();
+      getTask( $stateParams.id );
     }
 
-    function getData(){
+    function getTask( idTask ){
       utilsService.showLoad();
 
-      var promises = [
-        userService.getUser( vm.userAuth.id ),
-        perkService.allPerks(),
-        perkTaskService.getPerkTask( $stateParams.id ),
-      ];
-
-      $q.all(promises)
+      perkTaskService.getPerkTask( idTask )
         .then( complete )
         .catch( failed );
 
-        function complete( data ){
+        function complete( task ){
+
           utilsService.hideLoad();
-          getEvents( data[0] );
-          getPerks( data[1] );
-          getTask( data[2] );
+          vm.newTask = task;
+          vm.newTask.status = task.status == '1' ? true : false ;
         }
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
         }
     }
 
@@ -83,12 +70,12 @@
             disableAnimate: false,
             disableBack: true
           });
+          $ionicHistory.clearCache();
           $ionicHistory.goBack();
         }
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
         }
     }
 
@@ -100,17 +87,19 @@
 
         function complete( data ){
           vm.newTask = {};
+          utilsService.hideLoad();
           $ionicHistory.nextViewOptions({
             disableAnimate: false,
             disableBack: true
           });
-          $state.go("organizer.tasks");
+          $ionicHistory.clearCache();
+          $ionicHistory.goBack();
         }
 
         function failed( error ){
           utilsService.hideLoad();
           utilsService.alert({
-            template: error.data.message
+            template: error.message
           });
         }
     }
@@ -125,33 +114,7 @@
         type: 0,
         status: vm.newTask.status ? "1" : "0"
       }
-    }
-
-    function getEvents( user ){
-      vm.events = user.events;
-    }
-
-    function getPerks( perks ){
-      vm.perks = perks;
-    }
-
-    function getTask( task ){
-      vm.newTask = task;
-      vm.newTask.status = task.status == '1' ? true : false ;
-      for (var i = 0; i < vm.events.length; i++) {
-        if(vm.events[i].id == vm.newTask.event_id){
-          vm.newTask.event = vm.events[i];
-          break;
-        }
-      }
-      for (var i = 0; i < vm.perks.length; i++) {
-        if(vm.perks[i].id == vm.newTask.perk.id){
-          vm.newTask.perk = vm.perks[i];
-          break;
-        }
-      }
-    }
-    
+    }    
 
   }
 })();

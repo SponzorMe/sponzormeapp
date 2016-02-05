@@ -25,7 +25,6 @@
 
     var service = {
       login: login,
-      allUsers: allUsers,
       getUser: getUser,
       createUser: createUser,
       deleteUser: deleteUser,
@@ -41,6 +40,14 @@
     ////////////
 
     function login( email, password ){
+
+      //Validate
+      var typeEmail = typeof email;
+      if(typeEmail !== 'string') throw new Error();
+      var typePassword = typeof password;
+      if(typePassword !== 'string' && typePassword !== 'number') throw new Error();
+
+
       return $http({
         method: 'POST',
         url: path + 'auth',
@@ -55,18 +62,19 @@
 
       function complete( response ) {
         return $q.when( response.data.user );
-      } 
+      }
 
       function failed( response ) {
         return $q.reject( response.data );
       }
     }
 
-    function allUsers(){
-      return $http.get(path + 'users');
-    }
-
     function getUser( userId ){
+
+      //Validate
+      var typeUserId = typeof userId;
+      if(typeUserId !== 'string' && typeUserId !== 'number') throw new Error();
+
       return $http({
         method: 'GET',
         url: path + 'users/' + userId,
@@ -79,7 +87,7 @@
         var data = response.data.data.user;
         data.events = preparateEvents( data.events );
         return $q.when( data );
-      } 
+      }
 
       function preparateEvents( events ){
         return events
@@ -99,6 +107,11 @@
     }
 
     function createUser( data ){
+
+      //Validate
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'POST',
         url: path + 'users',
@@ -112,8 +125,8 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( response.data );
-      } 
+        return $q.when( response.data.User );
+      }
 
       function failed( response ) {
         return $q.reject( response.data );
@@ -121,6 +134,11 @@
     }
 
     function deleteUser( userId ){
+
+      //Validate
+      var typeUserId = typeof userId;
+      if(typeUserId !== 'number' && typeUserId !== 'string') throw new Error();
+
       return $http({
         method: 'DELETE',
         url: path + 'users/' + userId,
@@ -128,10 +146,27 @@
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
-      });
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ) {
+        return $q.when( response.data );
+      }
+
+      function failed( response ) {
+        return $q.reject( response.data );
+      }
     }
 
     function editUserPatch( userId, data ){
+
+      //Validate
+      var typeUserId = typeof userId;
+      if(typeUserId !== 'number' && typeUserId !== 'string') throw new Error();
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'PATCH',
         url: path + 'users/' + userId,
@@ -149,11 +184,18 @@
       }
 
       function failed( response ){
-        return $q.reject( response );
+        return $q.reject( response.data );
       }
     }
 
     function editUserPut( userId, data ){
+
+      //Validate
+      var typeUserId = typeof userId;
+      if(typeUserId !== 'number' && typeUserId !== 'string') throw new Error();
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'PUT',
         url: path + 'users/' + userId,
@@ -171,42 +213,64 @@
       }
 
       function failed( response ){
-        return $q.reject( response );
+        return $q.reject( response.data );
       }
     }
 
-    function forgotPassword( data ){
+    function forgotPassword( email ){
+
+      //Validate
+      var typeEmail = typeof email;
+      if(typeEmail !== 'string') throw new Error();
+
       return $http({
         method: 'POST',
-        url: path + 'send_reset_password/',
+        url: path + 'send_reset_password',
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
+        data: $httpParamSerializerJQLike({
+          email: email
+        })
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ) {
+        return $q.when( response.data );
+      }
+
+      function failed( response ) {
+        return $q.reject( response.data );
+      }
+    }
+
+    function invitedUser( data ){
+
+      //Validate
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
+      return $http({
+        method: 'POST',
+        url: path + 'invite_friend',
         headers: {
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()
         },
         data: $httpParamSerializerJQLike(data)
       })
-      .then( forgotPasswordComplete )
-      .catch( forgotPasswordFailed );
+      .then( complete )
+      .catch( failed );
 
-      function forgotPasswordComplete( response ) {
-        return $q.when( response );
-      } 
+      function complete( response ) {
+        return $q.when( response.data );
+      }
 
-      function forgotPasswordFailed( response ) {
+      function failed( response ) {
         return $q.reject( response.data );
       }
-    }
-
-    function invitedUser( data ){
-      return $http({
-        method: 'POST',
-        url: path + 'invite_friend/',
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      });
     }
 
     function checkSession(){

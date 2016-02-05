@@ -25,11 +25,7 @@
 
     var service = {
       allEventTypes: allEventTypes,
-      getEventTypes: getEventTypes,
-      createEventType: createEventType,
-      deleteEventType: deleteEventType,
-      editEventTypePatch: editEventTypePatch,
-      editEventTypePut: editEventTypePut
+      getEventType: getEventType
     };
 
     return service;
@@ -37,72 +33,42 @@
     ////////////
 
     function allEventTypes() {
-      return $http.get(path + 'event_types')
-        .then(allEventTypesComplete)
-        .catch(allEventTypesFailed);
+      return $http({
+        method: 'GET',
+        url: path + 'event_types'
+      })
+      .then( complete )
+      .catch( failed );
 
-      function allEventTypesComplete( response ) {
+      function complete( response ) {
         return $q.when( response.data.eventTypes );
       }
 
-      function allEventTypesFailed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
-    function getEventTypes( eventTypeId ){
-      return $http.get(path + 'event_types/' + eventTypeId);
-    }
+    function getEventType( eventTypeId ){
 
-    function createEventType( data ){
+      //Validate
+      var typeEventTypeId = typeof eventTypeId;
+      if(typeEventTypeId !== 'string' && typeEventTypeId !== 'number') throw new Error();
+
       return $http({
-        method: 'POST',
-        url: path + 'event_types',
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      });
-    }
+        method: 'GET',
+        url: path + 'event_types/' + eventTypeId
+      })
+      .then( complete )
+      .catch( failed );
 
-    function deleteEventType( eventTypeId ){
-      return $http({
-        method: 'DELETE',
-        url: path + 'event_types/' + eventTypeId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-      });
-    }
+      function complete( response ) {
+        return $q.when( response.data.data.eventTypes );
+      }
 
-    function editEventTypePatch( eventTypeId, data ){
-      return $http({
-        method: 'PATCH',
-        url: path + 'event_types/' + eventTypeId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      });
-    }
-
-    function editEventTypePut( eventTypeId, data ){
-      return $http({
-        method: 'PUT',
-        url: path + 'event_types/' + eventTypeId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      });
-    }
-
-    function getToken(){
-      return $localStorage.token;
+      function failed( response ) {
+        return $q.reject( response.data );
+      }
     }
 
   }

@@ -24,14 +24,13 @@
     'perkService',
     '$ionicModal',
     '$cordovaToast',
-    '$state',
     '$ionicHistory',
     'imgurService',
     '$q',
     '$stateParams'
   ];
 
-  function EditEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, perkService, $ionicModal, $cordovaToast, $state, $ionicHistory, imgurService, $q, $stateParams) {
+  function EditEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, perkService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $stateParams) {
 
     var vm = this;
     vm.newEvent = {};
@@ -86,10 +85,10 @@
         function complete( event ){
           utilsService.hideLoad();
           vm.newEvent = event;
-          vm.newEvent.start = moment(vm.starts).format('YYYY-MM-DD');
-          vm.newEvent.starttime = moment(vm.starts).format('HH:mm:ss');
-          vm.newEvent.end = moment(vm.ends).format('YYYY-MM-DD');
-          vm.newEvent.endtime = moment(vm.ends).format('HH:mm:ss');
+          vm.newEvent.start = moment(event.starts).format('YYYY-MM-DD');
+          vm.newEvent.starttime = moment(event.starts).format('HH:mm:ss');
+          vm.newEvent.end = moment(event.ends).format('YYYY-MM-DD');
+          vm.newEvent.endtime = moment(event.ends).format('HH:mm:ss');
           vm.newEvent.access = vm.newEvent.privacy == '1' ? true : false;
           vm.sponsors = vm.newEvent.perks;
           getEventsTypes();
@@ -97,7 +96,6 @@
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error.data );
         }
     }
 
@@ -194,30 +192,35 @@
     /*-------------- Image --------------*/
 
     function getPhoto(){
+
+      var Camera = Camera || null;
+      var CameraPopoverOptions = CameraPopoverOptions || null;
+
       var options = {
         quality: 100,
-        destinationType: Camera.DestinationType.DATA_URL,
-        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+        destinationType: Camera ? Camera.DestinationType.DATA_URL : null,
+        sourceType: Camera ? Camera.PictureSourceType.PHOTOLIBRARY : null,
         allowEdit: false,
-        encodingType: Camera.EncodingType.JPEG,
+        encodingType: Camera ? Camera.EncodingType.JPEG : null,
         targetWidth: 500,
         targetHeight: 500,
         popoverOptions: CameraPopoverOptions,
-        saveToPhotoAlbum: false
+        saveToPhotoAlbum: false,
       };
 
       $cordovaCamera.getPicture( options )
         .then( complete )
-        .catch( failed );
+        //.catch( failed );
 
       function complete( imageURI ){
         vm.imageURI = imageURI;
         vm.newEvent.image = "data:image/jpeg;base64," + imageURI;
       }
 
+      /*
       function failed( error ){
         console.log( error );
-      }
+      }*/
     }
 
     /*-------------- Create Event --------------*/
@@ -239,7 +242,6 @@
       }
 
         function updateImage( image ){
-          vm.newEvent.image = image;
           return eventService.editEventPatch( vm.newEvent.id, preparateData() );
         }
 
@@ -251,6 +253,7 @@
             disableAnimate: false,
             disableBack: true
           });
+          $ionicHistory.clearCache();
           $ionicHistory.goBack();
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_event_mess"));
         }
@@ -271,8 +274,8 @@
 
     function getEventsTypes(){
       eventTypeService.allEventTypes()
-        .then( complete )
-        .catch( failed );
+        .then( complete );
+        //.catch( failed );
 
         function complete( eventTypes ){
           vm.eventTypes = eventTypes;
@@ -284,9 +287,10 @@
           };
         }
 
+        /*
         function failed( error ){
           console.log( error );
-        }
+        }*/
     }
 
     function preparateData() {
@@ -337,7 +341,7 @@
 
     function closeModalSponsor( form ){
       vm.modalSponsor.hide();
-      utilsService.resetForm( form );
+      if (form) utilsService.resetForm( form );
       vm.newSponsor = {};
     } 
 
@@ -360,24 +364,24 @@
     }
 
     function deleteSponsor(){
-        utilsService.confirm({
-          template: 'Esta seguro de eliminar este tipo de patronicio.'
-        })
-        .then( complete );
+      utilsService.confirm({
+        template: 'Esta seguro de eliminar este tipo de patronicio.'
+      })
+      .then( complete );
 
-        function complete( rta ){
-          if(rta){
-            var index = vm.sponsors.indexOf( vm.newSponsor );
-            if(vm.newSponsor.id){
-              deletePerk( index, vm.newSponsor.id );
-            }else{
-              vm.sponsors.splice(index, 1);
-              vm.closeModalSponsor();
-            }
+      function complete( rta ){
+        if(rta){
+          var index = vm.sponsors.indexOf( vm.newSponsor );
+          if(vm.newSponsor.id){
+            deletePerk( index, vm.newSponsor.id );
           }else{
+            vm.sponsors.splice(index, 1);
             vm.closeModalSponsor();
           }
+        }else{
+          vm.closeModalSponsor();
         }
+      }
     }
 
     function deletePerk(index, id){
@@ -386,13 +390,11 @@
         .catch( failed );
 
         function complete( response ){
-          console.log( response );
           vm.sponsors.splice(index, 1);
           vm.closeModalSponsor();
         }
 
         function failed( error ){
-          console.log( error );
           vm.closeModalSponsor();
         }
     }

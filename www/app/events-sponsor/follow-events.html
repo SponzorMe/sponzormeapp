@@ -1,0 +1,28 @@
+<ion-view view-title="{{'EVENTFOLLOWING.title' | translate}}">
+  <ion-content>
+    <ion-refresher pulling-text="Pull to refresh" on-refresh="follow.doRefresh()">
+    </ion-refresher>
+    <div class="row text-center" ng-show="follow.events.length == 0 && follow.showEmptyState">
+      <div class="col">
+        <div class="empty-states">
+          <i class="icon ion-calendar"></i>
+          <h1>{{'EVENTFOLLOWING.list_empty' | translate}}</h1>
+          <a href="#/sponzor/home" class="button button-positive">
+            {{'EVENTFOLLOWING.button_more' | translate}}
+          </a>
+        </div>
+      </div>
+    </div>
+    <ion-list>
+      <ion-item href="#/sponzor/event/{{ event.event_id }}" class="event" ng-repeat="event in follow.events | filter:search | orderBy:'starts' " ng-style="{'background-image': 'url(' + event.image + ')'}">
+        <i class="icon" ng-class="{'ion-pin': event.status == 0, 'ion-close': event.status == 2}"></i> 
+        <p>
+          {{ event.cause | limitTo:40 }}... </br> 
+          <strong>Perk:</strong> {{ event.kind }} </br> 
+          {{event.title}} </br> 
+          {{event.starts | date: 'MMMM d, y'}} - {{event.ends | date: 'MMMM d, y'}}
+        </p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

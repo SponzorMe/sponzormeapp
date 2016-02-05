@@ -1,0 +1,50 @@
+<ion-view>
+  <ion-nav-title>Edit Task</ion-nav-title>
+  <ion-content>
+    <form name="editTaskForm" novalidate ng-submit="editTaskForm.$valid && editTask.editTask( editTaskForm )">
+      <ion-list type="card">  
+        <ion-item class="item-divider">
+          Add Task
+        </ion-item>
+        <!-- Title  -->
+        <label class="item item-input" ng-class="{ 'has-error' : editTaskForm.title.$invalid && editTaskForm.$submitted }">
+          <input 
+          name="title" 
+          type="text" 
+          placeholder='Task' 
+          ng-model="editTask.newTask.title"
+          ng-minlength="5"
+          ng-maxlength="30"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="editTaskForm.title.$error" ng-if="editTaskForm.$invalid && editTaskForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> Es requerido</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> Muy pequeño</div>
+          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> Muy largo</div>
+        </div>
+        <!-- Description  -->
+        <label class="item item-input" ng-class="{ 'has-error' : editTaskForm.txttitle.$invalid && editTaskForm.$submitted }">
+          <textarea 
+          name="description" 
+          placeholder="Description"
+          ng-model="editTask.newTask.description" 
+          required
+          ></textarea>
+        </label>
+        <div class="form-errors" ng-messages="editTaskForm.description.$error" ng-if="editTaskForm.$invalid && editTaskForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> Es requerido</div>
+        </div>
+        <!-- Done -->
+        <ion-toggle ng-model="editTask.newTask.status" toggle-class="toggle-positive">Done?</ion-toggle>
+      </ion-list>
+      <div class="row">
+        <!--<div class="col col-50">
+          <button class="button button-block" type="button" ng-click="editTask.deleteTask()">Delete</button>
+        </div>-->
+        <div class="col">
+          <button class="button button-block button-positive" type="submit">Save</button>
+        </div>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>

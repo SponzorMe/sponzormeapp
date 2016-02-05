@@ -24,13 +24,13 @@
     'perkService',
     '$ionicModal',
     '$cordovaToast',
-    '$state',
     '$ionicHistory',
     'imgurService',
-    '$q'
+    '$q',
+    '$state'
   ];
 
-  function AddEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, perkService, $ionicModal, $cordovaToast, $state, $ionicHistory, imgurService, $q) {
+  function AddEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, perkService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $state) {
 
     var vm = this;
     vm.newEvent = {};
@@ -63,10 +63,10 @@
 
       vm.sponsors = [];
       vm.newEvent.access = true;
-      /*vm.newEvent.starttime = "00:00:00";
-      vm.newEvent.start = "2015-12-15";
-      vm.newEvent.endtime = "00:00:00";
-      vm.newEvent.end = "2015-12-24";*/
+      /*vm.newEvent.starttime = "13:00:00";
+      vm.newEvent.start = "2016-01-09";
+      vm.newEvent.endtime = "15:00:00";
+      vm.newEvent.end = "2016-01-09";*/
 
       $ionicModal.fromTemplateUrl('app/events-organizer/sponsor-modal.html', {
         scope: $scope,
@@ -167,30 +167,34 @@
     /*-------------- Image --------------*/
 
     function getPhoto(){
+      var Camera = Camera || null;
+      var CameraPopoverOptions = CameraPopoverOptions || null;
+
       var options = {
         quality: 100,
-        destinationType: Camera.DestinationType.DATA_URL,
-        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+        destinationType: Camera ? Camera.DestinationType.DATA_URL : null,
+        sourceType: Camera ? Camera.PictureSourceType.PHOTOLIBRARY : null,
         allowEdit: false,
-        encodingType: Camera.EncodingType.JPEG,
+        encodingType: Camera ? Camera.EncodingType.JPEG : null,
         targetWidth: 500,
         targetHeight: 500,
         popoverOptions: CameraPopoverOptions,
-        saveToPhotoAlbum: false
+        saveToPhotoAlbum: false,
       };
 
       $cordovaCamera.getPicture( options )
-        .then( complete )
-        .catch( failed );
+        .then( complete );
+        //.catch( failed );
 
       function complete( imageURI ){
         vm.imageURI = imageURI;
         vm.newEvent.image = "data:image/jpeg;base64," + imageURI;
       }
 
+      /*
       function failed( error ){
         console.log( error );
-      }
+      }*/
     }
 
     /*-------------- Create Event --------------*/
@@ -223,6 +227,7 @@
             disableAnimate: false,
             disableBack: true
           });
+          $ionicHistory.clearCache();
           $state.go("organizer.events.list");
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_event_mess"));
         }
@@ -239,17 +244,18 @@
 
     function getEventsTypes(){
       eventTypeService.allEventTypes()
-        .then( complete )
-        .catch( failed );
+        .then( complete );
+        //.catch( failed );
 
         function complete( eventTypes ){
           vm.eventTypes = eventTypes;
           if(vm.eventTypes.length > 0) vm.newEvent.type = vm.eventTypes[0];
         }
 
+        /*
         function failed( error ){
           console.log( error );
-        }
+        }*/
     }
 
     function preparateData() {
@@ -290,16 +296,17 @@
 
     function createPerk( data ){
       return perkService.createPerk( data )
-        .then( complete )
-        .catch( failed );
+        .then( complete );
+        //.catch( failed );
 
         function complete( response ){
           console.log( response );
         }
 
+        /*
         function failed( error ){
           console.log( error );
-        }
+        }*/
     }
 
     function openModalSponsor(){
@@ -308,7 +315,7 @@
 
     function closeModalSponsor( form ){
       vm.modalSponsor.hide();
-      utilsService.resetForm( form );
+      if (form) utilsService.resetForm( form );
       vm.newSponsor = {};
     } 
 

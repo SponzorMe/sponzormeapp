@@ -15,11 +15,11 @@
     '$localStorage',
     'userService',
     'utilsService',
-    'sponzorshipService',
+    'sponsorshipService',
     '$q'
   ];
 
-  function HomeOrganizerController( $localStorage, userService , utilsService, sponzorshipService, $q) {
+  function HomeOrganizerController( $localStorage, userService , utilsService, sponsorshipService, $q) {
 
     var vm = this;
     //Atributes
@@ -41,7 +41,7 @@
 
       var promises = [
         userService.getUser( vm.userAuth.id ),
-        sponzorshipService.sponzorshipByOrganizer( vm.userAuth.id )
+        sponsorshipService.sponzorshipByOrganizer( vm.userAuth.id )
       ];
 
       $q.all( promises )
@@ -56,7 +56,6 @@
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
         }
     }
 

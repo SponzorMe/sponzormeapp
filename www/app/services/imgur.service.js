@@ -30,6 +30,10 @@
     ////////////
 
     function uploadImage( image ){
+
+      var typeImage = typeof image;
+      if(typeImage !== 'string') throw new Error();
+
       return $http({
         method: 'POST',
         url: path + 'image',

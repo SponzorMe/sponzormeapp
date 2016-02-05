@@ -5,7 +5,7 @@
 * @version 0.1
 */
 (function() {
-  'use strict';
+  //'use strict';
 
   angular
     .module('app.users')
@@ -26,14 +26,13 @@
     var vm = this;
     var memorize = [];
     //Attributes
-    vm.userAuth = $localStorage.userAuth || {};
+    vm.userAuth = $localStorage.userAuth;
     vm.categories = [];
     vm.categorySelected = null;
     //Funcions
     vm.updateInterests = updateInterests;
     vm.getCategory = getCategory;
     vm.isCategorySelected = isCategorySelected;
-    vm.validateTutorial = validateTutorial;
     
     activate();
 
@@ -57,7 +56,7 @@
 
       function complete( results ){
         utilsService.hideLoad();
-        validateTutorial();
+        redirectTutorial();
       }
 
       function failed( error ){
@@ -149,43 +148,11 @@
       return vm.categorySelected == category;
     }
 
-    function saveUser(){
-      $localStorage.userAuth = utilsService.updateUserAuth(vm.userAuth);
-    }
-
-    function updateUser(){
-      vm.userAuth.demo = 1;
-      saveUser();
-      userService.editUserPatch( vm.userAuth.id, vm.userAuth )
-        .then( redirectTutorial )
-        .catch( failed );
-
-        function failed( error ){
-          console.log( error );
-        }
-    };
-
-    function validateTutorial(){
-      if( vm.userAuth.demo == 0){
-        updateUser();
-      }else{
-        redirectHome();
-      }
-    }
-
     function redirectTutorial(){
       if( vm.userAuth.type == 0 ){ // is an Organizer.
         $state.go("organizer.intro");
       }else{ // is an Sponzor
         $state.go("sponzor.intro");
-      }
-    }
-
-    function redirectHome(){
-      if( vm.userAuth.type == 0 ){ // is an Organizer.
-        $state.go("organizer.home");
-      }else{ // is an Sponzor
-        $state.go("sponzor.home");
       }
     }
 

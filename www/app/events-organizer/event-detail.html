@@ -1,10 +1,5 @@
-<ion-view hide-back-button="true">
+<ion-view spm-hide-tabs>
 	<ion-nav-title>{{ eventDetail.event.title }}</ion-nav-title>
-  <ion-nav-buttons side="left">
-    <button class="button back-button buttons  button-clear header-item" ng-click="eventDetail.goBack()">
-      <i class="icon ion-ios-arrow-back"></i>
-    </button>
-  </ion-nav-buttons>
   <ion-nav-buttons side="right">
     <button class="button button-icon button-clear ion-android-more-vertical"
     ng-click="eventDetail.showActionSheet()"></button>
@@ -30,16 +25,16 @@
             	<ion-item class="item-divider">Start Day</ion-item>
 						  <ion-item class="item-icon-left">
 						  	<i class="icon ion-clock"></i>
-						     {{ eventDetail.event.starts | date: 'short' }}
+						     {{ eventDetail.event.starts | date: 'MMMM d, y - HH:mm:ss' }}
 						  </ion-item>
 						  <ion-item class="item-divider">End Day</ion-item>
 						  <ion-item class="item-icon-left">
 						  	<i class="icon ion-clock"></i>
-						    {{ eventDetail.event.ends | date: 'short' }}
+						    {{ eventDetail.event.ends | date: 'MMMM d, y - HH:mm:ss' }}
 						  </ion-item>
 						  <ion-item class="item-body">
 						  	<img ng-src="{{ eventDetail.event.image }}" class="full-image">
-						    {{ eventDetail.event.description }}
+                <span ng-bind-html="eventDetail.event.description"></span>
 						  </ion-item>
 						  <ion-item class="item-divider">
 						    Organizer
@@ -103,23 +98,21 @@
               </div>
             </div>
             <ion-list type="card" ng-show="eventDetail.perks.length > 0" ng-repeat="perk in eventDetail.perks">
-              <ion-item class="item-divider">
-                Perks: {{ perk.kind }} - ${{ perk.usd }}
-                <span class="badge badge-positive">{{ perk.tasks.length }}</span>
+              <ion-item class="item-button-right">
+                Perk: {{ perk.kind }} - ${{ perk.usd }}
+                <a class="button button-positive" ng-click="eventDetail.newTask( perk )">
+                  <i class="icon ion-plus-round"></i>
+                </a>
               </ion-item>
               <ion-item ng-show="perk.tasks.length == 0">
                 Nothing new yet.
               </ion-item>
-              <ion-item href="#/organizer/editTask/{{ task.id }}" class="item-icon-left" ng-repeat="task in perk.tasks" ng-class="{done: task.status == 1}">
-                <i class="icon ion-checkmark"></i>
+              <ion-item ng-click="eventDetail.editTask( task )" class="item-icon-left" ng-repeat="task in perk.tasks" ng-class="{done: task.status == 1}">
                 <i class="icon ion-checkmark"></i>
                 <h2> {{ task.title }} </h2>
                 <p> {{ task.description }} </p>
               </ion-item>
             </ion-list>
-            <div class="padding">
-              <a ng-href="#/organizer/addTask" class="button button-positive button-block icon-left ion-plus-round">Create new task</a>
-            </div>
           </ion-scroll>
         </ion-slide>
       </ion-slide>

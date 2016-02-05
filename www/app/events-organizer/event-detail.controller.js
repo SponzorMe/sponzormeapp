@@ -17,25 +17,44 @@
     'utilsService',
     '$stateParams',
     '$state',
-    'sponzorshipService',
+    'sponsorshipService',
     '$ionicPopup',
+    '$ionicModal',
     '$ionicActionSheet',
     '$cordovaSocialSharing',
     '$cordovaCalendar',
     '$ionicSideMenuDelegate',
-    '$ionicHistory'
+    '$ionicHistory',
+    '$cordovaToast',
+    '$translate',
+    'BackendVariables',
+    'perkTaskService',
+    '$localStorage'
   ];
 
-  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponzorshipService, $ionicPopup, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory) {
+  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponsorshipService, $ionicPopup, $ionicModal, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory, $cordovaToast, $translate, BackendVariables, perkTaskService, $localStorage) {
 
     var vm = this;
     var popupOptionsSponsorship = null;
     var hideSheet = null;
-    var optionsActionSheet = [];
+    vm.optionsActionSheet = [];
+    var url = BackendVariables.url_web;
     //Attributes
     vm.event = {};
     vm.deleteEvent = deleteEvent;
     vm.perks = [];
+    vm.userAuth = $localStorage.userAuth;
+
+    vm.modalTask = null;
+    vm.isNewTask = true;
+    vm.task = {};
+    vm.showModalTask = showModalTask;
+    vm.newTask = newTask;
+    vm.hideModalTask = hideModalTask;
+    vm.editTask = editTask;
+    vm.submitTask = submitTask;
+    vm.deleteTask = deleteTask;
+    
     
     /*----- Options sponsorship  -----*/
     vm.sponsorshipSelected = {};
@@ -45,7 +64,6 @@
     /*----- Options ActionSheet  -----*/
     vm.showActionSheet = showActionSheet;
     vm.hideActionSheet = hideActionSheet;
-    vm.goBack = goBack;
 
     activate();
 
@@ -54,15 +72,18 @@
     function activate(){
       getEvent();
       $ionicSideMenuDelegate.canDragContent(false);
-      optionsActionSheet = [
+      vm.optionsActionSheet = [
         editEvent,
         shareEvent,
         addToCalendar
       ];
-    }
 
-    function goBack(){
-      $ionicHistory.goBack();
+      $ionicModal.fromTemplateUrl('app/events-organizer/task-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        vm.modalTask = modal;
+      });
     }
 
     function getEvent(){
@@ -79,7 +100,6 @@
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error.data );
         }
     }
 
@@ -87,9 +107,13 @@
       var perks = event.perks;
       for (var i = 0; i < perks.length; i++) {
         perks[i].sponsorships = _.where(event.sponzorships, {perk_id: perks[i].id});
-        perks[i].tasks = _.where(event.perk_tasks, {perk_id: perks[i].id});
+        perks[i].tasks = _.where(event.perk_tasks.filter( filterByTypePerk )  , {perk_id: perks[i].id});
       }
       return perks;
+    }
+
+    function filterByTypePerk( task ){
+      return task.type == '0'; //Organizer
     }
 
     function deleteEvent(){
@@ -101,11 +125,11 @@
         function complete( event ){
           utilsService.hideLoad();
           hideActionSheet();
-          $state.go('organizer.events');
+          $ionicHistory.clearCache();
+          $ionicHistory.goBack();
         }
 
         function failed( error ){
-          console.log( error );
           utilsService.hideLoad();
           hideActionSheet();
           utilsService.alert({
@@ -134,7 +158,7 @@
       utilsService.showLoad();
       var sponsorship = angular.copy( vm.sponsorshipSelected );
       sponsorship.status = status;
-      sponzorshipService.editSponzorshipPut( sponsorship.id, sponsorship )
+      sponsorshipService.editSponzorshipPut( sponsorship.id, sponsorship )
         .then( complete )
         .catch( failed );
 
@@ -147,7 +171,6 @@
         function failed( error ){
           utilsService.hideLoad();
           closeOptionsSponsorship();
-          console.log( error );
         }
 
     }
@@ -165,7 +188,7 @@
         titleText: 'Options',
         cancelText: '<i class="icon ion-close"></i> Cancel',
         buttonClicked: function(index) {
-          optionsActionSheet[index]();
+          vm.optionsActionSheet[index]();
           return true;
         },
         destructiveButtonClicked: deleteEvent
@@ -177,23 +200,22 @@
     }
 
     function shareEvent(){
-      var message = vm.event.description;
-      var subject = vm.event.title
-      var image = null;
-      //var link = 'http://app.sponzor.me/#/event/' + vm.event.id;
-      var link = 'https://sponzor.me/#/event/' + vm.event.id;
+      var message = vm.event.title;
+      var subject = vm.event.description;
+      var image = vm.event.image;
+      var link =  url + '#/event/' + vm.event.id;
       $cordovaSocialSharing
         .share( message, subject, image, link) // Share via native share sheet
-        .then( complete )
-        .catch( failed );
+        .then( complete );
+        //.catch( failed );
 
         function complete(){
-          console.log( 'exit' );
+          $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_add_to_calendar"));
         }
-
+        /*
         function failed( error ){
           console.log( error );
-        }
+        }*/
     }
 
     function editEvent(){
@@ -209,18 +231,115 @@
           startDate: vm.event.starts,
           endDate: vm.event.ends
         })
+        .then( complete );
+        //.catch( failed );
+
+        function complete(){
+          $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_add_to_calendar"));
+        }
+
+        /*
+        function failed( error ){
+          console.log( error );
+        }*/
+    }
+
+    function showModalTask(){
+      vm.modalTask.show();
+    }
+
+    function newTask( perk ){
+      vm.isNewTask = true;
+      vm.task.perk_id = perk.id;
+      vm.task.event_id = vm.event.id;
+      vm.showModalTask();
+    }
+
+    function hideModalTask( form ){
+      vm.modalTask.hide();
+      if (form) utilsService.resetForm( form );
+      vm.task = {};
+    }
+
+    function editTask( task ){
+      vm.isNewTask = false;
+      vm.task = task;
+      vm.showModalTask();
+    }
+
+    function createTask( form ){
+      perkTaskService.createPerkTask( preparateTask() )
         .then( complete )
         .catch( failed );
 
-        function complete(){
-          console.log( 'exit' );
+        function complete( data ){
+          getEvent();
+          utilsService.resetForm( form );
+          vm.hideModalTask();
         }
 
         function failed( error ){
-          console.log( error );
+          utilsService.resetForm( form );
+          vm.hideModalTask();
         }
     }
-    
+
+    function preparateTask(){
+      return {
+        user_id: vm.userAuth.id,
+        event_id: vm.task.event_id,
+        perk_id: vm.task.perk_id,
+        title: vm.task.title,
+        description: vm.task.description,
+        type: 0,
+        status: 0
+      }
+    }
+
+    function deleteTask( form ){
+      perkTaskService.deletePerkTask( vm.task.id )
+      .then( complete )
+      .catch( failed );
+
+      function complete( data ){
+        getEvent();
+        if( form ) utilsService.resetForm( form );
+        vm.hideModalTask();
+      }
+
+      function failed( error ){
+        vm.hideModalTask();
+        if( form ) utilsService.resetForm( form );
+        utilsService.alert({
+          template: error.message
+        });
+      }
+    }
+
+    function updateTask( form ){
+      perkTaskService.editPerkTaskPatch( vm.task.id, vm.task )
+      .then( complete )
+      .catch( failed );
+
+      function complete( data ){
+        getEvent();
+        utilsService.resetForm( form );
+        vm.hideModalTask();
+      }
+
+      function failed( error ){
+        utilsService.resetForm( form );
+        vm.hideModalTask();
+      }
+    }
+
+    function submitTask( form ){
+      if(vm.isNewTask){
+        createTask( form );
+      }else{
+        updateTask( form );
+      }
+    }
 
   }
 })();

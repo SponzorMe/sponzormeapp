@@ -13,16 +13,17 @@
 
   SponzorListController.$inject = [
     '$localStorage',
-    'sponzorshipService',
+    'sponsorshipService',
     'utilsService',
     '$ionicPopover',
     '$ionicPopup',
     '$ionicScrollDelegate',
     '$scope',
-    '$rootScope'
+    '$rootScope',
+    '$ionicHistory'
   ];
 
-  function SponzorListController( $localStorage, sponzorshipService , utilsService, $ionicPopover, $ionicPopup, $ionicScrollDelegate, $scope, $rootScope) {
+  function SponzorListController( $localStorage, sponsorshipService , utilsService, $ionicPopover, $ionicPopup, $ionicScrollDelegate, $scope, $rootScope, $ionicHistory) {
 
     var vm = this;
     var eventsPopover = null;
@@ -55,7 +56,7 @@
 
     function getSponsors(){
       utilsService.showLoad();
-      sponzorshipService.sponzorshipByOrganizer( vm.userAuth.id )
+      sponsorshipService.sponzorshipByOrganizer( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 
@@ -69,7 +70,6 @@
         function failed( error ){
           utilsService.hideLoad();
           vm.showEmptyState = true;
-          console.log( error );
         }
     }
 
@@ -141,24 +141,24 @@
       utilsService.showLoad();
       var sponzorCopy = angular.copy( sponzor );
       sponzorCopy.status = status;
-      sponzorshipService.editSponzorshipPut( sponzorCopy.id, sponzorCopy )
+      sponsorshipService.editSponzorshipPut( sponzorCopy.id, sponzorCopy )
         .then( complete )
         .catch( failed );
 
         function complete( sponzorRta ){
           utilsService.hideLoad();
           sponzor.status = sponzorRta.status;
+          $ionicHistory.clearCache();
         }
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
         }
 
     }
 
     function doRefresh(){
-      sponzorshipService.sponzorshipByOrganizer( vm.userAuth.id )
+      sponsorshipService.sponzorshipByOrganizer( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 
@@ -172,7 +172,6 @@
 
         function failed( error ){
           vm.showEmptyState = true;
-          console.log( error );
         }
     }
     

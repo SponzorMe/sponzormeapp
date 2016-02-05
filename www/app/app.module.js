@@ -10,9 +10,13 @@
     // Core 
     'ionic',
     'ionic.service.core',
+    'ionic.service.deploy',
+    'ionic.service.analytics',
     'ngCordova',
+    //'ngCordovaMocks',
     'ngMessages',
     'ngStorage',
+    'ngSanitize',
     'ngIOS9UIWebViewPatch',
     'pascalprecht.translate',
     'base64',
@@ -27,7 +31,6 @@
     'app.events-sponzor',
     'app.sponsors-organizer',
     'app.tasks-organizer',
-    //'app.dashboard',
-    //'app.layout'
+    'app.tasks-sponsor',
   ])
 })();

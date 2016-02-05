@@ -17,10 +17,12 @@
     '$localStorage',
     '$state',
     'utilsService',
-    '$base64'
+    '$base64',
+    '$ionicUser', 
+    '$ionicAnalytics'
   ];
 
-  function LoginController( $translate, userService, $localStorage, $state , utilsService, $base64) {
+  function LoginController( $translate, userService, $localStorage, $state , utilsService, $base64, $ionicUser, $ionicAnalytics) {
 
     var vm = this;
     vm.user = {};
@@ -51,7 +53,16 @@
         $localStorage.token = $base64.encode(vm.user.email +':'+ vm.user.password);
         saveUser();
         validateTutorial();
+        
+        var user = Ionic.User.current();
+        if (!user.id) {
+          user.id = vm.userResponse.id;
+          user.set('email', vm.user.email);
+          user.set('type', vm.user.type);
+        }
+        user.save();
         vm.user = {};
+        $ionicAnalytics.register(); 
       }
 
       function failed( data ){

@@ -1,6 +1,11 @@
 #Mobile App SponzorMe
 
+#Build
+###Production
+gulp dev
 
+###Release
+gulp release
 
 #Tests
 

@@ -1,4 +1,5 @@
 {
+    "NETWORK": "Error de Conexión. No se ha podido conectar con el servidor. Comprueba tu conexión a internet y vuelve a intentarlo.",
     "LOGIN": {
         "login_title": "Sign in",
         "email_field": "Email",
@@ -97,7 +98,9 @@
         "spanish_label": "Spanish",
         "english_label": "English",
         "portuguese_label": "Portuguese",
-        "save_button": "Save"
+        "save_button": "Save",
+        "app_divider": "About the Aplication",
+        "check_update": "Look updates"
     },
     "SEARCH": {
         "search_title": "Find Events",
@@ -203,8 +206,8 @@
         "signin_notinserted_credentials_message": "Ops. Something has gone wrong.",
         "joinnow_ema_required": "This field is required.",
         "joinnow_ema_email": "This field is must be an email.",
-        "joinnow_ema_maxlength": "This field is must be at least 5 characters.",
-        "joinnow_ema_minlength": "This field is must be less than 30 characters.",
+        "joinnow_ema_minlength": "This field is must be at least 5 characters.",
+        "joinnow_ema_maxlength": "This field is must be less than 30 characters.",
         "joinnow_pass_required": "This field is required.",
         "joinnow_pass_maxlength": "This field is must be at least 5 characters.",
         "joinnow_pass_minlength": "This field is must be less than 30 characters.",
@@ -214,17 +217,17 @@
         "forgotform_ema_minlength": "This field is must be less than 30 characters.",
         "inviteform_ema_required": "This field is required.",
         "inviteform_ema_email": "This field is must be an email.",
-        "inviteform_ema_maxlength": "This field is must be at least 5 characters.",
-        "inviteform_ema_minlength": "This field is must be less than 30 characters.",
+        "inviteform_ema_minlength": "This field is must be at least 5 characters.",
+        "inviteform_ema_maxlength": "This field is must be less than 30 characters.",
         "addeventsform_tit_required" : "This field is required.",
-        "addeventsform_tit_maxlength" : "This field is must be at least 5 characters.",
-        "addeventsform_tit_minlength" : "This field is must be less than 30 characters.",
+        "addeventsform_tit_minlength" : "This field is must be at least 5 characters.",
+        "addeventsform_tit_maxlength" : "This field is must be less than 40 characters.",
         "addeventsform_loc_required" : "This field is required.",
-        "addeventsform_loc_maxlength" : "This field is must be at least 5 characters.",
-        "addeventsform_loc_minlength" : "This field is must be less than 30 characters.",
+        "addeventsform_loc_minlength" : "This field is must be at least 5 characters.",
+        "addeventsform_loc_maxlength" : "This field is must be less than 30 characters.",
         "addeventsform_desc_required" : "This field is required.",
-        "addeventsform_desc_maxlength" : "This field is must be at least 5 characters.",
-        "addeventsform_desc_minlength" : "This field is must be less than 30 characters.",
+        "addeventsform_desc_minlength" : "This field is must be at least 5 characters.",
+        "addeventsform_desc_maxlength" : "This field is must be less than 30 characters.",
         "addeventsform_startdate_required" : "This field is required.",
         "addeventsform_starttime_required" : "This field is required.",
         "addeventsform_enddate_required" : "This field is required.",
@@ -245,6 +248,12 @@
         "succ_user_tit": "Info",
         "succ_user_mess": "Cool, User Created.",
         "succ_event_tit": "Info",
-        "succ_event_mess": "Cool, Event Created"
+        "succ_event_mess": "Cool, Event Created",
+        "succ_add_to_calendar": "Nice, Your event has been added to the calendar",
+        "succ_sponsor_it": "Cool, Now you are sponsor of this event.",
+        "update_title": "Updates",
+        "update_text_nothing": "Nothing new yet.",
+        "update_text": "Cool you have new updates, ¿Do you wish download?",
+        "update_success": "Cool, you have new updates"
     }
 }

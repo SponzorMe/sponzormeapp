@@ -13,7 +13,7 @@
           <input 
           name="name" 
           type="text" 
-          ng-model="profile.user.name" 
+          ng-model="profile.userAuth.name" 
           placeholder='{{"JOINNOW.profile_name_placeholder" | translate}}'
           >
         </label>
@@ -22,7 +22,7 @@
           <input 
           name="age" 
           type="number" 
-          ng-model="profile.user.age" 
+          ng-model="profile.userAuth.age" 
           placeholder='{{"JOINNOW.profile_age_placeholder" | translate}}' 
           >
         </label>
@@ -30,14 +30,14 @@
            <span class="input-label">{{"JOINNOW.profile_location_label" | translate}}</span>
            <input 
            type="text" 
-           ng-model="profile.user.location" 
+           ng-model="profile.userAuth.location" 
            placeholder="San Francisco, California">
          </label>
         <label class="item item-input item-select">
          <div class="input-label">
            {{"JOINNOW.profile_language_label" | translate}}
          </div>
-         <select ng-model="profile.user.lang" ng-change="profile.changeLang()">
+         <select ng-model="profile.userAuth.lang" ng-change="profile.changeLang()">
            <option value="es">{{"JOINNOW.profile_spanish_option" | translate}}</option>
            <option ng-selected="true" value="en">{{"JOINNOW.profile_english_option" | translate}}</option>
            <option value="pt">{{"JOINNOW.profile_portuguese_option" | translate}}</option>
@@ -47,7 +47,7 @@
          <div class="input-label">
            {{"JOINNOW.profile_gender_label" | translate}}
          </div>
-         <select ng-model="profile.user.sex">
+         <select ng-model="profile.userAuth.sex">
            <option ng-selected="true" value="1">{{"JOINNOW.profile_male_option" | translate}}</option>
            <option value="0">{{"JOINNOW.profile_female_option" | translate}}</option>
          </select>
