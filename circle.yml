@@ -16,8 +16,3 @@ test:
      - bower install
    override:
      - karma start karma.conf.js
-deployment:
-   branch: local
-   commands:
-       - npm install -g cordova ionic
-       - ionic upload --deploy=dev --email $IONIC_EMAIL --password $IONIC_PASSWORD
