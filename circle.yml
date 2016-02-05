@@ -2,13 +2,20 @@ machine:
   node:
     version: v0.10.26
 test:
-  pre:
-  		- npm install -g karma-cli
-  		- npm install -g gulp
-      - npm install
-      - bower install
-  override:
-      - npm test
+ pre:
+     - npm install
+     - npm install -g bower
+     - npm install -g karma
+     - npm install -g phantomjs
+     - npm install -g karma-cli
+     - npm install -g karma-mocha
+     - npm install -g karma-mocha-reporter
+     - npm install -g karma-phantomjs-launcher
+     - npm install -g karma-html-reporter
+     - npm install -g karma-coverage
+     - bower install
+ override:
+     - karma start karma.conf.js
 deployment:
    branch: local
    commands:
