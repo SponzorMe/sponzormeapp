@@ -4,10 +4,11 @@ machine:
 test:
   pre:
   		- npm install -g karma-cli
+  		- npm install -g gulp
       - npm install
       - bower install
   override:
-      - gulp test
+      - npm test
 deployment:
    branch: local
    commands:
