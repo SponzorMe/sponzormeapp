@@ -239,6 +239,7 @@
       }
 
         function updateImage( image ){
+          vm.newEvent.image = image;
           return eventService.editEventPatch( vm.newEvent.id, preparateData() );
         }
 
@@ -250,8 +251,10 @@
             disableAnimate: false,
             disableBack: true
           });
-          $ionicHistory.clearCache();
-          $ionicHistory.goBack();
+          $ionicHistory.clearCache().then(function(){
+            $ionicHistory.goBack();
+          });
+          
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_event_mess"));
         }
 

@@ -13,8 +13,7 @@
           type="text" 
           placeholder='Task' 
           ng-model="editTask.newTask.title"
-          ng-minlength="5"
-          ng-maxlength="30"
+          ng-minlength="5" 
           required>
         </label>
         <div class="form-errors" ng-messages="editTaskForm.title.$error" ng-if="editTaskForm.$invalid && editTaskForm.$submitted">
@@ -34,7 +33,7 @@
         <div class="form-errors" ng-messages="editTaskForm.description.$error" ng-if="editTaskForm.$invalid && editTaskForm.$submitted">
           <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> Es requerido</div>
         </div>
-        <!-- Event -->
+        <!-- Event 
         <label class="item item-input item-select" ng-class="{ 'has-error' : editTaskForm.event.$invalid && editTaskForm.$submitted }">
           <div class="input-label">Event</div>
           <select 
@@ -47,7 +46,7 @@
         <div class="form-errors" ng-messages="editTaskForm.event.$error" ng-if="editTaskForm.$invalid && editTaskForm.$submitted">
           <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> Es requerido</div>
         </div>
-        <!-- Perk -->
+        <!-- Perk 
         <label class="item item-input item-select" ng-class="{ 'has-error' : editTaskForm.perk.$invalid && editTaskForm.$submitted }">
           <div class="input-label">Perk</div>
           <select 

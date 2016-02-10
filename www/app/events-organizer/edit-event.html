@@ -18,8 +18,7 @@
           type="text" 
           placeholder='{{"ADDEVENTS.title_field" | translate}}' 
           ng-model="editEvent.newEvent.title"
-          ng-minlength="5"
-          ng-maxlength="30"
+          ng-minlength="5" 
           required>
         </label>
          <div class="form-errors" ng-messages="editEventForm.txttitle.$error" ng-if="editEventForm.$invalid && editEventForm.$submitted">
@@ -50,8 +49,7 @@
           name="txtdesc"
           placeholder='{{"ADDEVENTS.description_field" | translate}}'
           ng-model="editEvent.newEvent.description"
-          ng-minlength="5"
-          ng-maxlength="30"
+          ng-minlength="5" 
           required>
           </textarea>
         </label>

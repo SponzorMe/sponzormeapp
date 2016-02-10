@@ -51,8 +51,7 @@
           placeholder='{{"ADDEVENTS.location_field" | translate}}' 
           ng-model="addEvent.newEvent.location" 
           g-places-autocomplete 
-          ng-minlength="5"
-          ng-maxlength="30"
+          ng-minlength="5" 
           required>
         </label>
         <div class="form-errors" ng-messages="addEventForm.txtloc.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
