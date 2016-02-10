@@ -446,6 +446,128 @@
 
   angular
     .module('app')
+<<<<<<< HEAD
+=======
+    .run(run);
+
+  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics, $localStorage ) {
+    
+
+    $ionicPlatform.ready(function() {
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if(window.cordova && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      }
+      if(window.StatusBar) {
+        StatusBar.styleDefault();
+      }
+
+      checkForUpdates();
+      //chooseLanguage();
+      ionicAnalytics();
+    });
+
+    function ionicAnalytics(){
+      $ionicAnalytics.register();
+      $ionicAnalytics.setGlobalProperties({
+        app_version_number: '1.0.6',
+        type: 'develop',
+        day_of_week: (new Date()).getDay()
+      });
+    }
+
+    function chooseLanguage(){
+
+      if(!checkChooseLang()){
+        $cordovaGlobalization.getPreferredLanguage()
+        .then( complete )
+        .catch( failed );
+      }
+
+      function complete( language ){
+        var lang = (language.value).split("-")[0];
+        var messages = {
+          'es': '¿Quieres cambiar el lenguaje a Español?',
+          'en': ' Do you want changue the language to English?',
+          'pt': '¿Você quer mudar a língua para Português?'
+        };
+        $ionicPopup.confirm({
+          title: 'Language',
+          template: '<p class="text-center">' + messages[lang] + '</p>'
+        })
+        .then(function( rta ){
+          if(rta){
+            $translate.use( lang );
+          }else{
+            $translate.use("en");
+          }
+          $localStorage.chooseLang = true;
+        });
+        
+      }
+
+      function failed( error ){
+        $translate.use("en");
+      }
+    }
+
+    function checkChooseLang(){
+      if(angular.isDefined($localStorage.chooseLang)){
+        return true;
+      }
+      return false;
+    }
+
+    function checkForUpdates(){
+      $ionicDeploy.setChannel("production");
+      $ionicDeploy.check()
+      .then( complete );
+
+      function complete( hasUpdate ){
+        if (hasUpdate){
+
+          utilsService.confirm({
+            title: $translate.instant("MESSAGES.update_title"),
+            template: '<p class="text-center">'+ $translate.instant("MESSAGES.update_text") +'</p>'
+          })
+          .then(function(rta){
+            if(rta) doUpdate();
+          });
+        }
+      }
+    }
+
+    function doUpdate(){
+      utilsService.showLoad();
+      $ionicDeploy.update()
+      .then( complete )
+      .catch( failed );
+
+      function complete(){
+        utilsService.hideLoad();
+        $cordovaToast.showShortBottom($translate.instant("MESSAGES.update_success"));
+      }
+
+      function failed(){
+        utilsService.hideLoad();
+        utilsService.alert();
+      }
+    }
+  }
+
+})();
+
+/**
+* @author Nicolas Molina
+* @version 0.1
+*/
+(function() {
+  'use strict';
+
+  angular
+    .module('app')
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
     .value('BackendVariables',{
       url: "https://api.sponzor.me/", // i'm using the Ionic Proxy
       url_web: "https://sponzor.me/",
@@ -459,6 +581,7 @@
     });
 })();
 
+<<<<<<< HEAD
 (function() {
   'use strict';
   angular.module('app.dashboard-organizer', []);
@@ -495,6 +618,8 @@
   'use strict';
   angular.module('app.widgets', []);
 })();
+=======
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
 /**
 * @Servicio de Eventos
 *
@@ -990,6 +1115,7 @@
     }
 
     function getPerk( perkId ){
+<<<<<<< HEAD
 
       //Validate
       var typePerkId = typeof perkId;
@@ -1014,6 +1140,32 @@
         return perk;
       }
 
+=======
+
+      //Validate
+      var typePerkId = typeof perkId;
+      if(typePerkId !== 'string' && typePerkId !== 'number') throw new Error();
+
+      return $http({
+        method: 'GET',
+        url: path + 'perks/' + perkId
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ) {
+        return $q.when( preparateData(response.data.data) );
+      }
+
+      function preparateData( data ){
+        var perk = data.Perk;
+        perk.event = data.Event || {};
+        perk.sponzorTasks = data.SponzorTasks || [];
+        perk.tasks = data.Tasks || [];
+        return perk;
+      }
+
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
       function failed( response ) {
         return $q.reject( response.data );
       }
@@ -2304,6 +2456,7 @@
 //  <div data-cc-spinner="vm.spinnerOptions"></div>
 (function() {
   'use strict';
+<<<<<<< HEAD
 
   angular
     .module('app.widgets')
@@ -2326,6 +2479,70 @@
     return directive;
   }
 })();
+=======
+  angular.module('app.dashboard-organizer', []);
+})();
+(function() {
+  'use strict';
+  angular.module('app.dashboard-sponzor', []);
+})();
+(function() {
+  'use strict';
+  angular.module('app.events-organizer', []);
+})();
+(function() {
+  'use strict';
+  angular.module('app.sponsors-organizer', []);
+})();
+(function() {
+  'use strict';
+  angular.module('app.tasks-organizer', []);
+})();
+(function() {
+  'use strict';
+  angular.module('app.users', []);
+})();
+(function() {
+  'use strict';
+  angular.module('app.tasks-sponsor', []);
+})();
+(function() {
+  'use strict';
+  angular.module('app.widgets', []);
+})();
+(function() {
+  'use strict';
+  angular.module('app.events-sponzor', []);
+})();
+// Description:
+//  Creates a new Spinner and sets its options
+// Usage:
+//  <div data-cc-spinner="vm.spinnerOptions"></div>
+(function() {
+  'use strict';
+
+  angular
+    .module('app.widgets')
+    .directive('spmCropImage', spmCropImage);
+
+  spmCropImage.$inject = [];
+
+  function spmCropImage() {
+    var directive = {
+      restrict: 'E',
+      transclude: true,
+      scope: {
+        edit: '=edit',
+      },
+      template: '<div class="spm-crop">' +
+                  '<i ng-show="edit" class="icon ion-edit edit"></i>' +
+                  '<ng-transclude></ng-transclude>' +
+                '</div>'
+    };
+    return directive;
+  }
+})();
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
 // Description:
 // Hide tabs
 // Usage:
@@ -2447,6 +2664,7 @@
 
     function getData(){
       utilsService.showLoad();
+<<<<<<< HEAD
 
       var promises = [
         userService.getUser( vm.userAuth.id ),
@@ -2457,6 +2675,18 @@
         .then( complete )
         .catch( failed );
 
+=======
+
+      var promises = [
+        userService.getUser( vm.userAuth.id ),
+        sponsorshipService.sponzorshipByOrganizer( vm.userAuth.id )
+      ];
+
+      $q.all( promises )
+        .then( complete )
+        .catch( failed );
+
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
         function complete( data ){
           utilsService.hideLoad();
           getEvents( data[0]  );
@@ -2518,6 +2748,7 @@
     ////////////
     function activate(){
       $ionicSideMenuDelegate.canDragContent(false);
+<<<<<<< HEAD
     }
 
     function startApp(){
@@ -2540,6 +2771,30 @@
       vm.slideIndex = index;
     };
 
+=======
+    }
+
+    function startApp(){
+      $ionicHistory.nextViewOptions({
+        disableAnimate: true,
+        disableBack: true
+      });
+      $state.go("organizer.home");
+    }
+
+    function nextSlide() {
+      $ionicSlideBoxDelegate.next();
+    }
+
+    function previousSlide() {
+      $ionicSlideBoxDelegate.previous();
+    }
+
+    function slideChanged( index ) {
+      vm.slideIndex = index;
+    };
+
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
   }
 })();
 /**
@@ -2897,12 +3152,23 @@
     'sponsorshipService',
     '$localStorage',
     '$ionicModal',
+<<<<<<< HEAD
     '$ionicHistory',
     '$cordovaToast',
     '$translate'
   ];
 
   function EventDetailTasksSponzorController( $scope, eventService, utilsService, $stateParams, sponsorshipService, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate) {
+=======
+    '$cordovaToast',
+    '$ionicHistory',
+    'imgurService',
+    '$q',
+    '$state'
+  ];
+
+  function AddEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, perkService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $state) {
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
 
     var vm = this;
     vm.event = {};
@@ -4318,6 +4584,9 @@
         function failed( error ){
           console.log( error );
         }*/
+<<<<<<< HEAD
+    }
+=======
     }
 
     function showModalTask(){
@@ -4453,11 +4722,19 @@
     activate();
 
     ////////////
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
 
-    function activate(){
-      getEvents();
+    function showModalTask(){
+      vm.modalTask.show();
     }
 
+<<<<<<< HEAD
+    function newTask( perk ){
+      vm.isNewTask = true;
+      vm.task.perk_id = perk.id;
+      vm.task.event_id = vm.event.id;
+      vm.showModalTask();
+=======
     function getEvents(){
       utilsService.showLoad();
       userService.getUser( vm.userAuth.id )
@@ -4476,6 +4753,173 @@
           utilsService.hideLoad();
           vm.showEmptyState = true;;
         }
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
+    }
+
+    function hideModalTask( form ){
+      vm.modalTask.hide();
+      if (form) utilsService.resetForm( form );
+      vm.task = {};
+    }
+
+    function editTask( task ){
+      vm.isNewTask = false;
+      vm.task = task;
+      vm.showModalTask();
+    }
+
+    function createTask( form ){
+      perkTaskService.createPerkTask( preparateTask() )
+        .then( complete )
+        .catch( failed );
+
+        function complete( data ){
+          getEvent();
+          utilsService.resetForm( form );
+          vm.hideModalTask();
+        }
+
+        function failed( error ){
+<<<<<<< HEAD
+          utilsService.resetForm( form );
+          vm.hideModalTask();
+=======
+          $scope.$broadcast('scroll.refreshComplete');
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
+        }
+    }
+
+    function preparateTask(){
+      return {
+        user_id: vm.userAuth.id,
+        event_id: vm.task.event_id,
+        perk_id: vm.task.perk_id,
+        title: vm.task.title,
+        description: vm.task.description,
+        type: 0,
+        status: 0
+      }
+    }
+
+    function deleteTask( form ){
+      perkTaskService.deletePerkTask( vm.task.id )
+      .then( complete )
+      .catch( failed );
+
+      function complete( data ){
+        getEvent();
+        if( form ) utilsService.resetForm( form );
+        vm.hideModalTask();
+      }
+
+      function failed( error ){
+        vm.hideModalTask();
+        if( form ) utilsService.resetForm( form );
+        utilsService.alert({
+          template: error.message
+        });
+      }
+    }
+
+    function updateTask( form ){
+      perkTaskService.editPerkTaskPatch( vm.task.id, vm.task )
+      .then( complete )
+      .catch( failed );
+
+      function complete( data ){
+        getEvent();
+        utilsService.resetForm( form );
+        vm.hideModalTask();
+      }
+
+      function failed( error ){
+        utilsService.resetForm( form );
+        vm.hideModalTask();
+      }
+    }
+
+    function submitTask( form ){
+      if(vm.isNewTask){
+        createTask( form );
+      }else{
+        updateTask( form );
+      }
+    }
+
+  }
+})();
+/**
+* @Controller for Home Organizer
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+*/
+(function() {
+  'use strict';
+
+  angular
+    .module('app.events-organizer')
+    .controller('EventListController', EventListController);
+
+<<<<<<< HEAD
+  EventListController.$inject = [
+=======
+  PastEventsController.$inject = [
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
+    '$localStorage',
+    'userService',
+    'utilsService',
+    '$scope',
+    '$rootScope'
+  ];
+
+<<<<<<< HEAD
+  function EventListController( $localStorage, userService , utilsService, $scope, $rootScope) {
+=======
+  function PastEventsController( $localStorage, userService , utilsService, $scope, $rootScope) {
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
+
+    var vm = this;
+    //Attributes
+    vm.userAuth = $localStorage.userAuth;
+    vm.events = [];
+    vm.showEmptyState = false;
+    //Funcions
+    vm.doRefresh = doRefresh;
+
+    activate();
+
+    ////////////
+
+    function activate(){
+      getEvents();
+    }
+
+    function getEvents(){
+      utilsService.showLoad();
+      userService.getUser( vm.userAuth.id )
+        .then( complete )
+        .catch( failed );
+
+        function complete( user ){
+          utilsService.hideLoad();
+<<<<<<< HEAD
+          vm.showEmptyState = false;
+=======
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
+          vm.events = user.events.filter( filterDate );
+          vm.showEmptyState = vm.events.length == 0 ? true : false;
+          $rootScope.$broadcast('Menu:count_events', user.events.length - vm.events.length);
+        }
+
+        function failed( error ){
+          utilsService.hideLoad();
+<<<<<<< HEAD
+          vm.showEmptyState = true;;
+=======
+          vm.showEmptyState = true;
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
+        }
     }
 
     function doRefresh(){
@@ -4486,8 +4930,12 @@
         function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
           vm.events = user.events.filter( filterDate );
+<<<<<<< HEAD
           vm.showEmptyState = vm.events.length == 0 ? true : false;
           $rootScope.$broadcast('Menu:count_events', vm.events.length);
+=======
+          $rootScope.$broadcast('Menu:count_events', user.events.length - vm.events.length);
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
         }
 
         function failed( error ){
@@ -4504,7 +4952,7 @@
   }
 })();
 /**
-* @Controller for Home Organizer
+* @Controller for Detail Sponsorship
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
@@ -4513,13 +4961,21 @@
   'use strict';
 
   angular
+<<<<<<< HEAD
     .module('app.events-organizer')
     .controller('PastEventsController', PastEventsController);
 
   PastEventsController.$inject = [
+=======
+    .module('app.sponsors-organizer')
+    .controller('SponsorshipDetailController', SponsorshipDetailController);
+
+  SponsorshipDetailController.$inject = [
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
     '$localStorage',
-    'userService',
+    'sponsorshipService',
     'utilsService',
+<<<<<<< HEAD
     '$scope',
     '$rootScope'
   ];
@@ -4602,6 +5058,8 @@
     '$localStorage',
     'sponsorshipService',
     'utilsService',
+=======
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
     '$ionicPopup',
     '$stateParams',
     '$ionicHistory'
@@ -5199,7 +5657,7 @@
   }
 })();
 /**
-* @Controller for Add Task
+* @Controller for Forgot Password
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
@@ -5208,213 +5666,158 @@
   'use strict';
 
   angular
-    .module('app.tasks-sponsor')
-    .controller('AddTaskSponsorController', AddTaskSponsorController);
+    .module('app.users')
+    .controller('ForgotController', ForgotController);
 
-  AddTaskSponsorController.$inject = [
-    '$localStorage',
-    'perkTaskService',
-    'perkService',
-    'userService',
-    'utilsService',
+  ForgotController.$inject = [
+    '$translate',
+    'userService', 
     '$state',
-    '$stateParams',
-    '$ionicHistory',
-    'tasksSponsorService'
+    'utilsService',
+    '$ionicHistory'
   ];
 
-  function AddTaskSponsorController( $localStorage, perkTaskService, perkService, userService, utilsService, $state, $stateParams, $ionicHistory, tasksSponsorService) {
+  function ForgotController( $translate, userService, $state , utilsService, $ionicHistory) {
 
     var vm = this;
-    vm.newTask = {};
-    vm.userAuth = $localStorage.userAuth;
-    vm.createTask = createTask;
-    vm.idEvent = null;
-    vm.idPerk = null;
-    vm.idOrganizer = null;
-    vm.idSponsorship = null;
-
-    activate();
+    vm.user = {};
+    vm.resetPassword = resetPassword;
 
     ////////////
 
-    function activate(){
-      vm.idEvent = $stateParams.idEvent;
-      vm.idPerk = $stateParams.idPerk;
-      vm.idOrganizer = $stateParams.idOrganizer;
-      vm.idSponsorship = $stateParams.idSponsorship;
-    }
-
-    function createTask( form ){
+    function resetPassword(){
       utilsService.showLoad();
-      perkTaskService.createPerkTask( preparateTask() )
-        .then( createTaskSponsor )
+      userService.forgotPassword( vm.user.email )
         .then( complete )
         .catch( failed );
 
-        function createTaskSponsor( task ){
-          return tasksSponsorService.createTask( preparateTaskSponsor( task ) )
-        }
-
-
-        function complete( data ){
+        function complete(){
           utilsService.hideLoad();
-          utilsService.resetForm( form );
-          vm.newTask = {};
-          $ionicHistory.nextViewOptions({
-            disableAnimate: false,
-            disableBack: true
-          });
-          $ionicHistory.clearCache().then(function(){
-            $ionicHistory.goBack();
-          });
+          $ionicHistory.clearCache();
+          $state.go("signin");
+          vm.user = {};
         }
 
-        function failed( error ){
+        function failed( data ){
           utilsService.hideLoad();
-          console.log( error );
         }
-        
-    }
-
-    function preparateTask(){
-      return {
-        user_id: vm.userAuth.id,
-        event_id: vm.idEvent,
-        perk_id: vm.idPerk,
-        title: vm.newTask.title,
-        description: vm.newTask.description,
-        type: 1, // Is a sponsor
-        status: 0
-      }
-    }
-
-    function preparateTaskSponsor( task ){
-      return {
-        task_id: task.id,
-        perk_id: vm.idPerk,
-        sponzor_id: vm.userAuth.id,
-        organizer_id: vm.idOrganizer, 
-        event_id: vm.idEvent,
-        sponzorship_id: vm.idSponsorship
-      }
-    }
-    
+    };
 
   }
 })();
 /**
-* @Controller for Add Task
+* @Controller for Interests of user
 *
-* @author Carlos Rojas, Nicolas Molina
-* @version 0.2
+* @author Nicolas Molina
+* @version 0.1
 */
 (function() {
-  'use strict';
+  //'use strict';
 
   angular
-    .module('app.tasks-sponsor')
-    .controller('EditTaskSponsorController', EditTaskSponsorController);
+    .module('app.users')
+    .controller('FormInterestsController', FormInterestsController);
 
-  EditTaskSponsorController.$inject = [
-    '$localStorage',
-    'perkTaskService',
-    'perkService',
+  FormInterestsController.$inject = [
     'userService',
-    'utilsService',
     '$state',
-    '$stateParams',
-    '$ionicHistory',
-    '$q',
-    'tasksSponsorService'
+    'utilsService',
+    '$localStorage',
+    'categoryService',
+    'userInterestService',
+    '$q'
   ];
 
-  function EditTaskSponsorController( $localStorage, perkTaskService, perkService, userService, utilsService, $state, $stateParams, $ionicHistory, $q, tasksSponsorService) {
+  function FormInterestsController( userService, $state , utilsService, $localStorage, categoryService, userInterestService, $q) {
 
     var vm = this;
-    vm.newTask = {};
+    var memorize = [];
+    //Attributes
     vm.userAuth = $localStorage.userAuth;
-    vm.events = [];
-    vm.perks = [];
-    vm.editTask = editTask;
-    vm.deleteTask = deleteTask;
-
+    vm.categories = [];
+    vm.categorySelected = null;
+    //Funcions
+    vm.updateInterests = updateInterests;
+    vm.getCategory = getCategory;
+    vm.isCategorySelected = isCategorySelected;
+    
     activate();
 
     ////////////
-
+    
     function activate(){
-      getData();
+      getCategories();
     }
 
-    function getData(){
+    function updateInterests(){
       utilsService.showLoad();
+      var interests = getInterestCheck();
+      var promises = [];
+      for (var i = 0; i < interests.length; i++) {
+        promises.push( createUserInterest( interests[i] ) );
+      };
 
-      var promises = [
-        userService.getUser( vm.userAuth.id ),
-        perkService.allPerks(),
-        perkTaskService.getPerkTask( $stateParams.id ),
-      ];
-
-      $q.all(promises)
+      $q.all( promises )
         .then( complete )
         .catch( failed );
 
-        function complete( data ){
+      function complete( results ){
+        utilsService.hideLoad();
+        redirectTutorial();
+      }
+
+      function failed( error ){
+        utilsService.hideLoad();
+        console.log( error );
+      }
+
+    }
+
+    function createUserInterest( interest ){
+      return userInterestService.createUserInterest({
+        interest_id: interest.id_interest,
+        user_id: vm.userAuth.id
+      })
+    }
+
+    function getInterestCheck( data ){
+      return vm.categories
+        .filter( ByInterest )
+        .map( mapInterest )
+        .reduce( mergeArrays, [] )
+        .filter( interestCheck );
+
+        function ByInterest( item ){
+          return item.interests;
+        }
+
+        function mapInterest( item ){
+          return item.interests;
+        }
+
+        function mergeArrays(a,b){
+          return a.concat(b);
+        }
+
+        function interestCheck( item ){
+          return item.check;
+        }
+    }
+
+    function getCategories(){
+      utilsService.showLoad();
+      categoryService.allCategories()
+        .then( complete )
+        .catch( failed );
+
+        function complete( categories ){
           utilsService.hideLoad();
-          getEvents( data[0] );
-          getPerks( data[1] );
-          getTask( data[2] );
+          vm.categories = categories;
         }
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
-        }
-    }
-
-    function editTask( form ){
-      utilsService.showLoad();
-      perkTaskService.editPerkTaskPatch( $stateParams.id, preparateData() )
-        .then( complete )
-        .catch( failed );
-
-        function complete( data ){
-          utilsService.hideLoad();
-          utilsService.resetForm( form );
-          vm.newTask = {};
-          $ionicHistory.nextViewOptions({
-            disableAnimate: false,
-            disableBack: true
-          });
-          $ionicHistory.clearCache().then(function(){
-            $ionicHistory.goBack();
-          });
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-          console.log( error );
-        }
-    }
-
-     function deleteTask(){
-      utilsService.showLoad();
-      perkTaskService.deletePerkTask( $stateParams.id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( data ){
-          vm.newTask = {};
-          $ionicHistory.nextViewOptions({
-            disableAnimate: false,
-            disableBack: true
-          });
-          $state.go("organizer.tasks");
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
+<<<<<<< HEAD
           utilsService.alert({
             template: error.data.message
           });
@@ -5622,6 +6025,8 @@
 
         function failed( error ){
           utilsService.hideLoad();
+=======
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
           console.log( error );
         }
     }
@@ -6226,13 +6631,21 @@
   }
 })();
 /**
+<<<<<<< HEAD
 * @author Nicolas Molina
 * @version 0.1
+=======
+* @Controller for Add Task
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
 */
 (function() {
   'use strict';
 
   angular
+<<<<<<< HEAD
     .module('app')
     .run(run);
 
@@ -6340,6 +6753,677 @@
         utilsService.alert();
       }
     }
+=======
+    .module('app.tasks-sponsor')
+    .controller('AddTaskSponsorController', AddTaskSponsorController);
+
+  AddTaskSponsorController.$inject = [
+    '$localStorage',
+    'perkTaskService',
+    'perkService',
+    'userService',
+    'utilsService',
+    '$state',
+    '$stateParams',
+    '$ionicHistory',
+    'tasksSponsorService'
+  ];
+
+  function AddTaskSponsorController( $localStorage, perkTaskService, perkService, userService, utilsService, $state, $stateParams, $ionicHistory, tasksSponsorService) {
+
+    var vm = this;
+    vm.newTask = {};
+    vm.userAuth = $localStorage.userAuth;
+    vm.createTask = createTask;
+    vm.idEvent = null;
+    vm.idPerk = null;
+    vm.idOrganizer = null;
+    vm.idSponsorship = null;
+
+    activate();
+
+    ////////////
+
+    function activate(){
+      vm.idEvent = $stateParams.idEvent;
+      vm.idPerk = $stateParams.idPerk;
+      vm.idOrganizer = $stateParams.idOrganizer;
+      vm.idSponsorship = $stateParams.idSponsorship;
+    }
+
+    function createTask( form ){
+      utilsService.showLoad();
+      perkTaskService.createPerkTask( preparateTask() )
+        .then( createTaskSponsor )
+        .then( complete )
+        .catch( failed );
+
+        function createTaskSponsor( task ){
+          return tasksSponsorService.createTask( preparateTaskSponsor( task ) )
+        }
+
+
+        function complete( data ){
+          utilsService.hideLoad();
+          utilsService.resetForm( form );
+          vm.newTask = {};
+          $ionicHistory.nextViewOptions({
+            disableAnimate: false,
+            disableBack: true
+          });
+          $ionicHistory.clearCache().then(function(){
+            $ionicHistory.goBack();
+          });
+        }
+
+        function failed( error ){
+          utilsService.hideLoad();
+          console.log( error );
+        }
+        
+    }
+
+    function preparateTask(){
+      return {
+        user_id: vm.userAuth.id,
+        event_id: vm.idEvent,
+        perk_id: vm.idPerk,
+        title: vm.newTask.title,
+        description: vm.newTask.description,
+        type: 1, // Is a sponsor
+        status: 0
+      }
+    }
+
+    function preparateTaskSponsor( task ){
+      return {
+        task_id: task.id,
+        perk_id: vm.idPerk,
+        sponzor_id: vm.userAuth.id,
+        organizer_id: vm.idOrganizer, 
+        event_id: vm.idEvent,
+        sponzorship_id: vm.idSponsorship
+      }
+    }
+    
+
+  }
+})();
+/**
+* @Controller for Add Task
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+*/
+(function() {
+  'use strict';
+
+  angular
+    .module('app.tasks-sponsor')
+    .controller('EditTaskSponsorController', EditTaskSponsorController);
+
+  EditTaskSponsorController.$inject = [
+    '$localStorage',
+    'perkTaskService',
+    'perkService',
+    'userService',
+    'utilsService',
+    '$state',
+    '$stateParams',
+    '$ionicHistory',
+    '$q',
+    'tasksSponsorService'
+  ];
+
+  function EditTaskSponsorController( $localStorage, perkTaskService, perkService, userService, utilsService, $state, $stateParams, $ionicHistory, $q, tasksSponsorService) {
+
+    var vm = this;
+    vm.newTask = {};
+    vm.userAuth = $localStorage.userAuth;
+    vm.events = [];
+    vm.perks = [];
+    vm.editTask = editTask;
+    vm.deleteTask = deleteTask;
+
+    activate();
+
+    ////////////
+
+    function activate(){
+      getData();
+    }
+
+    function getData(){
+      utilsService.showLoad();
+
+      var promises = [
+        userService.getUser( vm.userAuth.id ),
+        perkService.allPerks(),
+        perkTaskService.getPerkTask( $stateParams.id ),
+      ];
+
+      $q.all(promises)
+        .then( complete )
+        .catch( failed );
+
+        function complete( data ){
+          utilsService.hideLoad();
+          getEvents( data[0] );
+          getPerks( data[1] );
+          getTask( data[2] );
+        }
+
+        function failed( error ){
+          utilsService.hideLoad();
+          console.log( error );
+        }
+    }
+
+    function editTask( form ){
+      utilsService.showLoad();
+      perkTaskService.editPerkTaskPatch( $stateParams.id, preparateData() )
+        .then( complete )
+        .catch( failed );
+
+        function complete( data ){
+          utilsService.hideLoad();
+          utilsService.resetForm( form );
+          vm.newTask = {};
+          $ionicHistory.nextViewOptions({
+            disableAnimate: false,
+            disableBack: true
+          });
+          $ionicHistory.clearCache().then(function(){
+            $ionicHistory.goBack();
+          });
+        }
+
+        function failed( error ){
+          utilsService.hideLoad();
+          console.log( error );
+        }
+    }
+
+     function deleteTask(){
+      utilsService.showLoad();
+      perkTaskService.deletePerkTask( $stateParams.id )
+        .then( complete )
+        .catch( failed );
+
+        function complete( data ){
+          vm.newTask = {};
+          $ionicHistory.nextViewOptions({
+            disableAnimate: false,
+            disableBack: true
+          });
+          $state.go("organizer.tasks");
+        }
+
+        function failed( error ){
+          utilsService.hideLoad();
+          utilsService.alert({
+            template: error.data.message
+          });
+        }
+    }
+
+    function preparateData(){
+      return {
+        user_id: vm.userAuth.id,
+        event_id: vm.newTask.event.id,
+        perk_id: vm.newTask.perk.id,
+        title: vm.newTask.title,
+        description: vm.newTask.description,
+        type: 0,
+        status: vm.newTask.status ? "1" : "0"
+      }
+    }
+
+    function getEvents( user ){
+      vm.events = user.events;
+    }
+
+    function getPerks( perks ){
+      vm.perks = perks;
+    }
+
+    function getTask( task ){
+      vm.newTask = task;
+      vm.newTask.status = task.status == '1' ? true : false ;
+      for (var i = 0; i < vm.events.length; i++) {
+        if(vm.events[i].id == vm.newTask.event_id){
+          vm.newTask.event = vm.events[i];
+          break;
+        }
+      }
+      for (var i = 0; i < vm.perks.length; i++) {
+        if(vm.perks[i].id == vm.newTask.perk.id){
+          vm.newTask.perk = vm.perks[i];
+          break;
+        }
+      }
+    }
+    
+
+  }
+})();
+/**
+* @Controller for Detail Event
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+*/
+(function() {
+  'use strict';
+
+  angular
+    .module('app.events-sponzor')
+    .controller('EventDetailTasksSponzorController', EventDetailTasksSponzorController);
+
+  EventDetailTasksSponzorController.$inject = [
+    '$scope',
+    'eventService',
+    'utilsService',
+    '$stateParams',
+    'sponsorshipService',
+    '$localStorage',
+    '$ionicModal',
+    '$ionicHistory',
+    '$cordovaToast',
+    '$translate'
+  ];
+
+  function EventDetailTasksSponzorController( $scope, eventService, utilsService, $stateParams, sponsorshipService, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate) {
+
+    var vm = this;
+    vm.event = {};
+    vm.userAuth = $localStorage.userAuth;
+    vm.tasks_organizer = [];
+    vm.tasks_sponsor = [];
+    vm.perks_sponsorships = [];
+    vm.idSponsorShip = null;
+
+    activate();
+
+    ////////////
+
+    function activate(){
+      getEvent();
+
+      $ionicModal.fromTemplateUrl('app/events-sponsor/sponsor-it-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        vm.modalSponsorIt = modal;
+      });
+    }
+
+    function getEvent(){
+      utilsService.showLoad();
+      eventService.getEvent( $stateParams.idEvent )
+        .then( complete )
+        .catch( failed );
+
+        function complete( event ){
+          utilsService.hideLoad();
+          vm.event = event;
+          vm.idSponsorShip = getIdSponsorship( vm.event.sponzorships ).id;
+          vm.perks_sponsorships = preparatePerksSponsorships( angular.copy(vm.event) );
+          vm.tasks_organizer = preparatePerksTasksOrganizer( angular.copy(vm.event) );
+          vm.tasks_sponsor = preparatePerksTasks( angular.copy(vm.event) );
+          
+        }
+
+        function failed( error ){
+          utilsService.hideLoad();
+        }
+    }
+
+    function getIdSponsorship( sponzorships ){
+      sponzorships = sponzorships.filter(function( sponsorship ){
+        return sponsorship.sponzor_id == vm.userAuth.id;
+      });
+      if(sponzorships.length > 0) return sponzorships[0];
+      return null;
+    }
+
+    function preparatePerksTasks( event ){
+      var perks = filterBySponsorship( event );
+      for (var i = 0; i < perks.length; i++) {
+        perks[i].tasks = _.where( event.perk_tasks.filter( filterByUser ), {perk_id: perks[i].id});
+      }
+      return perks;
+    }
+
+    function preparatePerksTasksOrganizer( event ){
+      var perks = event.perks;
+      for (var i = 0; i < perks.length; i++) {
+        perks[i].tasks = _.where( event.perk_tasks.filter( filterByOrganizer ), {perk_id: perks[i].id});
+      }
+      return perks;
+    }
+
+    function preparatePerksSponsorships( event ){
+      var perks = event.perks;
+      for (var i = 0; i < perks.length; i++) {
+        perks[i].sponsorships = _.where(event.sponzorships, {perk_id: perks[i].id});
+      }
+      return perks;
+    }
+
+    function filterBySponsorship( event ){
+      var perks = [];
+      for (var i = 0; i < event.sponzorships.length; i++) {
+        if (event.sponzorships[i].sponzor_id == vm.userAuth.id) perks.push(event.sponzorships[i].perk_id);
+      };
+      return event.perks.filter(function( perk ){
+        return perks.indexOf( perk.id ) !== -1;
+      });
+    }
+
+    function filterByUser( task ){
+      return task.type == '1' && vm.userAuth.id == task.user_id; //Is a sponsor
+    }
+
+    function filterByOrganizer( task ){
+      return task.type == '0'; //Is a sponsor
+    }
+    
+
+  }
+})();
+/**
+* @Controller for Detail Event
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+*/
+(function() {
+  'use strict';
+
+  angular
+    .module('app.events-sponzor')
+    .controller('EventDetailSponzorController', EventDetailSponzorController);
+
+  EventDetailSponzorController.$inject = [
+    '$scope',
+    'eventService',
+    'utilsService',
+    '$stateParams',
+    'sponsorshipService',
+    '$localStorage',
+    '$ionicModal',
+    '$ionicHistory',
+    '$cordovaToast',
+    '$translate'
+  ];
+
+  function EventDetailSponzorController( $scope, eventService, utilsService, $stateParams, sponsorshipService, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate) {
+
+    var vm = this;
+    vm.event = {};
+    vm.userAuth = $localStorage.userAuth;
+    vm.perks = [];
+
+    vm.modalSponsorIt = null;
+    vm.newSponsorIt = {};
+    vm.openModalSponsorIt = openModalSponsorIt;
+    vm.closeModalSponsorIt = closeModalSponsorIt;
+    vm.createSponsorIt = createSponsorIt;
+    vm.submitSponsorIt = submitSponsorIt;
+
+    activate();
+
+    ////////////
+
+    function activate(){
+      getEvent();
+
+      $ionicModal.fromTemplateUrl('app/events-sponsor/sponsor-it-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        vm.modalSponsorIt = modal;
+      });
+    }
+
+    function getEvent(){
+      utilsService.showLoad();
+      eventService.getEvent( $stateParams.idEvent )
+        .then( complete )
+        .catch( failed );
+
+        function complete( event ){
+          utilsService.hideLoad();
+          vm.event = event;
+          vm.perks = preparatePerks( vm.event );
+        }
+
+        function failed( error ){
+          utilsService.hideLoad();
+        }
+    }
+
+    function preparatePerks( event ){
+      var perks = event.perks;
+      for (var i = 0; i < perks.length; i++) {
+        perks[i].sponsorships = _.where(event.sponzorships, {perk_id: perks[i].id});
+        perks[i].tasks = _.where( event.perk_tasks.filter( filterByTypePerk ), {perk_id: perks[i].id});
+      }
+      return perks;
+    }
+
+    function filterByTypePerk( task ){
+      return task.type == '0'; //Organizer
+    }
+    
+
+    function openModalSponsorIt(){
+      vm.modalSponsorIt.show();
+    }
+
+    function closeModalSponsorIt(){
+      vm.modalSponsorIt.hide();
+      vm.newSponsorIt = {};
+    } 
+
+    function createSponsorIt( perk ){
+      vm.newSponsorIt.perk = perk;
+      vm.openModalSponsorIt();
+    } 
+
+    function submitSponsorIt(){
+      sponsorshipService.createSponzorship( preparateDataSponzorship() )
+        .then( complete )
+        .catch( failed );
+
+        function complete( event ){
+          vm.closeModalSponsorIt();
+          $ionicHistory.clearCache();
+          $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_sponsor_it"));
+        }
+
+        function failed( error ){
+          vm.closeModalSponsorIt();
+        }
+    }
+
+    function preparateDataSponzorship(){
+      return {
+        sponzor_id: vm.userAuth.id,
+        perk_id: vm.newSponsorIt.perk.id,
+        event_id: vm.event.id,
+        organizer_id: vm.event.organizer.id,
+        status: 0,
+        cause: vm.newSponsorIt.cause
+      }
+    }
+    
+
+  }
+})();
+/**
+* @Controller for Home Organizer
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+*/
+(function() {
+  'use strict';
+
+  angular
+    .module('app.events-sponzor')
+    .controller('FollowEventsController', FollowEventsController);
+
+  FollowEventsController.$inject = [
+    '$localStorage',
+    'utilsService',
+    'sponsorshipService',
+    '$scope',
+    '$rootScope'
+  ];
+
+  function FollowEventsController( $localStorage, utilsService, sponsorshipService, $scope, $rootScope) {
+
+    var vm = this;
+    //Attributes
+    vm.userAuth = $localStorage.userAuth;
+    vm.events = [];
+    vm.showEmptyState = false;
+    //Funcions
+    vm.doRefresh = doRefresh;
+    
+    activate();
+
+    ////////////
+
+    function activate(){
+      getEvents();
+    }
+
+    function getEvents(){
+      utilsService.showLoad();
+      sponsorshipService.sponzorshipBySponzor( vm.userAuth.id )
+        .then( complete )
+        .catch( failed );
+
+        function complete( events ){
+          utilsService.hideLoad();
+          vm.events = events.filter( filterByPending );
+          vm.showEmptyState = vm.events.length == 0 ? true : false;
+        }
+
+        function failed( error ){
+          utilsService.hideLoad();
+          vm.showEmptyState = true;
+        }
+    }
+
+    function doRefresh(){
+      sponsorshipService.sponzorshipBySponzor( vm.userAuth.id )
+        .then( complete )
+        .catch( failed );
+
+        function complete( events ){
+          $scope.$broadcast('scroll.refreshComplete');
+          vm.events = events.filter( filterByPending );
+          $rootScope.$broadcast('Menu:count_following', vm.events.length);
+        }
+
+        function failed( error ){
+          $scope.$broadcast('scroll.refreshComplete');
+        }
+    }
+
+    function filterByPending( item ){
+      return item.status != '1';
+    }
+    
+    /*function filterDate( item ){
+      return moment(item.ends).isAfter(new Date());
+    }*/
+
+  }
+})();
+/**
+* @Controller for Home Organizer
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+*/
+(function() {
+  'use strict';
+
+  angular
+    .module('app.events-sponzor')
+    .controller('SponzoringEventsController', SponzoringEventsController);
+
+  SponzoringEventsController.$inject = [
+    '$localStorage',
+    'utilsService',
+    'sponsorshipService',
+    '$scope',
+    '$rootScope'
+  ];
+
+  function SponzoringEventsController( $localStorage, utilsService, sponsorshipService, $scope, $rootScope) {
+
+    var vm = this;
+    //Attributes
+    vm.userAuth = $localStorage.userAuth;
+    vm.events = [];
+    vm.showEmptyState = false;
+    //Funcions
+    vm.doRefresh = doRefresh;
+    
+    activate();
+
+    ////////////
+
+    function activate(){
+      getEvents();
+    }
+
+    function getEvents(){
+      utilsService.showLoad();
+      sponsorshipService.sponzorshipBySponzor( vm.userAuth.id )
+        .then( complete )
+        .catch( failed );
+
+        function complete( events ){
+          utilsService.hideLoad();
+          vm.events = events.filter( filterByAccepted );
+          vm.showEmptyState = vm.events.length == 0 ? true : false;
+        }
+
+        function failed( error ){
+          utilsService.hideLoad();
+          vm.showEmptyState = true;
+        }
+    }
+
+    function doRefresh(){
+      sponsorshipService.sponzorshipBySponzor( vm.userAuth.id )
+        .then( complete )
+        .catch( failed );
+
+        function complete( events ){
+          $scope.$broadcast('scroll.refreshComplete');
+          vm.events = events.filter( filterByAccepted );
+          $rootScope.$broadcast('Menu:count_sponsoring', vm.events.length);
+        }
+
+        function failed( error ){
+          $scope.$broadcast('scroll.refreshComplete');
+        }
+    }
+
+    function filterByAccepted( item ){
+      return item.status == '1';
+    }
+    
+
+>>>>>>> cdbdc0e5f02ef38bf2d83ff751181fe252b3956a
   }
 
 })();
