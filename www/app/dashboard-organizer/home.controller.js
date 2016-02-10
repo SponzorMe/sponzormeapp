@@ -71,7 +71,6 @@
     function getSponzorships( sponsors ){
       vm.count_sponsors = sponsors.length;
     }
-    
 
   }
 })();

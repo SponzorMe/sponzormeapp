@@ -13,6 +13,7 @@
     'ionic.service.deploy',
     'ionic.service.analytics',
     'ngCordova',
+    'google.places',
     //'ngCordovaMocks',
     'ngMessages',
     'ngStorage',

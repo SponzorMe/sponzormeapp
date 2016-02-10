@@ -167,15 +167,13 @@
     /*-------------- Image --------------*/
 
     function getPhoto(){
-      var Camera = Camera || null;
-      var CameraPopoverOptions = CameraPopoverOptions || null;
 
       var options = {
         quality: 100,
-        destinationType: Camera ? Camera.DestinationType.DATA_URL : null,
-        sourceType: Camera ? Camera.PictureSourceType.PHOTOLIBRARY : null,
+        destinationType:  Camera.DestinationType.DATA_URL,
+        sourceType:  Camera.PictureSourceType.PHOTOLIBRARY,
         allowEdit: false,
-        encodingType: Camera ? Camera.EncodingType.JPEG : null,
+        encodingType: Camera.EncodingType.JPEG,
         targetWidth: 500,
         targetHeight: 500,
         popoverOptions: CameraPopoverOptions,

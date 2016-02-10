@@ -33,7 +33,8 @@
           name="txtloc" 
           type="text" 
           placeholder='{{"ADDEVENTS.location_field" | translate}}' 
-          ng-model="editEvent.newEvent.location"
+          ng-model="editEvent.newEvent.location" 
+          g-places-autocomplete 
           ng-minlength="5"
           ng-maxlength="30"
           required>
