@@ -34,26 +34,13 @@
         <div class="form-errors" ng-messages="addTaskForm.description.$error" ng-if="addTaskForm.$invalid && addTaskForm.$submitted">
           <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> Es requerido</div>
         </div>
-        <!-- Event -->
-        <label class="item item-input item-select"  >
-          <div class="input-label">Event</div>
-          <select 
-          name="event" 
-          ng-model="addTask.newTask.event" 
-          ng-options="event.title for event in addTask.events" 
-          required>
-          </select>
-        </label>
-        <div class="form-errors" ng-messages="addTaskForm.event.$error" ng-if="addTaskForm.$invalid && addTaskForm.$submitted">
-          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> Es requerido</div>
-        </div>
         <!-- Perk -->
         <label class="item item-input item-select" ng-class="{ 'has-error' : addTaskForm.perk.$invalid && addTaskForm.$submitted }">
           <div class="input-label">Perk</div>
           <select 
           name="perk" 
           ng-model="addTask.newTask.perk" 
-          ng-options="perk.kind for perk in addTask.perks | filter:{id_event: addTask.newTask.event.id}" 
+          ng-options="perk.kind for perk in addTask.perks | filter:{id_event: addTask.eventId}" 
           required>
           </select>
         </label>

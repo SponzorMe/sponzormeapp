@@ -243,7 +243,7 @@
       })
 
       .state('organizer.addTask', {
-        url: "/addTask",
+        url: "/addTask/:eventId",
         views: {
           'menuContent' :{
             templateUrl: "app/tasks-organizer/add-task.html",

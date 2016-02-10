@@ -105,7 +105,10 @@
             disableAnimate: false,
             disableBack: true
           });
-          $state.go("organizer.tasks");
+          $ionicHistory.clearCache()
+          .then(function(){
+            $ionicHistory.goBack();
+          });
         }
 
         function failed( error ){

@@ -81,6 +81,8 @@
       function parseEvent( value, key ){
         return {
           title: key,
+          eventEnds: value[0].eventEnds,
+          id: value[0].event_id,
           tasks: value
         }
       }

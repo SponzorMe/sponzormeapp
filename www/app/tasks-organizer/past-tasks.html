@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <ion-list type="card" ng-repeat="event in taskList.tasks">
+    <ion-list type="card" ng-repeat="event in taskList.tasks | orderBy:'-eventEnds'">
       <ion-item class="item-divider">{{ event.title }}</ion-item> 
       <ion-item href="#/organizer/editTask/{{ task.id }}" ng-repeat="task in event.tasks" class="item-icon-left" ng-class="{done: task.status == 1}">
         <i class="icon ion-checkmark"></i>

@@ -76,10 +76,13 @@
     function groupByEvent( data ){
       //http://underscorejs.org/#groupBy
       var groups = _.groupBy( data, 'eventTitle' );
+      console.log(groups);
       
       function parseEvent( value, key ){
         return {
           title: key,
+          eventEnds: value[0].eventEnds,
+          id: value[0].event_id,
           tasks: value
         }
       }

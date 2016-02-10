@@ -17,16 +17,17 @@
     'perkService',
     'userService',
     'utilsService',
-    '$ionicHistory'
+    '$ionicHistory',
+    '$stateParams'
   ];
 
-  function AddTaskController( $localStorage, perkTaskService, perkService, userService, utilsService, $ionicHistory) {
+  function AddTaskController( $localStorage, perkTaskService, perkService, userService, utilsService, $ionicHistory, $stateParams) {
 
     var vm = this;
     vm.newTask = {};
     vm.userAuth = $localStorage.userAuth;
-    vm.events = [];
     vm.perks = [];
+    vm.eventId = $stateParams.eventId;
     vm.createTask = createTask;
 
     activate();
@@ -34,7 +35,6 @@
     ////////////
 
     function activate(){
-      getEvents();
       getPerks();
     }
 
@@ -52,8 +52,11 @@
             disableAnimate: false,
             disableBack: true
           });
-          $ionicHistory.clearCache();
-          $ionicHistory.goBack();
+          $ionicHistory.clearCache()
+          .then(function(){
+            $ionicHistory.goBack();
+          });
+          
         }
 
         function failed( error ){
@@ -64,29 +67,13 @@
     function preparateData(){
       return {
         user_id: vm.userAuth.id,
-        event_id: vm.newTask.event.id,
+        event_id: vm.eventId,
         perk_id: vm.newTask.perk.id,
         title: vm.newTask.title,
         description: vm.newTask.description,
         type: 0,
         status: 0
       }
-    }
-
-    function getEvents(){
-      utilsService.showLoad();
-      userService.getUser( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( user ){
-          utilsService.hideLoad();
-          vm.events = user.events;
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-        }
     }
 
     function getPerks(){
