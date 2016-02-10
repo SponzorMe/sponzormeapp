@@ -214,10 +214,30 @@
 
       .state('organizer.tasks', {
         url: "/tasks",
+        abstract: true,
         views: {
           'menuContent' :{
+            templateUrl: "app/tasks-organizer/task-list-tabs.html"
+          }
+        },
+      })
+
+      .state('organizer.tasks.list', {
+        url: "/list",
+        views: {
+          'tabTasksList' :{
             templateUrl: "app/tasks-organizer/task-list.html",
             controller: "TaskListController as taskList"
+          }
+        }
+      })
+
+      .state('organizer.tasks.list-past', {
+        url: "/past",
+        views: {
+          'tabPastTasks' :{
+            templateUrl: "app/tasks-organizer/past-tasks.html",
+            controller: "PastTaskController as taskList"
           }
         }
       })

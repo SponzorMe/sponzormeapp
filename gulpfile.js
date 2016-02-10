@@ -50,7 +50,7 @@ gulp.task('js', function(done) {
   gulp.src( paths.js )
     .pipe(concat('app.js'))
     .pipe(bytediff.start())
-    .pipe(gulp.dest( dest))
+    .pipe(gulp.dest( dest ))
     .pipe(uglify())
     .pipe(bytediff.stop(bytediffFormatter))
     .pipe(rename({ extname: '.min.js' }))

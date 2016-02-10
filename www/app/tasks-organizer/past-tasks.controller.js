@@ -9,9 +9,9 @@
 
   angular
     .module('app.tasks-organizer')
-    .controller('TaskListController', TaskListController);
+    .controller('PastTaskController', PastTaskController);
 
-  TaskListController.$inject = [
+  PastTaskController.$inject = [
     '$localStorage',
     'perkTaskService',
     'utilsService',
@@ -19,7 +19,7 @@
     '$rootScope'
   ];
 
-  function TaskListController( $localStorage, perkTaskService , utilsService, $scope, $rootScope) {
+  function PastTaskController( $localStorage, perkTaskService , utilsService, $scope, $rootScope) {
 
     var vm = this;
     //Attributes
@@ -45,6 +45,7 @@
 
         function complete( tasks ){
           utilsService.hideLoad();
+
           vm.tasks = groupByEvent( tasks.filter( filterDate ) );
           var total = tasks.filter( filterByDone ).length;
           vm.showEmptyState = vm.tasks.length == 0 ? true : false;
@@ -93,7 +94,7 @@
 
     function filterDate( item ){
       var today = moment( new Date() ).subtract(1, 'days');
-      return moment(item.eventEnds).isAfter( today );
+      return moment(item.eventEnds).isBefore( today );
     }
 
     
