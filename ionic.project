@@ -20,6 +20,10 @@
     {
       "path": "/api",
       "proxyUrl": "https://apilocal.sponzor.me"
+    },
+    {
+      "path": "/maps/api",
+      "proxyUrl": "https://maps.googleapis.com"
     }
   ]
 }

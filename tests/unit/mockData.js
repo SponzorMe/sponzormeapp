@@ -648,12 +648,46 @@ var mockData = (function() {
           id: "1",
           lang: "en",
           title: "Outdoor",
+          interests:[
+            {
+              category_id: "1",
+              description: "ida.",
+              id_interest: "1",
+              lang: "en",
+              name: "Outdoors"
+            },
+            {
+              category_id: "1",
+              description: "u cibus gravida.",
+              id_interest: "2",
+              lang: "en",
+              name: "Hiking"
+            }
+          ]
         },
         {
           body: "All About the Bussines!",
           id: "2",
           lang: "en",
-          title: "Art & Culture"
+          title: "Art & Culture",
+          interests:[
+            {
+              category_id: "1",
+              description: "ida.",
+              id_interest: "1",
+              lang: "en",
+              name: "Outdoors",
+              check: 1
+            },
+            {
+              category_id: "1",
+              description: "u cibus gravida.",
+              id_interest: "2",
+              lang: "en",
+              name: "Hiking",
+              check: 1
+            }
+          ]
         }
       ],
       success: true

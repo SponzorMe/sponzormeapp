@@ -39,15 +39,12 @@
 
     function updateInterests(){
       utilsService.showLoad();
-      var interests = getInterestCheck();
-      var promises = [];
-      for (var i = 0; i < interests.length; i++) {
-        promises.push( createUserInterest( interests[i] ) );
-      };
-
-      $q.all( promises )
-        .then( complete )
-        .catch( failed );
+      
+      userInterestService.bulkUserInterest( vm.userAuth.id, {
+        interests: getInterestCheck()
+      })
+      .then( complete )
+      .catch( failed );
 
       function complete( results ){
         utilsService.hideLoad();
@@ -56,16 +53,8 @@
 
       function failed( error ){
         utilsService.hideLoad();
-        console.log( error );
       }
 
-    }
-
-    function createUserInterest( interest ){
-      return userInterestService.createUserInterest({
-        interest_id: interest.id_interest,
-        user_id: vm.userAuth.id
-      })
     }
 
     function getInterestCheck( data ){
@@ -73,7 +62,8 @@
         .filter( ByInterest )
         .map( mapInterest )
         .reduce( mergeArrays, [] )
-        .filter( interestCheck );
+        .filter( interestCheck )
+        .map( preparateData );
 
         function ByInterest( item ){
           return item.interests;
@@ -89,6 +79,13 @@
 
         function interestCheck( item ){
           return item.check;
+        }
+        
+        function preparateData( item ) {
+           return {
+             interest_id: item.id_interest,
+             user_id: vm.userAuth.id
+           }
         }
     }
 
