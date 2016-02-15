@@ -96,7 +96,7 @@ describe('Controller: HomeSponzorController', function(){
     it('Should be events.length', function() {
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( homeSponzorController.events.length, 0 );
+      chai.assert.equal( homeSponzorController.events.length, 1 );
     });
 
   });
@@ -154,7 +154,7 @@ describe('Controller: HomeSponzorController', function(){
       homeSponzorController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( homeSponzorController.events.length, 0 );
+      chai.assert.equal( homeSponzorController.events.length, 1 );
     });
 
   });

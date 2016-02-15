@@ -1,3 +1,15 @@
+var Camera = {
+  DestinationType: {
+    DATA_URL: null
+  },
+  PictureSourceType: {
+    PHOTOLIBRARY: null
+  },
+  EncodingType: {
+    JPEG: null
+  }
+};
+var CameraPopoverOptions;
 var mockData = (function() {
 
   return {
@@ -126,7 +138,7 @@ var mockData = (function() {
             {
               image: "https://staging.sponzor.me/#/event/1",
               starts: "2016-01-09 15:00:00",
-              ends: "2016-02-09 15:00:00"
+              ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss')
             }                                                         
           ]
         }
@@ -238,13 +250,13 @@ var mockData = (function() {
           event_id: 1,
           title: 'event',
           starts: "2016-01-09 15:00:00",
-          ends: "2016-01-09 15:00:00"
+          ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss')
         },
         {
           event_id: 1,
           title: 'event',
           starts: "2016-01-09 15:00:00",
-          ends: "2016-01-09 15:00:00"
+          ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss')
         }
       ]
     }
@@ -258,21 +270,21 @@ var mockData = (function() {
           title: 'event',
           status: 1,
           starts: "2016-01-09 15:00:00",
-          ends: "2016-01-09 15:00:00"
+          ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss')
         },
         {
           event_id: 1,
           title: 'event',
           status: 0,
           starts: "2016-01-09 15:00:00",
-          ends: "2016-01-09 15:00:00"
+          ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss')
         },
         {
           event_id: 1,
           title: 'event',
           status: 2,
           starts: "2016-01-09 15:00:00",
-          ends: "2016-01-09 15:00:00"
+          ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss')
         }
       ]
     }
@@ -319,7 +331,7 @@ var mockData = (function() {
       PerkTasks: [
         {
           description: "asas sdsd",
-          eventEnds: "2016-01-31 09:57:00",
+          eventEnds: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
           eventStart: "2016-01-30 03:54:00",
           eventTitle: "My Second Event",
           event_id: "1002",
@@ -332,7 +344,7 @@ var mockData = (function() {
         },
         {
           description: "asas sdsd",
-          eventEnds: "2016-01-31 09:57:00",
+          eventEnds: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
           eventStart: "2016-01-30 03:54:00",
           eventTitle: "My Second Event",
           event_id: "1002",
@@ -405,7 +417,7 @@ var mockData = (function() {
       PerkTasks: [
         {
           description: "Bla bla",
-          eventEnds: "2016-01-07 19:57:00",
+          eventEnds:moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
           eventStart: "2016-01-07 14:57:00",
           eventTitle: "evento de prueba fhh",
           event_id: "1018",
@@ -418,7 +430,7 @@ var mockData = (function() {
         },
         {
           description: "Bla bla",
-          eventEnds: "2016-01-07 19:57:00",
+          eventEnds: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
           eventStart: "2016-01-07 14:57:00",
           eventTitle: "evento de prueba fhh",
           event_id: "1018",
@@ -703,7 +715,7 @@ var mockData = (function() {
             {
               category: "2",
               description: "asas",
-              ends: "2016-01-28 21:00:00",
+              ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
               id: "1015",
               image: "https://s3-us-west-2.amazonaws.com/sponzormewebappimages/event_default.jpg",
               lang: "en",
@@ -717,7 +729,7 @@ var mockData = (function() {
             {
               category: "2",
               description: "asas",
-              ends: "2016-01-28 21:00:00",
+              ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
               id: "1015",
               image: "https://s3-us-west-2.amazonaws.com/sponzormewebappimages/event_default.jpg",
               lang: "en",
@@ -812,7 +824,7 @@ var mockData = (function() {
         {
           category: "1",
           description: "",
-          ends: "2016-01-31 09:57:00",
+          ends: "2016-01-30 08:54:00",
           id: "1002",
           image: "event_dummy.png",
           lang: "en",
@@ -826,7 +838,7 @@ var mockData = (function() {
         {
           category: "1",
           description: "Una intro",
-          ends: "2016-01-31 17:45:00",
+          ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
           id: "1004",
           image: "http://i.imgur.com/t8YehGM.jpg",
           lang: "en",
@@ -857,7 +869,7 @@ var mockData = (function() {
           id: "1",
           title: "My Second Event",
           location: "Medellin Colombia",
-          ends: "2016-01-31 09:57:00",
+          ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
           starts: "2016-01-31 09:57:00",
           perk_tasks: [
             {
@@ -956,7 +968,7 @@ var mockData = (function() {
       event: {
         category: "1",
         description: "Una prueba",
-        ends: "2010-01-01 00:00:00",
+        ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
         image: "http://i.imgur.com/t8YehGM.jpg",
         lang: "es",
         location: "event",
@@ -981,7 +993,7 @@ var mockData = (function() {
       event: {
         category: "1",
         description: "Una prueba",
-        ends: "2010-01-01 00:00:00",
+        ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
         id: "1045",
         image: "http://i.imgur.com/t8YehGM.jpg",
         lang: "es",
@@ -1002,7 +1014,7 @@ var mockData = (function() {
       event: {
         category: "1",
         description: "Una prueba",
-        ends: "2010-01-01 00:00:00",
+        ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
         id: "1045",
         image: "http://i.imgur.com/t8YehGM.jpg",
         lang: "es",

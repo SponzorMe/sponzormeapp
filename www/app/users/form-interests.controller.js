@@ -56,7 +56,7 @@
 
     }
 
-    function getInterestCheck( data ){
+    function getInterestCheck(){
       return vm.categories
         .filter( ByInterest )
         .map( mapInterest )

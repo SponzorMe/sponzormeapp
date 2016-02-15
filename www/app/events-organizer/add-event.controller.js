@@ -225,8 +225,9 @@
             disableAnimate: false,
             disableBack: true
           });
-          $ionicHistory.clearCache();
-          $state.go("organizer.events.list");
+          $ionicHistory.clearCache().then(function() {
+            $state.go("organizer.events.list");
+          });
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_event_mess"));
         }
 

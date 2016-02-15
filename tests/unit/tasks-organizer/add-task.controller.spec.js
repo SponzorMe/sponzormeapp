@@ -16,6 +16,7 @@ describe("Controller: AddTaskController", function() {
   beforeEach(inject(function($injector, _$rootScope_, $controller) {
 
   	$rootScope = _$rootScope_;
+    $q = $injector.get('$q');
   	$httpBackend = $injector.get('$httpBackend');
 
     BackendVariables = $injector.get('BackendVariables');
@@ -31,11 +32,20 @@ describe("Controller: AddTaskController", function() {
     perkTaskService =  $injector.get('perkTaskService');
     perkService =  $injector.get('perkService');
     userService =  $injector.get('userService');
-    $ionicHistory =  chai.spy.object($injector.get('$ionicHistory'), ['nextViewOptions','clearCache','goBack']);
+    
+    $ionicHistory = $injector.get('$ionicHistory');
+    $ionicHistory.clearCache = function () {
+      var q = $q.defer();
+      q.resolve();
+      return q.promise;
+    }
+    $ionicHistory =  chai.spy.object($ionicHistory, ['nextViewOptions','clearCache','goBack']);
     mockForm = {
       $setPristine: function() {},
       $setUntouched: function() {},
     }
+    $stateParams = $injector.get('$stateParams');
+    $stateParams.eventId = 1;
 
     $localStorage.userAuth = mockData.userService.login().user;
 
@@ -46,7 +56,8 @@ describe("Controller: AddTaskController", function() {
 	    'perkService': perkService,
 	    'userService': userService,
 	    'utilsService': utilsService,
-	    '$ionicHistory': $ionicHistory
+	    '$ionicHistory': $ionicHistory,
+      '$stateParams': $stateParams
   	});
 
   }));
@@ -76,67 +87,11 @@ describe("Controller: AddTaskController", function() {
   });
 
   ////////////////////////////////////////////////////////////
-  describe('Tests to events variable', function(){
-
-    it('Should have events variable', function() {
-      chai.assert.isDefined( addTaskController.events );
-      chai.assert.isArray( addTaskController.events );
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
   describe('Tests to perks variable', function(){
 
     it('Should have events variable', function() {
       chai.assert.isDefined( addTaskController.perks );
       chai.assert.isArray( addTaskController.perks );
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to getEvents method success', function(){
-
-  	var dataUser = mockData.userService.getUser();
-  	var dataPerks = mockData.perkService.allPerks();
-
-  	beforeEach(function() {
-			$httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataUser);
-  		$httpBackend.whenGET( URL_REST + 'perks').respond(200, dataPerks);
-  	});
-
-  	it('Should be called utilsService methods', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-    });
-
-    it('Should have an events array', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.equal(addTaskController.events.length, dataUser.data.user.events.length)
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to getEvents method failed', function(){
-
-  	var dataUser = mockData.failed();
-  	var dataPerks = mockData.perkService.allPerks();
-
-  	beforeEach(function() {
-			$httpBackend.whenGET( URL_REST + 'users/1').respond(400, dataUser);
-  		$httpBackend.whenGET( URL_REST + 'perks').respond(200, dataPerks);
-  	});
-
-  	it('Should be called utilsService methods', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
     });
 
   });

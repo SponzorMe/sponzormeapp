@@ -110,6 +110,7 @@ describe('Controller: HomeOrganizerController', function(){
 
     var dataEvents = mockData.userService.getUser();
     var dataSponsors = mockData.sponsorshipService.sponzorshipByOrganizer();
+    
 
     beforeEach(function() {
       $httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
@@ -119,6 +120,7 @@ describe('Controller: HomeOrganizerController', function(){
     it('Should be called utilsService methods', function() {
       $rootScope.$digest();
       $httpBackend.flush();
+      console.log(dataEvents);
       chai.expect(utilsService.showLoad).to.have.been.called();
       chai.expect(utilsService.hideLoad).to.have.been.called();
     });

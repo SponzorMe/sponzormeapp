@@ -96,10 +96,17 @@ describe('Controller: AddEventController', function(){
     $cordovaToast = chai.spy.object($cordovaToast, ['showShortBottom']);
 
     $ionicHistory = $injector.get('$ionicHistory');
+    $ionicHistory.clearCache = function () {
+      var q = $q.defer();
+      q.resolve();
+      return q.promise;
+    }
     $ionicHistory = chai.spy.object($ionicHistory, ['clearCache', 'nextViewOptions', 'goBack']);
 
     imgurService = $injector.get('imgurService');
     imgurService = chai.spy.object( imgurService, ['uploadImage']);
+    
+    
 
 
     mockForm = {
