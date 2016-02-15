@@ -24,7 +24,8 @@
     var path = BackendVariables.url;
 
     var service = {
-      createUserInterest: createUserInterest
+      createUserInterest: createUserInterest,
+      bulkUserInterest: bulkUserInterest
     };
 
     return service;
@@ -55,6 +56,35 @@
       function failed( response ) {
         return $q.reject( response.data );
       }
+    }
+    
+    function bulkUserInterest( userId, data ) {
+      
+      //Validate
+      var typeUserId = typeof userId;
+      if(typeUserId !== 'number' && typeUserId !== 'string') throw new Error();
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+      
+      return $http({
+        method: 'PUT',
+        url: path + 'user_interests/' + userId ,
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Authorization' : 'Basic '+ getToken()
+        },
+        data: $httpParamSerializerJQLike(data)
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ) {
+        return $q.when( response.data );
+      }
+
+      function failed( response ) {
+        return $q.reject( response.data );
+      } 
     }
 
   }

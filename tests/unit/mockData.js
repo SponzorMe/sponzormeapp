@@ -3,7 +3,8 @@ var mockData = (function() {
   return {
     failed: failed,
     userInterestService:{
-      createUserInterestSuccess: createUserInterestSuccess
+      createUserInterestSuccess: createUserInterestSuccess,
+      bulkUserInterest: bulkUserInterest
     },
     userService: {
       login: login,
@@ -86,6 +87,13 @@ var mockData = (function() {
         id: 10
       },
       message: "Inserted"
+    }
+  }
+  
+  function bulkUserInterest() {
+    return {
+      inserted: [],
+      noInserted: []
     }
   }
 

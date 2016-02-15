@@ -28,7 +28,7 @@
     var vm = this;
     vm.userAuth = $localStorage.userAuth || {};
 
-    editEventPut();
+    bulkUserInterest();
     //////////////////////////////////////
 
     function rta( response ){
@@ -40,6 +40,17 @@
         interest_id: 1,
         user_id: vm.userAuth.id
       })
+      .then( rta )
+      .catch( rta );
+    }
+    
+    function bulkUserInterest() {
+      userInterestService.bulkUserInterest(1003, {interests:[
+        {
+          interest_id: 1,
+          user_id: 1003
+        }
+      ]} )
       .then( rta )
       .catch( rta );
     }
