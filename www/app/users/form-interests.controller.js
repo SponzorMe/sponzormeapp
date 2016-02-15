@@ -24,18 +24,13 @@
   function FormInterestsController( userService, $state , utilsService, $localStorage, categoryService, userInterestService, $q) {
 
     var vm = this;
-    var memorize = [];
     //Attributes
     vm.userAuth = $localStorage.userAuth;
     vm.categories = [];
-    vm.categorySelected = null;
     //Funcions
     vm.updateInterests = updateInterests;
-    vm.getCategory = getCategory;
-    vm.isCategorySelected = isCategorySelected;
     
     activate();
-
     ////////////
     
     function activate(){
@@ -110,42 +105,7 @@
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
         }
-    }
-
-    function getCategory( category ){
-      
-      toggleCategory( category );
-      if(memorize.indexOf( category.id ) == -1){
-        utilsService.showLoad();
-        categoryService.getCategory( category.id )
-          .then( complete )
-          .catch( failed );
-
-          function complete( categoryRta ){
-            utilsService.hideLoad();
-            category.interests = categoryRta.interests;
-            memorize.push( category.id );
-          }
-
-          function failed( error ){
-            utilsService.hideLoad();
-            console.log( error );
-          }
-      }
-    }
-
-    function toggleCategory( category ){
-      if(isCategorySelected(category)){
-        vm.categorySelected = null;
-      }else{
-        vm.categorySelected = category;
-      }
-    }
-
-    function isCategorySelected(category){
-      return vm.categorySelected == category;
     }
 
     function redirectTutorial(){

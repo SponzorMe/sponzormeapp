@@ -9318,6 +9318,20 @@ form label.item {
   color: #00838D;
   font-weight: 600; }
 
+.accordion-item.active {
+  background: #444; }
+
+.accordion-item .accordion-body {
+  background: #fff;
+  line-height: 38px;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: 0.09s all linear; }
+  .accordion-item .accordion-body.ng-hide {
+    line-height: 0px; }
+  .accordion-item .accordion-body.ng-hide-add, .accordion-item .accordion-body.ng-hide-remove {
+    display: block !important; }
+
 .event {
   background-position: top center;
   background-size: cover; }

@@ -8,7 +8,7 @@
   angular
     .module('app')
     .value('BackendVariables',{
-      url: "https://api.sponzor.me/", // i'm using the Ionic Proxy
+      url: "https://apistaging.sponzor.me/", // i'm using the Ionic Proxy
       url_web: "https://sponzor.me/",
     })
     .value('AMAZON',{
