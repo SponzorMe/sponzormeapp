@@ -23,14 +23,14 @@
       }
 
       checkForUpdates();
-      chooseLanguage();
-      ionicAnalytics();
+      //chooseLanguage();
+      //ionicAnalytics();
     });
 
     function ionicAnalytics(){
       $ionicAnalytics.register();
       $ionicAnalytics.setGlobalProperties({
-        app_version_number: '1.0.6',
+        app_version_number: '1.0.7',
         type: 'develop',
         day_of_week: (new Date()).getDay()
       });
