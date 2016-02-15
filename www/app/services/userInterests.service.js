@@ -66,9 +66,12 @@
       var typeData = typeof data;
       if(typeData !== 'object' || Array.isArray(data)) throw new Error();
       
+      console.log( data );
+      console.log( JSON.stringify(data) );
+      
       return $http({
         method: 'PUT',
-        url: path + 'user_interests/' + userId ,
+        url: path + 'user_interests/' + userId,
         headers: {
           'Content-Type' : 'application/x-www-form-urlencoded',
           'Authorization' : 'Basic '+ getToken()

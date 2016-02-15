@@ -39,7 +39,6 @@
 
     function updateInterests(){
       utilsService.showLoad();
-      
       userInterestService.bulkUserInterest( vm.userAuth.id, {
         interests: getInterestCheck()
       })
@@ -83,8 +82,8 @@
         
         function preparateData( item ) {
            return {
-             interest_id: item.id_interest,
-             user_id: vm.userAuth.id
+             'user_id': vm.userAuth.id,
+             'interest_id': item.id_interest
            }
         }
     }
