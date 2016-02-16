@@ -27,8 +27,8 @@
 
     var vm = this;
     vm.userAuth = $localStorage.userAuth || {};
-
-    bulkUserInterest();
+    
+    login();
     //////////////////////////////////////
 
     function rta( response ){
@@ -56,7 +56,7 @@
     }
 
     function login(){
-      userService.login( 'nicolas.molina.monroy@gmail.com', '123456' )
+      userService.login( 'organizer@sponzor.me', 'sponzorme' )
       .then( rta )
       .catch( rta );
     }

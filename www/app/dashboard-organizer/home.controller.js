@@ -12,14 +12,10 @@
     .controller('HomeOrganizerController', HomeOrganizerController);
 
   HomeOrganizerController.$inject = [
-    '$localStorage',
-    'userService',
-    'utilsService',
-    'sponsorshipService',
-    '$q'
+    '$localStorage'
   ];
 
-  function HomeOrganizerController( $localStorage, userService , utilsService, sponsorshipService, $q) {
+  function HomeOrganizerController( $localStorage ) {
 
     var vm = this;
     //Atributes
@@ -29,48 +25,17 @@
     vm.userAuth = $localStorage.userAuth;
 
     activate();
-
     ////////////
 
     function activate(){
-      getData();
-    }
-
-    function getData(){
-      utilsService.showLoad();
-
-      var promises = [
-        userService.getUser( vm.userAuth.id ),
-        sponsorshipService.sponzorshipByOrganizer( vm.userAuth.id )
-      ];
-
-      $q.all( promises )
-        .then( complete )
-        .catch( failed );
-
-        function complete( data ){
-          utilsService.hideLoad();
-          getEvents( data[0]  );
-          getSponzorships( data[1] );
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-        }
-    }
-
-    function getEvents( user ){
-      vm.count_events = user.events.filter( filterDate ).length;
-      vm.count_comunity = user.comunity_size || 0;
-
+      vm.count_events = vm.userAuth.events.filter( filterDate ).length;
+      vm.count_comunity = parseInt( vm.userAuth.comunity_size ) || 0;
+      vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
+      
       function filterDate( item ){
         return moment(item.ends).isAfter(new Date());
-      }
-    }
-
-    function getSponzorships( sponsors ){
-      vm.count_sponsors = sponsors.length;
-    }
+      };
+    };
 
   }
 })();

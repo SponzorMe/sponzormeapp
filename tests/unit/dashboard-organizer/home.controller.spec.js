@@ -71,10 +71,6 @@ describe('Controller: HomeOrganizerController', function(){
       chai.assert.isNumber( homeOrganizerController.count_events );
     });
 
-    it('Should count_events be 0', function() {
-      chai.assert.equal( homeOrganizerController.count_events, 0 )
-    });
-
   });
 
   ////////////////////////////////////////////////////////////
@@ -83,10 +79,6 @@ describe('Controller: HomeOrganizerController', function(){
     it('Should have count_comunity variable', function() {
       chai.assert.isDefined( homeOrganizerController.count_comunity );
       chai.assert.isNumber( homeOrganizerController.count_comunity );
-    });
-
-    it('Should count_comunity be 0', function() {
-      chai.assert.equal( homeOrganizerController.count_comunity, 0 )
     });
 
   });
@@ -99,88 +91,24 @@ describe('Controller: HomeOrganizerController', function(){
       chai.assert.isNumber( homeOrganizerController.count_sponsors );
     });
 
-    it('Should count_sponsors be 0', function() {
-      chai.assert.equal( homeOrganizerController.count_sponsors, 0 )
-    });
-
   });
-
+  
   ////////////////////////////////////////////////////////////
-  describe('Tests to getData success', function(){
+  describe('Tests to activate()', function(){
 
-    var dataEvents = mockData.userService.getUser();
-    var dataSponsors = mockData.sponsorshipService.sponzorshipByOrganizer();
+    it('Should count_events be equal that 1', function() {
+      $rootScope.$digest();
+      chai.assert.equal( homeOrganizerController.count_events, 1);
+    });
     
-
-    beforeEach(function() {
-      $httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
-      $httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataSponsors);
-    });
-
-    it('Should be called utilsService methods', function() {
+    it('Should count_sponsors be equal that 2', function() {
       $rootScope.$digest();
-      $httpBackend.flush();
-      console.log(dataEvents);
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
+      chai.assert.equal( homeOrganizerController.count_sponsors, 2);
     });
-
-    it('Should count_events be 1', function() {
+    
+    it('Should count_comunity be equal that 0', function() {
       $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.equal( homeOrganizerController.count_events, 1 );
-    });
-
-    it('Should count_comunity be 0', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.equal( homeOrganizerController.count_comunity, 0 );
-    });
-
-    it('Should count_sponsors be 2', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.equal( homeOrganizerController.count_sponsors, dataSponsors.SponzorsEvents.length );
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to getData failed by getUser', function(){
-
-    var dataEvents = mockData.failed();
-    var dataSponsors = mockData.sponsorshipService.sponzorshipByOrganizer();
-
-    beforeEach(function() {
-      $httpBackend.whenGET( URL_REST + 'users/1').respond(400, dataEvents);
-      $httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataSponsors);
-    });
-
-    it('Should be called utilsService methods', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to getData failed by sponzorshipByOrganizer', function(){
-
-    var dataEvents = mockData.userService.getUser();
-    var dataSponsors = mockData.failed();
-
-    beforeEach(function() {
-      $httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
-      $httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(400, dataSponsors);
-    });
-
-    it('Should be called utilsService methods', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
+      chai.assert.equal( homeOrganizerController.count_comunity, 0);
     });
 
   });
