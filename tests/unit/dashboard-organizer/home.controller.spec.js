@@ -13,7 +13,6 @@ describe('Controller: HomeOrganizerController', function(){
   beforeEach(inject(function($injector, _$rootScope_, $controller) {
 
   	$rootScope = _$rootScope_;
-  	$q = $injector.get('$q');
 
     BackendVariables = $injector.get('BackendVariables');
     URL_REST = BackendVariables.url;
@@ -26,25 +25,11 @@ describe('Controller: HomeOrganizerController', function(){
     $httpBackend.whenGET('app/dashboard-sponzor/home.html').respond(200, '');
 
     //Dependences
-  	$scope = $rootScope.$new();
-
-    sponsorshipService = $injector.get('sponsorshipService');
-
-    utilsService = $injector.get('utilsService');
-    utilsService = chai.spy.object( utilsService , ['showLoad', 'hideLoad','alert', 'resetForm','trim', 'confirm']);
-
-    userService = $injector.get('userService');
-
     $localStorage = $injector.get('$localStorage');
-  	
     $localStorage.userAuth = mockData.userService.login().user;
 
     homeOrganizerController = $controller('HomeOrganizerController', {
-      '$localStorage': $localStorage,
-      'userService': userService,
-      'utilsService': utilsService,
-      'sponsorshipService': sponsorshipService,
-      '$q': $q
+      '$localStorage': $localStorage
   	});
 
   }));

@@ -37,17 +37,21 @@
 
     function logout(){
       $localStorage.$reset();
-      $state.go('signin');
-      $ionicHistory.clearCache();
+      $ionicHistory.clearCache().then(function() {
+        $state.go('signin');
+      });
     }
 
     function activate(){
+      
       $rootScope.$on('Menu:count_events', renderCountEvents);
       $rootScope.$on('Menu:count_sponsors', renderCountSponsors);
       $rootScope.$on('Menu:count_tasks', renderCountTasks);
-      getEvents();
-      getSponsors();
-      getTasks();
+      
+      vm.count_events = vm.userAuth.events.filter( filterDate ).length;
+      vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
+      vm.count_tasks = countTasks().length;
+      
     }
 
     function renderCountEvents( event, total ){
@@ -62,57 +66,29 @@
       vm.count_tasks = total;
     }
 
-    function getEvents(){
-      userService.getUser( vm.userAuth.id )
-        .then( complete );
-        //.catch( failed );
-
-        function complete( user ){
-          vm.count_events = user.events.filter( filterDate ).length;
-        }
-        /*
-        function failed( error ){
-          console.log( error );
-        }*/
-    }
-
     function filterDate( item ){
       return moment(item.ends).isAfter(new Date());
     }
-
-    function getSponsors(){
-      sponsorshipService.sponzorshipByOrganizer( vm.userAuth.id )
-        .then( complete );
-        //.catch( failed );
-
-        function complete( sponsors ){
-          vm.count_sponsors = sponsors.length;
-        }
-
-        /*
-        function failed( error ){
-          console.log( error );
-        }*/
+    
+    function countTasks() {
+      return vm.userAuth.events
+        .reduce( mergePerks, [] )
+        .reduce( mergeTasks, [] )
+        .filter( filterByUserAndNotDone );
+      
+      function mergePerks(a,b){
+        return a.concat(b.perks);
+      }
+      
+      function mergeTasks(a,b){
+        return a.concat(b.tasks);
+      }
+      
+      function filterByUserAndNotDone( item ) {
+        return item.user_id == vm.userAuth.id && item.status != '1';
+      }
     }
-
-    function getTasks(){
-      perkTaskService.getPerkTaskByOrganizer( vm.userAuth.id )
-        .then( complete );
-        //.catch( failed );
-
-        function complete( tasks ){
-          vm.count_tasks = tasks.filter( filterByDone ).length;
-        }
-
-        /*
-        function failed( error ){
-          console.log( error );
-        }*/
-    }
-
-    function filterByDone( item ){
-      return item.status != '1';
-    }
+    
 
   }
 })();
