@@ -132,7 +132,21 @@ var mockData = (function() {
             privacy: "0",
             starts: "2016-01-30 03:54:00",
             title: "My Second Event",
-            type: "1"
+            type: "1",
+            perks: [
+              {
+                tasks: [
+                  {
+                    user_id: 1,
+                    status: 0
+                  },
+                  {
+                    user_id: 1,
+                    status: 1
+                  }
+                ]
+              },
+            ]
           },
           {
             category: "1",
@@ -146,7 +160,33 @@ var mockData = (function() {
             privacy: "1",
             starts: "2016-01-30 17:45:00",
             title: "Ionic 102 - Workshop",
-            type: "1"
+            type: "1",
+            perks: [
+              {
+                tasks: [
+                  {
+                    user_id: 1,
+                    status: 0
+                  },
+                  {
+                    user_id: 1,
+                    status: 0
+                  }
+                ]
+              },
+              {
+                tasks: [
+                  {
+                    user_id: 1,
+                    status: 1
+                  },
+                  {
+                    user_id: 1,
+                    status: 0
+                  }
+                ]
+              }
+            ]
           }
         ],
         sponzorships_like_organizer: [

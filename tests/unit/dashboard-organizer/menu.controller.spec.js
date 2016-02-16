@@ -13,8 +13,8 @@ describe('Controller: MenuOrganizerCtrl', function(){
   beforeEach(inject(function($injector, _$rootScope_, $controller) {
 
   	$rootScope = _$rootScope_;
+    $q = $injector.get('$q');
   	$rootScopeOn = chai.spy.on($rootScope, '$on');
-  	$q = $injector.get('$q');
 
     BackendVariables = $injector.get('BackendVariables');
     URL_REST = BackendVariables.url;
@@ -26,15 +26,17 @@ describe('Controller: MenuOrganizerCtrl', function(){
     $httpBackend.whenGET('app/users/login.html').respond(200, {});
 
     //Dependences
-    sponsorshipService = $injector.get('sponsorshipService');
-    perkTaskService = $injector.get('perkTaskService');
-  	userService = $injector.get('userService');
   	$localStorage = $injector.get('$localStorage');
   	$localStorage = chai.spy.object($localStorage, ['$reset']);
   	$state = $injector.get('$state');
   	$state = chai.spy.object($state, ['go']);
   	
     $ionicHistory = $injector.get('$ionicHistory');
+    $ionicHistory.clearCache = function () {
+      var q = $q.defer();
+      q.resolve();
+      return q.promise;
+    }
     $ionicHistory = chai.spy.object($ionicHistory, ['clearCache', 'nextViewOptions', 'goBack']);
 
     $localStorage.userAuth = mockData.userService.login().user;
@@ -43,9 +45,6 @@ describe('Controller: MenuOrganizerCtrl', function(){
   		'$state': $state,
       '$localStorage': $localStorage,
       '$rootScope': $rootScope,
-      'userService': userService,
-      'sponsorshipService': sponsorshipService,
-      'perkTaskService': perkTaskService,
       '$ionicHistory': $ionicHistory
   	});
 
@@ -73,10 +72,6 @@ describe('Controller: MenuOrganizerCtrl', function(){
       chai.assert.isNumber( menuOrganizerCtrl.count_events );
     });
 
-    it('Should count_events be 0', function() {
-      chai.assert.equal( menuOrganizerCtrl.count_events, 0 );
-    });
-
   });
 
   ////////////////////////////////////////////////////////////
@@ -87,71 +82,13 @@ describe('Controller: MenuOrganizerCtrl', function(){
       chai.assert.isNumber( menuOrganizerCtrl.count_sponsors );
     });
 
-    it('Should count_sponsors be 0', function() {
-      chai.assert.equal( menuOrganizerCtrl.count_sponsors, 0 );
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to $rootScope.$on methods', function(){
-
-    var dataEvents = mockData.userService.getUser();
-    var dataSponsors = mockData.sponsorshipService.sponzorshipByOrganizer();
-    var dataTasks = mockData.perkTaskService.getPerkTaskByOrganizer();
-
-  	beforeEach(function() {
-      $httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
-      $httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataSponsors);
-      $httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(200, dataTasks);
-    });
-
-    it('Should have called a Menu:count_following and Menu:count_sponsoring', function() {
-    	$rootScope.$digest();
-    	$httpBackend.flush();
-    	
-      chai.expect($rootScopeOn).to.have.been.called();
-    });
-
-    it('Should count_events be 3 before call Menu:count_following', function() {
-    	$rootScope.$digest();
-    	$httpBackend.flush();
-    	$rootScope.$broadcast('Menu:count_events', 3);
-      chai.assert.equal(menuOrganizerCtrl.count_events, 3);
-    });
-
-    it('Should count_sponsors be 31 before call Menu:count_sponsors', function() {
-    	$rootScope.$digest();
-    	$httpBackend.flush();
-    	$rootScope.$broadcast('Menu:count_sponsors', 31);
-      chai.assert.equal(menuOrganizerCtrl.count_sponsors, 31);
-    });
-
-    it('Should count_tasks be 1 before call Menu:count_tasks', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      $rootScope.$broadcast('Menu:count_tasks', 1);
-      chai.assert.equal(menuOrganizerCtrl.count_tasks, 1);
-    });
-
   });
 
   ////////////////////////////////////////////////////////////
   describe('Tests to getEvents success', function(){
-
-  	var dataEvents = mockData.userService.getUser();
-    var dataSponsors = mockData.sponsorshipService.sponzorshipByOrganizer();
-    var dataTasks = mockData.perkTaskService.getPerkTaskByOrganizer();
-
-    beforeEach(function() {
-      $httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
-      $httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataSponsors);
-      $httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(200, dataTasks);
-    });
-  	
+    
     it('Should count_events be 1', function() {
     	$rootScope.$digest();
-    	$httpBackend.flush();
     	chai.assert.equal(menuOrganizerCtrl.count_events, 1);
     });
 
@@ -159,20 +96,9 @@ describe('Controller: MenuOrganizerCtrl', function(){
 
   ////////////////////////////////////////////////////////////
   describe('Tests to getSponsors success', function(){
-
-    var dataEvents = mockData.userService.getUser();
-    var dataSponsors = mockData.sponsorshipService.sponzorshipByOrganizer();
-    var dataTasks = mockData.perkTaskService.getPerkTaskByOrganizer();
-
-    beforeEach(function() {
-      $httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
-      $httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataSponsors);
-      $httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(200, dataTasks);
-    });
     
     it('Should count_sponsors be 2', function() {
       $rootScope.$digest();
-      $httpBackend.flush();
       chai.assert.equal(menuOrganizerCtrl.count_sponsors, 2);
     });
 
@@ -180,20 +106,39 @@ describe('Controller: MenuOrganizerCtrl', function(){
 
    ////////////////////////////////////////////////////////////
   describe('Tests to getTasks success', function(){
-
-    var dataEvents = mockData.userService.getUser();
-    var dataSponsors = mockData.sponsorshipService.sponzorshipByOrganizer();
-    var dataTasks = mockData.perkTaskService.getPerkTaskByOrganizer();
-
-    beforeEach(function() {
-      $httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
-      $httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataSponsors);
-      $httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(200, dataTasks);
-    });
+    
     
     it('Should count_tasks be 1', function() {
       $rootScope.$digest();
-      $httpBackend.flush();
+      chai.assert.equal(menuOrganizerCtrl.count_tasks, 4);
+    });
+
+  });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Tests to $rootScope.$on methods', function(){
+
+
+    it('Should have called a Menu:count_following and Menu:count_sponsoring', function() {
+    	$rootScope.$digest();
+      chai.expect($rootScopeOn).to.have.been.called();
+    });
+
+    it('Should count_events be 3 before call Menu:count_following', function() {
+    	$rootScope.$digest();
+    	$rootScope.$broadcast('Menu:count_events', 3);
+      chai.assert.equal(menuOrganizerCtrl.count_events, 3);
+    });
+
+    it('Should count_sponsors be 31 before call Menu:count_sponsors', function() {
+    	$rootScope.$digest();
+    	$rootScope.$broadcast('Menu:count_sponsors', 31);
+      chai.assert.equal(menuOrganizerCtrl.count_sponsors, 31);
+    });
+
+    it('Should count_tasks be 1 before call Menu:count_tasks', function() {
+      $rootScope.$digest();
+      $rootScope.$broadcast('Menu:count_tasks', 1);
       chai.assert.equal(menuOrganizerCtrl.count_tasks, 1);
     });
 
@@ -201,16 +146,6 @@ describe('Controller: MenuOrganizerCtrl', function(){
 
    ////////////////////////////////////////////////////////////
   describe('Tests to logout', function(){
-
-  	var dataEvents = mockData.userService.getUser();
-    var dataSponsors = mockData.sponsorshipService.sponzorshipByOrganizer();
-    var dataTasks = mockData.perkTaskService.getPerkTaskByOrganizer();
-
-    beforeEach(function() {
-      $httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
-      $httpBackend.whenGET( URL_REST + 'sponzorships_organizer/1').respond(200, dataSponsors);
-      $httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(200, dataTasks);
-    });
   	
     it('Should have createEvent method', function() {
       chai.assert.isDefined( menuOrganizerCtrl.logout );
@@ -219,7 +154,6 @@ describe('Controller: MenuOrganizerCtrl', function(){
 
     it('Should have called ionicHistory.clearCache', function() {
     	$rootScope.$digest();
-    	$httpBackend.flush();
     	menuOrganizerCtrl.logout();
     	$rootScope.$digest();
       chai.expect($ionicHistory.clearCache).to.have.been.called();
@@ -227,7 +161,6 @@ describe('Controller: MenuOrganizerCtrl', function(){
 
     it('Should have called localStorage.$reset', function() {
     	$rootScope.$digest();
-    	$httpBackend.flush();
     	menuOrganizerCtrl.logout();
     	$rootScope.$digest();
       chai.expect($localStorage.$reset).to.have.been.called();
@@ -235,7 +168,6 @@ describe('Controller: MenuOrganizerCtrl', function(){
 
     it('Should redirect a signin', function() {
     	$rootScope.$digest();
-    	$httpBackend.flush();
     	menuOrganizerCtrl.logout();
     	$rootScope.$digest();
       chai.expect($state.go).to.have.been.called();

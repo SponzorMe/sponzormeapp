@@ -15,13 +15,10 @@
     '$state',
     '$localStorage',
     '$rootScope',
-    'userService',
-    'sponsorshipService',
-    'perkTaskService',
     '$ionicHistory'
   ];
 
-  function MenuOrganizerCtrl( $state, $localStorage, $rootScope, userService, sponsorshipService, perkTaskService, $ionicHistory ) {
+  function MenuOrganizerCtrl( $state, $localStorage, $rootScope, $ionicHistory ) {
 
     var vm = this;
     //Attributes
@@ -77,11 +74,11 @@
         .filter( filterByUserAndNotDone );
       
       function mergePerks(a,b){
-        return a.concat(b.perks);
+        return a.concat(b.perks || []);
       }
       
       function mergeTasks(a,b){
-        return a.concat(b.tasks);
+        return a.concat(b.tasks || []);
       }
       
       function filterByUserAndNotDone( item ) {

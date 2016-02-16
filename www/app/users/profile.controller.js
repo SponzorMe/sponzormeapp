@@ -91,9 +91,9 @@
         function updateUser( user ){
           utilsService.hideLoad();
           utilsService.resetForm( form );
-          vm.userAuth = user;
-          vm.userAuth.age = parseInt( vm.userAuth.age );
-          $localStorage.userAuth = utilsService.updateUserAuth( vm.userAuth );
+          user.age = parseInt( user.age );
+          vm.userAuth = utilsService.updateUserAuth( user );
+          $localStorage.userAuth = vm.userAuth;
           $cordovaToast.showShortBottom("Su perfil se ha actulizado");
         }
 
