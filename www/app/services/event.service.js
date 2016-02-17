@@ -83,6 +83,7 @@
       .catch( failed );
 
       function complete( response ) {
+        console.log( response.data.event );
         return $q.when( preparateData(response.data.event) );
 
         function preparateData( event ){

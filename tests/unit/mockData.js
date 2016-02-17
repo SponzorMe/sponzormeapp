@@ -937,53 +937,18 @@ var mockData = (function() {
   
   function getEvent(){
     return {
-      data: {
-        category: [
-          {
-            id: "1",
-            title: "Outdoor",
-            body: "All About the Bussines!",
-            lang: "en"
-          }
-        ],
         event: {
           id: "1",
           title: "My Second Event",
           location: "Medellin Colombia",
           ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
           starts: "2016-01-31 09:57:00",
-          perk_tasks: [
-            {
-              description: "asas sdsd",
-              event_id: "1002",
-              id: "11",
-              perk_id: "3",
-              status: "1",
-              title: "Prueba",
-              type: "1",
-              user_id: "1002"
-            },
-            {
-              description: "as",
-              event_id: "1002",
-              id: "15",
-              perk_id: "3",
-              status: "0",
-              title: "UNa tarea",
-              type: "1",
-              user_id: "1002"
-            },
-            {
-              description: "as",
-              event_id: "1002",
-              id: "15",
-              perk_id: "3",
-              status: "0",
-              title: "UNa tarea",
-              type: "0",
-              user_id: "1002"
-            }
-          ],
+          image: '',
+          user_organizer: {
+            image: ''
+          },
+          category: {},
+          type: {},
           perks: [
             {
               id: "3",
@@ -991,7 +956,8 @@ var mockData = (function() {
               kind: "A",
               reserved_quantity: "0",
               total_quantity: "2",
-              usd: "10"
+              usd: "10",
+              tasks: []
             },
             {
               id: "14",
@@ -999,11 +965,12 @@ var mockData = (function() {
               kind: "C",
               reserved_quantity: "0",
               total_quantity: "4",
-              usd: "8"
+              usd: "8",
+              tasks: []
             }
           ],
           sponzor_tasks: [],
-          sponzorship: [
+          sponzorships: [
             {
               cause: "test",
               event_id: "1002",
@@ -1014,34 +981,8 @@ var mockData = (function() {
               status: "0"
             }
           ]
-        },
-        organizer: [
-          {
-            id: "1003",
-            name: "Organizer Sponzorme",
-            email: "organizer@sponzor.me",
-            activated: "1"
-          }
-        ],
-        sponzorships: [
-          {
-            name: "Sponzor Sponzorme",
-            id: "30",
-            sponzor_id: "1002",
-            organizer_id: "1003",
-            perk_id: "3"
-          }
-        ],
-        type:[
-          {
-            description: "Give us your money",
-            id: "1",
-            lang: "en",
-            name: "Charity"
-          }
-        ]
+        }
       }
-    }
   }
 
   function createEvent(){

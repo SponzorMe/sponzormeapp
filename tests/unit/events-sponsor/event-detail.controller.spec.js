@@ -99,17 +99,6 @@ describe("Controller: EventDetailSponzorController", function() {
   });
 
   ////////////////////////////////////////////////////////////
-  describe('Tests to perks array', function(){
-
-    it('Should have perks array', function() {
-      chai.assert.isDefined( eventDetailSponzorController.perks );
-      chai.assert.isArray( eventDetailSponzorController.perks );
-      chai.expect( eventDetailSponzorController.perks ).to.be.empty;
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
   describe('Tests to getEvent method success', function(){
 
 		var dataEvent = mockData.eventService.getEvent();
@@ -131,7 +120,7 @@ describe("Controller: EventDetailSponzorController", function() {
       chai.assert.isObject( eventDetailSponzorController.event );
       chai.assert.isObject( eventDetailSponzorController.event.category );
       chai.assert.isObject( eventDetailSponzorController.event.type );
-      chai.assert.isObject( eventDetailSponzorController.event.organizer );
+      chai.assert.isObject( eventDetailSponzorController.event.user_organizer );
       chai.assert.isArray( eventDetailSponzorController.event.sponzorships );
       chai.assert.instanceOf( eventDetailSponzorController.event.starts, Date );
       chai.assert.instanceOf( eventDetailSponzorController.event.ends, Date );
@@ -140,10 +129,10 @@ describe("Controller: EventDetailSponzorController", function() {
     it('Should have an perks array', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( eventDetailSponzorController.perks.length, dataEvent.data.event.perks.length );
-    	for (var i = 0; i < eventDetailSponzorController.perks.length; i++) {
-    		chai.assert.isArray(eventDetailSponzorController.perks[i].tasks);
-    		chai.assert.isArray(eventDetailSponzorController.perks[i].sponsorships);
+      chai.assert.equal( eventDetailSponzorController.event.perks.length, dataEvent.event.perks.length );
+    	for (var i = 0; i < eventDetailSponzorController.event.perks.length; i++) {
+    		chai.assert.isArray(eventDetailSponzorController.event.perks[i].tasks);
+    		chai.assert.isArray(eventDetailSponzorController.event.perks[i].sponzorship);
     	};
     });
 
@@ -291,20 +280,6 @@ describe("Controller: EventDetailSponzorController", function() {
     	$rootScope.$digest();
       $httpBackend.flush();
       chai.assert.isFalse(eventDetailSponzorController.modalSponsorIt._isShown);
-    });
-
-    it('Should be called $ionicHistory.clearCache', function() {
-    	
-      $rootScope.$digest();
-      $httpBackend.flush();
-      eventDetailSponzorController.newSponsorIt.perk = {
-      	id: 1
-      };
-      eventDetailSponzorController.newSponsorIt.cause = "Yolo";
-    	eventDetailSponzorController.submitSponsorIt();
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect($ionicHistory.clearCache).to.have.been.called();
     });
 
   });

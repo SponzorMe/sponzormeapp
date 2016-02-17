@@ -191,10 +191,11 @@ describe("Service: eventService", function() {
       it('Should return an event', function( done ){
         eventService.getEvent( 1 )
         .then(function( result ) {
+          console.log(result);
           chai.assert.isObject( result );
           chai.assert.isObject( result.category );
           chai.assert.isObject( result.type );
-          chai.assert.isObject( result.organizer );
+          chai.assert.isObject( result.user_organizer );
           chai.assert.isArray( result.sponzorships );
           chai.assert.instanceOf( result.starts, Date );
           chai.assert.instanceOf( result.ends, Date );

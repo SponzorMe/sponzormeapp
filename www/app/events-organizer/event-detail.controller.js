@@ -107,7 +107,7 @@
       var perks = event.perks;
       for (var i = 0; i < perks.length; i++) {
         perks[i].sponsorships = _.where(event.sponzorships, {perk_id: perks[i].id});
-        perks[i].tasks = _.where(event.perk_tasks.filter( filterByTypePerk )  , {perk_id: perks[i].id});
+        //perks[i].tasks = _.where(event.perk_tasks.filter( filterByTypePerk )  , {perk_id: perks[i].id});
       }
       return perks;
     }
