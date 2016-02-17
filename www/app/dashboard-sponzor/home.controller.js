@@ -13,12 +13,10 @@
 
   HomeSponzorController.$inject = [
     '$localStorage',
-    'eventService',
-    'utilsService',
     '$scope'
   ];
 
-  function HomeSponzorController(  $localStorage, eventService, utilsService, $scope) {
+  function HomeSponzorController( $localStorage, $scope) {
 
     var vm = this;
     //Attributes
@@ -28,47 +26,18 @@
     vm.doRefresh = doRefresh;
     
     activate();
-
     ////////////
 
     function activate(){
-      getEvents();
-    }
-
-    function getEvents(){
-      utilsService.showLoad();
-      eventService.allEvents( )
-        .then( complete )
-        .catch(failed );
-
-        function complete( events ){
-          utilsService.hideLoad();
-          vm.events = events.filter( filterDate );
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-        }
+      vm.events = vm.userAuth.events.filter( filterDate );
     }
 
     function doRefresh(){
-      eventService.allEvents( )
-        .then( complete );
-        //.catch(failed );
-
-        function complete( events ){
-          vm.events = events.filter( filterDate );
-          $scope.$broadcast('scroll.refreshComplete');
-        }
-
-        /*
-        function failed( error ){
-          console.log( error );
-        }*/
+      vm.events = vm.userAuth.events.filter( filterDate );
+      $scope.$broadcast('scroll.refreshComplete');
     }
 
     function filterDate( item ){
-      //return true
       return moment(item.ends).isAfter(new Date());
     }
     

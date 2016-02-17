@@ -63,7 +63,8 @@
       return {
         name: vm.userAuth.name,
         age: parseInt(vm.userAuth.age),
-        location: vm.userAuth.location, 
+        location: vm.userAuth.location.formatted_address,
+        location_reference: vm.userAuth.location.place_id,
         lang: vm.userAuth.lang,
         sex: parseInt(vm.userAuth.sex)
       }

@@ -61,7 +61,22 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( response.data.user );
+        return $q.when( preparateData(response.data) );
+      }
+      
+      function preparateData( data ) {
+        var user = data.user;
+        if(data.events){
+           user.events = data.events.map( preparateEvent );
+        }
+        return user;
+      }
+      
+      function preparateEvent( item ){
+        item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
+        item.starts = moment(item.starts)._d;
+        item.ends = moment(item.ends)._d;
+        return item;  
       }
 
       function failed( response ) {

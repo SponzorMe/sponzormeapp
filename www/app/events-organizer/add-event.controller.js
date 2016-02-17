@@ -62,7 +62,7 @@
       vm.newEvent.starttime = "13:00:00";
       vm.newEvent.start = "2016-01-09";
       vm.newEvent.endtime = "15:00:00";
-      vm.newEvent.end = "2016-01-09";
+      vm.newEvent.end = moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD');
 
       $ionicModal.fromTemplateUrl('app/events-organizer/perk-modal.html', {
         scope: $scope,
