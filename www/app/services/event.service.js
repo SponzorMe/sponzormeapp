@@ -49,7 +49,7 @@
       .catch( failed );
 
       function complete( response ) {
-        var events = preparateData( response.data.events );
+        var events = preparateData( response.data.data.events );
         return $q.when( events );
       }
 

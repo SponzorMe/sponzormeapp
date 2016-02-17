@@ -110,6 +110,76 @@ var mockData = (function() {
   }
 
   function login(){
+    var events = [
+      {
+        category: "1",
+        description: "",
+        ends: "2016-01-30 08:54:00",
+        id: "1002",
+        image: "event_dummy.png",
+        lang: "en",
+        location: "Medellin Colombia",
+        location_reference: "referenceafsddf",
+        privacy: "0",
+        starts: "2016-01-30 03:54:00",
+        title: "My Second Event",
+        type: "1",
+        perks: [
+          {
+            tasks: [
+              {
+                user_id: 1,
+                status: 0
+              },
+              {
+                user_id: 1,
+                status: 1
+              }
+            ]
+          },
+        ]
+      },
+      {
+        category: "1",
+        description: "Una intro",
+        ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
+        id: "1004",
+        image: "http://i.imgur.com/t8YehGM.jpg",
+        lang: "en",
+        location: "Bogota",
+        location_reference: "referencia",
+        privacy: "1",
+        starts: "2016-01-30 17:45:00",
+        title: "Ionic 102 - Workshop",
+        type: "1",
+        perks: [
+          {
+            tasks: [
+              {
+                user_id: 1,
+                status: 0
+              },
+              {
+                user_id: 1,
+                status: 0
+              }
+            ]
+          },
+          {
+            tasks: [
+              {
+                user_id: 1,
+                status: 1
+              },
+              {
+                user_id: 1,
+                status: 0
+              }
+            ]
+          }
+        ]
+      }
+    ];
     return {
       rating: null,
       success: true,
@@ -119,76 +189,7 @@ var mockData = (function() {
         email: "mail@domain.com",
         age: "12",
         comunity_size: "0",
-        events: [
-          {
-            category: "1",
-            description: "",
-            ends: "2016-01-30 08:54:00",
-            id: "1002",
-            image: "event_dummy.png",
-            lang: "en",
-            location: "Medellin Colombia",
-            location_reference: "referenceafsddf",
-            privacy: "0",
-            starts: "2016-01-30 03:54:00",
-            title: "My Second Event",
-            type: "1",
-            perks: [
-              {
-                tasks: [
-                  {
-                    user_id: 1,
-                    status: 0
-                  },
-                  {
-                    user_id: 1,
-                    status: 1
-                  }
-                ]
-              },
-            ]
-          },
-          {
-            category: "1",
-            description: "Una intro",
-            ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
-            id: "1004",
-            image: "http://i.imgur.com/t8YehGM.jpg",
-            lang: "en",
-            location: "Bogota",
-            location_reference: "referencia",
-            privacy: "1",
-            starts: "2016-01-30 17:45:00",
-            title: "Ionic 102 - Workshop",
-            type: "1",
-            perks: [
-              {
-                tasks: [
-                  {
-                    user_id: 1,
-                    status: 0
-                  },
-                  {
-                    user_id: 1,
-                    status: 0
-                  }
-                ]
-              },
-              {
-                tasks: [
-                  {
-                    user_id: 1,
-                    status: 1
-                  },
-                  {
-                    user_id: 1,
-                    status: 0
-                  }
-                ]
-              }
-            ]
-          }
-        ],
+        events: events,
         sponzorships_like_organizer: [
           {
             cause: "Test 1",

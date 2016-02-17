@@ -13,10 +13,12 @@
 
   HomeSponzorController.$inject = [
     '$localStorage',
+    'eventService',
+    'utilsService',
     '$scope'
   ];
 
-  function HomeSponzorController( $localStorage, $scope) {
+  function HomeSponzorController(  $localStorage, eventService, utilsService, $scope) {
 
     var vm = this;
     //Attributes
@@ -33,8 +35,20 @@
     }
 
     function doRefresh(){
-      vm.events = vm.userAuth.events.filter( filterDate );
-      $scope.$broadcast('scroll.refreshComplete');
+      eventService.allEvents()
+        .then( complete );
+        //.catch(failed );
+
+        function complete( events ){
+          vm.userAuth.events = $localStorage.userAuth.events = events;
+          vm.events = vm.userAuth.events.filter( filterDate );
+          $scope.$broadcast('scroll.refreshComplete');
+        }
+
+        /*
+        function failed( error ){
+          console.log( error );
+        }*/
     }
 
     function filterDate( item ){

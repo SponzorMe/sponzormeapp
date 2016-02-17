@@ -68,53 +68,10 @@ describe('Controller: HomeSponzorController', function(){
     it('Should have events array', function() {
       chai.assert.isDefined( homeSponzorController.events );
       chai.assert.isArray( homeSponzorController.events );
-      chai.expect( homeSponzorController.events ).to.be.empty;
     });
 
     it('Should events be empty', function() {
-      chai.expect( homeSponzorController.events ).to.be.empty;
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to getEvents success', function(){
-
-    var dataEvents = mockData.eventService.allEvents();
- 
-    beforeEach(function() {
-      $httpBackend.whenGET( URL_REST + 'events').respond(200, dataEvents);
-    });
-
-    it('Should be called utilsService methods', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-    });
-
-    it('Should be events.length', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
       chai.assert.equal( homeSponzorController.events.length, 1 );
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to getEvents failed', function(){
-
-    var dataEvents = mockData.failed();
- 
-    beforeEach(function() {
-      $httpBackend.whenGET( URL_REST +'events').respond(400, dataEvents);
-    });
-
-    it('Should be called utilsService methods', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
     });
 
   });
