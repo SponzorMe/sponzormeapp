@@ -83,16 +83,11 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( preparateData(response.data.data) );
+        return $q.when( preparateData(response.data.event) );
 
-        function preparateData( data ){
-          var event = data.event;
+        function preparateData( event ){
           event.image = (event.image == "event_dummy.png") ? 'img/banner.jpg' : event.image;
-          event.category = data.category.length === 0 ? event.category : data.category[0];
-          event.type = data.type.length === 0 ? event.type : data.type[0];
-          event.organizer = data.organizer.length === 0 ? event.organizer : data.organizer[0];
-          event.organizer.image = (event.organizer.image == "organizer_sponzorme.png") ? 'img/photo.png' : event.organizer.image;
-          event.sponzorships = data.sponzorships;
+          event.user_organizer.image = (event.user_organizer.image == "organizer_sponzorme.png") ? 'img/photo.png' : event.user_organizer.image;
           event.starts = moment(event.starts)._d;
           event.ends = moment(event.ends)._d;
           return event;

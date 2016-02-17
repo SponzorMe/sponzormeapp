@@ -29,7 +29,6 @@
     var vm = this;
     vm.event = {};
     vm.userAuth = $localStorage.userAuth;
-    vm.perks = [];
 
     vm.modalSponsorIt = null;
     vm.newSponsorIt = {};
@@ -62,19 +61,19 @@
         function complete( event ){
           utilsService.hideLoad();
           vm.event = event;
-          vm.perks = preparatePerks( vm.event );
+          vm.event.perks = preparatePerks( vm.event );
         }
 
         function failed( error ){
           utilsService.hideLoad();
         }
     }
-
+    
     function preparatePerks( event ){
       var perks = event.perks;
       for (var i = 0; i < perks.length; i++) {
-        perks[i].sponsorships = _.where(event.sponzorships, {perk_id: perks[i].id});
-        perks[i].tasks = _.where( event.perk_tasks.filter( filterByTypePerk ), {perk_id: perks[i].id});
+        perks[i].sponzorship = _.where(event.sponzorship, {perk_id: perks[i].id});
+        perks[i].already = _.findWhere(perks[i].sponzorship , {sponzor_id: vm.userAuth.id});
       }
       return perks;
     }
@@ -83,7 +82,6 @@
       return task.type == '0'; //Organizer
     }
     
-
     function openModalSponsorIt(){
       vm.modalSponsorIt.show();
     }
@@ -103,9 +101,9 @@
         .then( complete )
         .catch( failed );
 
-        function complete( event ){
+        function complete( newSponsorship ){
           vm.closeModalSponsorIt();
-          $ionicHistory.clearCache();
+          getEvent();
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_sponsor_it"));
         }
 
@@ -119,7 +117,7 @@
         sponzor_id: vm.userAuth.id,
         perk_id: vm.newSponsorIt.perk.id,
         event_id: vm.event.id,
-        organizer_id: vm.event.organizer.id,
+        organizer_id: vm.event.user_organizer.id,
         status: 0,
         cause: vm.newSponsorIt.cause
       }

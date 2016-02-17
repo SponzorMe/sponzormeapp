@@ -179,7 +179,10 @@
         "button_message" : "Add Event"
     },
     "EVENTDETAIL":{
-        "list_perk_task_empty": "Nothing new yet."
+        "list_perk_task_empty": "Nothing new yet.",
+        "status_accept": "Solicitude accepted.",
+        "status_reject": "Solicitude reject.",
+        "status_pending": "Solicitude pending."
     },
     "ADDSPONSORSHIPTYPE":{
         "title": "New sponsorship type",

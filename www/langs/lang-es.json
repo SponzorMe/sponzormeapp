@@ -179,7 +179,10 @@
       "button_message" : "Agregar Evento"
   },
   "EVENTDETAIL":{
-      "list_perk_task_empty": "No hay ninguno aún."
+      "list_perk_task_empty": "No hay ninguno aún.",
+      "status_accept": "Solicitud aceptada.",
+      "status_reject": "Solicitud rechazada.",
+      "status_pending": "Solicitud pendiente."
   },
   "ADDSPONSORSHIPTYPE":{
     "title": "Nuevo tipo de patrocinio",

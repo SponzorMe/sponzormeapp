@@ -36,9 +36,9 @@
 						    Organizer
 						  </ion-item>
             	<ion-item class="item-avatar">
-						    <img ng-src="{{ eventDetail.event.organizer.image }}">
-						    <h2>{{ eventDetail.event.organizer.name }}</h2>
-						    <p>{{ eventDetail.event.organizer.company }}</p>
+						    <img ng-src="{{ eventDetail.event.user_organizer.image }}">
+						    <h2>{{ eventDetail.event.user_organizer.name }}</h2>
+						    <p>{{ eventDetail.event.user_organizer.company }}</p>
 						  </ion-item>
 						  <ion-item class="item-divider">Category</ion-item>
 						  <ion-item class="item-icon-left">
@@ -55,7 +55,7 @@
         </ion-slide>
         <ion-slide>
           <ion-scroll style="height:90%">
-            <div class="row text-center" ng-show="eventDetail.perks.length == 0">
+            <div class="row text-center" ng-show="eventDetail.event.perks.length == 0">
               <div class="col">
                 <div class="empty-states">
                   <i class="icon ion-android-checkmark-circle"></i>
@@ -63,7 +63,7 @@
                 </div>
               </div>
             </div>
-            <ion-list type="card" ng-repeat="perk in eventDetail.perks">
+            <ion-list type="card" ng-repeat="perk in eventDetail.event.perks">
               <ion-item class="item-divider">
                 {{ perk.kind }} - ${{ perk.usd }}
               </ion-item>
@@ -75,17 +75,25 @@
                 <h2> {{ task.title }} </h2>
                 <p> {{ task.description }} </p>
               </ion-item>
-              <ion-item >
-                <button type="button" class="button button-block button-positive" ng-click="eventDetail.createSponsorIt(perk)">
-                Sponsor it!!
-              </button>
+              <ion-item ng-show="!perk.already">
+                <button ng-show="!perk.already" type="button" class="button button-block button-positive" ng-click="eventDetail.createSponsorIt(perk)">
+                  Sponsor it!!
+                </button>
+              </ion-item>
+              <ion-item ng-show="perk.already" class="item-icon-right">
+                <span ng-if="perk.already.status == 1">{{'EVENTDETAIL.status_accept' | translate}}</span>
+                <span ng-if="perk.already.status == 2">{{'EVENTDETAIL.status_reject' | translate}}</span>
+                <span ng-if="perk.already.status == 0">{{'EVENTDETAIL.status_pending' | translate}}</span>
+                <i class="icon ion-checkmark-circled status-sponzorship accept" ng-if="perk.already.status == 1"></i>
+                <i class="icon ion-close-circled status-sponzorship reject" ng-if="perk.already.status == 2"></i>
+                <i class="icon ion-alert status-sponzorship pending" ng-if="perk.already.status == 0"></i>
               </ion-item>
             </ion-list>
           </ion-scroll>
         </ion-slide>
         <ion-slide>
           <ion-scroll style="height:90%">
-            <div class="row text-center" ng-show="eventDetail.perks.length == 0">
+            <div class="row text-center" ng-show="eventDetail.event.perks.length == 0">
               <div class="col">
                 <div class="empty-states">
                   <i class="icon ion-flag"></i>
@@ -93,17 +101,17 @@
                 </div>
               </div>
             </div>
-            <ion-list type="card" ng-repeat="perk in eventDetail.perks">
+            <ion-list type="card" ng-repeat="perk in eventDetail.event.perks">
               <ion-item class="item-divider">
                 {{ perk.kind }} - ${{ perk.usd }}
               </ion-item>
-              <ion-item ng-show="perk.sponsorships.length == 0">
+              <ion-item ng-show="perk.sponzorship.length == 0">
                 {{'EVENTDETAIL.list_perk_task_empty' | translate}}
               </ion-item>
-              <ion-item class="item-icon-left item-icon-right" ng-repeat="sponzorship in perk.sponsorships">
+              <ion-item class="item-icon-left item-icon-right" ng-repeat="sponzorship in perk.sponzorship">
                 <i class="icon ion-flag"></i>
                 <h2> {{ sponzorship.cause }} </h2>
-                <p> {{ sponzorship.name }} </p>
+                <p> {{ sponzorship.sponzor.name }} </p>
                 <i class="icon ion-checkmark-circled status-sponzorship accept" ng-if="sponzorship.status == 1"></i>
                 <i class="icon ion-close-circled status-sponzorship reject" ng-if="sponzorship.status == 2"></i>
                 <i class="icon ion-alert status-sponzorship pending" ng-if="sponzorship.status == 0"></i>
