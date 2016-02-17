@@ -51,6 +51,7 @@
           placeholder='{{"ADDEVENTS.location_field" | translate}}' 
           ng-model="addEvent.newEvent.location" 
           g-places-autocomplete 
+          autocomplete="off" 
           ng-minlength="5" 
           required>
         </label>
@@ -132,24 +133,24 @@
         </label>
 
         <ion-item class="item-divider">Type of Sponzor</ion-item>
-        <ion-item ng-repeat="sponsor in addEvent.sponsors" ng-click="addEvent.editSponsor(sponsor)" class="item-icon-right">
-          {{ sponsor.kind }} - {{ sponsor.usd }}
+        <ion-item ng-repeat="perk in addEvent.newEvent.perks" ng-click="addEvent.editPerk( perk )" class="item-icon-right">
+          {{ perk.kind }} - {{ perk.usd }}
           <i class="icon ion-edit"></i>
         </ion-item>
          
         <div class="padding">
-          <button type="button" class="button button-block button-positive" ng-click="addEvent.createSponsor()">
+          <button type="button" class="button button-block button-positive" ng-click="addEvent.createPerk()">
             New Sponzor
           </button>
         </div>
         <input
         class="ng-hide" 
-        name="sponsors"
+        name="perks"
         type="number" 
         min="1" 
-        ng-model="addEvent.sponsors.length"
+        ng-model="addEvent.newEvent.perks.length"
         > 
-        <div class="form-errors" ng-messages="addEventForm.sponsors.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
+        <div class="form-errors" ng-messages="addEventForm.perks.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
           <div class="form-error" ng-message="min"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_error_sponsors_empty" | translate}}</div>
         </div>
       </ion-list>

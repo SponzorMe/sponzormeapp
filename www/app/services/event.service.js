@@ -114,10 +114,10 @@
         method: 'POST',
         url: path + 'events',
         headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Content-Type' : 'application/json',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $httpParamSerializerJQLike(data)
+        data: data
       })
       .then( complete )
       .catch( failed );

@@ -15,13 +15,11 @@
     '$scope',
     '$translate',
     '$localStorage',
-    'userService',
     'utilsService',
     '$cordovaDatePicker',
     '$cordovaCamera',
     'eventTypeService',
     'eventService',
-    'perkService',
     '$ionicModal',
     '$cordovaToast',
     '$ionicHistory',
@@ -30,16 +28,15 @@
     '$state'
   ];
 
-  function AddEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, perkService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $state) {
+  function AddEventController( $scope, $translate, $localStorage, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $state) {
 
     var vm = this;
     vm.newEvent = {};
-    vm.newSponsor = {};
-    vm.isNewSponsor = true;
+    vm.newPerk = {};
+    vm.isNewPerk = true;
     vm.eventTypes = [];
-    vm.sponsors = [];
     vm.userAuth = $localStorage.userAuth;
-    vm.modalSponsor = null;
+    vm.modalPerk = null;
     vm.imageURI = null;
 
     vm.clickedStartDate = clickedStartDate;
@@ -48,31 +45,30 @@
     vm.clickedEndTime = clickedEndTime;
     vm.getPhoto = getPhoto;
     vm.createEvent = createEvent;
-    vm.openModalSponsor = openModalSponsor;
-    vm.closeModalSponsor = closeModalSponsor;
-    vm.createSponsor = createSponsor;
-    vm.editSponsor = editSponsor;
-    vm.deleteSponsor = deleteSponsor;
-    vm.submitSponsor = submitSponsor;
+    vm.openModalPerk = openModalPerk;
+    vm.closeModalPerk = closeModalPerk;
+    vm.createPerk = createPerk;
+    vm.editPerk = editPerk;
+    vm.deletePerk = deletePerk;
+    vm.submitPerk = submitPerk;
 
     activate();
 
     ////////////
 
     function activate(){
-
-      vm.sponsors = [];
       vm.newEvent.access = true;
-      /*vm.newEvent.starttime = "13:00:00";
+      vm.newEvent.perks = [];
+      vm.newEvent.starttime = "13:00:00";
       vm.newEvent.start = "2016-01-09";
       vm.newEvent.endtime = "15:00:00";
-      vm.newEvent.end = "2016-01-09";*/
+      vm.newEvent.end = "2016-01-09";
 
-      $ionicModal.fromTemplateUrl('app/events-organizer/sponsor-modal.html', {
+      $ionicModal.fromTemplateUrl('app/events-organizer/perk-modal.html', {
         scope: $scope,
         animation: 'slide-in-up'
       }).then(function(modal) {
-        vm.modalSponsor = modal;
+        vm.modalPerk = modal;
       });
       
       getEventsTypes();
@@ -219,8 +215,8 @@
         function complete( event ) {
           utilsService.hideLoad();
           utilsService.resetForm( form );
-          createPerks( event.id );
           vm.newEvent = {};
+          $localStorage.userAuth.events.push( event ); 
           $ionicHistory.nextViewOptions({
             disableAnimate: false,
             disableBack: true
@@ -267,8 +263,8 @@
 
       return {
         title: vm.newEvent.title,
-        location: vm.newEvent.location,
-        location_reference: "referencia",
+        location: vm.newEvent.location.formatted_address,
+        location_reference: vm.newEvent.location.place_id,
         description: vm.newEvent.description,
         starts: joinDate(vm.newEvent.start, vm.newEvent.starttime),
         ends: joinDate(vm.newEvent.end, vm.newEvent.endtime),
@@ -277,79 +273,62 @@
         lang: $translate.use(),
         organizer: vm.userAuth.id,
         category: 1,
-        type: vm.newEvent.type.id
+        type: vm.newEvent.type.id,
+        perks: vm.newEvent.perks
       }
     }
 
     /*-------------- Perks --------------*/
 
-    function createPerks( idEvent ){
-      var size = vm.sponsors.length;
-      for (var i = 0; i < size; i++) {
-        var data = vm.sponsors[i];
-        data.id_event = idEvent;
-        data.reserved_quantity = 0;
-        createPerk( data );
-      };
+    
+
+    function openModalPerk(){
+      vm.modalPerk.show();
     }
 
-    function createPerk( data ){
-      return perkService.createPerk( data )
-        .then( complete );
-        //.catch( failed );
-
-        function complete( response ){
-          console.log( response );
-        }
-
-        /*
-        function failed( error ){
-          console.log( error );
-        }*/
-    }
-
-    function openModalSponsor(){
-      vm.modalSponsor.show();
-    }
-
-    function closeModalSponsor( form ){
-      vm.modalSponsor.hide();
+    function closeModalPerk( form ){
+      vm.modalPerk.hide();
       if (form) utilsService.resetForm( form );
-      vm.newSponsor = {};
+      vm.newPerk = {};
     } 
 
-    function createSponsor(){
-      vm.isNewSponsor = true;
-      vm.openModalSponsor();
+    function createPerk(){
+      vm.isNewPerk = true;
+      vm.openModalPerk();
     }
 
-    function editSponsor( data ){
-      vm.isNewSponsor = false;
-      vm.newSponsor = data;
-      vm.openModalSponsor();
+    function editPerk( data ){
+      vm.isNewPerk = false;
+      vm.newPerk = data;
+      vm.openModalPerk();
     }
 
-    function addSponsor(){
-      vm.sponsors.push( vm.newSponsor );
-      vm.closeModalSponsor();
+    function addPerk(){
+      vm.newEvent.perks.push({
+        kind: vm.newPerk.kind,
+        usd: vm.newPerk.usd,
+        total_quantity: vm.newPerk.total_quantity,
+        reserved_quantity: 0
+      });
+      vm.closeModalPerk();
     }
 
-    function deleteSponsor(){
-      var index = vm.sponsors.indexOf( vm.newSponsor );
-      vm.sponsors.splice(index, 1);
-      vm.closeModalSponsor();
+    function deletePerk(){
+      var index = vm.newEvent.perks.indexOf( vm.newPerk );
+      vm.newEvent.perks.splice(index, 1);
+      vm.closeModalPerk();
     }
 
-    function updateSponsor(){
-      vm.closeModalSponsor();
+    function updatePerk(){
+      vm.closeModalPerk();
     }
 
-    function submitSponsor( form ){
-      if(vm.isNewSponsor){
-        addSponsor();
+    function submitPerk( form ){
+      if(vm.isNewPerk){
+        addPerk();
         utilsService.resetForm( form );
       }else{
-        updateSponsor();
+        updatePerk();
         utilsService.resetForm( form );
       }
     }
