@@ -58,21 +58,15 @@
     "cordova-plugin-calendar",
     "cordova-plugin-crosswalk-webview",
     "cordova-plugin-network-information",
-    "ionic-plugin-deploy",
-    "phonegap-plugin-push"
+    "ionic-plugin-deploy"
   ],
   "cordovaPlatforms": [
-    "ios",
-    {
-      "platform": "ios",
-      "version": "",
-      "locator": "ios"
-    },
     "android",
     {
       "platform": "android",
       "version": "",
       "locator": "android"
-    }
+    },
+    "ios"
   ]
 }
