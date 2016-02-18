@@ -42,7 +42,6 @@
     //Attributes
     vm.event = {};
     vm.deleteEvent = deleteEvent;
-    vm.perks = [];
     vm.userAuth = $localStorage.userAuth;
 
     vm.modalTask = null;
@@ -95,7 +94,7 @@
         function complete( event ){
           utilsService.hideLoad();
           vm.event = event;
-          vm.perks = preparatePerks( vm.event );
+          vm.event.perks = vm.event.perks.map( preparatePerks );
         }
 
         function failed( error ){
@@ -103,13 +102,9 @@
         }
     }
 
-    function preparatePerks( event ){
-      var perks = event.perks;
-      for (var i = 0; i < perks.length; i++) {
-        perks[i].sponsorships = _.where(event.sponzorships, {perk_id: perks[i].id});
-        //perks[i].tasks = _.where(event.perk_tasks.filter( filterByTypePerk )  , {perk_id: perks[i].id});
-      }
-      return perks;
+    function preparatePerks( perk ){
+      perk.sponzorship = _.where(event.sponzorship, {perk_id: perk.id});
+      return perk;
     }
 
     function filterByTypePerk( task ){
@@ -264,6 +259,7 @@
     function editTask( task ){
       vm.isNewTask = false;
       vm.task = task;
+      vm.task.status = vm.task.status == 1 ? true : false;
       vm.showModalTask();
     }
 
@@ -317,6 +313,7 @@
     }
 
     function updateTask( form ){
+      vm.task.status = vm.task.status ? 1 : 0;
       perkTaskService.editPerkTaskPatch( vm.task.id, vm.task )
       .then( complete )
       .catch( failed );

@@ -165,9 +165,9 @@ describe("Controller: EventDetailOrganizerController", function() {
   describe('Tests to perks array', function(){
 
     it('Should have perks array', function() {
-      chai.assert.isDefined( eventDetailOrganizerController.perks );
-      chai.assert.isArray( eventDetailOrganizerController.perks );
-      chai.expect( eventDetailOrganizerController.perks ).to.be.empty;
+      chai.assert.isDefined( eventDetailOrganizerController.event.perks );
+      chai.assert.isArray( eventDetailOrganizerController.event.perks );
+      chai.expect( eventDetailOrganizerController.event.perks ).to.be.empty;
     });
 
   });
@@ -252,19 +252,19 @@ describe("Controller: EventDetailOrganizerController", function() {
     it('Should have an perks array', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( eventDetailOrganizerController.perks.length, dataEvent.data.event.perks.length );
-    	for (var i = 0; i < eventDetailOrganizerController.perks.length; i++) {
-    		chai.assert.isArray(eventDetailOrganizerController.perks[i].tasks);
-    		chai.assert.isArray(eventDetailOrganizerController.perks[i].sponsorships);
+      chai.assert.equal( eventDetailOrganizerController.event.perks.length, dataEvent.data.event.perks.length );
+    	for (var i = 0; i < eventDetailOrganizerController.event.perks.length; i++) {
+    		chai.assert.isArray(eventDetailOrganizerController.event.perks[i].tasks);
+    		chai.assert.isArray(eventDetailOrganizerController.event.perks[i].sponsorships);
     	};
     });
 
     it('Should perks tasks be type 0 an Organizer', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-    	for (var i = 0; i < eventDetailOrganizerController.perks.length; i++) {
-    		for (var j = 0; j < eventDetailOrganizerController.perks[i].tasks.length; j++) {
-    			chai.assert.equal(eventDetailOrganizerController.perks[i].tasks[j].type, 0);
+    	for (var i = 0; i < eventDetailOrganizerController.event.perks.length; i++) {
+    		for (var j = 0; j < eventDetailOrganizerController.event.perks[i].tasks.length; j++) {
+    			chai.assert.equal(eventDetailOrganizerController.event.perks[i].tasks[j].type, 0);
     		};
     	};
     });

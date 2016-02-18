@@ -40,9 +40,9 @@
 						    Organizer
 						  </ion-item>
             	<ion-item class="item-avatar">
-						    <img ng-src="{{ eventDetail.event.organizer.image }}">
-						    <h2>{{ eventDetail.event.organizer.name }}</h2>
-						    <p>{{ eventDetail.event.organizer.company }}</p>
+						    <img ng-src="{{ eventDetail.event.user_organizer.image }}">
+						    <h2>{{ eventDetail.event.user_organizer.name }}</h2>
+						    <p>{{ eventDetail.event.user_organizer.company }}</p>
 						  </ion-item>
 						  <ion-item class="item-divider">Category</ion-item>
 						  <ion-item class="item-icon-left">
@@ -60,7 +60,7 @@
         
         <ion-slide>
           <ion-scroll style="height:90%">
-            <div class="row text-center" ng-show="eventDetail.perks == 0">
+            <div class="row text-center" ng-show="eventDetail.event.perks.length == 0">
               <div class="col">
                 <div class="empty-states">
                   <i class="icon ion-flag"></i>
@@ -68,15 +68,15 @@
                 </div>
               </div>
             </div>
-            <ion-list type="card" ng-show="eventDetail.perks.length > 0" ng-repeat="perk in eventDetail.perks">
+            <ion-list type="card" ng-show="eventDetail.event.perks.length > 0" ng-repeat="perk in eventDetail.event.perks">
               <ion-item class="item-divider">
                 {{ perk.kind }} - ${{ perk.usd }}
-                <span class="badge badge-positive">{{ perk.sponsorships.length }}</span>
+                <span class="badge badge-positive">{{ perk.sponzorship.length }}</span>
               </ion-item>
-              <ion-item ng-show="perk.sponsorships.length == 0">
+              <ion-item ng-show="perk.sponzorship.length == 0">
                 Nothing new yet.
               </ion-item>
-              <ion-item ng-click="eventDetail.openOptionsSponsorship( sponzorship )" class="item-icon-left item-icon-right" ng-repeat="sponzorship in perk.sponsorships">
+              <ion-item ng-click="eventDetail.openOptionsSponsorship( sponzorship )" class="item-icon-left item-icon-right" ng-repeat="sponzorship in perk.sponzorship">
                 <i class="icon ion-flag"></i>
                 <h2> {{ sponzorship.cause }} </h2>
                 <p> {{ sponzorship.name }} </p>
@@ -89,7 +89,7 @@
         </ion-slide>
         <ion-slide>
           <ion-scroll style="height:90%">
-            <div class="row text-center" ng-show="eventDetail.perks == 0">
+            <div class="row text-center" ng-show="eventDetail.event.perks == 0">
               <div class="col">
                 <div class="empty-states">
                   <i class="icon ion-flag"></i>
@@ -97,7 +97,7 @@
                 </div>
               </div>
             </div>
-            <ion-list type="card" ng-show="eventDetail.perks.length > 0" ng-repeat="perk in eventDetail.perks">
+            <ion-list type="card" ng-show="eventDetail.event.perks.length > 0" ng-repeat="perk in eventDetail.event.perks">
               <ion-item class="item-button-right">
                 Perk: {{ perk.kind }} - ${{ perk.usd }}
                 <a class="button button-positive" ng-click="eventDetail.newTask( perk )">
