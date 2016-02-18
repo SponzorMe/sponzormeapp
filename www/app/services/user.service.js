@@ -67,7 +67,9 @@
       function preparateData( data ) {
         var user = data.user;
         if(data.events){
-           user.events = data.events.map( preparateEvent );
+          user.events = data.events.map( preparateEvent );
+        }else{
+          user.events = user.events.map( preparateEvent );
         }
         return user;
       }
