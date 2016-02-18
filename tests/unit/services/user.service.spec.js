@@ -102,7 +102,7 @@ describe("Service: userService", function(){
       it('Should return an user', function( done ){
         userService.login( 'mail@domain.com', '123456' )
         .then(function( result ) {
-          chai.expect( result ).to.eql( data.user );
+          chai.expect( result.id ).to.eql( data.user.id );
           done();
         });
         $httpBackend.flush();

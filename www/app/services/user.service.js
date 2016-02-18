@@ -25,6 +25,7 @@
 
     var service = {
       login: login,
+      home: home,
       getUser: getUser,
       createUser: createUser,
       deleteUser: deleteUser,
@@ -116,6 +117,49 @@
           item.ends = moment(item.ends)._d;
           return item;
         }
+      }
+
+      function failed( response ) {
+        return $q.reject( response.data );
+      }
+    }
+    
+    function home( userId ){
+
+      //Validate
+      var typeUserId = typeof userId;
+      if(typeUserId !== 'string' && typeUserId !== 'number') throw new Error();
+
+      return $http({
+        method: 'GET',
+        url: path + 'home/' + userId,
+        headers: { 
+          'Content-Type' : 'application/json',
+          'Authorization' : 'Basic '+ getToken()
+        },
+      })
+      .then( complete )
+      .catch( failed );
+
+      function complete( response ) {
+        return $q.when( preparateData(response.data) );
+      }
+      
+      function preparateData( data ) {
+        var user = data.user;
+        if(data.events){
+          user.events = data.events.map( preparateEvent );
+        }else{
+          user.events = user.events.map( preparateEvent );
+        }
+        return user;
+      }
+      
+      function preparateEvent( item ){
+        item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
+        item.starts = moment(item.starts)._d;
+        item.ends = moment(item.ends)._d;
+        return item;  
       }
 
       function failed( response ) {

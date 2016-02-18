@@ -38,7 +38,7 @@
     }
 
     function doRefresh(){
-      userService.getUser( vm.userAuth.id )
+      userService.home( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 

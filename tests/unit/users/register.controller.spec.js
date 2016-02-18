@@ -93,7 +93,7 @@ describe("Controller: RegisterController", function() {
       $httpBackend.flush();
       chai.assert.equal($localStorage.token, token);
       chai.assert.isDefined($localStorage.userAuth);
-      chai.expect( $localStorage.userAuth ).to.eql( dataLogin.user );
+      chai.expect( $localStorage.userAuth.id ).to.eql( dataLogin.user.id );
       chai.assert.isObject(registerController.newUser);
       chai.assert.isDefined(registerController.newUser.type);
       chai.assert.equal(registerController.newUser.type, 0);
