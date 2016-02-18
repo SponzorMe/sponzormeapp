@@ -25,7 +25,7 @@ describe("Controller: EditEventController", function() {
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
-    $httpBackend.whenGET('app/events-organizer/sponsor-edit-modal.html').respond(200, '');
+    $httpBackend.whenGET('app/events-organizer/perk-edit-modal.html').respond(200, '');
 
     //Dependences
     $scope = $rootScope.$new();
@@ -124,7 +124,6 @@ describe("Controller: EditEventController", function() {
 	    '$cordovaCamera': $cordovaCamera,
 	    'eventTypeService': eventTypeService,
 	    'eventService': eventService,
-	    'perkService': perkService,
 	    '$ionicModal': $ionicModal,
 	    '$cordovaToast': $cordovaToast,
 	    '$ionicHistory': $ionicHistory,
@@ -164,29 +163,29 @@ describe("Controller: EditEventController", function() {
   });
 
   ////////////////////////////////////////////////////////////
-  describe('Tests to newSponsor variable', function(){
+  describe('Tests to newPerk variable', function(){
 
-    it('Should have newSponsor variable', function() {
-      chai.assert.isDefined( editEventController.newSponsor );
-      chai.assert.isObject( editEventController.newSponsor );
+    it('Should have newPerk variable', function() {
+      chai.assert.isDefined( editEventController.newPerk );
+      chai.assert.isObject( editEventController.newPerk );
     });
 
-    it('Should newSponsor be empty', function() {
-    	chai.expect( editEventController.newSponsor ).to.be.empty;
+    it('Should newPerk be empty', function() {
+    	chai.expect( editEventController.newPerk ).to.be.empty;
     });
 
   });
 
   ////////////////////////////////////////////////////////////
-  describe('Tests to isNewSponsor variable', function(){
+  describe('Tests to isNewPerk variable', function(){
 
-    it('Should have isNewSponsor variable', function() {
-      chai.assert.isDefined( editEventController.isNewSponsor );
-      chai.assert.isBoolean( editEventController.isNewSponsor );
+    it('Should have isNewPerk variable', function() {
+      chai.assert.isDefined( editEventController.isNewPerk );
+      chai.assert.isBoolean( editEventController.isNewPerk );
     });
 
-    it('Should isNewSponsor be true', function() {
-    	chai.assert.isTrue( editEventController.isNewSponsor );
+    it('Should isNewPerk be true', function() {
+    	chai.assert.isTrue( editEventController.isNewPerk );
     });
 
   });
@@ -206,28 +205,14 @@ describe("Controller: EditEventController", function() {
   });
 
   ////////////////////////////////////////////////////////////
-  describe('Tests to sponsors array', function(){
+  describe('Tests to modalPerk variable', function(){
 
-    it('Should have sponsors array', function() {
-      chai.assert.isDefined( editEventController.sponsors );
-      chai.assert.isArray( editEventController.sponsors );
+    it('Should have modalPerk variable', function() {
+      chai.assert.isDefined( editEventController.modalPerk );
     });
 
-    it('Should sponsors be empty', function() {
-    	chai.expect( editEventController.sponsors ).to.be.empty;
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to modalSponsor variable', function(){
-
-    it('Should have modalSponsor variable', function() {
-      chai.assert.isDefined( editEventController.modalSponsor );
-    });
-
-    it('Should sponsors be null', function() {
-    	chai.assert.isNull( editEventController.modalSponsor );
+    it('Should perks be null', function() {
+    	chai.assert.isNull( editEventController.modalPerk );
     });
 
   });
@@ -275,6 +260,7 @@ describe("Controller: EditEventController", function() {
       chai.assert.equal(editEventController.newEvent.start, '2016-01-31');
       chai.assert.equal(editEventController.newEvent.starttime, '09:57:00');
       chai.assert.equal(editEventController.newEvent.end, moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD'));
+      chai.assert.isArray(editEventController.newEvent.perks);
       //chai.assert.equal(editEventController.newEvent.endtime, moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD');
     });
 
@@ -282,12 +268,6 @@ describe("Controller: EditEventController", function() {
       $rootScope.$digest();
       $httpBackend.flush();
       chai.assert.isBoolean(editEventController.newEvent.access);
-    });
-
-    it('Should sponsors be equal that perks', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect( editEventController.sponsors ).to.eql(  editEventController.newEvent.perks );
     });
 
     it('Should eventTypes be an array', function() {
@@ -472,17 +452,12 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
   	var dataImage = mockData.imgurService.uploadImage();
   	var dataEditEvent = mockData.eventService.editEventPatch();
-  	var dataPerk = mockData.perkService.editPerkPatch();
-  	var dataCreatePerk = mockData.perkService.createPerk();
 
     beforeEach(function() {
   		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
   		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   		$httpBackend.whenPOST('https://api.imgur.com/3/image').respond(200, dataImage);
-  		$httpBackend.whenPATCH( URL_REST + 'events/1').respond(200, dataEditEvent);
-  		$httpBackend.whenPATCH( URL_REST + 'perks/3').respond(200, dataPerk);
-  		$httpBackend.whenPATCH( URL_REST + 'perks/14').respond(200, dataPerk);
-  		$httpBackend.whenPOST( URL_REST + 'perks').respond(200, dataCreatePerk);
+  		$httpBackend.whenPUT( URL_REST + 'events/1').respond(200, dataEditEvent);
   	});
 
   	it('Should be called uploadImage', function() {
@@ -530,33 +505,6 @@ describe("Controller: EditEventController", function() {
       chai.expect($cordovaToast.showShortBottom).to.have.been.called();
     });
 
-    it('Should be called editPerkPatch method', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      editEventController.imageURI = "12346.jpg";
-      editEventController.updateEvent( mockForm );
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(perkService.editPerkPatch).to.have.been.called();
-      chai.expect(perkService.editPerkPatch).to.have.been.called.exactly(2);
-    });
-
-    it('Should be called createPerk method', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      editEventController.imageURI = "12346.jpg";
-      editEventController.updateEvent( mockForm );
-      editEventController.sponsors.push({
-      	kind: "asas",
-      	total_quantity: 0,
-      	usd: 0
-      });
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(perkService.createPerk).to.have.been.called();
-      chai.expect(perkService.createPerk).to.have.been.called.exactly(1);
-    });
-
     it('Should newEvent be empty', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
@@ -575,16 +523,11 @@ describe("Controller: EditEventController", function() {
     var dataEvent = mockData.eventService.getEvent();
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
   	var dataEditEvent = mockData.eventService.editEventPatch();
-  	var dataPerk = mockData.perkService.editPerkPatch();
-  	var dataCreatePerk = mockData.perkService.createPerk();
 
     beforeEach(function() {
   		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
   		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
-  		$httpBackend.whenPATCH( URL_REST + 'events/1').respond(200, dataEditEvent);
-  		$httpBackend.whenPATCH( URL_REST + 'perks/3').respond(200, dataPerk);
-  		$httpBackend.whenPATCH( URL_REST + 'perks/14').respond(200, dataPerk);
-  		$httpBackend.whenPOST( URL_REST + 'perks').respond(200, dataCreatePerk);
+  		$httpBackend.whenPUT( URL_REST + 'events/1').respond(200, dataEditEvent);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -618,31 +561,6 @@ describe("Controller: EditEventController", function() {
       chai.expect($cordovaToast.showShortBottom).to.have.been.called();
     });
 
-    it('Should be called editPerkPatch method', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      editEventController.updateEvent( mockForm );
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(perkService.editPerkPatch).to.have.been.called();
-      chai.expect(perkService.editPerkPatch).to.have.been.called.exactly(2);
-    });
-
-    it('Should be called createPerk method', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      editEventController.updateEvent( mockForm );
-      editEventController.sponsors.push({
-      	kind: "asas",
-      	total_quantity: 0,
-      	usd: 0
-      });
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(perkService.createPerk).to.have.been.called();
-      chai.expect(perkService.createPerk).to.have.been.called.exactly(1);
-    });
-
     it('Should newEvent be empty', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
@@ -661,17 +579,12 @@ describe("Controller: EditEventController", function() {
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
   	var dataImage = mockData.failed();
   	var dataEditEvent = mockData.eventService.editEventPatch();
-  	var dataPerk = mockData.perkService.editPerkPatch();
-  	var dataCreatePerk = mockData.perkService.createPerk();
 
     beforeEach(function() {
   		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
   		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   		$httpBackend.whenPOST('https://api.imgur.com/3/image').respond(400, dataImage);
-  		$httpBackend.whenPATCH( URL_REST + 'events/1').respond(200, dataEditEvent);
-  		$httpBackend.whenPATCH( URL_REST + 'perks/3').respond(200, dataPerk);
-  		$httpBackend.whenPATCH( URL_REST + 'perks/14').respond(200, dataPerk);
-  		$httpBackend.whenPOST( URL_REST + 'perks').respond(200, dataCreatePerk);
+  		$httpBackend.whenPUT( URL_REST + 'events/1').respond(200, dataEditEvent);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -696,17 +609,12 @@ describe("Controller: EditEventController", function() {
   	var dataImage = mockData.imgurService.uploadImage();
   	//var dataEditEvent = mockData.eventService.editEventPatch();
   	var dataEditEvent = mockData.failed();
-  	var dataPerk = mockData.perkService.editPerkPatch();
-  	var dataCreatePerk = mockData.perkService.createPerk();
 
     beforeEach(function() {
   		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
   		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   		$httpBackend.whenPOST('https://api.imgur.com/3/image').respond(200, dataImage);
-  		$httpBackend.whenPATCH( URL_REST + 'events/1').respond(400, dataEditEvent);
-  		$httpBackend.whenPATCH( URL_REST + 'perks/3').respond(200, dataPerk);
-  		$httpBackend.whenPATCH( URL_REST + 'perks/14').respond(200, dataPerk);
-  		$httpBackend.whenPOST( URL_REST + 'perks').respond(200, dataCreatePerk);
+  		$httpBackend.whenPUT( URL_REST + 'events/1').respond(400, dataEditEvent);
   	});
 
     it('Should be called utilsService methods', function() {
@@ -724,76 +632,7 @@ describe("Controller: EditEventController", function() {
   });
 
 	////////////////////////////////////////////////////////////
-  describe('Test to updateEvent method failed with imageURI by editPerkPatch', function(){
-
-    var dataEvent = mockData.eventService.getEvent();
-  	var dataEventTypes = mockData.eventTypeService.allEventTypes();
-  	var dataImage = mockData.imgurService.uploadImage();
-  	var dataEditEvent = mockData.eventService.editEventPatch();
-  	var dataPerk = mockData.failed();
-  	var dataCreatePerk = mockData.perkService.createPerk();
-
-    beforeEach(function() {
-
-  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
-  		$httpBackend.whenPOST('https://api.imgur.com/3/image').respond(200, dataImage);
-  		$httpBackend.whenPATCH( URL_REST + 'events/1').respond(400, dataEditEvent);
-  		$httpBackend.whenPATCH( URL_REST + 'perks/3').respond(400, dataPerk);
-  		$httpBackend.whenPATCH( URL_REST + 'perks/14').respond(400, dataPerk);
-  		$httpBackend.whenPOST( URL_REST + 'perks').respond(200, dataCreatePerk);
-  	});
-
-    it('Should be called utilsService methods', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      editEventController.imageURI = "12346.jpg";
-      editEventController.updateEvent( mockForm );
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-      chai.expect(utilsService.alert).to.have.been.called();
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Test to updateEvent method failed with imageURI by createPerk', function(){
-
-    var dataEvent = mockData.eventService.getEvent();
-  	var dataEventTypes = mockData.eventTypeService.allEventTypes();
-  	var dataImage = mockData.imgurService.uploadImage();
-  	var dataEditEvent = mockData.eventService.editEventPatch();
-  	var dataPerk = mockData.perkService.editPerkPatch();
-  	var dataCreatePerk = mockData.failed();
-
-    beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
-  		$httpBackend.whenPOST('https://api.imgur.com/3/image').respond(200, dataImage);
-  		$httpBackend.whenPATCH( URL_REST + 'events/1').respond(400, dataEditEvent);
-  		$httpBackend.whenPATCH( URL_REST + 'perks/3').respond(200, dataPerk);
-  		$httpBackend.whenPATCH( URL_REST + 'perks/14').respond(200, dataPerk);
-  		$httpBackend.whenPOST( URL_REST + 'perks').respond(400, dataCreatePerk);
-  	});
-
-    it('Should be called utilsService methods', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      editEventController.imageURI = "12346.jpg";
-      editEventController.updateEvent( mockForm );
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-      chai.expect(utilsService.alert).to.have.been.called();
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Tests to openModalSponsor method', function(){
+  describe('Tests to openModalPerk method', function(){
 
   	var dataEvent = mockData.eventService.getEvent();
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
@@ -803,23 +642,23 @@ describe("Controller: EditEventController", function() {
   		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
-    it('Should have openModalSponsor method', function() {
-      chai.assert.isDefined( editEventController.openModalSponsor );
-      chai.assert.isFunction( editEventController.openModalSponsor );
+    it('Should have openModalPerk method', function() {
+      chai.assert.isDefined( editEventController.openModalPerk );
+      chai.assert.isFunction( editEventController.openModalPerk );
     });
 
-    it('Should be called modalSponsor.show method', function() {
+    it('Should be called modalPerk.show method', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      editEventController.openModalSponsor();
+      editEventController.openModalPerk();
       $rootScope.$digest();
-      chai.assert.isTrue(editEventController.modalSponsor._isShown);
+      chai.assert.isTrue(editEventController.modalPerk._isShown);
     });
 
   });
 
   ////////////////////////////////////////////////////////////
-  describe('Tests to closeModalSponsor method', function(){
+  describe('Tests to closeModalPerk method', function(){
 
   	var dataEvent = mockData.eventService.getEvent();
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
@@ -829,39 +668,39 @@ describe("Controller: EditEventController", function() {
   		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
-    it('Should have closeModalSponsor method', function() {
-      chai.assert.isDefined( editEventController.closeModalSponsor );
-      chai.assert.isFunction( editEventController.closeModalSponsor );
+    it('Should have closeModalPerk method', function() {
+      chai.assert.isDefined( editEventController.closeModalPerk );
+      chai.assert.isFunction( editEventController.closeModalPerk );
     });
 
-    it('Should be called modalSponsor.hide method', function() {
+    it('Should be called modalPerk.hide method', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      editEventController.closeModalSponsor( mockForm);
+      editEventController.closeModalPerk( mockForm);
       $rootScope.$digest();
-      chai.assert.isFalse(editEventController.modalSponsor._isShown);
+      chai.assert.isFalse(editEventController.modalPerk._isShown);
     });
 
     it('Should be called utilsService.resetForm', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      editEventController.closeModalSponsor( mockForm );
+      editEventController.closeModalPerk( mockForm );
       $rootScope.$digest();
       chai.expect(utilsService.resetForm).to.have.been.called();
     });
 
-    it('Should newSponsor be empty', function() {
+    it('Should newPerk be empty', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      editEventController.closeModalSponsor( mockForm );
+      editEventController.closeModalPerk( mockForm );
       $rootScope.$digest();
-    	chai.expect( editEventController.newSponsor ).to.be.empty;
+    	chai.expect( editEventController.newPerk ).to.be.empty;
     });
 
   });
 
 	////////////////////////////////////////////////////////////
-  describe('Tests to createSponsor method', function(){
+  describe('Tests to createPerk method', function(){
 
   	var dataEvent = mockData.eventService.getEvent();
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
@@ -871,32 +710,32 @@ describe("Controller: EditEventController", function() {
   		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
-    it('Should have createSponsor method', function() {
-      chai.assert.isDefined( editEventController.createSponsor );
-      chai.assert.isFunction( editEventController.createSponsor );
+    it('Should have createPerk method', function() {
+      chai.assert.isDefined( editEventController.createPerk );
+      chai.assert.isFunction( editEventController.createPerk );
     });
 
-    it('Should be called modalSponsor.show method', function() {
+    it('Should be called modalPerk.show method', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      editEventController.createSponsor();
+      editEventController.createPerk();
       $rootScope.$digest();
-      chai.assert.isTrue(editEventController.isNewSponsor);
-      chai.assert.isTrue(editEventController.modalSponsor._isShown);
+      chai.assert.isTrue(editEventController.isNewPerk);
+      chai.assert.isTrue(editEventController.modalPerk._isShown);
     });
 
-    it('Should isNewSponsor be true', function() {
+    it('Should isNewPerk be true', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      editEventController.createSponsor();
+      editEventController.createPerk();
       $rootScope.$digest();
-      chai.assert.isTrue(editEventController.isNewSponsor);
+      chai.assert.isTrue(editEventController.isNewPerk);
     });
 
   });
 
 	////////////////////////////////////////////////////////////
-  describe('Tests to editSponsor method', function(){
+  describe('Tests to editPerk method', function(){
 
   	var dataEvent = mockData.eventService.getEvent();
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
@@ -906,12 +745,12 @@ describe("Controller: EditEventController", function() {
   		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
-    it('Should have editSponsor method', function() {
-      chai.assert.isDefined( editEventController.editSponsor );
-      chai.assert.isFunction( editEventController.editSponsor );
+    it('Should have editPerk method', function() {
+      chai.assert.isDefined( editEventController.editPerk );
+      chai.assert.isFunction( editEventController.editPerk );
     });
 
-    it('Should be called modalSponsor.show method', function() {
+    it('Should be called modalPerk.show method', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
       var mockPerk = {
@@ -919,12 +758,12 @@ describe("Controller: EditEventController", function() {
       	total_quantity: 0,
       	usd: 0
       }
-      editEventController.editSponsor( mockPerk );
+      editEventController.editPerk( mockPerk );
       $rootScope.$digest();
-      chai.assert.isTrue(editEventController.modalSponsor._isShown);
+      chai.assert.isTrue(editEventController.modalPerk._isShown);
     });
 
-    it('Should newSponsor be that mockPerk', function() {
+    it('Should newPerk be that mockPerk', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
       var mockPerk = {
@@ -932,12 +771,12 @@ describe("Controller: EditEventController", function() {
       	total_quantity: 0,
       	usd: 0,
       }
-      editEventController.editSponsor( mockPerk );
+      editEventController.editPerk( mockPerk );
       $rootScope.$digest();
-      chai.expect( editEventController.newSponsor ).to.eql( mockPerk );
+      chai.expect( editEventController.newPerk ).to.eql( mockPerk );
     });
 
-    it('Should isNewSponsor be false', function() {
+    it('Should isNewPerk be false', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
       var mockPerk = {
@@ -945,189 +784,15 @@ describe("Controller: EditEventController", function() {
       	total_quantity: 0,
       	usd: 0
       }
-      editEventController.editSponsor( mockPerk );
+      editEventController.editPerk( mockPerk );
       $rootScope.$digest();
-      chai.assert.isFalse(editEventController.isNewSponsor);
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Tests to deleteSponsor method', function(){
-
-    it('Should have editSponsor method', function() {
-      chai.assert.isDefined( editEventController.deleteSponsor );
-      chai.assert.isFunction( editEventController.deleteSponsor );
+      chai.assert.isFalse(editEventController.isNewPerk);
     });
 
   });
 
   ////////////////////////////////////////////////////////////
-  describe('Tests to deleteSponsor method', function(){
-  	
-    it('Should have editSponsor method', function() {
-      chai.assert.isDefined( editEventController.deleteSponsor );
-      chai.assert.isFunction( editEventController.deleteSponsor );
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to deleteSponsor success with newSponsor', function(){
-  	
-    var dataEvent = mockData.eventService.getEvent();
-  	var dataEventTypes = mockData.eventTypeService.allEventTypes();
-  	var dataPerk = mockData.perkService.deletePerk();
-
-    beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
-  		$httpBackend.whenDELETE( URL_REST + 'perks/3').respond(200, dataPerk);
-  	});
-
-  	it('Should be called modalSponsor.hide method', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      editEventController.newSponsor = {
-      	id: "3",
-				id_event: "1",
-				kind: "A",
-				reserved_quantity: "0",
-				total_quantity: "2",
-				usd: "10"
-      }
-    	editEventController.deleteSponsor();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.isFalse(editEventController.modalSponsor._isShown);
-    });
-
-    it('Should be sponsors be less', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      var size = editEventController.sponsors.length;
-      editEventController.newSponsor = {
-      	id: "3",
-				id_event: "1",
-				kind: "A",
-				reserved_quantity: "0",
-				total_quantity: "2",
-				usd: "10"
-      }
-    	editEventController.deleteSponsor();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.equal( editEventController.sponsors.length, size - 1  );
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Tests to deleteSponsor success without newSponsor', function(){
-  	
-    var dataEvent = mockData.eventService.getEvent();
-  	var dataEventTypes = mockData.eventTypeService.allEventTypes();
-
-    beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
-  	});
-
-  	it('Should be called modalSponsor.hide method', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      var mockPerk = {
-      	id_event: "1",
-				kind: "A",
-				reserved_quantity: "0",
-				total_quantity: "2",
-				usd: "10"
-      }
-      editEventController.newSponsor = mockPerk;
-      editEventController.sponsors.push(mockPerk);
-    	editEventController.deleteSponsor();
-      $rootScope.$digest();
-      chai.assert.isFalse(editEventController.modalSponsor._isShown);
-    });
-
-    it('Should be sponsors be less', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      
-      var mockPerk = {
-      	id_event: "1",
-				kind: "A",
-				reserved_quantity: "0",
-				total_quantity: "2",
-				usd: "10"
-      }
-      editEventController.newSponsor = mockPerk;
-      editEventController.sponsors.push(mockPerk);
-      var size = editEventController.sponsors.length;
-    	editEventController.deleteSponsor();
-      $rootScope.$digest();
-      chai.assert.equal( editEventController.sponsors.length, size - 1  );
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Tests to deleteSponsor failed by deletePerk', function(){
-  	
-    var dataEvent = mockData.eventService.getEvent();
-  	var dataEventTypes = mockData.eventTypeService.allEventTypes();
-  	var dataPerk = mockData.failed();
-
-    beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
-  		$httpBackend.whenDELETE( URL_REST + 'perks/3').respond(400, dataPerk);
-  	});
-
-  	it('Should be called modalSponsor.hide method', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      editEventController.newSponsor = {
-      	id: "3",
-				id_event: "1",
-				kind: "A",
-				reserved_quantity: "0",
-				total_quantity: "2",
-				usd: "10"
-      }
-    	editEventController.deleteSponsor();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.isFalse(editEventController.modalSponsor._isShown);
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Tests to deleteSponsor failed by confirm', function(){
-  	
-    var dataEvent = mockData.eventService.getEvent();
-  	var dataEventTypes = mockData.eventTypeService.allEventTypes();
-
-    beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
-  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
-  	});
-
-  	it('Should be called modalSponsor.hide method', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      utilsService.throwsError = false;
-      editEventController.openModalSponsor();
-    	editEventController.deleteSponsor();
-      $rootScope.$digest();
-      chai.assert.isFalse(editEventController.modalSponsor._isShown);
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to submitSponsor for newSponsor', function(){
+  describe('Tests to submitPerk for newPerk', function(){
 
   	var dataEvent = mockData.eventService.getEvent();
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
@@ -1137,15 +802,15 @@ describe("Controller: EditEventController", function() {
   		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
-  	it('Should have submitSponsor method', function() {
-      chai.assert.isDefined( editEventController.submitSponsor );
-      chai.assert.isFunction( editEventController.submitSponsor );
+  	it('Should have submitPerk method', function() {
+      chai.assert.isDefined( editEventController.submitPerk );
+      chai.assert.isFunction( editEventController.submitPerk );
     });
 
-  	it('Should be called modalSponsor.hide method', function() {
+  	it('Should be called modalPerk.hide method', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      editEventController.isNewSponsor = true;
+      editEventController.isNewPerk = true;
       var mockPerk = {
       	id_event: "1",
 				kind: "A",
@@ -1153,16 +818,16 @@ describe("Controller: EditEventController", function() {
 				total_quantity: "2",
 				usd: "10"
       }
-      editEventController.newSponsor = mockPerk;
-    	editEventController.submitSponsor( mockForm );
+      editEventController.newPerk = mockPerk;
+    	editEventController.submitPerk( mockForm );
       $rootScope.$digest();
       chai.expect(utilsService.resetForm).to.have.been.called();
     });
 
-    it('Should sponsors be +1 ', function() {
+    it('Should perks be +1 ', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      var size = editEventController.sponsors.length;
+      var size = editEventController.newEvent.perks.length;
       var mockPerk = {
       	id_event: "1",
 				kind: "A",
@@ -1170,17 +835,17 @@ describe("Controller: EditEventController", function() {
 				total_quantity: "2",
 				usd: "10"
       }
-      editEventController.isNewSponsor = true;
-      editEventController.newSponsor = mockPerk;
-    	editEventController.submitSponsor( mockForm );
+      editEventController.isNewPerk = true;
+      editEventController.newPerk = mockPerk;
+    	editEventController.submitPerk( mockForm );
       $rootScope.$digest();
-      chai.assert.equal( editEventController.sponsors.length, size + 1 );
+      chai.assert.equal( editEventController.newEvent.perks.length, size + 1 );
     });
 
-    it('Should be called modalSponsor.hide method', function() {
+    it('Should be called modalPerk.hide method', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      editEventController.isNewSponsor = true;
+      editEventController.isNewPerk = true;
       var mockPerk = {
       	id_event: "1",
 				kind: "A",
@@ -1188,16 +853,16 @@ describe("Controller: EditEventController", function() {
 				total_quantity: "2",
 				usd: "10"
       }
-      editEventController.newSponsor = mockPerk;
-    	editEventController.submitSponsor( mockForm );
+      editEventController.newPerk = mockPerk;
+    	editEventController.submitPerk( mockForm );
       $rootScope.$digest();
-      chai.assert.isFalse(editEventController.modalSponsor._isShown);
+      chai.assert.isFalse(editEventController.modalPerk._isShown);
     });
 
   });
 
 	////////////////////////////////////////////////////////////
-  describe('Tests to submitSponsor for !newSponsor', function(){
+  describe('Tests to submitPerk for !newPerk', function(){
 
   	var dataEvent = mockData.eventService.getEvent();
   	var dataEventTypes = mockData.eventTypeService.allEventTypes();
@@ -1207,15 +872,15 @@ describe("Controller: EditEventController", function() {
   		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
   	});
 
-  	it('Should have submitSponsor method', function() {
-      chai.assert.isDefined( editEventController.submitSponsor );
-      chai.assert.isFunction( editEventController.submitSponsor );
+  	it('Should have submitPerk method', function() {
+      chai.assert.isDefined( editEventController.submitPerk );
+      chai.assert.isFunction( editEventController.submitPerk );
     });
 
-  	it('Should be called modalSponsor.hide method', function() {
+  	it('Should be called modalPerk.hide method', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      editEventController.isNewSponsor = false;
+      editEventController.isNewPerk = false;
       var mockPerk = {
       	id_event: "1",
 				kind: "A",
@@ -1223,16 +888,16 @@ describe("Controller: EditEventController", function() {
 				total_quantity: "2",
 				usd: "10"
       }
-      editEventController.newSponsor = mockPerk;
-    	editEventController.submitSponsor( mockForm );
+      editEventController.newPerk = mockPerk;
+    	editEventController.submitPerk( mockForm );
       $rootScope.$digest();
       chai.expect(utilsService.resetForm).to.have.been.called();
     });
 
-    it('Should sponsors be equal that size', function() {
+    it('Should perks be equal that size', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      var size = editEventController.sponsors.length;
+      var size = editEventController.newEvent.perks.length;
       var mockPerk = {
       	id_event: "1",
 				kind: "A",
@@ -1240,17 +905,17 @@ describe("Controller: EditEventController", function() {
 				total_quantity: "2",
 				usd: "10"
       }
-      editEventController.isNewSponsor = false;
-      editEventController.newSponsor = mockPerk;
-    	editEventController.submitSponsor( mockForm );
+      editEventController.isNewPerk = false;
+      editEventController.newPerk = mockPerk;
+    	editEventController.submitPerk( mockForm );
       $rootScope.$digest();
-      chai.assert.equal( editEventController.sponsors.length, size );
+      chai.assert.equal( editEventController.newEvent.perks.length, size );
     });
 
-    it('Should be called modalSponsor.hide method', function() {
+    it('Should be called modalPerk.hide method', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      editEventController.isNewSponsor = false;
+      editEventController.isNewPerk = false;
       var mockPerk = {
       	id_event: "1",
 				kind: "A",
@@ -1258,10 +923,10 @@ describe("Controller: EditEventController", function() {
 				total_quantity: "2",
 				usd: "10"
       }
-      editEventController.newSponsor = mockPerk;
-    	editEventController.submitSponsor( mockForm );
+      editEventController.newPerk = mockPerk;
+    	editEventController.submitPerk( mockForm );
       $rootScope.$digest();
-      chai.assert.isFalse(editEventController.modalSponsor._isShown);
+      chai.assert.isFalse(editEventController.modalPerk._isShown);
     });
 
   });

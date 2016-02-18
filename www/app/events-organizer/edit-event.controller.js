@@ -26,11 +26,10 @@
     '$ionicHistory',
     'imgurService',
     '$q',
-    '$stateParams',
-    'perkService'
+    '$stateParams'
   ];
 
-  function EditEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $stateParams, perkService) {
+  function EditEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $stateParams) {
 
     var vm = this;
     vm.newEvent = {};
