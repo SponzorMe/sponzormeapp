@@ -26,7 +26,6 @@ describe('Controller: MenuSponzorCtrl', function(){
     $httpBackend.whenGET('app/users/login.html').respond(200, {});
 
     //Dependences
-  	sponsorshipService = $injector.get('sponsorshipService');
   	$localStorage = $injector.get('$localStorage');
   	$localStorage = chai.spy.object($localStorage, ['$reset']);
   	$state = $injector.get('$state');
@@ -40,7 +39,6 @@ describe('Controller: MenuSponzorCtrl', function(){
     menuSponzorCtrl = $controller('MenuSponzorCtrl', {
   		'$state': $state,
 	    '$localStorage': $localStorage,
-	    'sponsorshipService': sponsorshipService,
 	    '$rootScope': $rootScope,
 	    '$ionicHistory': $ionicHistory
   	});
@@ -68,10 +66,13 @@ describe('Controller: MenuSponzorCtrl', function(){
       chai.assert.isDefined( menuSponzorCtrl.count_following );
       chai.assert.isNumber( menuSponzorCtrl.count_following );
     });
-
-    it('Should count_following be 0', function() {
-      chai.assert.equal( menuSponzorCtrl.count_following, 0 );
+    
+    it('Should count_following be equal that 1', function() {
+      $rootScope.$digest();
+      chai.assert.equal(menuSponzorCtrl.count_following, 1);
     });
+    
+    
 
   });
 
@@ -82,9 +83,10 @@ describe('Controller: MenuSponzorCtrl', function(){
       chai.assert.isDefined( menuSponzorCtrl.count_sponsoring );
       chai.assert.isNumber( menuSponzorCtrl.count_sponsoring );
     });
-
-    it('Should count_sponsoring be 0', function() {
-      chai.assert.equal( menuSponzorCtrl.count_sponsoring, 0 );
+    
+     it('Should count_following be equal that 0', function() {
+       $rootScope.$digest();
+      chai.assert.equal(menuSponzorCtrl.count_sponsoring, 0);
     });
 
   });
@@ -92,15 +94,9 @@ describe('Controller: MenuSponzorCtrl', function(){
   ////////////////////////////////////////////////////////////
   describe('Tests to $rootScope.$on methods', function(){
 
-  	var data = mockData.sponsorshipService.sponzorshipBySponzor();
-
-  	beforeEach(function() {
-    	$httpBackend.whenGET( URL_REST + 'sponzorships_sponzor/1').respond(200, data);
-  	});
 
     it('Should have called a Menu:count_following and Menu:count_sponsoring', function() {
     	$rootScope.$digest();
-    	$httpBackend.flush();
 
     	function renderCountFollowing(event, total ){
 	      vm.count_following = total;
@@ -121,62 +117,29 @@ describe('Controller: MenuSponzorCtrl', function(){
 
     it('Should count_following be 3 before call Menu:count_following', function() {
     	$rootScope.$digest();
-    	$httpBackend.flush();
     	$rootScope.$broadcast('Menu:count_following', 3);
       chai.assert.equal(menuSponzorCtrl.count_following, 3);
     });
 
     it('Should count_sponsoring be 31 before call Menu:count_sponsoring', function() {
     	$rootScope.$digest();
-    	$httpBackend.flush();
     	$rootScope.$broadcast('Menu:count_sponsoring', 31);
       chai.assert.equal(menuSponzorCtrl.count_sponsoring, 31);
     });
 
   });
 
-  ////////////////////////////////////////////////////////////
-  describe('Tests to getCounts success', function(){
-
-  	var data = mockData.sponsorshipService.sponzorshipBySponzor();
-
-  	beforeEach(function() {
-    	$httpBackend.whenGET( URL_REST + 'sponzorships_sponzor/1').respond(200, data);
-  	});
-  	
-    it('Should count_following be 2', function() {
-    	$rootScope.$digest();
-    	$httpBackend.flush();
-    	chai.assert.equal(menuSponzorCtrl.count_following, 2);
-    });
-
-    it('Should count_sponsoring be 1', function() {
-    	$rootScope.$digest();
-    	$httpBackend.flush();
-    	chai.assert.equal(menuSponzorCtrl.count_sponsoring, 1);
-    });
-
-  });
-
    ////////////////////////////////////////////////////////////
   describe('Tests to logout', function(){
-
-  	var data = mockData.sponsorshipService.sponzorshipBySponzor();
-
-  	beforeEach(function() {
-    	$httpBackend.whenGET( URL_REST + 'sponzorships_sponzor/1').respond(200, data);
-  	});
-  	
+    
     it('Should have createEvent method', function() {
     	$rootScope.$digest();
-    	$httpBackend.flush();
       chai.assert.isDefined( menuSponzorCtrl.logout );
       chai.assert.isFunction( menuSponzorCtrl.logout );
     });
 
     it('Should have called ionicHistory.clearCache', function() {
     	$rootScope.$digest();
-    	$httpBackend.flush();
     	menuSponzorCtrl.logout();
     	$rootScope.$digest();
       chai.expect($ionicHistory.clearCache).to.have.been.called();
@@ -184,7 +147,6 @@ describe('Controller: MenuSponzorCtrl', function(){
 
     it('Should have called localStorage.$reset', function() {
     	$rootScope.$digest();
-    	$httpBackend.flush();
     	menuSponzorCtrl.logout();
     	$rootScope.$digest();
       chai.expect($localStorage.$reset).to.have.been.called();
@@ -192,7 +154,6 @@ describe('Controller: MenuSponzorCtrl', function(){
 
     it('Should redirect a signin', function() {
     	$rootScope.$digest();
-    	$httpBackend.flush();
     	menuSponzorCtrl.logout();
     	$rootScope.$digest();
       chai.expect($state.go).to.have.been.called();

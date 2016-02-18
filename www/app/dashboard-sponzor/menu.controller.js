@@ -14,12 +14,11 @@
   MenuSponzorCtrl.$inject = [
     '$state',
     '$localStorage',
-    'sponsorshipService',
     '$rootScope',
     '$ionicHistory'
   ];
 
-  function MenuSponzorCtrl( $state, $localStorage, sponsorshipService, $rootScope, $ionicHistory ) {
+  function MenuSponzorCtrl( $state, $localStorage, $rootScope, $ionicHistory ) {
 
     var vm = this;
     //Attributes
@@ -35,7 +34,10 @@
     function activate(){
       $rootScope.$on('Menu:count_following', renderCountFollowing);
       $rootScope.$on('Menu:count_sponsoring', renderCountSponsoring);
-      getCounts();
+      
+      vm.count_following = vm.userAuth.sponzorships.filter( filterByPending ).length;
+      vm.count_sponsoring = vm.userAuth.sponzorships.filter( filterByAccepted ).length;
+      
     }
 
     function renderCountFollowing(event, total ){
@@ -50,22 +52,6 @@
       $localStorage.$reset();
       $state.go('signin');
       $ionicHistory.clearCache();
-    }
-
-    function getCounts(){
-      sponsorshipService.sponzorshipBySponzor( vm.userAuth.id )
-        .then( complete );
-        //.catch( failed );
-
-        function complete( events ){
-          vm.count_following = events.filter( filterByPending ).length;
-          vm.count_sponsoring = events.filter( filterByAccepted ).length;
-        }
-
-        /*
-        function failed( error ){
-          console.log( error );
-        }*/
     }
 
     function filterByPending( item ){
