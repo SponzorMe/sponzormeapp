@@ -21,25 +21,24 @@
     '$cordovaCamera',
     'eventTypeService',
     'eventService',
-    'perkService',
     '$ionicModal',
     '$cordovaToast',
     '$ionicHistory',
     'imgurService',
     '$q',
-    '$stateParams'
+    '$stateParams',
+    'perkService'
   ];
 
-  function EditEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, perkService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $stateParams) {
+  function EditEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $stateParams, perkService) {
 
     var vm = this;
     vm.newEvent = {};
-    vm.newSponsor = {};
-    vm.isNewSponsor = true;
+    vm.newPerk = {};
+    vm.isNewPerk = true;
     vm.eventTypes = [];
-    vm.sponsors = [];
     vm.userAuth = $localStorage.userAuth;
-    vm.modalSponsor = null;
+    vm.modalPerk = null;
     vm.imageURI = null;
 
     vm.clickedStartDate = clickedStartDate;
@@ -48,12 +47,11 @@
     vm.clickedEndTime = clickedEndTime;
     vm.getPhoto = getPhoto;
     vm.updateEvent = updateEvent;
-    vm.openModalSponsor = openModalSponsor;
-    vm.closeModalSponsor = closeModalSponsor;
-    vm.createSponsor = createSponsor;
-    vm.editSponsor = editSponsor;
-    vm.deleteSponsor = deleteSponsor;
-    vm.submitSponsor = submitSponsor;
+    vm.openModalPerk = openModalPerk;
+    vm.closeModalPerk = closeModalPerk;
+    vm.createPerk = createPerk;
+    vm.editPerk = editPerk;
+    vm.submitPerk = submitPerk;
 
     activate();
 
@@ -61,17 +59,16 @@
 
     function activate(){
 
-      vm.sponsors = [];
       /*vm.newEvent.starttime = "00:00:00";
       vm.newEvent.start = "2015-12-15";
       vm.newEvent.endtime = "00:00:00";
       vm.newEvent.end = "2015-12-24";*/
 
-      $ionicModal.fromTemplateUrl('app/events-organizer/sponsor-edit-modal.html', {
+      $ionicModal.fromTemplateUrl('app/events-organizer/perk-edit-modal.html', {
         scope: $scope,
         animation: 'slide-in-up'
       }).then(function(modal) {
-        vm.modalSponsor = modal;
+        vm.modalPerk = modal;
       });
       getEvent();
     }
@@ -90,7 +87,6 @@
           vm.newEvent.end = moment(event.ends).format('YYYY-MM-DD');
           vm.newEvent.endtime = moment(event.ends).format('HH:mm:ss');
           vm.newEvent.access = vm.newEvent.privacy == '1' ? true : false;
-          vm.sponsors = vm.newEvent.perks;
           getEventsTypes();
         }
 
@@ -228,19 +224,17 @@
       if(vm.imageURI){
         imgurService.uploadImage( vm.imageURI )
           .then( updateImage )
-          .then( createPerks )
           .then( complete )
           .catch( failed );
       }else{
-        eventService.editEventPatch( vm.newEvent.id, preparateData() )
-          .then( createPerks )
+        eventService.editEventPut( vm.newEvent.id, preparateData() )
           .then( complete )
           .catch( failed );
       }
 
         function updateImage( image ){
           vm.newEvent.image = image;
-          return eventService.editEventPatch( vm.newEvent.id, preparateData() );
+          return eventService.editEventPut( vm.newEvent.id, preparateData() );
         }
 
         function complete( event ) {
@@ -256,10 +250,6 @@
           });
           
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_event_mess"));
-        }
-
-        function createPerks( event ){
-          return getPerksPromises( event.id );
         }
 
         function failed( error ) {
@@ -313,102 +303,59 @@
         lang: $translate.use(),
         organizer: vm.userAuth.id,
         category: 1,
-        type: vm.newEvent.type.id
+        type: vm.newEvent.type.id,
+        perks: vm.newEvent.perks
       }
     }
 
     /*-------------- Perks --------------*/
 
-    function getPerksPromises( idEvent ){
-      var promises = [];
-      var size = vm.sponsors.length;
-      for (var i = 0; i < size; i++) {
-        var data = vm.sponsors[i];
-        if(data.id){
-          promises.push( perkService.editPerkPatch( data.id, data ) );
-        }else{
-          data.id_event = idEvent;
-          data.reserved_quantity = 0;
-          promises.push( perkService.createPerk( data ) );
-        }
-      };
-      return $q.all( promises );
+    
+
+    function openModalPerk(){
+      vm.modalPerk.show();
     }
 
-    function openModalSponsor(){
-      vm.modalSponsor.show();
-    }
-
-    function closeModalSponsor( form ){
-      vm.modalSponsor.hide();
+    function closeModalPerk( form ){
+      vm.modalPerk.hide();
       if (form) utilsService.resetForm( form );
-      vm.newSponsor = {};
+      vm.newPerk = {};
     } 
 
-    function createSponsor(){
-      vm.isNewSponsor = true;
-      vm.openModalSponsor();
+    function createPerk(){
+      vm.isNewPerk = true;
+      vm.openModalPerk();
     }
 
-    function editSponsor( data ){
-      vm.isNewSponsor = false;
-      vm.newSponsor = data;
-      vm.newSponsor.total_quantity = parseInt( vm.newSponsor.total_quantity );
-      vm.newSponsor.usd = parseInt( vm.newSponsor.usd );
-      vm.openModalSponsor();
+    function editPerk( data ){
+      vm.isNewPerk = false;
+      vm.newPerk = data;
+      vm.newPerk.total_quantity = parseInt( vm.newPerk.total_quantity );
+      vm.newPerk.usd = parseInt( vm.newPerk.usd );
+      vm.openModalPerk();
     }
 
-    function addSponsor(){
-      vm.sponsors.push( vm.newSponsor );
-      vm.closeModalSponsor();
+    function addPerk(){
+      vm.newEvent.perks.push({
+        id: vm.newPerk.id ? vm.newPerk.id : -1,
+        kind: vm.newPerk.kind,
+        usd: vm.newPerk.usd,
+        total_quantity: vm.newPerk.total_quantity,
+        reserved_quantity: 0
+      });
+      vm.closeModalPerk();
     }
 
-    function deleteSponsor(){
-      utilsService.confirm({
-        template: 'Esta seguro de eliminar este tipo de patronicio.'
-      })
-      .then( complete );
-
-      function complete( rta ){
-        if(rta){
-          var index = vm.sponsors.indexOf( vm.newSponsor );
-          if(vm.newSponsor.id){
-            deletePerk( index, vm.newSponsor.id );
-          }else{
-            vm.sponsors.splice(index, 1);
-            vm.closeModalSponsor();
-          }
-        }else{
-          vm.closeModalSponsor();
-        }
-      }
+    function updatePerk(){
+      vm.closeModalPerk();
     }
 
-    function deletePerk(index, id){
-      perkService.deletePerk( id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( response ){
-          vm.sponsors.splice(index, 1);
-          vm.closeModalSponsor();
-        }
-
-        function failed( error ){
-          vm.closeModalSponsor();
-        }
-    }
-
-    function updateSponsor(){
-      vm.closeModalSponsor();
-    }
-
-    function submitSponsor( form ){
-      if(vm.isNewSponsor){
-        addSponsor();
+    function submitPerk( form ){
+      if(vm.isNewPerk){
+        addPerk();
         utilsService.resetForm( form );
       }else{
-        updateSponsor();
+        updatePerk();
         utilsService.resetForm( form );
       }
     }

@@ -130,13 +130,13 @@
         </label>
 
         <ion-item class="item-divider">Type of Sponzor</ion-item>
-        <ion-item ng-repeat="sponsor in editEvent.sponsors" ng-click="editEvent.editSponsor(sponsor)" class="item-icon-right">
-          {{ sponsor.kind }} - {{ sponsor.usd }}
+        <ion-item ng-repeat="perk in editEvent.newEvent.perks" ng-click="editEvent.editPerk( perk )" class="item-icon-right">
+          {{ perk.kind }} - {{ perk.usd }}
           <i class="icon ion-edit"></i>
         </ion-item>
          
         <div class="padding">
-          <button type="button" class="button button-block button-positive" ng-click="editEvent.createSponsor()">
+          <button type="button" class="button button-block button-positive" ng-click="editEvent.createPerk()">
             New Sponzor
           </button>
         </div>
@@ -145,9 +145,9 @@
         name="sponsors"
         type="number" 
         min="1" 
-        ng-model="editEvent.sponsors.length"
+        ng-model="editEvent.newEvent.perks.length"
         > 
-        <div class="form-errors" ng-messages="editEventForm.sponsors.$error" ng-if="editEventForm.$invalid && editEventForm.$submitted">
+        <div class="form-errors" ng-messages="editEventForm.newEvent.perks.$error" ng-if="editEventForm.$invalid && editEventForm.$submitted">
           <div class="form-error" ng-message="min"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_error_sponsors_empty" | translate}}</div>
         </div>
       </ion-list>

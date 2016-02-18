@@ -1,12 +1,12 @@
 <ion-modal-view>
   <ion-header-bar align-title="center">
     <h1 class="title">{{'ADDSPONSORSHIPTYPE.title' | translate}}</h1>
-    <div class="buttons" ng-show="!editEvent.isNewSponsor">
-      <a class="button button-icon icon ion-close-circled" ng-click="editEvent.closeModalSponsor()"></a>
+    <div class="buttons" ng-show="!editEvent.isNewPerk">
+      <a class="button button-icon icon ion-close-circled" ng-click="editEvent.closeModalPerk()"></a>
     </div>
   </ion-header-bar>
 	<ion-content>
-	  <form ng-submit="FormTypeSponsorship.$valid && editEvent.submitSponsor( FormTypeSponsorship )" name="FormTypeSponsorship" novalidate class="padding">
+	  <form ng-submit="FormTypeSponsorship.$valid && editEvent.submitPerk( FormTypeSponsorship )" name="FormTypeSponsorship" novalidate class="padding">
       <ion-list>
         <label class="item item-input item-floating-label" ng-class="{ 'has-error' : FormTypeSponsorship.kind.$invalid && FormTypeSponsorship.$submitted }">
           <span class="input-label">{{'ADDSPONSORSHIPTYPE.type_label' | translate}}</span>
@@ -14,7 +14,7 @@
           type="text" 
           name="kind"
           placeholder="{{'ADDSPONSORSHIPTYPE.type_placeholder' | translate}}" 
-          ng-model="editEvent.newSponsor.kind" 
+          ng-model="editEvent.newPerk.kind" 
           required>
         </label>
          <div class="form-errors" ng-messages="FormTypeSponsorship.kind.$error" ng-if="FormTypeSponsorship.$invalid && FormTypeSponsorship.$submitted">
@@ -26,7 +26,7 @@
           type="number" 
           name="total_quantity" 
           placeholder="{{'ADDSPONSORSHIPTYPE.quantity_placeholder' | translate}}" 
-          ng-model="editEvent.newSponsor.total_quantity" 
+          ng-model="editEvent.newPerk.total_quantity" 
           min="1" 
           required>
         </label>
@@ -40,7 +40,7 @@
           type="number" 
           name="price"
           placeholder="{{'ADDSPONSORSHIPTYPE.price_placeholder' | translate}}" 
-          ng-model="editEvent.newSponsor.usd" 
+          ng-model="editEvent.newPerk.usd" 
           min="1"
           max="200"
           required>
@@ -52,11 +52,8 @@
         </div>
       </ion-list>
       <div class="row">
-        <div class="col col-50" ng-show="!editEvent.isNewSponsor">
-          <button class="button button-block" type="button" ng-click="editEvent.deleteSponsor()">Delete</button>
-        </div>
-        <div class="col col-50" ng-show="editEvent.isNewSponsor">
-          <button class="button button-block" type="button" ng-click="editEvent.closeModalSponsor( FormTypeSponsorship )">Cancel</button>
+        <div class="col col-50">
+          <button class="button button-block" type="button" ng-click="editEvent.closeModalPerk( FormTypeSponsorship )">Cancel</button>
         </div>
         <div class="col col-50">
           <button class="button button-block button-positive" type="submit">Save</button>

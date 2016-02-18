@@ -83,7 +83,6 @@
       .catch( failed );
 
       function complete( response ) {
-        console.log( response.data.event );
         return $q.when( preparateData(response.data.event) );
 
         function preparateData( event ){
@@ -165,10 +164,10 @@
         method: 'PATCH',
         url: path + 'events/' + eventId,
         headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Content-Type' : 'application/json',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $httpParamSerializerJQLike(data)
+        data: data
       })
       .then( complete )
       .catch( failed );
@@ -194,10 +193,10 @@
         method: 'PUT',
         url: path + 'events/' + eventId,
         headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Content-Type' : 'application/json',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $httpParamSerializerJQLike(data)
+        data: data
       })
       .then( complete )
       .catch( failed );
