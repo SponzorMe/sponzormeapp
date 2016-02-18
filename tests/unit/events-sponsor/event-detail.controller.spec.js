@@ -121,7 +121,7 @@ describe("Controller: EventDetailSponzorController", function() {
       chai.assert.isObject( eventDetailSponzorController.event.category );
       chai.assert.isObject( eventDetailSponzorController.event.type );
       chai.assert.isObject( eventDetailSponzorController.event.user_organizer );
-      chai.assert.isArray( eventDetailSponzorController.event.sponzorships );
+      chai.assert.isArray( eventDetailSponzorController.event.sponzorship );
       chai.assert.instanceOf( eventDetailSponzorController.event.starts, Date );
       chai.assert.instanceOf( eventDetailSponzorController.event.ends, Date );
     });

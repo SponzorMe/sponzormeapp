@@ -161,17 +161,6 @@ describe("Controller: EventDetailOrganizerController", function() {
 
   });
 
-	////////////////////////////////////////////////////////////
-  describe('Tests to perks array', function(){
-
-    it('Should have perks array', function() {
-      chai.assert.isDefined( eventDetailOrganizerController.event.perks );
-      chai.assert.isArray( eventDetailOrganizerController.event.perks );
-      chai.expect( eventDetailOrganizerController.event.perks ).to.be.empty;
-    });
-
-  });
-
   ////////////////////////////////////////////////////////////
   describe('Tests to modalTask variable', function(){
 
@@ -243,8 +232,9 @@ describe("Controller: EventDetailOrganizerController", function() {
       chai.assert.isObject( eventDetailOrganizerController.event );
       chai.assert.isObject( eventDetailOrganizerController.event.category );
       chai.assert.isObject( eventDetailOrganizerController.event.type );
-      chai.assert.isObject( eventDetailOrganizerController.event.organizer );
-      chai.assert.isArray( eventDetailOrganizerController.event.sponzorships );
+      chai.assert.isObject( eventDetailOrganizerController.event.user_organizer );
+      chai.assert.isArray( eventDetailOrganizerController.event.sponzorship );
+      chai.assert.isArray( eventDetailOrganizerController.event.perks );
       chai.assert.instanceOf( eventDetailOrganizerController.event.starts, Date );
       chai.assert.instanceOf( eventDetailOrganizerController.event.ends, Date );
     });
@@ -252,10 +242,10 @@ describe("Controller: EventDetailOrganizerController", function() {
     it('Should have an perks array', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( eventDetailOrganizerController.event.perks.length, dataEvent.data.event.perks.length );
+      chai.assert.equal( eventDetailOrganizerController.event.perks.length, dataEvent.event.perks.length );
     	for (var i = 0; i < eventDetailOrganizerController.event.perks.length; i++) {
     		chai.assert.isArray(eventDetailOrganizerController.event.perks[i].tasks);
-    		chai.assert.isArray(eventDetailOrganizerController.event.perks[i].sponsorships);
+    		chai.assert.isArray(eventDetailOrganizerController.event.perks[i].sponzorship);
     	};
     });
 
@@ -640,7 +630,7 @@ describe("Controller: EventDetailOrganizerController", function() {
       };
       eventDetailOrganizerController.newTask( mockPerk );
       $rootScope.$digest();
-      chai.assert.equal(eventDetailOrganizerController.task.event_id, dataEvent.data.event.id);
+      chai.assert.equal(eventDetailOrganizerController.task.event_id, dataEvent.event.id);
     });
     
   });

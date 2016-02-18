@@ -103,7 +103,7 @@
     }
 
     function preparatePerks( perk ){
-      perk.sponzorship = _.where(event.sponzorship, {perk_id: perk.id});
+      perk.sponzorship = _.where(vm.event.sponzorship, {perk_id: perk.id});
       return perk;
     }
 

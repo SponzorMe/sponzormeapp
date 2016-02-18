@@ -981,7 +981,7 @@ var mockData = (function() {
             }
           ],
           sponzor_tasks: [],
-          sponzorships: [
+          sponzorship: [
             {
               cause: "test",
               event_id: "1002",

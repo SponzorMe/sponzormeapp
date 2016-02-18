@@ -22,7 +22,7 @@
         StatusBar.styleDefault();
       }
 
-      checkForUpdates();
+      //checkForUpdates();
       //chooseLanguage();
       //ionicAnalytics();
     });

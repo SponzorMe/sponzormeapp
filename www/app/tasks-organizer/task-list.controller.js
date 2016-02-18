@@ -76,7 +76,6 @@
     function groupByEvent( data ){
       //http://underscorejs.org/#groupBy
       var groups = _.groupBy( data, 'eventTitle' );
-      console.log(groups);
       
       function parseEvent( value, key ){
         return {
