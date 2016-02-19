@@ -52,8 +52,9 @@
     }
 
     function filterDate( item ){
-      return moment(item.ends).isAfter(new Date());
+      return moment(item.ends).isAfter( new Date() );
     }
+    
     
 
   }
