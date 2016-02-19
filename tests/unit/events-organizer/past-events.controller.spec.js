@@ -66,7 +66,10 @@ describe('Controller: PastEventsController', function(){
     it('Should have events array', function() {
       chai.assert.isDefined( pastEventsController.events );
       chai.assert.isArray( pastEventsController.events  );
-      chai.expect( pastEventsController.events  ).to.be.empty;
+    });
+    
+    it('Should events be equal that 1', function() {
+      chai.assert.equal( pastEventsController.events.length, 1 );
     });
 
   });
@@ -80,68 +83,7 @@ describe('Controller: PastEventsController', function(){
     });
 
   });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to getEvents success', function(){
-
-  	var dataEvents = mockData.userService.getUser();
-
-    beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
-  	});
-
-  	it('Should be called utilsService methods', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-    });
-
-    it('Should showEmptyState be boolean', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.isBoolean(pastEventsController.showEmptyState);
-    });
-
-    it('Should filter by past events', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.equal(pastEventsController.events.length, 1);
-    });
-
-    it('Should be called broadcast Menu:count_events', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect($rootScopeBroadcast).to.have.been.called();
-      chai.expect($rootScopeBroadcast).to.have.been.with('Menu:count_events', 1);
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Tests to getEvents failed', function(){
-
-  	var dataEvents = mockData.failed();
-
-    beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'users/1').respond(400, dataEvents);
-  	});
-
-  	it('Should be called utilsService methods', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-    });
-
-    it('Should showEmptyState be true', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.isTrue(pastEventsController.showEmptyState);
-    });
-
-  });
-
+  
   ////////////////////////////////////////////////////////////
   describe('Tests to doRefresh method', function(){
 
@@ -155,15 +97,13 @@ describe('Controller: PastEventsController', function(){
   ////////////////////////////////////////////////////////////
   describe('Tests to doRefresh success', function(){
 
-  	var dataEvents = mockData.userService.getUser();
+  	var dataEvents = mockData.userService.home();
 
     beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'users/1').respond(200, dataEvents);
+  		$httpBackend.whenGET( URL_REST + 'home/1').respond(200, dataEvents);
   	});
 
     it('Should showEmptyState be boolean', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
       pastEventsController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
@@ -171,8 +111,6 @@ describe('Controller: PastEventsController', function(){
     });
 
     it('Should filter by past events', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
       pastEventsController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
@@ -180,8 +118,6 @@ describe('Controller: PastEventsController', function(){
     });
 
     it('Should be called broadcast Menu:count_events', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
       pastEventsController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
@@ -189,9 +125,7 @@ describe('Controller: PastEventsController', function(){
       chai.expect($rootScopeBroadcast).to.have.been.with('Menu:count_events', 1);
     });
 
-    it('Should be called broadcast scroll.refreshComplete', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
+    it('Should be called broadcast scroll.refreshComplete', function(){
       pastEventsController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
@@ -207,7 +141,7 @@ describe('Controller: PastEventsController', function(){
   	var dataEvents = mockData.failed();
 
     beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'users/1').respond(400, dataEvents);
+  		$httpBackend.whenGET( URL_REST + 'home/1').respond(400, dataEvents);
   	});
 
     it('Should be called broadcast scroll.refreshComplete', function() {

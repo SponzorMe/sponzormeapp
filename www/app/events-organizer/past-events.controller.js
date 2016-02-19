@@ -47,7 +47,7 @@
           $scope.$broadcast('scroll.refreshComplete');
           vm.userAuth.events = $localStorage.userAuth.events = user.events;
           vm.events = vm.userAuth.events.filter( filterDate );
-          $rootScope.$broadcast('Menu:count_events', user.events.length - vm.events.length);
+          $rootScope.$broadcast('Menu:count_events', vm.userAuth.events.length - vm.events.length);
         }
 
         function failed( error ){
