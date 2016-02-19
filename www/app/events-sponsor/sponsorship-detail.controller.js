@@ -32,8 +32,9 @@
     vm.modalTask = null;
     vm.isNewTask = true;
     vm.showModalTask = showModalTask;
-    vm.newTask = {};
+    vm.sponsorTask = {};
     vm.hideModalTask = hideModalTask;
+    vm.newTask = newTask;
     vm.editTask = editTask;
     vm.submitTask = submitTask;
     vm.deleteTask = deleteTask;
@@ -45,7 +46,7 @@
     ////////////
 
     function activate(){
-      vm.taskUpdate = vm.newTask = { task: {} }
+      vm.sponsorTask = { task: {} }
       vm.sponzorship = _.findWhere(vm.userAuth.sponzorships, {id: $stateParams.id});
 
       $ionicModal.fromTemplateUrl('app/events-sponsor/task-modal.html', {
@@ -72,12 +73,12 @@
     function hideModalTask( form ){
       vm.modalTask.hide();
       if (form) utilsService.resetForm( form );
-      vm.taskUpdate = vm.newTask = { task: {} }
+      vm.sponsorTask = { task: {} }
     }
 
     function editTask( task ){
       vm.isNewTask = false;
-      vm.newTask = angular.copy(task);
+      vm.sponsorTask = angular.copy(task);
       vm.showModalTask();
     }
 
@@ -102,28 +103,28 @@
     function preparateTask( task ){
       return {
         type: 1, //Because is created by the Sponzor
-        status: vm.newTask.task.status ? 1 : 0,
+        status: vm.sponsorTask.task.status ? 1 : 0,
         perk_id: vm.sponzorship.perk.id,
         event_id: vm.sponzorship.event.id,
         sponzorship_id: vm.sponzorship.id,
         user_id: vm.userAuth.id,
         organizer_id: vm.sponzorship.organizer.id,
         sponzor_id: vm.userAuth.id,
-        title: vm.newTask.task.title,
-        description: vm.newTask.task.description,
-        task_id: vm.newTask.task.id
+        title: vm.sponsorTask.task.title,
+        description: vm.sponsorTask.task.description,
+        task_id: vm.sponsorTask.task.id
       }
     }
 
     function deleteTask( form ){
       utilsService.showLoad();
-      tasksSponsorService.deleteTask( vm.newTask.id )
+      tasksSponsorService.deleteTask( vm.sponsorTask.id )
       .then( complete )
       .catch( failed );
       
       function complete( data ) {
-        var perkTask = _.findWhere( vm.sponzorship.perk.tasks, {id: vm.newTask.task.id} );
-        var taskSponzor = _.findWhere( vm.sponzorship.task_sponzor, {id: vm.newTask.id} );
+        var perkTask = _.findWhere( vm.sponzorship.perk.tasks, {id: vm.sponsorTask.task.id} );
+        var taskSponzor = _.findWhere( vm.sponzorship.task_sponzor, {id: vm.sponsorTask.id} );
         var indexPerkTask = _.indexOf(vm.sponzorship.perk.tasks, perkTask);
         var indexSponzorTask = _.indexOf(vm.sponzorship.task_sponzor, taskSponzor);
         vm.sponzorship.perk.tasks.splice(indexPerkTask, 1);
@@ -141,18 +142,18 @@
     function updateTask( form ){
       utilsService.showLoad();
       var task = preparateTask();
-      task.id = vm.newTask.id;
+      task.id = vm.sponsorTask.id;
       tasksSponsorService.editPutTask( task.id, task )
       .then( complete )
       .catch( failed );
       
       function complete( TaskSponzor ) {
-        var perkTask = _.findWhere( vm.sponzorship.perk.tasks, {id: vm.newTask.task.id} );
-        var taskSponzor = _.findWhere( vm.sponzorship.task_sponzor, {id: vm.newTask.id} );
+        var perkTask = _.findWhere( vm.sponzorship.perk.tasks, {id: vm.sponsorTask.task.id} );
+        var taskSponzor = _.findWhere( vm.sponzorship.task_sponzor, {id: vm.sponsorTask.id} );
         var indexPerkTask = _.indexOf(vm.sponzorship.perk.tasks, perkTask);
         var indexSponzorTask = _.indexOf(vm.sponzorship.task_sponzor, taskSponzor);
-        vm.sponzorship.perk.tasks[indexPerkTask] = vm.newTask.task;
-        vm.sponzorship.task_sponzor[indexSponzorTask] = vm.newTask;
+        vm.sponzorship.perk.tasks[indexPerkTask] = vm.sponsorTask.task;
+        vm.sponzorship.task_sponzor[indexSponzorTask] = vm.sponsorTask;
         vm.hideModalTask( form );
         utilsService.hideLoad();
       }

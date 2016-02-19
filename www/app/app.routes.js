@@ -333,26 +333,6 @@
         }
       })
 
-      .state('sponzor.addTask', {
-        url: "/addTask/:idEvent/:idPerk/:idOrganizer/:idSponsorship",
-        views: {
-          'menuContent' :{
-            templateUrl: "app/tasks-sponsor/add-task.html",
-            controller: "AddTaskSponsorController as addTask"
-          }
-        }
-      })
-
-      .state('sponzor.editTask', {
-        url: "/editTask/:id",
-        views: {
-          'menuContent' :{
-            templateUrl: "app/tasks-sponsor/edit-task.html",
-            controller: "EditTaskSponsorController as editTask"
-          }
-        }
-      })
-
       .state('sponzor.profile', {
         url: "/profile",
         views: {
