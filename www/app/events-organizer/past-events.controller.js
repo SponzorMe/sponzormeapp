@@ -34,36 +34,19 @@
     ////////////
 
     function activate(){
-      getEvents();
-    }
-
-    function getEvents(){
-      utilsService.showLoad();
-      userService.getUser( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( user ){
-          utilsService.hideLoad();
-          vm.events = user.events.filter( filterDate );
-          vm.showEmptyState = vm.events.length == 0 ? true : false;
-          $rootScope.$broadcast('Menu:count_events', user.events.length - vm.events.length);
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-          vm.showEmptyState = true;
-        }
+      vm.events = vm.userAuth.events.filter( filterDate );
+      vm.showEmptyState = vm.events.length == 0 ? true : false;
     }
 
     function doRefresh(){
-      userService.getUser( vm.userAuth.id )
+      userService.home( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 
         function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
-          vm.events = user.events.filter( filterDate );
+          vm.userAuth.events = $localStorage.userAuth.events = user.events;
+          vm.events = vm.userAuth.events.filter( filterDate );
           $rootScope.$broadcast('Menu:count_events', user.events.length - vm.events.length);
         }
 
