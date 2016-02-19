@@ -309,34 +309,36 @@ var mockData = (function() {
       }
     ];
     return {
-      rating: null,
-      success: true,
-      token: null,
-      user: {
-        id: "1",
-        email: "mail@domain.com",
-        age: "12",
-        comunity_size: "0",
-        events: events,
-        sponzorships_like_organizer: [
-          {
-            cause: "Test 1",
-          },
-          {
-            cause: "Test 2",
-          }
-        ],
-        sponzorships: [
-          {
-            cause: "test",
-            event_id: "1002",
-            id: "30",
-            organizer_id: "1003",
-            perk_id: "3",
-            sponzor_id: "1002",
-            status: "0"
-          }
-        ]
+      data: {
+        rating: null,
+        success: true,
+        token: null,
+        user: {
+          id: "1",
+          email: "mail@domain.com",
+          age: "12",
+          comunity_size: "0",
+          events: events,
+          sponzorships_like_organizer: [
+            {
+              cause: "Test 1",
+            },
+            {
+              cause: "Test 2",
+            }
+          ],
+          sponzorships: [
+            {
+              cause: "test",
+              event_id: "1002",
+              id: "30",
+              organizer_id: "1003",
+              perk_id: "3",
+              sponzor_id: "1002",
+              status: "0"
+            }
+          ]
+        }
       }
     }
   }

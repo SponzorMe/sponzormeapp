@@ -31,11 +31,12 @@
       vm.count_events = vm.userAuth.events.filter( filterDate ).length;
       vm.count_comunity = parseInt( vm.userAuth.comunity_size ) || 0;
       vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
-      
-      function filterDate( item ){
-        return moment(item.ends).isAfter(new Date());
-      };
     };
+    
+    function filterDate( item ){
+      var today = moment( new Date() ).subtract(1, 'days');
+      return moment(item.ends).isAfter( today );
+    }
 
   }
 })();

@@ -142,7 +142,7 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( preparateData(response.data) );
+        return $q.when( preparateData(response.data.data) );
       }
       
       function preparateData( data ) {
