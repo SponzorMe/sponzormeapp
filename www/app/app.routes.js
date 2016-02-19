@@ -373,12 +373,12 @@
         }
       })
 
-      .state('sponzor.event-tasks', {
-        url: "/event-tasks/:idEvent",
+      .state('sponzor.sponsorship', {
+        url: "/sponsorship/:id",
         views: {
           'menuContent' :{
-            templateUrl: "app/events-sponsor/event-detail-tasks.html",
-            controller: "EventDetailTasksSponzorController as eventDetail"
+            templateUrl: "app/events-sponsor/sponsorship-detail.html",
+            controller: "SponsorshipSponsorDetailController as detail"
           }
         }
       })

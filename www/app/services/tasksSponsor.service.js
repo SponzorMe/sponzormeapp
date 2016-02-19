@@ -105,16 +105,16 @@
         method: 'POST',
         url: path + 'task_sponzor',
         headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Content-Type' : 'application/json',
           'Authorization' : 'Basic '+ getToken()
         },
-        data: $httpParamSerializerJQLike(data)
+        data: data
       })
       .then( complete )
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( response.data.TaskSponzor );
+        return $q.when( response.data );
       }
 
       function failed( response ) {

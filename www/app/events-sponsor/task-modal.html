@@ -1,0 +1,58 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive" align-title="center">
+    <h1 class="title">Add Task</h1>
+    <div class="buttons" ng-show="!detail.isNewTask">
+      <a class="button button-icon icon ion-close-circled" ng-click="detail.hideModalTask()"></a>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <form name="taskForm" novalidate ng-submit="taskForm.$valid && detail.submitTask( taskForm )">
+      <ion-list type="card">  
+        <ion-item class="item-divider">
+          Add Task
+        </ion-item>
+        <!-- Title  -->
+        <label class="item item-input" ng-class="{ 'has-error' : taskForm.title.$invalid && taskForm.$submitted }">
+          <input 
+          name="title" 
+          type="text" 
+          placeholder='Task' 
+          ng-model="detail.newTask.title"
+          ng-minlength="5"
+          ng-maxlength="30"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="taskForm.title.$error" ng-if="taskForm.$invalid && taskForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> Es requerido</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> Muy pequeño</div>
+          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> Muy largo</div>
+        </div>
+        <!-- Description  -->
+        <label class="item item-input" ng-class="{ 'has-error' : taskForm.txttitle.$invalid && taskForm.$submitted }">
+          <textarea 
+          name="description" 
+          placeholder="Description"
+          ng-model="detail.newTask.description" 
+          required
+          ></textarea>
+        </label>
+        <div class="form-errors" ng-messages="taskForm.description.$error" ng-if="taskForm.$invalid && taskForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> Es requerido</div>
+        </div>
+        <!-- Done -->
+        <ion-toggle ng-show="!detail.isNewTask" ng-model="detail.newTask.status" toggle-class="toggle-positive">Done?</ion-toggle>
+      </ion-list>
+      <div class="row">
+        <div class="col col-50" ng-show="!detail.isNewTask">
+          <button class="button button-block" type="button" ng-click="detail.deleteTask()">Delete</button>
+        </div>
+        <div class="col col-50" ng-show="detail.isNewTask">
+          <button class="button button-block" type="button" ng-click="detail.hideModalTask()">Cancel</button>
+        </div>
+        <div class="col col-50">
+          <button class="button button-block button-positive" type="submit">Save</button>
+        </div>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>

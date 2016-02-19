@@ -14,7 +14,7 @@
       </div>
     </div>
     <ion-list>
-      <ion-item href="#/sponzor/event-tasks/{{ event.event_id }}" class="event" ng-repeat="event in sponzoring.events | filter:search | orderBy:'starts' " ng-style="{'background-image': 'url(' + event.image + ')'}">
+      <ion-item href="#/sponzor/sponsorship/20" class="event" ng-repeat="event in sponzoring.events | filter:search | orderBy:'starts' " ng-style="{'background-image': 'url(' + event.image + ')'}">
         <i class="icon ion-checkmark"></i>
         <p>
           {{ event.cause | limitTo:40 }}... </br> 

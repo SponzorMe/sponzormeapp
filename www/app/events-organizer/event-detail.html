@@ -79,7 +79,7 @@
               <ion-item ng-click="eventDetail.openOptionsSponsorship( sponzorship )" class="item-icon-left item-icon-right" ng-repeat="sponzorship in perk.sponzorship">
                 <i class="icon ion-flag"></i>
                 <h2> {{ sponzorship.cause }} </h2>
-                <p> {{ sponzorship.name }} </p>
+                <p> {{ sponzorship.sponzor.name }} </p>
                 <i class="icon ion-checkmark-circled status-sponzorship accept" ng-if="sponzorship.status == 1"></i>
                 <i class="icon ion-close-circled status-sponzorship reject" ng-if="sponzorship.status == 2"></i>
                 <i class="icon ion-alert status-sponzorship pending" ng-if="sponzorship.status == 0"></i>
