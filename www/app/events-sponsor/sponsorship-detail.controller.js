@@ -31,9 +31,8 @@
     
     vm.modalTask = null;
     vm.isNewTask = true;
-    vm.task = {};
     vm.showModalTask = showModalTask;
-    vm.newTask = newTask;
+    vm.newTask = {};
     vm.hideModalTask = hideModalTask;
     vm.editTask = editTask;
     vm.submitTask = submitTask;
@@ -46,6 +45,7 @@
     ////////////
 
     function activate(){
+      vm.taskUpdate = vm.newTask = { task: {} }
       vm.sponzorship = _.findWhere(vm.userAuth.sponzorships, {id: $stateParams.id});
 
       $ionicModal.fromTemplateUrl('app/events-sponsor/task-modal.html', {
@@ -72,19 +72,17 @@
     function hideModalTask( form ){
       vm.modalTask.hide();
       if (form) utilsService.resetForm( form );
-      vm.task = {};
+      vm.taskUpdate = vm.newTask = { task: {} }
     }
 
     function editTask( task ){
       vm.isNewTask = false;
-      vm.newTask = task;
-      vm.newTask.title = vm.newTask.task.title,
-      vm.newTask.description = vm.newTask.task.description
-      vm.newTask.status = vm.newTask.task.status == 1 ? true : false;
+      vm.newTask = angular.copy(task);
       vm.showModalTask();
     }
 
     function createTask( form ){
+      utilsService.showLoad();
       tasksSponsorService.createTask( preparateTask() )
       .then( complete )
       .catch( failed );
@@ -93,35 +91,76 @@
         vm.sponzorship.perk.tasks.push( data.PerkTask );
         vm.sponzorship.task_sponzor.push( data.TaskSponzor );
         vm.hideModalTask( form );
+        utilsService.hideLoad();
       }
       
-      function failed(params) {
-        
+      function failed() {
+        utilsService.hideLoad();
       }
     }
     
     function preparateTask( task ){
       return {
         type: 1, //Because is created by the Sponzor
-        status: vm.newTask.status ? 1 : 0,
+        status: vm.newTask.task.status ? 1 : 0,
         perk_id: vm.sponzorship.perk.id,
         event_id: vm.sponzorship.event.id,
         sponzorship_id: vm.sponzorship.id,
         user_id: vm.userAuth.id,
         organizer_id: vm.sponzorship.organizer.id,
         sponzor_id: vm.userAuth.id,
-        title: vm.newTask.title,
-        description: vm.newTask.description
+        title: vm.newTask.task.title,
+        description: vm.newTask.task.description,
+        task_id: vm.newTask.task.id
       }
     }
 
     function deleteTask( form ){
+      utilsService.showLoad();
+      tasksSponsorService.deleteTask( vm.newTask.id )
+      .then( complete )
+      .catch( failed );
       
+      function complete( data ) {
+        var perkTask = _.findWhere( vm.sponzorship.perk.tasks, {id: vm.newTask.task.id} );
+        var taskSponzor = _.findWhere( vm.sponzorship.task_sponzor, {id: vm.newTask.id} );
+        var indexPerkTask = _.indexOf(vm.sponzorship.perk.tasks, perkTask);
+        var indexSponzorTask = _.indexOf(vm.sponzorship.task_sponzor, taskSponzor);
+        vm.sponzorship.perk.tasks.splice(indexPerkTask, 1);
+        vm.sponzorship.task_sponzor.splice(indexSponzorTask, 1);
+        vm.hideModalTask( form );
+        utilsService.hideLoad();
+      }
+      
+      function failed() {
+        vm.hideModalTask( form );
+        utilsService.hideLoad();
+      }
     }
 
     function updateTask( form ){
-      vm.task.status = vm.task.status ? 1 : 0;
+      utilsService.showLoad();
+      var task = preparateTask();
+      task.id = vm.newTask.id;
+      tasksSponsorService.editPutTask( task.id, task )
+      .then( complete )
+      .catch( failed );
       
+      function complete( TaskSponzor ) {
+        var perkTask = _.findWhere( vm.sponzorship.perk.tasks, {id: vm.newTask.task.id} );
+        var taskSponzor = _.findWhere( vm.sponzorship.task_sponzor, {id: vm.newTask.id} );
+        var indexPerkTask = _.indexOf(vm.sponzorship.perk.tasks, perkTask);
+        var indexSponzorTask = _.indexOf(vm.sponzorship.task_sponzor, taskSponzor);
+        vm.sponzorship.perk.tasks[indexPerkTask] = vm.newTask.task;
+        vm.sponzorship.task_sponzor[indexSponzorTask] = vm.newTask;
+        vm.hideModalTask( form );
+        utilsService.hideLoad();
+      }
+      
+      function failed() {
+        vm.hideModalTask( form );
+        utilsService.hideLoad();
+      }
     }
 
     function submitTask( form ){

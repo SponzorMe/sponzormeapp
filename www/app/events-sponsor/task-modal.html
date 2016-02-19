@@ -17,7 +17,7 @@
           name="title" 
           type="text" 
           placeholder='Task' 
-          ng-model="detail.newTask.title"
+          ng-model="detail.newTask.task.title"
           ng-minlength="5"
           ng-maxlength="30"
           required>
@@ -32,7 +32,7 @@
           <textarea 
           name="description" 
           placeholder="Description"
-          ng-model="detail.newTask.description" 
+          ng-model="detail.newTask.task.description" 
           required
           ></textarea>
         </label>
@@ -40,7 +40,7 @@
           <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> Es requerido</div>
         </div>
         <!-- Done -->
-        <ion-toggle ng-show="!detail.isNewTask" ng-model="detail.newTask.status" toggle-class="toggle-positive">Done?</ion-toggle>
+        <ion-toggle ng-show="!detail.isNewTask" ng-model="detail.newTask.task.status" toggle-class="toggle-positive">Done?</ion-toggle>
       </ion-list>
       <div class="row">
         <div class="col col-50" ng-show="!detail.isNewTask">
