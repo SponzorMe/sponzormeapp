@@ -267,4 +267,203 @@ describe("Controller: SponsorshipSponsorDetailController", function() {
 
   });
   
+  ////////////////////////////////////////////////////////////
+  describe('Tests to createTask method failed', function(){
+    
+    var dataTaskSponsor = mockData.failed();
+
+  	beforeEach(function() {
+  		$httpBackend.whenPOST( URL_REST + 'task_sponzor').respond(400, dataTaskSponsor);
+  	});
+
+    it('Should be called utilsService methods', function() {
+    	$rootScope.$digest();
+      $httpBackend.flush();
+      sponsorshipSponsorDetailController.newTask();
+      sponsorshipSponsorDetailController.submitTask( mockForm );
+      $rootScope.$digest();
+      $httpBackend.flush();
+      chai.expect( utilsService.showLoad ).to.have.been.called();
+      chai.expect( utilsService.hideLoad ).to.have.been.called();
+    });
+
+  });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Tests to updateTask method success', function(){
+    
+    var dataTaskSponsor = mockData.tasksSponsorService.editPutTask();
+
+  	beforeEach(function() {
+  		$httpBackend.whenPUT( URL_REST + 'task_sponzor/1').respond(200, dataTaskSponsor);
+  	});
+
+    it('Should be called utilsService methods', function() {
+    	$rootScope.$digest();
+      $httpBackend.flush();
+      var mockTask = {
+        id: "1",
+        task:{
+          title: "Nicoas",
+          description: "Bla",
+          status: "0"
+        }
+      };
+      sponsorshipSponsorDetailController.editTask( mockTask );
+      sponsorshipSponsorDetailController.submitTask( mockForm );
+      $rootScope.$digest();
+      $httpBackend.flush();
+      chai.expect( utilsService.showLoad ).to.have.been.called();
+      chai.expect( utilsService.hideLoad ).to.have.been.called();
+    });
+    
+    it('Should be update a TaskSponzor in array task_sponzor', function() {
+    	$rootScope.$digest();
+      $httpBackend.flush();
+      var mockTask = {
+        id: "1",
+        task:{
+          title: "Nicoas",
+          description: "Bla",
+          status: "0"
+        }
+      };
+      sponsorshipSponsorDetailController.editTask( mockTask );
+      sponsorshipSponsorDetailController.submitTask( mockForm );
+      $rootScope.$digest();
+      $httpBackend.flush();
+      chai.expect( sponsorshipSponsorDetailController.sponzorship.task_sponzor[0] ).to.eql( mockTask );
+    });
+    
+    it('Should be update a PerkTaks in array tasks', function() {
+    	$rootScope.$digest();
+      $httpBackend.flush();
+      var mockTask = {
+        id: "1",
+        task:{
+          id: "1",
+          title: "Nicoas",
+          description: "Bla",
+          status: "0"
+        }
+      };
+      sponsorshipSponsorDetailController.editTask( mockTask );
+      sponsorshipSponsorDetailController.submitTask( mockForm );
+      $rootScope.$digest();
+      $httpBackend.flush();
+      chai.expect( sponsorshipSponsorDetailController.sponzorship.perk.tasks[0] ).to.eql( mockTask.task );
+    });
+
+  });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Tests to editTask method failed', function(){
+    
+    var dataTaskSponsor = mockData.failed();
+
+  	beforeEach(function() {
+  		$httpBackend.whenPUT( URL_REST + 'task_sponzor/1').respond(400, dataTaskSponsor);
+  	});
+
+    it('Should be called utilsService methods', function() {
+    	$rootScope.$digest();
+      $httpBackend.flush();
+      var mockTask = {
+        id: "1",
+        task:{
+          title: "Nicoas",
+          description: "Bla",
+          status: "0"
+        }
+      };
+      sponsorshipSponsorDetailController.editTask( mockTask );
+      sponsorshipSponsorDetailController.submitTask( mockForm );
+      $rootScope.$digest();
+      $httpBackend.flush();
+      chai.expect( utilsService.showLoad ).to.have.been.called();
+      chai.expect( utilsService.hideLoad ).to.have.been.called();
+    });
+
+  });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Tests to deleteTask method', function(){
+
+    it('Should have deleteTask method', function() {
+      chai.assert.isDefined( sponsorshipSponsorDetailController.deleteTask );
+      chai.assert.isFunction( sponsorshipSponsorDetailController.deleteTask );
+    });
+
+  });
+  
+  
+  ////////////////////////////////////////////////////////////
+  describe('Tests to deleteTask method success', function(){
+    
+    var dataTaskSponsor = mockData.tasksSponsorService.deleteTask();
+
+  	beforeEach(function() {
+  		$httpBackend.whenDELETE( URL_REST + 'task_sponzor/1').respond(200, dataTaskSponsor);
+  	});
+
+    it('Should be called utilsService methods', function() {
+    	$rootScope.$digest();
+      $httpBackend.flush();
+      var mockTask = {
+        id: "1",
+        task:{
+          title: "Nicoas",
+          description: "Bla",
+          status: "0"
+        }
+      };
+      sponsorshipSponsorDetailController.editTask( mockTask );
+      sponsorshipSponsorDetailController.deleteTask( mockForm );
+      $rootScope.$digest();
+      $httpBackend.flush();
+      chai.expect( utilsService.showLoad ).to.have.been.called();
+      chai.expect( utilsService.hideLoad ).to.have.been.called();
+    });
+    
+    it('Should be remove a TaskSponzor in array task_sponzor', function() {
+    	$rootScope.$digest();
+      $httpBackend.flush();
+      var size = sponsorshipSponsorDetailController.sponzorship.task_sponzor.length;
+      var mockTask = {
+        id: "1",
+        task:{
+          title: "Nicoas",
+          description: "Bla",
+          status: "0"
+        }
+      };
+      sponsorshipSponsorDetailController.editTask( mockTask );
+      sponsorshipSponsorDetailController.deleteTask( mockForm );
+      $rootScope.$digest();
+      $httpBackend.flush();
+      chai.assert.equal( sponsorshipSponsorDetailController.sponzorship.task_sponzor.length, size - 1 );
+    });
+    
+    it('Should be remove a PerkTaks in array tasks', function() {
+    	$rootScope.$digest();
+      $httpBackend.flush();
+      var size = sponsorshipSponsorDetailController.sponzorship.perk.tasks.length;
+      var mockTask = {
+        id: "1",
+        task:{
+          id: "1",
+          title: "Nicoas",
+          description: "Bla",
+          status: "0"
+        }
+      };
+      sponsorshipSponsorDetailController.editTask( mockTask );
+      sponsorshipSponsorDetailController.deleteTask( mockForm );
+      $rootScope.$digest();
+      $httpBackend.flush();
+      chai.assert.equal( sponsorshipSponsorDetailController.sponzorship.perk.tasks.length, size - 1 );
+    });
+
+  });
+  
 });

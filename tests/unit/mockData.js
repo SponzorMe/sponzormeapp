@@ -214,11 +214,24 @@ var mockData = (function() {
             perk_id: "3",
             perk:{
               id: 1,
-              tasks: []
+              tasks: [
+                {
+                  id: "1",
+                  status: "0"
+                }
+              ]
             },
             sponzor_id: "1002",
             status: "0",
-            task_sponzor: []
+            task_sponzor: [
+              {
+                id: "1",
+                task:{
+                  id: "1",
+                  status: "0"
+                }
+              }
+            ]
           }
         ]
       }
