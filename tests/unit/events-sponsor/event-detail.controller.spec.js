@@ -25,7 +25,7 @@ describe("Controller: EventDetailSponzorController", function() {
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
-    $httpBackend.whenGET('app/events-sponsor/sponsor-it-modal.html').respond(200, '<ion-modal-view></<ion-modal-view>');
+    $httpBackend.whenGET('app/events-sponsor/sponsor-it-modal.html').respond(200, '');
 
     //Dependences
     $localStorage = $injector.get('$localStorage');

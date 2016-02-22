@@ -200,14 +200,25 @@ var mockData = (function() {
           }
         ],
         sponzorships: [
-          {
+           {
             cause: "test",
             event_id: "1002",
+            event:{
+              id: 1
+            },
             id: "30",
             organizer_id: "1003",
+            organizer:{
+              id: 1
+            },
             perk_id: "3",
+            perk:{
+              id: 1,
+              tasks: []
+            },
             sponzor_id: "1002",
-            status: "0"
+            status: "0",
+            task_sponzor: []
           }
         ]
       }
@@ -331,9 +342,15 @@ var mockData = (function() {
             {
               cause: "test",
               event_id: "1002",
+              event:{
+                id: 1
+              },
               id: "30",
               organizer_id: "1003",
               perk_id: "3",
+              perk:{
+                id: 1
+              },
               sponzor_id: "1002",
               status: "0"
             }
