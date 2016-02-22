@@ -67,11 +67,12 @@
       
       function preparateData( data ) {
         var user = data.user;
-        if(user.type == 1){
+        if(user.type == 1){// Is a Sponzor
           user.events = data.events.map( preparateEvent );
           user.sponzorships = user.sponzorships.map( preparateSponzorships );
         }else{
           user.events = user.events.map( preparateEvent );
+          user.sponzorships_like_organizer = user.sponzorships_like_organizer.map( preparateSponzorships );
         }
         return user;
       }
@@ -84,6 +85,7 @@
       }
       
       function preparateSponzorships( item ){
+        item.sponzor.image = (item.sponzor.image == "") ? 'img/photo.png' : item.sponzor.image;
         item.event.starts = moment(item.event.starts)._d;
         item.event.ends = moment(item.event.ends)._d;
         return item;  
@@ -159,6 +161,7 @@
           user.sponzorships = user.sponzorships.map( preparateSponzorships );
         }else{
           user.events = user.events.map( preparateEvent );
+          user.sponzorships_like_organizer = user.sponzorships_like_organizer.map( preparateSponzorships );
         }
         return user;
       }
@@ -171,6 +174,7 @@
       }
       
       function preparateSponzorships( item ){
+        item.sponzor.image = (item.sponzor.image == "") ? 'img/photo.png' : item.sponzor.image;
         item.event.starts = moment(item.event.starts)._d;
         item.event.ends = moment(item.event.ends)._d;
         return item;  

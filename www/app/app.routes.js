@@ -202,12 +202,12 @@
         }
       })
 
-      .state('organizer.sponzor', {
-        url: "/sponzor/:id",
+      .state('organizer.sponsorship', {
+        url: "/sponsorship/:id",
         views: {
           'menuContent' :{
-            templateUrl: "app/sponsors-organizer/sponzor-detail.html",
-            controller: "SponsorshipDetailController as sponzorDetail"
+            templateUrl: "app/sponsors-organizer/sponsorship-detail.html",
+            controller: "SponsorshipOrganizerDetailController as detail"
           }
         }
       })
