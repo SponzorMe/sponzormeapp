@@ -74,7 +74,7 @@ describe("Controller: SponzoringEventsController", function() {
 
     it('Should have showEmptyState variable', function() {
       chai.assert.isDefined( sponzoringEventsController.showEmptyState );
-      chai.assert.isFalse( sponzoringEventsController.showEmptyState );
+      chai.assert.isBoolean( sponzoringEventsController.showEmptyState );
     });
 
   });
@@ -104,7 +104,7 @@ describe("Controller: SponzoringEventsController", function() {
       sponzoringEventsController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( sponzoringEventsController.sponzorships.length, 1);
+      chai.assert.equal( sponzoringEventsController.sponzorships.length, 0);
     });
 
     it('Should be called broadcast Menu:count_tasks', function() {
@@ -112,7 +112,7 @@ describe("Controller: SponzoringEventsController", function() {
       $rootScope.$digest();
       $httpBackend.flush();
       chai.expect($rootScopeBroadcast).to.have.been.called();
-      chai.expect($rootScopeBroadcast).to.have.been.with('Menu:count_sponsoring', 1);
+      chai.expect($rootScopeBroadcast).to.have.been.with('Menu:count_sponsoring', 0);
     });
 
     it('Should be called broadcast scroll.refreshComplete', function() {
