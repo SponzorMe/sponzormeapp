@@ -14,56 +14,40 @@
   FollowEventsController.$inject = [
     '$localStorage',
     'utilsService',
-    'sponsorshipService',
+    'userService',
     '$scope',
     '$rootScope'
   ];
 
-  function FollowEventsController( $localStorage, utilsService, sponsorshipService, $scope, $rootScope) {
+  function FollowEventsController( $localStorage, utilsService, userService, $scope, $rootScope) {
 
     var vm = this;
     //Attributes
     vm.userAuth = $localStorage.userAuth;
-    vm.events = [];
+    vm.sponzorships = [];
     vm.showEmptyState = false;
     //Funcions
     vm.doRefresh = doRefresh;
     
     activate();
-
     ////////////
 
     function activate(){
-      getEvents();
-    }
-
-    function getEvents(){
-      utilsService.showLoad();
-      sponsorshipService.sponzorshipBySponzor( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( events ){
-          utilsService.hideLoad();
-          vm.events = events.filter( filterByPending );
-          vm.showEmptyState = vm.events.length == 0 ? true : false;
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-          vm.showEmptyState = true;
-        }
+      vm.sponzorships = vm.userAuth.sponzorships.filter( filterByPending );
+      vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
     }
 
     function doRefresh(){
-      sponsorshipService.sponzorshipBySponzor( vm.userAuth.id )
+      userService.home( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 
-        function complete( events ){
+        function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
-          vm.events = events.filter( filterByPending );
-          $rootScope.$broadcast('Menu:count_following', vm.events.length);
+          vm.userAuth = $localStorage.userAuth = user;
+          vm.sponzorships = vm.userAuth.sponzorships.filter( filterByPending );
+          vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
+          $rootScope.$broadcast('Menu:count_following', vm.sponzorships.length);
         }
 
         function failed( error ){
@@ -74,10 +58,6 @@
     function filterByPending( item ){
       return item.status != '1';
     }
-    
-    /*function filterDate( item ){
-      return moment(item.ends).isAfter(new Date());
-    }*/
 
   }
 })();

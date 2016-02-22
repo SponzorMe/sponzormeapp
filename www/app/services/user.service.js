@@ -67,8 +67,9 @@
       
       function preparateData( data ) {
         var user = data.user;
-        if(data.events){
+        if(user.type == 1){
           user.events = data.events.map( preparateEvent );
+          user.sponzorships = user.sponzorships.map( preparateSponzorships );
         }else{
           user.events = user.events.map( preparateEvent );
         }
@@ -79,6 +80,12 @@
         item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
         item.starts = moment(item.starts)._d;
         item.ends = moment(item.ends)._d;
+        return item;  
+      }
+      
+      function preparateSponzorships( item ){
+        item.event.starts = moment(item.event.starts)._d;
+        item.event.ends = moment(item.event.ends)._d;
         return item;  
       }
 
@@ -147,8 +154,9 @@
       
       function preparateData( data ) {
         var user = data.user;
-        if(data.events){
+        if(user.type == 1){
           user.events = data.events.map( preparateEvent );
+          user.sponzorships = user.sponzorships.map( preparateSponzorships );
         }else{
           user.events = user.events.map( preparateEvent );
         }
@@ -159,6 +167,12 @@
         item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
         item.starts = moment(item.starts)._d;
         item.ends = moment(item.ends)._d;
+        return item;  
+      }
+      
+      function preparateSponzorships( item ){
+        item.event.starts = moment(item.event.starts)._d;
+        item.event.ends = moment(item.event.ends)._d;
         return item;  
       }
 
