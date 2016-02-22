@@ -13,13 +13,13 @@
 
   SponzoringEventsController.$inject = [
     '$localStorage',
+    'userService',
     'utilsService',
-    'sponsorshipService',
     '$scope',
     '$rootScope'
   ];
 
-  function SponzoringEventsController( $localStorage, utilsService, sponsorshipService, $scope, $rootScope) {
+  function SponzoringEventsController( $localStorage, userService, utilsService, $scope, $rootScope) {
 
     var vm = this;
     //Attributes
@@ -30,40 +30,24 @@
     vm.doRefresh = doRefresh;
     
     activate();
-
     ////////////
 
     function activate(){
-      getEvents();
-    }
-
-    function getEvents(){
-      utilsService.showLoad();
-      sponsorshipService.sponzorshipBySponzor( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( events ){
-          utilsService.hideLoad();
-          vm.events = events.filter( filterByAccepted );
-          vm.showEmptyState = vm.events.length == 0 ? true : false;
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-          vm.showEmptyState = true;
-        }
+      vm.sponzorships = vm.userAuth.sponzorships.filter( filterByAccepted );
+      vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
     }
 
     function doRefresh(){
-      sponsorshipService.sponzorshipBySponzor( vm.userAuth.id )
+      userService.home( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 
-        function complete( events ){
+        function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
-          vm.events = events.filter( filterByAccepted );
-          $rootScope.$broadcast('Menu:count_sponsoring', vm.events.length);
+          vm.userAuth = $localStorage.userAuth = user;
+          vm.sponzorships = vm.userAuth.sponzorships.filter( filterByAccepted );
+          vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
+          $rootScope.$broadcast('Menu:count_sponsoring', vm.sponzorships.length);
         }
 
         function failed( error ){

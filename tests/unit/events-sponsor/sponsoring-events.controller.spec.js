@@ -1,8 +1,5 @@
 describe("Controller: SponzoringEventsController", function() {
 
-	var sponzoringEventsController, utilsService, sponsorshipService;
-	var $rootScope, $httpBackend, $localStorage, $ionicHistory, $q, $rootScopeBroadcast, $scopeBroadcast;
-
   beforeEach(function() {
     module('app');
   });
@@ -29,7 +26,7 @@ describe("Controller: SponzoringEventsController", function() {
 
     //Dependences
     $localStorage = $injector.get('$localStorage');
-    sponsorshipService= $injector.get('sponsorshipService');
+    userService= $injector.get('userService');
     utilsService = chai.spy.object($injector.get('utilsService'), ['showLoad', 'hideLoad','alert', 'resetForm','trim']);
     $q = $injector.get('$q');
 
@@ -40,8 +37,8 @@ describe("Controller: SponzoringEventsController", function() {
 
     sponzoringEventsController = $controller('SponzoringEventsController', {
   		'$localStorage': $localStorage,
+      'userService': userService,
 	    'utilsService': utilsService,
-	    'sponsorshipService': sponsorshipService,
 	    '$scope': $scope,
 	    '$rootScope': $rootScope
   	});
@@ -52,9 +49,8 @@ describe("Controller: SponzoringEventsController", function() {
   describe('Tests to events array', function(){
 
     it('Should have events array', function() {
-      chai.assert.isDefined( sponzoringEventsController.events );
-      chai.assert.isArray( sponzoringEventsController.events );
-      chai.expect( sponzoringEventsController.events ).to.be.empty;
+      chai.assert.isDefined( sponzoringEventsController.sponzorships );
+      chai.assert.isArray( sponzoringEventsController.sponzorships );
     });
 
   });
@@ -83,53 +79,7 @@ describe("Controller: SponzoringEventsController", function() {
 
   });
 
-  ////////////////////////////////////////////////////////////
-  describe('Tests to getEvents method success', function(){
-
-  	var dataSponzorship = mockData.sponsorshipService.sponzorshipBySponzor();
-
-  	beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'sponzorships_sponzor/1').respond(200, dataSponzorship);
-  	});
-
-  	it('Should be called utilsService methods', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-    });
-
-    it('Should have an event array', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.equal( sponzoringEventsController.events.length, 1);
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to getEvents method failed', function(){
-
-  	var dataSponzorship = mockData.failed();
-
-  	beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'sponzorships_sponzor/1').respond(400, dataSponzorship);
-  	});
-
-  	it('Should be called utilsService methods', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-    });
-
-    it('Should showEmptyState be true', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.isTrue( sponzoringEventsController.showEmptyState );
-    });
-
-  });
+  
 
   ////////////////////////////////////////////////////////////
   describe('Tests to doRefresh method', function(){
@@ -144,17 +94,17 @@ describe("Controller: SponzoringEventsController", function() {
   ////////////////////////////////////////////////////////////
   describe('Tests to doRefresh method success', function(){
 
-  	var dataSponzorship = mockData.sponsorshipService.sponzorshipBySponzor();
+  	var dataHome = mockData.userService.home();
 
   	beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'sponzorships_sponzor/1').respond(200, dataSponzorship);
+  		$httpBackend.whenGET( URL_REST + 'home/' + $localStorage.userAuth.id ).respond(200, dataHome);
   	});
 
     it('Should have an event array', function() {
       sponzoringEventsController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( sponzoringEventsController.events.length, 1);
+      chai.assert.equal( sponzoringEventsController.sponzorships.length, 1);
     });
 
     it('Should be called broadcast Menu:count_tasks', function() {
@@ -178,10 +128,10 @@ describe("Controller: SponzoringEventsController", function() {
   ////////////////////////////////////////////////////////////
   describe('Tests to doRefresh failed', function(){
 
-  	var dataSponzorship = mockData.sponsorshipService.sponzorshipBySponzor();
+  	var dataHome = mockData.failed();
 
   	beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'sponzorships_sponzor/1').respond(400, dataSponzorship);
+  		$httpBackend.whenGET( URL_REST + 'home/' + $localStorage.userAuth.id ).respond(400, dataHome);
   	});
 
   	it('Should be called broadcast scroll.refreshComplete', function() {
