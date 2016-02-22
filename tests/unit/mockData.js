@@ -193,10 +193,32 @@ var mockData = (function() {
         events: events,
         sponzorships_like_organizer: [
           {
+            id: "1",
             cause: "Test 1",
+            sponzor:{
+              id: "1",
+              image: "",
+            },
+            event:{
+              id: "1",
+              starts: "2016-01-09 15:00:00",
+              ends: "2016-01-09 15:00:00"
+            }
           },
           {
+            id: "2",
             cause: "Test 2",
+            sponzor:{
+              id: "2",
+              image: "",
+              starts: "2016-01-09 15:00:00",
+              ends: "2016-01-09 15:00:00"
+            },
+            event:{
+              id: "2",
+              starts: "2016-01-09 15:00:00",
+              ends: "2016-01-09 15:00:00"
+            }
           }
         ],
         sponzorships: [
@@ -204,7 +226,9 @@ var mockData = (function() {
             cause: "test",
             event_id: "1002",
             event:{
-              id: 1
+              id: 1,
+              starts: "2016-01-09 15:00:00",
+              ends: "2016-01-09 15:00:00"
             },
             id: "30",
             organizer_id: "1003",
@@ -222,6 +246,12 @@ var mockData = (function() {
               ]
             },
             sponzor_id: "1002",
+            sponzor:{
+              id: "2",
+              image: "",
+              starts: "2016-01-09 15:00:00",
+              ends: "2016-01-09 15:00:00"
+            },
             status: "0",
             task_sponzor: [
               {
@@ -345,10 +375,32 @@ var mockData = (function() {
           events: events,
           sponzorships_like_organizer: [
             {
+              id: "1",
               cause: "Test 1",
+              sponzor:{
+                id: "1",
+                image: "",
+              },
+              event:{
+                id: "1",
+                starts: "2016-01-09 15:00:00",
+                ends: "2016-01-09 15:00:00"
+              }
             },
             {
+              id: "2",
               cause: "Test 2",
+              sponzor:{
+                id: "2",
+                image: "",
+                starts: "2016-01-09 15:00:00",
+                ends: "2016-01-09 15:00:00"
+              },
+              event:{
+                id: "2",
+                starts: "2016-01-09 15:00:00",
+                ends: "2016-01-09 15:00:00"
+              }
             }
           ],
           sponzorships: [
@@ -356,16 +408,42 @@ var mockData = (function() {
               cause: "test",
               event_id: "1002",
               event:{
-                id: 1
+                id: 1,
+                starts: "2016-01-09 15:00:00",
+                ends: "2016-01-09 15:00:00"
               },
               id: "30",
               organizer_id: "1003",
-              perk_id: "3",
-              perk:{
+              organizer:{
                 id: 1
               },
+              perk_id: "3",
+              perk:{
+                id: 1,
+                tasks: [
+                  {
+                    id: "1",
+                    status: "0"
+                  }
+                ]
+              },
               sponzor_id: "1002",
-              status: "0"
+              sponzor:{
+                id: "2",
+                image: "",
+                starts: "2016-01-09 15:00:00",
+                ends: "2016-01-09 15:00:00"
+              },
+              status: "0",
+              task_sponzor: [
+                {
+                  id: "1",
+                  task:{
+                    id: "1",
+                    status: "0"
+                  }
+                }
+              ]
             }
           ]
         }

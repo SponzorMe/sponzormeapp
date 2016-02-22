@@ -64,15 +64,15 @@
 
     function updateSponsorship( status ){
       utilsService.showLoad();
-      var sponsorship = angular.copy( vm.sponsorship );
-      sponsorship.status = status;
-      sponsorshipService.editSponzorshipPut( sponsorship.id, sponsorship )
+      var sponzorship = angular.copy( vm.sponzorship );
+      sponzorship.status = status;
+      sponsorshipService.editSponzorshipPut( sponzorship.id, sponzorship )
         .then( complete )
         .catch( failed );
 
-        function complete( sponsorship ){
+        function complete( sponzorship ){
           utilsService.hideLoad();
-          vm.sponsorship.status = sponsorship.status;
+          vm.sponzorship.status = sponzorship.status;
           $ionicHistory.clearCache();
         }
 
