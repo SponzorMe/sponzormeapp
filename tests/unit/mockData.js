@@ -806,7 +806,16 @@ var mockData = (function() {
         sponzorship_id: "1",
         organizer_id: "2",
         id: 2
-      }
+      },
+      PerkSponzor: {
+        sponzor_id: "1",
+        perk_id: "1",
+        event_id: "1",
+        task_id: "1",
+        sponzorship_id: "1",
+        organizer_id: "2",
+        id: 2
+      },
     }
   }
 

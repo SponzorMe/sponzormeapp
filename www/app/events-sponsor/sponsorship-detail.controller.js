@@ -88,9 +88,9 @@
       .then( complete )
       .catch( failed );
       
-      function complete( data ) {
-        vm.sponzorship.perk.tasks.push( data.PerkTask );
-        vm.sponzorship.task_sponzor.push( data.TaskSponzor );
+      function complete( TaskSponzor ) {
+        vm.sponzorship.perk.tasks.push( TaskSponzor.task );
+        vm.sponzorship.task_sponzor.push( TaskSponzor );
         vm.hideModalTask( form );
         utilsService.hideLoad();
       }
@@ -147,7 +147,7 @@
       .then( complete )
       .catch( failed );
       
-      function complete( TaskSponzor ) {
+      function complete( data ) {
         var perkTask = _.findWhere( vm.sponzorship.perk.tasks, {id: vm.sponsorTask.task.id} );
         var taskSponzor = _.findWhere( vm.sponzorship.task_sponzor, {id: vm.sponsorTask.id} );
         var indexPerkTask = _.indexOf(vm.sponzorship.perk.tasks, perkTask);

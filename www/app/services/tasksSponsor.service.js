@@ -114,7 +114,12 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( response.data );
+        return $q.when( preparateData(response.data) );
+      }
+      
+      function preparateData( data ) {
+        data.TaskSponzor.task = data.PerkTask;
+         return data.TaskSponzor;
       }
 
       function failed( response ) {

@@ -163,7 +163,7 @@ gulp.task('run-test-unit', function( done ){
     singleRun: true,
     reporters: reporters                                                           
   };                                                                                          
-  new karmaServer                                                                                                                                                                                                                                                                                                                                                             (config, done).start();
+  new karmaServer(config, done).start();
 });
 
 /**

@@ -263,7 +263,7 @@ describe("Service: tasksSponsorService", function(){
         tasksSponsorService.createTask({})
         .then(function( result ) {
           chai.assert.isObject( result );
-          chai.expect( result ).to.eql( data.TaskSponzor );
+          chai.assert.equal( result.id, data.TaskSponzor.id );
           done();
         });
         $httpBackend.flush();
