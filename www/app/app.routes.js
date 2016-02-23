@@ -242,26 +242,6 @@
         }
       })
 
-      .state('organizer.addTask', {
-        url: "/addTask/:eventId",
-        views: {
-          'menuContent' :{
-            templateUrl: "app/tasks-organizer/add-task.html",
-            controller: "AddTaskController as addTask"
-          }
-        }
-      })
-
-      .state('organizer.editTask', {
-        url: "/editTask/:id",
-        views: {
-          'menuContent' :{
-            templateUrl: "app/tasks-organizer/edit-task.html",
-            controller: "EditTaskController as editTask"
-          }
-        }
-      })
-
       .state('organizer.invite', {
         url: "/invite",
         views: {
