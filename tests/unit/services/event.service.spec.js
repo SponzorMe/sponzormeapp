@@ -153,7 +153,6 @@ describe("Service: eventService", function() {
       var data = mockData.failed();
 
       beforeEach(function() {
-        console.log(URL_REST + 'events/1')
         $httpBackend.whenGET(URL_REST + 'events/1').respond(400, data);
       });
 

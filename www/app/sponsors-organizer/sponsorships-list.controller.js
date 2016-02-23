@@ -19,10 +19,9 @@
     '$ionicScrollDelegate',
     '$scope',
     '$rootScope',
-    '$ionicHistory'
   ];
 
-  function SponsorshipsListController( $localStorage, sponsorshipService, userService, utilsService, $ionicScrollDelegate, $scope, $rootScope, $ionicHistory) {
+  function SponsorshipsListController( $localStorage, sponsorshipService, userService, utilsService, $ionicScrollDelegate, $scope, $rootScope) {
 
     var vm = this;
     //Atributes

@@ -185,6 +185,7 @@ var mockData = (function() {
       rating: null,
       success: true,
       token: null,
+      events: events,
       user: {
         id: "1",
         email: "mail@domain.com",
