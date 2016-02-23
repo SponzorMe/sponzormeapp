@@ -192,12 +192,12 @@
         }
       })
 
-      .state('organizer.sponsors', {
-        url: "/sponsors",
+      .state('organizer.sponsorships', {
+        url: "/sponsorships",
         views: {
           'menuContent' :{
-            templateUrl: "app/sponsors-organizer/sponzor-list.html",
-            controller: "SponzorListController as sponzorList"
+            templateUrl: "app/sponsors-organizer/sponsorships-list.html",
+            controller: "SponsorshipsListController as list"
           }
         }
       })

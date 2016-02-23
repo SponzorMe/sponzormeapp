@@ -9117,6 +9117,9 @@ a.button {
 .intro .slider-pager-page.active .icon {
   color: #00838D; }
 
+.list.sponsorships {
+  margin-bottom: 0px; }
+
 .pageForm {
   background-color: white; }
   .pageForm .logo {
