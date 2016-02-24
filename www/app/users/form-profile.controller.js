@@ -48,6 +48,7 @@
           utilsService.hideLoad();
           utilsService.resetForm( form );
           user.age = parseInt( user.age );
+          user.comunity_size = parseInt( user.comunity_size );
           $localStorage.userAuth = utilsService.updateUserAuth( user );
           vm.userAuth = {};
           $state.go("interests");

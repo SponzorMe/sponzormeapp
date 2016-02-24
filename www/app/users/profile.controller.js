@@ -92,6 +92,7 @@
           utilsService.hideLoad();
           utilsService.resetForm( form );
           user.age = parseInt( user.age );
+          user.comunity_size = parseInt( user.comunity_size );
           vm.userAuth = utilsService.updateUserAuth( user );
           $localStorage.userAuth = vm.userAuth;
           $cordovaToast.showShortBottom("Su perfil se ha actulizado");
