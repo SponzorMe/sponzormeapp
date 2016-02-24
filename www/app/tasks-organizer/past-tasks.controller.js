@@ -14,89 +14,206 @@
   PastTaskController.$inject = [
     '$localStorage',
     'perkTaskService',
+    'userService',
     'utilsService',
     '$scope',
-    '$rootScope'
+    '$rootScope',
+    '$ionicModal'
   ];
 
-  function PastTaskController( $localStorage, perkTaskService , utilsService, $scope, $rootScope) {
+  function PastTaskController( $localStorage, perkTaskService , userService, utilsService, $scope, $rootScope, $ionicModal) {
 
-    var vm = this;
+   var vm = this;
     //Attributes
     vm.userAuth = $localStorage.userAuth;
-    vm.tasks = [];
+    vm.events = [];
     vm.showEmptyState = false;
     //Funcions
     vm.doRefresh = doRefresh;
+
+    vm.indexEvent = -1;
+    vm.indexPerk = -1;
+    vm.indexTask = -1;
+    vm.modalTask = null;
+    vm.isNewTask = true;
+    vm.task = {};
+    vm.showModalTask = showModalTask;
+    vm.newTask = newTask;
+    vm.hideModalTask = hideModalTask;
+    vm.editTask = editTask;
+    vm.submitTask = submitTask;
+    vm.deleteTask = deleteTask;
     
     activate();
-
     ////////////
 
     function activate(){
-      getTasks();
+      vm.events = vm.userAuth.events.filter( filterEvents );
+      vm.showEmptyState = vm.events.length == 0 ? true : false;
+      
+      $ionicModal.fromTemplateUrl('app/tasks-organizer/task-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        vm.modalTask = modal;
+      });
     }
-
-    function getTasks(){
-      utilsService.showLoad();
-      perkTaskService.getPerkTaskByOrganizer( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( tasks ){
-          utilsService.hideLoad();
-
-          vm.tasks = groupByEvent( tasks.filter( filterDate ) );
-          var total = tasks.filter( filterByDone ).length;
-          vm.showEmptyState = vm.tasks.length == 0 ? true : false;
-          $rootScope.$broadcast('Menu:count_tasks', total);
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-        }
+    
+    function countTasks( events ) {
+      return events
+        .reduce(function(a,b){ return a.concat(b.perks)}, [])
+        .reduce(function(a,b){ return a.concat(b.tasks)}, []);
+    }
+    
+    function countTasksDone( events ) {
+      return countTasks(events)
+        .filter( filterByDone )
+    }
+    
+    function filterByDone( task ){
+      return task.status == "1";
+    }
+    
+    function filterEvents( event ){
+      var count = event.perks.reduce(function(a,b){ return a.concat(b.tasks)}, []);
+      var today = moment( new Date() ).subtract(1, 'days');
+      return moment( event.ends ).isBefore( today ) && count.length > 0;
     }
 
     function doRefresh(){
-      perkTaskService.getPerkTaskByOrganizer( vm.userAuth.id )
+      userService.home( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 
-        function complete( tasks ){
+        function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
-          vm.tasks = groupByEvent( tasks.filter( filterDate ) );
-          var total = tasks.filter( filterByDone ).length;
-          $rootScope.$broadcast('Menu:count_tasks', total);
+          vm.userAuth = $localStorage.userAuth = user;
+          vm.events = vm.userAuth.events.filter( filterEvents );
+          vm.showEmptyState = vm.events.length == 0 ? true : false;
+          console.log(countTasksDone(vm.events).length);
+          $rootScope.$broadcast('Menu:count_tasks', countTasksDone(vm.events).length);
         }
 
         function failed( error ){
-          console.log( error );
+          console.log( error);
+        }
+    }
+    
+    function showModalTask(){
+      vm.modalTask.show();
+    }
+
+    function newTask( perk, indexEvent, indexPerk ){
+      vm.isNewTask = true;
+      vm.indexEvent = indexEvent;
+      vm.indexPerk = indexPerk;
+      vm.task.perk_id = perk.id;
+      vm.task.event_id = perk.id_event;
+      vm.showModalTask();
+    }
+
+    function hideModalTask( form ){
+      vm.modalTask.hide();
+      if (form) utilsService.resetForm( form );
+      vm.task = {};
+    }
+
+    function editTask( task, indexEvent, indexPerk, indexTask ){
+      vm.isNewTask = false;
+      vm.indexEvent = indexEvent;
+      vm.indexPerk = indexPerk;
+      vm.indexTask = indexTask;
+      vm.task = angular.copy(task);
+      vm.task.status = vm.task.status == 1 ? true : false;
+      vm.showModalTask();
+    }
+
+    function createTask( form ){
+      utilsService.showLoad();
+      perkTaskService.createPerkTask( preparateTask() )
+        .then( complete )
+        .catch( failed );
+
+        function complete( data ){
+          vm.userAuth.sponzorships_like_organizer = $localStorage.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
+          vm.events[vm.indexEvent].perks[vm.indexPerk].tasks.push( data.PerkTask );
+          utilsService.resetForm( form );
+          vm.hideModalTask();
+          utilsService.hideLoad();
+          $rootScope.$broadcast('Menu:count_tasks', countTasksDone(vm.events).length);
+        }
+
+        function failed( error ){
+          utilsService.resetForm( form );
+          vm.hideModalTask();
+          utilsService.hideLoad();
         }
     }
 
-    function groupByEvent( data ){
-      //http://underscorejs.org/#groupBy
-      var groups = _.groupBy( data, 'eventTitle' );
-      
-      function parseEvent( value, key ){
-        return {
-          title: key,
-          eventEnds: value[0].eventEnds,
-          id: value[0].event_id,
-          tasks: value
-        }
+    function preparateTask(){
+      return {
+        user_id: vm.userAuth.id,
+        event_id: vm.task.event_id,
+        perk_id: vm.task.perk_id,
+        title: vm.task.title,
+        description: vm.task.description,
+        type: 0,
+        status: vm.task.status ? 1 : 0
       }
-      //http://underscorejs.org/#map
-      return _.map( groups , parseEvent);
     }
 
-    function filterByDone( item ){
-      return item.status != '1';
+    function deleteTask( form ){
+      utilsService.showLoad();
+      perkTaskService.deletePerkTask( vm.task.id )
+      .then( complete )
+      .catch( failed );
+
+      function complete( data ){
+        vm.userAuth.sponzorships_like_organizer = $localStorage.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
+        if( form ) utilsService.resetForm( form );
+        vm.events[vm.indexEvent].perks[vm.indexPerk].tasks.splice(vm.indexTask, 1);
+        vm.hideModalTask();
+        utilsService.hideLoad();
+      }
+
+      function failed( error ){
+        vm.hideModalTask();
+        if( form ) utilsService.resetForm( form );
+        utilsService.alert({
+          template: error.message
+        });
+        utilsService.hideLoad();
+      }
     }
 
-    function filterDate( item ){
-      var today = moment( new Date() ).subtract(1, 'days');
-      return moment(item.eventEnds).isBefore( today );
+    function updateTask( form ){
+      utilsService.showLoad();
+      vm.task.status = vm.task.status ? 1 : 0;
+      perkTaskService.editPerkTaskPatch( vm.task.id, vm.task )
+      .then( complete )
+      .catch( failed );
+
+      function complete( task ){
+        vm.events[vm.indexEvent].perks[vm.indexPerk].tasks[vm.indexTask] = task;
+        utilsService.resetForm( form );
+        vm.hideModalTask();
+        utilsService.hideLoad();
+        $rootScope.$broadcast('Menu:count_tasks', countTasksDone(vm.events).length);
+      }
+
+      function failed( error ){
+        utilsService.resetForm( form );
+        vm.hideModalTask();
+        utilsService.hideLoad();
+      }
+    }
+
+    function submitTask( form ){
+      if(vm.isNewTask){
+        createTask( form );
+      }else{
+        updateTask( form );
+      }
     }
 
     

@@ -1,8 +1,5 @@
 describe("Controller: TaskListController", function() {
 
-	var taskListController, utilsService, mockForm, perkTaskService;
-	var $rootScope, $httpBackend, $localStorage, $scope;
-
   beforeEach(function() {
     module('app');
   });
@@ -25,11 +22,16 @@ describe("Controller: TaskListController", function() {
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
+    $httpBackend.whenGET('app/tasks-organizer/task-modal.html').respond(200, {});
+    
 
     //Dependences with spy
     utilsService = chai.spy.object($injector.get('utilsService'), ['showLoad', 'hideLoad','alert', 'resetForm','trim']);
     $localStorage = $injector.get('$localStorage');
     perkTaskService =  $injector.get('perkTaskService');
+    userService =  $injector.get('userService');
+    $ionicModal =  $injector.get('$ionicModal');
+    
     mockForm = {
       $setPristine: function() {},
       $setUntouched: function() {},
@@ -42,9 +44,11 @@ describe("Controller: TaskListController", function() {
     taskListController = $controller('TaskListController', {
   		'$localStorage': $localStorage,
 	    'perkTaskService': perkTaskService,
+      'userService': userService,
 	    'utilsService': utilsService,
 	    '$scope': $scope,
-	    '$rootScope': $rootScope
+	    '$rootScope': $rootScope,
+      '$ionicModal': $ionicModal
   	});
 
   }));
@@ -67,8 +71,8 @@ describe("Controller: TaskListController", function() {
   describe('Tests to tasks variable', function(){
 
     it('Should have tasks variable', function() {
-      chai.assert.isDefined( taskListController.tasks );
-      chai.assert.isArray(taskListController.tasks );
+      chai.assert.isDefined( taskListController.events );
+      chai.assert.isArray(taskListController.events );
     });
 
   });
@@ -82,69 +86,7 @@ describe("Controller: TaskListController", function() {
     });
 
   });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to getTasks success', function(){
-
-  	var data = mockData.perkTaskService.getPerkTaskByOrganizer();
-
-    beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(200, data);
-  	});
-
-  	it('Should be called utilsService methods', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-    });
-
-    it('Should showEmptyState be boolean', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.isBoolean(taskListController.showEmptyState);
-    });
-
-    it('Should tasks is group by eventTitle', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.equal(taskListController.tasks.length, 1);
-      chai.assert.equal(taskListController.tasks[0].tasks.length, 2);
-    });
-
-    it('Should filter by tasks with done', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.equal(taskListController.tasks.length, 1);
-      chai.assert.equal(taskListController.tasks[0].tasks.length, 2);
-    });
-
-    it('Should be called broadcast Menu:count_tasks', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect($broadcastSpy).to.have.been.called();
-      chai.expect($broadcastSpy).to.have.been.with('Menu:count_tasks', 1);
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Tests to getTasks failed', function(){
-
-  	var data = mockData.failed();
-
-    beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(400, data);
-  	});
-
-  	it('Should be called utilsService methods', function() {
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-    });
-
-  });
-
+  
   ////////////////////////////////////////////////////////////
   describe('Tests to doRefresh method', function(){
 
@@ -155,71 +97,5 @@ describe("Controller: TaskListController", function() {
 
   });
 
-  ////////////////////////////////////////////////////////////
-  describe('Tests to doRefresh method success', function(){
-
-  	var data = mockData.perkTaskService.getPerkTaskByOrganizer();
-
-    beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(200, data);
-  	});
-
-  	it('Should showEmptyState be boolean', function() {
-  		taskListController.doRefresh();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.isBoolean(taskListController.showEmptyState);
-    });
-
-    it('Should tasks is group by eventTitle', function() {
-    	taskListController.doRefresh();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.equal(taskListController.tasks.length, 1);
-      chai.assert.equal(taskListController.tasks[0].tasks.length, 2);
-    });
-
-    it('Should filter by tasks with done', function() {
-    	taskListController.doRefresh();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.equal(taskListController.tasks.length, 1);
-      chai.assert.equal(taskListController.tasks[0].tasks.length, 2);
-    });
-
-    it('Should be called broadcast Menu:count_tasks', function() {
-    	taskListController.doRefresh();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect($broadcastSpy).to.have.been.called();
-      chai.expect($broadcastSpy).to.have.been.with('Menu:count_tasks', 1);
-    });
-
-    it('Should be called broadcast scroll.refreshComplete', function() {
-    	taskListController.doRefresh();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect($scopeBroadcast).to.have.been.called();
-      chai.expect($scopeBroadcast).to.have.been.with('scroll.refreshComplete');
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Tests to doRefresh failed', function(){
-
-  	var data = mockData.failed();
-
-    beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'perk_tasks_organizer/1').respond(400, data);
-  	});
-
-  	it('Should be called utilsService methods', function() {
-  		taskListController.doRefresh();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-    });
-
-  });
+  
 });

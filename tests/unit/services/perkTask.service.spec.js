@@ -259,7 +259,7 @@ describe("Service: perkTaskService", function(){
         perkTaskService.createPerkTask({})
         .then(function( result ) {
           chai.assert.isObject( result );
-          chai.expect( result ).to.eql( data.PerkTask );
+          chai.expect( result.PerkTask ).to.eql( data.PerkTask );
           done();
         });
         $httpBackend.flush();
