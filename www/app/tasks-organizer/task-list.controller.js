@@ -133,8 +133,9 @@
         .then( complete )
         .catch( failed );
 
-        function complete( task ){
-          vm.events[vm.indexEvent].perks[vm.indexPerk].tasks.push( task );
+        function complete( data ){
+          vm.userAuth.sponzorships_like_organizer = $localStorage.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
+          vm.events[vm.indexEvent].perks[vm.indexPerk].tasks.push( data.PerkTask );
           utilsService.resetForm( form );
           vm.hideModalTask();
           utilsService.hideLoad();
@@ -167,6 +168,7 @@
       .catch( failed );
 
       function complete( data ){
+        vm.userAuth.sponzorships_like_organizer = $localStorage.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
         if( form ) utilsService.resetForm( form );
         vm.events[vm.indexEvent].perks[vm.indexPerk].tasks.splice(vm.indexTask, 1);
         vm.hideModalTask();

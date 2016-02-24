@@ -142,7 +142,7 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( response.data.PerkTask );
+        return $q.when( response.data );
       }
 
       function failed( response ) {
