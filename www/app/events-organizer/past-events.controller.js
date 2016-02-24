@@ -30,7 +30,6 @@
     vm.doRefresh = doRefresh;
 
     activate();
-
     ////////////
 
     function activate(){

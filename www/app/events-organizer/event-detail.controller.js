@@ -44,6 +44,8 @@
     vm.deleteEvent = deleteEvent;
     vm.userAuth = $localStorage.userAuth;
 
+    vm.indexPerk = -1;
+    vm.indexTask = -1;
     vm.modalTask = null;
     vm.isNewTask = true;
     vm.task = {};
@@ -65,12 +67,15 @@
     vm.hideActionSheet = hideActionSheet;
 
     activate();
-
     ////////////
 
     function activate(){
-      getEvent();
+      
+      vm.event = _.findWhere(vm.userAuth.events, {id: $stateParams.idEvent});
+      vm.event.perks = vm.event.perks.map( preparatePerks );
+      
       $ionicSideMenuDelegate.canDragContent(false);
+      
       vm.optionsActionSheet = [
         editEvent,
         shareEvent,
@@ -85,25 +90,8 @@
       });
     }
 
-    function getEvent(){
-      utilsService.showLoad();
-      eventService.getEvent( $stateParams.idEvent )
-        .then( complete )
-        .catch( failed );
-
-        function complete( event ){
-          utilsService.hideLoad();
-          vm.event = event;
-          vm.event.perks = vm.event.perks.map( preparatePerks );
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-        }
-    }
-
     function preparatePerks( perk ){
-      perk.sponzorship = _.where(vm.event.sponzorship, {perk_id: perk.id});
+      perk.sponzorship = _.where(vm.userAuth.sponzorships_like_organizer, {perk_id: perk.id});
       return perk;
     }
 
@@ -243,8 +231,9 @@
       vm.modalTask.show();
     }
 
-    function newTask( perk ){
+    function newTask( perk, indexPerk ){
       vm.isNewTask = true;
+      vm.indexPerk = indexPerk; 
       vm.task.perk_id = perk.id;
       vm.task.event_id = vm.event.id;
       vm.showModalTask();
@@ -256,27 +245,32 @@
       vm.task = {};
     }
 
-    function editTask( task ){
+    function editTask( task, indexTask ){
       vm.isNewTask = false;
+      vm.indexTask = indexTask;
       vm.task = task;
       vm.task.status = vm.task.status == 1 ? true : false;
       vm.showModalTask();
     }
 
     function createTask( form ){
+      utilsService.showLoad();
       perkTaskService.createPerkTask( preparateTask() )
         .then( complete )
         .catch( failed );
 
         function complete( data ){
-          getEvent();
+          vm.event.perks[vm.indexPerk].tasks.push( data.PerkTask );
+          vm.userAuth.sponzorships_like_organizer = $localStorage.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
           utilsService.resetForm( form );
           vm.hideModalTask();
+          utilsService.hideLoad();
         }
 
         function failed( error ){
           utilsService.resetForm( form );
           vm.hideModalTask();
+          utilsService.hideLoad();
         }
     }
 
@@ -293,14 +287,17 @@
     }
 
     function deleteTask( form ){
+      utilsService.showLoad();
       perkTaskService.deletePerkTask( vm.task.id )
       .then( complete )
       .catch( failed );
 
       function complete( data ){
-        getEvent();
+        vm.userAuth.sponzorships_like_organizer = $localStorage.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
+        vm.event.perks[vm.indexPerk].tasks.splice(vm.indexTask, 1);
         if( form ) utilsService.resetForm( form );
         vm.hideModalTask();
+        utilsService.hideLoad();
       }
 
       function failed( error ){
@@ -309,24 +306,28 @@
         utilsService.alert({
           template: error.message
         });
+        utilsService.hideLoad();
       }
     }
 
     function updateTask( form ){
+      utilsService.showLoad();
       vm.task.status = vm.task.status ? 1 : 0;
       perkTaskService.editPerkTaskPatch( vm.task.id, vm.task )
       .then( complete )
       .catch( failed );
 
-      function complete( data ){
-        getEvent();
+      function complete( task ){
+        vm.event.perks[vm.indexPerk].tasks[vm.indexTask] = task;
         utilsService.resetForm( form );
         vm.hideModalTask();
+        utilsService.hideLoad();
       }
 
       function failed( error ){
         utilsService.resetForm( form );
         vm.hideModalTask();
+        utilsService.hideLoad();
       }
     }
 
