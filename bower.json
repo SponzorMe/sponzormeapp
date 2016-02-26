@@ -12,7 +12,9 @@
     "ngCordova": "~0.1.23-alpha",
     "mocha": "~2.3.4",
     "chai": "~3.4.2",
-    "chai-spies": "~0.7.1"
+    "chai-spies": "~0.7.1",
+    "firebase": "~2.4.1",
+    "angularfire": "~1.1.4"
   },
   "dependencies": {
     "ionic": "driftyco/ionic-bower#master"
