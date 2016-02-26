@@ -32,6 +32,7 @@
   function EditEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $stateParams) {
 
     var vm = this;
+    vm.indexEvent = -1;
     vm.newEvent = {};
     vm.newPerk = {};
     vm.isNewPerk = true;
@@ -69,7 +70,15 @@
       }).then(function(modal) {
         vm.modalPerk = modal;
       });
-      getEvent();
+      vm.newEvent = _.findWhere(vm.userAuth.events, {id: $stateParams.id});
+      vm.indexEvent = _.indexOf(vm.userAuth.events, vm.newEvent);
+      vm.newEvent.start = moment(event.starts).format('YYYY-MM-DD');
+      vm.newEvent.starttime = moment(event.starts).format('HH:mm:ss');
+      vm.newEvent.end = moment(event.ends).format('YYYY-MM-DD');
+      vm.newEvent.endtime = moment(event.ends).format('HH:mm:ss');
+      vm.newEvent.access = vm.newEvent.privacy == '1' ? true : false;
+      
+      getEventsTypes();
     }
 
     function getEvent(){
@@ -239,6 +248,7 @@
         function complete( event ) {
           utilsService.hideLoad();
           utilsService.resetForm( form );
+          vm.userAuth.events[vm.indexEvent] = event
           vm.newEvent = {};
           $ionicHistory.nextViewOptions({
             disableAnimate: false,
