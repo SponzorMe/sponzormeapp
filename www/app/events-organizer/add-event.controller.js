@@ -216,6 +216,9 @@
           utilsService.hideLoad();
           utilsService.resetForm( form );
           vm.newEvent = {};
+          event.image = (event.image == "event_dummy.png") ? 'img/banner.jpg' : event.image;
+          event.starts = moment(event.starts)._d;
+          event.ends = moment(event.ends)._d;
           $localStorage.userAuth.events.push( event ); 
           $ionicHistory.nextViewOptions({
             disableAnimate: false,
