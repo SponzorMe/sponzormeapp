@@ -11,39 +11,40 @@
     .module('app.users')
     .controller('NotificationController', NotificationController);
 
-  ForgotController.$inject = [
-    '$translate',
-    'userService', 
-    '$state',
-    'utilsService',
-    '$ionicHistory'
+  NotificationController.$inject = [
+    'BackendVariables',
+    'userService',
+    '$localStorage',
+    '$firebaseArray'
   ];
 
-  function NotificationController( $translate, userService, $state , utilsService, $ionicHistory) {
+  function NotificationController( BackendVariables, userService, $localStorage , $firebaseArray) {
 
     var vm = this;
-    vm.user = {};
-    vm.resetPassword = resetPassword;
+    vm.reference = null;
+    vm.notifications = null;
 
+    activate();
     ////////////
-
-    function resetPassword(){
-      utilsService.showLoad();
-      userService.forgotPassword( vm.user.email )
-        .then( complete )
-        .catch( failed );
-
-        function complete(){
-          utilsService.hideLoad();
-          $ionicHistory.clearCache();
-          $state.go("signin");
-          vm.user = {};
+    function activate() {
+      if($localStorage.userAuth.id){
+        vm.reference = new Firebase(BackendVariables.f_url + 'notifications/'+ $localStorage.userAuth.id);
+        vm.notifications = $firebaseArray( vm.reference );
+        listener();
+      }
+    }
+    
+    function listener() {
+      vm.reference.on('child_added', function(snapshot ) {
+        var current = snapshot.val();
+        if($localStorage.lastUpdate < current.date){
+          userService.home( $localStorage.userAuth.id ).then(function successCallback(user) {
+            $localStorage.userAuth.lastUpdate = new Date().getTime();
+            $localStorage.userAuth = user;
+          });
         }
-
-        function failed( data ){
-          utilsService.hideLoad();
-        }
-    };
+      });
+    }
 
   }
 })();

@@ -9,6 +9,7 @@
     .module('app')
     .value('BackendVariables',{
       url: "https://apistaging.sponzor.me/", // i'm using the Ionic Proxy
+      f_url: "https://sponzorme.firebaseio.com/staging/",
       url_web: "https://sponzor.me/",
     })
     .value('AMAZON',{
