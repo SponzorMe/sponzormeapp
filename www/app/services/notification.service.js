@@ -3,9 +3,9 @@
 
   angular
     .module('app')
-    .factory('NotificationService', NotificationService);
+    .factory('notificationService', notificationService);
 
-  NotificationService.$inject = [
+  notificationService.$inject = [
     '$http',
     '$firebaseArray',
     '$q',
@@ -14,7 +14,7 @@
     'userService'
   ];
 
-  function NotificationService( $http, $q, $firebaseArray, BackendVariables, $localStorage, userService ) {
+  function notificationService( $http, $q, $firebaseArray, BackendVariables, $localStorage, userService ) {
 
     var path = BackendVariables.f_url;
 
