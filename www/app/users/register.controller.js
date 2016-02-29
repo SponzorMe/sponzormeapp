@@ -17,10 +17,11 @@
     'userService',
     'utilsService',
     '$localStorage',
-    '$base64'
+    '$base64',
+    'notificationService'
   ];
 
-  function RegisterController( $translate, $state, userService, utilsService, $localStorage, $base64 ) {
+  function RegisterController( $translate, $state, userService, utilsService, $localStorage, $base64, notificationService ) {
 
     var vm = this;
     vm.newUser = {};
@@ -51,6 +52,7 @@
         vm.newUser = {}
         vm.newUser.type = 0;
         $localStorage.userAuth = user;
+        notificationService.activate();
         $state.go("profile");
       }
 
