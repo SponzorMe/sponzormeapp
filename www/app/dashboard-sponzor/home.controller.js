@@ -15,10 +15,11 @@
     '$localStorage',
     'eventService',
     'utilsService',
-    '$scope'
+    '$scope',
+    '$rootScope'
   ];
 
-  function HomeSponzorController(  $localStorage, eventService, utilsService, $scope) {
+  function HomeSponzorController(  $localStorage, eventService, utilsService, $scope, $rootScope) {
 
     var vm = this;
     //Attributes
@@ -32,6 +33,12 @@
 
     function activate(){
       vm.events = vm.userAuth.events.filter( filterDate );
+      $rootScope.$on('HomeSponzorController:getEvents', getEvents);
+    }
+    
+    function getEvents() {
+      vm.userAuth = $localStorage.userAuth;
+       vm.events = vm.userAuth.events.filter( filterDate );
     }
 
     function doRefresh(){

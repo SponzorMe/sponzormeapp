@@ -52,6 +52,7 @@
         vm.newUser = {}
         vm.newUser.type = 0;
         $localStorage.userAuth = user;
+        $localStorage.lastUpdate = new Date().getTime();
         notificationService.activate();
         $state.go("profile");
       }

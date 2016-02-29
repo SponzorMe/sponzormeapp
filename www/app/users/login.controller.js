@@ -62,10 +62,10 @@
         }
         user.save();
         vm.user = {};
-        $ionicAnalytics.register(); 
+        $ionicAnalytics.register();
         
-        notificationService.activate();
         saveUser();
+        notificationService.activate();
         validateTutorial();
       }
 
@@ -119,6 +119,7 @@
 
     function saveUser(){
       $localStorage.userAuth = utilsService.updateUserAuth(vm.userResponse);
+      $localStorage.lastUpdate = new Date().getTime();
     }
 
   }

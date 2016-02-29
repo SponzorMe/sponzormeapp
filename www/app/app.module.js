@@ -14,6 +14,7 @@
     'ionic.service.analytics',
     'ngCordova',
     'google.places',
+    'firebase',
     //'ngCordovaMocks',
     'ngMessages',
     'ngStorage',

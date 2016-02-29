@@ -25,10 +25,11 @@
     '$ionicHistory',
     'imgurService',
     '$q',
-    '$state'
+    '$state',
+    'notificationService'
   ];
 
-  function AddEventController( $scope, $translate, $localStorage, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $state) {
+  function AddEventController( $scope, $translate, $localStorage, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $state, notificationService) {
 
     var vm = this;
     vm.newEvent = {};
@@ -224,7 +225,7 @@
             disableAnimate: false,
             disableBack: true
           });
-          
+          notificationService.sendEventsChanged();
           $ionicHistory.clearCache().then(function() {
             $state.go("organizer.events.list");
           });

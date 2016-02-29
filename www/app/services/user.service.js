@@ -176,7 +176,9 @@
       }
       
       function preparateSponzorships( item ){
-        item.sponzor.image = (item.sponzor.image == "") ? 'img/photo.png' : item.sponzor.image;
+        if(item.sponzor){
+          item.sponzor.image = (item.sponzor.image == "") ? 'img/photo.png' : item.sponzor.image;
+        }
         item.event.starts = moment(item.event.starts)._d;
         item.event.ends = moment(item.event.ends)._d;
         return item;  
