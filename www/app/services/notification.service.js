@@ -64,6 +64,12 @@
           
           function complete( user ){
             $localStorage.userAuth = user;
+            if($localStorage.userAuth.type == 0){ //Is an organizer
+              $rootScope.$broadcast('SponsorshipsListController:getSponzorships');
+              $rootScope.$broadcast('Menu:count_sponsors');
+              $rootScope.$broadcast('HomeOrganizerController:count_sponsors');
+            }
+            
           }
         }
         

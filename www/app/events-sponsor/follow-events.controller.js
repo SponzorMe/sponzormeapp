@@ -35,6 +35,13 @@
     function activate(){
       vm.sponzorships = vm.userAuth.sponzorships.filter( filterByPending );
       vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
+      $rootScope.$on('FollowEventsController:getSponzorships', getSponzorships);
+    }
+    
+    function getSponzorships() {
+      vm.userAuth = $localStorage.userAuth;
+      vm.sponzorships = vm.userAuth.sponzorships.filter( filterByPending );
+      vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
     }
 
     function doRefresh(){
@@ -47,7 +54,7 @@
           vm.userAuth = $localStorage.userAuth = user;
           vm.sponzorships = vm.userAuth.sponzorships.filter( filterByPending );
           vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
-          $rootScope.$broadcast('Menu:count_following', vm.sponzorships.length);
+          $rootScope.$broadcast('Menu:count_following');
         }
 
         function failed( error ){

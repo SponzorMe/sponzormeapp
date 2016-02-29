@@ -55,8 +55,9 @@
       vm.count_events = total;
     }
 
-    function renderCountSponsors( event, total ){
-      vm.count_sponsors = total;
+    function renderCountSponsors(){
+      vm.userAuth = $localStorage.userAuth;
+      vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
     }
 
     function renderCountTasks(event, total ){

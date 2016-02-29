@@ -12,10 +12,11 @@
     .controller('HomeOrganizerController', HomeOrganizerController);
 
   HomeOrganizerController.$inject = [
-    '$localStorage'
+    '$localStorage',
+    '$rootScope'
   ];
 
-  function HomeOrganizerController( $localStorage ) {
+  function HomeOrganizerController( $localStorage, $rootScope ) {
 
     var vm = this;
     //Atributes
@@ -31,7 +32,13 @@
       vm.count_events = vm.userAuth.events.filter( filterDate ).length;
       vm.count_comunity = parseInt( vm.userAuth.comunity_size ) || 0;
       vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
+      $rootScope.$on('HomeOrganizerController:count_sponsors', renderCountSponsors);
     };
+    
+    function renderCountSponsors() {
+      vm.userAuth = $localStorage.userAuth;
+      vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
+    }
     
     function filterDate( item ){
       var today = moment( new Date() ).subtract(1, 'days');

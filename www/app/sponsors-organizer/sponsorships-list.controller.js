@@ -39,6 +39,13 @@
     function activate(){
       vm.sponsorships = vm.userAuth.sponzorships_like_organizer;
       vm.showEmptyState = vm.sponsorships.length == 0 ? true : false;
+      $rootScope.$on('SponsorshipsListController:getSponzorships', getSponzorships);
+    }
+    
+    function getSponzorships() {
+      vm.userAuth = $localStorage.userAuth;
+      vm.sponsorships = vm.userAuth.sponzorships_like_organizer;
+      vm.showEmptyState = vm.sponsorships.length == 0 ? true : false;
     }
 
     function sponsorAccept( sponzor ){

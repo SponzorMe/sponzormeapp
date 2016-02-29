@@ -40,8 +40,9 @@
       
     }
 
-    function renderCountFollowing(event, total ){
-      vm.count_following = total;
+    function renderCountFollowing(){
+      vm.userAuth = $localStorage.userAuth;
+      vm.count_following = vm.userAuth.sponzorships.filter( filterByPending ).length;
     }
 
     function renderCountSponsoring(event, total ){

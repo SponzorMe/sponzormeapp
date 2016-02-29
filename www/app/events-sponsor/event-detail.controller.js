@@ -21,10 +21,12 @@
     '$ionicModal',
     '$ionicHistory',
     '$cordovaToast',
-    '$translate'
+    '$translate',
+    'notificationService',
+    '$rootScope'
   ];
 
-  function EventDetailSponzorController( $scope, eventService, utilsService, $stateParams, sponsorshipService, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate) {
+  function EventDetailSponzorController( $scope, eventService, utilsService, $stateParams, sponsorshipService, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate, notificationService, $rootScope) {
 
     var vm = this;
     vm.event = {};
@@ -105,6 +107,14 @@
 
         function complete( newSponsorship ){
           vm.closeModalSponsorIt();
+          $localStorage.userAuth.sponzorships.push( newSponsorship );
+          $rootScope.$broadcast('FollowEventsController:getSponzorships');
+          $rootScope.$broadcast('Menu:count_following');
+          var notification = {
+            text: vm.event.title,
+            link: '#/organizers/sponzors'
+          };
+          notificationService.sendNotification(notification, vm.event.user_organizer.id);
           //getEvent();
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_sponsor_it"));
         }
