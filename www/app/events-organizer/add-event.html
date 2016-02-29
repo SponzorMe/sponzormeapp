@@ -128,10 +128,12 @@
         <!-- Event type -->
         <label class="item item-input item-select">
           <div class="input-label">Event type</div>
-          <select name="selType" ng-model="addEvent.newEvent.type" ng-options="type.name for type in addEvent.eventTypes">
+          <select name="selType" ng-model="addEvent.newEvent.type" ng-options="type.name for type in addEvent.eventTypes" required>
           </select>
         </label>
-
+         <div class="form-errors" ng-messages="addEventForm.selType.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_endtime_required" | translate}}</div>
+        </div>
         <ion-item class="item-divider">Type of Sponzor</ion-item>
         <ion-item ng-repeat="perk in addEvent.newEvent.perks" ng-click="addEvent.editPerk( perk )" class="item-icon-right">
           {{ perk.kind }} - {{ perk.usd }}

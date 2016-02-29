@@ -42,7 +42,9 @@
     ////////////
 
     function activate(){
-      getEvent();
+      //getEvent();
+      vm.event = _.findWhere(vm.userAuth.events, {id: $stateParams.idEvent});
+      vm.event.perks = preparatePerks( vm.event );
 
       $ionicModal.fromTemplateUrl('app/events-sponsor/sponsor-it-modal.html', {
         scope: $scope,
@@ -103,7 +105,7 @@
 
         function complete( newSponsorship ){
           vm.closeModalSponsorIt();
-          getEvent();
+          //getEvent();
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_sponsor_it"));
         }
 

@@ -60,9 +60,9 @@
       vm.newEvent.access = true;
       vm.newEvent.perks = [];
       vm.newEvent.starttime = "13:00:00";
-      vm.newEvent.start = "2016-01-09";
+      vm.newEvent.start = moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD');
       vm.newEvent.endtime = "15:00:00";
-      vm.newEvent.end = moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD');
+      vm.newEvent.end = moment(new Date().getTime()).add(4, 'days').format('YYYY-MM-DD');
 
       $ionicModal.fromTemplateUrl('app/events-organizer/perk-modal.html', {
         scope: $scope,
@@ -224,6 +224,7 @@
             disableAnimate: false,
             disableBack: true
           });
+          
           $ionicHistory.clearCache().then(function() {
             $state.go("organizer.events.list");
           });
