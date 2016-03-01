@@ -13,10 +13,11 @@
     '$localStorage',
     'userService',
     '$rootScope',
-    '$ionicHistory'
+    '$ionicHistory',
+    'userAuthService'
   ];
 
-  function notificationService( $http, $q, $firebaseArray, BackendVariables, $localStorage, userService, $rootScope, $ionicHistory ) {
+  function notificationService( $http, $q, $firebaseArray, BackendVariables, $localStorage, userService, $rootScope, $ionicHistory, userAuthService ) {
 
     var path = BackendVariables.f_url;
 
@@ -63,8 +64,8 @@
           .then(complete);
           
           function complete( user ){
-            $localStorage.userAuth = user;
-            if($localStorage.userAuth.type == 0){ //Is an organizer
+            var userAuth = userAuthService.updateUserAuth( user );
+            if(userAuth.type == 0){ //Is an organizer
               $rootScope.$broadcast('SponsorshipsListController:getSponzorships');
               $rootScope.$broadcast('Menu:count_sponsors');
               $rootScope.$broadcast('HomeOrganizerController:count_sponsors');
@@ -93,7 +94,7 @@
           .then(complete);
           
           function complete( user ){
-            $localStorage.userAuth = user;
+            userAuthService.updateUserAuth( user );
             $rootScope.$broadcast('HomeSponzorController:getEvents');
             $ionicHistory.clearCache();
           }

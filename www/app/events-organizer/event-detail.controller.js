@@ -30,10 +30,11 @@
     'BackendVariables',
     'perkTaskService',
     '$localStorage',
-    'userAuthService'
+    'userAuthService',
+    'notificationService'
   ];
 
-  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponsorshipService, $ionicPopup, $ionicModal, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory, $cordovaToast, $translate, BackendVariables, perkTaskService, $localStorage, userAuthService) {
+  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponsorshipService, $ionicPopup, $ionicModal, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory, $cordovaToast, $translate, BackendVariables, perkTaskService, $localStorage, userAuthService, notificationService) {
 
     var vm = this;
     var popupOptionsSponsorship = null;
@@ -264,6 +265,7 @@
           vm.event.perks[vm.indexPerk].tasks.push( data.PerkTask );
           vm.userAuth.sponzorships_like_organizer = $localStorage.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
           userAuthService.updateUserAuth( vm.userAuth );
+          sendNotifications();
           utilsService.resetForm( form );
           vm.hideModalTask();
           utilsService.hideLoad();
@@ -274,6 +276,13 @@
           vm.hideModalTask();
           utilsService.hideLoad();
         }
+    }
+    
+    function sendNotifications() {
+      for (var index = 0; index < vm.event.perks[vm.indexPerk].sponzorship.length; index++) {
+        var sponzor_id = vm.event.perks[vm.indexPerk].sponzorship[index].sponzor_id;
+        notificationService.sendNotification({}, sponzor_id);
+      }
     }
 
     function preparateTask(){

@@ -47,6 +47,7 @@
     function activate(){
       
       vm.event = _.findWhere(vm.userAuth.events, {id: $stateParams.idEvent});
+      console.log( vm.event );
       vm.event.perks = preparatePerks( vm.event );
 
       $ionicModal.fromTemplateUrl('app/events-sponsor/sponsor-it-modal.html', {
