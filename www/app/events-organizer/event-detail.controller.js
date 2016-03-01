@@ -333,6 +333,7 @@
         vm.event.perks[vm.indexPerk].tasks[vm.indexTask] = task;
         utilsService.resetForm( form );
         vm.hideModalTask();
+        sendNotifications();
         utilsService.hideLoad();
       }
 

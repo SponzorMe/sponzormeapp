@@ -155,13 +155,14 @@
       .then( complete )
       .catch( failed );
       
-      function complete( data ) {
+      function complete( TaskSponsor ) {
         var perkTask = _.findWhere( vm.sponzorship.perk.tasks, {id: vm.sponsorTask.task.id} );
         var taskSponzor = _.findWhere( vm.sponzorship.task_sponzor, {id: vm.sponsorTask.id} );
         var indexPerkTask = _.indexOf(vm.sponzorship.perk.tasks, perkTask);
         var indexSponzorTask = _.indexOf(vm.sponzorship.task_sponzor, taskSponzor);
         vm.sponzorship.perk.tasks[indexPerkTask] = vm.sponsorTask.task;
         vm.sponzorship.task_sponzor[indexSponzorTask] = vm.sponsorTask;
+        notificationService.sendNotification({}, TaskSponsor.organizer_id);
         vm.hideModalTask( form );
         utilsService.hideLoad();
       }
