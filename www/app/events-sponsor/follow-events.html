@@ -1,8 +1,8 @@
 <ion-view view-title="{{'EVENTFOLLOWING.title' | translate}}">
   <ion-content>
-    <ion-refresher pulling-text="Pull to refresh" on-refresh="follow.doRefresh()">
+    <ion-refresher pulling-text="Pull to refresh" on-refresh="list.doRefresh()">
     </ion-refresher>
-    <div class="row text-center" ng-show="follow.sponzorships.length == 0 && follow.showEmptyState">
+    <div class="row text-center" ng-show="list.sponzorships.length == 0 && list.showEmptyState">
       <div class="col">
         <div class="empty-states">
           <i class="icon ion-calendar"></i>
@@ -14,7 +14,7 @@
       </div>
     </div>
     <ion-list>
-      <ion-item href="#" class="event" ng-repeat="sponzorship in follow.sponzorships | orderBy:'starts' " ng-style="{'background-image': 'url(' + sponzorship.event.image + ')'}">
+      <ion-item href="#" class="event" ng-repeat="sponzorship in list.sponzorships | orderBy:'starts' " ng-style="{'background-image': 'url(' + sponzorship.event.image + ')'}">
         <i class="icon" ng-class="{'ion-pin': sponzorship.status == 0, 'ion-close': sponzorship.status == 2}"></i> 
         <p>
           {{ sponzorship.cause | limitTo:40 }}... </br> 

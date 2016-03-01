@@ -33,14 +33,14 @@
     ////////////
 
     function activate(){
-      vm.sponzorships = vm.userAuth.sponzorships.filter( filterByPending );
+      vm.sponzorships = vm.userAuth.sponzorships.filter( filterByDateAndByPending );
       vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
       $rootScope.$on('FollowEventsController:getSponzorships', getSponzorships);
     }
     
     function getSponzorships() {
       vm.userAuth = $localStorage.userAuth;
-      vm.sponzorships = vm.userAuth.sponzorships.filter( filterByPending );
+      vm.sponzorships = vm.userAuth.sponzorships.filter( filterByDateAndByPending );
       vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
     }
 
@@ -52,7 +52,7 @@
         function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
           vm.userAuth = $localStorage.userAuth = user;
-          vm.sponzorships = vm.userAuth.sponzorships.filter( filterByPending );
+          vm.sponzorships = vm.userAuth.sponzorships.filter( filterByDateAndByPending );
           vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
           $rootScope.$broadcast('Menu:count_following');
         }
@@ -61,9 +61,10 @@
           $scope.$broadcast('scroll.refreshComplete');
         }
     }
-
-    function filterByPending( item ){
-      return item.status != '1';
+    
+    function filterByDateAndByPending( item ){
+      var today = moment( new Date() ).subtract(1, 'days');
+      return moment(item.ends).isAfter( today ) && item.status != '1';
     }
 
   }

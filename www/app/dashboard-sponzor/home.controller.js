@@ -13,17 +13,18 @@
 
   HomeSponzorController.$inject = [
     '$localStorage',
-    'eventService',
+    'userService',
     'utilsService',
     '$scope',
-    '$rootScope'
+    '$rootScope',
+    'userAuthService'
   ];
 
-  function HomeSponzorController(  $localStorage, eventService, utilsService, $scope, $rootScope) {
+  function HomeSponzorController(  $localStorage, userService, utilsService, $scope, $rootScope, userAuthService) {
 
     var vm = this;
     //Attributes
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.events = [];
     //Funcions
     vm.doRefresh = doRefresh;
@@ -36,18 +37,18 @@
       $rootScope.$on('HomeSponzorController:getEvents', getEvents);
     }
     
-    function getEvents() {
-      vm.userAuth = $localStorage.userAuth;
-       vm.events = vm.userAuth.events.filter( filterDate );
+    function getEvents(event) {
+      vm.userAuth = userAuthService.getUserAuth();
+      vm.events = vm.userAuth.events.filter( filterDate );
     }
 
     function doRefresh(){
-      eventService.allEvents()
+      userService.home( vm.userAuth.id  )
         .then( complete );
         //.catch(failed );
 
-        function complete( events ){
-          vm.userAuth.events = $localStorage.userAuth.events = events;
+        function complete( user ){
+          vm.userAuth = userAuthService.updateUserAuth( user );
           vm.events = vm.userAuth.events.filter( filterDate );
           $scope.$broadcast('scroll.refreshComplete');
         }

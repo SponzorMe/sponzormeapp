@@ -298,7 +298,7 @@
         views: {
           'menuContent' :{
             templateUrl: "app/events-sponsor/follow-events.html",
-            controller: "FollowEventsController as follow"
+            controller: "FollowEventsController as list"
           }
         }
       })

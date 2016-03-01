@@ -9338,6 +9338,8 @@ form label.item {
 .event {
   background-position: top center;
   background-size: cover; }
+  .event .icon {
+    color: white; }
   .event .item-content {
     height: 150px;
     background: transparent; }

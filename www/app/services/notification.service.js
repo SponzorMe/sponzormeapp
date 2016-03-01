@@ -94,8 +94,8 @@
           
           function complete( user ){
             $localStorage.userAuth = user;
-            $ionicHistory.clearCache();
             $rootScope.$broadcast('HomeSponzorController:getEvents');
+            $ionicHistory.clearCache();
           }
         }
         
