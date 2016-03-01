@@ -46,6 +46,7 @@
       $rootScope.$on('Menu:count_tasks', renderCountTasks);
       
       vm.count_events = vm.userAuth.events.filter( filterDate ).length;
+      console.log(vm.userAuth);
       vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
       vm.count_tasks = countTasks().length;
       

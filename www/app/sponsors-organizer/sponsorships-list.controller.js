@@ -19,9 +19,10 @@
     '$ionicScrollDelegate',
     '$scope',
     '$rootScope',
+    'notificationService'
   ];
 
-  function SponsorshipsListController( $localStorage, sponsorshipService, userService, utilsService, $ionicScrollDelegate, $scope, $rootScope) {
+  function SponsorshipsListController( $localStorage, sponsorshipService, userService, utilsService, $ionicScrollDelegate, $scope, $rootScope, notificationService) {
 
     var vm = this;
     //Atributes
@@ -82,6 +83,11 @@
 
         function complete( sponzorRta ){
           utilsService.hideLoad();
+          var notification = {
+            text: sponzor.event.title,
+            link: '#/sponzors/sponzoring'
+          };
+          notificationService.sendNotification(notification, sponzorRta.sponzor_id);
           sponzor.status = sponzorRta.status;
         }
 

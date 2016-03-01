@@ -45,8 +45,9 @@
       vm.count_following = vm.userAuth.sponzorships.filter( filterByPending ).length;
     }
 
-    function renderCountSponsoring(event, total ){
-      vm.count_sponsoring = total;
+    function renderCountSponsoring(){
+      vm.userAuth = $localStorage.userAuth;
+      vm.count_sponsoring = vm.userAuth.sponzorships.filter( filterByAccepted ).length;
     }
 
     function logout(){

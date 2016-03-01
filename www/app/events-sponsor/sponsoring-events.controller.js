@@ -35,6 +35,13 @@
     function activate(){
       vm.sponzorships = vm.userAuth.sponzorships.filter( filterByAccepted );
       vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
+      $rootScope.$on('SponzoringEventsController:getSponzorships', getSponzorships);
+    }
+    
+    function getSponzorships() {
+      vm.userAuth = $localStorage.userAuth;
+      vm.sponzorships = vm.userAuth.sponzorships.filter( filterByAccepted );
+      vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
     }
 
     function doRefresh(){

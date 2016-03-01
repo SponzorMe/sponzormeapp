@@ -68,6 +68,11 @@
               $rootScope.$broadcast('SponsorshipsListController:getSponzorships');
               $rootScope.$broadcast('Menu:count_sponsors');
               $rootScope.$broadcast('HomeOrganizerController:count_sponsors');
+            }else{
+              $rootScope.$broadcast('FollowEventsController:getSponzorships');
+              $rootScope.$broadcast('Menu:count_following');
+              $rootScope.$broadcast('SponzoringEventsController:getSponzorships');
+              $rootScope.$broadcast('Menu:count_sponsoring');
             }
             
           }

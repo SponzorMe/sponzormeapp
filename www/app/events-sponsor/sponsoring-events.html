@@ -19,7 +19,6 @@
         <p>
           {{ sponzorship.cause | limitTo:40 }}... </br> 
           <strong>Perk:</strong> {{ sponzorship.perk.kind }} </br> 
-          <strong>Organizer:</strong> {{ sponzorship.organizer.email }} </br>
           {{sponzorship.event.title}} </br> 
           {{sponzorship.event.starts | date: 'MMMM d, y'}} - {{sponzorship.event.ends | date: 'MMMM d, y'}}
         </p>
