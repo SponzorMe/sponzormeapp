@@ -35,6 +35,7 @@
       var url = path + 'notifications/' + to;
       notification.date = new Date().getTime();
       notification.to = to;
+      notification.from = 'mobileApp';
       var notificationsRef =  $firebaseArray( new Firebase( url ));
       notificationsRef.$add(notification);
     }

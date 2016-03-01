@@ -21,10 +21,11 @@
     '$cordovaToast',
     '$translate',
     'tasksSponsorService',
-    'userAuthService'
+    'userAuthService',
+    'notificationService'
   ];
 
-  function SponsorshipSponsorDetailController( $scope, utilsService, $stateParams, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate, tasksSponsorService, userAuthService) {
+  function SponsorshipSponsorDetailController( $scope, utilsService, $stateParams, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate, tasksSponsorService, userAuthService, notificationService) {
 
     var vm = this;
     vm.sponzorship = {};
@@ -49,6 +50,7 @@
     function activate(){
       vm.sponsorTask = { task: {} }
       vm.sponzorship = _.findWhere(vm.userAuth.sponzorships, {id: $stateParams.id});
+      vm.sponzorship.task_sponzor = vm.sponzorship.task_sponzor.filter( filterTaskSponsor );
 
       $ionicModal.fromTemplateUrl('app/events-sponsor/task-modal.html', {
         scope: $scope,
@@ -56,6 +58,10 @@
       }).then(function(modal) {
         vm.modalTask = modal;
       });
+    }
+    
+    function filterTaskSponsor( item ) {
+      return item.task.user_id == vm.userAuth.id;
     }
     
     function slideChange( index ) {
@@ -93,6 +99,7 @@
         vm.sponzorship.perk.tasks.push( TaskSponzor.task );
         vm.sponzorship.task_sponzor.push( TaskSponzor );
         vm.hideModalTask( form );
+        notificationService.sendNotification({}, TaskSponzor.organizer_id);
         utilsService.hideLoad();
       }
       

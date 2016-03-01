@@ -37,6 +37,11 @@
 
     function activate(){
       vm.sponzorship = _.findWhere(vm.userAuth.sponzorships_like_organizer, {id: $stateParams.id});
+      vm.sponzorship.task_sponzor = vm.sponzorship.task_sponzor.filter( filterTaskSponsor );
+    }
+    
+    function filterTaskSponsor( item ) {
+      return item.task.user_id != vm.userAuth.id;
     }
 
     function sponsorAccept(){
