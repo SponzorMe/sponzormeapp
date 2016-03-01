@@ -17,10 +17,11 @@
     'utilsService',
     '$stateParams',
     '$ionicHistory',
-    'userAuthService'
+    'userAuthService',
+    'notificationService'
   ];
 
-  function SponsorshipOrganizerDetailController( $localStorage, sponsorshipService , utilsService, $stateParams, $ionicHistory, userAuthService) {
+  function SponsorshipOrganizerDetailController( $localStorage, sponsorshipService , utilsService, $stateParams, $ionicHistory, userAuthService, notificationService) {
 
     var vm = this;
     //Atributes
@@ -78,6 +79,11 @@
 
         function complete( sponzorship ){
           utilsService.hideLoad();
+          var notification = {
+            text: sponzor.event.title,
+            link: '#/sponzors/sponzoring'
+          };
+          notificationService.sendNotification(notification, sponzorship.sponzor_id);
           vm.sponzorship.status = sponzorship.status;
           $ionicHistory.clearCache();
         }
