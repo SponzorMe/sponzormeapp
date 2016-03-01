@@ -16,14 +16,15 @@
     'userService',
     'utilsService',
     '$scope',
-    '$rootScope'
+    '$rootScope',
+    'userAuthService'
   ];
 
-  function SponzoringEventsController( $localStorage, userService, utilsService, $scope, $rootScope) {
+  function SponzoringEventsController( $localStorage, userService, utilsService, $scope, $rootScope, userAuthService) {
 
     var vm = this;
     //Attributes
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.events = [];
     vm.showEmptyState = false;
     //Funcions
@@ -51,7 +52,7 @@
 
         function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
-          vm.userAuth = $localStorage.userAuth = user;
+          vm.userAuth = userAuthService.updateUserAuth( user );
           vm.sponzorships = vm.userAuth.sponzorships.filter( filterByAccepted );
           vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
           $rootScope.$broadcast('Menu:count_sponsoring', vm.sponzorships.length);

@@ -16,14 +16,15 @@
     'userService',
     'utilsService',
     '$scope',
-    '$rootScope'
+    '$rootScope',
+    'userAuthService'
   ];
 
-  function EventListController( $localStorage, userService , utilsService, $scope, $rootScope) {
+  function EventListController( $localStorage, userService , utilsService, $scope, $rootScope, userAuthService) {
 
     var vm = this;
     //Attributes
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.events = [];
     vm.showEmptyState = false;
     //Funcions
@@ -44,7 +45,7 @@
 
         function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
-          vm.userAuth.events = $localStorage.userAuth.events = user.events;
+          vm.userAuth = userAuthService.updateUserAuth( user );
           vm.events = vm.userAuth.events.filter( filterDate );
           vm.showEmptyState = vm.events.length == 0 ? true : false;
           $rootScope.$broadcast('Menu:count_events', vm.events.length);

@@ -19,15 +19,16 @@
     '$ionicScrollDelegate',
     '$scope',
     '$rootScope',
-    'notificationService'
+    'notificationService',
+    'userAuthService'
   ];
 
-  function SponsorshipsListController( $localStorage, sponsorshipService, userService, utilsService, $ionicScrollDelegate, $scope, $rootScope, notificationService) {
+  function SponsorshipsListController( $localStorage, sponsorshipService, userService, utilsService, $ionicScrollDelegate, $scope, $rootScope, notificationService, userAuthService) {
 
     var vm = this;
     //Atributes
     vm.sponsorships = [];
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.showEmptyState = false;
     //Accions
     vm.sponsorAccept = sponsorAccept;
@@ -104,10 +105,10 @@
 
         function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
-          vm.userAuth = $localStorage.userAuth = user;
+          vm.userAuth = userAuthService.updateUserAuth( user );
           vm.sponsorships = vm.userAuth.sponzorships_like_organizer;
           vm.showEmptyState = vm.sponsorships.length == 0 ? true : false;
-          $rootScope.$broadcast('Menu:count_sponsors', vm.sponsorships.length);
+          $rootScope.$broadcast('Menu:count_sponsors');
         }
 
         function failed( error ){

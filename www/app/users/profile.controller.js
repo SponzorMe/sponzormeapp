@@ -18,13 +18,14 @@
     '$localStorage',
     '$q',
     'imgurService',
-    '$cordovaToast'
+    '$cordovaToast',
+    'userAuthService'
   ];
 
-  function ProfileController( userService, utilsService, $cordovaCamera, $localStorage, $q, imgurService, $cordovaToast) {
+  function ProfileController( userService, utilsService, $cordovaCamera, $localStorage, $q, imgurService, $cordovaToast, userAuthService) {
 
     var vm = this;
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.imageURI = null;
     vm.getPhoto = getPhoto;
     vm.updateProfile = updateProfile;
@@ -93,8 +94,7 @@
           utilsService.resetForm( form );
           user.age = parseInt( user.age );
           user.comunity_size = parseInt( user.comunity_size );
-          vm.userAuth = utilsService.updateUserAuth( user );
-          $localStorage.userAuth = vm.userAuth;
+          vm.userAuth = userAuthService.updateUserAuth( user );
           $cordovaToast.showShortBottom("Su perfil se ha actulizado");
         }
 

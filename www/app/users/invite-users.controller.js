@@ -14,14 +14,15 @@
   InviteUsersController.$inject = [
     'userService', 
     'utilsService',
-    '$localStorage'
+    '$localStorage',
+    'userAuthService'
   ];
 
-  function InviteUsersController( userService, utilsService, $localStorage) {
+  function InviteUsersController( userService, utilsService, $localStorage, userAuthService) {
 
     var vm = this;
     vm.friend = {};
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.inviteFriend = inviteFriend;
 
     ////////////

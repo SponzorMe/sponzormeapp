@@ -26,17 +26,18 @@
     'imgurService',
     '$q',
     '$state',
-    'notificationService'
+    'notificationService',
+    'userAuthService'
   ];
 
-  function AddEventController( $scope, $translate, $localStorage, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $state, notificationService) {
+  function AddEventController( $scope, $translate, $localStorage, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $state, notificationService, userAuthService) {
 
     var vm = this;
     vm.newEvent = {};
     vm.newPerk = {};
     vm.isNewPerk = true;
     vm.eventTypes = [];
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.modalPerk = null;
     vm.imageURI = null;
 
@@ -220,7 +221,8 @@
           event.image = (event.image == "event_dummy.png") ? 'img/banner.jpg' : event.image;
           event.starts = moment(event.starts)._d;
           event.ends = moment(event.ends)._d;
-          $localStorage.userAuth.events.push( event ); 
+          vm.userAuth.events.push( event );
+          userAuthService.updateUserAuth( vm.userAuth );
           $ionicHistory.nextViewOptions({
             disableAnimate: false,
             disableBack: true

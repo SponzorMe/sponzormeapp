@@ -16,15 +16,16 @@
     'sponsorshipService',
     'utilsService',
     '$stateParams',
-    '$ionicHistory'
+    '$ionicHistory',
+    'userAuthService'
   ];
 
-  function SponsorshipOrganizerDetailController( $localStorage, sponsorshipService , utilsService, $stateParams, $ionicHistory) {
+  function SponsorshipOrganizerDetailController( $localStorage, sponsorshipService , utilsService, $stateParams, $ionicHistory, userAuthService) {
 
     var vm = this;
     //Atributes
     vm.sponzorship = {};
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.showEmptyState = false;
     //Accions
     vm.sponsorAccept = sponsorAccept;

@@ -15,14 +15,15 @@
     '$state',
     '$localStorage',
     '$rootScope',
-    '$ionicHistory'
+    '$ionicHistory',
+    'userAuthService'
   ];
 
-  function MenuOrganizerCtrl( $state, $localStorage, $rootScope, $ionicHistory ) {
+  function MenuOrganizerCtrl( $state, $localStorage, $rootScope, $ionicHistory, userAuthService ) {
 
     var vm = this;
     //Attributes
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.count_events = 0;
     vm.count_sponsors = 0;
     vm.count_tasks = 0;
@@ -46,23 +47,22 @@
       $rootScope.$on('Menu:count_tasks', renderCountTasks);
       
       vm.count_events = vm.userAuth.events.filter( filterDate ).length;
-      console.log(vm.userAuth);
       vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
       vm.count_tasks = countTasks().length;
       
     }
 
-    function renderCountEvents( event, total ){
-      vm.count_events = total;
+    function renderCountEvents( event ){
+      //vm.count_events = total;
     }
 
     function renderCountSponsors(){
-      vm.userAuth = $localStorage.userAuth;
+      vm.userAuth = userAuthService.getUserAuth();
       vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
     }
 
-    function renderCountTasks(event, total ){
-      vm.count_tasks = total;
+    function renderCountTasks(event ){
+      //vm.count_tasks = total;
     }
 
     function filterDate( item ){

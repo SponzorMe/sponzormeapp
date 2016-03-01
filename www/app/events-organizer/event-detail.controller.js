@@ -29,10 +29,11 @@
     '$translate',
     'BackendVariables',
     'perkTaskService',
-    '$localStorage'
+    '$localStorage',
+    'userAuthService'
   ];
 
-  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponsorshipService, $ionicPopup, $ionicModal, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory, $cordovaToast, $translate, BackendVariables, perkTaskService, $localStorage) {
+  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponsorshipService, $ionicPopup, $ionicModal, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory, $cordovaToast, $translate, BackendVariables, perkTaskService, $localStorage, userAuthService) {
 
     var vm = this;
     var popupOptionsSponsorship = null;
@@ -42,7 +43,7 @@
     //Attributes
     vm.event = {};
     vm.deleteEvent = deleteEvent;
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
 
     vm.indexPerk = -1;
     vm.indexTask = -1;
@@ -262,6 +263,7 @@
         function complete( data ){
           vm.event.perks[vm.indexPerk].tasks.push( data.PerkTask );
           vm.userAuth.sponzorships_like_organizer = $localStorage.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
+          userAuthService.updateUserAuth( vm.userAuth );
           utilsService.resetForm( form );
           vm.hideModalTask();
           utilsService.hideLoad();
@@ -295,6 +297,7 @@
       function complete( data ){
         vm.userAuth.sponzorships_like_organizer = $localStorage.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
         vm.event.perks[vm.indexPerk].tasks.splice(vm.indexTask, 1);
+        userAuthService.updateUserAuth( vm.userAuth );
         if( form ) utilsService.resetForm( form );
         vm.hideModalTask();
         utilsService.hideLoad();

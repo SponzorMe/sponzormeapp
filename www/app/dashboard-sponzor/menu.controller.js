@@ -15,14 +15,15 @@
     '$state',
     '$localStorage',
     '$rootScope',
-    '$ionicHistory'
+    '$ionicHistory',
+    'userAuthService'
   ];
 
-  function MenuSponzorCtrl( $state, $localStorage, $rootScope, $ionicHistory ) {
+  function MenuSponzorCtrl( $state, $localStorage, $rootScope, $ionicHistory, userAuthService ) {
 
     var vm = this;
     //Attributes
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.count_following = 0;
     vm.count_sponsoring = 0;
     //Funcions
@@ -41,12 +42,12 @@
     }
 
     function renderCountFollowing(){
-      vm.userAuth = $localStorage.userAuth;
+      vm.userAuth =  userAuthService.getUserAuth();
       vm.count_following = vm.userAuth.sponzorships.filter( filterByPending ).length;
     }
 
     function renderCountSponsoring(){
-      vm.userAuth = $localStorage.userAuth;
+      vm.userAuth =  userAuthService.getUserAuth();
       vm.count_sponsoring = vm.userAuth.sponzorships.filter( filterByAccepted ).length;
     }
 

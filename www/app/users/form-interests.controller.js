@@ -18,14 +18,15 @@
     '$localStorage',
     'categoryService',
     'userInterestService',
-    '$q'
+    '$q',
+    'userAuthService'
   ];
 
-  function FormInterestsController( userService, $state , utilsService, $localStorage, categoryService, userInterestService, $q) {
+  function FormInterestsController( userService, $state , utilsService, $localStorage, categoryService, userInterestService, $q, userAuthService) {
 
     var vm = this;
     //Attributes
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.categories = [];
     //Funcions
     vm.updateInterests = updateInterests;

@@ -18,14 +18,15 @@
     'utilsService',
     '$scope',
     '$rootScope',
-    '$ionicModal'
+    '$ionicModal',
+    'userAuthService'
   ];
 
-  function PastTaskController( $localStorage, perkTaskService , userService, utilsService, $scope, $rootScope, $ionicModal) {
+  function PastTaskController( $localStorage, perkTaskService , userService, utilsService, $scope, $rootScope, $ionicModal, userAuthService) {
 
    var vm = this;
     //Attributes
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.events = [];
     vm.showEmptyState = false;
     //Funcions
@@ -87,7 +88,7 @@
 
         function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
-          vm.userAuth = $localStorage.userAuth = user;
+          vm.userAuth = userAuthService.updateUserAuth( user );
           vm.events = vm.userAuth.events.filter( filterEvents );
           vm.showEmptyState = vm.events.length == 0 ? true : false;
           console.log(countTasksDone(vm.events).length);

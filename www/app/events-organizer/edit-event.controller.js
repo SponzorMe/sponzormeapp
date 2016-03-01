@@ -26,10 +26,11 @@
     '$ionicHistory',
     'imgurService',
     '$q',
-    '$stateParams'
+    '$stateParams',
+    'userAuthService'
   ];
 
-  function EditEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $stateParams) {
+  function EditEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $stateParams, userAuthService) {
 
     var vm = this;
     vm.indexEvent = -1;
@@ -37,7 +38,7 @@
     vm.newPerk = {};
     vm.isNewPerk = true;
     vm.eventTypes = [];
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.modalPerk = null;
     vm.imageURI = null;
 
@@ -248,7 +249,8 @@
         function complete( event ) {
           utilsService.hideLoad();
           utilsService.resetForm( form );
-          vm.userAuth.events[vm.indexEvent] = event
+          vm.userAuth.events[vm.indexEvent] = event;
+          userAuthService.updateUserAuth( vm.userAuth );
           vm.newEvent = {};
           $ionicHistory.nextViewOptions({
             disableAnimate: false,

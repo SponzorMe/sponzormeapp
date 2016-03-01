@@ -13,17 +13,18 @@
 
   HomeOrganizerController.$inject = [
     '$localStorage',
-    '$rootScope'
+    '$rootScope',
+    'userAuthService'
   ];
 
-  function HomeOrganizerController( $localStorage, $rootScope ) {
+  function HomeOrganizerController( $localStorage, $rootScope, userAuthService ) {
 
     var vm = this;
     //Atributes
     vm.count_events = 0;
     vm.count_sponsors = 0;
     vm.count_comunity = 0;
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
 
     activate();
     ////////////
@@ -36,7 +37,7 @@
     };
     
     function renderCountSponsors() {
-      vm.userAuth = $localStorage.userAuth;
+      vm.userAuth = userAuthService.getUserAuth();
       vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
     }
     

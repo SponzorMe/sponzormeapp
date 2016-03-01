@@ -23,14 +23,15 @@
     '$cordovaToast',
     '$translate',
     'notificationService',
-    '$rootScope'
+    '$rootScope',
+    'userAuthService'
   ];
 
-  function EventDetailSponzorController( $scope, eventService, utilsService, $stateParams, sponsorshipService, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate, notificationService, $rootScope) {
+  function EventDetailSponzorController( $scope, eventService, utilsService, $stateParams, sponsorshipService, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate, notificationService, $rootScope, userAuthService) {
 
     var vm = this;
     vm.event = {};
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
 
     vm.modalSponsorIt = null;
     vm.newSponsorIt = {};
@@ -44,7 +45,7 @@
     ////////////
 
     function activate(){
-      //getEvent();
+      
       vm.event = _.findWhere(vm.userAuth.events, {id: $stateParams.idEvent});
       vm.event.perks = preparatePerks( vm.event );
 
@@ -54,23 +55,6 @@
       }).then(function(modal) {
         vm.modalSponsorIt = modal;
       });
-    }
-
-    function getEvent(){
-      utilsService.showLoad();
-      eventService.getEvent( $stateParams.idEvent )
-        .then( complete )
-        .catch( failed );
-
-        function complete( event ){
-          utilsService.hideLoad();
-          vm.event = event;
-          vm.event.perks = preparatePerks( vm.event );
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-        }
     }
     
     function preparatePerks( event ){
@@ -107,7 +91,8 @@
 
         function complete( newSponsorship ){
           vm.closeModalSponsorIt();
-          $localStorage.userAuth.sponzorships.push( newSponsorship );
+          vm.userAuth.sponzorships.push( newSponsorship );
+          userAuthService.updateUserAuth( vm.userAuth );
           $rootScope.$broadcast('FollowEventsController:getSponzorships');
           $rootScope.$broadcast('Menu:count_following');
           var notification = {
@@ -115,7 +100,6 @@
             link: '#/organizers/sponzors'
           };
           notificationService.sendNotification(notification, vm.event.user_organizer.id);
-          //getEvent();
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_sponsor_it"));
         }
 

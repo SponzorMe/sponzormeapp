@@ -20,14 +20,15 @@
     '$ionicHistory',
     '$cordovaToast',
     '$translate',
-    'tasksSponsorService'
+    'tasksSponsorService',
+    'userAuthService'
   ];
 
-  function SponsorshipSponsorDetailController( $scope, utilsService, $stateParams, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate, tasksSponsorService) {
+  function SponsorshipSponsorDetailController( $scope, utilsService, $stateParams, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate, tasksSponsorService, userAuthService) {
 
     var vm = this;
     vm.sponzorship = {};
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     
     vm.modalTask = null;
     vm.isNewTask = true;

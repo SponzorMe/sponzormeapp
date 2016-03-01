@@ -20,10 +20,11 @@
     '$base64',
     '$ionicUser', 
     '$ionicAnalytics',
-    'notificationService'
+    'notificationService',
+    'userAuthService'
   ];
 
-  function LoginController( $translate, userService, $localStorage, $state , utilsService, $base64, $ionicUser, $ionicAnalytics, notificationService) {
+  function LoginController( $translate, userService, $localStorage, $state , utilsService, $base64, $ionicUser, $ionicAnalytics, notificationService, userAuthService) {
 
     var vm = this;
     vm.user = {};
@@ -118,8 +119,7 @@
     }
 
     function saveUser(){
-      $localStorage.userAuth = utilsService.updateUserAuth(vm.userResponse);
-      $localStorage.lastUpdate = new Date().getTime();
+       userAuthService.updateUserAuth(vm.userResponse);
     }
 
   }

@@ -16,14 +16,15 @@
     'userService',
     '$state',
     'utilsService',
-    '$localStorage'
+    '$localStorage',
+    'userAuthService'
   ];
 
-  function FormProfileController( $translate, userService, $state , utilsService, $localStorage) {
+  function FormProfileController( $translate, userService, $state , utilsService, $localStorage, userAuthService) {
 
     var vm = this;
     //Attributes
-    vm.userAuth = $localStorage.userAuth || {};
+    vm.userAuth = userAuthService.getUserAuth();
     //Funcions
     vm.updateProfile = updateProfile;
     vm.changeLang = changeLang;
@@ -49,7 +50,7 @@
           utilsService.resetForm( form );
           user.age = parseInt( user.age );
           user.comunity_size = parseInt( user.comunity_size );
-          $localStorage.userAuth = utilsService.updateUserAuth( user );
+          vm.userAuth = userAuthService.updateUserAuth( user );
           vm.userAuth = {};
           $state.go("interests");
         }
