@@ -27,10 +27,11 @@
     '$q',
     '$state',
     'notificationService',
-    'userAuthService'
+    'userAuthService',
+    'userService'
   ];
 
-  function AddEventController( $scope, $translate, $localStorage, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $state, notificationService, userAuthService) {
+  function AddEventController( $scope, $translate, $localStorage, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $state, notificationService, userAuthService, userService) {
 
     var vm = this;
     vm.newEvent = {};
@@ -241,6 +242,10 @@
           });
         }
 
+    }
+    
+    function sendNotifications() {
+      //userService.userService
     }
 
     function getEventsTypes(){

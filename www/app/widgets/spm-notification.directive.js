@@ -39,8 +39,10 @@
       activate();
       
       function activate() {
-        $scope.title =  $translate.instant("NOTIFICATIONS." + $scope.model.typeNotification + "_title");
-        $scope.text =  $translate.instant("NOTIFICATIONS." + $scope.model.typeNotification + "_text").replace('TEXT', $scope.model.text || '');
+        if($scope.model.typeNotification){
+          $scope.title =  $translate.instant("NOTIFICATIONS." + $scope.model.typeNotification + "_title");
+          $scope.text =  $translate.instant("NOTIFICATIONS." + $scope.model.typeNotification + "_text").replace('TEXT', $scope.model.text || '');
+        }
       }
     }
 
@@ -49,7 +51,7 @@
       $scope.read = read;
       
       var events = {
-        'newSponsorship': goDetailSponsorhip,
+        'newSponsorship': goSponsorhips,
         'acceptSponsorship': goSponzoring,
         'rejectSponsorship': goFollowing,
         'newTaskOrganizer': goDetailSponsorshipOrganizer,
@@ -65,7 +67,9 @@
         reference.update({
           read: true
         }).then(function(){
-          events[$scope.model.typeNotification]($scope.model.modelId || null);
+          if($scope.model.typeNotification){
+            events[$scope.model.typeNotification]($scope.model.modelId || null);
+          }
         });
       }
       
