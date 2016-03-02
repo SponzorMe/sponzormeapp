@@ -63,7 +63,7 @@
       
       function read(){
         var url = path + 'notifications/' + userAuth.id + '/' + $scope.model.$id;
-        var reference = $firebaseArray( new Firebase( url ));
+        var reference = new Firebase(url);
         reference.update({
           read: true
         }).then(function(){

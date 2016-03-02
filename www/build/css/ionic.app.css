@@ -9318,25 +9318,22 @@ form label.item {
   text-align: center; }
 
 .notification {
-  position: relative; }
+  position: relative;
+  cursor: pointer; }
   .notification .icon {
-    font-size: 80px;
     color: white; }
   .notification h2 {
     color: white;
-    font-size: 18px;
-    margin-top: 10px;
     font-weight: bold; }
   .notification span.time {
     font-size: 14px;
     color: white;
     position: absolute;
     top: 5px;
-    right: 5px;
+    right: 10px;
     font-style: italic; }
   .notification p {
-    color: white;
-    font-size: 16px; }
+    font-size: 14px; }
   .notification .notification-sponsorship {
     background: #00838D; }
   .notification .notification-event {

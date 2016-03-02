@@ -245,10 +245,13 @@
       vm.modalTask.hide();
       if (form) utilsService.resetForm( form );
       vm.task = {};
+      vm.indexPerk = -1; 
+      vm.indexTask = -1;
     }
 
-    function editTask( task, indexTask ){
+    function editTask( task, indexPerk, indexTask ){
       vm.isNewTask = false;
+      vm.indexPerk = indexPerk; 
       vm.indexTask = indexTask;
       vm.task = task;
       vm.task.status = vm.task.status == 1 ? true : false;
@@ -343,11 +346,10 @@
       .catch( failed );
 
       function complete( task ){
-        
-        utilsService.resetForm( form );
-        vm.hideModalTask();
         vm.event.perks[vm.indexPerk].tasks[vm.indexTask] = task;
         sendUpdateTaskNotification( task.title );
+        utilsService.resetForm( form );
+        vm.hideModalTask();
         utilsService.hideLoad();
       }
 

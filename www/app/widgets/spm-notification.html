@@ -1,8 +1,10 @@
-<div class="card notification">
-  <div class="item item-thumbnail-left" ng-class="{'notification-sponsorship':model.type == 'sponsorship', 'notification-task':model.type == 'task', 'notification-event':model.type == 'event'}" ng-click="read()" >
-    <i class="icon item-image" ng-class="{'ion-flag':model.type == 'sponsorship', 'ion-checkmark':model.type == 'task', 'ion-calendar':model.type == 'event'}"></i>
+<div class="card notification" ng-click="read()">
+  <div class="item item-icon-left" ng-class="{'notification-sponsorship':model.type == 'sponsorship', 'notification-task':model.type == 'task', 'notification-event':model.type == 'event'}" >
+    <i class="icon" ng-class="{'ion-flag':model.type == 'sponsorship', 'ion-checkmark':model.type == 'task', 'ion-calendar':model.type == 'event'}"></i>
     <h2>{{ title }}</h2>
-    <p>{{ text }}</p>
     <span class="time" am-time-ago="model.date"></span>
+  </div>
+  <div class="item item-text-wrap">
+    <p>{{ text }}</p>
   </div>
 </div>

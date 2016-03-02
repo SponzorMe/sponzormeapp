@@ -107,7 +107,7 @@
               <ion-item ng-show="perk.tasks.length == 0">
                 Nothing new yet.
               </ion-item>
-              <ion-item ng-click="eventDetail.editTask( task, indexTask )" class="item-icon-left" ng-repeat="(indexTask, task) in perk.tasks" ng-class="{done: task.status == 1}">
+              <ion-item ng-click="eventDetail.editTask( task, indexPerk, indexTask )" class="item-icon-left" ng-repeat="(indexTask, task) in perk.tasks" ng-class="{done: task.status == 1}">
                 <i class="icon ion-checkmark"></i>
                 <h2> {{ task.title }} </h2>
                 <p> {{ task.description }} </p>
