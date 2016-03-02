@@ -1,20 +1,23 @@
 .notification{
   position: relative;
   cursor: pointer;
+  .item-text-wrap{
+    position: relative;
+    span.time{
+      font-size: 14px;
+      position: absolute;
+      bottom: 5px;
+      right: 10px;
+      font-style: italic;
+    }
+  }
   .icon{
     color:  white;
   }
   h2{
     color: white;
     font-weight: bold;
-  }
-  span.time{
-    font-size: 14px;
-    color: white;
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    font-style: italic;
+    margin: 0px;
   }
   p{
     font-size: 14px;

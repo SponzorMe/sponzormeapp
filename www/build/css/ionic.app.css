@@ -9320,18 +9320,20 @@ form label.item {
 .notification {
   position: relative;
   cursor: pointer; }
+  .notification .item-text-wrap {
+    position: relative; }
+    .notification .item-text-wrap span.time {
+      font-size: 14px;
+      position: absolute;
+      bottom: 5px;
+      right: 10px;
+      font-style: italic; }
   .notification .icon {
     color: white; }
   .notification h2 {
     color: white;
-    font-weight: bold; }
-  .notification span.time {
-    font-size: 14px;
-    color: white;
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    font-style: italic; }
+    font-weight: bold;
+    margin: 0px; }
   .notification p {
     font-size: 14px; }
   .notification .notification-sponsorship {

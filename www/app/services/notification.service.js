@@ -117,6 +117,7 @@
       
       function listener( snapshot ){
         var current = snapshot.val();
+        console.log(current.date);
         if($localStorage.lastUpdate < current.date){
           userService.home( $localStorage.userAuth.id )
           .then(complete);
