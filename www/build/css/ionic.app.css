@@ -9337,11 +9337,11 @@ form label.item {
   .notification p {
     color: white;
     font-size: 16px; }
-  .notification .notification-sponsors {
+  .notification .notification-sponsor {
     background: #00838D; }
-  .notification .notification-events {
+  .notification .notification-event {
     background: #003D6A; }
-  .notification .notification-tasks {
+  .notification .notification-task {
     background: #02A390; }
 
 .badge-stable {

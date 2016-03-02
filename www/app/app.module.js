@@ -15,6 +15,7 @@
     'ngCordova',
     'google.places',
     'firebase',
+    'angularMoment',
     //'ngCordovaMocks',
     'ngMessages',
     'ngStorage',

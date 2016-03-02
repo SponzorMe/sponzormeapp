@@ -2,7 +2,7 @@
   <ion-nav-title>Notifications</ion-nav-title>
   <ion-content padding="true">
     <!-- Events -->
-    <div class="row text-center" ng-show="(list.notifications | filter: {read: false}).length == 0">
+    <div class="row text-center" ng-show="(list.notifications | filter: {read: false, toApp: 'mobileApp'}).length == 0">
       <div class="col">
         <div class="empty-states">
           <i class="icon ion-android-notifications"></i>
@@ -10,14 +10,6 @@
         </div>
       </div>
     </div>
-    <div class="card notification" ng-repeat="notification in list.notifications | orderBy: '-date'">
-      <a class="item item-thumbnail-left notification-sponsors" href="#/organizer/sponsorships">
-        <i class="icon ion-flag item-image"></i>
-        <h2>{{ notification.title | limitTo : 50}}</h2>
-        <p>{{ notification.text | limitTo : 100}}</p>
-        <span class="time" am-time-ago="notification.date"></span>
-      </a>
-    </div>
-    
+    <spm-notification model="notification" ng-repeat="notification in list.notifications | filter: {read: false} | orderBy: '-date'"></spm-notification>
   </ion-content>
 </ion-view>
