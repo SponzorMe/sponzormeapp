@@ -47,7 +47,6 @@
     function activate(){
       
       vm.event = _.findWhere(vm.userAuth.events, {id: $stateParams.idEvent});
-      console.log( vm.event );
       vm.event.perks = preparatePerks( vm.event );
 
       $ionicModal.fromTemplateUrl('app/events-sponsor/sponsor-it-modal.html', {
@@ -92,16 +91,23 @@
 
         function complete( newSponsorship ){
           vm.closeModalSponsorIt();
+          
+          vm.event.sponzorships.push( newSponsorship );
+          vm.event.perks = preparatePerks( vm.event );
+          
           vm.userAuth.sponzorships.push( newSponsorship );
           userAuthService.updateUserAuth( vm.userAuth );
+          
           $rootScope.$broadcast('FollowEventsController:getSponzorships');
           $rootScope.$broadcast('Menu:count_following');
+          
           var notification = {
             text: vm.event.title,
             link: '#/organizers/sponzors',
             modelId: newSponsorship.id,
           };
           notificationService.sendNewSponsorship(notification, vm.event.user_organizer.id);
+          
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_sponsor_it"));
         }
 
