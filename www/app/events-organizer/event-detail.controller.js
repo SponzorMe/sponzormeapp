@@ -283,21 +283,21 @@
     
     function sendNewTaskNotification( text ) {
       for (var index = 0; index < vm.event.perks[vm.indexPerk].sponzorship.length; index++) {
-        var sponzor_id = vm.event.perks[vm.indexPerk].sponzorship[index].sponzor_id;
+        var sponzorship = vm.event.perks[vm.indexPerk].sponzorship[index];
         notificationService.sendNewTaskOrganizer({
           text: text,
-          modelId: vm.event.id
-        }, sponzor_id);
+          modelId: sponzorship.id
+        }, sponzorship.sponzor_id);
       }
     }
     
     function sendUpdateTaskNotification( text ) {
       for (var index = 0; index < vm.event.perks[vm.indexPerk].sponzorship.length; index++) {
-        var sponzor_id = vm.event.perks[vm.indexPerk].sponzorship[index].sponzor_id;
+        var sponzorship = vm.event.perks[vm.indexPerk].sponzorship[index];
         notificationService.sendUpdateTaskOrganizer({
           text: text,
-          modelId: vm.event.id
-        }, sponzor_id);
+          modelId: sponzorship.id
+        }, sponzorship.sponzor_id);
       }
     }
 
