@@ -24,18 +24,25 @@
     var service = {
       activate: activate,
       sendNotification: sendNotification,
-      sendEventsChanged: sendEventsChanged
+      sendEventsChanged: sendEventsChanged,
+      getNotifications: getNotifications
     };
 
     return service;
 
     ////////////
+    
+    function getNotifications( userId ) {
+      var url = path + 'notifications/' + userId;
+      return $firebaseArray( new Firebase( url ));
+    }
 
     function sendNotification(notification, to){
       var url = path + 'notifications/' + to;
       notification.date = new Date().getTime();
       notification.to = to;
       notification.from = 'mobileApp';
+      notification.read = false;
       var notificationsRef =  $firebaseArray( new Firebase( url ));
       notificationsRef.$add(notification);
     }

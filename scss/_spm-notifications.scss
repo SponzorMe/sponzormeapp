@@ -1,0 +1,23 @@
+.notification{
+  .icon{
+    font-size: 80px;
+    color:  white;
+  }
+  h2{
+    color: white;
+    font-size: 18px;
+  }
+  p{
+    color: white;
+    font-size: 16px;
+  }
+  .notification-sponsors{
+    background: #00838D;
+  }
+  .notification-events{
+    background: #003D6A;
+  }
+  .notification-tasks{
+    background: #02A390;
+  }
+}

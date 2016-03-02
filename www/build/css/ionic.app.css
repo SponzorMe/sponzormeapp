@@ -9317,6 +9317,27 @@ form label.item {
   padding: 10px;
   text-align: center; }
 
+.notification .icon {
+  font-size: 80px;
+  color: white; }
+
+.notification h2 {
+  color: white;
+  font-size: 18px; }
+
+.notification p {
+  color: white;
+  font-size: 16px; }
+
+.notification .notification-sponsors {
+  background: #00838D; }
+
+.notification .notification-events {
+  background: #003D6A; }
+
+.notification .notification-tasks {
+  background: #02A390; }
+
 .badge-stable {
   color: #00838D;
   font-weight: 600; }

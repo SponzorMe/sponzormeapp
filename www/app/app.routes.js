@@ -262,6 +262,16 @@
         }
       })
       
+      .state('organizer.notifications', {
+        url: "/notifications",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/users/notifications.html",
+            controller: "NotificationsController as list"
+          }
+        }
+      })
+      
 
       /* Sponzors */
 
@@ -359,6 +369,16 @@
           'menuContent' :{
             templateUrl: "app/users/settings.html",
             controller: "SettingsController as settings"
+          }
+        }
+      })
+      
+      .state('sponzor.notifications', {
+        url: "/notifications",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/users/notifications.html",
+            controller: "NotificationsController as list"
           }
         }
       })

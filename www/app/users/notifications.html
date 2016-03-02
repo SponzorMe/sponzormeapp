@@ -1,0 +1,29 @@
+<ion-view>
+  <ion-nav-title>Notifications</ion-nav-title>
+  <ion-content padding="true">
+    <!-- Events -->
+    <div class="row text-center" ng-show="(list.notifications | filter: {read: false}).length == 0">
+      <div class="col">
+        <div class="empty-states">
+          <i class="icon ion-android-notifications"></i>
+          <h1>Estas al dia.</h1>
+        </div>
+      </div>
+    </div>
+    <div class="card notification">
+      <a class="item item-thumbnail-left notification-sponsors" href="#/organizer/sponsorships">
+        <i class="icon ion-flag item-image"></i>
+        <h2>Nueva tarea</h2>
+        <p>Se ha cieado</p>
+        <span>Hace c timepo</span>
+      </a>
+    </div>
+    <div class="card" ng-repeat="notification in list.notifications | filter: {read: false} | orderBy: '-date'">
+      <div class="item item-text-wrap">
+        {{ notification | json }}
+        This is a basic Card which contains an item that has wrapping text.
+      </div>
+    </div>
+    
+  </ion-content>
+</ion-view>
