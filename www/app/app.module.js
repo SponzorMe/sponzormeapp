@@ -25,6 +25,7 @@
     'tabSlideBox',
     //Widgets
     'app.widgets',
+    'app.filters',
     //Feature areas
     'app.users',
     'app.dashboard-organizer',

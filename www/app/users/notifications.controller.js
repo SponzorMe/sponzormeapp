@@ -23,6 +23,7 @@
     var vm = this;
     vm.userAuth = userAuthService.getUserAuth();
     vm.notifications = []
+    vm.time = 24;
 
     activate();
     ////////////

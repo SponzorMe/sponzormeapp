@@ -15,7 +15,7 @@
         <i class="icon ion-flag item-image"></i>
         <h2>Nueva tarea</h2>
         <p>Se ha cieado</p>
-        <span>Hace c timepo</span>
+        <span class="time">{{ list.time | humanize }}</span>
       </a>
     </div>
     <div class="card" ng-repeat="notification in list.notifications | filter: {read: false} | orderBy: '-date'">
