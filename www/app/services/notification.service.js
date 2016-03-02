@@ -23,8 +23,14 @@
 
     var service = {
       activate: activate,
-      sendNotification: sendNotification,
-      sendEventsChanged: sendEventsChanged,
+      sendNewSponsorship: sendNewSponsorship,
+      sendAcceptSponsorship: sendAcceptSponsorship,
+      sendRejectSponsorship: sendRejectSponsorship,
+      sendNewTaskOrganizer: sendNewTaskOrganizer,
+      sendUpdateTaskOrganizer: sendUpdateTaskOrganizer,
+      sendDoneTaskOrganizer: sendDoneTaskOrganizer,
+      sendNewEvent: sendNewEvent,
+      sendUpdateEvent: sendUpdateEvent,
       getNotifications: getNotifications
     };
 
@@ -38,27 +44,70 @@
     }
 
     function sendNotification(notification, to){
-      var url = path + 'notifications/' + to;
+      
       notification.date = new Date().getTime();
       notification.to = to;
       notification.fromApp = 'mobileApp';
       notification.toApp = 'mobileApp';
       notification.read = false;
+      
+      var url = path + 'notifications/' + to;
       var notificationsRef =  $firebaseArray( new Firebase( url ));
+      
       notificationsRef.$add(notification);
     }
     
-    function sendEventsChanged() {
-      var url = path + 'eventsChanged';
-      var notificationsRef =  $firebaseArray( new Firebase( url ));
-      notificationsRef.$add({
-        date: new Date().getTime()
-      });
+    function sendNewSponsorship(notification, to) {
+      notification.typeNotification = "newSponsorship";
+      notification.type = "sponsorship";
+      sendNotification(notification, to);
     }
+    
+    function sendAcceptSponsorship(notification, to) {
+      notification.typeNotification = "acceptSponsorship";
+      notification.type = "sponsorship";
+      sendNotification(notification, to);
+    }
+    
+    function sendRejectSponsorship(notification, to) {
+      notification.typeNotification = "rejectSponsorship";
+      notification.type = "sponsorship";
+      sendNotification(notification, to);
+    }
+    
+    function sendNewTaskOrganizer(notification, to) {
+      notification.typeNotification = "newTaskOrganizer";
+      notification.type = "task";
+      sendNotification(notification, to);
+    }
+    
+    function sendUpdateTaskOrganizer(notification, to) {
+      notification.typeNotification = "updateTaskOrganizer";
+      notification.type = "task";
+      sendNotification(notification, to);
+    }
+    
+    function sendDoneTaskOrganizer(notification, to) {
+      notification.typeNotification = "doneTaskOrganizer";
+      notification.type = "task";
+      sendNotification(notification, to);
+    }
+    
+    function sendNewEvent(notification, to) {
+      notification.typeNotification = "newEvent";
+      notification.type = "event";
+      sendNotification(notification, to);
+    }
+    
+    function sendUpdateEvent(notification, to) {
+      notification.typeNotification = "updateEvent";
+      notification.type = "event";
+      sendNotification(notification, to);
+    }
+    
     
     function activate() {
       notificationForMe();
-      if($localStorage.userAuth.type == 1) notificationsEventsChanged();
     }
     
     function notificationForMe(params) {
@@ -83,29 +132,9 @@
               $rootScope.$broadcast('Menu:count_following');
               $rootScope.$broadcast('SponzoringEventsController:getSponzorships');
               $rootScope.$broadcast('Menu:count_sponsoring');
+              $rootScope.$broadcast('HomeSponzorController:getEvents');
             }
             
-          }
-        }
-        
-      }
-    }
-    
-    function notificationsEventsChanged() {
-      var url =  path + 'eventsChanged';
-      var reference =  new Firebase( url );
-      reference.on('child_added', listener);
-      
-      function listener( snapshot ){
-        var current = snapshot.val();
-        if($localStorage.lastUpdate < current.date){
-          userService.home( $localStorage.userAuth.id )
-          .then(complete);
-          
-          function complete( user ){
-            userAuthService.updateUserAuth( user );
-            $rootScope.$broadcast('HomeSponzorController:getEvents');
-            $ionicHistory.clearCache();
           }
         }
         

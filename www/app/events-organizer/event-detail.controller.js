@@ -265,7 +265,7 @@
           vm.event.perks[vm.indexPerk].tasks.push( data.PerkTask );
           vm.userAuth.sponzorships_like_organizer = $localStorage.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
           userAuthService.updateUserAuth( vm.userAuth );
-          sendNotifications();
+          sendNewTaskNotification( data.PerkTask.title );
           utilsService.resetForm( form );
           vm.hideModalTask();
           utilsService.hideLoad();
@@ -278,12 +278,22 @@
         }
     }
     
-    function sendNotifications() {
+    function sendNewTaskNotification( text ) {
       for (var index = 0; index < vm.event.perks[vm.indexPerk].sponzorship.length; index++) {
         var sponzor_id = vm.event.perks[vm.indexPerk].sponzorship[index].sponzor_id;
-        notificationService.sendNotification({
-          type: 'task',
-          idModel: vm.event.id
+        notificationService.sendNewTaskOrganizer({
+          text: text,
+          modelId: vm.event.id
+        }, sponzor_id);
+      }
+    }
+    
+    function sendUpdateTaskNotification( text ) {
+      for (var index = 0; index < vm.event.perks[vm.indexPerk].sponzorship.length; index++) {
+        var sponzor_id = vm.event.perks[vm.indexPerk].sponzorship[index].sponzor_id;
+        notificationService.sendUpdateTaskOrganizer({
+          text: text,
+          modelId: vm.event.id
         }, sponzor_id);
       }
     }
@@ -333,10 +343,11 @@
       .catch( failed );
 
       function complete( task ){
-        vm.event.perks[vm.indexPerk].tasks[vm.indexTask] = task;
+        
         utilsService.resetForm( form );
         vm.hideModalTask();
-        sendNotifications();
+        vm.event.perks[vm.indexPerk].tasks[vm.indexTask] = task;
+        sendUpdateTaskNotification( task.title );
         utilsService.hideLoad();
       }
 

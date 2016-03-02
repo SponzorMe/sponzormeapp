@@ -82,12 +82,16 @@
           var notification = {
             text: sponzor.event.title,
             link: '#/sponzors/sponzoring',
-            type: 'sponsorship',
-            idModel: sponzorship.id
+            modelId: sponzorship.id
           };
-          notificationService.sendNotification(notification, sponzorship.sponzor_id);
           vm.sponzorship.status = sponzorship.status;
-          $ionicHistory.clearCache();
+          
+          if( vm.sponzorship.status == 1){ //Accepted 
+            notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id);
+          }else if( vm.sponzorship.status == 2){//Deny
+            notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id);
+          }
+         
         }
 
         function failed( error ){

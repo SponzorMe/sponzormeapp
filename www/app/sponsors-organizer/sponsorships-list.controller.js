@@ -84,14 +84,21 @@
 
         function complete( sponsorship ){
           utilsService.hideLoad();
+          sponzor.status = sponsorship.status;
+          
           var notification = {
             text: sponzor.event.title,
             link: '#/sponzors/sponzoring',
-            type: 'sponsorship',
-            idModel: sponsorship.id
+            modelId: sponsorship.id
           };
-          notificationService.sendNotification(notification, sponsorship.sponzor_id);
-          sponzor.status = sponsorship.status;
+          
+          if(sponzor.status == 1){ //Accepted 
+            notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id);
+          }else if(sponzor.status == 2){//Deny
+            notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id);
+          }
+         
+          
         }
 
         function failed( error ){

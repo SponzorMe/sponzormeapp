@@ -227,7 +227,6 @@
             disableAnimate: false,
             disableBack: true
           });
-          notificationService.sendEventsChanged();
           $ionicHistory.clearCache().then(function() {
             $state.go("organizer.events.list");
           });

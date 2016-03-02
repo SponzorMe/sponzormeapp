@@ -99,10 +99,9 @@
           var notification = {
             text: vm.event.title,
             link: '#/organizers/sponzors',
-            type: 'sponsorship',
-            idModel: newSponsorship.id
+            modelId: newSponsorship.id,
           };
-          notificationService.sendNotification(notification, vm.event.user_organizer.id);
+          notificationService.sendNewSponsorship(notification, vm.event.user_organizer.id);
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_sponsor_it"));
         }
 
