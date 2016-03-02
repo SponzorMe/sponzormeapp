@@ -10,19 +10,13 @@
         </div>
       </div>
     </div>
-    <div class="card notification">
+    <div class="card notification" ng-repeat="notification in list.notifications | orderBy: '-date'">
       <a class="item item-thumbnail-left notification-sponsors" href="#/organizer/sponsorships">
         <i class="icon ion-flag item-image"></i>
-        <h2>Nueva tarea</h2>
-        <p>Se ha cieado</p>
-        <span class="time">{{ list.time | humanize }}</span>
+        <h2>{{ notification.title | limitTo : 50}}</h2>
+        <p>{{ notification.text | limitTo : 100}}</p>
+        <span class="time" am-time-ago="notification.date"></span>
       </a>
-    </div>
-    <div class="card" ng-repeat="notification in list.notifications | filter: {read: false} | orderBy: '-date'">
-      <div class="item item-text-wrap">
-        {{ notification | json }}
-        This is a basic Card which contains an item that has wrapping text.
-      </div>
     </div>
     
   </ion-content>

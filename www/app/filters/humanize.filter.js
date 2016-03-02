@@ -9,7 +9,9 @@
   
   function humanizeFilter() {
     return function( time ){
-     return moment.duration(-time, "hours").humanize(true); 
+      console.log(time);
+      console.log(new Date(time));
+     return moment.duration(new Date(time),'years').humanize(true); 
     }
   }
 })();
