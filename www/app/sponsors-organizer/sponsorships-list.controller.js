@@ -82,14 +82,16 @@
         .then( complete )
         .catch( failed );
 
-        function complete( sponzorRta ){
+        function complete( sponsorship ){
           utilsService.hideLoad();
           var notification = {
             text: sponzor.event.title,
-            link: '#/sponzors/sponzoring'
+            link: '#/sponzors/sponzoring',
+            type: 'sponsorship',
+            idModel: sponsorship.id
           };
-          notificationService.sendNotification(notification, sponzorRta.sponzor_id);
-          sponzor.status = sponzorRta.status;
+          notificationService.sendNotification(notification, sponsorship.sponzor_id);
+          sponzor.status = sponsorship.status;
         }
 
         function failed( error ){

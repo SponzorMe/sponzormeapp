@@ -281,7 +281,10 @@
     function sendNotifications() {
       for (var index = 0; index < vm.event.perks[vm.indexPerk].sponzorship.length; index++) {
         var sponzor_id = vm.event.perks[vm.indexPerk].sponzorship[index].sponzor_id;
-        notificationService.sendNotification({}, sponzor_id);
+        notificationService.sendNotification({
+          type: 'task'
+          idModel: vm.event.id
+        }, sponzor_id);
       }
     }
 

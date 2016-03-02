@@ -91,7 +91,6 @@
           vm.userAuth = userAuthService.updateUserAuth( user );
           vm.events = vm.userAuth.events.filter( filterEvents );
           vm.showEmptyState = vm.events.length == 0 ? true : false;
-          console.log(countTasksDone(vm.events).length);
           $rootScope.$broadcast('Menu:count_tasks', countTasksDone(vm.events).length);
         }
 

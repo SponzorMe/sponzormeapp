@@ -98,7 +98,9 @@
           $rootScope.$broadcast('Menu:count_following');
           var notification = {
             text: vm.event.title,
-            link: '#/organizers/sponzors'
+            link: '#/organizers/sponzors',
+            type: 'sponsorship',
+            idModel: newSponsorship.id
           };
           notificationService.sendNotification(notification, vm.event.user_organizer.id);
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_sponsor_it"));

@@ -81,7 +81,9 @@
           utilsService.hideLoad();
           var notification = {
             text: sponzor.event.title,
-            link: '#/sponzors/sponzoring'
+            link: '#/sponzors/sponzoring',
+            type: 'sponsorship',
+            idModel: sponzorship.id
           };
           notificationService.sendNotification(notification, sponzorship.sponzor_id);
           vm.sponzorship.status = sponzorship.status;
