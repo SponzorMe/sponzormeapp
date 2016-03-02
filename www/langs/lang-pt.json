@@ -79,6 +79,24 @@
       "logout": "Sair",
       "comunity": "Comunidade"
   },
+  "NOTIFICATIONS":{
+      "newSponsorship_title": "Wow, New sponsorship",
+      "newSponsorship_text": "You have a new sponsorship for TEXT",
+      "acceptSponsorship_title": "Sponsorship accepted, yeah!",
+      "acceptSponsorship_text": "The sponsorship for TEXT is accepted",
+      "rejectSponsorship_title": "Sponsorship reject",
+      "rejectSponsorship_text": "The sponsorship for TEXT is reject",
+      "newTaskOrganizer_title": "New task",
+      "newTaskOrganizer_text": "The task TEXT is new",
+      "updateTaskOrganizer_title": "Update task",
+      "updateTaskOrganizer_text": "The task TEXT is update",
+      "doneTaskOrganizer_title": "Task done",
+      "doneTaskOrganizer_text": "The task TEXT is done",
+      "newEvent_title": "Cool, new event",
+      "newEvent_text": "The event TEXT is new, view more!",
+      "updateEvent_title": "Event is update",
+      "updateEvent_text": "The event TEXT is update"
+    },
   "SETTINGSUSER":{
       "info_title": "Meu Perfil",
       "form_label1": "Nome Completo",
