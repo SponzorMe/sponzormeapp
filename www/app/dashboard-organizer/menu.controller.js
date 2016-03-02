@@ -16,10 +16,11 @@
     '$localStorage',
     '$rootScope',
     '$ionicHistory',
-    'userAuthService'
+    'userAuthService',
+    'notificationService'
   ];
 
-  function MenuOrganizerCtrl( $state, $localStorage, $rootScope, $ionicHistory, userAuthService ) {
+  function MenuOrganizerCtrl( $state, $localStorage, $rootScope, $ionicHistory, userAuthService, notificationService ) {
 
     var vm = this;
     //Attributes
@@ -27,6 +28,7 @@
     vm.count_events = 0;
     vm.count_sponsors = 0;
     vm.count_tasks = 0;
+    vm.notifications = []; 
     //Funcions
     vm.logout = logout;
 
@@ -49,6 +51,8 @@
       vm.count_events = vm.userAuth.events.filter( filterDate ).length;
       vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
       vm.count_tasks = countTasks().length;
+      
+      vm.notifications = notificationService.getNotifications( vm.userAuth.id );
       
     }
 

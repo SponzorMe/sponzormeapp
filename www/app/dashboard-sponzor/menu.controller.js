@@ -16,10 +16,11 @@
     '$localStorage',
     '$rootScope',
     '$ionicHistory',
-    'userAuthService'
+    'userAuthService',
+    'notificationService'
   ];
 
-  function MenuSponzorCtrl( $state, $localStorage, $rootScope, $ionicHistory, userAuthService ) {
+  function MenuSponzorCtrl( $state, $localStorage, $rootScope, $ionicHistory, userAuthService, notificationService ) {
 
     var vm = this;
     //Attributes
@@ -39,6 +40,7 @@
       vm.count_following = vm.userAuth.sponzorships.filter( filterByPending ).length;
       vm.count_sponsoring = vm.userAuth.sponzorships.filter( filterByAccepted ).length;
       
+      vm.notifications = notificationService.getNotifications( vm.userAuth.id );
     }
 
     function renderCountFollowing(){
