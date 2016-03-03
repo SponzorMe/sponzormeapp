@@ -168,6 +168,11 @@
       "perk_title": "Beneficio",
       "pull_refresh": "Hale para refrescar"
   },
+  "TASKLIST": {
+    "title": "Tareas",
+    "list_empty": "No hay nada aun.",
+    "pull_refresh": "Hale para refrescar"
+  },
   "EVENTFOLLOWING": {
       "title": "Seguinte",
       "list_empty": "Não há eventos ainda.",

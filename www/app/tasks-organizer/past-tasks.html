@@ -1,12 +1,13 @@
-<ion-view view-title="Past Events">
+<ion-view>
+  <ion-nav-title>{{'TASKSLIST.title' | translate}}</ion-nav-title>
   <ion-content>
-    <ion-refresher pulling-text="Pull to refresh" on-refresh="taskList.doRefresh()">
+    <ion-refresher pulling-text="{{'TASKSLIST.pull_refresh' | translate}}" on-refresh="taskList.doRefresh()">
     </ion-refresher>
     <div class="row text-center" ng-show="taskList.events.length == 0 && taskList.showEmptyState">
       <div class="col">
         <div class="empty-states">
           <i class="icon ion-clipboard"></i>
-          <h1>No hay tareas.</h1>
+          <h1>{{'TASKSLIST.list_empty' | translate}}</h1>
         </div>
       </div>
     </div>

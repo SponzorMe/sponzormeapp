@@ -168,6 +168,11 @@
         "perk_title": "Perk",
         "pull_refresh": "Pull to refresh"
     },
+    "TASKLIST": {
+        "title": "Taks",
+        "list_empty": "Nothing new yet",
+        "pull_refresh": "Pull to refresh"
+    },
     "EVENTFOLLOWING": {
         "title": "Following",
         "list_empty": "Nothing new yet",
