@@ -9,9 +9,9 @@
       <div class="tsb-icons">
         <div class="tsb-ic-wrp">
           <ion-scroll direction="x" class="tsb-hscroll">
-            <a>Tasks</a>
-            <a>My Tasks</a>
-            <a>Detail</a>
+            <a>{{"SPONSORSHIPDETAIL.tasks" | translate}}</a>
+            <a>{{"SPONSORSHIPDETAIL.tasks_sponsor" | translate}}</a>
+            <a>{{"SPONSORSHIPDETAIL.detail" | translate}}</a>
           </ion-scroll>
         </div>
       </div>
@@ -23,7 +23,7 @@
                 {{ detail.sponzorship.perk.kind }} - ${{ detail.sponzorship.perk.usd }}
               </ion-item>
               <ion-item ng-show="detail.sponzorship.perk.tasks.length == 0">
-                Nothing new yet.
+                {{"SPONSORSHIPDETAIL.list_empty" | translate}}
               </ion-item>
               <ion-item class="item-icon-left" ng-repeat="task in detail.sponzorship.perk.tasks | filter: {type:0}" ng-class="{done: task.status == 1}">
                 <i class="icon ion-checkmark"></i>
@@ -39,7 +39,7 @@
               <div class="col">
                 <div class="empty-states">
                   <i class="icon ion-android-checkmark-circle"></i>
-                  <h1>Nothing new yet.</h1>
+                  <h1>{{"SPONSORSHIPDETAIL.list_empty" | translate}}</h1>
                 </div>
               </div>
             </div>
@@ -64,12 +64,12 @@
               <ion-item class="item-body">
                 <strong>{{ detail.sponzorship.event.title }}</strong>
               </ion-item>
-              <ion-item class="item-divider">Start Day</ion-item>
+              <ion-item class="item-divider">{{"SPONSORSHIPDETAIL.start_date_divider" | translate}}</ion-item>
               <ion-item class="item-icon-left">
                 <i class="icon ion-clock"></i>
                  {{ detail.sponzorship.event.starts | date: 'MMMM d, y - HH:mm:ss' }}
               </ion-item>
-              <ion-item class="item-divider">End Day</ion-item>
+              <ion-item class="item-divider">{{"SPONSORSHIPDETAIL.end_date_divider" | translate}}</ion-item>
               <ion-item class="item-icon-left">
                 <i class="icon ion-clock"></i>
                 {{ detail.sponzorship.event.ends | date: 'MMMM d, y - HH:mm:ss' }}
@@ -79,7 +79,7 @@
                 {{ detail.sponzorship.event.description }}
               </ion-item>
               <ion-item class="item-divider">
-                Organizer
+                {{"SPONSORSHIPDETAIL.organanizer_divider" | translate}}
               </ion-item>
               <ion-item class="item-avatar">
                 <img ng-src="{{ detail.sponzorship.organizer.image }}">

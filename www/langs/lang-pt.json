@@ -164,7 +164,9 @@
       "list_empty": "Não há eventos ainda.",
       "button_create": "Criar novo evento agora",
       "event_list_tab": "Eventos",
-      "past_events_tab": "Eventos Pasados"
+      "past_events_tab": "Eventos Pasados",
+      "perk_title": "Beneficio",
+      "pull_refresh": "Hale para refrescar"
   },
   "EVENTFOLLOWING": {
       "title": "Seguinte",
@@ -172,7 +174,9 @@
       "button_search": "Procurar eventos...",
       "button_accepted": "Aceito",
       "button_rejected": "Rejeitado",
-      "button_more": "Ver eventos"
+      "button_more": "Ver eventos",
+      "perk_title": "Beneficio",
+      "pull_refresh": "Hale para refrescar"
   },
   "EVENTSPONZORING": {
       "title": "Patrocinando",
@@ -180,7 +184,9 @@
       "button_search": "Procurar eventos...",
       "button_accepted": "Aceito",
       "button_rejected": "Rejeitado",
-      "button_more": "Ver eventos"
+      "button_more": "Ver eventos",
+      "perk_title": "Beneficio",
+      "pull_refresh": "Hale para refrescar"
   },
   "SPONZORLIST": {
     "title": "Patrocinadores",
@@ -222,8 +228,18 @@
       "event_type_label": "Tipo de evento",
       "perk_label": "Beneficios"
   },
+  "SPONSORSHIPDETAIL": {
+    "task": "Tareas",
+    "tasks_sponsor": "Mis tareas",
+    "detail": "Detalle",
+    "list_empty": "No hay ninguno aún.",
+    "start_date_divider": "Fecha de inicio",
+    "end_date_divider": "Fecha de finalización",
+    "organizer_divider": "Organizador"
+  },
   "EVENTDETAIL":{
     "detail_title": "Detalle",
+    "perks_title": "Beneficios",
     "sponsorships_title": "Patrocinadores",
     "tasks_title": "Tareas",
     "organizer_divider": "Organizador",
@@ -248,7 +264,11 @@
     "accept_option": "Aceptar",
     "reject_option": "Rechazar",
     "view_detail_option": "Ver detalle",
-    "cancel_option": "Cancelar"
+    "cancel_option": "Cancelar",
+    "sponsor_it_button": "Patrocinar!",
+    "sponsor_it_title": "Patrocinar!",
+    "cause_label": "Causa",
+    "cause_placeholder": "Causa"
   },
   "ADDPERK":{
     "title": "New sponsorship type",

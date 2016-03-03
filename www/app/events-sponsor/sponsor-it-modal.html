@@ -1,6 +1,6 @@
 <ion-modal-view>
-  <ion-header-bar align-title="center">
-    <h1 class="title">Sponzor it!</h1>
+  <ion-header-bar class="bar-positive" align-title="center">
+    <h1 class="title">{{"EVENTDETAIL.sponsor_it_title" | translate}}</h1>
     <div class="buttons">
       <a class="button button-icon icon ion-close-circled" ng-click="eventDetail.closeModalSponsorIt()"></a>
     </div>
@@ -12,19 +12,19 @@
           {{ eventDetail.newSponsorIt.perk.kind }} - ${{ eventDetail.newSponsorIt.perk.usd }}
         </ion-item>
         <label class="item item-input item-floating-label">
-          <span class="input-label">Cause:</span>
+          <span class="input-label">{{"EVENTDETAIL.cause_label" | translate}}:</span>
           <textarea 
-          placeholder="Cause" 
+          placeholder="{{'EVENTDETAIL.cause_placeholder' | translate}}" 
           ng-model="eventDetail.newSponsorIt.cause" 
           required></textarea>
         </label>
       </ion-list>
       <div class="row">
         <div class="col">
-          <button class="button button-block" type="button" ng-click="eventDetail.closeModalSponsorIt()">Cancel</button>
+          <button class="button button-block" type="button" ng-click="eventDetail.closeModalSponsorIt()">{{"EVENTDETAIL.cancel" | translate}}</button>
         </div>
         <div class="col">
-          <button class="button button-block button-positive" type="submit" ng-disabled="FormSponsorIt.$invalid">Sponsor it!!</button>
+          <button class="button button-block button-positive" type="submit" ng-disabled="FormSponsorIt.$invalid">{{"EVENTDETAIL.sponsor_it_button" | translate}}</button>
         </div>
       </div>
     </form>

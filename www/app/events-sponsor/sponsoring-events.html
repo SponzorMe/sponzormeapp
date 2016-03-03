@@ -1,6 +1,7 @@
-<ion-view view-title="{{'EVENTSPONZORING.title' | translate}}">
+<ion-view>
+  <ion-nav-title>{{'EVENTSPONZORING.title' | translate}}</ion-nav-title>
   <ion-content>
-    <ion-refresher pulling-text="Pull to refresh" on-refresh="sponzoring.doRefresh()">
+    <ion-refresher pulling-text="{{'EVENTSPONZORING.pull_refresh' | translate}}" on-refresh="sponzoring.doRefresh()">
     </ion-refresher>
     <div class="row text-center" ng-show="sponzoring.events.length == 0 && sponzoring.showEmptyState">
       <div class="col">
@@ -18,7 +19,7 @@
         <i class="icon ion-checkmark"></i>
         <p>
           {{ sponzorship.cause | limitTo:40 }}... </br> 
-          <strong>Perk:</strong> {{ sponzorship.perk.kind }} </br> 
+          <strong>{{'EVENTSPONZORING.perk_title' | translate}}:</strong> {{ sponzorship.perk.kind }} </br> 
           {{sponzorship.event.title}} </br> 
           {{sponzorship.event.starts | date: 'MMMM d, y'}} - {{sponzorship.event.ends | date: 'MMMM d, y'}}
         </p>

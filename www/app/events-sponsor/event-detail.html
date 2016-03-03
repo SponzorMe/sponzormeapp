@@ -5,9 +5,9 @@
       <div class="tsb-icons">
         <div class="tsb-ic-wrp">
           <ion-scroll direction="x" class="tsb-hscroll">
-            <a>Detail</a>
-            <a>Perks</a>
-            <a>Sponsors</a>
+            <a>{{"EVENTDETAIL.detail_title" | translate}}</a>
+            <a>{{"EVENTDETAIL.perks_title" | translate}}</a>
+            <a>{{"EVENTDETAIL.sponsorships_title" | translate}}</a>
           </ion-scroll>
         </div>
       </div>
@@ -18,12 +18,12 @@
             	<ion-item class="item-body">
 						  	<strong>{{ eventDetail.event.title }}</strong>
 						  </ion-item>
-            	<ion-item class="item-divider">Start Day</ion-item>
+            	<ion-item class="item-divider">{{"EVENTDETAIL.start_date_divider" | translate}}</ion-item>
               <ion-item class="item-icon-left">
                 <i class="icon ion-clock"></i>
                  {{ eventDetail.event.starts | date: 'MMMM d, y - HH:mm:ss' }}
               </ion-item>
-              <ion-item class="item-divider">End Day</ion-item>
+              <ion-item class="item-divider">{{"EVENTDETAIL.end_date_divider" | translate}}</ion-item>
               <ion-item class="item-icon-left">
                 <i class="icon ion-clock"></i>
                 {{ eventDetail.event.ends | date: 'MMMM d, y - HH:mm:ss' }}
@@ -33,19 +33,19 @@
                 <span ng-bind-html="eventDetail.event.description"></span>
 						  </ion-item>
 						  <ion-item class="item-divider">
-						    Organizer
+						    {{"EVENTDETAIL.organizer_divider" | translate}}
 						  </ion-item>
             	<ion-item class="item-avatar">
 						    <img ng-src="{{ eventDetail.event.user_organizer.image }}">
 						    <h2>{{ eventDetail.event.user_organizer.name }}</h2>
 						    <p>{{ eventDetail.event.user_organizer.company }}</p>
 						  </ion-item>
-						  <ion-item class="item-divider">Category</ion-item>
+						  <ion-item class="item-divider">{{"EVENTDETAIL.category_divider" | translate}}</ion-item>
 						  <ion-item class="item-icon-left">
 						  	<i class="icon ion-pin"></i>
 						     {{ eventDetail.event.category.title }}
 						  </ion-item>
-						  <ion-item class="item-divider">Event Type</ion-item>
+						  <ion-item class="item-divider">{{"EVENTDETAIL.event_type_divider" | translate}}</ion-item>
 						  <ion-item class="item-icon-left">
                 <i class="icon ion-quote"></i>
                  {{ eventDetail.event.type.name }}
@@ -59,7 +59,7 @@
               <div class="col">
                 <div class="empty-states">
                   <i class="icon ion-android-checkmark-circle"></i>
-                  <h1>No hay perks.</h1>
+                  <h1>{{"EVENTDETAIL.list_empty" | translate}}</h1>
                 </div>
               </div>
             </div>
@@ -77,7 +77,7 @@
               </ion-item>
               <ion-item ng-show="!perk.already">
                 <button ng-show="!perk.already" type="button" class="button button-block button-positive" ng-click="eventDetail.createSponsorIt(perk)">
-                  Sponsor it!!
+                  {{"EVENTDETAIL.sponsor_it_button" | translate}}
                 </button>
               </ion-item>
               <ion-item ng-show="perk.already" class="item-icon-right">
@@ -97,7 +97,7 @@
               <div class="col">
                 <div class="empty-states">
                   <i class="icon ion-flag"></i>
-                  <h1>No hay sponsors.</h1>
+                  <h1>{{"EVENTDETAIL.list_empty" | translate}}</h1>
                 </div>
               </div>
             </div>

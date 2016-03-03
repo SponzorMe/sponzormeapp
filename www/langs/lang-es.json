@@ -164,7 +164,9 @@
       "list_empty": "No hay eventos aun.",
       "button_create": "Crear nuevo evento ahora",
       "event_list_tab": "Eventos",
-      "past_events_tab": "Eventos Pasados"
+      "past_events_tab": "Eventos Pasados",
+      "perk_title": "Beneficio",
+      "pull_refresh": "Hale para refrescar"
   },
   "EVENTFOLLOWING": {
       "title": "Siguiendo",
@@ -172,7 +174,9 @@
       "button_search": "Buscar eventos...",
       "button_accepted": "Aceptado",
       "button_rejected": "Rechazado",
-      "button_more": "Ver evento"
+      "button_more": "Ver evento",
+      "perk_title": "Beneficio",
+      "pull_refresh": "Hale para refrescar"
   },
   "EVENTSPONZORING": {
       "title": "Patrocinando",
@@ -180,7 +184,9 @@
       "button_search": "Buscar eventos...",
       "button_accepted": "Aceptado",
       "button_rejected": "Rechazado",
-      "button_more": "Ver evento"
+      "button_more": "Ver evento",
+      "perk_title": "Beneficio",
+      "pull_refresh": "Hale para refrescar"
   },
   "SPONZORLIST": {
       "title": "Patrocinadores",
@@ -223,8 +229,18 @@
       "perk_label": "Beneficios",
       "create_perk_button": "Nuevo Beneficio"
   },
+  "SPONSORSHIPDETAIL": {
+    "task": "Tareas",
+    "tasks_sponsor": "Mis tareas",
+    "detail": "Detalle",
+    "list_empty": "No hay ninguno aún.",
+    "start_date_divider": "Fecha de inicio",
+    "end_date_divider": "Fecha de finalización",
+    "organizer_divider": "Organizador"
+  },
   "EVENTDETAIL":{
     "detail_title": "Detalle",
+    "perks_title": "Beneficios",
     "sponsorships_title": "Patrocinadores",
     "tasks_title": "Tareas",
     "organizer_divider": "Organizador",
@@ -248,7 +264,11 @@
     "accept_option": "Aceptar",
     "reject_option": "Rechazar",
     "view_detail_option": "Ver detalle",
-    "cancel_option": "Cancelar"
+    "cancel_option": "Cancelar",
+    "sponsor_it_button": "Patrocinar!",
+    "sponsor_it_title": "Patrocinar!",
+    "cause_label": "Causa",
+    "cause_placeholder": "Causa"
   },
   "ADDPERK":{
       "title": "Nuevo tipo de patronicio",

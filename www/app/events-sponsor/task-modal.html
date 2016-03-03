@@ -1,6 +1,6 @@
 <ion-modal-view>
   <ion-header-bar class="bar-positive" align-title="center">
-    <h1 class="title">Add Task</h1>
+    <h1 class="title">{{'ADDTASK.title' | translate}}</h1>
     <div class="buttons" ng-show="!detail.isNewTask">
       <a class="button button-icon icon ion-close-circled" ng-click="detail.hideModalTask()"></a>
     </div>
@@ -9,48 +9,52 @@
     <form name="taskForm" novalidate ng-submit="taskForm.$valid && detail.submitTask( taskForm )">
       <ion-list type="card">  
         <ion-item class="item-divider">
-          Add Task
+          {{'ADDTASK.title' | translate}}
         </ion-item>
         <!-- Title  -->
-        <label class="item item-input" ng-class="{ 'has-error' : taskForm.title.$invalid && taskForm.$submitted }">
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : taskForm.title.$invalid && taskForm.$submitted }">
+          <span class="input-label">{{'ADDTASK.task_title_label' | translate}}</span>
           <input 
           name="title" 
           type="text" 
-          placeholder='Task' 
+          placeholder='{{"ADDTASK.task_title_placeholder" | translate}}' 
           ng-model="detail.sponsorTask.task.title"
           ng-minlength="5"
           ng-maxlength="30"
           required>
         </label>
         <div class="form-errors" ng-messages="taskForm.title.$error" ng-if="taskForm.$invalid && taskForm.$submitted">
-          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> Es requerido</div>
-          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> Muy pequeño</div>
-          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> Muy largo</div>
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addtask_error_title_required" | translate}}</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addtask_error_title_min" | translate}}</div>
+          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addtask_error_title_max" | translate}}</div>
         </div>
         <!-- Description  -->
-        <label class="item item-input" ng-class="{ 'has-error' : taskForm.txttitle.$invalid && taskForm.$submitted }">
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : taskForm.txttitle.$invalid && taskForm.$submitted }">
+          <span class="input-label">{{'ADDTASK.task_description_placeholder' | translate}}</span>
           <textarea 
           name="description" 
-          placeholder="Description"
+          placeholder="{{'ADDTASK.task_description_placeholder' | translate}}" 
           ng-model="detail.sponsorTask.task.description" 
+          ng-minlength="5"
           required
           ></textarea>
         </label>
         <div class="form-errors" ng-messages="taskForm.description.$error" ng-if="taskForm.$invalid && taskForm.$submitted">
-          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> Es requerido</div>
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addtask_error_description_required" | translate}}</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addtask_error_description_min" | translate}}</div>
         </div>
         <!-- Done -->
-        <ion-toggle ng-show="!detail.isNewTask" ng-model="detail.sponsorTask.task.status" toggle-class="toggle-positive">Done?</ion-toggle>
+        <ion-toggle ng-show="!detail.isNewTask" ng-model="detail.sponsorTask.task.status" toggle-class="toggle-positive">{{'ADDTASK.task_done_label' | translate}}</ion-toggle>
       </ion-list>
       <div class="row">
         <div class="col col-50" ng-show="!detail.isNewTask">
-          <button class="button button-block" type="button" ng-click="detail.deleteTask()">Delete</button>
+          <button class="button button-block" type="button" ng-click="detail.deleteTask()">{{'ADDTASK.delete_button' | translate}}</button>
         </div>
         <div class="col col-50" ng-show="detail.isNewTask">
-          <button class="button button-block" type="button" ng-click="detail.hideModalTask()">Cancel</button>
+          <button class="button button-block" type="button" ng-click="detail.hideModalTask()">{{'ADDTASK.cancel_button' | translate}}</button>
         </div>
         <div class="col col-50">
-          <button class="button button-block button-positive" type="submit">Save</button>
+          <button class="button button-block button-positive" type="submit">{{'ADDTASK.save_button' | translate}} </button>
         </div>
       </div>
     </form>
