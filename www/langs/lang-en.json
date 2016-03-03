@@ -188,14 +188,13 @@
         "perk_title": "Perk",
         "pull_refresh": "Pull to refresh"
     },
-    "SPONZORLIST": {
-        "title": "Sponsors",
+    "SPONSORSHIPLIST": {
+        "title": "Sponsorships",
         "list_empty": "Nothing new yet.",
         "button_accept": "Accept",
         "button_reject": "Reject",
-        "button_more": "View more",
-        "filter_title": "Filter by events",
-        "filter_all": "All events"
+        "perk_title": "Perk",
+        "pull_refresh": "Pull to refresh"
     },
     "ADDEVENTS":{
         "title": "Add an Event",
@@ -230,13 +229,26 @@
         "create_perk_button": "New perk"
     },
     "SPONSORSHIPDETAIL": {
-      "task": "Tasks",
+      "title": "Sponzorship Detail",
+      "tasks": "Tasks",
       "tasks_sponsor": "My tasks",
       "detail": "Detail",
       "list_empty": "Nothing new yet",
       "start_date_divider": "Start Day",
       "end_date_divider": "End Day",
-      "organizer_divider": "Organizer"
+      "organizer_divider": "Organizer",
+      "sponsor_divider": "Sponsor",
+      "cause_divider": "Cause",
+      "perk_divider": "Perk",
+      "kind": "Kind",
+      "quantity": "Quantity",
+      "event_divider": "Event",
+      "title_event": "title",
+      "description_event": "description",
+      "sponsors_tasks": "Sponsor's tasks",
+      "reject_button": "Reject",
+      "accept_button": "Accept",
+      "button_event": "View event"
     },
     "EVENTDETAIL":{
         "detail_title": "Detail",

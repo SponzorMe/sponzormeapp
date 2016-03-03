@@ -179,23 +179,22 @@
       "pull_refresh": "Hale para refrescar"
   },
   "EVENTSPONZORING": {
-      "title": "Patrocinando",
-      "list_empty": "Não há eventos ainda.",
-      "button_search": "Procurar eventos...",
-      "button_accepted": "Aceito",
-      "button_rejected": "Rejeitado",
-      "button_more": "Ver eventos",
-      "perk_title": "Beneficio",
-      "pull_refresh": "Hale para refrescar"
+    "title": "Patrocinando",
+    "list_empty": "Não há eventos ainda.",
+    "button_search": "Procurar eventos...",
+    "button_accepted": "Aceito",
+    "button_rejected": "Rejeitado",
+    "button_more": "Ver eventos",
+    "perk_title": "Beneficio",
+    "pull_refresh": "Hale para refrescar"
   },
-  "SPONZORLIST": {
+  "SPONSORSHIPLIST": {
     "title": "Patrocinadores",
-    "list_empty": "No hay patrocinadores aun.",
+    "list_empty": "No hay nada aun.",
     "button_accept": "Aceptar",
     "button_reject": "Rechazar",
-    "button_more": "Ver más",
-    "filter_title": "Filtrar por eventos",
-    "filter_all": "Todos los eventos"
+    "perk_title": "Beneficio",
+    "pull_refresh": "Hale para refrescar"
   },
   "ADDEVENTS":{
       "title": "Adicionar um Evento",
@@ -229,13 +228,26 @@
       "perk_label": "Beneficios"
   },
   "SPONSORSHIPDETAIL": {
-    "task": "Tareas",
+    "title": "Detalle del patrocinio",
+    "tasks": "Tareas",
     "tasks_sponsor": "Mis tareas",
     "detail": "Detalle",
     "list_empty": "No hay ninguno aún.",
     "start_date_divider": "Fecha de inicio",
     "end_date_divider": "Fecha de finalización",
-    "organizer_divider": "Organizador"
+    "organizer_divider": "Organizador",
+    "sponsor_divider": "Patrocinador",
+    "cause_divider": "Causa",
+    "perk_divider": "Beneficio",
+    "kind": "Tipo",
+    "quantity": "Cantidad",
+    "event_divider": "Evento",
+    "title_event": "titulo",
+    "description_event": "descripción",
+    "sponsors_tasks": "Tareas del patrocinador",
+    "reject_button": "Rechazar",
+    "accept_button": "Aceptar",
+    "button_event": "Ver evento"
   },
   "EVENTDETAIL":{
     "detail_title": "Detalle",
