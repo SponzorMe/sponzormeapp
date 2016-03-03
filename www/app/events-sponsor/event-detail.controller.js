@@ -45,9 +45,8 @@
     ////////////
 
     function activate(){
-      
       vm.event = _.findWhere(vm.userAuth.events, {id: $stateParams.idEvent});
-      vm.event.perks = preparatePerks( vm.event );
+      vm.event.perks =  vm.event.perks.map( preparatePerks );
 
       $ionicModal.fromTemplateUrl('app/events-sponsor/sponsor-it-modal.html', {
         scope: $scope,
@@ -57,13 +56,10 @@
       });
     }
     
-    function preparatePerks( event ){
-      var perks = event.perks;
-      for (var i = 0; i < perks.length; i++) {
-        perks[i].sponzorship = _.where(event.sponzorship, {perk_id: perks[i].id});
-        perks[i].already = _.findWhere(perks[i].sponzorship , {sponzor_id: vm.userAuth.id});
-      }
-      return perks;
+    function preparatePerks( perk ){
+      perk.sponzorship = _.where(vm.userAuth.sponzorships, {perk_id: perk.id});
+      perk.already = _.findWhere(perk.sponzorship , {sponzor_id: vm.userAuth.id});
+      return perk;
     }
 
     function filterByTypePerk( task ){
@@ -92,10 +88,8 @@
         function complete( newSponsorship ){
           vm.closeModalSponsorIt();
           
-          vm.event.sponzorships.push( newSponsorship );
-          vm.event.perks = preparatePerks( vm.event );
-          
           vm.userAuth.sponzorships.push( newSponsorship );
+          vm.event.perks = vm.event.perks.map( preparatePerks );
           userAuthService.updateUserAuth( vm.userAuth );
           
           $rootScope.$broadcast('FollowEventsController:getSponzorships');

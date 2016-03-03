@@ -110,19 +110,20 @@
       notificationForMe();
     }
     
-    function notificationForMe(params) {
+    function notificationForMe() {
       var url =  path + 'notifications/'+ $localStorage.userAuth.id;
       var reference =  new Firebase( url );
       reference.on('child_added', listener);
       
       function listener( snapshot ){
+        console.log("ADD listener");
         var current = snapshot.val();
-        console.log(current.date);
         if($localStorage.lastUpdate < current.date){
           userService.home( $localStorage.userAuth.id )
           .then(complete);
           
           function complete( user ){
+            console.log("HOME BY FIREBASE");
             var userAuth = userAuthService.updateUserAuth( user );
             if(userAuth.type == 0){ //Is an organizer
               $rootScope.$broadcast('SponsorshipsListController:getSponzorships');

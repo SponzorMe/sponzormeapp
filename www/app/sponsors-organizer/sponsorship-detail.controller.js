@@ -80,16 +80,16 @@
         function complete( sponzorship ){
           utilsService.hideLoad();
           var notification = {
-            text: sponzor.event.title,
+            text: vm.sponzorship.event.title,
             link: '#/sponzors/sponzoring',
-            modelId: sponzorship.id
+            modelId: vm.sponzorship.id
           };
           vm.sponzorship.status = sponzorship.status;
           
           if( vm.sponzorship.status == 1){ //Accepted 
-            notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id);
+            notificationService.sendAcceptSponsorship(notification, vm.sponzorship.sponzor_id);
           }else if( vm.sponzorship.status == 2){//Deny
-            notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id);
+            notificationService.sendRejectSponsorship(notification, vm.sponzorship.sponzor_id);
           }
          
         }

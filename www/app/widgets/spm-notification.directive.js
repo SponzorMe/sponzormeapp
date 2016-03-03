@@ -51,8 +51,8 @@
       $scope.read = read;
       
       var events = {
-        'newSponsorship': goSponsorhips,
-        'acceptSponsorship': goSponzoring,
+        'newSponsorship': goDetailOrganizerSponsorhip,
+        'acceptSponsorship': goDetailSponsorSponsorhip,
         'rejectSponsorship': goFollowing,
         'newTaskOrganizer': goDetailSponsorshipOrganizer,
         'updateTaskOrganizer': goDetailSponsorshipOrganizer,
@@ -73,8 +73,16 @@
         });
       }
       
-      function goSponsorhips() {
-        $state.go('organizer.sponsorships');
+      function goDetailOrganizerSponsorhip( id ) {
+        $state.go('organizer.sponsorship', {
+          id: id
+        });
+      }
+      
+      function goDetailSponsorSponsorhip( id ) {
+        $state.go('sponzor.sponsorship', {
+          id: id
+        });
       }
       
       function goSponzoring() {
