@@ -1,10 +1,10 @@
 <ion-view>
-  <ion-nav-title>Edit Event</ion-nav-title>
+  <ion-nav-title>{{"EDITEVENTS.title" | translate}}</ion-nav-title>
   <ion-content>
     <form name="editEventForm" novalidate ng-submit="editEventForm.$valid && editEvent.updateEvent( editEventForm )">
       <ion-list type="card">  
         <ion-item class="item-divider">
-          {{"ADDEVENTS.forgot_title" | translate}}
+          {{"EDITEVENTS.forgot_title" | translate}}
         </ion-item>
         <!-- Image  -->
         <ion-item class="item-image"> 
@@ -16,7 +16,7 @@
           <input 
           name="txttitle" 
           type="text" 
-          placeholder='{{"ADDEVENTS.title_field" | translate}}' 
+          placeholder='{{"EDITEVENTS.title_field" | translate}}' 
           ng-model="editEvent.newEvent.title"
           ng-minlength="5" 
           required>
@@ -31,7 +31,7 @@
           <input 
           name="txtloc" 
           type="text" 
-          placeholder='{{"ADDEVENTS.location_field" | translate}}' 
+          placeholder='{{"EDITEVENTS.location_field" | translate}}' 
           ng-model="editEvent.newEvent.location" 
           g-places-autocomplete 
           ng-minlength="5"
@@ -47,7 +47,7 @@
         <label class="item item-input" ng-class="{ 'has-error' : editEventForm.txtdesc.$invalid && editEventForm.$submitted }">
           <textarea
           name="txtdesc"
-          placeholder='{{"ADDEVENTS.description_field" | translate}}'
+          placeholder='{{"EDITEVENTS.description_field" | translate}}'
           ng-model="editEvent.newEvent.description"
           ng-minlength="5" 
           required>
@@ -64,7 +64,7 @@
           name="txtstart" 
           type="text" 
           readonly  
-          placeholder='{{"ADDEVENTS.starts_field1" | translate}}' 
+          placeholder='{{"EDITEVENTS.starts_field1" | translate}}' 
           ng-model="editEvent.newEvent.start" 
           ng-click="editEvent.clickedStartDate()"
           required>
@@ -78,7 +78,7 @@
           name="txtstarttime" 
           type="text" 
           readonly  
-          placeholder='{{"ADDEVENTS.starts_field2" | translate}}' 
+          placeholder='{{"EDITEVENTS.starts_field2" | translate}}' 
           ng-model="editEvent.newEvent.starttime" 
           ng-click="editEvent.clickedStartTime()"
           required>
@@ -92,7 +92,7 @@
           name="txtend" 
           type="text" 
           readonly 
-          placeholder='{{"ADDEVENTS.ends_field1" | translate}}' 
+          placeholder='{{"EDITEVENTS.ends_field1" | translate}}' 
           ng-model="editEvent.newEvent.end" 
           ng-click="editEvent.clickedEndDate()"
           required>
@@ -106,7 +106,7 @@
           name="txtendtime" 
           type="text" 
           readonly  
-          placeholder='{{"ADDEVENTS.ends_field2" | translate}}' 
+          placeholder='{{"EDITEVENTS.ends_field2" | translate}}' 
           ng-model="editEvent.newEvent.endtime" 
           ng-click="editEvent.clickedEndTime()"
           required>
@@ -115,7 +115,9 @@
           <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_endtime_required" | translate}}</div>
         </div>
         <!-- Access -->
-        <ion-toggle ng-model="editEvent.newEvent.access" toggle-class="toggle-positive">Is it public event?</ion-toggle>
+        <ion-toggle ng-model="editEvent.newEvent.access" toggle-class="toggle-positive">
+          {{"EDITEVENTS.is_public_label" | translate}}
+        </ion-toggle>
         <!-- Access 
         <label class="item item-input item-select">
           <div class="input-label">Access</div>
@@ -124,12 +126,12 @@
         </label>-->
         <!-- Event type -->
         <label class="item item-input item-select">
-          <div class="input-label">Event type</div>
+          <div class="input-label">{{"EDITEVENTS.event_type_label" | translate}}</div>
           <select name="selType" ng-model="editEvent.newEvent.type" ng-options="type.name for type in editEvent.eventTypes">
           </select>
         </label>
 
-        <ion-item class="item-divider">Type of Sponzor</ion-item>
+        <ion-item class="item-divider">{{"EDITEVENTS.perk_label" | translate}}</ion-item>
         <ion-item ng-repeat="perk in editEvent.newEvent.perks" ng-click="editEvent.editPerk( perk )" class="item-icon-right">
           {{ perk.kind }} - {{ perk.usd }}
           <i class="icon ion-edit"></i>
@@ -137,7 +139,7 @@
          
         <div class="padding">
           <button type="button" class="button button-block button-positive" ng-click="editEvent.createPerk()">
-            New Sponzor
+            {{"EDITEVENTS.create_perk_button" | translate}}
           </button>
         </div>
         <input
@@ -154,7 +156,7 @@
 
       <div class="padding">
          <button type="submit" class="button button-block button-positive">
-          Save Event
+          {{"EDITEVENTS.button_message" | translate}}
         </button>
       </div>
     </form>

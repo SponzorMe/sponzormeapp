@@ -129,7 +129,7 @@
     function openOptionsSponsorship( sponsorship ){
       vm.sponsorshipSelected = sponsorship;
       popupOptionsSponsorship = $ionicPopup.show({
-        title: "Options",
+        title: $translate.instant("EVENTDETAIL.options_title"),
         templateUrl: "app/events-organizer/options-sponsorship.html",
         scope: $scope,
       });
@@ -162,16 +162,15 @@
 
     /**/
     function showActionSheet(){
-
       hideSheet = $ionicActionSheet.show({
         buttons: [
-          { text: '<i class="icon ion-edit"></i> Edit event' },
-          { text: '<i class="icon ion-share"></i> <b>Share</b> This' },
-          { text: '<i class="icon ion-calendar"></i> Add to calendar' }
+          { text: '<i class="icon ion-edit"></i> ' + $translate.instant("EVENTDETAIL.edit_event") },
+          { text: '<i class="icon ion-share"></i> <b> ' + $translate.instant("EVENTDETAIL.share") + ' </br>' },
+          { text: '<i class="icon ion-calendar"></i> ' + $translate.instant("EVENTDETAIL.add_calendar") }
         ],
-        destructiveText: '<i class="icon ion-trash-a"></i> Delete event',
-        titleText: 'Options',
-        cancelText: '<i class="icon ion-close"></i> Cancel',
+        destructiveText: '<i class="icon ion-trash-a"></i> ' + $translate.instant("EVENTDETAIL.delete_event"),
+        titleText: $translate.instant("EVENTDETAIL.options"),
+        cancelText: '<i class="icon ion-close"></i> ' + $translate.instant("EVENTDETAIL.cancel"),
         buttonClicked: function(index) {
           vm.optionsActionSheet[index]();
           return true;

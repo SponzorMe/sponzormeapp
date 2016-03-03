@@ -75,6 +75,7 @@
       "tasks": "Listas de tarefas",
       "invite": "Convide seu amigo",
       "settings": "Configuração",
+      "notifications": "Notificaciones",
       "profile": "Meu Perfil",
       "logout": "Sair",
       "comunity": "Comunidade"
@@ -161,7 +162,9 @@
   "EVENTLIST": {
       "title": "Eventos",
       "list_empty": "Não há eventos ainda.",
-      "button_create": "Criar novo evento agora"
+      "button_create": "Criar novo evento agora",
+      "event_list_tab": "Eventos",
+      "past_events_tab": "Eventos Pasados"
   },
   "EVENTFOLLOWING": {
       "title": "Seguinte",
@@ -189,6 +192,7 @@
     "filter_all": "Todos los eventos"
   },
   "ADDEVENTS":{
+      "title": "Adicionar um Evento",
       "forgot_title" : "Adicionar um Evento",
       "title_field" : "Título",
       "location_field" : "Localização",
@@ -197,22 +201,76 @@
       "starts_field2" : "Hora de início",
       "ends_field1" : "data de finalização",
       "ends_field2" : "Hora de finalização",
-      "button_message" : "Adicionar Evento"
+      "button_message" : "Adicionar Evento",
+      "is_public_label": "¿Es un evento publico?",
+      "event_type_label": "Tipo de evento",
+      "perk_label": "Beneficios",
+      "create_perk_button": "Nuevo Beneficio"
+  },
+  "EDITEVENTS":{
+      "title": "Editar um Evento",
+      "forgot_title" : "Editar um Evento",
+      "title_field" : "Título",
+      "location_field" : "Localização",
+      "description_field" : "Descrição",
+      "starts_field1" : "Data de iniciação",
+      "starts_field2" : "Hora de início",
+      "ends_field1" : "data de finalização",
+      "ends_field2" : "Hora de finalização",
+      "button_message" : "Actualizar Evento",
+      "is_public_label": "¿Es un evento publico?",
+      "event_type_label": "Tipo de evento",
+      "perk_label": "Beneficios"
   },
   "EVENTDETAIL":{
-      "list_perk_task_empty": "No hay ninguno aún.",
-      "status_accept": "Solicitud aceptada.",
-      "status_reject": "Solicitud rechazada.",
-      "status_pending": "Solicitud pendiente."
+    "detail_title": "Detalle",
+    "sponsorships_title": "Patrocinadores",
+    "tasks_title": "Tareas",
+    "organizer_divider": "Organizador",
+    "category_divider": "Categoria",
+    "event_type_divider": "Tipo de evento",
+    "perk_divider": "Beneficio",
+    "list_empty": "No hay ninguno aún.",
+    "edit_event": "Editar evento",
+    "share": "Compartir",
+    "add_calendar": "Agregar al calendario",
+    "options": "Opciones",
+    "delete_event": "Eliminar evento",
+    "cancel": "Cancelar",
+    "list_perk_task_empty": "No hay ninguno aún.",
+    "status_accept": "Solicitud aceptada.",
+    "status_reject": "Solicitud rechazada.",
+    "status_pending": "Solicitud pendiente.",
+    "create_perk_button": "Nuevo Beneficio",
+    "start_date_divider": "Fecha de inicio",
+    "end_date_divider": "Fecha de finalización",
+    "options_title": "Options",
+    "accept_option": "Aceptar",
+    "reject_option": "Rechazar",
+    "view_detail_option": "Ver detalle",
+    "cancel_option": "Cancelar"
   },
-  "ADDSPONSORSHIPTYPE":{
-    "title": "Nuevo tipo de patrocinio",
-    "type_label": "Tipo de patrocinio",
-    "type_placeholder": "Comida, sitio, camisas y otros",
-    "quantity_label": "Cantidad",
-    "quantity_placeholder": "Cantidad",
-    "price_label": "Precio",
-    "price_placeholder": "Precio"
+  "ADDPERK":{
+    "title": "New sponsorship type",
+    "type_label": "Type of sponsor",
+    "type_placeholder": "Food, drinks, shirts and others",
+    "quantity_label": "Quantity",
+    "quantity_placeholder": "Quantity",
+    "price_label": "Price",
+    "price_placeholder": "Price",
+    "cancel_button": "Cancel",
+    "save_button": "Save"
+  },
+  "ADDTASK":{
+    "title": "Agregar una tarea",
+    "task_title_label": "Titulo",
+    "task_title_placeholder": "Titulo",
+    "task_description_label": "Descripción",
+    "task_description_placeholder": "Descripción",
+    "task_done_label": "¿hecho?",
+    "delete_button": "Eliminar",
+    "cancel_button": "Cancelar",
+    "save_button": "Guardar"
   },
   "ERRORS": {
       "signin_ema_required": "O campo e necessário.",
@@ -256,7 +314,6 @@
       "addeventsform_starttime_required" : "O campo e necessário.",
       "addeventsform_enddate_required" : "O campo e necessário.",
       "addeventsform_endtime_required" : "O campo e necessário.",
-      "addeventsform_startdate_required" : "O campo e necessário.",
       "addeventsform_error_tit": "Error",
       "addeventsform_error_mess": "Ops, Algo aconteceu. Tente depois",
       "addeventsform_error_sponsors_empty" : "Você deve ter um tipo de patrocínio para menos.",
@@ -265,7 +322,12 @@
       "addsponsorshiptype_error_quantity_min": "This field is must be  greater than 1.",
       "addsponsorshiptype_error_price_required": "This field is required.",
       "addsponsorshiptype_error_price_min": "This field is must be greater than 1.",
-      "addsponsorshiptype_error_price_max": "This field is must be one is less than 200."
+      "addsponsorshiptype_error_price_max": "This field is must be one is less than 200.",
+      "addtask_error_title_required": "Este campo es requerido.",
+      "addtask_error_title_min": "Este campo debe tener al menos 5 caracteres.",
+      "addtask_error_title_max": "Este campo tener tener menos que 30 caracteres.",
+      "addtask_error_description_required": "Este campo debe tener al menos 5 caracteres.",
+      "addtask_error_description_min": "This field is must be greater than 5."
   },
   "MESSAGES": {
       "loading": "Carregando...",

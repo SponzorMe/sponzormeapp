@@ -1,5 +1,5 @@
 <ion-view>
-  <ion-nav-title>Add Event</ion-nav-title>
+  <ion-nav-title>{{"ADDEVENTS.forgot_title" | translate}}</ion-nav-title>
   <ion-content>
     <form name="addEventForm" novalidate ng-submit="addEventForm.$valid && addEvent.createEvent( addEventForm )">
       <ion-list type="card">  
@@ -118,7 +118,9 @@
           <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_endtime_required" | translate}}</div>
         </div>
         <!-- Access -->
-        <ion-toggle ng-model="addEvent.newEvent.access" toggle-class="toggle-positive">Is it public event?</ion-toggle>
+        <ion-toggle ng-model="addEvent.newEvent.access" toggle-class="toggle-positive">
+          {{"ADDEVENTS.is_public_label" | translate}}
+        </ion-toggle>
         <!-- Access 
         <label class="item item-input item-select">
           <div class="input-label">Access</div>
@@ -127,14 +129,16 @@
         </label>-->
         <!-- Event type -->
         <label class="item item-input item-select">
-          <div class="input-label">Event type</div>
+          <div class="input-label">{{"ADDEVENTS.event_type_label" | translate}}</div>
           <select name="selType" ng-model="addEvent.newEvent.type" ng-options="type.name for type in addEvent.eventTypes" required>
           </select>
         </label>
          <div class="form-errors" ng-messages="addEventForm.selType.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">
           <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_endtime_required" | translate}}</div>
         </div>
-        <ion-item class="item-divider">Type of Sponzor</ion-item>
+        <ion-item class="item-divider">
+          {{"ADDEVENTS.perk_label" | translate}}
+        </ion-item>
         <ion-item ng-repeat="perk in addEvent.newEvent.perks" ng-click="addEvent.editPerk( perk )" class="item-icon-right">
           {{ perk.kind }} - {{ perk.usd }}
           <i class="icon ion-edit"></i>
@@ -142,7 +146,7 @@
          
         <div class="padding">
           <button type="button" class="button button-block button-positive" ng-click="addEvent.createPerk()">
-            New Sponzor
+            {{"ADDEVENTS.create_perk_button" | translate}}
           </button>
         </div>
         <input

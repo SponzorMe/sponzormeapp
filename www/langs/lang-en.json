@@ -61,6 +61,7 @@
         "following": "Following",
         "sponzoring": "Sponzoring",
         "settings": "Settings",
+        "notifications": "Notifications",
         "invite": "Invite your friend",
         "profile": "My Profile",
         "logout": "Logout"
@@ -161,7 +162,9 @@
     "EVENTLIST": {
         "title": "Events",
         "list_empty": "Nothing new yet",
-        "button_create": "Create new event now"
+        "button_create": "Create new event now",
+        "event_list_tab": "Event list",
+        "past_events_tab": "Past events"
     },
     "EVENTFOLLOWING": {
         "title": "Following",
@@ -189,6 +192,7 @@
         "filter_all": "All events"
     },
     "ADDEVENTS":{
+        "title": "Add an Event",
         "forgot_title" : "Add an Event",
         "title_field" : "Title",
         "location_field" : "Location",
@@ -197,22 +201,76 @@
         "starts_field2" : "Time Starts",
         "ends_field1" : "Date Ends",
         "ends_field2" : "Time Ends",
-        "button_message" : "Add Event"
+        "button_message" : "Add Event",
+        "is_public_label": "Is it public event?",
+        "event_type_label": "Event type",
+        "perk_label": "Perks",
+        "create_perk_button": "New perk"
+    },
+    "EDITEVENTS":{
+        "title": "Edit an Event",
+        "forgot_title" : "Edit an Event",
+        "title_field" : "Title",
+        "location_field" : "Location",
+        "description_field" : "Description",
+        "starts_field1" : "Date Starts",
+        "starts_field2" : "Time Starts",
+        "ends_field1" : "Date Ends",
+        "ends_field2" : "Time Ends",
+        "button_message" : "Update Event",
+        "is_public_label": "Is it public event?",
+        "event_type_label": "Event type",
+        "perk_label": "Perks",
+        "create_perk_button": "New perk"
     },
     "EVENTDETAIL":{
+        "detail_title": "Detail",
+        "sponsorships_title": "Sponsorships",
+        "tasks_title": "Tasks",
+        "organizer_divider": "Organizer",
+        "category_divider": "Category",
+        "event_type_divider": "Event type",
+        "perk_divider": "Perk",
+        "list_empty": "Nothing new yet",
+        "edit_event": "Edit event",
+        "share": "Share this",
+        "add_calendar": "Add to calendar",
+        "options": "Options",
+        "delete_event": "Delete event",
+        "cancel": "Cancel",
         "list_perk_task_empty": "Nothing new yet.",
         "status_accept": "Solicitude accepted.",
         "status_reject": "Solicitude reject.",
-        "status_pending": "Solicitude pending."
+        "status_pending": "Solicitude pending.",
+        "start_date_divider": "Start Day",
+        "end_date_divider": "End Day",
+        "options_title": "Options",
+        "accept_option": "Accept",
+        "reject_option": "Reject",
+        "view_detail_option": "View detail",
+        "cancel_option": "Cancel"
     },
-    "ADDSPONSORSHIPTYPE":{
+    "ADDPERK":{
         "title": "New sponsorship type",
         "type_label": "Type of sponsor",
         "type_placeholder": "Food, drinks, shirts and others",
         "quantity_label": "Quantity",
         "quantity_placeholder": "Quantity",
         "price_label": "Price",
-        "price_placeholder": "Price"
+        "price_placeholder": "Price",
+        "cancel_button": "Cancel",
+        "save_button": "Save"
+    },
+    "ADDTASK":{
+      "title": "Add a task",
+      "task_title_label": "Title task",
+      "task_title_placeholder": "Title",
+      "task_description_label": "Description task",
+      "task_description_placeholder": "Description",
+      "task_done_label": "Done?",
+      "delete_button": "Delete",
+      "cancel_button": "Cancel",
+      "save_button": "Save"
     },
     "ERRORS": {
         "signin_ema_required": "This field is required.",
@@ -256,7 +314,6 @@
         "addeventsform_starttime_required" : "This field is required.",
         "addeventsform_enddate_required" : "This field is required.",
         "addeventsform_endtime_required" : "This field is required.",
-        "addeventsform_startdate_required" : "This field is required.",
         "addeventsform_error_tit": "Error",
         "addeventsform_error_mess": "Ops, Something happened. Try later",
         "addeventsform_error_sponsors_empty" : "You must have a sponsorship type to less.",
@@ -265,7 +322,12 @@
         "addsponsorshiptype_error_quantity_min": "This field is must be  greater than 1.",
         "addsponsorshiptype_error_price_required": "This field is required.",
         "addsponsorshiptype_error_price_min": "This field is must be greater than 1.",
-        "addsponsorshiptype_error_price_max": "This field is must be one is less than 200."
+        "addsponsorshiptype_error_price_max": "This field is must be one is less than 200.",
+        "addtask_error_title_required": "This field is required.",
+        "addtask_error_title_min": "This field is must be greater than 5.",
+        "addtask_error_title_max": "This field is must be one is less than 30.",
+        "addtask_error_description_required": "This field is required.",
+        "addtask_error_description_min": "This field is must be greater than 5."
     },
     "MESSAGES": {
         "loading": "Loading...",
