@@ -14,10 +14,11 @@
   HomeOrganizerController.$inject = [
     '$localStorage',
     '$rootScope',
-    'userAuthService'
+    'userAuthService',
+    'notificationService'
   ];
 
-  function HomeOrganizerController( $localStorage, $rootScope, userAuthService ) {
+  function HomeOrganizerController( $localStorage, $rootScope, userAuthService, notificationService ) {
 
     var vm = this;
     //Atributes
@@ -25,20 +26,30 @@
     vm.count_sponsors = 0;
     vm.count_comunity = 0;
     vm.userAuth = userAuthService.getUserAuth();
+    vm.notifications = [];
 
     activate();
     ////////////
 
     function activate(){
+      $rootScope.$on('HomeOrganizerController:count_sponsors', renderCountSponsors);
+      $rootScope.$on('HomeOrganizerController:count_events', renderCountEvents);
+      
       vm.count_events = vm.userAuth.events.filter( filterDate ).length;
       vm.count_comunity = parseInt( vm.userAuth.comunity_size ) || 0;
       vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
-      $rootScope.$on('HomeOrganizerController:count_sponsors', renderCountSponsors);
+      vm.notifications = notificationService.getNotifications( vm.userAuth.id );
+      
     };
     
     function renderCountSponsors() {
       vm.userAuth = userAuthService.getUserAuth();
       vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
+    }
+    
+    function renderCountEvents(){
+      vm.userAuth = userAuthService.getUserAuth();
+      vm.count_events = vm.userAuth.events.filter( filterDate ).length;
     }
     
     function filterDate( item ){
