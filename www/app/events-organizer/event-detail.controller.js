@@ -147,10 +147,23 @@
         .then( complete )
         .catch( failed );
 
-        function complete( sponsorshipRta ){
+        function complete( sponsorship ){
           utilsService.hideLoad();
+          vm.sponsorshipSelected.status = sponsorship.status; 
+          
+          var notification = {
+            text: vm.event.title,
+            link: '#/sponzors/sponzoring',
+            modelId: sponsorship.id
+          };
+          
+          if(sponsorship.status == 1){ //Accepted 
+            notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id);
+          }else if(sponsorship.status == 2){//Deny
+            notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id);
+          }
           closeOptionsSponsorship();
-          vm.sponsorshipSelected.status = sponsorshipRta.status;  
+           
         }
 
         function failed( error ){

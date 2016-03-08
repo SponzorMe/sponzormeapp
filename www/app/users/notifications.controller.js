@@ -28,8 +28,8 @@
     activate();
     ////////////
     function activate() {
-      //vm.notifications = notificationService.getNotifications( vm.userAuth.id );
-      vm.notifications = [
+      vm.notifications = notificationService.getNotifications( vm.userAuth.id );
+      /*vm.notifications = [
         {
           typeNotification: 'newEvent',
           type: 'event',
@@ -93,7 +93,7 @@
           read: false,
           toApp: 'mobileApp'
         },
-      ];
+      ];*/
     }
 
   }
