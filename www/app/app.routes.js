@@ -161,8 +161,6 @@
         }
       })
 
-
-
       .state('organizer.addevent', {
         url: "/addevent",
         views: {
@@ -170,7 +168,8 @@
             templateUrl: "app/events-organizer/add-event.html",
             controller: "AddEventController as addEvent"
           }
-        }
+        },
+        cache: false,
       })
 
       .state('organizer.editevent', {
@@ -180,7 +179,8 @@
             templateUrl: "app/events-organizer/edit-event.html",
             controller: "EditEventController as editEvent"
           }
-        }
+        },
+        cache: false,
       })
 
       .state('organizer.event', {

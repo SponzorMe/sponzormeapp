@@ -74,37 +74,15 @@
       });
       vm.newEvent = _.findWhere(vm.userAuth.events, {id: $stateParams.id});
       vm.indexEvent = _.indexOf(vm.userAuth.events, vm.newEvent);
-      vm.newEvent.start = moment(event.starts).format('YYYY-MM-DD');
-      vm.newEvent.starttime = moment(event.starts).format('HH:mm:ss');
-      vm.newEvent.end = moment(event.ends).format('YYYY-MM-DD');
-      vm.newEvent.endtime = moment(event.ends).format('HH:mm:ss');
+      vm.newEvent.start = moment(vm.newEvent.starts).format('YYYY-MM-DD');
+      vm.newEvent.starttime = moment(vm.newEvent.starts).format('HH:mm:ss');
+      vm.newEvent.end = moment(vm.newEvent.ends).format('YYYY-MM-DD');
+      vm.newEvent.endtime = moment(vm.newEvent.ends).format('HH:mm:ss');
       vm.newEvent.access = vm.newEvent.privacy == '1' ? true : false;
       
       getEventsTypes();
     }
-
-    function getEvent(){
-      utilsService.showLoad();
-      eventService.getEvent( $stateParams.id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( event ){
-          utilsService.hideLoad();
-          vm.newEvent = event;
-          vm.newEvent.start = moment(event.starts).format('YYYY-MM-DD');
-          vm.newEvent.starttime = moment(event.starts).format('HH:mm:ss');
-          vm.newEvent.end = moment(event.ends).format('YYYY-MM-DD');
-          vm.newEvent.endtime = moment(event.ends).format('HH:mm:ss');
-          vm.newEvent.access = vm.newEvent.privacy == '1' ? true : false;
-          getEventsTypes();
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-        }
-    }
-
+    
     /*-------------- DatePickers   --------------*/
 
     function showDatePicker( options ) {
@@ -250,6 +228,13 @@
         function complete( event ) {
           utilsService.hideLoad();
           utilsService.resetForm( form );
+          event = preparateEvent( event );
+          function preparateEvent( item ){
+            item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
+            item.starts = moment(item.starts)._d;
+            item.ends = moment(item.ends)._d;
+            return item;
+          }
           vm.userAuth.events[vm.indexEvent] = event;
           userAuthService.updateUserAuth( vm.userAuth );
           vm.newEvent = {};
@@ -282,8 +267,9 @@
 
         function complete( eventTypes ){
           vm.eventTypes = eventTypes;
+          var idType = vm.newEvent.type.id ?  vm.newEvent.type.id : vm.newEvent.type;
           for (var i = 0; i < vm.eventTypes.length; i++) {
-            if(vm.eventTypes[i].id == vm.newEvent.type.id){
+            if(vm.eventTypes[i].id == idType){
               vm.newEvent.type = vm.eventTypes[i];
               break;
             }
