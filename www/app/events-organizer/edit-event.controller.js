@@ -28,10 +28,11 @@
     '$q',
     '$stateParams',
     'userAuthService',
-    'notificationService'
+    'notificationService',
+    '$rootScope'
   ];
 
-  function EditEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $stateParams, userAuthService, notificationService) {
+  function EditEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $stateParams, userAuthService, notificationService, $rootScope) {
 
     var vm = this;
     vm.indexEvent = -1;
@@ -80,6 +81,7 @@
       vm.newEvent.endtime = moment(vm.newEvent.ends).format('HH:mm:ss');
       vm.newEvent.access = vm.newEvent.privacy == '1' ? true : false;
       
+      $rootScope.hideTabs = '';
       getEventsTypes();
     }
     

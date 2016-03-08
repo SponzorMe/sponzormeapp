@@ -28,10 +28,11 @@
     '$state',
     'notificationService',
     'userAuthService',
-    'userService'
+    'userService',
+    '$rootScope',
   ];
 
-  function AddEventController( $scope, $translate, $localStorage, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $state, notificationService, userAuthService, userService) {
+  function AddEventController( $scope, $translate, $localStorage, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $state, notificationService, userAuthService, userService, $rootScope) {
 
     var vm = this;
     vm.newEvent = {};
@@ -73,6 +74,8 @@
       }).then(function(modal) {
         vm.modalPerk = modal;
       });
+      
+      $rootScope.hideTabs = '';
       
       getEventsTypes();
     }
