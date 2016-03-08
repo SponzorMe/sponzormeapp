@@ -171,7 +171,9 @@
   "TASKLIST": {
     "title": "Tareas",
     "list_empty": "No hay nada aun.",
-    "pull_refresh": "Hale para refrescar"
+    "pull_refresh": "Hale para refrescar",
+    "tasks_list_tab": "Tareas",
+    "past_tasks_tab": "Tareas pasadas"
   },
   "EVENTFOLLOWING": {
       "title": "Seguinte",

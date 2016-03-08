@@ -9,9 +9,9 @@
 
   angular
     .module('app.sponsors-organizer')
-    .controller('SponsorshipsListController', SponsorshipsListController);
+    .controller('SponsorshipsPastEventsController', SponsorshipsPastEventsController);
 
-  SponsorshipsListController.$inject = [
+  SponsorshipsPastEventsController.$inject = [
     '$localStorage',
     'sponsorshipService',
     'userService',
@@ -23,7 +23,7 @@
     'userAuthService'
   ];
 
-  function SponsorshipsListController( $localStorage, sponsorshipService, userService, utilsService, $ionicScrollDelegate, $scope, $rootScope, notificationService, userAuthService) {
+  function SponsorshipsPastEventsController( $localStorage, sponsorshipService, userService, utilsService, $ionicScrollDelegate, $scope, $rootScope, notificationService, userAuthService) {
 
     var vm = this;
     //Atributes
@@ -39,14 +39,14 @@
     ////////////
 
     function activate(){
-      vm.sponsorships = vm.userAuth.sponzorships_like_organizer.filter( filterByDateIsAfter );
+      vm.sponsorships = vm.userAuth.sponzorships_like_organizer.filter( filterByDateIsBefore );
       vm.showEmptyState = vm.sponsorships.length == 0 ? true : false;
       $rootScope.$on('SponsorshipsListController:getSponzorships', getSponzorships);
     }
     
-    function filterByDateIsAfter( item ){
+    function filterByDateIsBefore( item ){
       var today = moment( new Date() ).subtract(1, 'days');
-      return moment(item.event.ends).isAfter( today );
+      return moment(item.event.ends).isBefore( today );
     }
     
     function getSponzorships() {

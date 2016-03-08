@@ -169,9 +169,11 @@
         "pull_refresh": "Pull to refresh"
     },
     "TASKLIST": {
-        "title": "Taks",
+        "title": "Tasks",
         "list_empty": "Nothing new yet",
-        "pull_refresh": "Pull to refresh"
+        "pull_refresh": "Pull to refresh",
+        "tasks_list_tab": "Tasks",
+        "past_tasks_tab": "Past tasks"
     },
     "EVENTFOLLOWING": {
         "title": "Following",

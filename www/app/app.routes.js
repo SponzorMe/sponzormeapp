@@ -115,7 +115,8 @@
         abstract: true,
         views: {
           'menuContent' :{
-            templateUrl: "app/events-organizer/event-list-tabs.html"
+            templateUrl: "app/events-organizer/event-list-tabs.html",
+            controller: "EventsTabsController as tabs"
           }
         },
       })
@@ -197,10 +198,30 @@
         url: "/sponsorships",
         views: {
           'menuContent' :{
+            templateUrl: "app/sponsors-organizer/sponsorships-tabs.html",
+            controller: "SponsorshipsTabsController as tabs"
+          }
+        }
+      })
+      
+      .state('organizer.sponsorships.list', {
+        url: "/list",
+        views: {
+          'tabEventList' :{
             templateUrl: "app/sponsors-organizer/sponsorships-list.html",
             controller: "SponsorshipsListController as list"
           }
-        }
+        },
+      })
+      
+      .state('organizer.sponsorships.past', {
+        url: "/past",
+        views: {
+          'tabPastEvents' :{
+            templateUrl: "app/sponsors-organizer/sponsorships-past-events.html",
+            controller: "SponsorshipsPastEventsController as list"
+          }
+        },
       })
 
       .state('organizer.sponsorship', {
@@ -218,7 +239,8 @@
         abstract: true,
         views: {
           'menuContent' :{
-            templateUrl: "app/tasks-organizer/task-list-tabs.html"
+            templateUrl: "app/tasks-organizer/task-list-tabs.html",
+            controller: "TaskTabsController as tabs"
           }
         },
       })
