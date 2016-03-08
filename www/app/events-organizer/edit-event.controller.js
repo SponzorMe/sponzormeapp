@@ -27,10 +27,11 @@
     'imgurService',
     '$q',
     '$stateParams',
-    'userAuthService'
+    'userAuthService',
+    'notificationService'
   ];
 
-  function EditEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $stateParams, userAuthService) {
+  function EditEventController( $scope, $translate, $localStorage, userService , utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $stateParams, userAuthService, notificationService) {
 
     var vm = this;
     vm.indexEvent = -1;
@@ -257,6 +258,7 @@
             disableBack: true
           });
           $ionicHistory.clearCache().then(function(){
+            notificationService.sendNewEvent();
             $ionicHistory.goBack();
           });
           

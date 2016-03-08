@@ -93,21 +93,34 @@
       sendNotification(notification, to);
     }
     
-    function sendNewEvent(notification, to) {
-      notification.typeNotification = "newEvent";
-      notification.type = "event";
-      sendNotification(notification, to);
+    function sendNewEvent() {
+      var notification = {};
+      notification.date = new Date().getTime();
+      notification.fromApp = 'mobileApp';
+      notification.toApp = 'mobileApp';
+      
+      var url = path + 'notifications/events';
+      var notificationsRef =  $firebaseArray( new Firebase( url ));
+      
+      notificationsRef.$add(notification);
     }
     
-    function sendUpdateEvent(notification, to) {
-      notification.typeNotification = "updateEvent";
-      notification.type = "event";
-      sendNotification(notification, to);
+    function sendUpdateEvent() {
+      var notification = {};
+      notification.date = new Date().getTime();
+      notification.fromApp = 'mobileApp';
+      notification.toApp = 'mobileApp';
+      
+      var url = path + 'notifications/events';
+      var notificationsRef =  $firebaseArray( new Firebase( url ));
+      
+      notificationsRef.$add(notification);
     }
     
     
     function activate() {
       notificationForMe();
+      if($localStorage.userAuth.type == '1') updateEvents();
     }
     
     function notificationForMe() {
@@ -116,14 +129,12 @@
       reference.on('child_added', listener);
       
       function listener( snapshot ){
-        console.log("ADD listener");
         var current = snapshot.val();
         if($localStorage.lastUpdate < current.date){
           userService.home( $localStorage.userAuth.id )
           .then(complete);
           
           function complete( user ){
-            console.log("HOME BY FIREBASE");
             var userAuth = userAuthService.updateUserAuth( user );
             if(userAuth.type == 0){ //Is an organizer
               $rootScope.$broadcast('SponsorshipsListController:getSponzorships');
@@ -137,6 +148,30 @@
               $rootScope.$broadcast('HomeSponzorController:getEvents');
             }
             
+          }
+        }
+        
+      }
+    }
+    
+    function updateEvents() {
+      var url =  path + 'notifications/events'
+      var reference =  new Firebase( url );
+      reference.on('child_added', listener);
+      
+      function listener( snapshot ){
+        var current = snapshot.val();
+        if($localStorage.lastUpdate < current.date){
+          userService.home( $localStorage.userAuth.id )
+          .then(complete);
+          
+          function complete( user ){
+            var userAuth = userAuthService.updateUserAuth( user );
+            $rootScope.$broadcast('FollowEventsController:getSponzorships');
+            $rootScope.$broadcast('Menu:count_following');
+            $rootScope.$broadcast('SponzoringEventsController:getSponzorships');
+            $rootScope.$broadcast('Menu:count_sponsoring');
+            $rootScope.$broadcast('HomeSponzorController:getEvents');
           }
         }
         

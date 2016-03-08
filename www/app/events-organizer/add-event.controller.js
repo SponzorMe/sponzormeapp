@@ -229,6 +229,7 @@
             disableBack: true
           });
           $ionicHistory.clearCache().then(function() {
+            notificationService.sendNewEvent();
             $state.go("organizer.events.list");
           });
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_event_mess"));
@@ -242,10 +243,6 @@
           });
         }
 
-    }
-    
-    function sendNotifications() {
-      //userService.userService
     }
 
     function getEventsTypes(){
