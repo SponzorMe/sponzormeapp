@@ -19,10 +19,11 @@
     '$scope',
     '$rootScope',
     '$ionicModal',
-    'userAuthService'
+    'userAuthService',
+    'notificationService'
   ];
 
-  function TaskListController( $localStorage, perkTaskService , userService, utilsService, $scope, $rootScope, $ionicModal, userAuthService) {
+  function TaskListController( $localStorage, perkTaskService , userService, utilsService, $scope, $rootScope, $ionicModal, userAuthService, notificationService) {
 
     var vm = this;
     //Attributes
@@ -49,7 +50,9 @@
     ////////////
 
     function activate(){
-      vm.events = vm.userAuth.events.filter( filterEvents );
+       vm.events = vm.userAuth.events
+      .filter( filterEvents )
+      .map( preparateEvents );
       vm.showEmptyState = vm.events.length == 0 ? true : false;
       
       $ionicModal.fromTemplateUrl('app/tasks-organizer/task-modal.html', {
@@ -58,6 +61,16 @@
       }).then(function(modal) {
         vm.modalTask = modal;
       });
+    }
+    
+    function preparateEvents( event ){
+      event.perks = event.perks.map( preparatePerks );
+      return event;
+    }
+    
+    function preparatePerks( perk ){
+      perk.sponzorship = _.where(vm.userAuth.sponzorships_like_organizer, {perk_id: perk.id});
+      return perk;
     }
     
     function countTasks( events ) {
@@ -97,6 +110,33 @@
         function failed( error ){
           console.log( error);
         }
+    }
+    
+    function sendNewTaskNotification( text ) {
+      for (var index = 0; index < vm.events[vm.indexEvent].perks[vm.indexPerk].sponzorship.length; index++) {
+        var sponzorship = vm.events[vm.indexEvent].perks[vm.indexPerk].sponzorship[index];
+        notificationService.sendNewTaskOrganizer({
+          text: text,
+          modelId: sponzorship.id
+        }, sponzorship.sponzor_id);
+      }
+    }
+    
+    function sendUpdateTaskNotification( text, done ) {
+      for (var index = 0; index < vm.events[vm.indexEvent].perks[vm.indexPerk].sponzorship.length; index++) {
+        var sponzorship = vm.events[vm.indexEvent].perks[vm.indexPerk].sponzorship[index];
+        if(done){
+          notificationService.sendDoneTaskOrganizer({
+            text: text,
+            modelId: sponzorship.id
+          }, sponzorship.sponzor_id);
+        }else{
+          notificationService.sendUpdateTaskOrganizer({
+            text: text,
+            modelId: sponzorship.id
+          }, sponzorship.sponzor_id);
+        }
+      }
     }
     
     function showModalTask(){
@@ -140,6 +180,7 @@
           utilsService.resetForm( form );
           vm.hideModalTask();
           utilsService.hideLoad();
+          sendNewTaskNotification( data.PerkTask.title );
           $rootScope.$broadcast('Menu:count_tasks', countTasksDone(vm.events).length);
         }
 
@@ -194,8 +235,9 @@
       .catch( failed );
 
       function complete( task ){
-        vm.events[vm.indexEvent].perks[vm.indexPerk].tasks[vm.indexTask] = task;
         utilsService.resetForm( form );
+        sendUpdateTaskNotification( task.title, vm.events[vm.indexEvent].perks[vm.indexPerk].tasks[vm.indexTask].status == 0 && task.status == 1);
+        vm.events[vm.indexEvent].perks[vm.indexPerk].tasks[vm.indexTask] = task;
         vm.hideModalTask();
         utilsService.hideLoad();
         $rootScope.$broadcast('Menu:count_tasks', countTasksDone(vm.events).length);

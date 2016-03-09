@@ -1,6 +1,6 @@
 <ion-modal-view>
   <ion-header-bar class="bar-positive" align-title="center">
-    <h1 class="title">{'ADDTASK.title' | translate}}</h1>
+    <h1 class="title">{{'ADDTASK.title' | translate}}</h1>
     <div class="buttons" ng-show="!addEvent.isNewSponsor">
       <a class="button button-icon icon ion-close-circled" ng-click="taskList.hideModalTask()"></a>
     </div>
@@ -9,7 +9,7 @@
     <form name="TaskForm" novalidate ng-submit="TaskForm.$valid && taskList.submitTask( TaskForm )">
       <ion-list type="card">  
         <ion-item class="item-divider">
-          {'ADDTASK.title' | translate}}
+          {{'ADDTASK.title' | translate}}
         </ion-item>
         <!-- Title  -->
         <label class="item item-input item-floating-label" ng-class="{ 'has-error' : TaskForm.title.$invalid && TaskForm.$submitted }">
