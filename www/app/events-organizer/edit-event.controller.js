@@ -247,6 +247,7 @@
           $ionicHistory.clearCache().then(function(){
             notificationService.sendNewEvent();
             $rootScope.$broadcast('MenuOrganizer:count_events');
+            $rootScope.$broadcast('EventsTabsController:count_events');
             $ionicHistory.goBack();
           });
           

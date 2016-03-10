@@ -139,6 +139,7 @@
             if(userAuth.type == 0){ //Is an organizer
               $rootScope.$broadcast('SponsorshipsListController:getSponzorships');
               $rootScope.$broadcast('MenuOrganizer:count_events');
+              $rootScope.$broadcast('EventsTabsController:count_events');
               $rootScope.$broadcast('MenuOrganizer:count_sponsors');
               $rootScope.$broadcast('MenuOrganizer:count_tasks');
               $rootScope.$broadcast('HomeOrganizerController:count_sponsors');

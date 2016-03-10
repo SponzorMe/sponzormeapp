@@ -234,6 +234,7 @@
           $ionicHistory.clearCache().then(function() {
             notificationService.sendNewEvent();
             $rootScope.$broadcast('MenuOrganizer:count_events');
+            $rootScope.$broadcast('EventsTabsController:count_events');
             $state.go("organizer.events.list");
           });
           $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_event_mess"));

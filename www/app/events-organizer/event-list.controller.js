@@ -48,7 +48,8 @@
           vm.userAuth = userAuthService.updateUserAuth( user );
           vm.events = vm.userAuth.events.filter( filterDate );
           vm.showEmptyState = vm.events.length == 0 ? true : false;
-          $rootScope.$broadcast('Menu:count_events', vm.events.length);
+          $rootScope.$broadcast('MenuOrganizer:count_events');
+          $rootScope.$broadcast('EventsTabsController:count_events');
         }
 
         function failed( error ){
