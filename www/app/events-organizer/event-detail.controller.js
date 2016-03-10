@@ -265,7 +265,7 @@
       vm.isNewTask = false;
       vm.indexPerk = indexPerk; 
       vm.indexTask = indexTask;
-      vm.task = task;
+      vm.task = angular.copy( task );
       vm.task.status = vm.task.status == 1 ? true : false;
       vm.showModalTask();
     }
@@ -303,13 +303,20 @@
       }
     }
     
-    function sendUpdateTaskNotification( text ) {
+    function sendUpdateTaskNotification( text, done ) {
       for (var index = 0; index < vm.event.perks[vm.indexPerk].sponzorship.length; index++) {
         var sponzorship = vm.event.perks[vm.indexPerk].sponzorship[index];
-        notificationService.sendUpdateTaskOrganizer({
-          text: text,
-          modelId: sponzorship.id
-        }, sponzorship.sponzor_id);
+        if(done){
+          notificationService.sendDoneTaskOrganizer({
+            text: text,
+            modelId: sponzorship.id
+          }, sponzorship.sponzor_id);
+        }else{
+          notificationService.sendUpdateTaskOrganizer({
+            text: text,
+            modelId: sponzorship.id
+          }, sponzorship.sponzor_id);
+        }
       }
     }
 
@@ -358,8 +365,8 @@
       .catch( failed );
 
       function complete( task ){
+        sendUpdateTaskNotification( task.title, vm.event.perks[vm.indexPerk].tasks[vm.indexTask].status == 0 && task.status == 1);
         vm.event.perks[vm.indexPerk].tasks[vm.indexTask] = task;
-        sendUpdateTaskNotification( task.title );
         utilsService.resetForm( form );
         vm.hideModalTask();
         utilsService.hideLoad();
