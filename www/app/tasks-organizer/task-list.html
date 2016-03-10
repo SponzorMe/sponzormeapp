@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <ion-list type="card" ng-repeat="(indexEvent, event) in taskList.events | orderBy:'starts' ">
+    <ion-list type="card" ng-repeat="(indexEvent, event) in taskList.events">
       <ion-item class="item-divider">
         {{ event.title }}
       </ion-item>

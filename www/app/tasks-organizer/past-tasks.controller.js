@@ -51,9 +51,11 @@
     ////////////
 
     function activate(){
-       vm.events = vm.userAuth.events
-      .filter( filterEvents );
-      //.map( preparateEvents );
+      vm.events = vm.userAuth.events
+      .filter( filterEvents )
+      .map( preparateEvents )
+      .sort( orderByDateEnd );
+      
       vm.showEmptyState = vm.events.length == 0 ? true : false;
       
       $ionicModal.fromTemplateUrl('app/tasks-organizer/task-modal.html', {
@@ -62,6 +64,10 @@
       }).then(function(modal) {
         vm.modalTask = modal;
       });
+    }
+    
+    function orderByDateEnd( a,b ){
+      return b.ends > a.ends;
     }
     
     function preparateEvents( event ){
@@ -103,7 +109,10 @@
         function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
           vm.userAuth = userAuthService.updateUserAuth( user );
-          vm.events = vm.userAuth.events.filter( filterEvents );
+          vm.events = vm.userAuth.events
+          .filter( filterEvents )
+          .map( preparateEvents )
+          .sort( orderByDateEnd );
           vm.showEmptyState = vm.events.length == 0 ? true : false;
           $rootScope.$broadcast('Menu:count_tasks', countTasksDone(vm.events).length);
         }
@@ -229,6 +238,7 @@
     }
 
     function updateTask( form ){
+      
       utilsService.showLoad();
       vm.task.status = vm.task.status ? 1 : 0;
       perkTaskService.editPerkTaskPatch( vm.task.id, vm.task )

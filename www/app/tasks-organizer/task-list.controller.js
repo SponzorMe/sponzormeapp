@@ -63,6 +63,10 @@
       });
     }
     
+    function orderByDateEnd( a,b ){
+      return b.ends > a.ends;
+    }
+    
     function preparateEvents( event ){
       event.perks = event.perks.map( preparatePerks );
       return event;
@@ -102,7 +106,10 @@
         function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
           vm.userAuth = userAuthService.updateUserAuth( user );
-          vm.events = vm.userAuth.events.filter( filterEvents );
+          vm.events = vm.userAuth.events
+          .filter( filterEvents )
+          .map( preparateEvents )
+          .sort( orderByDateEnd );
           vm.showEmptyState = vm.events.length == 0 ? true : false;
           $rootScope.$broadcast('Menu:count_tasks', countTasksDone(vm.events).length);
         }
