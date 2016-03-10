@@ -31,10 +31,11 @@
     'perkTaskService',
     '$localStorage',
     'userAuthService',
-    'notificationService'
+    'notificationService',
+    '$rootScope'
   ];
 
-  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponsorshipService, $ionicPopup, $ionicModal, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory, $cordovaToast, $translate, BackendVariables, perkTaskService, $localStorage, userAuthService, notificationService) {
+  function EventDetailOrganizerController( $scope, eventService , utilsService, $stateParams, $state, sponsorshipService, $ionicPopup, $ionicModal, $ionicActionSheet, $cordovaSocialSharing, $cordovaCalendar, $ionicSideMenuDelegate, $ionicHistory, $cordovaToast, $translate, BackendVariables, perkTaskService, $localStorage, userAuthService, notificationService, $rootScope) {
 
     var vm = this;
     var popupOptionsSponsorship = null;
@@ -281,6 +282,9 @@
           vm.userAuth.sponzorships_like_organizer = $localStorage.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
           userAuthService.updateUserAuth( vm.userAuth );
           sendNewTaskNotification( data.PerkTask.title );
+          
+          $rootScope.$broadcast('MenuOrganizer:count_tasks');
+          
           utilsService.resetForm( form );
           vm.hideModalTask();
           utilsService.hideLoad();
@@ -345,6 +349,8 @@
         if( form ) utilsService.resetForm( form );
         vm.hideModalTask();
         utilsService.hideLoad();
+        $rootScope.$broadcast('MenuOrganizer:count_tasks');
+        $rootScope.$broadcast('TaskTabsController:count_tasks');
       }
 
       function failed( error ){
@@ -368,6 +374,10 @@
         sendUpdateTaskNotification( task.title, vm.event.perks[vm.indexPerk].tasks[vm.indexTask].status == 0 && task.status == 1);
         vm.event.perks[vm.indexPerk].tasks[vm.indexTask] = task;
         utilsService.resetForm( form );
+        
+        $rootScope.$broadcast('MenuOrganizer:count_tasks');
+        $rootScope.$broadcast('TaskTabsController:count_tasks');
+        
         vm.hideModalTask();
         utilsService.hideLoad();
       }

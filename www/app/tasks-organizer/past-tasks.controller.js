@@ -114,7 +114,8 @@
           .map( preparateEvents )
           .sort( orderByDateEnd );
           vm.showEmptyState = vm.events.length == 0 ? true : false;
-          $rootScope.$broadcast('Menu:count_tasks', countTasksDone(vm.events).length);
+          $rootScope.$broadcast('MenuOrganizer:count_tasks');
+          $rootScope.$broadcast('TaskTabsController:count_tasks');
         }
 
         function failed( error ){
@@ -191,7 +192,7 @@
           vm.hideModalTask();
           utilsService.hideLoad();
           sendNewTaskNotification( data.PerkTask.title );
-          $rootScope.$broadcast('Menu:count_tasks', countTasksDone(vm.events).length);
+          $rootScope.$broadcast('MenuOrganizer:count_tasks');
         }
 
         function failed( error ){
@@ -225,6 +226,8 @@
         vm.events[vm.indexEvent].perks[vm.indexPerk].tasks.splice(vm.indexTask, 1);
         vm.hideModalTask();
         utilsService.hideLoad();
+        $rootScope.$broadcast('MenuOrganizer:count_tasks');
+        $rootScope.$broadcast('TaskTabsController:count_tasks');
       }
 
       function failed( error ){
@@ -251,7 +254,8 @@
         vm.events[vm.indexEvent].perks[vm.indexPerk].tasks[vm.indexTask] = task;
         vm.hideModalTask();
         utilsService.hideLoad();
-        $rootScope.$broadcast('Menu:count_tasks', countTasksDone(vm.events).length);
+        $rootScope.$broadcast('MenuOrganizer:count_tasks');
+        $rootScope.$broadcast('TaskTabsController:count_tasks');
       }
 
       function failed( error ){

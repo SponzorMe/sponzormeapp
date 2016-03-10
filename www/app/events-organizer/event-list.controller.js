@@ -50,6 +50,7 @@
           vm.showEmptyState = vm.events.length == 0 ? true : false;
           $rootScope.$broadcast('MenuOrganizer:count_events');
           $rootScope.$broadcast('EventsTabsController:count_events');
+          $rootScope.$broadcast('HomeOrganizerController:count_events');
         }
 
         function failed( error ){

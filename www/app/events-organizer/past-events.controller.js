@@ -49,6 +49,7 @@
           vm.events = vm.userAuth.events.filter( filterDate );
           $rootScope.$broadcast('MenuOrganizer:count_events');
           $rootScope.$broadcast('EventsTabsController:count_events');
+          $rootScope.$broadcast('HomeOrganizerController:count_events');
         }
 
         function failed( error ){

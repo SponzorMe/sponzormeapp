@@ -28,7 +28,7 @@
     ////////////
 
     function activate(){
-      $rootScope.$on('TaskTabsController:countTasks', rendercountTasks);
+      $rootScope.$on('TaskTabsController:count_tasks', rendercountTasks);
       
       vm.count_tasks = countTasks(vm.userAuth.events.filter( filterEventsIsAfter )).length;
       vm.count_past_tasks = countTasks(vm.userAuth.events.filter( filterEventsisBefore )).length;

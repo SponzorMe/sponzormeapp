@@ -248,6 +248,7 @@
             notificationService.sendNewEvent();
             $rootScope.$broadcast('MenuOrganizer:count_events');
             $rootScope.$broadcast('EventsTabsController:count_events');
+            $rootScope.$broadcast('HomeOrganizerController:count_events');
             $ionicHistory.goBack();
           });
           
