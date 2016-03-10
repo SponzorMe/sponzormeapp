@@ -44,9 +44,9 @@
 
     function activate(){
       
-      $rootScope.$on('Menu:count_events', renderCountEvents);
-      $rootScope.$on('Menu:count_sponsors', renderCountSponsors);
-      $rootScope.$on('Menu:count_tasks', renderCountTasks);
+      $rootScope.$on('MenuOrganizer:count_events', renderCountEvents);
+      $rootScope.$on('MenuOrganizer:count_sponsors', renderCountSponsors);
+      $rootScope.$on('MenuOrganizer:count_tasks', renderCountTasks);
       
       vm.count_events = vm.userAuth.events.filter( filterDate ).length;
       vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
@@ -57,7 +57,8 @@
     }
 
     function renderCountEvents( event ){
-      //vm.count_events = total;
+      vm.userAuth = userAuthService.getUserAuth();
+      vm.count_events = vm.userAuth.events.filter( filterDate ).length;
     }
 
     function renderCountSponsors(){
@@ -66,7 +67,8 @@
     }
 
     function renderCountTasks(event ){
-      //vm.count_tasks = total;
+      vm.userAuth = userAuthService.getUserAuth();
+      vm.count_tasks = countTasks().length;
     }
 
     function filterDate( item ){

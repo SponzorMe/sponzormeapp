@@ -246,6 +246,7 @@
           });
           $ionicHistory.clearCache().then(function(){
             notificationService.sendNewEvent();
+            $rootScope.$broadcast('MenuOrganizer:count_events');
             $ionicHistory.goBack();
           });
           

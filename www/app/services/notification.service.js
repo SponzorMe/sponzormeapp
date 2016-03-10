@@ -138,7 +138,9 @@
             var userAuth = userAuthService.updateUserAuth( user );
             if(userAuth.type == 0){ //Is an organizer
               $rootScope.$broadcast('SponsorshipsListController:getSponzorships');
-              $rootScope.$broadcast('Menu:count_sponsors');
+              $rootScope.$broadcast('MenuOrganizer:count_events');
+              $rootScope.$broadcast('MenuOrganizer:count_sponsors');
+              $rootScope.$broadcast('MenuOrganizer:count_tasks');
               $rootScope.$broadcast('HomeOrganizerController:count_sponsors');
             }else{
               $rootScope.$broadcast('FollowEventsController:getSponzorships');

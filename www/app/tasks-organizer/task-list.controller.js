@@ -64,7 +64,7 @@
     }
     
     function orderByDateEnd( a,b ){
-      return b.ends > a.ends;
+      return b.starts > a.starts;
     }
     
     function preparateEvents( event ){
