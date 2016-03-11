@@ -95,6 +95,7 @@
 
     function preparatePerks( perk ){
       perk.sponzorship = _.where(vm.userAuth.sponzorships_like_organizer, {perk_id: perk.id});
+      perk.tasks = _.where(perk.tasks, {user_id: vm.userAuth.id});
       return perk;
     }
 

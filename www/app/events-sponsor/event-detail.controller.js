@@ -59,6 +59,7 @@
     function preparatePerks( perk ){
       perk.sponzorship = _.where(vm.userAuth.sponzorships, {perk_id: perk.id});
       perk.already = _.findWhere(perk.sponzorship , {sponzor_id: vm.userAuth.id});
+      perk.tasks = _.where(perk.tasks, {type: "0"});
       return perk;
     }
 
