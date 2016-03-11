@@ -56,7 +56,12 @@
     function countTasks( events ) {
       return events
         .reduce(function(a,b){ return a.concat(b.perks)}, [])
-        .reduce(function(a,b){ return a.concat(b.tasks)}, []);
+        .reduce(function(a,b){ return a.concat(b.tasks)}, [])
+        .filter( filterByUserAndNotDone  );
+        
+        function filterByUserAndNotDone( item ) {
+          return item.user_id == vm.userAuth.id && item.status != '1';
+        }
     }
     
   }
