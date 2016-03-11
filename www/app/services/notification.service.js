@@ -29,6 +29,9 @@
       sendNewTaskOrganizer: sendNewTaskOrganizer,
       sendUpdateTaskOrganizer: sendUpdateTaskOrganizer,
       sendDoneTaskOrganizer: sendDoneTaskOrganizer,
+      sendNewTaskSponsor: sendNewTaskSponsor,
+      sendUpdateTaskSponsor: sendUpdateTaskSponsor,
+      sendDoneTaskSponsor: sendDoneTaskSponsor,
       sendNewEvent: sendNewEvent,
       sendUpdateEvent: sendUpdateEvent,
       getNotifications: getNotifications
@@ -93,6 +96,24 @@
       sendNotification(notification, to);
     }
     
+    function sendNewTaskSponsor(notification, to) {
+      notification.typeNotification = "newTaskSponsor";
+      notification.type = "task";
+      sendNotification(notification, to);
+    }
+    
+    function sendUpdateTaskSponsor(notification, to) {
+      notification.typeNotification = "updateTaskSponsor";
+      notification.type = "task";
+      sendNotification(notification, to);
+    }
+    
+    function sendDoneTaskSponsor(notification, to) {
+      notification.typeNotification = "doneTaskSponsor";
+      notification.type = "task";
+      sendNotification(notification, to);
+    }
+    
     function sendNewEvent() {
       var notification = {};
       notification.date = new Date().getTime();
@@ -152,6 +173,8 @@
               $rootScope.$broadcast('SponsorshipsListController:getSponzorships');
               $rootScope.$broadcast('SponsorshipsPastEventsController:getSponzorships');
               
+              $rootScope.$broadcast('EventListController:getEvents');
+              $rootScope.$broadcast('PastEventsController:getEvents');
               
             }else{
               $rootScope.$broadcast('MenuSponzor:counts');

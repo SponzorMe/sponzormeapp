@@ -54,9 +54,12 @@
         'newSponsorship': goDetailOrganizerSponsorhip,
         'acceptSponsorship': goDetailSponsorSponsorhip,
         'rejectSponsorship': goFollowing,
-        'newTaskOrganizer': goDetailSponsorshipOrganizer,
-        'updateTaskOrganizer': goDetailSponsorshipOrganizer,
-        'doneTaskOrganizer': goDetailSponsorshipOrganizer,
+        'newTaskOrganizer': goDetailSponsorshipSponsor,
+        'updateTaskOrganizer': goDetailSponsorshipSponsor,
+        'doneTaskOrganizer': goDetailSponsorshipSponsor,
+        'newTaskSponsor': goDetailSponsorshipOrganizer,
+        'updateTaskSponsor': goDetailSponsorshipOrganizer,
+        'doneTaskSponsor': goDetailSponsorshipOrganizer,
         'newEvent': goDetailEvent,
         'updateEvent': goDetailEvent
       }
@@ -93,8 +96,14 @@
         $state.go('sponzor.following');
       }
       
-      function goDetailSponsorshipOrganizer( id ){
+      function goDetailSponsorshipSponsor( id ){
          $state.go('sponzor.sponsorship',{
+           id: id
+         });
+      }
+      
+      function goDetailSponsorshipOrganizer( id ){
+         $state.go('organizer.sponsorship',{
            id: id
          });
       }

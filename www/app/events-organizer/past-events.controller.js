@@ -34,6 +34,13 @@
     ////////////
 
     function activate(){
+      $rootScope.$on('PastEventsController:getEvents', getEvents);
+      vm.events = vm.userAuth.events.filter( filterDate );
+      vm.showEmptyState = vm.events.length == 0 ? true : false;
+    }
+    
+    function getEvents(){
+      vm.userAuth = userAuthService.getUserAuth();
       vm.events = vm.userAuth.events.filter( filterDate );
       vm.showEmptyState = vm.events.length == 0 ? true : false;
     }

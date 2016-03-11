@@ -51,7 +51,7 @@
     
     function getSponzorships() {
       vm.userAuth = $localStorage.userAuth;
-      vm.sponsorships = vm.userAuth.sponzorships_like_organizer;
+      vm.sponsorships = vm.userAuth.sponzorships_like_organizer.filter( filterByDateIsAfter );;
       vm.showEmptyState = vm.sponsorships.length == 0 ? true : false;
     }
 
@@ -120,7 +120,7 @@
         function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
           vm.userAuth = userAuthService.updateUserAuth( user );
-          vm.sponsorships = vm.userAuth.sponzorships_like_organizer.filter( filterByDateIsAfter );;
+          vm.sponsorships = vm.userAuth.sponzorships_like_organizer.filter( filterByDateIsAfter );
           vm.showEmptyState = vm.sponsorships.length == 0 ? true : false;
           $rootScope.$broadcast('MenuOrganizer:count_sponsors');
           $rootScope.$broadcast('SponsorshipsTabsController:count_sponsors');

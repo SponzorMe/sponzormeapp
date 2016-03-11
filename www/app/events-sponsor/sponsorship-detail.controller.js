@@ -99,7 +99,12 @@
         vm.sponzorship.perk.tasks.push( TaskSponzor.task );
         vm.sponzorship.task_sponzor.push( TaskSponzor );
         vm.hideModalTask( form );
-        notificationService.sendNotification({}, TaskSponzor.organizer_id);
+        
+        notificationService.sendNewTaskSponsor({
+          text: TaskSponzor.task.title,
+          modelId: vm.sponzorship.id
+        }, TaskSponzor.organizer_id);
+        
         utilsService.hideLoad();
       }
       
@@ -160,9 +165,20 @@
         var taskSponzor = _.findWhere( vm.sponzorship.task_sponzor, {id: vm.sponsorTask.id} );
         var indexPerkTask = _.indexOf(vm.sponzorship.perk.tasks, perkTask);
         var indexSponzorTask = _.indexOf(vm.sponzorship.task_sponzor, taskSponzor);
+        
+        if(vm.sponsorTask.task == 0 && TaskSponsor.task.status == 1){
+          notificationService.sendDoneTaskSponsor({
+            text: TaskSponzor.task.title,
+            modelId: vm.sponzorship.id
+          }, TaskSponzor.organizer_id);
+        }else{
+          notificationService.sendUpdateTaskSponsor({
+            text: TaskSponzor.task.title,
+            modelId: vm.sponzorship.id
+          }, TaskSponzor.organizer_id);
+        }
         vm.sponzorship.perk.tasks[indexPerkTask] = vm.sponsorTask.task;
         vm.sponzorship.task_sponzor[indexSponzorTask] = vm.sponsorTask;
-        notificationService.sendNotification({}, TaskSponsor.organizer_id);
         vm.hideModalTask( form );
         utilsService.hideLoad();
       }

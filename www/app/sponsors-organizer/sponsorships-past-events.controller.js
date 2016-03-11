@@ -51,7 +51,7 @@
     
     function getSponzorships() {
       vm.userAuth = $localStorage.userAuth;
-      vm.sponsorships = vm.userAuth.sponzorships_like_organizer;
+      vm.sponsorships = vm.userAuth.sponzorships_like_organizer.filter( filterByDateIsBefore );;
       vm.showEmptyState = vm.sponsorships.length == 0 ? true : false;
     }
 
