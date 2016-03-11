@@ -41,7 +41,7 @@
     function activate(){
       vm.sponsorships = vm.userAuth.sponzorships_like_organizer.filter( filterByDateIsBefore );
       vm.showEmptyState = vm.sponsorships.length == 0 ? true : false;
-      $rootScope.$on('SponsorshipsListController:getSponzorships', getSponzorships);
+      $rootScope.$on('SponsorshipsPastEventsController:getSponzorships', getSponzorships);
     }
     
     function filterByDateIsBefore( item ){
@@ -122,7 +122,9 @@
           vm.userAuth = userAuthService.updateUserAuth( user );
           vm.sponsorships = vm.userAuth.sponzorships_like_organizer;
           vm.showEmptyState = vm.sponsorships.length == 0 ? true : false;
-          $rootScope.$broadcast('Menu:count_sponsors');
+          $rootScope.$broadcast('MenuOrganizer:count_sponsors');
+          $rootScope.$broadcast('SponsorshipsTabsController:count_sponsors');
+          $rootScope.$broadcast('HomeOrganizerController:count_sponsors');
         }
 
         function failed( error ){

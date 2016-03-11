@@ -122,7 +122,9 @@
           vm.userAuth = userAuthService.updateUserAuth( user );
           vm.sponsorships = vm.userAuth.sponzorships_like_organizer;
           vm.showEmptyState = vm.sponsorships.length == 0 ? true : false;
-          $rootScope.$broadcast('Menu:count_sponsors');
+          $rootScope.$broadcast('MenuOrganizer:count_sponsors');
+          $rootScope.$broadcast('SponsorshipsTabsController:count_sponsors');
+          $rootScope.$broadcast('HomeOrganizerController:count_sponsors');
         }
 
         function failed( error ){

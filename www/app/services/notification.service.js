@@ -137,12 +137,21 @@
           function complete( user ){
             var userAuth = userAuthService.updateUserAuth( user );
             if(userAuth.type == 0){ //Is an organizer
+              
               $rootScope.$broadcast('MenuOrganizer:count_events');
               $rootScope.$broadcast('EventsTabsController:count_events');
               $rootScope.$broadcast('HomeOrganizerController:count_events');
               
               $rootScope.$broadcast('MenuOrganizer:count_tasks');
               $rootScope.$broadcast('TaskTabsController:count_tasks');
+              
+              $rootScope.$broadcast('MenuOrganizer:count_sponsors');
+              $rootScope.$broadcast('SponsorshipsTabsController:count_sponsors');
+              $rootScope.$broadcast('HomeOrganizerController:count_sponsors');
+              
+              //$rootScope.$broadcast('SponsorshipsListController:getSponzorships');
+              //$rootScope.$broadcast('SponsorshipsPastEventsController:getSponzorships');
+              
               
             }else{
               $rootScope.$broadcast('FollowEventsController:getSponzorships');

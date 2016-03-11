@@ -28,7 +28,7 @@
 
     function activate(){
       
-      $rootScope.$on('SponsorshipsTabsController:counts', renderCounts);
+      $rootScope.$on('SponsorshipsTabsController:count_sponsors', renderCounts);
       
       vm.count_events = vm.userAuth.sponzorships_like_organizer.filter( filterByDateIsAfter ).length;
       vm.count_past_events = vm.userAuth.sponzorships_like_organizer.length - vm.count_events;
