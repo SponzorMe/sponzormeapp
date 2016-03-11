@@ -22,9 +22,9 @@
         StatusBar.styleDefault();
       }
 
-      //checkForUpdates();
-      //chooseLanguage();
-      //ionicAnalytics();
+      checkForUpdates();
+      chooseLanguage();
+      ionicAnalytics();
     });
 
     function ionicAnalytics(){
