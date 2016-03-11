@@ -9,7 +9,7 @@
     .module('app')
     .run(run);
 
-  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics, $localStorage ) {
+  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics, $localStorage, userAuthService, notificationService ) {
     
 
     $ionicPlatform.ready(function() {
@@ -21,11 +21,16 @@
       if(window.StatusBar) {
         StatusBar.styleDefault();
       }
-
+      
+      activateNotifications();
       checkForUpdates();
       chooseLanguage();
       ionicAnalytics();
     });
+    
+    function activateNotifications() {
+      if(userAuthService.checkSession()) notificationService.activate();
+    }
 
     function ionicAnalytics(){
       $ionicAnalytics.register();

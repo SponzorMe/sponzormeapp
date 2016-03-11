@@ -21,6 +21,7 @@
 
     this.getUserAuth = getUserAuth;
     this.updateUserAuth = updateUserAuth;
+    this.checkSession = checkSession;
     
     function getUserAuth() {
       return $localStorage.userAuth;
@@ -30,6 +31,13 @@
       $localStorage.userAuth = angular.extend($localStorage.userAuth || {}, data);
       $localStorage.lastUpdate = new Date().getTime();
       return $localStorage.userAuth;
+    }
+    
+    function checkSession(){
+      if(angular.isDefined($localStorage.token) && angular.isDefined($localStorage.userAuth)){
+        return true;
+      }
+      return false;
     }
     
   }
