@@ -157,6 +157,7 @@
               $rootScope.$broadcast('MenuSponzor:counts');
               $rootScope.$broadcast('FollowEventsController:getSponzorships');
               $rootScope.$broadcast('SponzoringEventsController:getSponzorships');
+              $rootScope.$broadcast('HomeSponzorController:getEvents');
             }
             
           }
