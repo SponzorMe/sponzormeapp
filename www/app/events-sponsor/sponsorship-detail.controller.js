@@ -86,6 +86,7 @@
     function editTask( task ){
       vm.isNewTask = false;
       vm.sponsorTask = angular.copy(task);
+      vm.sponsorTask.status = vm.sponsorTask.status == 1 ? true:false;
       vm.showModalTask();
     }
 
@@ -116,7 +117,7 @@
     function preparateTask( task ){
       return {
         type: 1, //Because is created by the Sponzor
-        status: vm.sponsorTask.task.status ? 1 : 0,
+        status: vm.sponsorTask.status ? 1 : 0,
         perk_id: vm.sponzorship.perk.id,
         event_id: vm.sponzorship.event.id,
         sponzorship_id: vm.sponzorship.id,
@@ -165,17 +166,18 @@
         var taskSponzor = _.findWhere( vm.sponzorship.task_sponzor, {id: vm.sponsorTask.id} );
         var indexPerkTask = _.indexOf(vm.sponzorship.perk.tasks, perkTask);
         var indexSponzorTask = _.indexOf(vm.sponzorship.task_sponzor, taskSponzor);
-        
-        if(vm.sponsorTask.task == 0 && TaskSponsor.task.status == 1){
+       
+       
+        if(vm.sponsorTask.status == 1 && TaskSponsor.status == "1"){
           notificationService.sendDoneTaskSponsor({
-            text: TaskSponzor.task.title,
+            text: vm.sponsorTask.task.title,
             modelId: vm.sponzorship.id
-          }, TaskSponzor.organizer_id);
+          }, TaskSponsor.organizer_id);
         }else{
           notificationService.sendUpdateTaskSponsor({
-            text: TaskSponzor.task.title,
+            text: vm.sponsorTask.task.title,
             modelId: vm.sponzorship.id
-          }, TaskSponzor.organizer_id);
+          }, TaskSponsor.organizer_id);
         }
         vm.sponzorship.perk.tasks[indexPerkTask] = vm.sponsorTask.task;
         vm.sponzorship.task_sponzor[indexSponzorTask] = vm.sponsorTask;

@@ -50,9 +50,9 @@
               <ion-item ng-show="detail.sponzorship.task_sponzor.length == 0">
                 {{'detail.list_perk_task_empty' | translate}}
               </ion-item>
-              <ion-item class="item-icon-left" ng-repeat="taskSponsor in detail.sponzorship.task_sponzor" ng-class="{done: taskSponsor.task.status == 1}" ng-click="detail.editTask( taskSponsor )">
+              <ion-item class="item-icon-left" ng-repeat="taskSponsor in detail.sponzorship.task_sponzor" ng-class="{done: taskSponsor.status == 1}" ng-click="detail.editTask( taskSponsor )">
                 <i class="icon ion-checkmark"></i>
-                <h2> {{ taskSponsor.task.title }} </h2>
+                <h2> {{ taskSponsor.task.title }}</h2>
                 <p> {{ taskSponsor.task.description }} </p>
               </ion-item>
             </ion-list>

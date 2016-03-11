@@ -44,7 +44,7 @@
           <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addtask_error_description_min" | translate}}</div>
         </div>
         <!-- Done -->
-        <ion-toggle ng-show="!detail.isNewTask" ng-model="detail.sponsorTask.task.status" toggle-class="toggle-positive">{{'ADDTASK.task_done_label' | translate}}</ion-toggle>
+        <ion-toggle ng-show="!detail.isNewTask" ng-model="detail.sponsorTask.status" toggle-class="toggle-positive">{{'ADDTASK.task_done_label' | translate}}</ion-toggle>
       </ion-list>
       <div class="row">
         <div class="col col-50" ng-show="!detail.isNewTask">

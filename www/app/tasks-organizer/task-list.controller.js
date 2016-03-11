@@ -63,8 +63,6 @@
       });
     }
     
-    $rootScope.$on('PastEventsController:getEvents', getEvents);
-    
     function orderByDateEnd( a,b ){
       return b.starts > a.starts;
     }
