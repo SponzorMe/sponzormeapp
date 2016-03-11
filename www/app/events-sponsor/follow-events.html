@@ -15,7 +15,7 @@
       </div>
     </div>
     <ion-list>
-      <ion-item href="#" class="event" ng-repeat="sponzorship in list.sponzorships | orderBy:'starts' " ng-style="{'background-image': 'url(' + sponzorship.event.image + ')'}">
+      <ion-item href="#/sponzor/event/{{ sponzorship.event.id }}" class="event" ng-repeat="sponzorship in list.sponzorships | orderBy:'starts' " ng-style="{'background-image': 'url(' + sponzorship.event.image + ')'}">
         <i class="icon" ng-class="{'ion-pin': sponzorship.status == 0, 'ion-close': sponzorship.status == 2}"></i> 
         <p>
           {{ sponzorship.cause | limitTo:40 }}... </br> 
