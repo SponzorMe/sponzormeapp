@@ -92,8 +92,8 @@
           vm.event.perks = vm.event.perks.map( preparatePerks );
           userAuthService.updateUserAuth( vm.userAuth );
           
+          $rootScope.$broadcast('MenuSponzor:counts');
           $rootScope.$broadcast('FollowEventsController:getSponzorships');
-          $rootScope.$broadcast('Menu:count_following');
           
           var notification = {
             text: vm.event.title,

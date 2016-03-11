@@ -149,16 +149,14 @@
               $rootScope.$broadcast('SponsorshipsTabsController:count_sponsors');
               $rootScope.$broadcast('HomeOrganizerController:count_sponsors');
               
-              //$rootScope.$broadcast('SponsorshipsListController:getSponzorships');
-              //$rootScope.$broadcast('SponsorshipsPastEventsController:getSponzorships');
+              $rootScope.$broadcast('SponsorshipsListController:getSponzorships');
+              $rootScope.$broadcast('SponsorshipsPastEventsController:getSponzorships');
               
               
             }else{
+              $rootScope.$broadcast('MenuSponzor:counts');
               $rootScope.$broadcast('FollowEventsController:getSponzorships');
-              $rootScope.$broadcast('Menu:count_following');
               $rootScope.$broadcast('SponzoringEventsController:getSponzorships');
-              $rootScope.$broadcast('Menu:count_sponsoring');
-              $rootScope.$broadcast('HomeSponzorController:getEvents');
             }
             
           }
@@ -180,11 +178,8 @@
           
           function complete( user ){
             var userAuth = userAuthService.updateUserAuth( user );
-            $rootScope.$broadcast('FollowEventsController:getSponzorships');
-            $rootScope.$broadcast('Menu:count_following');
-            $rootScope.$broadcast('SponzoringEventsController:getSponzorships');
-            $rootScope.$broadcast('Menu:count_sponsoring');
             $rootScope.$broadcast('HomeSponzorController:getEvents');
+            $rootScope.$broadcast('MenuSponzor:counts');
           }
         }
         

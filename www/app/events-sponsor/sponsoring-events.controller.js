@@ -55,7 +55,8 @@
           vm.userAuth = userAuthService.updateUserAuth( user );
           vm.sponzorships = vm.userAuth.sponzorships.filter( filterByAccepted );
           vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
-          $rootScope.$broadcast('Menu:count_sponsoring', vm.sponzorships.length);
+          $rootScope.$broadcast('MenuSponzor:counts');
+          $rootScope.$broadcast('FollowEventsController:getSponzorships');
         }
 
         function failed( error ){

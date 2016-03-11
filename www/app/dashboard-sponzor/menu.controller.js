@@ -34,33 +34,24 @@
     ////////////
 
     function activate(){
-      $rootScope.$on('Menu:count_following', renderCountFollowing);
-      $rootScope.$on('Menu:count_sponsoring', renderCountSponsoring);
+      $rootScope.$on('MenuSponzor:counts', renderCounts);
       
-      vm.count_following = vm.userAuth.sponzorships.filter( filterByPending ).length;
       vm.count_sponsoring = vm.userAuth.sponzorships.filter( filterByAccepted ).length;
+      vm.count_following = vm.userAuth.sponzorships.length - vm.count_sponsoring;
       
       vm.notifications = notificationService.getNotifications( vm.userAuth.id );
     }
 
-    function renderCountFollowing(){
-      vm.userAuth =  userAuthService.getUserAuth();
-      vm.count_following = vm.userAuth.sponzorships.filter( filterByPending ).length;
-    }
-
-    function renderCountSponsoring(){
+    function renderCounts(){
       vm.userAuth =  userAuthService.getUserAuth();
       vm.count_sponsoring = vm.userAuth.sponzorships.filter( filterByAccepted ).length;
+      vm.count_following = vm.userAuth.sponzorships.length - vm.count_sponsoring;
     }
 
     function logout(){
       $localStorage.$reset();
       $state.go('signin');
       $ionicHistory.clearCache();
-    }
-
-    function filterByPending( item ){
-      return item.status != '1';
     }
 
     function filterByAccepted( item ){

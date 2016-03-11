@@ -55,7 +55,8 @@
           vm.userAuth = userAuthService.updateUserAuth( user );
           vm.sponzorships = vm.userAuth.sponzorships.filter( filterByDateAndByPending );
           vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
-          $rootScope.$broadcast('Menu:count_following');
+          $rootScope.$broadcast('MenuSponzor:counts');
+          $rootScope.$broadcast('SponzoringEventsController:getSponzorships');
         }
 
         function failed( error ){
@@ -63,9 +64,13 @@
         }
     }
     
-    function filterByDateAndByPending( item ){
+    /*function filterByDateAndByPending( item ){
       var today = moment( new Date() ).subtract(1, 'days');
       return moment(item.ends).isAfter( today ) && item.status != '1';
+    }*/
+    
+    function filterByDateAndByPending( item ){
+      return item.status != '1';
     }
 
   }
