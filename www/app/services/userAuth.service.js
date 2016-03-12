@@ -48,7 +48,7 @@
       .then(complete);
       
       function complete( user ){
-        var userAuth = userAuthService.updateUserAuth( user );
+        var userAuth = updateUserAuth( user );
         if(userAuth.type == 0){ //Is an organizer
           
           $rootScope.$broadcast('MenuOrganizer:count_events');
@@ -70,8 +70,10 @@
           
         }else{
           $rootScope.$broadcast('MenuSponzor:counts');
+          
           $rootScope.$broadcast('FollowEventsController:getSponzorships');
           $rootScope.$broadcast('SponzoringEventsController:getSponzorships');
+          
           $rootScope.$broadcast('HomeSponzorController:getEvents');
         }
         
