@@ -29,7 +29,10 @@
     });
     
     function activateNotifications() {
-      if(userAuthService.checkSession()) notificationService.activate();
+      if(userAuthService.checkSession()){
+         notificationService.activate();
+         userAuthService.refresh();
+      }
     }
 
     function ionicAnalytics(){

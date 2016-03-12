@@ -141,51 +141,21 @@
     
     function activate() {
       notificationForMe();
-      if($localStorage.userAuth.type == '1') updateEvents();
+      var userAuth = userAuthService.getUserAuth();
+      if(userAuth.type == '1') updateEvents();
     }
     
     function notificationForMe() {
-      var url =  path + 'notifications/'+ $localStorage.userAuth.id;
+      var userAuth = userAuthService.getUserAuth();
+      var url =  path + 'notifications/'+ userAuth.id;
       var reference =  new Firebase( url );
       reference.on('child_added', listener);
       
       function listener( snapshot ){
         var current = snapshot.val();
-        if($localStorage.lastUpdate < current.date){
-          userService.home( $localStorage.userAuth.id )
-          .then(complete);
-          
-          function complete( user ){
-            var userAuth = userAuthService.updateUserAuth( user );
-            if(userAuth.type == 0){ //Is an organizer
-              
-              $rootScope.$broadcast('MenuOrganizer:count_events');
-              $rootScope.$broadcast('EventsTabsController:count_events');
-              $rootScope.$broadcast('HomeOrganizerController:count_events');
-              
-              $rootScope.$broadcast('MenuOrganizer:count_tasks');
-              $rootScope.$broadcast('TaskTabsController:count_tasks');
-              
-              $rootScope.$broadcast('MenuOrganizer:count_sponsors');
-              $rootScope.$broadcast('SponsorshipsTabsController:count_sponsors');
-              $rootScope.$broadcast('HomeOrganizerController:count_sponsors');
-              
-              $rootScope.$broadcast('SponsorshipsListController:getSponzorships');
-              $rootScope.$broadcast('SponsorshipsPastEventsController:getSponzorships');
-              
-              $rootScope.$broadcast('EventListController:getEvents');
-              $rootScope.$broadcast('PastEventsController:getEvents');
-              
-            }else{
-              $rootScope.$broadcast('MenuSponzor:counts');
-              $rootScope.$broadcast('FollowEventsController:getSponzorships');
-              $rootScope.$broadcast('SponzoringEventsController:getSponzorships');
-              $rootScope.$broadcast('HomeSponzorController:getEvents');
-            }
-            
-          }
+        if(userAuth.lastUpdate < current.date){
+          userAuthService.refresh();
         }
-        
       }
     }
     
