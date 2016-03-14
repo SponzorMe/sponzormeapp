@@ -39,7 +39,7 @@
       $ionicAnalytics.register();
       $ionicAnalytics.setGlobalProperties({
         app_version_number: BackendVariables.version,
-        type: 'develop',
+        channel: BackendVariables.channel,
         day_of_week: (new Date()).getDay()
       });
     }
@@ -90,7 +90,7 @@
     }
 
     function checkForUpdates(){
-      $ionicDeploy.setChannel(BackendVariables.version);
+      $ionicDeploy.setChannel(BackendVariables.channel);
       $ionicDeploy.check()
       .then( complete );
 
