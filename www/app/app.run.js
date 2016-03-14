@@ -9,7 +9,7 @@
     .module('app')
     .run(run);
 
-  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics, $localStorage, userAuthService, notificationService ) {
+  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics, $localStorage, userAuthService, notificationService, BackendVariables ) {
     
 
     $ionicPlatform.ready(function() {
@@ -23,7 +23,7 @@
       }
       
       activateNotifications();
-      checkForUpdates();
+      //checkForUpdates();
       chooseLanguage();
       ionicAnalytics();
     });
@@ -38,7 +38,7 @@
     function ionicAnalytics(){
       $ionicAnalytics.register();
       $ionicAnalytics.setGlobalProperties({
-        app_version_number: '1.0.7',
+        app_version_number: BackendVariables.version,
         type: 'develop',
         day_of_week: (new Date()).getDay()
       });
@@ -50,6 +50,8 @@
         $cordovaGlobalization.getPreferredLanguage()
         .then( complete )
         .catch( failed );
+      }else{
+        checkForUpdates();
       }
 
       function complete( language ){
@@ -70,7 +72,8 @@
             $translate.use("en");
           }
           $localStorage.chooseLang = true;
-        });
+        })
+        .then( checkForUpdates );
         
       }
 
@@ -87,7 +90,7 @@
     }
 
     function checkForUpdates(){
-      $ionicDeploy.setChannel("production");
+      $ionicDeploy.setChannel(BackendVariables.version);
       $ionicDeploy.check()
       .then( complete );
 

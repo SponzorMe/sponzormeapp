@@ -11,6 +11,7 @@
       url: "https://apistaging.sponzor.me/", // i'm using the Ionic Proxy
       f_url: "https://sponzorme.firebaseio.com/staging/",
       url_web: "https://sponzor.me/",
+      version: "v1.1.x"
     })
     .value('AMAZON',{
       'AMAZONSECRET': 'RlzqEBFUlJW/8YGkeasfmTZRLTlWMWwaBpJNBxu6',

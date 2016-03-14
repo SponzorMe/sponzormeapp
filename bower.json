@@ -3,7 +3,6 @@
   "private": "true",
   "devDependencies": {
     "ionic": "driftyco/ionic-bower#1.1.0",
-    "ionic-platform-web-client": "~0.2.1",
     "underscore": "~1.8.3",
     "aws-sdk": "aws-sdk-js#~2.2.26",
     "angular-mocks": "~1.4.8",
@@ -13,7 +12,8 @@
     "chai": "~3.4.2",
     "chai-spies": "~0.7.1",
     "firebase": "~2.4.1",
-    "angularfire": "~1.1.4"
+    "angularfire": "~1.1.4",
+    "ionic-platform-web-client": "^0.6.0"
   },
   "dependencies": {
     "ionic": "driftyco/ionic-bower#master",
