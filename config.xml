@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget android-versionCode="120" id="me.sponzor.mobile" ios-CFBundleVersion="120" version="1.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="126" id="me.sponzor.mobile" ios-CFBundleVersion="126" version="1.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>SponzorMe</name>
   <description>SponzorME App</description>
   <author email="carlos@sponzor.me" href="http://www.sponzor.me">
