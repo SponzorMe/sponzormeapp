@@ -9,4 +9,5 @@ tests/coverage
 resources/ios/*
 resources/android/*
 !resources/ios/*.png
+!resources/android/*.png
 *.apk
