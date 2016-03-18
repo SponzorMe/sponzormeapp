@@ -6,6 +6,7 @@ platforms/
 plugins/
 scripts/
 tests/coverage
-resources/ios/
-resources/android/
+resources/ios/*
+resources/android/*
+!resources/ios/*.png
 *.apk
