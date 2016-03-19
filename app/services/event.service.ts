@@ -127,7 +127,7 @@ module eventService{
     }
     
     private _preparateEvents( data ):Event[]{
-      return data.events.map( this._buildEvent );
+      return data.data.events.map( this._buildEvent );
     }
     
     private _preparateEvent( data ):Event{
@@ -142,5 +142,9 @@ module eventService{
       return event;
     }
   }
+  
+  angular
+    .module('app')
+    .service('eventService', eventService);
   
 }

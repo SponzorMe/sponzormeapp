@@ -55,7 +55,8 @@ module.exports = function( config ){
       "www/js/**/*.controller.js",
       "www/js/app.run.js",
       //Tests
-      "tests/unit/services/category.service.spec.js"
+      //"tests/unit/services/category.service.spec.js",
+      "tests/unit/services/event.service.spec.js"
       //'tests/unit/**/*.service.spec.js',
       //'tests/unit/**/*.controller.spec.js'
     ]

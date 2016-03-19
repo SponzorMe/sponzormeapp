@@ -208,7 +208,7 @@ gulp.task('serve-mocha', ['build-mocha'], function(){
     },
   });
   gulp.watch(['www/**/*.*', 'tests/unit/**/*.spec.js'])
-    .on('change', browserSync.reload);
+  .on('change', browserSync.reload);
 });
 
 /**

@@ -98,7 +98,7 @@ var eventService;
             return this.$localStorage.token;
         };
         eventService.prototype._preparateEvents = function (data) {
-            return data.events.map(this._buildEvent);
+            return data.data.events.map(this._buildEvent);
         };
         eventService.prototype._preparateEvent = function (data) {
             return this._buildEvent(data.event);
@@ -113,4 +113,7 @@ var eventService;
         return eventService;
     }());
     eventService_1.eventService = eventService;
+    angular
+        .module('app')
+        .service('eventService', eventService);
 })(eventService || (eventService = {}));

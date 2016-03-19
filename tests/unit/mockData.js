@@ -1149,7 +1149,10 @@ var mockData = (function() {
             privacy: "0",
             starts: "2016-01-30 03:54:00",
             title: "My Second Event",
-            type: "1"
+            type: "1",
+            user_organizer: {
+              image: ''
+            },
           },
           {
             category: "1",
@@ -1163,7 +1166,10 @@ var mockData = (function() {
             privacy: "1",
             starts: "2016-01-30 17:45:00",
             title: "Ionic 102 - Workshop",
-            type: "1"
+            type: "1",
+            user_organizer: {
+              image: ''
+            },
           }
         ],
       },
@@ -1234,7 +1240,10 @@ var mockData = (function() {
         privacy: "1",
         starts: "2010-01-01 00:00:00",
         title: "Test Event",
-        type: "1"
+        type: "1",
+        user_organizer: {
+          image: ''
+        },
       },
       message: "Inserted"
     }
@@ -1261,7 +1270,10 @@ var mockData = (function() {
         starts: "2010-01-01 00:00:00",
         title: "Test Event 2",
         type: "1",
-        message: "Updated"
+        message: "Updated",
+        user_organizer: {
+          image: ''
+        },
       },
       warnings: []
     }
@@ -1282,7 +1294,10 @@ var mockData = (function() {
         starts: "2010-01-01 00:00:00",
         title: "Test Event 2",
         type: "1",
-        message: "Updated"
+        message: "Updated",
+        user_organizer: {
+          image: ''
+        },
       }
     }
   }
