@@ -1,0 +1,21 @@
+<button 
+class="button button-block button-positive icon-left ion-checkmark-circled" 
+ng-click="eventDetail.updateSponsorship(1)">
+{{"EVENTDETAIL.accept_option" | translate}}
+</button>
+<button 
+class="button button-block icon-left ion-close-circled" 
+ng-click="eventDetail.updateSponsorship(2)">
+{{"EVENTDETAIL.reject_option" | translate}}
+</button>
+<a 
+href="#/organizer/sponzor/{{ eventDetail.sponsorshipSelected.id }}" 
+class="button button-block icon-left ion-eye" 
+ng-click="eventDetail.closeOptionsSponsorship()">
+{{"EVENTDETAIL.view_detail_option" | translate}}
+</a>
+<button 
+class="button button-block icon-left ion-close" 
+ng-click="eventDetail.closeOptionsSponsorship()">
+{{"EVENTDETAIL.cancel_option" | translate}}
+</button>

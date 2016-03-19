@@ -1,0 +1,52 @@
+<ion-side-menus enable-menu-with-back-views="false">
+
+  <ion-side-menu-content>
+    <ion-nav-bar class="bar-positive">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+
+      <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <ion-nav-view name="menuContent"></ion-nav-view>
+  </ion-side-menu-content>
+  
+  <ion-side-menu side="left">
+    <ion-content class="has-header">
+      <ion-list>
+        <!-- Note each link has the 'menu-close' attribute so the menu auto closes when clicking on one of these links -->
+        <ion-item nav-clear menu-close href="#/sponzor/home" class="item-icon-left">
+          <i class="icon ion-home"></i> {{'DASHSPONZORS.dashboard' | translate}}
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/sponzor/following" class="item-icon-left">
+          <i class="icon ion-star"></i> {{'DASHSPONZORS.following' | translate}}
+          <span class="badge badge-stable" ng-show="menu.count_following > 0">{{ menu.count_following }}</span>
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/sponzor/sponzoring" class="item-icon-left">
+          <i class="icon ion-flag"></i> {{'DASHSPONZORS.sponzoring' | translate}}
+          <span class="badge badge-stable" ng-show="menu.count_sponsoring > 0">{{ menu.count_sponsoring }}</span>
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/sponzor/notifications" class="item-icon-left">
+          <i class="icon ion-android-notifications"></i> {{'DASHORGANIZERS.notifications' | translate}}
+          <span class="badge badge-stable" ng-show="(menu.notifications | filter: {read: false, toApp: 'mobileApp'}).length > 0">{{ (menu.notifications | filter: {read: false, toApp: 'mobileApp'}).length }}</span>
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/sponzor/invite" class="item-icon-left">
+          <i class="icon ion-person-add"></i> {{'DASHSPONZORS.invite' | translate}}
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/sponzor/profile" class="item-icon-left">
+          <i class="icon ion-person"></i> {{'DASHSPONZORS.profile' | translate}}
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/sponzor/settings" class="item-icon-left">
+          <i class="icon ion-gear-b"></i> {{'DASHSPONZORS.settings' | translate}}
+        </ion-item>
+        <ion-item nav-clear menu-close ng-click="menu.logout()" class="item-icon-left">
+          <i class="icon ion-log-out"></i> {{'DASHSPONZORS.logout' | translate}}
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-side-menu>
+
+</ion-side-menus>

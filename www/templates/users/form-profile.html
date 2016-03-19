@@ -1,0 +1,71 @@
+<ion-view hide-nav-bar="true" class="pageForm">
+  <ion-content>
+    <form name="profileForm" novalidate  ng-submit="profileForm.$valid && profile.updateProfile( profileForm )">
+      <div class="list">
+        <div class="padding">
+          <i class="icon ion-android-person-add cover"></i>
+        </div>
+        <div class="item-divider text-center">
+          {{"JOINNOW.profile_title" | translate}}
+        </div>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">{{"JOINNOW.profile_name_label" | translate}}</span>
+          <input 
+          name="name" 
+          type="text" 
+          ng-model="profile.userAuth.name" 
+          placeholder='{{"JOINNOW.profile_name_placeholder" | translate}}'
+          >
+        </label>
+         <label class="item item-input item-floating-label">
+          <span class="input-label">{{"JOINNOW.profile_age_label" | translate}}</span>
+          <input 
+          name="age" 
+          type="number" 
+          ng-model="profile.userAuth.age" 
+          placeholder='{{"JOINNOW.profile_age_placeholder" | translate}}' 
+          >
+        </label>
+        <label class="item item-input item-floating-label">
+           <span class="input-label">{{"JOINNOW.profile_location_label" | translate}}</span>
+           <input 
+           type="text" 
+           ng-model="profile.userAuth.location" 
+           g-places-autocomplete 
+           placeholder="San Francisco, California">
+         </label>
+        <label class="item item-input item-select">
+         <div class="input-label">
+           {{"JOINNOW.profile_language_label" | translate}}
+         </div>
+         <select ng-model="profile.userAuth.lang" ng-change="profile.changeLang()">
+           <option value="es">{{"JOINNOW.profile_spanish_option" | translate}}</option>
+           <option ng-selected="true" value="en">{{"JOINNOW.profile_english_option" | translate}}</option>
+           <option value="pt">{{"JOINNOW.profile_portuguese_option" | translate}}</option>
+         </select>
+        </label>
+        <label class="item item-input item-select">
+         <div class="input-label">
+           {{"JOINNOW.profile_gender_label" | translate}}
+         </div>
+         <select ng-model="profile.userAuth.sex">
+           <option ng-selected="true" value="1">{{"JOINNOW.profile_male_option" | translate}}</option>
+           <option value="0">{{"JOINNOW.profile_female_option" | translate}}</option>
+         </select>
+        </label>
+      </div>
+      <div class="row">
+        <div class="col">
+          <a href="#/interests" class="button button-block button-secondary">
+            {{"JOINNOW.profile_skip_button" | translate}}
+          </a>
+        </div>
+        <div class="col">
+          <button type="submit" class="button button-block button-positive">
+            {{"JOINNOW.profile_next_button" | translate}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>

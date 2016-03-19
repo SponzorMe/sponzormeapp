@@ -1,0 +1,15 @@
+<ion-view>
+  <ion-nav-title> {{'NOTIFICATIONS.title' | translate}}</ion-nav-title>
+  <ion-content padding="true">
+    <!-- Events -->
+    <div class="row text-center" ng-show="(list.notifications | filter: {read: false, toApp: 'mobileApp'}).length == 0">
+      <div class="col">
+        <div class="empty-states">
+          <i class="icon ion-android-notifications"></i>
+          <h1> {{'NOTIFICATIONS.list_empty' | translate}}</h1>
+        </div>
+      </div>
+    </div>
+    <spm-notification model="notification" ng-repeat="notification in list.notifications | filter: {read: false} | orderBy: '-date'"></spm-notification>
+  </ion-content>
+</ion-view>

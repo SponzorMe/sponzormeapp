@@ -1,0 +1,22 @@
+<ion-view view-title="">
+  <ion-nav-title>{{'EVENTLIST.title' | translate}}</ion-nav-title>
+  <ion-content>
+    <ion-refresher pulling-text="Pull to refresh" on-refresh="eventList.doRefresh()">
+    </ion-refresher>
+    <div class="row text-center" ng-show="eventList.events.length == 0 && eventList.showEmptyState">
+      <div class="col">
+        <div class="empty-states">
+          <i class="icon ion-calendar"></i>
+          <h1>{{'EVENTLIST.list_empty' | translate}}</h1>
+          <a class="button button-positive icon-left ion-plus-round" ng-href="#/organizer/addevent">{{'EVENTLIST.button_create' | translate}}</a>
+        </div>
+      </div>
+    </div>
+    <ion-list ng-show="eventList.events.length > 0">
+      <ion-item item-height="150px" item-width="100%" ng-href="#/organizer/events/past-event/{{ event.id }}" class="event" collection-repeat="event in eventList.events | orderBy:'-starts'" ng-style="{'background-image': 'url(' + event.image + ')'}">
+        <p>{{event.title}} </br> 
+        {{event.starts | date: 'MMMM d, y'}} - {{event.ends | date: 'MMMM d, y'}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

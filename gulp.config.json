@@ -36,6 +36,7 @@
   "tsc": [
     "./app/**/*.ts"
   ],
+  "templates": "./app/**/*.html",
   "js": [
     "./www/js/app.module.js",
     "./www/js/app.routes.js",
@@ -56,6 +57,5 @@
     "./www/lib/ionic/fonts/**/*.*"
   ],
   "report": "./report/",
-  "build": "./www/",
-  "templates": "./www/templates"
+  "build": "./www/"
 }

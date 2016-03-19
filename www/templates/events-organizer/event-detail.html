@@ -1,0 +1,121 @@
+<ion-view spm-hide-tabs>
+	<ion-nav-title>{{ eventDetail.event.title }}</ion-nav-title>
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear ion-android-more-vertical"
+    ng-click="eventDetail.showActionSheet()"></button>
+  </ion-nav-buttons>
+  <ion-content scroll="false">
+     <tab-slide-box tab="0">
+      <div class="tsb-icons">
+        <div class="tsb-ic-wrp">
+          <ion-scroll direction="x" class="tsb-hscroll">
+            <a>{{"EVENTDETAIL.detail_title" | translate}}</a>
+            <a>{{"EVENTDETAIL.sponsorships_title" | translate}}</a>
+            <a>{{"EVENTDETAIL.tasks_title" | translate}}</a>
+          </ion-scroll>
+        </div>
+      </div>
+      <ion-slide-box show-pager="false" on-slide-changed="slideHasChanged($index)">
+        <ion-slide>
+          <ion-scroll style="height:90%" >
+            <ion-list type="card">
+            	<ion-item class="item-body">
+						  	<strong>{{ eventDetail.event.title }}</strong>
+						  </ion-item>
+            	<ion-item class="item-divider">{{"EVENTDETAIL.start_date_divider" | translate}}</ion-item>
+						  <ion-item class="item-icon-left">
+						  	<i class="icon ion-clock"></i>
+						     {{ eventDetail.event.starts | date: 'medium' }}
+						  </ion-item>
+						  <ion-item class="item-divider">{{"EVENTDETAIL.end_date_divider" | translate}}</ion-item>
+						  <ion-item class="item-icon-left">
+						  	<i class="icon ion-clock"></i>
+						    {{ eventDetail.event.ends | date: 'medium' }}
+						  </ion-item>
+						  <ion-item class="item-body">
+						  	<img ng-src="{{ eventDetail.event.image }}" class="full-image">
+                <span ng-bind-html="eventDetail.event.description"></span>
+						  </ion-item>
+						  <ion-item class="item-divider">
+						    {{"EVENTDETAIL.organizer_divider" | translate}}
+						  </ion-item>
+            	<ion-item class="item-avatar">
+						    <img ng-src="{{ eventDetail.userAuth.image }}">
+						    <h2>{{ eventDetail.userAuth.name }}</h2>
+						    <p>{{ eventDetail.userAuth.company }}</p>
+						  </ion-item>
+						  <ion-item class="item-divider">{{ "EVENTDETAIL.category_divider" | translate }}</ion-item>
+						  <ion-item class="item-icon-left">
+						  	<i class="icon ion-pin"></i>
+						     {{ eventDetail.event.category.title }}
+						  </ion-item>
+						  <ion-item class="item-divider">{{ "EVENTDETAIL.event_type_divider" | translate }}</ion-item>
+						  <ion-item class="item-icon-left">
+                <i class="icon ion-quote"></i>
+                 {{ eventDetail.event.type.name }}
+              </ion-item>
+            </ion-list>
+          </ion-scroll>
+        </ion-slide>
+        
+        <ion-slide>
+          <ion-scroll style="height:90%">
+            <div class="row text-center" ng-show="eventDetail.event.perks.length == 0">
+              <div class="col">
+                <div class="empty-states">
+                  <i class="icon ion-flag"></i>
+                  <h1>{{"EVENTDETAIL.list_empty" | translate}}</h1>
+                </div>
+              </div>
+            </div>
+            <ion-list type="card" ng-show="eventDetail.event.perks.length > 0" ng-repeat="perk in eventDetail.event.perks">
+              <ion-item class="item-divider">
+                {{"EVENTDETAIL.perk_divider" | translate}}: {{ perk.kind }} - ${{ perk.usd }}
+                <span class="badge badge-positive">{{ perk.sponzorship.length }}</span>
+              </ion-item>
+              <ion-item ng-show="perk.sponzorship.length == 0">
+                {{"EVENTDETAIL.list_empty" | translate}}
+              </ion-item>
+              <ion-item ng-click="eventDetail.openOptionsSponsorship( sponzorship )" class="item-icon-left item-icon-right" ng-repeat="sponzorship in perk.sponzorship">
+                <i class="icon ion-flag"></i>
+                <h2> {{ sponzorship.cause }} </h2>
+                <p> {{ sponzorship.sponzor.name }} </p>
+                <i class="icon ion-checkmark-circled status-sponzorship accept" ng-if="sponzorship.status == 1"></i>
+                <i class="icon ion-close-circled status-sponzorship reject" ng-if="sponzorship.status == 2"></i>
+                <i class="icon ion-alert status-sponzorship pending" ng-if="sponzorship.status == 0"></i>
+              </ion-item>
+            </ion-list>
+          </ion-scroll>
+        </ion-slide>
+        <ion-slide>
+          <ion-scroll style="height:90%">
+            <div class="row text-center" ng-show="eventDetail.event.perks == 0">
+              <div class="col">
+                <div class="empty-states">
+                  <i class="icon ion-flag"></i>
+                  <h1>{{"EVENTDETAIL.list_empty" | translate}}</h1>
+                </div>
+              </div>
+            </div>
+            <ion-list type="card" ng-show="eventDetail.event.perks.length > 0" ng-repeat="(indexPerk, perk) in eventDetail.event.perks">
+              <ion-item class="item-button-right">
+                {{"EVENTDETAIL.perk_divider" | translate}}: {{ perk.kind }} - ${{ perk.usd }}
+                <a class="button button-positive" ng-click="eventDetail.newTask( perk, indexPerk )">
+                  <i class="icon ion-plus-round"></i>
+                </a>
+              </ion-item>
+              <ion-item ng-show="perk.tasks.length == 0">
+                {{"EVENTDETAIL.list_empty" | translate}}
+              </ion-item>
+              <ion-item ng-click="eventDetail.editTask( task, indexPerk, indexTask )" class="item-icon-left" ng-repeat="(indexTask, task) in perk.tasks" ng-class="{done: task.status == 1}">
+                <i class="icon ion-checkmark"></i>
+                <h2> {{ task.title }} </h2>
+                <p> {{ task.description }} </p>
+              </ion-item>
+            </ion-list>
+          </ion-scroll>
+        </ion-slide>
+      </ion-slide>
+    </tab-slide-box>
+  </ion-content>
+</ion-view>

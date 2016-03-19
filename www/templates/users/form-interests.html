@@ -1,0 +1,31 @@
+<ion-view hide-nav-bar="true" class="pageForm">
+  <ion-content>
+    <form name="interestsForm" novalidate  ng-submit="interestsForm.$valid && interests.updateInterests( interestsForm )">
+      <div class="list">
+        <div class="padding">
+          <i class="icon ion-android-person-add cover"></i>
+        </div>
+        <div class="item-divider text-center">
+          {{"JOINNOW.interests_title" | translate}}
+        </div>
+        <spm-accordion auto-open="false">
+          <spm-accordion-item title="{{ category.title }}" ng-repeat="category in interests.categories">
+            <ion-checkbox ng-model="interest.check"  class="checkbox-postive" ng-repeat="interest in category.interests">{{ interest.name }}</ion-checkbox>
+          </spm-accordion-item>
+         </spm-accordion>
+      </div>
+      <div class="row">
+        <div class="col">
+          <a ng-click="interests.validateTutorial()" class="button button-block button-secondary">
+            {{"JOINNOW.profile_skip_button" | translate}}
+          </a>
+        </div>
+        <div class="col">
+          <button type="submit" class="button button-block button-positive">
+            {{"JOINNOW.profile_next_button" | translate}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>

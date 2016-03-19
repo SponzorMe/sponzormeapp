@@ -1,0 +1,164 @@
+<ion-view>
+  <ion-nav-title>{{"EDITEVENTS.title" | translate}}</ion-nav-title>
+  <ion-content>
+    <form name="editEventForm" novalidate ng-submit="editEventForm.$valid && editEvent.updateEvent( editEventForm )">
+      <ion-list type="card">  
+        <ion-item class="item-divider">
+          {{"EDITEVENTS.forgot_title" | translate}}
+        </ion-item>
+        <!-- Image  -->
+        <ion-item class="item-image"> 
+          <i class="icon ion-image cover" ng-if="!editEvent.newEvent.image" ng-click="editEvent.getPhoto()"></i>
+          <img ng-if="editEvent.newEvent.image" ng-src="{{editEvent.newEvent.image}}" ng-click="editEvent.getPhoto()" />
+        </ion-item>
+        <!-- Title  -->
+        <label class="item item-input" ng-class="{ 'has-error' : editEventForm.txttitle.$invalid && editEventForm.$submitted }">
+          <input 
+          name="txttitle" 
+          type="text" 
+          placeholder='{{"EDITEVENTS.title_field" | translate}}' 
+          ng-model="editEvent.newEvent.title"
+          ng-minlength="5" 
+          required>
+        </label>
+         <div class="form-errors" ng-messages="editEventForm.txttitle.$error" ng-if="editEventForm.$invalid && editEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_tit_required" | translate}}</div>
+          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_tit_maxlength" | translate}}</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_tit_minlength" | translate}}</div>
+        </div>
+        <!-- Location  -->
+        <label class="item item-input" ng-class="{ 'has-error' : editEventForm.txtloc.$invalid && editEventForm.$submitted }">
+          <input 
+          name="txtloc" 
+          type="text" 
+          placeholder='{{"EDITEVENTS.location_field" | translate}}' 
+          ng-model="editEvent.newEvent.location" 
+          g-places-autocomplete 
+          ng-minlength="5"
+          ng-maxlength="30"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="editEventForm.txtloc.$error" ng-if="editEventForm.$invalid && editEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_loc_required" | translate}}</div>
+          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_loc_maxlength" | translate}}</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_loc_minlength" | translate}}</div>
+        </div>
+       <!-- Description  -->
+        <label class="item item-input" ng-class="{ 'has-error' : editEventForm.txtdesc.$invalid && editEventForm.$submitted }">
+          <textarea
+          name="txtdesc"
+          placeholder='{{"EDITEVENTS.description_field" | translate}}'
+          ng-model="editEvent.newEvent.description"
+          ng-minlength="5" 
+          required>
+          </textarea>
+        </label>
+        <div class="form-errors" ng-messages="editEventForm.txtdesc.$error" ng-if="editEventForm.$invalid && editEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_desc_required" | translate}}</div>
+          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_desc_maxlength" | translate}}</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_desc_minlength" | translate}}</div>
+        </div>
+        <!-- Start Date  -->
+        <label class="item item-input" ng-class="{ 'has-error' : editEventForm.txtstart.$invalid && editEventForm.$submitted }">
+          <input 
+          name="txtstart" 
+          type="text" 
+          readonly  
+          placeholder='{{"EDITEVENTS.starts_field1" | translate}}' 
+          ng-model="editEvent.newEvent.start" 
+          ng-click="editEvent.clickedStartDate()"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="editEventForm.txtstart.$error" ng-if="editEventForm.$invalid && editEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_startdate_required" | translate}}</div>
+        </div>
+        <!-- Start Time  -->
+        <label class="item item-input" ng-class="{ 'has-error' : editEventForm.txtstarttime.$invalid && editEventForm.$submitted }">
+          <input
+          name="txtstarttime" 
+          type="text" 
+          readonly  
+          placeholder='{{"EDITEVENTS.starts_field2" | translate}}' 
+          ng-model="editEvent.newEvent.starttime" 
+          ng-click="editEvent.clickedStartTime()"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="editEventForm.txtstarttime.$error" ng-if="editEventForm.$invalid && editEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_starttime_required" | translate}}</div>
+        </div>
+        <!-- End Date  -->
+        <label class="item item-input" ng-class="{ 'has-error' : editEventForm.txtend.$invalid && editEventForm.$submitted }">
+          <input
+          name="txtend" 
+          type="text" 
+          readonly 
+          placeholder='{{"EDITEVENTS.ends_field1" | translate}}' 
+          ng-model="editEvent.newEvent.end" 
+          ng-click="editEvent.clickedEndDate()"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="editEventForm.txtend.$error" ng-if="editEventForm.$invalid && editEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_enddate_required" | translate}}</div>
+        </div>
+        <!-- End Time  -->
+        <label class="item item-input" ng-class="{ 'has-error' : editEventForm.txtendtime.$invalid && editEventForm.$submitted }">
+          <input 
+          name="txtendtime" 
+          type="text" 
+          readonly  
+          placeholder='{{"EDITEVENTS.ends_field2" | translate}}' 
+          ng-model="editEvent.newEvent.endtime" 
+          ng-click="editEvent.clickedEndTime()"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="editEventForm.txtendtime.$error" ng-if="editEventForm.$invalid && editEventForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_endtime_required" | translate}}</div>
+        </div>
+        <!-- Access -->
+        <ion-toggle ng-model="editEvent.newEvent.access" toggle-class="toggle-positive">
+          {{"EDITEVENTS.is_public_label" | translate}}
+        </ion-toggle>
+        <!-- Access 
+        <label class="item item-input item-select">
+          <div class="input-label">Access</div>
+          <select name="selType" ng-model="editEvent.newEvent.access" ng-options="access.name for access in editEvent.eventAccess">
+          </select>
+        </label>-->
+        <!-- Event type -->
+        <label class="item item-input item-select">
+          <div class="input-label">{{"EDITEVENTS.event_type_label" | translate}}</div>
+          <select name="selType" ng-model="editEvent.newEvent.type" ng-options="type.name for type in editEvent.eventTypes">
+          </select>
+        </label>
+
+        <ion-item class="item-divider">{{"EDITEVENTS.perk_label" | translate}}</ion-item>
+        <ion-item ng-repeat="perk in editEvent.newEvent.perks" ng-click="editEvent.editPerk( perk )" class="item-icon-right">
+          {{ perk.kind }} - {{ perk.usd }}
+          <i class="icon ion-edit"></i>
+        </ion-item>
+         
+        <div class="padding">
+          <button type="button" class="button button-block button-positive" ng-click="editEvent.createPerk()">
+            {{"EDITEVENTS.create_perk_button" | translate}}
+          </button>
+        </div>
+        <input
+        class="ng-hide" 
+        name="sponsors"
+        type="number" 
+        min="1" 
+        ng-model="editEvent.newEvent.perks.length"
+        > 
+        <div class="form-errors" ng-messages="editEventForm.newEvent.perks.$error" ng-if="editEventForm.$invalid && editEventForm.$submitted">
+          <div class="form-error" ng-message="min"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_error_sponsors_empty" | translate}}</div>
+        </div>
+      </ion-list>
+
+      <div class="padding">
+         <button type="submit" class="button button-block button-positive">
+          {{"EDITEVENTS.button_message" | translate}}
+        </button>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>

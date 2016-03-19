@@ -136,14 +136,16 @@ gulp.task('fonts', function( done ) {
 });
 
 gulp.task('tsc', function(){
+  var dest = paths.build + 'js';
   gulp.src(paths.tsc)
     .pipe(typescript())
-    .pipe(gulp.dest('www/js'))
+    .pipe(gulp.dest(dest))
 });
 
 gulp.task('templates', function(){
+  var dest = paths.build + 'templates';
   gulp.src(paths.templates)
-    .pipe(gulp.dest('www/templates'))
+    .pipe(gulp.dest(dest))
 });
 
 /**

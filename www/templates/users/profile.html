@@ -1,0 +1,135 @@
+<ion-view view-title='Profile'>
+    <ion-content padding="true">
+      <form name="profileForm" novalidate ng-submit="profileForm.$valid && profile.updateProfile( profileForm )">
+        <ion-list type="card">
+          <ion-item class="item-divider">
+            {{'SETTINGSUSER.info_title' | translate}}
+          </ion-item>
+          <spm-crop-image edit="true" ng-click="profile.getPhoto()">
+            <i class="icon ion-image cover" ng-if="!profile.userAuth.image"></i>
+            <img ng-if="profile.userAuth.image" class="center-block" ng-src="{{profile.userAuth.image}}"/>
+          </spm-crop-image>
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">
+              {{'SETTINGSUSER.form_label1' | translate}}
+            </span>
+            <input name="txtname" 
+            type="text" 
+            placeholder="{{'SETTINGSUSER.form_label1' | translate}}" 
+            ng-model="profile.userAuth.name"
+            ng-minlength="5"
+            ng-maxlength="30">
+          </label>
+          <div class="form-errors" ng-messages="profileForm.txtname.$error" ng-if="profileForm.$invalid && profileForm.$submitted">
+            <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_maxlength" | translate}}</div>
+            <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_minlength" | translate}}</div>
+          </div>
+
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">
+              {{'SETTINGSUSER.form_label2' | translate}}
+            </span>
+            <input 
+            name="txtemail" 
+            type="email" 
+            placeholder="{{'SETTINGSUSER.form_label2' | translate}}" 
+            ng-model="profile.userAuth.email"
+            ng-minlength="5"
+            ng-maxlength="30"
+            required>
+          </label>
+          <div class="form-errors" ng-messages="profileForm.txtemail.$error" ng-if="profileForm.$invalid && profileForm.$submitted">
+            <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_required" | translate}}</div>
+            <div class="form-error" ng-message="email"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_email" | translate}}</div>
+            <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_maxlength" | translate}}</div>
+            <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_minlength" | translate}}</div>
+          </div>
+
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">
+              {{'SETTINGSUSER.form_label3' | translate}}
+            </span>
+            <input 
+            name="txtcompany" 
+            type="text" 
+            placeholder="{{'SETTINGSUSER.form_label3' | translate}}" 
+            ng-model="profile.userAuth.company"
+            ng-minlength="5"
+            ng-maxlength="30">
+          </label>
+          <div class="form-errors" ng-messages="profileForm.txtcompany.$error" ng-if="profileForm.$invalid && profileForm.$submitted">
+            <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_maxlength" | translate}}</div>
+            <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_minlength" | translate}}</div>
+          </div>
+
+          <label ng-if="profile.userAuth.type == 0" class="item item-input item-stacked-label">
+            <span class="input-label">
+              Community Size
+            </span>
+            <input 
+            name="comunity_size" 
+            type="number" 
+            placeholder="Community Size" 
+            ng-model="profile.userAuth.comunity_size"
+            ng-minlength="1" 
+            required>
+          </label>
+          <div class="form-errors" ng-messages="profileForm.comunity_size.$error" ng-if="profileForm.$invalid && profileForm.$submitted">
+            <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_required" | translate}}</div>
+          </div>
+
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">
+              {{'SETTINGSUSER.form_label4' | translate}}
+            </span>
+            <input 
+            name="numage" 
+            type="number" 
+            placeholder="{{'SETTINGSUSER.form_label4' | translate}}" 
+            ng-model="profile.userAuth.age"
+            min="0"
+            max="110">
+          </label>
+          <div class="form-errors" ng-messages="profileForm.numage.$error" ng-if="profileForm.$invalid && profileForm.$submitted">
+            <div class="form-error" ng-message="number"><i class="icon ion-close-circled"></i> debe ser numero</div>
+          </div>
+
+          <label class="item item-input item-select">
+            <div class="input-label">
+              {{'SETTINGSUSER.form_label5' | translate}}
+            </div>
+            <select name="selsex" ng-model="user.sex" convert-to-number>
+              <option ng-selected="true" value="0">{{'SETTINGSUSER.sel1_opt1' | translate}}</option>
+              <option value="1">{{'SETTINGSUSER.sel1_opt2' | translate}}</option>
+            </select>
+          </label>
+
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">
+              {{'SETTINGSUSER.form_label6' | translate}}
+            </span>
+            <input 
+            type="text" 
+            placeholder="{{'SETTINGSUSER.form_label6' | translate}}"  
+            g-places-autocomplete 
+            ng-model="profile.userAuth.location" />
+          </label>
+
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">
+              {{'SETTINGSUSER.form_label7' | translate}}
+            </span>
+            <textarea 
+            placeholder="{{'SETTINGSUSER.form_label7' | translate}}" 
+            ng-model="profile.userAuth.description"></textarea>
+          </label>
+        </ion-list>
+
+        <div class="padding">
+          <button type="submit" class="button button-block button-positive">
+            {{'SETTINGSUSER.form_label9' | translate}}
+          </button>
+        </div>
+      </form>
+    </ion-content>
+</ion-view>

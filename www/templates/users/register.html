@@ -1,0 +1,74 @@
+<ion-view hide-nav-bar="true" class="pageForm">
+  <ion-content>
+    <form name="registerForm" novalidate  ng-submit="registerForm.$valid && register.registerNewUser( registerForm )">
+      <div class="list">
+        <div class="padding">
+          <i class="icon ion-android-person-add cover"></i>
+        </div>
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : registerForm.name.$invalid && registerForm.$submitted}">
+          <span class="input-label">{{"JOINNOW.register_name_label" | translate}}</span>
+          <input 
+          name="name" 
+          type="text" 
+          ng-model="register.newUser.name" 
+          placeholder='{{"JOINNOW.register_name_placeholder" | translate}}'
+          ng-minlength="4"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="registerForm.name.$error" ng-if="registerForm.$invalid && registerForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_required" | translate}}</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_minlength" | translate}}</div>
+        </div>
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : registerForm.txtemail.$invalid && registerForm.$submitted}">
+          <span class="input-label">{{"JOINNOW.email_field" | translate}}</span>
+          <input 
+          name="txtemail" 
+          type="email" 
+          ng-model="register.newUser.email" 
+          placeholder='{{"JOINNOW.email_field" | translate}}'
+          ng-minlength="5"
+          ng-maxlength="40"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="registerForm.txtemail.$error" ng-if="registerForm.$invalid && registerForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_required" | translate}}</div>
+          <div class="form-error" ng-message="email"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_email" | translate}}</div>
+          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_maxlength" | translate}}</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_ema_minlength" | translate}}</div>
+        </div>
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : registerForm.txtpassword.$invalid && registerForm.$submitted}">
+          <span class="input-label">{{"JOINNOW.pass_field" | translate}}</span>
+          <input 
+          name="txtpassword" 
+          type="password" 
+          ng-model="register.newUser.password" 
+          placeholder='{{"JOINNOW.pass_field" | translate}}'
+          ng-minlength="5"
+          ng-maxlength="25"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="registerForm.txtpassword.$error" ng-if="registerForm.$invalid && registerForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_pass_required" | translate}}</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_pass_minlength" | translate}}</div>
+          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.joinnow_pass_maxlength" | translate}}</div>
+        </div>
+        <label class="item item-input item-select">
+         <div class="input-label">{{"JOINNOW.kind_title" | translate}}</div>
+         <select ng-model="register.newUser.type" convert-to-number>
+           <option value="1">{{"JOINNOW.kind_opt1" | translate}}</option>
+           <option ng-selected="true" value="0">{{"JOINNOW.kind_opt2" | translate}}</option>
+         </select>
+        </label>
+      </div>
+      <div class="padding">
+        <button type="submit" class="button button-block button-positive">
+          {{"JOINNOW.button_message" | translate}}
+        </button>
+      </div>
+    </form>
+  </ion-content>
+  <ion-footer-bar class="bar">
+    <a class="button button-clear button-positive" href="#/forgot-password">{{"LOGIN.forgot_message" | translate}}</a>  
+    <a class="button button-clear button-positive" href="#/sign-in">{{"LOGIN.signin_message" | translate}}</a>
+  </ion-footer-bar>
+</ion-view>
