@@ -8,13 +8,11 @@
         <div class="item-divider text-center">
           {{"JOINNOW.interests_title" | translate}}
         </div>
-        <ion-list ng-repeat="category in interests.categories">
-          <ion-item class="item-icon-right" ng-click="interests.getCategory( category )">
-            {{ category.title }}
-            <i class="icon" ng-class="interests.isCategorySelected(category) ? 'ion-minus' : 'ion-plus'"></i>
-          </ion-item>
-          <ion-checkbox ng-model="interest.check" class="item-accordion" ng-show="interests.isCategorySelected(category)" class="checkbox-postive" ng-repeat="interest in category.interests">{{ interest.name }}</ion-checkbox>
-        </ion-list>
+        <spm-accordion auto-open="false">
+          <spm-accordion-item title="{{ category.title }}" ng-repeat="category in interests.categories">
+            <ion-checkbox ng-model="interest.check"  class="checkbox-postive" ng-repeat="interest in category.interests">{{ interest.name }}</ion-checkbox>
+          </spm-accordion-item>
+         </spm-accordion>
       </div>
       <div class="row">
         <div class="col">

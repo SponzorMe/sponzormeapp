@@ -12,65 +12,57 @@
     .controller('HomeSponzorController', HomeSponzorController);
 
   HomeSponzorController.$inject = [
-    '$translate',
     '$localStorage',
-    'eventService',
+    'userService',
     'utilsService',
-    '$scope'
+    '$scope',
+    '$rootScope',
+    'userAuthService'
   ];
 
-  function HomeSponzorController( $translate, $localStorage, eventService, utilsService, $scope) {
+  function HomeSponzorController(  $localStorage, userService, utilsService, $scope, $rootScope, userAuthService) {
 
     var vm = this;
     //Attributes
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.events = [];
     //Funcions
     vm.doRefresh = doRefresh;
     
     activate();
-
     ////////////
 
     function activate(){
-      getEvents();
+      vm.events = vm.userAuth.events.filter( filterDate );
+      $rootScope.$on('HomeSponzorController:getEvents', getEvents);
     }
-
-    function getEvents(){
-      utilsService.showLoad();
-      eventService.allEvents( )
-        .then( complete )
-        .catch(failed );
-
-        function complete( events ){
-          utilsService.hideLoad();
-          vm.events = events.filter( filterDate );
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-          console.log( error );
-        }
+    
+    function getEvents(event) {
+      vm.userAuth = userAuthService.getUserAuth();
+      vm.events = vm.userAuth.events.filter( filterDate );
     }
 
     function doRefresh(){
-      eventService.allEvents( )
-        .then( complete )
-        .catch(failed );
+      userService.home( vm.userAuth.id  )
+        .then( complete );
+        //.catch(failed );
 
-        function complete( events ){
-          vm.events = events.filter( filterDate );
+        function complete( user ){
+          vm.userAuth = userAuthService.updateUserAuth( user );
+          vm.events = vm.userAuth.events.filter( filterDate );
           $scope.$broadcast('scroll.refreshComplete');
         }
 
+        /*
         function failed( error ){
           console.log( error );
-        }
+        }*/
     }
 
     function filterDate( item ){
-      return moment(item.ends).isAfter(new Date());
+      return moment(item.starts).isAfter( new Date() );
     }
+    
     
 
   }

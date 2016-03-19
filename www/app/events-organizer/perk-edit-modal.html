@@ -1,0 +1,64 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive" align-title="center">
+    <h1 class="title">{{'ADDPERK.title' | translate}}</h1>
+    <div class="buttons" ng-show="!editEvent.isNewPerk">
+      <a class="button button-icon icon ion-close-circled" ng-click="editEvent.closeModalPerk()"></a>
+    </div>
+  </ion-header-bar>
+	<ion-content>
+	  <form ng-submit="FormTypeSponsorship.$valid && editEvent.submitPerk( FormTypeSponsorship )" name="FormTypeSponsorship" novalidate class="padding">
+      <ion-list>
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : FormTypeSponsorship.kind.$invalid && FormTypeSponsorship.$submitted }">
+          <span class="input-label">{{'ADDPERK.type_label' | translate}}</span>
+          <input 
+          type="text" 
+          name="kind"
+          placeholder="{{'ADDPERK.type_placeholder' | translate}}" 
+          ng-model="editEvent.newPerk.kind" 
+          required>
+        </label>
+         <div class="form-errors" ng-messages="FormTypeSponsorship.kind.$error" ng-if="FormTypeSponsorship.$invalid && FormTypeSponsorship.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addsponsorshiptype_error_type_required" | translate}}</div>
+        </div>
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : FormTypeSponsorship.total_quantity.$invalid && FormTypeSponsorship.$submitted }">
+          <span class="input-label">{{'ADDPERK.quantity_label' | translate}}</span>
+          <input 
+          type="number" 
+          name="total_quantity" 
+          placeholder="{{'ADDPERK.quantity_placeholder' | translate}}" 
+          ng-model="editEvent.newPerk.total_quantity" 
+          min="1" 
+          required>
+        </label>
+        <div class="form-errors" ng-messages="FormTypeSponsorship.total_quantity.$error" ng-if="FormTypeSponsorship.$invalid && FormTypeSponsorship.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addsponsorshiptype_error_quantity_required" | translate}}</div>
+          <div class="form-error" ng-message="min"><i class="icon ion-close-circled"></i> {{"ERRORS.addsponsorshiptype_error_quantity_min" | translate}}</div>
+        </div>
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : FormTypeSponsorship.price.$invalid && FormTypeSponsorship.$submitted }">
+          <span class="input-label">{{'ADDPERK.price_label' | translate}}</span>
+          <input 
+          type="number" 
+          name="price"
+          placeholder="{{'ADDPERK.price_placeholder' | translate}}" 
+          ng-model="editEvent.newPerk.usd" 
+          min="1"
+          max="200"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="FormTypeSponsorship.price.$error" ng-if="FormTypeSponsorship.$invalid && FormTypeSponsorship.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addsponsorshiptype_error_price_required" | translate}}</div>
+          <div class="form-error" ng-message="max"><i class="icon ion-close-circled"></i> {{"ERRORS.addsponsorshiptype_error_price_max" | translate}}</div>
+          <div class="form-error" ng-message="min"><i class="icon ion-close-circled"></i> {{"ERRORS.addsponsorshiptype_error_price_min" | translate}}</div>
+        </div>
+      </ion-list>
+      <div class="row">
+        <div class="col col-50">
+          <button class="button button-block" type="button" ng-click="editEvent.closeModalPerk( FormTypeSponsorship )">{{'ADDPERK.cancel_button' | translate}}</button>
+        </div>
+        <div class="col col-50">
+          <button class="button button-block button-positive" type="submit">{{'ADDPERK.save_button' | translate}}</button>
+        </div>
+      </div>
+    </form>
+	</ion-content>
+</ion-modal-view>

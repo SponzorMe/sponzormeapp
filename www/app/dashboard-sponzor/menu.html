@@ -29,6 +29,10 @@
           <i class="icon ion-flag"></i> {{'DASHSPONZORS.sponzoring' | translate}}
           <span class="badge badge-stable" ng-show="menu.count_sponsoring > 0">{{ menu.count_sponsoring }}</span>
         </ion-item>
+        <ion-item nav-clear menu-close href="#/sponzor/notifications" class="item-icon-left">
+          <i class="icon ion-android-notifications"></i> {{'DASHORGANIZERS.notifications' | translate}}
+          <span class="badge badge-stable" ng-show="(menu.notifications | filter: {read: false, toApp: 'mobileApp'}).length > 0">{{ (menu.notifications | filter: {read: false, toApp: 'mobileApp'}).length }}</span>
+        </ion-item>
         <ion-item nav-clear menu-close href="#/sponzor/invite" class="item-icon-left">
           <i class="icon ion-person-add"></i> {{'DASHSPONZORS.invite' | translate}}
         </ion-item>

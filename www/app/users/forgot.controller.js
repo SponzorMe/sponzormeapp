@@ -15,10 +15,11 @@
     '$translate',
     'userService', 
     '$state',
-    'utilsService'
+    'utilsService',
+    '$ionicHistory'
   ];
 
-  function ForgotController( $translate, userService, $state , utilsService) {
+  function ForgotController( $translate, userService, $state , utilsService, $ionicHistory) {
 
     var vm = this;
     vm.user = {};
@@ -28,32 +29,21 @@
 
     function resetPassword(){
       utilsService.showLoad();
-      userService.forgotPassword( preparateData() )
-        .then( resetPasswordComplete )
-        .catch( resetPasswordFailed );
+      userService.forgotPassword( vm.user.email )
+        .then( complete )
+        .catch( failed );
 
-        function resetPasswordComplete(){
+        function complete(){
           utilsService.hideLoad();
+          $ionicHistory.clearCache();
           $state.go("signin");
           vm.user = {};
         }
 
-        function resetPasswordFailed( data ){
+        function failed( data ){
           utilsService.hideLoad();
-          if(data.message === "Invalid credentials"){
-            Utils.alertshow({
-              title: $translate.instant("ERRORS.signin_title_credentials"),
-              template: $translate.instant("ERRORS.signin_incorrect_credentials")
-            });
-          }
         }
     };
-
-    function preparateData(){
-      return {
-        email: vm.user.email
-      }
-    }
 
   }
 })();

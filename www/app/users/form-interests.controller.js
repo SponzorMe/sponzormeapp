@@ -5,7 +5,7 @@
 * @version 0.1
 */
 (function() {
-  'use strict';
+  //'use strict';
 
   angular
     .module('app.users')
@@ -18,25 +18,20 @@
     '$localStorage',
     'categoryService',
     'userInterestService',
-    '$q'
+    '$q',
+    'userAuthService'
   ];
 
-  function FormInterestsController( userService, $state , utilsService, $localStorage, categoryService, userInterestService, $q) {
+  function FormInterestsController( userService, $state , utilsService, $localStorage, categoryService, userInterestService, $q, userAuthService) {
 
     var vm = this;
-    var memorize = [];
     //Attributes
-    vm.userAuth = $localStorage.userAuth || {};
+    vm.userAuth = userAuthService.getUserAuth();
     vm.categories = [];
-    vm.categorySelected = null;
     //Funcions
     vm.updateInterests = updateInterests;
-    vm.getCategory = getCategory;
-    vm.isCategorySelected = isCategorySelected;
-    vm.validateTutorial = validateTutorial;
     
     activate();
-
     ////////////
     
     function activate(){
@@ -45,41 +40,30 @@
 
     function updateInterests(){
       utilsService.showLoad();
-      var interests = getInterestCheck();
-      var promises = [];
-      for (var i = 0; i < interests.length; i++) {
-        promises.push( createUserInterest( interests[i] ) );
-      };
-
-      $q.all( promises )
-        .then( complete )
-        .catch( failed );
+      userInterestService.bulkUserInterest( vm.userAuth.id, {
+        interests: getInterestCheck()
+      })
+      .then( complete )
+      .catch( failed );
 
       function complete( results ){
         utilsService.hideLoad();
-        validateTutorial();
+        redirectTutorial();
       }
 
       function failed( error ){
         utilsService.hideLoad();
-        console.log( error );
       }
 
     }
 
-    function createUserInterest( interest ){
-      return userInterestService.createUserInterest({
-        interest_id: interest.id_interest,
-        user_id: vm.userAuth.id
-      })
-    }
-
-    function getInterestCheck( data ){
+    function getInterestCheck(){
       return vm.categories
         .filter( ByInterest )
         .map( mapInterest )
         .reduce( mergeArrays, [] )
-        .filter( interestCheck );
+        .filter( interestCheck )
+        .map( preparateData );
 
         function ByInterest( item ){
           return item.interests;
@@ -96,6 +80,13 @@
         function interestCheck( item ){
           return item.check;
         }
+        
+        function preparateData( item ) {
+           return {
+             'user_id': vm.userAuth.id,
+             'interest_id': item.id_interest
+           }
+        }
     }
 
     function getCategories(){
@@ -111,66 +102,7 @@
 
         function failed( error ){
           utilsService.hideLoad();
-          console.log( error );
         }
-    }
-
-    function getCategory( category ){
-      
-      toggleCategory( category );
-      if(memorize.indexOf( category.id ) == -1){
-        utilsService.showLoad();
-        categoryService.getCategory( category.id )
-          .then( complete )
-          .catch( failed );
-
-          function complete( categoryRta ){
-            utilsService.hideLoad();
-            category.interests = categoryRta.interests;
-            memorize.push( category.id );
-          }
-
-          function failed( error ){
-            utilsService.hideLoad();
-            console.log( error );
-          }
-      }
-    }
-
-    function toggleCategory( category ){
-      if(isCategorySelected(category)){
-        vm.categorySelected = null;
-      }else{
-        vm.categorySelected = category;
-      }
-    }
-
-    function isCategorySelected(category){
-      return vm.categorySelected == category;
-    }
-
-    function saveUser(){
-      $localStorage.userAuth = utilsService.updateUserAuth(vm.userAuth);
-    }
-
-    function updateUser(){
-      vm.userAuth.demo = 1;
-      saveUser();
-      userService.editUserPatch( vm.userAuth.id, vm.userAuth )
-        .then( redirectTutorial )
-        .catch( failed );
-
-        function failed( error ){
-          console.log( error );
-        }
-    };
-
-    function validateTutorial(){
-      if( vm.userAuth.demo == 0){
-        updateUser();
-      }else{
-        redirectHome();
-      }
     }
 
     function redirectTutorial(){
@@ -178,14 +110,6 @@
         $state.go("organizer.intro");
       }else{ // is an Sponzor
         $state.go("sponzor.intro");
-      }
-    }
-
-    function redirectHome(){
-      if( vm.userAuth.type == 0 ){ // is an Organizer.
-        $state.go("organizer.home");
-      }else{ // is an Sponzor
-        $state.go("sponzor.home");
       }
     }
 

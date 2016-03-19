@@ -6,8 +6,8 @@
             {{'SETTINGSUSER.info_title' | translate}}
           </ion-item>
           <spm-crop-image edit="true" ng-click="profile.getPhoto()">
-            <i class="icon ion-image cover" ng-if="!profile.user.image"></i>
-            <img ng-if="profile.user.image" class="center-block" ng-src="{{profile.user.image}}"/>
+            <i class="icon ion-image cover" ng-if="!profile.userAuth.image"></i>
+            <img ng-if="profile.userAuth.image" class="center-block" ng-src="{{profile.userAuth.image}}"/>
           </spm-crop-image>
           <label class="item item-input item-stacked-label">
             <span class="input-label">
@@ -16,7 +16,7 @@
             <input name="txtname" 
             type="text" 
             placeholder="{{'SETTINGSUSER.form_label1' | translate}}" 
-            ng-model="profile.user.name"
+            ng-model="profile.userAuth.name"
             ng-minlength="5"
             ng-maxlength="30">
           </label>
@@ -33,7 +33,7 @@
             name="txtemail" 
             type="email" 
             placeholder="{{'SETTINGSUSER.form_label2' | translate}}" 
-            ng-model="profile.user.email"
+            ng-model="profile.userAuth.email"
             ng-minlength="5"
             ng-maxlength="30"
             required>
@@ -53,7 +53,7 @@
             name="txtcompany" 
             type="text" 
             placeholder="{{'SETTINGSUSER.form_label3' | translate}}" 
-            ng-model="profile.user.company"
+            ng-model="profile.userAuth.company"
             ng-minlength="5"
             ng-maxlength="30">
           </label>
@@ -62,7 +62,7 @@
             <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_minlength" | translate}}</div>
           </div>
 
-          <label ng-if="profile.user.type == 0" class="item item-input item-stacked-label">
+          <label ng-if="profile.userAuth.type == 0" class="item item-input item-stacked-label">
             <span class="input-label">
               Community Size
             </span>
@@ -70,7 +70,7 @@
             name="comunity_size" 
             type="number" 
             placeholder="Community Size" 
-            ng-model="profile.user.comunity_size"
+            ng-model="profile.userAuth.comunity_size"
             ng-minlength="1" 
             required>
           </label>
@@ -86,7 +86,7 @@
             name="numage" 
             type="number" 
             placeholder="{{'SETTINGSUSER.form_label4' | translate}}" 
-            ng-model="profile.user.age"
+            ng-model="profile.userAuth.age"
             min="0"
             max="110">
           </label>
@@ -112,7 +112,7 @@
             type="text" 
             placeholder="{{'SETTINGSUSER.form_label6' | translate}}"  
             g-places-autocomplete 
-            ng-model="profile.user.location" />
+            ng-model="profile.userAuth.location" />
           </label>
 
           <label class="item item-input item-stacked-label">
@@ -121,7 +121,7 @@
             </span>
             <textarea 
             placeholder="{{'SETTINGSUSER.form_label7' | translate}}" 
-            ng-model="profile.user.description"></textarea>
+            ng-model="profile.userAuth.description"></textarea>
           </label>
         </ion-list>
 

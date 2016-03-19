@@ -13,66 +13,49 @@
 
   HomeOrganizerController.$inject = [
     '$localStorage',
-    'userService',
-    'utilsService',
-    'sponzorshipService',
-    '$q'
+    '$rootScope',
+    'userAuthService',
+    'notificationService'
   ];
 
-  function HomeOrganizerController( $localStorage, userService , utilsService, sponzorshipService, $q) {
+  function HomeOrganizerController( $localStorage, $rootScope, userAuthService, notificationService ) {
 
     var vm = this;
     //Atributes
     vm.count_events = 0;
     vm.count_sponsors = 0;
     vm.count_comunity = 0;
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
+    vm.notifications = [];
 
     activate();
-
     ////////////
 
     function activate(){
-      getData();
-    }
-
-    function getData(){
-      utilsService.showLoad();
-
-      var promises = [
-        userService.getUser( vm.userAuth.id ),
-        sponzorshipService.sponzorshipByOrganizer( vm.userAuth.id )
-      ];
-
-      $q.all( promises )
-        .then( complete )
-        .catch( failed );
-
-        function complete( data ){
-          utilsService.hideLoad();
-          getEvents( data[0]  );
-          getSponzorships( data[1] );
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-          console.log( error );
-        }
-    }
-
-    function getEvents( user ){
-      vm.count_events = user.events.filter( filterDate ).length;
-      vm.count_comunity = user.comunity_size || 0;
-
-      function filterDate( item ){
-        return moment(item.ends).isAfter(new Date());
-      }
-    }
-
-    function getSponzorships( sponsors ){
-      vm.count_sponsors = sponsors.length;
+      $rootScope.$on('HomeOrganizerController:count_sponsors', renderCountSponsors);
+      $rootScope.$on('HomeOrganizerController:count_events', renderCountEvents);
+      
+      vm.count_events = vm.userAuth.events.filter( filterDate ).length;
+      vm.count_comunity = parseInt( vm.userAuth.comunity_size ) || 0;
+      vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
+      vm.notifications = notificationService.getNotifications( vm.userAuth.id );
+      
+    };
+    
+    function renderCountSponsors() {
+      vm.userAuth = userAuthService.getUserAuth();
+      vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
     }
     
+    function renderCountEvents(){
+      vm.userAuth = userAuthService.getUserAuth();
+      vm.count_events = vm.userAuth.events.filter( filterDate ).length;
+    }
+    
+    function filterDate( item ){
+      var today = moment( new Date() ).subtract(1, 'days');
+      return moment(item.ends).isAfter( today );
+    }
 
   }
 })();

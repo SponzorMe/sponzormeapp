@@ -1,4 +1,5 @@
-<ion-view view-title="{{'EVENTLIST.title' | translate}}">
+<ion-view>
+  <ion-nav-title>{{'EVENTLIST.title' | translate}}</ion-nav-title>
   <ion-nav-buttons side="right">
     <a class="button button-icon button-clear ion-plus-round" ng-href="#/organizer/addevent">
     </a>
@@ -16,7 +17,7 @@
       </div>
     </div>
     <ion-list ng-show="eventList.events.length > 0">
-      <ion-item href="#/organizer/event/{{ event.id }}" class="event" collection-repeat="event in eventList.events | orderBy:'starts'" ng-style="{'background-image': 'url(' + event.image + ')'}">
+      <ion-item item-height="150px" item-width="100%" ng-href="#/organizer/events/event/{{ event.id }}" class="event" collection-repeat="event in eventList.events | orderBy:'starts'" ng-style="{'background-image': 'url(' + event.image + ')'}">
         <p>{{event.title}} </br> 
         {{event.starts | date: 'MMMM d, y'}} - {{event.ends | date: 'MMMM d, y'}}</p>
       </ion-item>

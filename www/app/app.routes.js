@@ -9,12 +9,38 @@
     .module('app')
     .config(routeConfig);
 
-  function routeConfig($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider) {
+  function routeConfig($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider, $ionicAutoTrackProvider) {
 
     $ionicConfigProvider.views.swipeBackEnabled(false);
-    $urlRouterProvider.otherwise("/sign-in");
+    $ionicConfigProvider.views.maxCache(10);
+    $ionicConfigProvider.backButton.text('');
+    $ionicAutoTrackProvider.disableTracking('Tap');
+    $ionicAutoTrackProvider.disableTracking('Load');
+
+    function getDefaultRoute(){
+
+      function userType(){
+        var userAuth = JSON.parse(localStorage.getItem('ngStorage-userAuth'));
+        if( userAuth.type == 0 ) return "/organizer/home";
+        return "/sponzor/home";
+      }
+      
+      if(localStorage.getItem('ngStorage-token') && localStorage.getItem('ngStorage-userAuth')){
+        return userType();
+      }
+      return "/sign-in"
+    }
+
+    $urlRouterProvider.otherwise( getDefaultRoute() );    
 
     $stateProvider
+
+      .state('tests', {
+        url: '/tests',
+        templateUrl: 'app/users/tests.html',
+        controller: 'TestsController as test',
+      })
+
       .state('signin', {
         url: '/sign-in',
         templateUrl: 'app/users/login.html',
@@ -31,14 +57,12 @@
         url: "/profile",
         templateUrl: "app/users/form-profile.html",
         controller: "FormProfileController as profile",
-        cache: false,
       })
 
       .state('interests', {
         url: "/interests",
         templateUrl: "app/users/form-interests.html",
         controller: "FormInterestsController as interests",
-        cache: false,
       })
 
       .state('forgot-password', {
@@ -84,7 +108,6 @@
             controller: "ProfileController as profile"
           }
         },
-        cache: false,
       })
 
       .state('organizer.events', {
@@ -92,7 +115,8 @@
         abstract: true,
         views: {
           'menuContent' :{
-            templateUrl: "app/events-organizer/event-list-tabs.html"
+            templateUrl: "app/events-organizer/event-list-tabs.html",
+            controller: "EventsTabsController as tabs"
           }
         },
       })
@@ -104,9 +128,19 @@
             templateUrl: "app/events-organizer/event-list.html",
             controller: "EventListController as eventList"
           }
-        },
-        cache: false
+        }
       })
+
+      .state('organizer.events.detail-list', {
+        url: "/event/:idEvent",
+        views: {
+          'tabEventList' :{
+            templateUrl: "app/events-organizer/event-detail.html",
+            controller: "EventDetailOrganizerController as eventDetail"
+          }
+        },
+      })
+
 
       .state('organizer.events.past', {
         url: "/past",
@@ -115,8 +149,17 @@
             templateUrl: "app/events-organizer/past-events.html",
             controller: "PastEventsController as eventList"
           }
-        },
-        cache: false
+        }
+      })
+
+      .state('organizer.events.detail-past', {
+        url: "/past-event/:idEvent",
+        views: {
+          'tabPastEvents' :{
+            templateUrl: "app/events-organizer/event-detail.html",
+            controller: "EventDetailOrganizerController as eventDetail"
+          }
+        }
       })
 
       .state('organizer.addevent', {
@@ -126,7 +169,8 @@
             templateUrl: "app/events-organizer/add-event.html",
             controller: "AddEventController as addEvent"
           }
-        }
+        },
+        cache: false,
       })
 
       .state('organizer.editevent', {
@@ -137,7 +181,7 @@
             controller: "EditEventController as editEvent"
           }
         },
-        cache: false
+        cache: false,
       })
 
       .state('organizer.event', {
@@ -147,63 +191,78 @@
             templateUrl: "app/events-organizer/event-detail.html",
             controller: "EventDetailOrganizerController as eventDetail"
           }
-        },
-        cache: false,
+        }
       })
 
-      .state('organizer.sponsors', {
-        url: "/sponsors",
+      .state('organizer.sponsorships', {
+        url: "/sponsorships",
         views: {
           'menuContent' :{
-            templateUrl: "app/sponsors-organizer/sponzor-list.html",
-            controller: "SponzorListController as sponzorList"
+            templateUrl: "app/sponsors-organizer/sponsorships-tabs.html",
+            controller: "SponsorshipsTabsController as tabs"
+          }
+        }
+      })
+      
+      .state('organizer.sponsorships.list', {
+        url: "/list",
+        views: {
+          'tabEventList' :{
+            templateUrl: "app/sponsors-organizer/sponsorships-list.html",
+            controller: "SponsorshipsListController as list"
           }
         },
-        cache: false,
+      })
+      
+      .state('organizer.sponsorships.past', {
+        url: "/past",
+        views: {
+          'tabPastEvents' :{
+            templateUrl: "app/sponsors-organizer/sponsorships-past-events.html",
+            controller: "SponsorshipsPastEventsController as list"
+          }
+        },
       })
 
-      .state('organizer.sponzor', {
-        url: "/sponzor/:id",
+      .state('organizer.sponsorship', {
+        url: "/sponsorship/:id",
         views: {
           'menuContent' :{
-            templateUrl: "app/sponsors-organizer/sponzor-detail.html",
-            controller: "SponsorshipDetailController as sponzorDetail"
+            templateUrl: "app/sponsors-organizer/sponsorship-detail.html",
+            controller: "SponsorshipOrganizerDetailController as detail"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('organizer.tasks', {
         url: "/tasks",
+        abstract: true,
         views: {
           'menuContent' :{
+            templateUrl: "app/tasks-organizer/task-list-tabs.html",
+            controller: "TaskTabsController as tabs"
+          }
+        },
+      })
+
+      .state('organizer.tasks.list', {
+        url: "/list",
+        views: {
+          'tabTasksList' :{
             templateUrl: "app/tasks-organizer/task-list.html",
             controller: "TaskListController as taskList"
           }
-        },
-        cache: false,
+        }
       })
 
-      .state('organizer.addTask', {
-        url: "/addTask",
+      .state('organizer.tasks.list-past', {
+        url: "/past",
         views: {
-          'menuContent' :{
-            templateUrl: "app/tasks-organizer/add-task.html",
-            controller: "AddTaskController as addTask"
+          'tabPastTasks' :{
+            templateUrl: "app/tasks-organizer/past-tasks.html",
+            controller: "PastTaskController as taskList"
           }
-        },
-        cache: false,
-      })
-
-      .state('organizer.editTask', {
-        url: "/editTask/:id",
-        views: {
-          'menuContent' :{
-            templateUrl: "app/tasks-organizer/edit-task.html",
-            controller: "EditTaskController as editTask"
-          }
-        },
-        cache: false,
+        }
       })
 
       .state('organizer.invite', {
@@ -222,6 +281,16 @@
           'menuContent' :{
             templateUrl: "app/users/settings.html",
             controller: "SettingsController as settings"
+          }
+        }
+      })
+      
+      .state('organizer.notifications', {
+        url: "/notifications",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/users/notifications.html",
+            controller: "NotificationsController as list"
           }
         }
       })
@@ -254,30 +323,27 @@
             templateUrl: "app/dashboard-sponzor/home.html",
             controller: "HomeSponzorController as home"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('sponzor.following', {
         url: "/following",
         views: {
           'menuContent' :{
-            templateUrl: "app/events-sponzor/follow-events.html",
-            controller: "FollowEventsController as follow"
+            templateUrl: "app/events-sponsor/follow-events.html",
+            controller: "FollowEventsController as list"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('sponzor.sponzoring', {
         url: "/sponzoring",
         views: {
           'menuContent' :{
-            templateUrl: "app/events-sponzor/sponzoring-events.html",
+            templateUrl: "app/events-sponsor/sponsoring-events.html",
             controller: "SponzoringEventsController as sponzoring"
           }
-        },
-        cache: false,
+        }
       })
 
       .state('sponzor.profile', {
@@ -287,16 +353,25 @@
             templateUrl: "app/users/profile.html",
             controller: "ProfileController as profile"
           }
-        },
-        cache: false
+        }
       })
 
       .state('sponzor.event', {
         url: "/event/:idEvent",
         views: {
           'menuContent' :{
-            templateUrl: "app/events-sponzor/event-detail.html",
+            templateUrl: "app/events-sponsor/event-detail.html",
             controller: "EventDetailSponzorController as eventDetail"
+          }
+        }
+      })
+
+      .state('sponzor.sponsorship', {
+        url: "/sponsorship/:id",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/events-sponsor/sponsorship-detail.html",
+            controller: "SponsorshipSponsorDetailController as detail"
           }
         }
       })
@@ -317,6 +392,16 @@
           'menuContent' :{
             templateUrl: "app/users/settings.html",
             controller: "SettingsController as settings"
+          }
+        }
+      })
+      
+      .state('sponzor.notifications', {
+        url: "/notifications",
+        views: {
+          'menuContent' :{
+            templateUrl: "app/users/notifications.html",
+            controller: "NotificationsController as list"
           }
         }
       })

@@ -2,7 +2,7 @@
   <ion-nav-title>{{'DASHORGANIZERS.title' | translate}}</ion-nav-title>
   <ion-content padding="true">
     <!-- Events -->
-    <div class="card number-bar" href="list card">
+    <div class="card number-bar">
       <a class="item item-thumbnail-left number-bar-events" href="#/organizer/events/list">
         <i class="icon ion-calendar item-image"></i>
         <h2>{{ home.count_events }}</h2>
@@ -10,19 +10,27 @@
       </a>
     </div>
     <!-- Sponsors -->
-    <div class="card number-bar" href="list card">
-      <a class="item item-thumbnail-left number-bar-sponsors" href="#/organizer/sponsors">
+    <div class="card number-bar">
+      <a class="item item-thumbnail-left number-bar-sponsors" href="#/organizer/sponsorships/list">
         <i class="icon ion-flag item-image"></i>
         <h2>{{ home.count_sponsors }}</h2>
         <p>{{'DASHORGANIZERS.sponsors' | translate}}</p>
       </a>
     </div>
     <!-- Community -->
-    <div class="card number-bar" href="list card">
+    <div class="card number-bar">
       <a class="item item-thumbnail-left number-bar-communtity" href="#/organizer/profile">
         <i class="icon ion-person-stalker item-image"></i>
         <h2>{{ home.count_comunity }}</h2>
         <p>{{'DASHORGANIZERS.comunity' | translate}}</p>
+      </a>
+    </div>
+    <!-- Notifications -->
+    <div class="card number-bar">
+      <a class="item item-thumbnail-left number-bar-communtity" href="#/organizer/notifications">
+        <i class="icon ion-android-notifications item-image"></i>
+        <h2>{{ (home.notifications | filter: {read: false, toApp: 'mobileApp'}).length }}</h2>
+        <p>{{'DASHORGANIZERS.notifications' | translate}}</p>
       </a>
     </div>
     

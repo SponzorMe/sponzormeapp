@@ -1,6 +1,10 @@
 .event{
   background-position: top center;
   background-size: cover;
+  .icon{
+    color: white;
+  }
+  
   .item-content{
     height: 150px;
     background: transparent;
@@ -26,9 +30,10 @@
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='transparent', endColorstr='rgba(0,0,0,.7)',GradientType=0 ); /* IE6-9 */
     }
     p{
-      margin-top: 90px;
-      position: relative;
-      color: white;
+      position: absolute;
+      color: #fff;
+      bottom: 5px;
+      width: 100%;
     }
     span.badge{
       bottom: 14px;

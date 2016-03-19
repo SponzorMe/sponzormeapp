@@ -30,8 +30,7 @@
       deletePerkTask: deletePerkTask,
       editPerkTaskPatch: editPerkTaskPatch,
       editPerkTaskPut: editPerkTaskPut,
-      getPerkTaskByOrganizer: getPerkTaskByOrganizer,
-      getPerkTaskByOrganizerGroup: getPerkTaskByOrganizerGroup
+      getPerkTaskByOrganizer: getPerkTaskByOrganizer
     };
 
     return service;
@@ -44,32 +43,29 @@
         .catch( failed );
 
       function complete( response ) {
-        return $q.when( groupByEvent( response.data.PerkTasks ) );
+        return $q.when( response.data.PerkTasks );
       }
 
-      function groupByEvent( data ){
-        //http://underscorejs.org/#groupBy
-        var groups = _.groupBy( data, 'eventTitle' );
-        
-        function parseEvent( value, key ){
-          return {
-            title: key,
-            tasks: value
-          }
-        }
-        //http://underscorejs.org/#map
-        return _.map( groups , parseEvent);
-      }
-
-      function failed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function getPerkTask( perkTaskId ){
-      return $http.get(path + 'perk_tasks/' + perkTaskId)
-        .then( complete )
-        .catch( failed );
+
+      //Validate
+      var typePerkTaskId = typeof perkTaskId;
+      if(typePerkTaskId !== 'string' && typePerkTaskId !== 'number') throw new Error();
+
+      return $http({
+        method: 'GET',
+        url: path + 'perk_tasks/' + perkTaskId,
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded'
+        }
+      })
+      .then( complete )
+      .catch( failed );
 
       function complete( response ) {
         return $q.when( preparateData( response.data.data ) );
@@ -77,59 +73,48 @@
 
       function preparateData( data ){
         var task = data.PerkTask;
-        task.event = data.Event;
-        task.perk = data.Perk;
+        task.event = data.Event || {};
+        task.perk = data.Perk || {};
+        task.user = data.User || {};
         return task;
       }
 
-      function failed( error ) {
-        return $q.reject( error );
-      }
-    }
-
-    function getPerkTaskByOrganizerGroup( userId ){
-      return $http.get(path + 'perk_tasks_organizer/' + userId)
-        .then( complete )
-        .catch( failed );
-
-      function complete( response ){
-        return $q.when( groupByEvent( response.data.PerkTasks ) );
-      }
-
-      function groupByEvent( data ){
-        //http://underscorejs.org/#groupBy
-        var groups = _.groupBy( data, 'eventTitle' );
-        
-        function parseEvent( value, key ){
-          return {
-            title: key,
-            tasks: value
-          }
-        }
-        //http://underscorejs.org/#map
-        return _.map( groups , parseEvent);
-      }
-
-      function failed( error ){
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function getPerkTaskByOrganizer( userId ){
-      return $http.get(path + 'perk_tasks_organizer/' + userId)
-        .then( complete )
-        .catch( failed );
+
+      //Validate
+      var typeUserId = typeof userId;
+      if(typeUserId !== 'string' && typeUserId !== 'number') throw new Error();
+
+      return $http({
+        method: 'GET',
+        url: path + 'perk_tasks_organizer/' + userId,
+        headers: {
+          'Content-Type' : 'application/x-www-form-urlencoded'
+        }
+      })
+      .then( complete )
+      .catch( failed );
 
       function complete( response ){
         return $q.when( response.data.PerkTasks );
       }
 
-      function failed( error ){
-        return $q.reject( error );
+      function failed( response ){
+        return $q.reject( response.data );
       }
     }
 
     function createPerkTask( data ){
+      
+      //Validate
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+      
       return $http({
         method: 'POST',
         url: path + 'perk_tasks',
@@ -146,12 +131,17 @@
         return $q.when( response.data );
       }
 
-      function failed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function deletePerkTask( perkTaskId ){
+
+      //Validate
+      var typePerkTaskId = typeof perkTaskId;
+      if(typePerkTaskId !== 'string' && typePerkTaskId !== 'number') throw new Error();
+
       return $http({
         method: 'DELETE',
         url: path + 'perk_tasks/' + perkTaskId,
@@ -167,12 +157,19 @@
         return $q.when( response.data );
       }
 
-      function failed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function editPerkTaskPatch( perkTaskId, data ){
+
+      //Validate
+      var typePerkTaskId = typeof perkTaskId;
+      if(typePerkTaskId !== 'string' && typePerkTaskId !== 'number') throw new Error();
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'PATCH',
         url: path + 'perk_tasks/' + perkTaskId,
@@ -186,15 +183,22 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( response.data );
+        return $q.when( response.data.PerkTask );
       }
 
-      function failed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 
     function editPerkTaskPut( perkTaskId, data ){
+
+      //Validate
+      var typePerkTaskId = typeof perkTaskId;
+      if(typePerkTaskId !== 'string' && typePerkTaskId !== 'number') throw new Error();
+      var typeData = typeof data;
+      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
+
       return $http({
         method: 'PUT',
         url: path + 'perk_tasks/' + perkTaskId,
@@ -208,11 +212,11 @@
       .catch( failed );
 
       function complete( response ) {
-        return $q.when( response.data );
+        return $q.when( response.data.PerkTask );
       }
 
-      function failed( error ) {
-        return $q.reject( error );
+      function failed( response ) {
+        return $q.reject( response.data );
       }
     }
 

@@ -17,17 +17,18 @@
     'userService',
     'utilsService',
     '$localStorage',
-    '$base64'
+    '$base64',
+    'notificationService',
+    'userAuthService'
   ];
 
-  function RegisterController( $translate, $state, userService, utilsService, $localStorage, $base64 ) {
+  function RegisterController( $translate, $state, userService, utilsService, $localStorage, $base64, notificationService, userAuthService) {
 
     var vm = this;
     vm.newUser = {};
     vm.registerNewUser = registerNewUser;
 
     activate();
-
     ////////////
 
     function activate(){
@@ -51,7 +52,8 @@
         $localStorage.token = $base64.encode(vm.newUser.email +':'+ vm.newUser.password);
         vm.newUser = {}
         vm.newUser.type = 0;
-        $localStorage.userAuth = user;
+        userAuthService.getUserAuth( user );
+        notificationService.activate();
         $state.go("profile");
       }
 
@@ -63,18 +65,19 @@
             template: $translate.instant("ERRORS.signin_incorrect_credentials")
           });
         }
-        else if (utilsService.trim(data.error.email) === "The email has already been taken.") {
-          utilsService.alert({
-            title: $translate.instant("ERRORS.signin_taken_credentials_title"),
-            template: $translate.instant("ERRORS.signin_taken_credentials_message")
-          });
-        }
         else if (utilsService.trim(data.message) === "Not inserted") {
           utilsService.alert({
             title: $translate.instant("ERRORS.signin_notinserted_credentials_title"),
             template: $translate.instant("ERRORS.signin_notinserted_credentials_message")
           });
         }
+        else if (data.error && utilsService.trim(data.error.email) === "The email has already been taken.") {
+          utilsService.alert({
+            title: $translate.instant("ERRORS.signin_taken_credentials_title"),
+            template: $translate.instant("ERRORS.signin_taken_credentials_message")
+          });
+        }
+        
       }
     };
 

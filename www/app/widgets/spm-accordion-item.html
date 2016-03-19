@@ -1,0 +1,7 @@
+<div class="accordion-item" ng-class="{'is-active': active}">
+	<ion-item class="accordion-title item-icon-right" ng-click="activate()">
+		{{ title }}
+		<i class="icon" ng-class="active ? 'ion-minus-round' : 'ion-plus-round'"></i>
+	</ion-item>
+  <div class="accordion-body" ng-show="active" ng-transclude></div>
+</div>

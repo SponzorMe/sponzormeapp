@@ -15,19 +15,20 @@
     '$state',
     '$localStorage',
     '$rootScope',
-    'userService',
-    'sponzorshipService',
-    'perkTaskService'
+    '$ionicHistory',
+    'userAuthService',
+    'notificationService'
   ];
 
-  function MenuOrganizerCtrl( $state, $localStorage, $rootScope, userService, sponzorshipService, perkTaskService ) {
+  function MenuOrganizerCtrl( $state, $localStorage, $rootScope, $ionicHistory, userAuthService, notificationService ) {
 
     var vm = this;
     //Attributes
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.count_events = 0;
     vm.count_sponsors = 0;
     vm.count_tasks = 0;
+    vm.notifications = []; 
     //Funcions
     vm.logout = logout;
 
@@ -36,79 +37,63 @@
 
     function logout(){
       $localStorage.$reset();
-      $state.go('signin');
+      $ionicHistory.clearCache().then(function() {
+        $state.go('signin');
+      });
     }
 
     function activate(){
-      $rootScope.$on('Menu:count_events', renderCountEvents);
-      $rootScope.$on('Menu:count_sponsors', renderCountSponsors);
-      $rootScope.$on('Menu:count_tasks', renderCountTasks);
-      getEvents();
-      getSponsors();
-      getTasks();
+      
+      $rootScope.$on('MenuOrganizer:count_events', renderCountEvents);
+      $rootScope.$on('MenuOrganizer:count_sponsors', renderCountSponsors);
+      $rootScope.$on('MenuOrganizer:count_tasks', renderCountTasks);
+      
+      vm.count_events = vm.userAuth.events.filter( filterDate ).length;
+      vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
+      vm.count_tasks = countTasks().length;
+      
+      vm.notifications = notificationService.getNotifications( vm.userAuth.id );
+      
     }
 
-    function renderCountEvents( event, total ){
-      vm.count_events = total;
+    function renderCountEvents( event ){
+      vm.userAuth = userAuthService.getUserAuth();
+      vm.count_events = vm.userAuth.events.filter( filterDate ).length;
     }
 
-    function renderCountSponsors( event, total ){
-      vm.count_sponsors = total;
+    function renderCountSponsors(){
+      vm.userAuth = userAuthService.getUserAuth();
+      vm.count_sponsors = vm.userAuth.sponzorships_like_organizer.length;
     }
 
-    function renderCountTasks(event, total ){
-      vm.count_tasks = total;
-    }
-
-    function getEvents(){
-      userService.getUser( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( user ){
-          vm.count_events = user.events.filter( filterDate ).length;
-        }
-
-        function failed( error ){
-          console.log( error );
-        }
+    function renderCountTasks(event ){
+      vm.userAuth = userAuthService.getUserAuth();
+      vm.count_tasks = countTasks().length;
     }
 
     function filterDate( item ){
       return moment(item.ends).isAfter(new Date());
     }
-
-    function getSponsors(){
-      sponzorshipService.sponzorshipByOrganizer( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( sponsors ){
-          vm.count_sponsors = sponsors.length;
-        }
-
-        function failed( error ){
-          console.log( error );
-        }
+    
+    function countTasks() {
+      return vm.userAuth.events
+        .reduce( mergePerks, [] )
+        .reduce( mergeTasks, [] )
+        .filter( filterByUserAndNotDone );
+      
+      function mergePerks(a,b){
+        return a.concat(b.perks || []);
+      }
+      
+      function mergeTasks(a,b){
+        return a.concat(b.tasks || []);
+      }
+      
+      function filterByUserAndNotDone( item ) {
+        return item.user_id == vm.userAuth.id && item.status != '1';
+      }
     }
-
-    function getTasks(){
-      perkTaskService.getPerkTaskByOrganizer( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( tasks ){
-          vm.count_tasks = tasks.filter( filterByDone ).length;
-        }
-
-        function failed( error ){
-          console.log( error );
-        }
-    }
-
-    function filterByDone( item ){
-      return item.status != '1';
-    }
+    
 
   }
 })();

@@ -1,26 +1,26 @@
 <ion-view>
 	<ion-nav-title>{{'SETTINGS.title' | translate}}</ion-nav-title>
-  <ion-content padding="true">
-  	<form name="settingsForm" novalidate ng-submit="settingsForm.$valid && settings.save()">
-	    <ion-list>
-	      <ion-item class="item-divider">
-	      	{{'SETTINGS.language_divider' | translate}}
-	      </ion-item>
-	      <ion-radio ng-model="settings.lang" ng-value="'es'">
-	      	{{'SETTINGS.spanish_label' | translate}}
-	      </ion-radio>
-	      <ion-radio ng-model="settings.lang" ng-value="'en'">
-	      	{{'SETTINGS.english_label' | translate}}
-	      </ion-radio>
-	      <ion-radio ng-model="settings.lang" ng-value="'pt'">
-	      	{{'SETTINGS.portuguese_label' | translate}}
-	      </ion-radio>
-	    </ion-list>
-	    <div class="padding">
-        <button type="submit" class="button button-block button-positive">
-          {{'SETTINGS.save_button' | translate}}
-        </button>
-      </div>
-    </form>
+  <ion-content>
+  	<ion-list>
+  		<ion-item class="item-divider">{{'SETTINGS.language_divider' | translate}}</ion-item>
+      <ion-radio ng-model="settings.lang" ng-value="'es'" ng-change="settings.save()">
+      	{{'SETTINGS.spanish_label' | translate}}
+      </ion-radio>
+      <ion-radio ng-model="settings.lang" ng-value="'en'" ng-change="settings.save()">
+      	{{'SETTINGS.english_label' | translate}}
+      </ion-radio>
+      <ion-radio ng-model="settings.lang" ng-value="'pt'" ng-change="settings.save()">
+      	{{'SETTINGS.portuguese_label' | translate}}
+      </ion-radio>
+      <ion-item class="item-divider">{{'SETTINGS.app_divider' | translate}}</ion-item>
+      <ion-item class="item-button-right">
+      	{{'SETTINGS.check_update' | translate}}
+      	<button class="button button-positive" ng-click="settings.checkForUpdates()">
+		      <i class="icon ion-search"></i>
+		    </button>
+      </ion-item>
+      
+  	</ion-list>
+    
   </ion-content>
 </ion-view>

@@ -1,0 +1,35 @@
+<ion-view>
+  <ion-nav-title>{{'SPONSORSHIPLIST.title' | translate}}</ion-nav-title>
+  <ion-content>
+    <ion-refresher pulling-text="{{'SPONSORSHIPLIST.pull_refresh' | translate}}" on-refresh="list.doRefresh()">
+    </ion-refresher>
+    <div class="row text-center" ng-show="list.sponsors.length == 0 && list.showEmptyState">
+      <div class="col">
+        <div class="empty-states">
+          <i class="icon ion-flag"></i>
+         <h1>{{'SPONSORSHIPLIST.list_empty' | translate}}</h1>
+        </div>
+      </div>
+    </div>
+    <div class="list sponsorships" ng-repeat="sponzorship in list.sponsorships | orderBy:'event.starts' ">
+      <ion-item href="#/organizer/sponsorship/{{ sponzorship.id }}" class="event" ng-style="{'background-image': 'url(' + sponzorship.event.image + ')'}">
+        <p>
+          {{ sponzorship.cause | limitTo:40 }}... </br> 
+          <strong>{{'SPONSORSHIPLIST.perk_title' | translate}}:</strong> {{ sponzorship.perk.kind }} </br>
+          {{sponzorship.event.title}} </br> 
+          {{sponzorship.event.starts | date: 'MMMM d, y'}} - {{sponzorship.event.ends | date: 'MMMM d, y'}}
+        </p>
+      </ion-item>
+      <div class="item tabs tabs-light tabs-icon-left">
+        <a class="tab-item" ng-click="list.sponsorAccept( sponzorship )" ng-class="{'status': sponzorship.status == 1}">
+          <i class="icon ion-checkmark-circled"></i>
+          {{'SPONSORSHIPLIST.button_accept' | translate}}
+        </a>
+        <a class="tab-item" ng-click="list.sponsorReject( sponzorship )" ng-class="{'status': sponzorship.status == 2}">
+          <i class="icon ion-close-circled"></i>
+          {{'SPONSORSHIPLIST.button_reject' | translate}}
+        </a>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

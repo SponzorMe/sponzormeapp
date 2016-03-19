@@ -1,0 +1,8 @@
+<ion-tabs class="tabs-positive tabs-icon-top {{$root.hideTabs}}">
+  <ion-tab title="{{'TASKLIST.tasks_list_tab' | translate }}" badge="tabs.count_tasks" icon="ion-clipboard" href="#/organizer/tasks/list">
+    <ion-nav-view name="tabTasksList"></ion-nav-view>
+  </ion-tab>
+  <ion-tab title="{{'TASKLIST.past_tasks_tab' | translate }}" badge="tabs.count_past_tasks" icon="ion-reply-all" href="#/organizer/tasks/past">
+    <ion-nav-view name="tabPastTasks"></ion-nav-view>
+  </ion-tab>
+</ion-tabs>

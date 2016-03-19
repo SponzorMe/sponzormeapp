@@ -12,73 +12,61 @@
     .controller('PastEventsController', PastEventsController);
 
   PastEventsController.$inject = [
-    '$translate',
     '$localStorage',
     'userService',
     'utilsService',
     '$scope',
-    '$rootScope'
+    '$rootScope',
+    'userAuthService'
   ];
 
-  function PastEventsController( $translate, $localStorage, userService , utilsService, $scope, $rootScope) {
+  function PastEventsController( $localStorage, userService , utilsService, $scope, $rootScope, userAuthService) {
 
     var vm = this;
     //Attributes
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.events = [];
     vm.showEmptyState = false;
     //Funcions
     vm.doRefresh = doRefresh;
 
     activate();
-
     ////////////
 
     function activate(){
-      getEvents();
+      $rootScope.$on('PastEventsController:getEvents', getEvents);
+      vm.events = vm.userAuth.events.filter( filterDate );
+      vm.showEmptyState = vm.events.length == 0 ? true : false;
     }
-
+    
     function getEvents(){
-      utilsService.showLoad();
-      userService.getUser( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( user ){
-          utilsService.hideLoad();
-          vm.showEmptyState = false;
-          console.log( user.events.length );
-          vm.events = user.events.filter( filterDate );
-          vm.showEmptyState = vm.events.length == 0 ? true : false;
-          $rootScope.$broadcast('Menu:count_events', vm.events.length);
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-          vm.showEmptyState = true;
-          console.log( error );
-        }
+      vm.userAuth = userAuthService.getUserAuth();
+      vm.events = vm.userAuth.events.filter( filterDate );
+      vm.showEmptyState = vm.events.length == 0 ? true : false;
     }
 
     function doRefresh(){
-      userService.getUser( vm.userAuth.id )
+      userService.home( vm.userAuth.id )
         .then( complete )
         .catch( failed );
 
         function complete( user ){
           $scope.$broadcast('scroll.refreshComplete');
-          console.log( user.events.length );
-          vm.events = user.events.filter( filterDate );
-          $rootScope.$broadcast('Menu:count_events', vm.events.length);
+          vm.userAuth = userAuthService.updateUserAuth( user );
+          vm.events = vm.userAuth.events.filter( filterDate );
+          $rootScope.$broadcast('MenuOrganizer:count_events');
+          $rootScope.$broadcast('EventsTabsController:count_events');
+          $rootScope.$broadcast('HomeOrganizerController:count_events');
         }
 
         function failed( error ){
-          console.log( error );
+          $scope.$broadcast('scroll.refreshComplete');
         }
     }
 
     function filterDate( item ){
-      return moment(item.ends).isBefore(new Date());
+      var today = moment( new Date() ).subtract(1, 'days');
+      return moment(item.ends).isBefore( today );
     }
     
 

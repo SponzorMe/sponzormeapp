@@ -14,19 +14,20 @@
   InviteUsersController.$inject = [
     'userService', 
     'utilsService',
-    '$localStorage'
+    '$localStorage',
+    'userAuthService'
   ];
 
-  function InviteUsersController( userService, utilsService, $localStorage) {
+  function InviteUsersController( userService, utilsService, $localStorage, userAuthService) {
 
     var vm = this;
     vm.friend = {};
-    vm.userAuth = $localStorage.userAuth;
+    vm.userAuth = userAuthService.getUserAuth();
     vm.inviteFriend = inviteFriend;
 
     ////////////
 
-    function inviteFriend(){
+    function inviteFriend( form ){
       utilsService.showLoad();
       userService.invitedUser( preparateData() )
         .then( complete )
@@ -34,6 +35,7 @@
 
         function complete(){
           utilsService.hideLoad();
+          utilsService.resetForm( form );
           vm.friend = {};
           utilsService.alert({
             title: "Nice!",
