@@ -12,6 +12,11 @@ module categoryService{
     getCategory(id:string):angular.IPromise<any>;
   }
   
+  export interface Category{
+    id:string;
+    name:string;
+  }
+  
   export class categoryService implements ICategoryService{
     
     $inject = [
@@ -36,8 +41,7 @@ module categoryService{
         method: 'GET',
         url: this.path + 'categories'
       })
-      //.then( response => { return this.$q.when( response.data.categories ); } )
-      .then( response => { return this.$q.when( response.data ); } )
+      .then( response => { return this.$q.when( this._preparateCategories( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
@@ -47,13 +51,20 @@ module categoryService{
         method: 'GET',
         url: this.path + 'categories/' + categoryId
       })
-      //.then( response => { return this.$q.when( response.data.data.category ); } )
-      .then( response => { return this.$q.when( response.data ); } )
+      .then( response => { return this.$q.when( this._preparateCategory( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
     private _getToken(){
       return this.$localStorage.token;
+    }
+    
+    private _preparateCategories( data ):Category[]{
+      return data.categories;
+    }
+    
+    private _preparateCategory( data ):Category{
+      return data.category;
     }
     
   }

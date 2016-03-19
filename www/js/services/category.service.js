@@ -27,7 +27,7 @@ var categoryService;
                 method: 'GET',
                 url: this.path + 'categories'
             })
-                .then(function (response) { return _this.$q.when(response.data); })
+                .then(function (response) { return _this.$q.when(_this._preparateCategories(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
         categoryService.prototype.getCategory = function (categoryId) {
@@ -36,11 +36,17 @@ var categoryService;
                 method: 'GET',
                 url: this.path + 'categories/' + categoryId
             })
-                .then(function (response) { return _this.$q.when(response.data); })
+                .then(function (response) { return _this.$q.when(_this._preparateCategory(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
         categoryService.prototype._getToken = function () {
             return this.$localStorage.token;
+        };
+        categoryService.prototype._preparateCategories = function (data) {
+            return data.categories;
+        };
+        categoryService.prototype._preparateCategory = function (data) {
+            return data.category;
         };
         return categoryService;
     }());
