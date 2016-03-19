@@ -20,8 +20,8 @@ module eventService{
     id: string;
     title: string;
     location: string;
-    ends: Date;
-    starts: Date;
+    ends: any;
+    starts: any;
     image: string,
     user_organizer: any,
     category: any,
@@ -30,8 +30,6 @@ module eventService{
     sponzor_tasks: any[],
     sponzorship:any []
   }
-  
-  
   
   export class eventService implements IEventService{
     $inject = [
@@ -139,8 +137,8 @@ module eventService{
     private _buildEvent(event):Event{
       event.image = (event.image == "event_dummy.png") ? 'img/banner.jpg' : event.image;
       event.user_organizer.image = (event.user_organizer.image == "organizer_sponzorme.png"  || event.user_organizer.image == "" ) ? 'img/photo.png' : event.user_organizer.image;
-      //event.starts = moment(event.starts).toDate();
-      //event.ends = moment(event.ends).toDate();
+      event.starts = moment(event.starts).toDate();
+      event.ends = moment(event.ends).toDate();
       return event;
     }
   }
