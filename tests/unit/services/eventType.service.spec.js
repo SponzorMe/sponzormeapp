@@ -12,6 +12,9 @@ describe("Service: eventTypeService", function() {
 
   beforeEach(inject(function($injector, _eventTypeService_) {
     eventTypeService = _eventTypeService_;
+    
+    $localStorage = $injector.get('$localStorage');
+    $localStorage.token = "123";
 
     BackendVariables = $injector.get('BackendVariables');
     URL_REST = BackendVariables.url;
@@ -21,6 +24,20 @@ describe("Service: eventTypeService", function() {
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
   }));
+  
+  ////////////////////////////////////////////////////////////
+  describe('Test to _getToken method', function(){
+
+    it('Should define a _getToken function', function(){
+      chai.assert.isDefined(eventTypeService._getToken);
+    });
+
+    it('Should return a string', function(){
+      chai.assert.isString( eventTypeService._getToken() );
+      chai.expect( "123" ).to.eql(  eventTypeService._getToken() );
+    });
+
+  });
 
   ////////////////////////////////////////////////////////////
   describe('Test to allEventTypes method', function(){
@@ -93,7 +110,7 @@ describe("Service: eventTypeService", function() {
       chai.assert.isDefined(eventTypeService.getEventType);
     });
 
-    it('Should throw an error on an incompatible type', function(){
+    /*it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
         eventTypeService.getEventType();
       });
@@ -106,7 +123,7 @@ describe("Service: eventTypeService", function() {
       chai.assert.throws(function(){
         eventTypeService.getEventType(Object);
       });
-    });
+    });*/
 
     it("Should not throw an error in case a string or number", function(){
       chai.assert.doesNotThrow(function(){
