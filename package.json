@@ -61,17 +61,12 @@
     "ionic-plugin-deploy"
   ],
   "cordovaPlatforms": [
-    "ios",
-    {
-      "platform": "ios",
-      "version": "",
-      "locator": "ios"
-    },
     "android",
     {
       "platform": "android",
       "version": "",
       "locator": "android"
-    }
+    },
+    "ios"
   ]
 }
