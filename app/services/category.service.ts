@@ -14,6 +14,18 @@ module categoryService{
   
   export interface Category{
     id:string;
+    title:string;
+    body:string;
+    lang:string;
+    interests: Interests[];
+  }
+  
+  export interface Interests{
+    id:string;
+    category_id:string;
+    description:string;
+    id_interest:string;
+    lang:string;
     name:string;
   }
   
@@ -64,7 +76,7 @@ module categoryService{
     }
     
     private _preparateCategory( data ):Category{
-      return data.category;
+      return data.data.category;
     }
     
   }

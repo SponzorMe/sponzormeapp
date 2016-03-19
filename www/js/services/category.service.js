@@ -46,7 +46,7 @@ var categoryService;
             return data.categories;
         };
         categoryService.prototype._preparateCategory = function (data) {
-            return data.category;
+            return data.data.category;
         };
         return categoryService;
     }());

@@ -185,7 +185,7 @@ gulp.task('run-test-unit', function( done ){
 /**
  * Show Coverange
  */
-gulp.task('test', function( done ){
+gulp.task('test', ['run-test-unit'] , function( done ){
   if (isCoverage) {
     browserSync.init({
       notify: false,

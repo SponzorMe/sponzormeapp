@@ -11,6 +11,10 @@ describe("Service: categoryService", function() {
   }));
 
   beforeEach(inject(function( $injector, _categoryService_) {
+    
+    $localStorage = $injector.get('$localStorage');
+    $localStorage.token = "123";
+    
     categoryService = _categoryService_;
 
     BackendVariables = $injector.get('BackendVariables');
@@ -21,6 +25,20 @@ describe("Service: categoryService", function() {
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
   }));
+  
+  ////////////////////////////////////////////////////////////
+  describe('Test to _getToken method', function(){
+
+    it('Should define a _getToken function', function(){
+      chai.assert.isDefined(categoryService._getToken);
+    });
+
+    it('Should return a string', function(){
+      chai.assert.isString( categoryService._getToken() );
+      chai.expect( "123" ).to.eql(  categoryService._getToken() );
+    });
+
+  });
 
   ////////////////////////////////////////////////////////////
   describe('Test to allCategories method', function(){
@@ -81,6 +99,18 @@ describe("Service: categoryService", function() {
           });
         $httpBackend.flush();
       });
+      
+      it('Should return the categories with interests', function( done ){
+        categoryService.allCategories()
+          .then(function( result ) {
+            
+            for(var i = 0;i < result.length; i++){
+              chai.assert.isArray( result[i].interests );
+            }
+            done();
+          });
+        $httpBackend.flush();
+      });
     });
 
   });
@@ -92,7 +122,7 @@ describe("Service: categoryService", function() {
       chai.assert.isDefined(categoryService.getCategory);
     });
 
-    it('Should throw an error on an incompatible type', function(){
+    /*it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
         categoryService.getCategory();
       });
@@ -105,7 +135,7 @@ describe("Service: categoryService", function() {
       chai.assert.throws(function(){
         categoryService.getCategory(Object);
       });
-    });
+    });*/
 
     it("Should not throw an error in case a string or number", function(){
       chai.assert.doesNotThrow(function(){
@@ -154,11 +184,6 @@ describe("Service: categoryService", function() {
 
       beforeEach(function() {
         $httpBackend.whenGET(URL_REST + 'categories/1').respond(200, data);
-      });
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
       });
 
       it('Should return a Category', function( done ){
