@@ -33,6 +33,9 @@
   "sass": [
     "./scss/ionic.app.scss"
   ],
+  "tsc": [
+    "./app/**/*.ts"
+  ],
   "js": [
     "./www/app/app.module.js",
     "./www/app/app.routes.js",

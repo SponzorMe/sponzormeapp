@@ -13,6 +13,7 @@ var uglify = require('gulp-uglify');
 var cssnano = require('gulp-cssnano');
 var rename = require('gulp-rename');
 var inject = require('gulp-inject');
+var typescript = require('gulp-tsc');
  
 
 var isRelease = gutil.env.release;
@@ -130,6 +131,17 @@ gulp.task('fonts', function( done ) {
     .src(paths.fonts)
     .pipe(gulp.dest(dest))
     .on('end', done);
+});
+
+gulp.task('tsc', function(){
+  gulp.src(paths.tsc)
+    .pipe(typescript())
+    .pipe(gulp.dest('www/js'))
+});
+
+gulp.task('templates', function(){
+  gulp.src(paths.templates)
+    .pipe(gulp.dest('www/templates'))
 });
 
 /**
