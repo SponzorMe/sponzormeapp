@@ -5,7 +5,7 @@
   "includeCss": "./www/build/css/app.min.css",
   "includeVendors": "./www/build/js/vendors.min.js",
   "includeJs": "./www/build/js/app.min.js",
-  "htmltemplates": "./ww/app/**/*.html",
+  "htmltemplates": "./ww/templates/**/*.html",
   "vendorjs": [
     "./www/lib/ionic/js/ionic.bundle.min.js",
     "./www/lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js",
@@ -27,7 +27,7 @@
     "./www/lib/ngCordova/dist/ng-cordova.min.js"
   ],
   "css": [
-    "./www/build/css/ionic.app.min.css",
+    "./www/css/ionic.app.min.css",
     "./www/lib/angular-google-places-autocomplete/src/autocomplete.css"
   ],
   "sass": [
@@ -37,27 +37,25 @@
     "./app/**/*.ts"
   ],
   "js": [
-    "./www/app/app.module.js",
-    "./www/app/app.routes.js",
-    "./www/app/app.constants.js",
-    "./www/app/app.values.js",
-    "./www/app/**/*.module.js",
-    "./www/app/**/*.service.js",
-    "./www/app/**/*.directive.js",
-    "./www/app/**/*.filter.js",
-    "./www/app/**/*.controller.js",
-    "./www/app/app.run.js"
+    "./www/js/app.module.js",
+    "./www/js/app.routes.js",
+    "./www/js/app.constants.js",
+    "./www/js/app.values.js",
+    "./www/js/**/*.module.js",
+    "./www/js/**/*.service.js",
+    "./www/js/**/*.directive.js",
+    "./www/js/**/*.filter.js",
+    "./www/js/**/*.controller.js",
+    "./www/js/app.run.js"
   ],
   "tests": [
     "./tests/unit/**/*.service.spec.js",
     "./tests/unit/**/*.controller.spec.js"
   ],
-  "images": [
-    "./src/client/content/images/**/*"
-  ],
   "fonts": [
     "./www/lib/ionic/fonts/**/*.*"
   ],
   "report": "./report/",
-  "build": "./www/build/"
+  "build": "./www/",
+  "templates": "./www/templates"
 }

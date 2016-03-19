@@ -66,6 +66,8 @@ gulp.task('watch', function() {
   //Watching all files
   gulp.watch( paths.sass, ['sass']);
   gulp.watch( paths.css, ['css']);
+  gulp.watch(paths.tsc, ['tsc']);
+  gulp.watch(paths.templates, ['templates']);
   //gulp.watch( paths.js, ['js']);
 });
 
@@ -109,7 +111,7 @@ gulp.task('css', function( done ) {
 /**
  * Bundling, minifying, and copying the vendors for production
  */
-gulp.task('release', [ 'sass', 'css', 'vendorjs', 'js' ] , function ( done ) {
+gulp.task('release', [ 'sass', 'css', 'tsc', 'templates', 'vendorjs', 'js' ] , function ( done ) {
   var css = gulp.src( paths.includeCss, {read: false});
   var vendors = gulp.src( paths.includeVendors, {read: false});
   var js = gulp.src( paths.includeJs, {read: false});
@@ -147,7 +149,7 @@ gulp.task('templates', function(){
 /**
  * Bundling vendors for develop
  */
-gulp.task('dev', [ 'sass' ] , function ( done ) {
+gulp.task('dev', [ 'sass', 'tsc', 'templates' ] , function ( done ) {
   var css = gulp.src( paths.css, {read: false});
   var vendors = gulp.src( paths.vendorjs, {read: false});
   var js = gulp.src( paths.js, {read: false});

@@ -1,5 +1,9 @@
 {
   "name": "sponzormeapp",
   "version": false,
-  "dependencies": {}
+  "dependencies": {},
+  "ambientDependencies": {
+    "cordova": "registry:dt/cordova#0.0.0+20160316155526",
+    "ionic": "registry:dt/ionic#0.0.0+20160317120654"
+  }
 }
