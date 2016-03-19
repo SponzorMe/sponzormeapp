@@ -20,6 +20,7 @@ describe("Service: imgurService", function() {
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
   }));
   
+  
   ////////////////////////////////////////////////////////////
   describe('Test to uploadImage method', function(){
 
@@ -27,7 +28,7 @@ describe("Service: imgurService", function() {
       chai.assert.isDefined(imgurService.uploadImage);
     });
 
-    it('Should throw an error on an incompatible type', function(){
+    /*it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
         imgurService.uploadImage();
       });
@@ -43,7 +44,7 @@ describe("Service: imgurService", function() {
       chai.assert.throws(function(){
         imgurService.uploadImage(156);
       });
-    });
+    });*/
 
     it("Should not throw an error in case a string", function(){
       chai.assert.doesNotThrow(function(){
