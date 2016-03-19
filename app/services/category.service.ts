@@ -1,82 +1,65 @@
 /// <reference path="../../typings/main.d.ts" />
 /**
-* @Servicio de Eventos
+* categoryService
 *
 * @author Sebastian, Nicolas Molina
 * @version 0.2
+*/
+module categoryService{
+  
+  export interface ICategoryService{
+    allCategories():angular.IPromise<any>;
+    getCategory(id:string):angular.IPromise<any>;
+  }
+  
+  export class categoryService implements ICategoryService{
+    
+    $inject = [
+      '$http',
+      '$localStorage',
+      'BackendVariables',
+      '$q',
+    ];
+    path: string;
+    
+    constructor(
+      private $http: angular.IHttpService,
+      private $localStorage,
+      private $q: angular.IQService,
+      private BackendVariables
+    ){
+      this.path = this.BackendVariables.url;
+    }
+   
+    allCategories(){
+      return this.$http({
+        method: 'GET',
+        url: this.path + 'categories'
+      })
+      //.then( response => { return this.$q.when( response.data.categories ); } )
+      .then( response => { return this.$q.when( response.data ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
+    }
+    
+    getCategory( categoryId ){
 
-(function() {
-  'use strict';
-
+      return this.$http({
+        method: 'GET',
+        url: this.path + 'categories/' + categoryId
+      })
+      //.then( response => { return this.$q.when( response.data.data.category ); } )
+      .then( response => { return this.$q.when( response.data ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
+    }
+    
+    private _getToken(){
+      return this.$localStorage.token;
+    }
+    
+  }
+  
   angular
     .module('app')
-    .factory('categoryService', categoryService);
-
-  categoryService.$inject = [
-    '$http',
-    '$localStorage',
-    'BackendVariables',
-    '$q',
-    '$httpParamSerializerJQLike'
-  ];
-
-  function categoryService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
-
-    var path = BackendVariables.url;
-
-    var service = {
-      allCategories : allCategories,
-      getCategory: getCategory
-    };
-
-    return service;
-
-    ////////////
-
-    /*
-    function getToken(){
-      return $localStorage.token;
-    }
-
-    function allCategories(){
-      return $http({
-        method: 'GET',
-        url: path + 'categories'
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data.categories );
-      }
-
-      function failed( response ){
-        return $q.reject( response.data );
-      }
-    }
-
-    function getCategory( categoryId ){
-
-      //Validate
-      var typeCategoryId = typeof categoryId;
-      if(typeCategoryId !== 'string' && typeCategoryId !== 'number') throw new Error();
-
-      return $http({
-        method: 'GET',
-        url: path + 'categories/' + categoryId
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data.data.category );
-      }
-
-      function failed( response ){
-        return $q.reject( response.data );
-      }
-    }
-
-  }
-})();
-*/
+    .service('categoryService', categoryService);
+  
+}
