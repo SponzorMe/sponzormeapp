@@ -50,8 +50,7 @@
     "./www/js/app.run.js"
   ],
   "tests": [
-    "./tests/unit/**/*.service.spec.js",
-    "./tests/unit/**/*.controller.spec.js"
+    "./tests/unit/services/category.service.spec.js"
   ],
   "fonts": [
     "./www/lib/ionic/fonts/**/*.*"

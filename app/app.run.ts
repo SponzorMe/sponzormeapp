@@ -10,8 +10,8 @@
     .module('app')
     .run(run);
 
-  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics, $localStorage, userAuthService, notificationService, BackendVariables ) {
-    
+  //function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics, $localStorage, userAuthService, notificationService, BackendVariables ) {
+    function run($ionicPlatform ) {
 
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -23,11 +23,12 @@
         StatusBar.styleDefault();
       }*/
       
-      activateNotifications();
-      checkForUpdates();
-      chooseLanguage();
-      ionicAnalytics();
+      //activateNotifications();
+      //checkForUpdates();
+      //chooseLanguage();
+      //ionicAnalytics();
     });
+    /*
     
     function activateNotifications() {
       if(userAuthService.checkSession()){
@@ -125,7 +126,7 @@
         utilsService.hideLoad();
         utilsService.alert();
       }
-    }
+    }*/
   }
 
 })();

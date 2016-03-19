@@ -3,7 +3,7 @@ module.exports = function( config ){
     browsers: ['PhantomJS'],
     frameworks: ['mocha'],
     preprocessors:{
-      'www/app/**/*.js': ['coverage']
+      'www/js/**/*.js': ['coverage']
     },
     coverageReporter:{
       includeAllSources: true,
