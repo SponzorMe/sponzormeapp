@@ -4,74 +4,54 @@
 *
 * @author Nicolas Molina
 * @version 0.2
-
-(function() {
-  'use strict';
-
-  angular
-    .module('app')
-    .factory('eventTypeService', eventTypeService);
-
-  eventTypeService.$inject = [
-    '$http',
-    '$localStorage',
-    'BackendVariables',
-    '$q',
-    '$httpParamSerializerJQLike'
-  ];
-
-  function eventTypeService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
-
-    var path = BackendVariables.url;
-
-    var service = {
-      allEventTypes: allEventTypes,
-      getEventType: getEventType
-    };
-
-    return service;
-
-    ////////////
-
-    function allEventTypes() {
-      return $http({
-        method: 'GET',
-        url: path + 'event_types'
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.eventTypes );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function getEventType( eventTypeId ){
-
-      //Validate
-      var typeEventTypeId = typeof eventTypeId;
-      if(typeEventTypeId !== 'string' && typeEventTypeId !== 'number') throw new Error();
-
-      return $http({
-        method: 'GET',
-        url: path + 'event_types/' + eventTypeId
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.data.eventTypes );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-  }
-})();
-*/ 
+*/
+var eventTypeService;
+(function (eventTypeService_1) {
+    var eventTypeService = (function () {
+        function eventTypeService($http, $localStorage, $q, BackendVariables) {
+            this.$http = $http;
+            this.$localStorage = $localStorage;
+            this.$q = $q;
+            this.BackendVariables = BackendVariables;
+            this.$inject = [
+                '$http',
+                '$localStorage',
+                'BackendVariables',
+                '$q'
+            ];
+            this.path = this.BackendVariables.url;
+        }
+        eventTypeService.prototype.allEventTypes = function () {
+            var _this = this;
+            return this.$http({
+                method: 'GET',
+                url: this.path + 'event_types'
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateEventsTypes(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        eventTypeService.prototype.getEventType = function (eventTypeId) {
+            var _this = this;
+            return this.$http({
+                method: 'GET',
+                url: this.path + 'event_types/' + eventTypeId
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateEventType(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        eventTypeService.prototype._getToken = function () {
+            return this.$localStorage.token;
+        };
+        eventTypeService.prototype._preparateEventsTypes = function (data) {
+            return data.eventTypes;
+        };
+        eventTypeService.prototype._preparateEventType = function (data) {
+            return data.data.eventTypes;
+        };
+        return eventTypeService;
+    }());
+    eventTypeService_1.eventTypeService = eventTypeService;
+    angular
+        .module('app')
+        .service('eventTypeService', eventTypeService);
+})(eventTypeService || (eventTypeService = {}));

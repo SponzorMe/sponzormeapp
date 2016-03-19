@@ -4,74 +4,71 @@
 *
 * @author Nicolas Molina
 * @version 0.2
-
-(function() {
-  'use strict';
-
+*/
+module eventTypeService{
+  
+  export interface IEventTypeService{
+    allEventTypes():angular.IPromise<any>;
+    getEventType(id:string):angular.IPromise<any>;
+  }
+  
+  export interface EventType{
+    id: string;
+    description: string;
+    lang: string;
+    name: string;
+  }
+  
+  export class eventTypeService implements IEventTypeService{
+    $inject = [
+      '$http',
+      '$localStorage',
+      'BackendVariables',
+      '$q'
+    ];
+    path: string;
+    
+    constructor(
+      private $http: angular.IHttpService,
+      private $localStorage,
+      private $q: angular.IQService,
+      private BackendVariables
+    ){
+      this.path = this.BackendVariables.url;
+    }
+    
+    allEventTypes() {
+      return this.$http({
+        method: 'GET',
+        url: this.path + 'event_types'
+      })
+      .then( response => { return this.$q.when( this._preparateEventsTypes( response.data ) ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
+    }
+    
+    getEventType( eventTypeId ){
+      return this.$http({
+        method: 'GET',
+        url: this.path + 'event_types/' + eventTypeId
+      })
+      .then( response => { return this.$q.when( this._preparateEventType( response.data ) ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
+    }
+    
+    private _getToken(){
+      return this.$localStorage.token;
+    }
+    
+    private _preparateEventsTypes( data ):EventType[]{
+      return data.eventTypes;
+    }
+    
+    private _preparateEventType( data ):EventType{
+      return data.data.eventTypes;
+    }
+  }
+  
   angular
     .module('app')
-    .factory('eventTypeService', eventTypeService);
-
-  eventTypeService.$inject = [
-    '$http',
-    '$localStorage',
-    'BackendVariables',
-    '$q',
-    '$httpParamSerializerJQLike'
-  ];
-
-  function eventTypeService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
-
-    var path = BackendVariables.url;
-
-    var service = {
-      allEventTypes: allEventTypes,
-      getEventType: getEventType
-    };
-
-    return service;
-
-    ////////////
-
-    function allEventTypes() {
-      return $http({
-        method: 'GET',
-        url: path + 'event_types'
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.eventTypes );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function getEventType( eventTypeId ){
-
-      //Validate
-      var typeEventTypeId = typeof eventTypeId;
-      if(typeEventTypeId !== 'string' && typeEventTypeId !== 'number') throw new Error();
-
-      return $http({
-        method: 'GET',
-        url: path + 'event_types/' + eventTypeId
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.data.eventTypes );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-  }
-})();
-*/
+    .service('eventTypeService', eventTypeService);
+}
