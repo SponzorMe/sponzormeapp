@@ -8,7 +8,7 @@
 (function() {
   'use strict';
   angular.module('app', [
-    // Core 
+    // Core
     'ionic',
     'ionic.service.core',
     'ionic.service.deploy',
@@ -38,4 +38,4 @@
     'app.tasks-organizer'
   ])
 })();
-*/
+*/ 

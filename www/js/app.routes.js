@@ -32,7 +32,7 @@
       return "/sign-in"
     }
 
-    $urlRouterProvider.otherwise( getDefaultRoute() );    
+    $urlRouterProvider.otherwise( getDefaultRoute() );
 
     $stateProvider
 
@@ -72,7 +72,7 @@
         controller:"ForgotController as forgot"
       })
 
-      /* Organizers 
+      /* Organizers
 
       .state('organizer', {
         url: "/organizer",
@@ -297,7 +297,7 @@
       })
       
 
-      /* Sponzors 
+      /* Sponzors
 
       .state('sponzor', {
         url: "/sponzor",
@@ -419,4 +419,4 @@
   }
 
 })();
-*/
+*/ 
