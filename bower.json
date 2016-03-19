@@ -2,7 +2,7 @@
   "name": "HelloIonic",
   "private": "true",
   "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.1.0",
+    "ionic": "driftyco/ionic-bower#1.2.1-nightly-1867",
     "underscore": "~1.8.3",
     "aws-sdk": "aws-sdk-js#~2.2.26",
     "angular-mocks": "~1.4.8",
