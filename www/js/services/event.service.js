@@ -4,215 +4,113 @@
 *
 * @author Sebastian, Nicolas Molina
 * @version 0.2
-
-(function() {
-  'use strict';
-
-  angular
-    .module('app')
-    .factory('eventService', eventService);
-
-  eventService.$inject = [
-    '$http',
-    '$localStorage',
-    'BackendVariables',
-    '$q',
-    '$httpParamSerializerJQLike'
-  ];
-
-  function eventService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
-
-    var path = BackendVariables.url;
-
-    var service = {
-      allEvents: allEvents,
-      getEvent: getEvent,
-      createEvent: createEvent,
-      deleteEvent: deleteEvent,
-      editEventPatch: editEventPatch,
-      editEventPut: editEventPut
-    };
-
-    return service;
-
-    ////////////
-    function getToken(){
-      return $localStorage.token;
-    }
-
-    function allEvents(){
-      
-      return $http({
-        method: 'GET',
-        url: path + 'events'
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        var events = preparateData( response.data.data.events );
-        return $q.when( events );
-      }
-
-      function preparateData( events ){
-        return events.map( preparateEvent );
-
-        function preparateEvent( item ){
-          item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
-          item.starts = moment(item.starts)._d;
-          item.ends = moment(item.ends)._d;
-          return item;
-        }
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function getEvent( eventId ){
-
-      //Validate
-      var typeEventId = typeof eventId;
-      if(typeEventId !== 'string' && typeEventId !== 'number') throw new Error();
-
-      return $http({
-        method: 'GET',
-        url: path + 'events/' + eventId
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( preparateData(response.data.event) );
-
-        function preparateData( event ){
-          event.image = (event.image == "event_dummy.png") ? 'img/banner.jpg' : event.image;
-          event.user_organizer.image = (event.user_organizer.image == "organizer_sponzorme.png"  || event.user_organizer.image == "" ) ? 'img/photo.png' : event.user_organizer.image;
-          event.starts = moment(event.starts)._d;
-          event.ends = moment(event.ends)._d;
-          return event;
-        }
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function createEvent( data ){
-
-      //Validate
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
-        method: 'POST',
-        url: path + 'events',
-        headers: {
-          'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: data
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.event );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function deleteEvent( eventId ){
-
-      //Validate
-      var typeEventId = typeof eventId;
-      if(typeEventId !== 'string' && typeEventId !== 'number') throw new Error();
-
-      return $http({
-        method: 'DELETE',
-        url: path + 'events/' + eventId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function editEventPatch( eventId, data ){
-
-      //Validate
-      var typeEventId = typeof eventId;
-      if(typeEventId !== 'string' && typeEventId !== 'number') throw new Error();
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
-        method: 'PATCH',
-        url: path + 'events/' + eventId,
-        headers: {
-          'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: data
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.event );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function editEventPut( eventId, data ){
-
-      //Validate
-      var typeEventId = typeof eventId;
-      if(typeEventId !== 'string' && typeEventId !== 'number') throw new Error();
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
-        method: 'PUT',
-        url: path + 'events/' + eventId,
-        headers: {
-          'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: data
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.event );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    
-
-  }
-})();
 */
+var eventService;
+(function (eventService_1) {
+    var eventService = (function () {
+        function eventService($http, $localStorage, $q, BackendVariables) {
+            this.$http = $http;
+            this.$localStorage = $localStorage;
+            this.$q = $q;
+            this.BackendVariables = BackendVariables;
+            this.$inject = [
+                '$http',
+                '$localStorage',
+                'BackendVariables',
+                '$q'
+            ];
+            this.path = this.BackendVariables.url;
+        }
+        eventService.prototype.allEvents = function () {
+            var _this = this;
+            return this.$http({
+                method: 'GET',
+                url: this.path + 'events'
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateEvents(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        eventService.prototype.getEvent = function (eventId) {
+            var _this = this;
+            return this.$http({
+                method: 'GET',
+                url: this.path + 'events/' + eventId
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateEvent(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        eventService.prototype.createEvent = function (data) {
+            var _this = this;
+            return this.$http({
+                method: 'POST',
+                url: this.path + 'events',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateEvent(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        eventService.prototype.deleteEvent = function (eventId) {
+            var _this = this;
+            return this.$http({
+                method: 'DELETE',
+                url: this.path + 'events/' + eventId,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': 'Basic ' + this._getToken()
+                }
+            })
+                .then(function (response) { return _this.$q.when(response.data); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        eventService.prototype.editEventPatch = function (eventId, data) {
+            var _this = this;
+            return this.$http({
+                method: 'PATCH',
+                url: this.path + 'events/' + eventId,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateEvent(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        eventService.prototype.editEventPut = function (eventId, data) {
+            var _this = this;
+            return this.$http({
+                method: 'PUT',
+                url: this.path + 'events/' + eventId,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateEvent(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        eventService.prototype._getToken = function () {
+            return this.$localStorage.token;
+        };
+        eventService.prototype._preparateEvents = function (data) {
+            return data.events.map(this._buildEvent);
+        };
+        eventService.prototype._preparateEvent = function (data) {
+            return this._buildEvent(data.event);
+        };
+        eventService.prototype._buildEvent = function (event) {
+            event.image = (event.image == "event_dummy.png") ? 'img/banner.jpg' : event.image;
+            event.user_organizer.image = (event.user_organizer.image == "organizer_sponzorme.png" || event.user_organizer.image == "") ? 'img/photo.png' : event.user_organizer.image;
+            //event.starts = moment(event.starts).toDate();
+            //event.ends = moment(event.ends).toDate();
+            return event;
+        };
+        return eventService;
+    }());
+    eventService_1.eventService = eventService;
+})(eventService || (eventService = {}));
