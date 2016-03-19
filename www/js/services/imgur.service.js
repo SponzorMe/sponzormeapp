@@ -4,60 +4,43 @@
 *
 * @author Carlos, Nicolas Molina
 * @version 0.2
-
-(function() {
-  'use strict';
-
-  angular
-    .module('app')
-    .factory('imgurService', imgurService);
-
-  imgurService.$inject = [
-    '$http',
-    '$q'
-  ];
-
-  function imgurService( $http, $q ) {
-
-    var path = 'https://api.imgur.com/3/';
-    var clientId = "bdff09d775f47b9";
-
-    var service = {
-      uploadImage: uploadImage,
-    };
-
-    return service;
-
-    ////////////
-
-    function uploadImage( image ){
-
-      var typeImage = typeof image;
-      if(typeImage !== 'string') throw new Error();
-
-      return $http({
-        method: 'POST',
-        url: path + 'image',
-        headers: {
-          'Authorization' : 'Client-ID '+ clientId
-        },
-        data: {
-          image: image,
-          type: 'base64'
-        },
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.data.link );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-  }
-})();
-*/ 
+*/
+var imgurService;
+(function (imgurService_1) {
+    var imgurService = (function () {
+        function imgurService($http, $q) {
+            this.$http = $http;
+            this.$q = $q;
+            this.$inject = [
+                '$http',
+                '$q'
+            ];
+            this.path = 'https://api.imgur.com/3/';
+            this.clientId = "bdff09d775f47b9";
+        }
+        imgurService.prototype.uploadImage = function (image) {
+            var _this = this;
+            return this.$http({
+                method: 'POST',
+                url: this.path + 'image',
+                headers: {
+                    'Authorization': 'Client-ID ' + this.clientId
+                },
+                data: {
+                    image: image,
+                    type: 'base64'
+                }
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateImage(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        imgurService.prototype._preparateImage = function (data) {
+            return data.data.link;
+        };
+        return imgurService;
+    }());
+    imgurService_1.imgurService = imgurService;
+    angular
+        .module('app')
+        .service('imgurService', imgurService);
+})(imgurService || (imgurService = {}));
