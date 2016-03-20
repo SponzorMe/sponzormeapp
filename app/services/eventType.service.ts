@@ -37,7 +37,7 @@ module eventTypeService{
       this.path = this.BackendVariables.url;
     }
     
-    allEventTypes() {
+    allEventTypes():angular.IPromise<any> {
       return this.$http({
         method: 'GET',
         url: this.path + 'event_types'
@@ -46,7 +46,7 @@ module eventTypeService{
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
-    getEventType( eventTypeId ){
+    getEventType( eventTypeId:string ):angular.IPromise<any>{
       return this.$http({
         method: 'GET',
         url: this.path + 'event_types/' + eventTypeId

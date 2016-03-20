@@ -49,7 +49,7 @@ module eventService{
       this.path = this.BackendVariables.url;
     }
     
-    allEvents(){
+    allEvents():angular.IPromise<any>{
       return this.$http({
         method: 'GET',
         url: this.path + 'events'
@@ -58,7 +58,7 @@ module eventService{
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
-    getEvent( eventId ){
+    getEvent( eventId:string ):angular.IPromise<any>{
       return this.$http({
         method: 'GET',
         url: this.path + 'events/' + eventId
@@ -67,7 +67,7 @@ module eventService{
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
-    createEvent( data ){
+    createEvent( data:Event ):angular.IPromise<any>{
       return this.$http({
         method: 'POST',
         url: this.path + 'events',
@@ -81,7 +81,7 @@ module eventService{
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
-    deleteEvent( eventId ){
+    deleteEvent( eventId:string ):angular.IPromise<any>{
       return this.$http({
         method: 'DELETE',
         url: this.path + 'events/' + eventId,
@@ -94,7 +94,7 @@ module eventService{
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
-    editEventPatch( eventId, data ){
+    editEventPatch( eventId:string, data:Event ):angular.IPromise<any>{
       return this.$http({
         method: 'PATCH',
         url: this.path + 'events/' + eventId,
@@ -108,7 +108,7 @@ module eventService{
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
-    editEventPut( eventId, data ){
+    editEventPut( eventId:string, data:Event ):angular.IPromise<any>{
       return this.$http({
         method: 'PUT',
         url: this.path + 'events/' + eventId,
@@ -122,7 +122,7 @@ module eventService{
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
-    private _getToken(){
+    private _getToken():string{
       return this.$localStorage.token;
     }
     

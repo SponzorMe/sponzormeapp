@@ -48,7 +48,7 @@ module categoryService{
       this.path = this.BackendVariables.url;
     }
    
-    allCategories(){
+    allCategories():angular.IPromise<any>{
       return this.$http({
         method: 'GET',
         url: this.path + 'categories'
@@ -57,7 +57,7 @@ module categoryService{
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
-    getCategory( categoryId ){
+    getCategory( categoryId:string ):angular.IPromise<any>{
 
       return this.$http({
         method: 'GET',

@@ -27,7 +27,7 @@ module imgurService{
       this.clientId = "bdff09d775f47b9";
     }
     
-    uploadImage( image ){
+    uploadImage( image:string ):angular.IPromise<any> {
       return this.$http({
         method: 'POST',
         url: this.path + 'image',
