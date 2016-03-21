@@ -1,4 +1,6 @@
 /// <reference path="../../typings/main.d.ts" />
+/// <reference path="user.service.ts" />
+/// <reference path="userAuth.service.ts" />
 
 module notificationService{
   
@@ -51,10 +53,10 @@ module notificationService{
       private $q: angular.IQService,
       private $firebaseArray,
       private BackendVariables,
-      private userService,
+      private userService: userService.IUserService,
       private $rootScope: angular.IRootScopeService,
       private $ionicHistory: ionic.navigation.IonicHistoryService,
-      private userAuthService,
+      private userAuthService: userAuthService.IUserAuthService,
       private $localStorage
     ){
       this.path = this.BackendVariables.f_url;
@@ -165,7 +167,7 @@ module notificationService{
     }
     
     private _notificationForMe():void {
-      let url =  this.path + 'notifications/'+ this.userAuth.id;
+      let url =  this.path + 'notifications/' + this.userAuth.id;
       let reference =  new Firebase( url );
       reference.on('child_added', snapshot => {
         let current = snapshot.val();

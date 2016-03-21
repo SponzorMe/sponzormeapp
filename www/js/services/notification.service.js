@@ -1,4 +1,6 @@
 /// <reference path="../../typings/main.d.ts" />
+/// <reference path="user.service.ts" />
+/// <reference path="userAuth.service.ts" />
 var notificationService;
 (function (notificationService_1) {
     var notificationService = (function () {

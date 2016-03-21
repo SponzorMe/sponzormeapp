@@ -8,9 +8,9 @@
 * @version 0.2
 */
 var userService;
-(function (userService) {
-    var UserService = (function () {
-        function UserService($http, $localStorage, BackendVariables, $q, eventService, sponsorshipService) {
+(function (userService_1) {
+    var userService = (function () {
+        function userService($http, $localStorage, BackendVariables, $q, eventService, sponsorshipService) {
             this.$http = $http;
             this.$localStorage = $localStorage;
             this.BackendVariables = BackendVariables;
@@ -26,7 +26,7 @@ var userService;
             ];
             this.path = BackendVariables.url;
         }
-        UserService.prototype.login = function (email, password) {
+        userService.prototype.login = function (email, password) {
             var _this = this;
             return this.$http({
                 method: 'POST',
@@ -42,7 +42,7 @@ var userService;
                 .then(function (response) { return _this.$q.when(_this._buildUser(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
-        UserService.prototype.getUser = function (userId) {
+        userService.prototype.getUser = function (userId) {
             var _this = this;
             return this.$http({
                 method: 'GET',
@@ -55,7 +55,7 @@ var userService;
                 .then(function (response) { return _this.$q.when(_this._preparateUser(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
-        UserService.prototype.home = function (userId) {
+        userService.prototype.home = function (userId) {
             var _this = this;
             return this.$http({
                 method: 'GET',
@@ -68,7 +68,7 @@ var userService;
                 .then(function (response) { return _this.$q.when(_this._preparateUser(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
-        UserService.prototype.createUser = function (data) {
+        userService.prototype.createUser = function (data) {
             var _this = this;
             return this.$http({
                 method: 'POST',
@@ -82,7 +82,7 @@ var userService;
                 .then(function (response) { return _this.$q.when(_this._getUser(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
-        UserService.prototype.deleteUser = function (userId) {
+        userService.prototype.deleteUser = function (userId) {
             var _this = this;
             return this.$http({
                 method: 'DELETE',
@@ -95,7 +95,7 @@ var userService;
                 .then(function (response) { return _this.$q.when(response.data); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
-        UserService.prototype.editUserPatch = function (userId, data) {
+        userService.prototype.editUserPatch = function (userId, data) {
             var _this = this;
             return this.$http({
                 method: 'PATCH',
@@ -109,7 +109,7 @@ var userService;
                 .then(function (response) { return _this.$q.when(_this._getUser(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
-        UserService.prototype.editUserPut = function (userId, data) {
+        userService.prototype.editUserPut = function (userId, data) {
             var _this = this;
             return this.$http({
                 method: 'PUT',
@@ -123,7 +123,7 @@ var userService;
                 .then(function (response) { return _this.$q.when(_this._getUser(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
-        UserService.prototype.forgotPassword = function (email) {
+        userService.prototype.forgotPassword = function (email) {
             var _this = this;
             return this.$http({
                 method: 'POST',
@@ -139,7 +139,7 @@ var userService;
                 .then(function (response) { return _this.$q.when(response.data); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
-        UserService.prototype.invitedUser = function (data) {
+        userService.prototype.invitedUser = function (data) {
             var _this = this;
             return this.$http({
                 method: 'POST',
@@ -153,16 +153,16 @@ var userService;
                 .then(function (response) { return _this.$q.when(response.data); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
-        UserService.prototype._getUser = function (data) {
+        userService.prototype._getUser = function (data) {
             return data.User;
         };
-        UserService.prototype._preparateUser = function (data) {
+        userService.prototype._preparateUser = function (data) {
             return this._buildUser(data.data.user);
         };
-        UserService.prototype._getToken = function () {
+        userService.prototype._getToken = function () {
             return this.$localStorage.token;
         };
-        UserService.prototype._buildUser = function (data) {
+        userService.prototype._buildUser = function (data) {
             var user = data.user;
             user.events = data.events.map(this.eventService.buildEvent);
             if (user.type == "1") {
@@ -173,10 +173,10 @@ var userService;
             }
             return user;
         };
-        return UserService;
+        return userService;
     }());
-    userService.UserService = UserService;
+    userService_1.userService = userService;
     angular
         .module('app')
-        .service('UserService', UserService);
+        .service('userService', userService);
 })(userService || (userService = {}));

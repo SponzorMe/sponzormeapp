@@ -29,6 +29,9 @@ var sponsorshipService;
         return sponsorshipService;
     }());
     sponsorshipService_1.sponsorshipService = sponsorshipService;
+    angular
+        .module('app')
+        .service('sponsorshipService', sponsorshipService);
 })(sponsorshipService || (sponsorshipService = {}));
 /*
 (function() {

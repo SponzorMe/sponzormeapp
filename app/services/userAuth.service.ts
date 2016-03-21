@@ -28,12 +28,14 @@ module userAuthService{
     constructor(
       private $http: angular.IHttpService,
       private $q: angular.IQService,
-      private $localStorage,
+      private $localStorage:any,
       private userService: userService.IUserService,
       private $rootScope: angular.IRootScopeService
     ){}
     
     getUserAuth():userService.User{
+      console.log(this.$localStorage);
+      console.log(Object.keys(this.$localStorage));
       return this.$localStorage.userAuth;
     }
     
@@ -86,9 +88,11 @@ module userAuthService{
         
       }
     }
-    
-    
   }
+  
+  angular
+    .module('app')
+    .service('userAuthService', userAuthService);
 }
 /*
 (function() {

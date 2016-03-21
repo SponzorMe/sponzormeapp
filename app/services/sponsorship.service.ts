@@ -60,6 +60,10 @@ module sponsorshipService{
    }
   }
   
+  angular
+    .module('app')
+    .service('sponsorshipService', sponsorshipService);
+  
 }
 /*
 (function() {
