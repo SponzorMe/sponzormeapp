@@ -50,7 +50,7 @@
     "./www/js/app.run.js"
   ],
   "tests": [
-    "./tests/unit/services/imgur.service.spec.js"
+    "./tests/unit/services/notification.service.spec.js"
   ],
   "fonts": [
     "./www/lib/ionic/fonts/**/*.*"

@@ -44,6 +44,7 @@ module notificationService{
       '$localStorage'
     ];
     path:string;
+    userAuth:any;
     
     constructor(
       private $http: angular.IHttpService,
@@ -57,12 +58,12 @@ module notificationService{
       private $localStorage
     ){
       this.path = this.BackendVariables.f_url;
+      this.userAuth = this.userAuthService.getUserAuth();
     }
     
     activate() {
       this._notificationForMe();
-      var userAuth = this.userAuthService.getUserAuth();
-      if(userAuth.type == '1') this._updateEvents();
+      if(this.userAuth.type == '1') this._updateEvents();
     }
     
     getNotifications( userId:string ) {
@@ -164,28 +165,26 @@ module notificationService{
     }
     
     private _notificationForMe():void {
-      let userAuth = this.userAuthService.getUserAuth();
-      let url =  this.path + 'notifications/'+ userAuth.id;
+      let url =  this.path + 'notifications/'+ this.userAuth.id;
       let reference =  new Firebase( url );
       reference.on('child_added', snapshot => {
         let current = snapshot.val();
-        if(userAuth.lastUpdate < current.date){
+        if(this.$localStorage.lastUpdate < current.date){
           this.userAuthService.refresh();
         }
       });
     }
     
     private _updateEvents():void {
-      let userAuth = this.userAuthService.getUserAuth();
       let url =  this.path + 'notifications/events'
       let reference =  new Firebase( url );
       reference.on('child_added', snapshot => {
         let current = snapshot.val();
         if(this.$localStorage.lastUpdate < current.date){
           this.userService
-          .home( this.$localStorage.userAuth.id )
+          .home( this.userAuth.id )
           .then( user => {
-            let userAuth = this.userAuthService.updateUserAuth( user );
+            this.userAuth = this.userAuthService.updateUserAuth( user );
             this.$rootScope.$broadcast('HomeSponzorController:getEvents');
             this.$rootScope.$broadcast('MenuSponzor:counts');
           });

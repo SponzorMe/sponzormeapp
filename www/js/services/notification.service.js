@@ -24,11 +24,11 @@ var notificationService;
                 '$localStorage'
             ];
             this.path = this.BackendVariables.f_url;
+            this.userAuth = this.userAuthService.getUserAuth();
         }
         notificationService.prototype.activate = function () {
             this._notificationForMe();
-            var userAuth = this.userAuthService.getUserAuth();
-            if (userAuth.type == '1')
+            if (this.userAuth.type == '1')
                 this._updateEvents();
         };
         notificationService.prototype.getNotifications = function (userId) {
@@ -110,28 +110,26 @@ var notificationService;
         };
         notificationService.prototype._notificationForMe = function () {
             var _this = this;
-            var userAuth = this.userAuthService.getUserAuth();
-            var url = this.path + 'notifications/' + userAuth.id;
+            var url = this.path + 'notifications/' + this.userAuth.id;
             var reference = new Firebase(url);
             reference.on('child_added', function (snapshot) {
                 var current = snapshot.val();
-                if (userAuth.lastUpdate < current.date) {
+                if (_this.$localStorage.lastUpdate < current.date) {
                     _this.userAuthService.refresh();
                 }
             });
         };
         notificationService.prototype._updateEvents = function () {
             var _this = this;
-            var userAuth = this.userAuthService.getUserAuth();
             var url = this.path + 'notifications/events';
             var reference = new Firebase(url);
             reference.on('child_added', function (snapshot) {
                 var current = snapshot.val();
                 if (_this.$localStorage.lastUpdate < current.date) {
                     _this.userService
-                        .home(_this.$localStorage.userAuth.id)
+                        .home(_this.userAuth.id)
                         .then(function (user) {
-                        var userAuth = _this.userAuthService.updateUserAuth(user);
+                        _this.userAuth = _this.userAuthService.updateUserAuth(user);
                         _this.$rootScope.$broadcast('HomeSponzorController:getEvents');
                         _this.$rootScope.$broadcast('MenuSponzor:counts');
                     });
