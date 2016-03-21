@@ -1,5 +1,5 @@
 /// <reference path="../../typings/main.d.ts" />
-/*
+
 module notificationService{
   
   export interface INotificationService{
@@ -198,4 +198,3 @@ module notificationService{
     .module('app')
     .service('notificationService', notificationService);
 }
-*/

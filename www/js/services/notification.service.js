@@ -1,199 +1,147 @@
 /// <reference path="../../typings/main.d.ts" />
-/*
-module notificationService{
-  
-  export interface INotificationService{
-    activate(): void;
-    getNotifications(userId:string): void;
-    sendNewSponsorship(notification: Notification, to:string): void;
-    sendAcceptSponsorship(notification: Notification, to:string): void,
-    sendRejectSponsorship(notification: Notification, to:string): void,
-    sendNewTaskOrganizer(notification: Notification, to:string): void,
-    sendUpdateTaskOrganizer(notification: Notification, to:string): void,
-    sendDoneTaskOrganizer(notification: Notification, to:string): void,
-    sendNewTaskSponsor(notification: Notification, to:string): void,
-    sendUpdateTaskSponsor(notification: Notification, to:string): void,
-    sendDoneTaskSponsor(notification: Notification, to:string): void,
-    sendNewEvent(): void,
-    sendUpdateEvent(): void,
-  }
-  
-  export interface Notification{
-    date: number;
-    to: string;
-    fromApp: string;
-    toApp: string;
-    read: boolean;
-    typeNotification: string;
-    type:string;
-  }
-  
-  export class notificationService implements INotificationService{
-    
-    $inject = [
-      '$http',
-      '$q',
-      '$firebaseArray',
-      'BackendVariables',
-      'userService',
-      '$rootScope',
-      '$ionicHistory',
-      'userAuthService',
-      '$localStorage'
-    ];
-    path:string;
-    
-    constructor(
-      private $http: angular.IHttpService,
-      private $q: angular.IQService,
-      private $firebaseArray,
-      private BackendVariables,
-      private userService,
-      private $rootScope: angular.IRootScopeService,
-      private $ionicHistory: ionic.navigation.IonicHistoryService,
-      private userAuthService,
-      private $localStorage
-    ){
-      this.path = this.BackendVariables.f_url;
-    }
-    
-    activate() {
-      this._notificationForMe();
-      var userAuth = this.userAuthService.getUserAuth();
-      if(userAuth.type == '1') this._updateEvents();
-    }
-    
-    getNotifications( userId:string ) {
-      let url = this.path + 'notifications/' + userId;
-      return this.$firebaseArray( new Firebase( url ));
-    }
-    
-    sendNewSponsorship(notification: Notification, to:string):void {
-      notification.typeNotification = "newSponsorship";
-      notification.type = "sponsorship";
-      this._sendNotification(notification, to);
-    }
-    
-    sendAcceptSponsorship(notification: Notification, to:string):void {
-      notification.typeNotification = "acceptSponsorship";
-      notification.type = "sponsorship";
-      this._sendNotification(notification, to);
-    }
-    
-    sendRejectSponsorship(notification: Notification, to:string):void {
-      notification.typeNotification = "rejectSponsorship";
-      notification.type = "sponsorship";
-      this._sendNotification(notification, to);
-    }
-    
-    sendNewTaskOrganizer(notification: Notification, to:string):void {
-      notification.typeNotification = "newTaskOrganizer";
-      notification.type = "task";
-      this._sendNotification(notification, to);
-    }
-    
-    sendUpdateTaskOrganizer(notification: Notification, to:string):void {
-      notification.typeNotification = "doneTaskOrganizer";
-      notification.type = "task";
-      this._sendNotification(notification, to);
-    }
-    
-    sendDoneTaskOrganizer(notification: Notification, to:string):void {
-      notification.typeNotification = "updateTaskOrganizer";
-      notification.type = "task";
-      this._sendNotification(notification, to);
-    }
-    
-    sendNewTaskSponsor(notification: Notification, to:string):void {
-      notification.typeNotification = "newTaskSponsor";
-      notification.type = "task";
-      this._sendNotification(notification, to);
-    }
-    
-    sendUpdateTaskSponsor(notification: Notification, to:string):void{
-      notification.typeNotification = "updateTaskSponsor";
-      notification.type = "task";
-      this._sendNotification(notification, to);
-    }
-    
-    sendDoneTaskSponsor(notification: Notification, to:string):void{
-      notification.typeNotification = "doneTaskSponsor";
-      notification.type = "task";
-      this._sendNotification(notification, to);
-    }
-    
-    sendNewEvent():void{
-      let notification: Notification;
-      
-      notification.date = new Date().getTime();
-      notification.fromApp = 'mobileApp';
-      notification.toApp = 'mobileApp';
-      
-      let url = this.path + 'notifications/events';
-      let notificationsRef =  this.$firebaseArray( new Firebase( url ));
-      
-      notificationsRef.$add(notification);
-    }
-    
-    sendUpdateEvent():void{
-      let notification: Notification;
-      notification.date = new Date().getTime();
-      notification.fromApp = 'mobileApp';
-      notification.toApp = 'mobileApp';
-      
-      let url = this.path + 'notifications/events';
-      let notificationsRef =  this.$firebaseArray( new Firebase( url ));
-      
-      notificationsRef.$add(notification);
-    }
-    
-    private _sendNotification(notification: Notification, to:string):void{
-      
-      notification.date = new Date().getTime();
-      notification.to = to;
-      notification.fromApp = 'mobileApp';
-      notification.toApp = 'mobileApp';
-      notification.read = false;
-      
-      let url = this.path + 'notifications/' + to;
-      let notificationsRef =  this.$firebaseArray( new Firebase( url ));
-      
-      notificationsRef.$add(notification);
-    }
-    
-    private _notificationForMe():void {
-      let userAuth = this.userAuthService.getUserAuth();
-      let url =  this.path + 'notifications/'+ userAuth.id;
-      let reference =  new Firebase( url );
-      reference.on('child_added', snapshot => {
-        let current = snapshot.val();
-        if(userAuth.lastUpdate < current.date){
-          this.userAuthService.refresh();
+var notificationService;
+(function (notificationService_1) {
+    var notificationService = (function () {
+        function notificationService($http, $q, $firebaseArray, BackendVariables, userService, $rootScope, $ionicHistory, userAuthService, $localStorage) {
+            this.$http = $http;
+            this.$q = $q;
+            this.$firebaseArray = $firebaseArray;
+            this.BackendVariables = BackendVariables;
+            this.userService = userService;
+            this.$rootScope = $rootScope;
+            this.$ionicHistory = $ionicHistory;
+            this.userAuthService = userAuthService;
+            this.$localStorage = $localStorage;
+            this.$inject = [
+                '$http',
+                '$q',
+                '$firebaseArray',
+                'BackendVariables',
+                'userService',
+                '$rootScope',
+                '$ionicHistory',
+                'userAuthService',
+                '$localStorage'
+            ];
+            this.path = this.BackendVariables.f_url;
         }
-      });
-    }
-    
-    private _updateEvents():void {
-      let userAuth = this.userAuthService.getUserAuth();
-      let url =  this.path + 'notifications/events'
-      let reference =  new Firebase( url );
-      reference.on('child_added', snapshot => {
-        let current = snapshot.val();
-        if(this.$localStorage.lastUpdate < current.date){
-          this.userService
-          .home( this.$localStorage.userAuth.id )
-          .then( user => {
-            let userAuth = this.userAuthService.updateUserAuth( user );
-            this.$rootScope.$broadcast('HomeSponzorController:getEvents');
-            this.$rootScope.$broadcast('MenuSponzor:counts');
-          });
-        }
-      });
-    }
-  }
-  
-  angular
-    .module('app')
-    .service('notificationService', notificationService);
-}
-*/ 
+        notificationService.prototype.activate = function () {
+            this._notificationForMe();
+            var userAuth = this.userAuthService.getUserAuth();
+            if (userAuth.type == '1')
+                this._updateEvents();
+        };
+        notificationService.prototype.getNotifications = function (userId) {
+            var url = this.path + 'notifications/' + userId;
+            return this.$firebaseArray(new Firebase(url));
+        };
+        notificationService.prototype.sendNewSponsorship = function (notification, to) {
+            notification.typeNotification = "newSponsorship";
+            notification.type = "sponsorship";
+            this._sendNotification(notification, to);
+        };
+        notificationService.prototype.sendAcceptSponsorship = function (notification, to) {
+            notification.typeNotification = "acceptSponsorship";
+            notification.type = "sponsorship";
+            this._sendNotification(notification, to);
+        };
+        notificationService.prototype.sendRejectSponsorship = function (notification, to) {
+            notification.typeNotification = "rejectSponsorship";
+            notification.type = "sponsorship";
+            this._sendNotification(notification, to);
+        };
+        notificationService.prototype.sendNewTaskOrganizer = function (notification, to) {
+            notification.typeNotification = "newTaskOrganizer";
+            notification.type = "task";
+            this._sendNotification(notification, to);
+        };
+        notificationService.prototype.sendUpdateTaskOrganizer = function (notification, to) {
+            notification.typeNotification = "doneTaskOrganizer";
+            notification.type = "task";
+            this._sendNotification(notification, to);
+        };
+        notificationService.prototype.sendDoneTaskOrganizer = function (notification, to) {
+            notification.typeNotification = "updateTaskOrganizer";
+            notification.type = "task";
+            this._sendNotification(notification, to);
+        };
+        notificationService.prototype.sendNewTaskSponsor = function (notification, to) {
+            notification.typeNotification = "newTaskSponsor";
+            notification.type = "task";
+            this._sendNotification(notification, to);
+        };
+        notificationService.prototype.sendUpdateTaskSponsor = function (notification, to) {
+            notification.typeNotification = "updateTaskSponsor";
+            notification.type = "task";
+            this._sendNotification(notification, to);
+        };
+        notificationService.prototype.sendDoneTaskSponsor = function (notification, to) {
+            notification.typeNotification = "doneTaskSponsor";
+            notification.type = "task";
+            this._sendNotification(notification, to);
+        };
+        notificationService.prototype.sendNewEvent = function () {
+            var notification;
+            notification.date = new Date().getTime();
+            notification.fromApp = 'mobileApp';
+            notification.toApp = 'mobileApp';
+            var url = this.path + 'notifications/events';
+            var notificationsRef = this.$firebaseArray(new Firebase(url));
+            notificationsRef.$add(notification);
+        };
+        notificationService.prototype.sendUpdateEvent = function () {
+            var notification;
+            notification.date = new Date().getTime();
+            notification.fromApp = 'mobileApp';
+            notification.toApp = 'mobileApp';
+            var url = this.path + 'notifications/events';
+            var notificationsRef = this.$firebaseArray(new Firebase(url));
+            notificationsRef.$add(notification);
+        };
+        notificationService.prototype._sendNotification = function (notification, to) {
+            notification.date = new Date().getTime();
+            notification.to = to;
+            notification.fromApp = 'mobileApp';
+            notification.toApp = 'mobileApp';
+            notification.read = false;
+            var url = this.path + 'notifications/' + to;
+            var notificationsRef = this.$firebaseArray(new Firebase(url));
+            notificationsRef.$add(notification);
+        };
+        notificationService.prototype._notificationForMe = function () {
+            var _this = this;
+            var userAuth = this.userAuthService.getUserAuth();
+            var url = this.path + 'notifications/' + userAuth.id;
+            var reference = new Firebase(url);
+            reference.on('child_added', function (snapshot) {
+                var current = snapshot.val();
+                if (userAuth.lastUpdate < current.date) {
+                    _this.userAuthService.refresh();
+                }
+            });
+        };
+        notificationService.prototype._updateEvents = function () {
+            var _this = this;
+            var userAuth = this.userAuthService.getUserAuth();
+            var url = this.path + 'notifications/events';
+            var reference = new Firebase(url);
+            reference.on('child_added', function (snapshot) {
+                var current = snapshot.val();
+                if (_this.$localStorage.lastUpdate < current.date) {
+                    _this.userService
+                        .home(_this.$localStorage.userAuth.id)
+                        .then(function (user) {
+                        var userAuth = _this.userAuthService.updateUserAuth(user);
+                        _this.$rootScope.$broadcast('HomeSponzorController:getEvents');
+                        _this.$rootScope.$broadcast('MenuSponzor:counts');
+                    });
+                }
+            });
+        };
+        return notificationService;
+    }());
+    notificationService_1.notificationService = notificationService;
+    angular
+        .module('app')
+        .service('notificationService', notificationService);
+})(notificationService || (notificationService = {}));

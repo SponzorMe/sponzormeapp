@@ -1,4 +1,5 @@
 /// <reference path="../../typings/main.d.ts" />
+/// <reference path="eventType.service.ts" />
 /**
 * @Servicio de Eventos
 *
