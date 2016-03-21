@@ -1,4 +1,5 @@
 /// <reference path="../../typings/main.d.ts" />
+/// <reference path="eventType.service.ts" />
 /**
 * @Servicio de Eventos
 *
@@ -25,7 +26,7 @@ module eventService{
     image: string,
     user_organizer: any,
     category: any,
-    type: any,
+    type: eventTypeService.EventType,
     perks: any[]
     sponzor_tasks: any[],
     sponzorship:any []

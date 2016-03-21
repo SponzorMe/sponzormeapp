@@ -25,7 +25,9 @@ module notificationService{
     toApp: string;
     read: boolean;
     typeNotification: string;
-    type:string;
+    type: string;
+    text: string;
+    modelId: string;
   }
   
   export class notificationService implements INotificationService{

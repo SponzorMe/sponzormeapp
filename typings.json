@@ -6,6 +6,7 @@
     "angular": "registry:dt/angular#1.5.0+20160318102130",
     "angular-ui-router": "registry:dt/angular-ui-router#1.1.5+20160317120654",
     "cordova": "registry:dt/cordova#0.0.0+20160316155526",
+    "firebase": "registry:dt/firebase#2.4.1+20160316155526",
     "ionic": "registry:dt/ionic#0.0.0+20160317120654",
     "jquery": "registry:dt/jquery#1.10.0+20160316155526",
     "moment": "github:DefinitelyTyped/DefinitelyTyped/moment/moment.d.ts#b090bcf9ba9f756ec8ff53e7707269729172a325",
