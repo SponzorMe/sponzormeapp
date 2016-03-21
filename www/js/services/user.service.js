@@ -1,373 +1,182 @@
 /// <reference path="../../typings/main.d.ts" />
+/// <reference path="event.service.ts" />
+/// <reference path="sponsorship.service.ts" />
 /**
 * @Servicio de Usuarios
 *
 * @author Sebastian, Nicolas Molina
 * @version 0.2
-
-(function() {
-  'use strict';
-
-  angular
-    .module('app')
-    .factory('userService', userService);
-
-  userService.$inject = [
-    '$http',
-    '$localStorage',
-    'BackendVariables',
-    '$q',
-    '$httpParamSerializerJQLike'
-  ];
-
-  function userService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
-
-    var path = BackendVariables.url;
-
-    var service = {
-      login: login,
-      home: home,
-      getUser: getUser,
-      createUser: createUser,
-      deleteUser: deleteUser,
-      editUserPatch: editUserPatch,
-      editUserPut: editUserPut,
-      forgotPassword: forgotPassword,
-      invitedUser: invitedUser,
-      checkSession: checkSession
-    };
-
-    return service;
-
-    ////////////
-
-    function login( email, password ){
-
-      //Validate
-      var typeEmail = typeof email;
-      if(typeEmail !== 'string') throw new Error();
-      var typePassword = typeof password;
-      if(typePassword !== 'string' && typePassword !== 'number') throw new Error();
-
-
-      return $http({
-        method: 'POST',
-        url: path + 'auth',
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
-        data: $httpParamSerializerJQLike({
-          email: email,
-          password: password
-        })
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( preparateData(response.data) );
-      }
-      
-      function preparateData( data ) {
-        var user = data.user;
-        if(user.type == 1){// Is a Sponzor
-          user.events = data.events.map( preparateEvent );
-          user.sponzorships = user.sponzorships.map( preparateSponzorships );
-        }else{
-          user.events = user.events.map( preparateEvent );
-          user.sponzorships_like_organizer = user.sponzorships_like_organizer.map( preparateSponzorships );
+*/
+var userService;
+(function (userService) {
+    var UserService = (function () {
+        function UserService($http, $localStorage, BackendVariables, $q, eventService, sponsorshipService) {
+            this.$http = $http;
+            this.$localStorage = $localStorage;
+            this.BackendVariables = BackendVariables;
+            this.$q = $q;
+            this.eventService = eventService;
+            this.sponsorshipService = sponsorshipService;
+            this.$inject = [
+                '$http',
+                '$localStorage',
+                'BackendVariables',
+                '$q',
+                'eventService'
+            ];
+            this.path = BackendVariables.url;
         }
-        return user;
-      }
-      
-      function preparateEvent( item ){
-        item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
-        item.starts = moment(item.starts)._d;
-        item.ends = moment(item.ends)._d;
-        return item;
-      }
-      
-      function preparateSponzorships( item ){
-        if(item.sponzor){
-          item.sponzor.image = (item.sponzor.image == "") ? 'img/photo.png' : item.sponzor.image;
-        }
-        item.event.starts = moment(item.event.starts)._d;
-        item.event.ends = moment(item.event.ends)._d;
-        return item;
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function getUser( userId ){
-
-      //Validate
-      var typeUserId = typeof userId;
-      if(typeUserId !== 'string' && typeUserId !== 'number') throw new Error();
-
-      return $http({
-        method: 'GET',
-        url: path + 'users/' + userId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ getToken() },
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        var data = response.data.data.user;
-        data.events = preparateEvents( data.events );
-        return $q.when( data );
-      }
-
-      function preparateEvents( events ){
-        return events
-          .map( preparateEvent );
-
-        function preparateEvent( item ){
-          item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
-          item.starts = moment(item.starts)._d;
-          item.ends = moment(item.ends)._d;
-          return item;
-        }
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-    
-    function home( userId ){
-
-      //Validate
-      var typeUserId = typeof userId;
-      if(typeUserId !== 'string' && typeUserId !== 'number') throw new Error();
-
-      return $http({
-        method: 'GET',
-        url: path + 'home/' + userId,
-        headers: {
-          'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ getToken()
-        },
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( preparateData(response.data.data) );
-      }
-      
-      function preparateData( data ) {
-        var user = data.user;
-        if(user.type == 1){
-          user.events = data.events.map( preparateEvent );
-          user.sponzorships = user.sponzorships.map( preparateSponzorships );
-        }else{
-          user.events = user.events.map( preparateEvent );
-          user.sponzorships_like_organizer = user.sponzorships_like_organizer.map( preparateSponzorships );
-        }
-        return user;
-      }
-      
-      function preparateEvent( item ){
-        item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
-        item.starts = moment(item.starts)._d;
-        item.ends = moment(item.ends)._d;
-        return item;
-      }
-      
-      function preparateSponzorships( item ){
-        if(item.sponzor){
-          item.sponzor.image = (item.sponzor.image == "") ? 'img/photo.png' : item.sponzor.image;
-        }
-        item.event.starts = moment(item.event.starts)._d;
-        item.event.ends = moment(item.event.ends)._d;
-        return item;
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function createUser( data ){
-
-      //Validate
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
-        method: 'POST',
-        url: path + 'users',
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.User );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function deleteUser( userId ){
-
-      //Validate
-      var typeUserId = typeof userId;
-      if(typeUserId !== 'number' && typeUserId !== 'string') throw new Error();
-
-      return $http({
-        method: 'DELETE',
-        url: path + 'users/' + userId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function editUserPatch( userId, data ){
-
-      //Validate
-      var typeUserId = typeof userId;
-      if(typeUserId !== 'number' && typeUserId !== 'string') throw new Error();
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
-        method: 'PATCH',
-        url: path + 'users/' + userId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data.User );
-      }
-
-      function failed( response ){
-        return $q.reject( response.data );
-      }
-    }
-
-    function editUserPut( userId, data ){
-
-      //Validate
-      var typeUserId = typeof userId;
-      if(typeUserId !== 'number' && typeUserId !== 'string') throw new Error();
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
-        method: 'PUT',
-        url: path + 'users/' + userId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data.User );
-      }
-
-      function failed( response ){
-        return $q.reject( response.data );
-      }
-    }
-
-    function forgotPassword( email ){
-
-      //Validate
-      var typeEmail = typeof email;
-      if(typeEmail !== 'string') throw new Error();
-
-      return $http({
-        method: 'POST',
-        url: path + 'send_reset_password',
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike({
-          email: email
-        })
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function invitedUser( data ){
-
-      //Validate
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
-        method: 'POST',
-        url: path + 'invite_friend',
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function checkSession(){
-      if(angular.isDefined($localStorage.token) && angular.isDefined($localStorage.userAuth)){
-        return true;
-      }
-      return false;
-    }
-
-    function getToken(){
-      return $localStorage.token;
-    }
-
-  }
-})();
-*/ 
+        UserService.prototype.login = function (email, password) {
+            var _this = this;
+            return this.$http({
+                method: 'POST',
+                url: this.path + 'auth',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    email: email,
+                    password: password
+                }
+            })
+                .then(function (response) { return _this.$q.when(_this._buildUser(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        UserService.prototype.getUser = function (userId) {
+            var _this = this;
+            return this.$http({
+                method: 'GET',
+                url: this.path + 'users/' + userId,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + this._getToken()
+                }
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateUser(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        UserService.prototype.home = function (userId) {
+            var _this = this;
+            return this.$http({
+                method: 'GET',
+                url: this.path + 'home/' + userId,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + this._getToken()
+                }
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateUser(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        UserService.prototype.createUser = function (data) {
+            var _this = this;
+            return this.$http({
+                method: 'POST',
+                url: this.path + 'users',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(_this._getUser(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        UserService.prototype.deleteUser = function (userId) {
+            var _this = this;
+            return this.$http({
+                method: 'DELETE',
+                url: this.path + 'users/' + userId,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': 'Basic ' + this._getToken()
+                }
+            })
+                .then(function (response) { return _this.$q.when(response.data); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        UserService.prototype.editUserPatch = function (userId, data) {
+            var _this = this;
+            return this.$http({
+                method: 'PATCH',
+                url: this.path + 'users/' + userId,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(_this._getUser(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        UserService.prototype.editUserPut = function (userId, data) {
+            var _this = this;
+            return this.$http({
+                method: 'PUT',
+                url: this.path + 'users/' + userId,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(_this._getUser(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        UserService.prototype.forgotPassword = function (email) {
+            var _this = this;
+            return this.$http({
+                method: 'POST',
+                url: this.path + 'send_reset_password',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + this._getToken()
+                },
+                data: {
+                    email: email
+                }
+            })
+                .then(function (response) { return _this.$q.when(response.data); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        UserService.prototype.invitedUser = function (data) {
+            var _this = this;
+            return this.$http({
+                method: 'POST',
+                url: this.path + 'invite_friend',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(response.data); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        UserService.prototype._getUser = function (data) {
+            return data.User;
+        };
+        UserService.prototype._preparateUser = function (data) {
+            return this._buildUser(data.data.user);
+        };
+        UserService.prototype._getToken = function () {
+            return this.$localStorage.token;
+        };
+        UserService.prototype._buildUser = function (data) {
+            var user = data.user;
+            user.events = data.events.map(this.eventService.buildEvent);
+            if (user.type == "1") {
+                user.sponzorships = user.sponzorships.map(this.sponsorshipService.buildSponsorship);
+            }
+            else {
+                user.sponzorships_like_organizer = user.sponzorships_like_organizer.map(this.sponsorshipService.buildSponsorship);
+            }
+            return user;
+        };
+        return UserService;
+    }());
+    userService.UserService = UserService;
+    angular
+        .module('app')
+        .service('UserService', UserService);
+})(userService || (userService = {}));

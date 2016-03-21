@@ -15,6 +15,7 @@ module eventService{
     deleteEvent(id:string):angular.IPromise<any>;
     editEventPatch(id:string, event: Event):angular.IPromise<any>;
     editEventPut(id:string, event: Event):angular.IPromise<any>;
+    buildEvent(event:any):Event;
   }
   
   export interface Event{
@@ -123,25 +124,26 @@ module eventService{
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
-    private _getToken():string{
-      return this.$localStorage.token;
-    }
-    
-    private _preparateEvents( data ):Event[]{
-      return data.data.events.map( this._buildEvent );
-    }
-    
-    private _preparateEvent( data ):Event{
-      return this._buildEvent( data.event );
-    }
-    
-    private _buildEvent(event):Event{
+    buildEvent(event):Event{
       event.image = (event.image == "event_dummy.png") ? 'img/banner.jpg' : event.image;
       event.user_organizer.image = (event.user_organizer.image == "organizer_sponzorme.png"  || event.user_organizer.image == "" ) ? 'img/photo.png' : event.user_organizer.image;
       event.starts = moment(event.starts).toDate();
       event.ends = moment(event.ends).toDate();
       return event;
     }
+    
+    private _getToken():string{
+      return this.$localStorage.token;
+    }
+    
+    private _preparateEvents( data ):Event[]{
+      return data.data.events.map( this.buildEvent );
+    }
+    
+    private _preparateEvent( data ):Event{
+      return this.buildEvent( data.event );
+    }
+    
   }
   
   angular

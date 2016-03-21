@@ -1,10 +1,67 @@
 /// <reference path="../../typings/main.d.ts" />
+/// <reference path="event.service.ts" />
 /**
 * @Servicio de Sponzorships (Beneficios)
 *
 * @author Sebastian, Nicolas Molina
 * @version 0.2
-
+*/
+module sponsorshipService{
+  
+  export interface ISponsorshipService{
+    buildSponsorship(data:any):Sponsorship;
+  }
+  
+  export interface Sponsor{
+    id:string;
+    image:string;
+  }
+  
+  export interface Sponsorship{
+    id:string;
+    sponsor:Sponsor;
+    perk:any;
+    organizer:any;
+    event:eventService.Event;
+    tasks:any;
+  }
+  
+  export interface SponsorshipDetail{
+    id:string;
+    sponzor:any;
+    perk:any;
+    organizer:any;
+    event:any;
+    tasks:any;
+  }
+  
+  export class sponsorshipService implements ISponsorshipService{
+    
+    $inject = [
+      'eventService',
+      'BackendVariables'
+    ];
+    path:string;
+    
+    constructor(
+      private eventService: eventService.IEventService,
+      private BackendVariables
+    ){
+      this.path = this.BackendVariables.url;
+    }
+    
+   buildSponsorship(data:any):Sponsorship{
+    let sponzorship:Sponsorship = data;
+    if(sponzorship.sponsor){
+      sponzorship.sponsor.image = (sponzorship.sponsor.image == "") ? 'img/photo.png' : sponzorship.sponsor.image;
+    }
+    sponzorship.event = this.eventService.buildEvent( sponzorship.event );
+    return sponzorship;
+   }
+  }
+  
+}
+/*
 (function() {
   'use strict';
 

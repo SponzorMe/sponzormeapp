@@ -1,373 +1,213 @@
 /// <reference path="../../typings/main.d.ts" />
+/// <reference path="event.service.ts" />
+/// <reference path="sponsorship.service.ts" />
 /**
 * @Servicio de Usuarios
 *
 * @author Sebastian, Nicolas Molina
 * @version 0.2
-
-(function() {
-  'use strict';
-
-  angular
-    .module('app')
-    .factory('userService', userService);
-
-  userService.$inject = [
-    '$http',
-    '$localStorage',
-    'BackendVariables',
-    '$q',
-    '$httpParamSerializerJQLike'
-  ];
-
-  function userService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
-
-    var path = BackendVariables.url;
-
-    var service = {
-      login: login,
-      home: home,
-      getUser: getUser,
-      createUser: createUser,
-      deleteUser: deleteUser,
-      editUserPatch: editUserPatch,
-      editUserPut: editUserPut,
-      forgotPassword: forgotPassword,
-      invitedUser: invitedUser,
-      checkSession: checkSession
-    };
-
-    return service;
-
-    ////////////
-
-    function login( email, password ){
-
-      //Validate
-      var typeEmail = typeof email;
-      if(typeEmail !== 'string') throw new Error();
-      var typePassword = typeof password;
-      if(typePassword !== 'string' && typePassword !== 'number') throw new Error();
-
-
-      return $http({
-        method: 'POST',
-        url: path + 'auth',
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
-        data: $httpParamSerializerJQLike({
-          email: email,
-          password: password
-        })
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( preparateData(response.data) );
-      }
-      
-      function preparateData( data ) {
-        var user = data.user;
-        if(user.type == 1){// Is a Sponzor
-          user.events = data.events.map( preparateEvent );
-          user.sponzorships = user.sponzorships.map( preparateSponzorships );
-        }else{
-          user.events = user.events.map( preparateEvent );
-          user.sponzorships_like_organizer = user.sponzorships_like_organizer.map( preparateSponzorships );
-        }
-        return user;
-      }
-      
-      function preparateEvent( item ){
-        item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
-        item.starts = moment(item.starts)._d;
-        item.ends = moment(item.ends)._d;
-        return item;  
-      }
-      
-      function preparateSponzorships( item ){
-        if(item.sponzor){
-          item.sponzor.image = (item.sponzor.image == "") ? 'img/photo.png' : item.sponzor.image;
-        }
-        item.event.starts = moment(item.event.starts)._d;
-        item.event.ends = moment(item.event.ends)._d;
-        return item;  
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function getUser( userId ){
-
-      //Validate
-      var typeUserId = typeof userId;
-      if(typeUserId !== 'string' && typeUserId !== 'number') throw new Error();
-
-      return $http({
-        method: 'GET',
-        url: path + 'users/' + userId,
-        headers: { 'Content-Type' : 'application/x-www-form-urlencoded', 'Authorization' : 'Basic '+ getToken() },
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        var data = response.data.data.user;
-        data.events = preparateEvents( data.events );
-        return $q.when( data );
-      }
-
-      function preparateEvents( events ){
-        return events
-          .map( preparateEvent );
-
-        function preparateEvent( item ){
-          item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
-          item.starts = moment(item.starts)._d;
-          item.ends = moment(item.ends)._d;
-          return item;
-        }
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
+*/
+module userService{
+  
+  export interface IUserService{
+    login(email:string, password:string):angular.IPromise<any>;
+    home(userId:string):angular.IPromise<any>;
+    getUser(userId:string):angular.IPromise<any>;
+    createUser(user:any):angular.IPromise<any>;
+    deleteUser(userId:string):angular.IPromise<any>;
+    editUserPatch(userId:string, user:any):angular.IPromise<any>;
+    editUserPut(userId:string, user:any):angular.IPromise<any>;
+    forgotPassword(email:string):angular.IPromise<any>;
+    invitedUser(data:any):angular.IPromise<any>;
+  }
+  
+  export interface User{
+    id:string;
+    type:string;
+    email:string;
+    age: number;
+    comunity_size: number;
+    events:eventService.Event[];
+    sponzorships:sponsorshipService.Sponsorship[];
+    sponzorships_like_organizer:sponsorshipService.Sponsorship[];
+  }
+  
+  export class userService implements IUserService{
+    
+    $inject = [
+      '$http',
+      '$localStorage',
+      'BackendVariables',
+      '$q',
+      'eventService'
+    ];
+    path:string;
+    
+    constructor(
+      private $http: angular.IHttpService,
+      private $localStorage,
+      private BackendVariables,
+      private $q: angular.IQService,
+      private eventService: eventService.IEventService,
+      private sponsorshipService: sponsorshipService.ISponsorshipService
+    ){
+      this.path = BackendVariables.url;
     }
     
-    function home( userId ){
-
-      //Validate
-      var typeUserId = typeof userId;
-      if(typeUserId !== 'string' && typeUserId !== 'number') throw new Error();
-
-      return $http({
+    
+    login( email:string, password:string):angular.IPromise<any>{
+      return this.$http({
+        method: 'POST',
+        url: this.path + 'auth',
+        headers: { 
+          'Content-Type' : 'application/json'
+        },
+        data: {
+          email: email,
+          password: password
+        }
+      })
+      .then( response => { return this.$q.when( this._buildUser( response.data ) ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
+    }
+    
+    getUser( userId:string ):angular.IPromise<any>{
+      return this.$http({
         method: 'GET',
-        url: path + 'home/' + userId,
+        url: this.path + 'users/' + userId,
+        headers: {
+          'Content-Type' : 'application/json',
+          'Authorization' : 'Basic '+ this._getToken()
+        },
+      })
+      .then( response => { return this.$q.when( this._preparateUser( response.data ) ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
+    }
+    
+    home( userId:string ):angular.IPromise<any>{
+      return this.$http({
+        method: 'GET',
+        url: this.path + 'home/' + userId,
         headers: { 
           'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ getToken()
+          'Authorization' : 'Basic '+ this._getToken()
         },
       })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( preparateData(response.data.data) );
-      }
-      
-      function preparateData( data ) {
-        var user = data.user;
-        if(user.type == 1){
-          user.events = data.events.map( preparateEvent );
-          user.sponzorships = user.sponzorships.map( preparateSponzorships );
-        }else{
-          user.events = user.events.map( preparateEvent );
-          user.sponzorships_like_organizer = user.sponzorships_like_organizer.map( preparateSponzorships );
-        }
-        return user;
-      }
-      
-      function preparateEvent( item ){
-        item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
-        item.starts = moment(item.starts)._d;
-        item.ends = moment(item.ends)._d;
-        return item;  
-      }
-      
-      function preparateSponzorships( item ){
-        if(item.sponzor){
-          item.sponzor.image = (item.sponzor.image == "") ? 'img/photo.png' : item.sponzor.image;
-        }
-        item.event.starts = moment(item.event.starts)._d;
-        item.event.ends = moment(item.event.ends)._d;
-        return item;  
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
+      .then( response => { return this.$q.when( this._preparateUser( response.data ) ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
     }
-
-    function createUser( data ){
-
-      //Validate
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
+    
+    createUser( data:any ):angular.IPromise<any>{
+      return this.$http({
         method: 'POST',
-        url: path + 'users',
+        url: this.path + 'users',
         headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
+          'Content-Type' : 'application/json',
+          'Authorization' : 'Basic '+ this._getToken()
         },
-        data: $httpParamSerializerJQLike(data)
+        data: data
       })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.User );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
+      .then( response => { return this.$q.when( this._getUser(response.data) ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
     }
-
-    function deleteUser( userId ){
-
-      //Validate
-      var typeUserId = typeof userId;
-      if(typeUserId !== 'number' && typeUserId !== 'string') throw new Error();
-
-      return $http({
+    
+    deleteUser( userId:string ):angular.IPromise<any>{
+      return this.$http({
         method: 'DELETE',
-        url: path + 'users/' + userId,
+        url: this.path + 'users/' + userId,
         headers: {
           'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
+          'Authorization' : 'Basic '+ this._getToken()
         },
       })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
+      .then( response => { return this.$q.when( response.data ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
     }
-
-    function editUserPatch( userId, data ){
-
-      //Validate
-      var typeUserId = typeof userId;
-      if(typeUserId !== 'number' && typeUserId !== 'string') throw new Error();
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
+    
+    editUserPatch( userId:string, data:any ):angular.IPromise<any>{
+      return this.$http({
         method: 'PATCH',
-        url: path + 'users/' + userId,
+        url: this.path + 'users/' + userId,
         headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
+          'Content-Type' : 'application/json',
+          'Authorization' : 'Basic '+ this._getToken()
         },
-        data: $httpParamSerializerJQLike(data)
+        data: data
       })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data.User );
-      }
-
-      function failed( response ){
-        return $q.reject( response.data );
-      }
+      .then( response => { return this.$q.when( this._getUser(response.data) ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
     }
-
-    function editUserPut( userId, data ){
-
-      //Validate
-      var typeUserId = typeof userId;
-      if(typeUserId !== 'number' && typeUserId !== 'string') throw new Error();
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
+     
+    editUserPut( userId:string, data:any ):angular.IPromise<any>{
+      return this.$http({
         method: 'PUT',
-        url: path + 'users/' + userId,
+        url: this.path + 'users/' + userId,
         headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
+          'Content-Type' : 'application/json',
+          'Authorization' : 'Basic '+ this._getToken()
         },
-        data: $httpParamSerializerJQLike(data)
+        data: data
       })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data.User );
-      }
-
-      function failed( response ){
-        return $q.reject( response.data );
-      }
+      .then( response => { return this.$q.when( this._getUser(response.data) ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
     }
-
-    function forgotPassword( email ){
-
-      //Validate
-      var typeEmail = typeof email;
-      if(typeEmail !== 'string') throw new Error();
-
-      return $http({
+    
+    forgotPassword( email:string ):angular.IPromise<any>{
+      return this.$http({
         method: 'POST',
-        url: path + 'send_reset_password',
+        url: this.path + 'send_reset_password',
         headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
+          'Content-Type' : 'application/json',
+          'Authorization' : 'Basic '+ this._getToken()
         },
-        data: $httpParamSerializerJQLike({
+        data: {
           email: email
-        })
+        }
       })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
+      .then( response => { return this.$q.when( response.data ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
     }
-
-    function invitedUser( data ){
-
-      //Validate
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
+    
+    invitedUser( data:any ):angular.IPromise<any>{
+      return this.$http({
         method: 'POST',
-        url: path + 'invite_friend',
+        url: this.path + 'invite_friend',
         headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
+          'Content-Type' : 'application/json',
+          'Authorization' : 'Basic '+ this._getToken()
         },
-        data: $httpParamSerializerJQLike(data)
+        data: data
       })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
+      .then( response => { return this.$q.when( response.data ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
     }
-
-    function checkSession(){
-      if(angular.isDefined($localStorage.token) && angular.isDefined($localStorage.userAuth)){
-        return true;
+    
+    private _getUser(data:any){
+      return data.User;
+    }
+    
+    private _preparateUser(data:any):User{
+      return this._buildUser( data.data.user );
+    }
+    
+    private _getToken():string{
+      return this.$localStorage.token;
+    }
+    
+    private _buildUser( data:any ):User{
+      let user:User = data.user;
+      user.events = data.events.map( this.eventService.buildEvent );
+      if(user.type == "1"){ // Is a Sponzor
+        user.sponzorships = user.sponzorships.map( this.sponsorshipService.buildSponsorship );
+      }else{ // Is an Organizer
+        user.sponzorships_like_organizer = user.sponzorships_like_organizer.map( this.sponsorshipService.buildSponsorship );
       }
-      return false;
+      return user;
     }
-
-    function getToken(){
-      return $localStorage.token;
-    }
-
   }
-})();
-*/
+  
+  angular
+    .module('app')
+    .service('userService', userService);
+  
+}

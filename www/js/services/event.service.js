@@ -95,21 +95,21 @@ var eventService;
                 .then(function (response) { return _this.$q.when(_this._preparateEvent(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
-        eventService.prototype._getToken = function () {
-            return this.$localStorage.token;
-        };
-        eventService.prototype._preparateEvents = function (data) {
-            return data.data.events.map(this._buildEvent);
-        };
-        eventService.prototype._preparateEvent = function (data) {
-            return this._buildEvent(data.event);
-        };
-        eventService.prototype._buildEvent = function (event) {
+        eventService.prototype.buildEvent = function (event) {
             event.image = (event.image == "event_dummy.png") ? 'img/banner.jpg' : event.image;
             event.user_organizer.image = (event.user_organizer.image == "organizer_sponzorme.png" || event.user_organizer.image == "") ? 'img/photo.png' : event.user_organizer.image;
             event.starts = moment(event.starts).toDate();
             event.ends = moment(event.ends).toDate();
             return event;
+        };
+        eventService.prototype._getToken = function () {
+            return this.$localStorage.token;
+        };
+        eventService.prototype._preparateEvents = function (data) {
+            return data.data.events.map(this.buildEvent);
+        };
+        eventService.prototype._preparateEvent = function (data) {
+            return this.buildEvent(data.event);
         };
         return eventService;
     }());

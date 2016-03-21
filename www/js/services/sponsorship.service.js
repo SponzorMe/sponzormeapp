@@ -1,10 +1,36 @@
 /// <reference path="../../typings/main.d.ts" />
+/// <reference path="event.service.ts" />
 /**
 * @Servicio de Sponzorships (Beneficios)
 *
 * @author Sebastian, Nicolas Molina
 * @version 0.2
-
+*/
+var sponsorshipService;
+(function (sponsorshipService_1) {
+    var sponsorshipService = (function () {
+        function sponsorshipService(eventService, BackendVariables) {
+            this.eventService = eventService;
+            this.BackendVariables = BackendVariables;
+            this.$inject = [
+                'eventService',
+                'BackendVariables'
+            ];
+            this.path = this.BackendVariables.url;
+        }
+        sponsorshipService.prototype.buildSponsorship = function (data) {
+            var sponzorship = data;
+            if (sponzorship.sponsor) {
+                sponzorship.sponsor.image = (sponzorship.sponsor.image == "") ? 'img/photo.png' : sponzorship.sponsor.image;
+            }
+            sponzorship.event = this.eventService.buildEvent(sponzorship.event);
+            return sponzorship;
+        };
+        return sponsorshipService;
+    }());
+    sponsorshipService_1.sponsorshipService = sponsorshipService;
+})(sponsorshipService || (sponsorshipService = {}));
+/*
 (function() {
   'use strict';
 
