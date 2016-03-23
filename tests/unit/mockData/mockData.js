@@ -38,6 +38,10 @@ var mockData = (function() {
   
   return {
     failed: failed,
+    categoryService: {
+      allCategories: allCategories,
+      getCategory: getCategory
+    },
     userInterestService:{
       bulkUserInterest: bulkUserInterest
     },
@@ -94,11 +98,7 @@ var mockData = (function() {
       editPatchTask: editPatchTask,
       deleteTask: deleteTask
     },
-    categoryService: {
-      allCategories: allCategories,
-      getCategory: getCategory,
-      getInterests: getInterests
-    },
+    
     eventService:{
       allEvents: allEvents,
       getEvent: getEvent,
@@ -742,52 +742,16 @@ var mockData = (function() {
   function allCategories() {
     return {
       categories: [
-        {
-          body: "All About the Bussines!",
-          id: "1",
-          lang: "en",
-          title: "Outdoor",
-          interests:[
-            {
-              category_id: "1",
-              description: "ida.",
-              id_interest: "1",
-              lang: "en",
-              name: "Outdoors"
-            },
-            {
-              category_id: "1",
-              description: "u cibus gravida.",
-              id_interest: "2",
-              lang: "en",
-              name: "Hiking"
-            }
-          ]
-        },
-        {
-          body: "All About the Bussines!",
-          id: "2",
-          lang: "en",
-          title: "Art & Culture",
-          interests:[
-            {
-              category_id: "1",
-              description: "ida.",
-              id_interest: "1",
-              lang: "en",
-              name: "Outdoors",
-              check: 1
-            },
-            {
-              category_id: "1",
-              description: "u cibus gravida.",
-              id_interest: "2",
-              lang: "en",
-              name: "Hiking",
-              check: 1
-            }
-          ]
-        }
+        categoryBuilder.setId(1)
+        .setInterests([
+          interestBuilder.build(),
+          interestBuilder.build(),
+        ]).build(),
+        categoryBuilder.setId(2)
+        .setInterests([
+          interestBuilder.build(),
+          interestBuilder.build(),
+        ]).build(),
       ],
       success: true
     }
@@ -796,113 +760,13 @@ var mockData = (function() {
   function getCategory(){
     return {
       data: {
-        category: {
-          body: "All About the Bussines!",
-          events: [
-            {
-              category: "2",
-              description: "asas",
-              ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
-              id: "1015",
-              image: "https://s3-us-west-2.amazonaws.com/sponzormewebappimages/event_default.jpg",
-              lang: "en",
-              location: "San Bernardo, San Bernardo, Región Metropolitana, Chile",
-              location_reference: "ChIJ-y1tA2LZYpYRBUJ1tdTUjT0",
-              privacy: "0",
-              starts: "2016-01-28 18:57:00",
-              title: "Un vistazo a Ionic 1.2.x",
-              type: "2"
-            },
-            {
-              category: "2",
-              description: "asas",
-              ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
-              id: "1015",
-              image: "https://s3-us-west-2.amazonaws.com/sponzormewebappimages/event_default.jpg",
-              lang: "en",
-              location: "San Bernardo, San Bernardo, Región Metropolitana, Chile",
-              location_reference: "ChIJ-y1tA2LZYpYRBUJ1tdTUjT0",
-              privacy: "0",
-              starts: "2016-01-28 18:57:00",
-              title: "Un vistazo a Ionic 1.2.x",
-              type: "2"
-            }
-          ],
-          id: "2",
-          interests: [
-            {
-              category_id: "2",
-              description: "Tutorials About Photoshop",
-              id_interest: "13",
-              lang: "en",
-              name: "Live Music"
-            },
-            {
-              category_id: "2",
-              description: "Tutorials About Photoshop",
-              id_interest: "14",
-              lang: "en",
-              name: "Performing Arts"
-            }
-          ],
-          lang: "en",
-          title: "Art & Culture"
-        }
+        category: categoryBuilder.setId(1)
+        .setInterests([
+          interestBuilder.build(),
+          interestBuilder.build(),
+        ]).build(),
       }
     }
-  }
-
-  function getInterests(){
-    return [
-      {
-        body: "All About the Bussines!",
-        id: "1",
-        lang: "en",
-        title: "Outdoor",
-        interests: [
-          {
-            category_id: "2",
-            description: "Tutorials About Photoshop",
-            id_interest: "1",
-            lang: "en",
-            name: "Live Music",
-            check: true
-          },
-          {
-            category_id: "2",
-            description: "Tutorials About Photoshop",
-            id_interest: "2",
-            lang: "en",
-            name: "Performing Arts",
-            check: false
-          }
-        ]
-      },
-      {
-        body: "All About the Bussines!",
-        id: "2",
-        lang: "en",
-        title: "Outdoor",
-        interests: [
-          {
-            category_id: "2",
-            description: "Tutorials About Photoshop",
-            id_interest: "3",
-            lang: "en",
-            name: "Live Music",
-            check: true
-          },
-          {
-            category_id: "2",
-            description: "Tutorials About Photoshop",
-            id_interest: "4",
-            lang: "en",
-            name: "Performing Arts",
-            check: true
-          }
-        ]
-      },
-    ]
   }
 
   function allEvents(){

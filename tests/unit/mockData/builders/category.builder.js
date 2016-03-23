@@ -20,12 +20,12 @@ var categoryBuilder = (function() {
   }
   
   function setId(id){
-    _resultUser.id = id;
+    _resultCategory.id = id;
     return this;
   }
   
   function setInterests(interests){
-    _resultUser.interests = interests;
+    _resultCategory.interests = interests;
     return this;
   }
   
