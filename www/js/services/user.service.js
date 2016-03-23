@@ -7,8 +7,8 @@
 * @author Sebastian, Nicolas Molina
 * @version 0.2
 */
-var userService;
-(function (userService_1) {
+var userModule;
+(function (userModule) {
     var userService = (function () {
         function userService($http, $localStorage, BackendVariables, $q, eventService, sponsorshipService) {
             this.$http = $http;
@@ -22,7 +22,8 @@ var userService;
                 '$localStorage',
                 'BackendVariables',
                 '$q',
-                'eventService'
+                'eventService',
+                'sponsorshipService'
             ];
             this.path = BackendVariables.url;
         }
@@ -40,19 +41,6 @@ var userService;
                 }
             })
                 .then(function (response) { return _this.$q.when(_this._buildUser(response.data)); })
-                .catch(function (response) { return _this.$q.reject(response.data); });
-        };
-        userService.prototype.getUser = function (userId) {
-            var _this = this;
-            return this.$http({
-                method: 'GET',
-                url: this.path + 'users/' + userId,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + this._getToken()
-                }
-            })
-                .then(function (response) { return _this.$q.when(_this._preparateUser(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
         userService.prototype.home = function (userId) {
@@ -164,19 +152,23 @@ var userService;
         };
         userService.prototype._buildUser = function (data) {
             var user = data.user;
-            user.events = data.events.map(this.eventService.buildEvent);
             if (user.type == "1") {
-                user.sponzorships = user.sponzorships.map(this.sponsorshipService.buildSponsorship);
+                user.sponzorships.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
+                user.events = data.events.forEach(this.eventService.buildEvent, this.eventService);
             }
             else {
                 user.sponzorships_like_organizer = user.sponzorships_like_organizer.map(this.sponsorshipService.buildSponsorship);
+                user.events.forEach(this.eventService.buildEvent, this.eventService);
             }
             return user;
         };
+        userService.prototype._preparateEvents = function () {
+            return true;
+        };
         return userService;
     }());
-    userService_1.userService = userService;
+    userModule.userService = userService;
     angular
         .module('app')
         .service('userService', userService);
-})(userService || (userService = {}));
+})(userModule || (userModule = {}));

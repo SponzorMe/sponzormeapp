@@ -7,12 +7,11 @@
 * @author Sebastian, Nicolas Molina
 * @version 0.2
 */
-module userService{
+module userModule{
   
   export interface IUserService{
     login(email:string, password:string):angular.IPromise<any>;
     home(userId:string):angular.IPromise<any>;
-    getUser(userId:string):angular.IPromise<any>;
     createUser(user:any):angular.IPromise<any>;
     deleteUser(userId:string):angular.IPromise<any>;
     editUserPatch(userId:string, user:any):angular.IPromise<any>;
@@ -27,9 +26,9 @@ module userService{
     email:string;
     age: number;
     comunity_size: number;
-    events:eventService.Event[];
-    sponzorships:sponsorshipService.Sponsorship[];
-    sponzorships_like_organizer:sponsorshipService.Sponsorship[];
+    events:eventModule.Event[];
+    sponzorships?:sponsorshipModule.Sponsorship[];
+    sponzorships_like_organizer?:sponsorshipModule.Sponsorship[];
   }
   
   export class userService implements IUserService{
@@ -39,7 +38,8 @@ module userService{
       '$localStorage',
       'BackendVariables',
       '$q',
-      'eventService'
+      'eventService',
+      'sponsorshipService'
     ];
     path:string;
     
@@ -48,8 +48,8 @@ module userService{
       private $localStorage,
       private BackendVariables,
       private $q: angular.IQService,
-      private eventService: eventService.IEventService,
-      private sponsorshipService: sponsorshipService.ISponsorshipService
+      private eventService: eventModule.IEventService,
+      private sponsorshipService: sponsorshipModule.ISponsorshipService
     ){
       this.path = BackendVariables.url;
     }
@@ -68,19 +68,6 @@ module userService{
         }
       })
       .then( response => { return this.$q.when( this._buildUser( response.data ) ); } )
-      .catch( response => { return this.$q.reject( response.data ); } );
-    }
-    
-    getUser( userId:string ):angular.IPromise<any>{
-      return this.$http({
-        method: 'GET',
-        url: this.path + 'users/' + userId,
-        headers: {
-          'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ this._getToken()
-        },
-      })
-      .then( response => { return this.$q.when( this._preparateUser( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
@@ -196,15 +183,21 @@ module userService{
     
     private _buildUser( data:any ):User{
       let user:User = data.user;
-      user.events = data.events.map( this.eventService.buildEvent );
       if(user.type == "1"){ // Is a Sponzor
-        user.sponzorships = user.sponzorships.map( this.sponsorshipService.buildSponsorship );
+        user.sponzorships.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
+        user.events = data.events.forEach( this.eventService.buildEvent, this.eventService);
       }else{ // Is an Organizer
         user.sponzorships_like_organizer = user.sponzorships_like_organizer.map( this.sponsorshipService.buildSponsorship );
+        user.events.forEach( this.eventService.buildEvent, this.eventService);
       }
       return user;
     }
+    
+    private _preparateEvents(){
+      return true;
+    }
   }
+  
   
   angular
     .module('app')

@@ -25,13 +25,13 @@ describe("Service: userService", function(){
   }));
 
   ////////////////////////////////////////////////////////////
-  describe('Test to login method', function(){
+  describe('Test to login method as Organizer', function(){
 
     it('Should define a login function', function(){
       chai.assert.isDefined(userService.login);
     });
 
-    it('Should throw an error on an incompatible type', function(){
+    /*it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
         userService.login();
       });
@@ -44,7 +44,7 @@ describe("Service: userService", function(){
       chai.assert.throws(function(){
         userService.login(1, "123");
       });
-    });
+    });*/
 
     it("Should not throw an error in case a string or number", function(){
       chai.assert.doesNotThrow(function(){
@@ -89,6 +89,7 @@ describe("Service: userService", function(){
     describe('login success', function() {
 
       var data = mockData.userService.login();
+      data.user.type = "1";
 
       beforeEach(function() {
         $httpBackend.whenPOST(URL_REST + 'auth').respond(200, data);
@@ -110,113 +111,7 @@ describe("Service: userService", function(){
     });
 
   });
-
-  ////////////////////////////////////////////////////////////
-  describe('Test to getUser method', function(){
-
-    it('Should define a getUser function', function(){
-      chai.assert.isDefined(userService.getUser);
-    });
-    
-    it('Should throw an error on an incompatible type', function(){
-      chai.assert.throws(function(){
-        userService.getUser();
-      });
-      chai.assert.throws(function(){
-        userService.getUser([]);
-      });
-      chai.assert.throws(function(){
-        userService.getUser({});
-      });
-    });
-
-    it("Should not throw an error in case a string or number", function(){
-      chai.assert.doesNotThrow(function(){
-        userService.getUser(1);
-      });
-      chai.assert.doesNotThrow(function(){
-        userService.getUser("1");
-      });
-    });
-
-    it('Should return a promise', function(){
-      var promise = userService.getUser("123");
-      chai.assert.instanceOf( promise.then, Function);
-      chai.assert.property( promise, '$$state');
-    });
-
-    ////////////////////////////////////////////////////////////
-    describe('getUser failed', function() {
-
-      var data = mockData.failed();
-
-      beforeEach(function() {
-        $httpBackend.whenGET( URL_REST + 'users/1').respond(400, data);
-      });
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-      });
-
-      it('Should return an error message', function( done ){
-        userService.getUser( 1 )
-        .catch(function( result ) {
-          chai.assert.isDefined( result.message )
-          done();
-        });
-        $httpBackend.flush();
-      }); 
-    });
-
-    ////////////////////////////////////////////////////////////
-    describe('getUser success', function() {
-      //Assemble  
-      var data = mockData.userService.getUser();
-
-      beforeEach(function() {
-        $httpBackend.whenGET( URL_REST + 'users/1').respond(200, data);
-      });
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-      });
-
-      it('Should return the user', function( done ){
-        userService.getUser( 1 )
-        .then(function( result ) {
-          chai.expect( result.email ).to.eql( data.data.user.email );
-          chai.expect( result ).to.have.property( 'events' );
-          done();
-        });
-        $httpBackend.flush();
-      });
-
-      it('Should be instance Of Date the events', function( done ){
-        userService.getUser( 1 )
-        .then(function( result ) {
-          for (var i = 0; i < result.events.length; i++) {
-            chai.assert.instanceOf( result.events[i].starts, Date );
-            chai.assert.instanceOf( result.events[i].ends, Date );
-          };
-          done();
-        });
-        $httpBackend.flush();
-      });
-
-      it('Should be match with images', function( done ){
-        userService.getUser( 1 )
-        .then(function( result ) {
-          chai.expect( result.events[0].image ).to.eql( 'img/banner.jpg' );
-          chai.expect( result.events[1].image ).to.eql( 'https://staging.sponzor.me/#/event/1' );
-          done();
-        });
-        $httpBackend.flush();
-      });
-    });
-  });
-
+ 
   ////////////////////////////////////////////////////////////
   describe('Test to createUser method', function(){
 
@@ -224,7 +119,7 @@ describe("Service: userService", function(){
       chai.assert.isDefined(userService.createUser);
     });
 
-    it('Should throw an error on an incompatible type', function(){
+    /*it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
         userService.createUser();
       });
@@ -240,7 +135,7 @@ describe("Service: userService", function(){
       chai.assert.throws(function(){
         userService.createUser(Object);
       });
-    });
+    });*/
 
     it('Should not throw an error in case a Object', function(){
       chai.assert.doesNotThrow(function(){
@@ -311,7 +206,7 @@ describe("Service: userService", function(){
       chai.assert.isDefined(userService.deleteUser);
     });
 
-    it('Should throw an error on an incompatible type', function(){
+    /*it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
         userService.deleteUser();
       });
@@ -324,7 +219,7 @@ describe("Service: userService", function(){
       chai.assert.throws(function(){
         userService.deleteUser(Object);
       });
-    });
+    });*/
 
     it('Should not throw an error in case a number or string', function(){
       chai.assert.doesNotThrow(function(){
@@ -398,7 +293,7 @@ describe("Service: userService", function(){
       chai.assert.isDefined(userService.editUserPatch);
     });
 
-    it('Should throw an error on an incompatible type', function(){
+    /*it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
         userService.editUserPatch();
       });
@@ -423,7 +318,7 @@ describe("Service: userService", function(){
       chai.assert.throws(function(){
         userService.editUserPatch("2", Object);
       });
-    });
+    });*/
 
     it('Should not throw an error in case a number or string and Object', function(){
       chai.assert.doesNotThrow(function(){
@@ -497,7 +392,7 @@ describe("Service: userService", function(){
       chai.assert.isDefined(userService.editUserPut);
     });
 
-    it('Should throw an error on an incompatible type', function(){
+    /*it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
         userService.editUserPut();
       });
@@ -522,7 +417,7 @@ describe("Service: userService", function(){
       chai.assert.throws(function(){
         userService.editUserPut("2", Object);
       });
-    });
+    });*/
 
     it('Should not throw an error in case a number or string and Object', function(){
       chai.assert.doesNotThrow(function(){
@@ -595,7 +490,7 @@ describe("Service: userService", function(){
       chai.assert.isDefined(userService.forgotPassword);
     });
 
-    it('Should throw an error on an incompatible type', function(){
+    /*it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
         userService.forgotPassword();
       });
@@ -611,7 +506,7 @@ describe("Service: userService", function(){
       chai.assert.throws(function(){
         userService.forgotPassword(Object);
       });
-    });
+    });*/
 
     it('Should not throw an error in case a string', function(){
       chai.assert.doesNotThrow(function(){
@@ -682,7 +577,7 @@ describe("Service: userService", function(){
       chai.assert.isDefined(userService.invitedUser);
     });
 
-    it('Should throw an error on an incompatible type', function(){
+    /*it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
         userService.invitedUser();
       });
@@ -698,7 +593,7 @@ describe("Service: userService", function(){
       chai.assert.throws(function(){
         userService.invitedUser(Object);
       });
-    });
+    });*/
 
     it('Should not throw an error in case a Object', function(){
       chai.assert.doesNotThrow(function(){
@@ -762,30 +657,5 @@ describe("Service: userService", function(){
 
   });
 
-  ////////////////////////////////////////////////////////////
-  describe('Test to checkSession method', function(){
-
-    var $localStorage;
-
-    beforeEach(inject(function(_$localStorage_) {
-      // Set up the mock http service responses
-      $localStorage = _$localStorage_;
-    }));
-
-    it('Should define a checkSession function', function(){
-      chai.assert.isDefined(userService.checkSession);
-    });
-
-    it('Should return true', function(){
-      $localStorage.userAuth = {};
-      $localStorage.token = "";
-      chai.assert.isTrue( userService.checkSession() );
-    });
-
-    it('Should return false', function(){
-      $localStorage.$reset();
-      chai.assert.isFalse( userService.checkSession() );
-    });
-
-  });
+  
 });

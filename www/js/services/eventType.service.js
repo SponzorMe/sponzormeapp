@@ -5,8 +5,8 @@
 * @author Nicolas Molina
 * @version 0.2
 */
-var eventTypeService;
-(function (eventTypeService_1) {
+var eventTypeModule;
+(function (eventTypeModule) {
     var eventTypeService = (function () {
         function eventTypeService($http, $localStorage, $q, BackendVariables) {
             this.$http = $http;
@@ -50,8 +50,8 @@ var eventTypeService;
         };
         return eventTypeService;
     }());
-    eventTypeService_1.eventTypeService = eventTypeService;
+    eventTypeModule.eventTypeService = eventTypeService;
     angular
         .module('app')
         .service('eventTypeService', eventTypeService);
-})(eventTypeService || (eventTypeService = {}));
+})(eventTypeModule || (eventTypeModule = {}));

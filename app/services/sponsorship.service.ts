@@ -6,7 +6,7 @@
 * @author Sebastian, Nicolas Molina
 * @version 0.2
 */
-module sponsorshipService{
+module sponsorshipModule{
   
   export interface ISponsorshipService{
     buildSponsorship(data:any):Sponsorship;
@@ -19,10 +19,10 @@ module sponsorshipService{
   
   export interface Sponsorship{
     id:string;
-    sponsor:Sponsor;
+    sponzor:Sponsor;
     perk:any;
     organizer:any;
-    event:eventService.Event;
+    event:eventModule.Event;
     tasks:any;
   }
   
@@ -42,22 +42,23 @@ module sponsorshipService{
       'BackendVariables'
     ];
     path:string;
+    xxx:number=2;
     
     constructor(
-      private eventService: eventService.IEventService,
+      private eventService,
       private BackendVariables
     ){
       this.path = this.BackendVariables.url;
     }
-    
-   buildSponsorship(data:any):Sponsorship{
-    let sponzorship:Sponsorship = data;
-    if(sponzorship.sponsor){
-      sponzorship.sponsor.image = (sponzorship.sponsor.image == "") ? 'img/photo.png' : sponzorship.sponsor.image;
+
+    buildSponsorship(data:any):Sponsorship{
+      let sponzorship:Sponsorship = data;
+      if(sponzorship.sponzor){
+        sponzorship.sponzor.image = (sponzorship.sponzor.image == "") ? 'img/photo.png' : sponzorship.sponzor.image;
+      }
+      sponzorship.event = this.eventService.buildEvent( sponzorship.event );
+      return sponzorship;
     }
-    sponzorship.event = this.eventService.buildEvent( sponzorship.event );
-    return sponzorship;
-   }
   }
   
   angular

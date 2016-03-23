@@ -5,7 +5,7 @@
 * @author Sebastian, Nicolas Molina
 * @version 0.2
 */
-module categoryService{
+module categoryModule{
   
   export interface ICategoryService{
     allCategories():angular.IPromise<any>;

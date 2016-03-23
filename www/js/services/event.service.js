@@ -6,8 +6,8 @@
 * @author Sebastian, Nicolas Molina
 * @version 0.2
 */
-var eventService;
-(function (eventService_1) {
+var eventModule;
+(function (eventModule) {
     var eventService = (function () {
         function eventService($http, $localStorage, $q, BackendVariables) {
             this.$http = $http;
@@ -96,8 +96,10 @@ var eventService;
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
         eventService.prototype.buildEvent = function (event) {
-            event.image = (event.image == "event_dummy.png") ? 'img/banner.jpg' : event.image;
-            event.user_organizer.image = (event.user_organizer.image == "organizer_sponzorme.png" || event.user_organizer.image == "") ? 'img/photo.png' : event.user_organizer.image;
+            event.image = (event.image == undefined || event.image == "event_dummy.png" || event.image == "") ? 'img/banner.jpg' : event.image;
+            if (event.user_organizer) {
+                event.user_organizer.image = (event.user_organizer.image == "organizer_sponzorme.png" || event.user_organizer.image == "") ? 'img/photo.png' : event.user_organizer.image;
+            }
             event.starts = moment(event.starts).toDate();
             event.ends = moment(event.ends).toDate();
             return event;
@@ -113,8 +115,8 @@ var eventService;
         };
         return eventService;
     }());
-    eventService_1.eventService = eventService;
+    eventModule.eventService = eventService;
     angular
         .module('app')
         .service('eventService', eventService);
-})(eventService || (eventService = {}));
+})(eventModule || (eventModule = {}));

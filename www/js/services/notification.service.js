@@ -1,8 +1,8 @@
 /// <reference path="../../typings/main.d.ts" />
 /// <reference path="user.service.ts" />
 /// <reference path="userAuth.service.ts" />
-var notificationService;
-(function (notificationService_1) {
+var notificationModule;
+(function (notificationModule) {
     var notificationService = (function () {
         function notificationService($http, $q, $firebaseArray, BackendVariables, userService, $rootScope, $ionicHistory, userAuthService, $localStorage) {
             this.$http = $http;
@@ -140,8 +140,8 @@ var notificationService;
         };
         return notificationService;
     }());
-    notificationService_1.notificationService = notificationService;
+    notificationModule.notificationService = notificationService;
     angular
         .module('app')
         .service('notificationService', notificationService);
-})(notificationService || (notificationService = {}));
+})(notificationModule || (notificationModule = {}));

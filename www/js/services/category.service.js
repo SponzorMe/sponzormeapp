@@ -5,8 +5,8 @@
 * @author Sebastian, Nicolas Molina
 * @version 0.2
 */
-var categoryService;
-(function (categoryService_1) {
+var categoryModule;
+(function (categoryModule) {
     var categoryService = (function () {
         function categoryService($http, $localStorage, $q, BackendVariables) {
             this.$http = $http;
@@ -50,8 +50,8 @@ var categoryService;
         };
         return categoryService;
     }());
-    categoryService_1.categoryService = categoryService;
+    categoryModule.categoryService = categoryService;
     angular
         .module('app')
         .service('categoryService', categoryService);
-})(categoryService || (categoryService = {}));
+})(categoryModule || (categoryModule = {}));

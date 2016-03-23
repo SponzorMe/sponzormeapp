@@ -6,8 +6,8 @@
 * @author Sebastian, Nicolas Molina
 * @version 0.2
 */
-var sponsorshipService;
-(function (sponsorshipService_1) {
+var sponsorshipModule;
+(function (sponsorshipModule) {
     var sponsorshipService = (function () {
         function sponsorshipService(eventService, BackendVariables) {
             this.eventService = eventService;
@@ -16,23 +16,24 @@ var sponsorshipService;
                 'eventService',
                 'BackendVariables'
             ];
+            this.xxx = 2;
             this.path = this.BackendVariables.url;
         }
         sponsorshipService.prototype.buildSponsorship = function (data) {
             var sponzorship = data;
-            if (sponzorship.sponsor) {
-                sponzorship.sponsor.image = (sponzorship.sponsor.image == "") ? 'img/photo.png' : sponzorship.sponsor.image;
+            if (sponzorship.sponzor) {
+                sponzorship.sponzor.image = (sponzorship.sponzor.image == "") ? 'img/photo.png' : sponzorship.sponzor.image;
             }
             sponzorship.event = this.eventService.buildEvent(sponzorship.event);
             return sponzorship;
         };
         return sponsorshipService;
     }());
-    sponsorshipService_1.sponsorshipService = sponsorshipService;
+    sponsorshipModule.sponsorshipService = sponsorshipService;
     angular
         .module('app')
         .service('sponsorshipService', sponsorshipService);
-})(sponsorshipService || (sponsorshipService = {}));
+})(sponsorshipModule || (sponsorshipModule = {}));
 /*
 (function() {
   'use strict';

@@ -5,8 +5,8 @@
 * @author Carlos, Nicolas Molina
 * @version 0.2
 */
-var imgurService;
-(function (imgurService_1) {
+var imgurModule;
+(function (imgurModule) {
     var imgurService = (function () {
         function imgurService($http, $q) {
             this.$http = $http;
@@ -39,8 +39,8 @@ var imgurService;
         };
         return imgurService;
     }());
-    imgurService_1.imgurService = imgurService;
+    imgurModule.imgurService = imgurService;
     angular
         .module('app')
         .service('imgurService', imgurService);
-})(imgurService || (imgurService = {}));
+})(imgurModule || (imgurModule = {}));

@@ -125,6 +125,9 @@ var mockData = (function() {
         starts: "2016-01-30 03:54:00",
         title: "My Second Event",
         type: "1",
+        user_organizer: {
+          image: ''
+        },
         perks: [
           {
             tasks: [
@@ -153,6 +156,9 @@ var mockData = (function() {
         starts: "2016-01-30 17:45:00",
         title: "Ionic 102 - Workshop",
         type: "1",
+        user_organizer: {
+          image: ''
+        },
         perks: [
           {
             tasks: [

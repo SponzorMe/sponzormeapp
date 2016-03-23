@@ -5,7 +5,7 @@
 * @author Nicolas Molina
 * @version 0.2
 */
-module eventTypeService{
+module eventTypeModule{
   
   export interface IEventTypeService{
     allEventTypes():angular.IPromise<any>;

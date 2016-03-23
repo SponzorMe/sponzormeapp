@@ -2,7 +2,7 @@
 /// <reference path="user.service.ts" />
 /// <reference path="userAuth.service.ts" />
 
-module notificationService{
+module notificationModule{
   
   export interface INotificationService{
     activate(): void;
@@ -53,10 +53,10 @@ module notificationService{
       private $q: angular.IQService,
       private $firebaseArray,
       private BackendVariables,
-      private userService: userService.IUserService,
+      private userService: userModule.IUserService,
       private $rootScope: angular.IRootScopeService,
       private $ionicHistory: ionic.navigation.IonicHistoryService,
-      private userAuthService: userAuthService.IUserAuthService,
+      private userAuthService: userAuthModule.IUserAuthService,
       private $localStorage
     ){
       this.path = this.BackendVariables.f_url;

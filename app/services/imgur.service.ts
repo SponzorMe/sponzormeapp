@@ -5,7 +5,7 @@
 * @author Carlos, Nicolas Molina
 * @version 0.2
 */
-module imgurService{
+module imgurModule{
   
   export interface IImgurService{
     uploadImage(image:string):angular.IPromise<any>;
