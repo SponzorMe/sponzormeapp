@@ -304,12 +304,12 @@ describe("Service: eventService", function() {
           chai.assert.isObject( result );
           chai.assert.isDefined( result.category );
           chai.assert.isDefined( result.description );
-          chai.assert.isDefined( result.ends );
           chai.assert.isDefined( result.image );
           chai.assert.isDefined( result.lang );
           chai.assert.isDefined( result.location );
           chai.assert.isDefined( result.privacy );
-          chai.assert.isDefined( result.starts );
+          chai.assert.instanceOf( result.starts, Date );
+          chai.assert.instanceOf( result.ends, Date );
           chai.assert.isDefined( result.type );
           chai.assert.isDefined( result.user_organizer );
           //chai.expect( result ).to.eql( data.event );
@@ -500,12 +500,12 @@ describe("Service: eventService", function() {
           .then(function( result ) {
             chai.assert.isDefined( result.category );
             chai.assert.isDefined( result.description );
-            chai.assert.isDefined( result.ends );
             chai.assert.isDefined( result.image );
             chai.assert.isDefined( result.lang );
             chai.assert.isDefined( result.location );
             chai.assert.isDefined( result.privacy );
-            chai.assert.isDefined( result.starts );
+            chai.assert.instanceOf( result.starts, Date );
+            chai.assert.instanceOf( result.ends, Date );
             chai.assert.isDefined( result.type );
             chai.assert.isDefined( result.user_organizer );
             done();
@@ -608,12 +608,12 @@ describe("Service: eventService", function() {
           .then(function( result ) {
             chai.assert.isDefined( result.category );
             chai.assert.isDefined( result.description );
-            chai.assert.isDefined( result.ends );
             chai.assert.isDefined( result.image );
             chai.assert.isDefined( result.lang );
             chai.assert.isDefined( result.location );
             chai.assert.isDefined( result.privacy );
-            chai.assert.isDefined( result.starts );
+            chai.assert.instanceOf( result.starts, Date );
+            chai.assert.instanceOf( result.ends, Date );
             chai.assert.isDefined( result.type );
             chai.assert.isDefined( result.user_organizer );
             done();

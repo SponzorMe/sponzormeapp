@@ -83,7 +83,7 @@ var notificationModule;
             this._sendNotification(notification, to);
         };
         notificationService.prototype.sendNewEvent = function () {
-            var notification;
+            var notification = {};
             notification.date = new Date().getTime();
             notification.fromApp = 'mobileApp';
             notification.toApp = 'mobileApp';
@@ -92,7 +92,7 @@ var notificationModule;
             notificationsRef.$add(notification);
         };
         notificationService.prototype.sendUpdateEvent = function () {
-            var notification;
+            var notification = {};
             notification.date = new Date().getTime();
             notification.fromApp = 'mobileApp';
             notification.toApp = 'mobileApp';

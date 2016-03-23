@@ -128,7 +128,7 @@ module notificationModule{
     }
     
     sendNewEvent():void{
-      let notification: Notification;
+      let notification:any = {};
       
       notification.date = new Date().getTime();
       notification.fromApp = 'mobileApp';
@@ -141,7 +141,7 @@ module notificationModule{
     }
     
     sendUpdateEvent():void{
-      let notification: Notification;
+      let notification:any = {};
       notification.date = new Date().getTime();
       notification.fromApp = 'mobileApp';
       notification.toApp = 'mobileApp';

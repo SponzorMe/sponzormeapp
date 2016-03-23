@@ -61,7 +61,8 @@ module.exports = function( config ){
       //"tests/unit/services/eventType.service.spec.js",
       //"tests/unit/services/imgur.service.spec.js",
       //"tests/unit/services/user.service.spec.js",
-      "tests/unit/services/userAuth.service.spec.js",
+      //"tests/unit/services/userAuth.service.spec.js",
+      "tests/unit/services/noitification.service.spec.js",
       //'tests/unit/**/*.service.spec.js',
       //'tests/unit/**/*.controller.spec.js'
     ]
