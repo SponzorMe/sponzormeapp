@@ -4,7 +4,27 @@
 *
 * @author Sebastian, Nicolas Molina
 * @version 0.2
-
+*/
+module perkModule{
+  
+  allPerks: allPerks,
+      getPerk: getPerk,
+      createPerk: createPerk,
+      deletePerk: deletePerk,
+      editPerkPatch: editPerkPatch,
+      editPerkPut: editPerkPut
+  
+  export interface IPerkService{
+    allPerks():angular.IPromise<any>;
+    getPerk(perkId:string):angular.IPromise<any>;
+    createPerk(data:any):angular.IPromise<any>;
+    deletePerk(perkId:string):angular.IPromise<any>;
+    editPerkPatch(perkId:string, data:any):angular.IPromise<any>;
+    editPerkPut(perkId:string, data:any):angular.IPromise<any>;
+  }
+  
+}
+/*
 (function() {
   'use strict';
 
