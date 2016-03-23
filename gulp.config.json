@@ -49,8 +49,11 @@
     "./www/js/**/*.controller.js",
     "./www/js/app.run.js"
   ],
+  "builders": [
+    "./tests/unit/mockData/builders/*.builder.js"
+  ],
   "tests": [
-    "./tests/unit/services/user.service.spec.js"
+    "./tests/unit/services/userAuth.service.spec.js"
   ],
   "fonts": [
     "./www/lib/ionic/fonts/**/*.*"

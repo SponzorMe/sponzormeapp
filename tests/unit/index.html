@@ -31,8 +31,18 @@
     <script>
         mocha.setup('bdd');
     </script>
-    <script src="lib/angular-mocks/angular-mocks.js"></script>  
-    <script src="mockData.js"></script>  
+    <script src="lib/angular-mocks/angular-mocks.js"></script>
+    <!-- builders:js -->
+    <script src="mockData/builders/category.builder.js"></script>
+    <script src="mockData/builders/event.builder.js"></script>
+    <script src="mockData/builders/eventType.builder.js"></script>
+    <script src="mockData/builders/interest.builder.js"></script>
+    <script src="mockData/builders/perk.builder.js"></script>
+    <script src="mockData/builders/sponsorship.builder.js"></script>
+    <script src="mockData/builders/task.builder.js"></script>
+    <script src="mockData/builders/user.builder.js"></script>
+    <!-- endinject -->
+    <script src="mockData/mockData.js"></script>  
     
     <!-- inject:js -->
     <script src="js/app.module.js"></script>
@@ -105,7 +115,7 @@
     <!-- endinject -->
 
     <!-- tests:js -->
-    <script src="services/user.service.spec.js"></script>
+    <script src="services/userAuth.service.spec.js"></script>
     <!-- endinject -->
 
     <script>

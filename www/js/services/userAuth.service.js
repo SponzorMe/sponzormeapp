@@ -24,8 +24,6 @@ var userAuthModule;
             ];
         }
         userAuthService.prototype.getUserAuth = function () {
-            console.log(this.$localStorage);
-            console.log(Object.keys(this.$localStorage));
             return this.$localStorage.userAuth;
         };
         userAuthService.prototype.updateUserAuth = function (data) {

@@ -224,10 +224,12 @@ gulp.task('build-mocha', function ( done ) {
     var js = gulp.src( paths.js, {read: false});
   }
   var tests = gulp.src( paths.tests, {read: false});
+  var builders = gulp.src( paths.builders, {read: false});
   
   gulp.src( paths.indexMocha )
     .pipe( inject( vendors , { ignorePath: ["/www/"], addRootSlash: false, name: 'head'} ))
     .pipe( inject( js, { ignorePath: ["/www/"], addRootSlash: false } ))
+    .pipe( inject( builders , { relative: true, name: 'builders'} ))
     .pipe( inject( tests , { relative: true, name: 'tests'} ))
     .pipe( gulp.dest('./tests/unit') )
     .on('end', done);

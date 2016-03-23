@@ -1,7 +1,5 @@
 describe("Service: userService", function(){
 
-  var userService;
-
   beforeEach(function() {
     module('app');
   });
@@ -80,7 +78,7 @@ describe("Service: userService", function(){
       it('Should return an error message', function( done ){
         userService.login( 'mail@domain.com', '123455' )
         .catch(function( result ) {
-          chai.assert.isDefined( result.message )
+          chai.assert.isDefined( result.message );
           done();
         });
         $httpBackend.flush();
@@ -106,6 +104,33 @@ describe("Service: userService", function(){
         userService.login( 'mail@domain.com', '123456' )
         .then(function( result ) {
           chai.expect( result.id ).to.eql( data.user.id );
+          chai.assert.isObject( result );
+          chai.assert.isString( result.email );
+          chai.assert.isString( result.type );
+          chai.assert.isNumber( result.age );
+          chai.assert.isNumber( result.comunity_size );
+          chai.assert.isString( result.name );
+          chai.assert.isString( result.company );
+          chai.assert.isString( result.description );
+          chai.assert.isArray( result.sponzorships_like_organizer );
+          chai.assert.isArray( result.events );
+          done();
+        });
+        $httpBackend.flush();
+      });
+      
+      it('Should return an user with validate events', function( done ){
+        userService.login( 'mail@domain.com', '123456' )
+        .then(function( result ) {
+          chai.assert.isArray( result.events );
+          for(var i=0; i < result.events.length; i++){
+            chai.assert.isObject( result.category );
+            chai.assert.isObject( result.type );
+            chai.assert.isObject( result.user_organizer );
+            chai.assert.isArray( result.sponzorship );
+            chai.assert.instanceOf( result.starts, Date );
+            chai.assert.instanceOf( result.ends, Date );
+          }
           done();
         });
         $httpBackend.flush();
