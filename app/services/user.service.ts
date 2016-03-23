@@ -27,7 +27,7 @@ module userModule{
     age: number;
     comunity_size: number;
     events:eventModule.Event[];
-    sponzorships?:sponsorshipModule.Sponsorship[];
+    sponzorship?:sponsorshipModule.Sponsorship[];
     sponzorships_like_organizer?:sponsorshipModule.Sponsorship[];
   }
   
@@ -174,7 +174,7 @@ module userModule{
     }
     
     private _preparateUser(data:any):User{
-      return this._buildUser( data.data.user );
+      return this._buildUser( data.data );
     }
     
     private _getToken():string{
@@ -184,10 +184,10 @@ module userModule{
     private _buildUser( data:any ):User{
       let user:User = data.user;
       if(user.type == "0"){ // Is an Organizer
-        user.sponzorships_like_organizer.forEach( this.sponsorshipService.buildSponsorship, this.sponsorshipService);
         user.events.forEach( this.eventService.buildEvent, this.eventService);
+        user.sponzorships_like_organizer.forEach( this.sponsorshipService.buildSponsorship, this.sponsorshipService);
       }else{ 
-        user.sponzorships.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
+        user.sponzorship.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
         user.events = data.events.forEach( this.eventService.buildEvent, this.eventService);
       }
       return user;

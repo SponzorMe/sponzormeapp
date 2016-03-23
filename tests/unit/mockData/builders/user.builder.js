@@ -6,6 +6,7 @@ var userBuilder = (function() {
     age: "12",
     comunity_size: "0",
     image: "",
+    type: "0",
     events: [],
     sponzorships_like_organizer: [],
     sponzorship: []
@@ -13,15 +14,21 @@ var userBuilder = (function() {
   
   return {
     build: build,
+    setType: setType,
     setImage: setImage,
     setEvents: setEvents,
     setSponzorships: setSponzorships,
-    setponzorshipLikeOrganizer: setponzorshipLikeOrganizer,
+    setSponzorshipLikeOrganizer: setSponzorshipLikeOrganizer,
     omit: omit,
   }
   
   function build() {
     return _resultUser;
+  }
+  
+  function setType(type){
+    _resultUser.type = type;
+    return this;
   }
   
   function setImage(image){
@@ -39,7 +46,7 @@ var userBuilder = (function() {
     return this;
   }
   
-  function setponzorshipLikeOrganizer(sponzorships){
+  function setSponzorshipLikeOrganizer(sponzorships){
     _resultUser.sponzorships_like_organizer = sponzorships;
     return this;
   }

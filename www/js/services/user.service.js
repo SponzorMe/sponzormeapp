@@ -145,7 +145,7 @@ var userModule;
             return data.User;
         };
         userService.prototype._preparateUser = function (data) {
-            return this._buildUser(data.data.user);
+            return this._buildUser(data.data);
         };
         userService.prototype._getToken = function () {
             return this.$localStorage.token;
@@ -153,11 +153,11 @@ var userModule;
         userService.prototype._buildUser = function (data) {
             var user = data.user;
             if (user.type == "0") {
-                user.sponzorships_like_organizer.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
                 user.events.forEach(this.eventService.buildEvent, this.eventService);
+                user.sponzorships_like_organizer.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
             }
             else {
-                user.sponzorships.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
+                user.sponzorship.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
                 user.events = data.events.forEach(this.eventService.buildEvent, this.eventService);
             }
             return user;

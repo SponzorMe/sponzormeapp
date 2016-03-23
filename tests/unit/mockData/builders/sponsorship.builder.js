@@ -7,16 +7,23 @@ var sponsorshipBuilder = (function() {
     organizer_id: "1003",
     perk_id: "3",
     sponzor_id: "1002",
-    status: "0"
+    status: "0",
+    event: {}
   };
   
   return {
     build: build,
-    omit: omit
+    omit: omit,
+    setEvent: setEvent,
   }
   
   function build() {
     return _resultSponsorship;
+  }
+  
+  function setEvent(event){
+    _resultSponsorship.event = event;
+    return this;
   }
   
   function omit(name){

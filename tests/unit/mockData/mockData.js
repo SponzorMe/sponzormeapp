@@ -132,6 +132,7 @@ var mockData = (function() {
     
     if(type == "0"){ //Is an Organizer
       response.user = userBuilder
+      .setType("0")
       .setEvents([
         createFullEvent(1),
         createFullEvent(2),
@@ -151,6 +152,7 @@ var mockData = (function() {
         createFullEvent(3)
       ];
       response.user = userBuilder
+      .setType("1")
       .omit(["events","sponzorships_like_organizer"])
       .setSponzorships([
         sponsorshipBuilder.build(),
@@ -186,164 +188,40 @@ var mockData = (function() {
     }
   }
   
-  function home(){
-    var events = [
-      {
-        category: "1",
-        description: "",
-        ends: "2016-01-30 08:54:00",
-        id: "1002",
-        image: "event_dummy.png",
-        lang: "en",
-        location: "Medellin Colombia",
-        location_reference: "referenceafsddf",
-        privacy: "0",
-        starts: "2016-01-30 03:54:00",
-        title: "My Second Event",
-        type: "1",
-        perks: [
-          {
-            tasks: [
-              {
-                user_id: 1,
-                status: 0
-              },
-              {
-                user_id: 1,
-                status: 1
-              }
-            ]
-          },
-        ]
-      },
-      {
-        category: "1",
-        description: "Una intro",
-        ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
-        id: "1004",
-        image: "http://i.imgur.com/t8YehGM.jpg",
-        lang: "en",
-        location: "Bogota",
-        location_reference: "referencia",
-        privacy: "1",
-        starts: "2016-01-30 17:45:00",
-        title: "Ionic 102 - Workshop",
-        type: "1",
-        perks: [
-          {
-            tasks: [
-              {
-                user_id: 1,
-                status: 0
-              },
-              {
-                user_id: 1,
-                status: 0
-              }
-            ]
-          },
-          {
-            tasks: [
-              {
-                user_id: 1,
-                status: 1
-              },
-              {
-                user_id: 1,
-                status: 0
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    return {
-      data: {
-        rating: null,
-        success: true,
-        token: null,
-        user: {
-          id: "1",
-          email: "mail@domain.com",
-          age: "12",
-          comunity_size: "0",
-          events: events,
-          sponzorships_like_organizer: [
-            {
-              id: "1",
-              cause: "Test 1",
-              sponzor:{
-                id: "1",
-                image: "",
-              },
-              event:{
-                id: "1",
-                starts: "2016-01-09 15:00:00",
-                ends: "2016-01-09 15:00:00"
-              }
-            },
-            {
-              id: "2",
-              cause: "Test 2",
-              sponzor:{
-                id: "2",
-                image: "",
-                starts: "2016-01-09 15:00:00",
-                ends: "2016-01-09 15:00:00"
-              },
-              event:{
-                id: "2",
-                starts: "2016-01-09 15:00:00",
-                ends: "2016-01-09 15:00:00"
-              }
-            }
-          ],
-          sponzorships: [
-            {
-              cause: "test",
-              event_id: "1002",
-              event:{
-                id: 1,
-                starts: "2016-01-09 15:00:00",
-                ends: "2016-01-09 15:00:00"
-              },
-              id: "30",
-              organizer_id: "1003",
-              organizer:{
-                id: 1
-              },
-              perk_id: "3",
-              perk:{
-                id: 1,
-                tasks: [
-                  {
-                    id: "1",
-                    status: "0"
-                  }
-                ]
-              },
-              sponzor_id: "1002",
-              sponzor:{
-                id: "2",
-                image: "",
-                starts: "2016-01-09 15:00:00",
-                ends: "2016-01-09 15:00:00"
-              },
-              status: "0",
-              task_sponzor: [
-                {
-                  id: "1",
-                  task:{
-                    id: "1",
-                    status: "0"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      }
+  function home(type){
+    var data = {};
+    
+    if(type == "0"){ //Is an Organizer
+      data.user = userBuilder
+      .setType("0")
+      .setEvents([
+        createFullEvent(1),
+        createFullEvent(2),
+        createFullEvent(3)
+      ])
+      .setSponzorshipLikeOrganizer([
+        sponsorshipBuilder.setEvent(eventBuilder.build()).build(),
+      ])
+      .omit("sponzorship")
+      .build();
+    }else{ //Is an Sponsor
+      data.events = [
+        createFullEvent(1),
+        createFullEvent(2),
+        createFullEvent(3)
+      ];
+      data.user = userBuilder
+      .setType("1")
+      .omit(["events","sponzorships_like_organizer"])
+      .setSponzorships([
+        sponsorshipBuilder.setEvent(eventBuilder.build()).build(),
+      ])
+      .build();
     }
+    
+    return {
+      data: data
+    };
   }
 
   function createUser(){

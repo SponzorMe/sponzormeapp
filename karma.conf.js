@@ -43,7 +43,8 @@ module.exports = function( config ){
       "www/lib/angular-mocks/angular-mocks.js",
       'www/lib/chai/chai.js',
       'www/lib/chai-spies/chai-spies.js',
-      'tests/unit/mockData.js',
+      'tests/unit/mockData/builders/*.builder.js',
+      'tests/unit/mockData/mockData.js',
       //App
       "www/js/app.module.js",
       "www/js/app.routes.js",
@@ -55,11 +56,11 @@ module.exports = function( config ){
       "www/js/**/*.controller.js",
       "www/js/app.run.js",
       //Tests
-      "tests/unit/services/category.service.spec.js",
-      "tests/unit/services/event.service.spec.js",
-      "tests/unit/services/eventType.service.spec.js",
-      "tests/unit/services/imgur.service.spec.js",
-      "tests/unit/services/user.service.spec.js",
+      //"tests/unit/services/category.service.spec.js",
+      //"tests/unit/services/event.service.spec.js",
+      //"tests/unit/services/eventType.service.spec.js",
+      //"tests/unit/services/imgur.service.spec.js",
+      //"tests/unit/services/user.service.spec.js",
       "tests/unit/services/userAuth.service.spec.js",
       //'tests/unit/**/*.service.spec.js',
       //'tests/unit/**/*.controller.spec.js'

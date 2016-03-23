@@ -38,31 +38,31 @@ var userAuthModule;
             return false;
         };
         userAuthService.prototype.refresh = function () {
+            var _this = this;
             this.userService.home(this.getUserAuth().id)
-                .then(complete);
-            function complete(user) {
-                var userAuth = this.updateUserAuth(user);
-                if (userAuth.type == 0) {
-                    this.$rootScope.$broadcast('MenuOrganizer:count_events');
-                    this.$rootScope.$broadcast('EventsTabsController:count_events');
-                    this.$rootScope.$broadcast('HomeOrganizerController:count_events');
-                    this.$rootScope.$broadcast('MenuOrganizer:count_tasks');
-                    this.$rootScope.$broadcast('TaskTabsController:count_tasks');
-                    this.$rootScope.$broadcast('MenuOrganizer:count_sponsors');
-                    this.$rootScope.$broadcast('SponsorshipsTabsController:count_sponsors');
-                    this.$rootScope.$broadcast('HomeOrganizerController:count_sponsors');
-                    this.$rootScope.$broadcast('SponsorshipsListController:getSponzorships');
-                    this.$rootScope.$broadcast('SponsorshipsPastEventsController:getSponzorships');
-                    this.$rootScope.$broadcast('EventListController:getEvents');
-                    this.$rootScope.$broadcast('PastEventsController:getEvents');
+                .then(function (user) {
+                var userAuth = _this.updateUserAuth(user);
+                if (userAuth.type == "0") {
+                    _this.$rootScope.$broadcast('MenuOrganizer:count_events');
+                    _this.$rootScope.$broadcast('EventsTabsController:count_events');
+                    _this.$rootScope.$broadcast('HomeOrganizerController:count_events');
+                    _this.$rootScope.$broadcast('MenuOrganizer:count_tasks');
+                    _this.$rootScope.$broadcast('TaskTabsController:count_tasks');
+                    _this.$rootScope.$broadcast('MenuOrganizer:count_sponsors');
+                    _this.$rootScope.$broadcast('SponsorshipsTabsController:count_sponsors');
+                    _this.$rootScope.$broadcast('HomeOrganizerController:count_sponsors');
+                    _this.$rootScope.$broadcast('SponsorshipsListController:getSponzorships');
+                    _this.$rootScope.$broadcast('SponsorshipsPastEventsController:getSponzorships');
+                    _this.$rootScope.$broadcast('EventListController:getEvents');
+                    _this.$rootScope.$broadcast('PastEventsController:getEvents');
                 }
                 else {
-                    this.$rootScope.$broadcast('MenuSponzor:counts');
-                    this.$rootScope.$broadcast('FollowEventsController:getSponzorships');
-                    this.$rootScope.$broadcast('SponzoringEventsController:getSponzorships');
-                    this.$rootScope.$broadcast('HomeSponzorController:getEvents');
+                    _this.$rootScope.$broadcast('MenuSponzor:counts');
+                    _this.$rootScope.$broadcast('FollowEventsController:getSponzorships');
+                    _this.$rootScope.$broadcast('SponzoringEventsController:getSponzorships');
+                    _this.$rootScope.$broadcast('HomeSponzorController:getEvents');
                 }
-            }
+            });
         };
         return userAuthService;
     }());

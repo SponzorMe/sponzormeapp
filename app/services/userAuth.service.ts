@@ -52,12 +52,9 @@ module userAuthModule{
     
     refresh():void{
       this.userService.home( this.getUserAuth().id )
-      .then(complete);
-      
-      function complete( user ){
+      .then( user => {
         let userAuth = this.updateUserAuth( user );
-        if(userAuth.type == 0){ //Is an organizer
-          
+        if(userAuth.type == "0"){ //Is an organizer
           this.$rootScope.$broadcast('MenuOrganizer:count_events');
           this.$rootScope.$broadcast('EventsTabsController:count_events');
           this.$rootScope.$broadcast('HomeOrganizerController:count_events');
@@ -83,8 +80,7 @@ module userAuthModule{
           
           this.$rootScope.$broadcast('HomeSponzorController:getEvents');
         }
-        
-      }
+      });
     }
   }
   
