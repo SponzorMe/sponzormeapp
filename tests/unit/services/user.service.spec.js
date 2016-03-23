@@ -23,10 +23,9 @@ describe("Service: userService", function(){
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
   }));
-
+  
   ////////////////////////////////////////////////////////////
-  describe('Test to login method as Organizer', function(){
-
+  describe('Test to login method', function(){
     it('Should define a login function', function(){
       chai.assert.isDefined(userService.login);
     });
@@ -60,6 +59,63 @@ describe("Service: userService", function(){
       chai.assert.instanceOf( promise.then, Function);
       chai.assert.property( promise, '$$state');
     });
+  });
+
+  ////////////////////////////////////////////////////////////
+  describe('Test to login method as Organizer', function(){
+    
+    describe('login failed', function() {
+
+      var data = mockData.failed();
+
+      beforeEach(function() {
+        $httpBackend.whenPOST( URL_REST + 'auth').respond(400, data);
+      });
+
+      afterEach(function() {
+        $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingRequest();
+      });
+
+      it('Should return an error message', function( done ){
+        userService.login( 'mail@domain.com', '123455' )
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message )
+          done();
+        });
+        $httpBackend.flush();
+      });
+    });
+
+    ////////////////////////////////////////////////////////////
+    describe('login success', function() {
+
+      var data = mockData.userService.login();
+      data.user.type = "0";
+
+      beforeEach(function() {
+        $httpBackend.whenPOST(URL_REST + 'auth').respond(200, data);
+      });
+
+      afterEach(function() {
+        $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingRequest();
+      });
+
+      it('Should return an user', function( done ){
+        userService.login( 'mail@domain.com', '123456' )
+        .then(function( result ) {
+          chai.expect( result.id ).to.eql( data.user.id );
+          done();
+        });
+        $httpBackend.flush();
+      });
+    });
+
+  });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Test to login method as Sponsor', function(){
 
     ////////////////////////////////////////////////////////////
     describe('login failed', function() {

@@ -183,12 +183,12 @@ module userModule{
     
     private _buildUser( data:any ):User{
       let user:User = data.user;
-      if(user.type == "1"){ // Is a Sponzor
+      if(user.type == "0"){ // Is an Organizer
+        user.sponzorships_like_organizer.forEach( this.sponsorshipService.buildSponsorship, this.sponsorshipService);
+        user.events.forEach( this.eventService.buildEvent, this.eventService);
+      }else{ 
         user.sponzorships.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
         user.events = data.events.forEach( this.eventService.buildEvent, this.eventService);
-      }else{ // Is an Organizer
-        user.sponzorships_like_organizer = user.sponzorships_like_organizer.map( this.sponsorshipService.buildSponsorship );
-        user.events.forEach( this.eventService.buildEvent, this.eventService);
       }
       return user;
     }
