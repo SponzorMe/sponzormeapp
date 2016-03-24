@@ -7,13 +7,6 @@
 */
 module perkModule{
   
-  allPerks: allPerks,
-      getPerk: getPerk,
-      createPerk: createPerk,
-      deletePerk: deletePerk,
-      editPerkPatch: editPerkPatch,
-      editPerkPut: editPerkPut
-  
   export interface IPerkService{
     allPerks():angular.IPromise<any>;
     getPerk(perkId:string):angular.IPromise<any>;
@@ -21,6 +14,27 @@ module perkModule{
     deletePerk(perkId:string):angular.IPromise<any>;
     editPerkPatch(perkId:string, data:any):angular.IPromise<any>;
     editPerkPut(perkId:string, data:any):angular.IPromise<any>;
+  }
+  
+  export interface Perk{
+    id:string;
+  }
+  
+  export class PerkService implements IPerkService{
+    
+    $inject = [
+      '$http',
+      '$localStorage',
+      'BackendVariables',
+      '$q'
+    ];
+    
+    constructor(
+      private $http: angular.IHttpService,
+      private $localStorage,
+      private BackendVariables,
+      private $q: angular.IQService
+    ){}
   }
   
 }
