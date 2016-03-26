@@ -406,32 +406,8 @@ var mockData = (function() {
   function allPerkTasks(){
     return {
       PerkTasks: [
-        {
-          description: "asas sdsd",
-          eventEnds: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
-          eventStart: "2016-01-30 03:54:00",
-          eventTitle: "My Second Event",
-          event_id: "1002",
-          id: "11",
-          perk_id: "3",
-          status: "1",
-          title: "Prueba",
-          type: "1",
-          user_id: "1002"
-        },
-        {
-          description: "asas sdsd",
-          eventEnds: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
-          eventStart: "2016-01-30 03:54:00",
-          eventTitle: "My Second Event",
-          event_id: "1002",
-          id: "11",
-          perk_id: "3",
-          status: "1",
-          title: "Prueba",
-          type: "1",
-          user_id: "1002"
-        },
+        perkTaskBuilder.build(),
+        perkTaskBuilder.build(),
       ],
       success: true
     }
@@ -439,31 +415,13 @@ var mockData = (function() {
 
   function getPerkTask(){
     return {
-      data: {
-        Event: {
-          id: 1
-        },
-        Perk: {
-          id: 2
-        },
-        PerkTask: {},
-        User: {}
-      }
+      data: perkTaskBuilder.build()
     }
   }
 
   function createPerkTask(){
     return {
-      PerkTask: {
-        description: "Bla bla",
-        event_id: "1018",
-        id: 35,
-        perk_id: "18",
-        status: "0",
-        title: "Tarea",
-        type: "0",
-        user_id: "1007",
-      },
+      PerkTask: perkTaskBuilder.omit("PerkTask").build(),
       message: "Inserted"
     }
   }
@@ -476,7 +434,7 @@ var mockData = (function() {
 
   function editPerkTaskPatch(){
     return {
-      PerkTask:{},
+      PerkTask: perkTaskBuilder.omit("PerkTask").build(),
       message: "Updated",
       warnings: []
     }
@@ -484,40 +442,16 @@ var mockData = (function() {
 
   function editPerkTaskPut(){
     return {
-      PerkTask:{},
+      PerkTask: perkTaskBuilder.omit("PerkTask").build(),
       message: "Updated",
     }
   }
 
   function getPerkTaskByOrganizer(){
     return {
-      PerkTasks: [
-        {
-          description: "Bla bla",
-          eventEnds:moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
-          eventStart: "2016-01-07 14:57:00",
-          eventTitle: "evento de prueba fhh",
-          event_id: "1018",
-          id: "36",
-          perk_id: "18",
-          status: "1",
-          title: "Tarea",
-          type: "0",
-          user_id: "1007"
-        },
-        {
-          description: "Bla bla",
-          eventEnds: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
-          eventStart: "2016-01-07 14:57:00",
-          eventTitle: "evento de prueba fhh",
-          event_id: "1018",
-          id: "36",
-          perk_id: "18",
-          status: "0",
-          title: "Tarea",
-          type: "0",
-          user_id: "1007"
-        }
+     PerkTasks: [
+        perkTaskBuilder.build(),
+        perkTaskBuilder.build(),
       ],
       success: true
     }

@@ -4,227 +4,131 @@
 *
 * @author Carlos, Nicolas Molina
 * @version 0.2
-
-(function() {
-  'use strict';
-
-  angular
-    .module('app')
-    .factory('perkTaskService', perkTaskService);
-
-  perkTaskService.$inject = [
-    '$http',
-    '$localStorage',
-    'BackendVariables',
-    '$httpParamSerializerJQLike',
-    '$q'
-  ];
-
-  function perkTaskService( $http, $localStorage, BackendVariables, $httpParamSerializerJQLike, $q) {
-
-    var path = BackendVariables.url;
-
-    var service = {
-      allPerkTasks: allPerkTasks,
-      getPerkTask: getPerkTask,
-      createPerkTask: createPerkTask,
-      deletePerkTask: deletePerkTask,
-      editPerkTaskPatch: editPerkTaskPatch,
-      editPerkTaskPut: editPerkTaskPut,
-      getPerkTaskByOrganizer: getPerkTaskByOrganizer
-    };
-
-    return service;
-
-    ////////////
-
-    function allPerkTasks(){
-      return $http.get(path + 'perk_tasks')
-        .then( complete )
-        .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.PerkTasks );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function getPerkTask( perkTaskId ){
-
-      //Validate
-      var typePerkTaskId = typeof perkTaskId;
-      if(typePerkTaskId !== 'string' && typePerkTaskId !== 'number') throw new Error();
-
-      return $http({
-        method: 'GET',
-        url: path + 'perk_tasks/' + perkTaskId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded'
+*/
+var perkTaskModule;
+(function (perkTaskModule) {
+    var perkTaskService = (function () {
+        function perkTaskService($http, $localStorage, BackendVariables, $q) {
+            this.$http = $http;
+            this.$localStorage = $localStorage;
+            this.BackendVariables = BackendVariables;
+            this.$q = $q;
+            this.$inject = [
+                '$http',
+                '$localStorage',
+                'BackendVariables',
+                '$q'
+            ];
+            this.path = BackendVariables.url;
         }
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( preparateData( response.data.data ) );
-      }
-
-      function preparateData( data ){
-        var task = data.PerkTask;
-        task.event = data.Event || {};
-        task.perk = data.Perk || {};
-        task.user = data.User || {};
-        return task;
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function getPerkTaskByOrganizer( userId ){
-
-      //Validate
-      var typeUserId = typeof userId;
-      if(typeUserId !== 'string' && typeUserId !== 'number') throw new Error();
-
-      return $http({
-        method: 'GET',
-        url: path + 'perk_tasks_organizer/' + userId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded'
-        }
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data.PerkTasks );
-      }
-
-      function failed( response ){
-        return $q.reject( response.data );
-      }
-    }
-
-    function createPerkTask( data ){
-      
-      //Validate
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-      
-      return $http({
-        method: 'POST',
-        url: path + 'perk_tasks',
-        headers: {
-          'Content-Type':'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function deletePerkTask( perkTaskId ){
-
-      //Validate
-      var typePerkTaskId = typeof perkTaskId;
-      if(typePerkTaskId !== 'string' && typePerkTaskId !== 'number') throw new Error();
-
-      return $http({
-        method: 'DELETE',
-        url: path + 'perk_tasks/' + perkTaskId,
-        headers: {
-          'Content-Type':'application/x-www-form-urlencoded',
-          'Authorization': 'Basic '+ getToken()
-        }
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function editPerkTaskPatch( perkTaskId, data ){
-
-      //Validate
-      var typePerkTaskId = typeof perkTaskId;
-      if(typePerkTaskId !== 'string' && typePerkTaskId !== 'number') throw new Error();
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
-        method: 'PATCH',
-        url: path + 'perk_tasks/' + perkTaskId,
-        headers: {
-          'Content-Type':'application/x-www-form-urlencoded',
-          'Authorization': 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike( data )
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.PerkTask );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function editPerkTaskPut( perkTaskId, data ){
-
-      //Validate
-      var typePerkTaskId = typeof perkTaskId;
-      if(typePerkTaskId !== 'string' && typePerkTaskId !== 'number') throw new Error();
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
-        method: 'PUT',
-        url: path + 'perk_tasks/' + perkTaskId,
-        headers: {
-          'Content-Type':'application/x-www-form-urlencoded',
-          'Authorization': 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.PerkTask );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function getToken(){
-      return $localStorage.token;
-    }
-
-  }
-})();
-*/ 
+        perkTaskService.prototype.allPerkTasks = function () {
+            var _this = this;
+            return this.$http({
+                method: 'GET',
+                url: this.path + 'perk_tasks'
+            })
+                .then(function (response) { return _this.$q.when(_this._preparatePerkTasks(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        perkTaskService.prototype.getPerkTask = function (perkTaskId) {
+            var _this = this;
+            return this.$http({
+                method: 'GET',
+                url: this.path + 'perk_tasks/' + perkTaskId,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(function (response) { return _this.$q.when(_this._preparatePerkTask(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        perkTaskService.prototype.getPerkTaskByOrganizer = function (userId) {
+            var _this = this;
+            return this.$http({
+                method: 'GET',
+                url: this.path + 'perk_tasks_organizer/' + userId,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(function (response) { return _this.$q.when(_this._preparatePerkTasks(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        perkTaskService.prototype.createPerkTask = function (data) {
+            var _this = this;
+            return this.$http({
+                method: 'POST',
+                url: this.path + 'perk_tasks',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(response.data); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        perkTaskService.prototype.deletePerkTask = function (perkTaskId) {
+            var _this = this;
+            return this.$http({
+                method: 'DELETE',
+                url: this.path + 'perk_tasks/' + perkTaskId,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + this._getToken()
+                }
+            })
+                .then(function (response) { return _this.$q.when(response.data); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        perkTaskService.prototype.editPerkTaskPatch = function (perkTaskId, data) {
+            var _this = this;
+            return this.$http({
+                method: 'PATCH',
+                url: this.path + 'perk_tasks/' + perkTaskId,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(_this._preparatePerkTask(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        perkTaskService.prototype.editPerkTaskPut = function (perkTaskId, data) {
+            var _this = this;
+            return this.$http({
+                method: 'PUT',
+                url: this.path + 'perk_tasks/' + perkTaskId,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(_this._preparatePerkTask(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        perkTaskService.prototype.buildPerkTasks = function (data) {
+            var task = data.PerkTask;
+            task.event = data.Event || {};
+            task.perk = data.Perk || {};
+            task.user = data.User || {};
+            return task;
+        };
+        perkTaskService.prototype._getToken = function () {
+            return this.$localStorage.token;
+        };
+        perkTaskService.prototype._preparatePerkTasks = function (data) {
+            return data.PerkTasks;
+        };
+        perkTaskService.prototype._preparatePerkTask = function (data) {
+            return this.buildPerkTasks(data.data);
+        };
+        return perkTaskService;
+    }());
+    perkTaskModule.perkTaskService = perkTaskService;
+    angular
+        .module('app')
+        .service('perkTaskService', perkTaskService);
+})(perkTaskModule || (perkTaskModule = {}));
