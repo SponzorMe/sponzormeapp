@@ -1,6 +1,5 @@
 describe("Service: perkService", function(){
 
-
   beforeEach(function() {
     module('app');
   });
@@ -88,109 +87,13 @@ describe("Service: perkService", function(){
   });
 
 	////////////////////////////////////////////////////////////
-  describe('Test to getPerk method', function(){
-
-    it('Should define a getPerk function', function(){
-      chai.assert.isDefined(perkService.getPerk);
-    });
-
-    it('Should throw an error on an incompatible type', function(){
-      chai.assert.throws(function(){
-        perkService.getPerk();
-      });
-      chai.assert.throws(function(){
-        perkService.getPerk([]);
-      });
-      chai.assert.throws(function(){
-        perkService.getPerk({});
-      });
-      chai.assert.throws(function(){
-        perkService.getPerk(Object);
-      });
-    });
-
-    it("Should not throw an error in case a string or number", function(){
-      chai.assert.doesNotThrow(function(){
-        perkService.getPerk("1");
-      });
-      chai.assert.doesNotThrow(function(){
-        perkService.getPerk(1);
-      });
-    });
-
-    it('Should return a promise', function(){
-      var promise = perkService.getPerk(1);
-      chai.assert.instanceOf( promise.then, Function);
-      chai.assert.property( promise, '$$state');
-    });
-
-    ////////////////////////////////////////////////////////////
-    describe('getPerk failed', function() {
-
-      var data = mockData.failed();
-
-      beforeEach(function() {
-        $httpBackend.whenGET( URL_REST + 'perks/1').respond(400, data);
-      });
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-      });
-
-      it('Should return an error message', function( done ){
-        perkService.getPerk(1)
-        .catch(function( result ) {
-          chai.assert.isDefined( result.message );
-          done();
-        });
-        $httpBackend.flush();
-      });
-
-    });
-
-    ////////////////////////////////////////////////////////////
-    describe('getPerk success', function() {
-      
-      var data = mockData.perkService.getPerk();
-
-      beforeEach(function() {
-        $httpBackend.whenGET( URL_REST + 'perks/1').respond(200, data);
-      });
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-      });
-
-      it('Should return a Perk', function( done ){
-        perkService.getPerk(1)
-        .then(function( result ) {
-          chai.assert.isObject( result );
-          chai.expect( result ).to.have.all.keys([
-            'event',
-            'sponzorTasks',
-            'tasks'
-          ]);
-          chai.assert.isObject( result.event );
-          chai.assert.isArray( result.sponzorTasks );
-          chai.assert.isArray( result.tasks );
-          done();
-        });
-        $httpBackend.flush();
-      });
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
   describe('Test to createPerk method', function(){
 
     it('Should define a createPerk function', function(){
       chai.assert.isDefined(perkService.createPerk);
     });
 
-    it('Should throw an error on an incompatible type', function(){
+    /*it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
         perkService.createPerk();
       });
@@ -206,7 +109,7 @@ describe("Service: perkService", function(){
       chai.assert.throws(function(){
         perkService.createPerk(Object);
       });
-    });
+    });*/
 
     it("Should not throw an error in case a string or number", function(){
       chai.assert.doesNotThrow(function(){
@@ -278,7 +181,7 @@ describe("Service: perkService", function(){
       chai.assert.isDefined(perkService.deletePerk);
     });
 
-    it('Should throw an error on an incompatible type', function(){
+    /*it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
         perkService.deletePerk();
       });
@@ -291,7 +194,7 @@ describe("Service: perkService", function(){
       chai.assert.throws(function(){
         perkService.deletePerk(Object);
       });
-    });
+    });*/
 
     it("Should not throw an error in case a string or number", function(){
       chai.assert.doesNotThrow(function(){
@@ -365,7 +268,7 @@ describe("Service: perkService", function(){
       chai.assert.isDefined(perkService.editPerkPatch);
     });
 
-    it('Should throw an error on an incompatible type', function(){
+    /*it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
         perkService.editPerkPatch();
       });
@@ -387,7 +290,7 @@ describe("Service: perkService", function(){
       chai.assert.throws(function(){
         perkService.editPerkPatch(2, "as");
       });
-    });
+    });*/
 
     it("Should not throw an error in case a string or number and an Object", function(){
       chai.assert.doesNotThrow(function(){
@@ -461,7 +364,7 @@ describe("Service: perkService", function(){
       chai.assert.isDefined(perkService.editPerkPut);
     });
 
-    it('Should throw an error on an incompatible type', function(){
+    /*it('Should throw an error on an incompatible type', function(){
       chai.assert.throws(function(){
         perkService.editPerkPut();
       });
@@ -483,7 +386,7 @@ describe("Service: perkService", function(){
       chai.assert.throws(function(){
         perkService.editPerkPut(2, "as");
       });
-    });
+    });*/
 
     it("Should not throw an error in case a string or number and an Object", function(){
       chai.assert.doesNotThrow(function(){

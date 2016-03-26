@@ -9,7 +9,7 @@ module perkModule{
   
   export interface IPerkService{
     allPerks():angular.IPromise<any>;
-    getPerk(perkId:string):angular.IPromise<any>;
+    //getPerk(perkId:string):angular.IPromise<any>;
     createPerk(data:any):angular.IPromise<any>;
     deletePerk(perkId:string):angular.IPromise<any>;
     editPerkPatch(perkId:string, data:any):angular.IPromise<any>;
@@ -23,7 +23,7 @@ module perkModule{
     tasks:any;
   }
   
-  export class PerkService implements IPerkService{
+  export class perkService implements IPerkService{
     
     $inject = [
       '$http',
@@ -49,15 +49,6 @@ module perkModule{
       })
       .then( response => { return this.$q.when( this._preparatePerk( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
-    }
-    
-    getPerk( perkId:string ):angular.IPromise<any>{
-      return this.$http({
-        method: 'GET',
-        url: this.path + 'perks/' + perkId
-      })
-      .then( response => { return this.$q.when( this._preparatePerk( response.data ) ); } )
-      .catch( response => { return this.$q.reject( response.data ); } );      
     }
     
     createPerk( data:any ):angular.IPromise<any>{
@@ -122,7 +113,6 @@ module perkModule{
       perk.tasks = data.Tasks || [];
       return perk;
     }
-
     
     private _getToken(){
       return this.$localStorage.token;
@@ -134,5 +124,9 @@ module perkModule{
     
     
   }
+  
+  angular
+    .module('app')
+    .service('perkService', perkService);
   
 }
