@@ -34,7 +34,7 @@ var notificationModule;
                 this._updateEvents();
         };
         notificationService.prototype.getNotifications = function (userId) {
-            var url = this.path + 'notifications/' + userId;
+            var url = this.path + "notifications/" + userId;
             return this.$firebaseArray(new Firebase(url));
         };
         notificationService.prototype.sendNewSponsorship = function (notification, to) {
@@ -112,7 +112,7 @@ var notificationModule;
         };
         notificationService.prototype._notificationForMe = function () {
             var _this = this;
-            var url = this.path + 'notifications/' + this.userAuth.id;
+            var url = this.path + "notifications/" + this.userAuth.id;
             var reference = new Firebase(url);
             reference.on('child_added', function (snapshot) {
                 var current = snapshot.val();
@@ -123,7 +123,7 @@ var notificationModule;
         };
         notificationService.prototype._updateEvents = function () {
             var _this = this;
-            var url = this.path + 'notifications/events';
+            var url = this.path + "notifications/events";
             var reference = new Firebase(url);
             reference.on('child_added', function (snapshot) {
                 var current = snapshot.val();

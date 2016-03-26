@@ -25,7 +25,7 @@ var perkModule;
             var _this = this;
             return this.$http({
                 method: 'GET',
-                url: this.path + 'perks'
+                url: this.path + "perks"
             })
                 .then(function (response) { return _this.$q.when(_this._preparatePerk(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
@@ -34,10 +34,10 @@ var perkModule;
             var _this = this;
             return this.$http({
                 method: 'POST',
-                url: this.path + 'perks',
+                url: this.path + "perks",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + this._getToken()
+                    'Authorization': "Basic " + this._getToken()
                 },
                 data: data
             })
@@ -48,10 +48,10 @@ var perkModule;
             var _this = this;
             return this.$http({
                 method: 'DELETE',
-                url: this.path + 'perks/' + perkId,
+                url: this.path + "perks/" + perkId,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + this._getToken()
+                    'Authorization': "Basic " + this._getToken()
                 }
             })
                 .then(function (response) { return _this.$q.when(response.data); })
@@ -61,10 +61,10 @@ var perkModule;
             var _this = this;
             return this.$http({
                 method: 'PATCH',
-                url: this.path + 'perks/' + perkId,
+                url: this.path + "perks/" + perkId,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + this._getToken()
+                    'Authorization': "Basic " + this._getToken()
                 },
                 data: data
             })
@@ -75,10 +75,10 @@ var perkModule;
             var _this = this;
             return this.$http({
                 method: 'PUT',
-                url: this.path + 'perks/' + perkId,
+                url: this.path + "perks/" + perkId,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + this._getToken()
+                    'Authorization': "Basic " + this._getToken()
                 },
                 data: data
             })

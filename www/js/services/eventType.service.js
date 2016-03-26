@@ -25,7 +25,7 @@ var eventTypeModule;
             var _this = this;
             return this.$http({
                 method: 'GET',
-                url: this.path + 'event_types'
+                url: this.path + "event_types"
             })
                 .then(function (response) { return _this.$q.when(_this._preparateEventsTypes(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
@@ -34,7 +34,7 @@ var eventTypeModule;
             var _this = this;
             return this.$http({
                 method: 'GET',
-                url: this.path + 'event_types/' + eventTypeId
+                url: this.path + "event_types/" + eventTypeId
             })
                 .then(function (response) { return _this.$q.when(_this._preparateEventType(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });

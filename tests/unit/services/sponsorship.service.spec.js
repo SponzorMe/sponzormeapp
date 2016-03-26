@@ -169,218 +169,19 @@ describe("Service: sponsorshipService", function(){
         sponsorshipService.getSponzorship(1)
         .then(function( result ) {
           chai.assert.isObject( result );
-          chai.expect( result ).to.have.all.keys([
-            'event',
-            'organizer',
-            'perk',
-            'sponzor',
-            'tasks',
-            'id'
-          ]);
+          chai.assert.isString( result.id );
+          chai.assert.isString( result.cause );
+          chai.assert.isString( result.event_id );
+          chai.assert.isString( result.organizer_id );
+          chai.assert.isString( result.perk_id );
+          chai.assert.isString( result.event_id );
+          chai.assert.isString( result.sponzor_id );
+          chai.assert.isString( result.status );
           chai.assert.isObject( result.event );
           chai.assert.isObject( result.organizer );
           chai.assert.isObject( result.perk );
           chai.assert.isObject( result.sponzor );
           chai.assert.isArray( result.tasks );
-          done();
-        });
-        $httpBackend.flush();
-      });
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Test to sponzorshipByOrganizer method', function(){
-
-  	it('Should define a sponzorshipByOrganizer function', function(){
-      chai.assert.isDefined(sponsorshipService.sponzorshipByOrganizer);
-    });
-
-    /*it('Should throw an error on an incompatible type', function(){
-      chai.assert.throws(function(){
-        sponsorshipService.sponzorshipByOrganizer();
-      });
-      chai.assert.throws(function(){
-        sponsorshipService.sponzorshipByOrganizer([]);
-      });
-      chai.assert.throws(function(){
-        sponsorshipService.sponzorshipByOrganizer(Object);
-      });
-      chai.assert.throws(function(){
-        sponsorshipService.sponzorshipByOrganizer({});
-      });
-    });
-    */
-
-    it("Should not throw an error in case a string or number", function(){
-      chai.assert.doesNotThrow(function(){
-        sponsorshipService.sponzorshipByOrganizer("1");
-      });
-      chai.assert.doesNotThrow(function(){
-        sponsorshipService.sponzorshipByOrganizer(1);
-      });
-    });
-
-    it('Should return a promise', function(){
-      var promise = sponsorshipService.sponzorshipByOrganizer(1);
-      chai.assert.instanceOf( promise.then, Function);
-      chai.assert.property( promise, '$$state');
-    });
-
-    ////////////////////////////////////////////////////////////
-    describe('sponzorshipByOrganizer failed', function() {
-
-      var data = mockData.failed();
-
-      beforeEach(function() {
-        $httpBackend.whenGET(URL_REST + 'sponzorships_organizer/1').respond(400, data);
-      });
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-      });
-
-      it('Should return an error message', function( done ){
-        sponsorshipService.sponzorshipByOrganizer(1)
-        .catch(function( result ) {
-          chai.assert.isDefined( result.message );
-          done();
-        });
-        $httpBackend.flush();
-      });
-    });
-
-		////////////////////////////////////////////////////////////
-    describe('sponzorshipByOrganizer success', function() {
-
-      var data = mockData.sponsorshipService.sponzorshipByOrganizer();
-
-      beforeEach(function() {
-        $httpBackend.whenGET(URL_REST + 'sponzorships_organizer/1') .respond(200, data);
-      });
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-      });
-
-      it('Should return an array of events', function( done ){
-        sponsorshipService.sponzorshipByOrganizer(1)
-          .then(function( result ) {
-            chai.assert.isArray( result );
-            done();
-          });
-        $httpBackend.flush();
-      });
-
-      it('Should be instance Of Date in the array of events', function( done ){
-        sponsorshipService.sponzorshipByOrganizer(1)
-        .then(function( result ) {
-          for (var i = 0; i < result.length; i++) {
-            chai.assert.instanceOf( result[i].starts, Date );
-            chai.assert.instanceOf( result[i].ends, Date );
-          };
-          done();
-        });
-        $httpBackend.flush();
-      });
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Test to sponzorshipBySponzor method', function(){
-
-  	it('Should define a sponzorshipBySponzor function', function(){
-      chai.assert.isDefined(sponsorshipService.sponzorshipBySponzor);
-    });
-
-    /*it('Should throw an error on an incompatible type', function(){
-      chai.assert.throws(function(){
-        sponsorshipService.sponzorshipBySponzor();
-      });
-      chai.assert.throws(function(){
-        sponsorshipService.sponzorshipBySponzor([]);
-      });
-      chai.assert.throws(function(){
-        sponsorshipService.sponzorshipBySponzor(Object);
-      });
-      chai.assert.throws(function(){
-        sponsorshipService.sponzorshipBySponzor({});
-      });
-    });*/
-
-    it("Should not throw an error in case a string or number", function(){
-      chai.assert.doesNotThrow(function(){
-        sponsorshipService.sponzorshipBySponzor("1");
-      });
-      chai.assert.doesNotThrow(function(){
-        sponsorshipService.sponzorshipBySponzor(1);
-      });
-    });
-
-    it('Should return a promise', function(){
-      var promise = sponsorshipService.sponzorshipBySponzor(1);
-      chai.assert.instanceOf( promise.then, Function);
-      chai.assert.property( promise, '$$state');
-    });
-
-    ////////////////////////////////////////////////////////////
-    describe('sponzorshipBySponzor failed', function() {
-
-      var data = mockData.failed();
-
-      beforeEach(function() {
-        $httpBackend.whenGET(URL_REST + 'sponzorships_sponzor/1').respond(400, data);
-      });
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-      });
-
-      it('Should return an error message', function( done ){
-        sponsorshipService.sponzorshipBySponzor(1)
-        .catch(function( result ) {
-          chai.assert.isDefined( result.message )
-          done();
-        });
-        $httpBackend.flush();
-      });
-    });
-
-		////////////////////////////////////////////////////////////
-    describe('sponzorshipBySponzor success', function() {
-
-      var data = mockData.sponsorshipService.sponzorshipBySponzor();
-
-      beforeEach(function() {
-        $httpBackend.whenGET(URL_REST + 'sponzorships_sponzor/1').respond(200, data);
-      });
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-      });
-
-      it('Should return an array of events', function( done ){
-        sponsorshipService.sponzorshipBySponzor(1)
-          .then(function( result ) {
-            chai.assert.isArray( result );
-            done();
-          });
-        $httpBackend.flush();
-      });
-
-      it('Should be instance Of Date in the array of events', function( done ){
-        sponsorshipService.sponzorshipBySponzor(1)
-        .then(function( result ) {
-          for (var i = 0; i < result.length; i++) {
-            chai.assert.instanceOf( result[i].starts, Date );
-            chai.assert.instanceOf( result[i].ends, Date );
-          };
           done();
         });
         $httpBackend.flush();
@@ -649,7 +450,20 @@ describe("Service: sponsorshipService", function(){
       it('Should return an sponzorship', function( done ){
         sponsorshipService.editSponzorshipPatch(1, {})
         .then(function( result ) {
-          chai.expect( result ).to.eql( data.Sponzorship );
+          chai.assert.isObject( result );
+          chai.assert.isString( result.id );
+          chai.assert.isString( result.cause );
+          chai.assert.isString( result.event_id );
+          chai.assert.isString( result.organizer_id );
+          chai.assert.isString( result.perk_id );
+          chai.assert.isString( result.event_id );
+          chai.assert.isString( result.sponzor_id );
+          chai.assert.isString( result.status );
+          chai.assert.isObject( result.event );
+          chai.assert.isObject( result.organizer );
+          chai.assert.isObject( result.perk );
+          chai.assert.isObject( result.sponzor );
+          chai.assert.isArray( result.tasks );
           done();
         });
         $httpBackend.flush();
@@ -745,7 +559,20 @@ describe("Service: sponsorshipService", function(){
       it('Should return an sponzorship', function( done ){
         sponsorshipService.editSponzorshipPut(1, {})
           .then(function( result ) {
-            chai.expect( result ).to.eql( data.Sponzorship );
+            chai.assert.isObject( result );
+            chai.assert.isString( result.id );
+            chai.assert.isString( result.cause );
+            chai.assert.isString( result.event_id );
+            chai.assert.isString( result.organizer_id );
+            chai.assert.isString( result.perk_id );
+            chai.assert.isString( result.event_id );
+            chai.assert.isString( result.sponzor_id );
+            chai.assert.isString( result.status );
+            chai.assert.isObject( result.event );
+            chai.assert.isObject( result.organizer );
+            chai.assert.isObject( result.perk );
+            chai.assert.isObject( result.sponzor );
+            chai.assert.isArray( result.tasks );
             done();
           });
         $httpBackend.flush();

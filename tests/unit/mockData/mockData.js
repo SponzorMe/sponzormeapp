@@ -289,7 +289,7 @@ var mockData = (function() {
 
   function getSponzorship(){
     return {
-      data: sponsorshipBuilder.setId("1").build()
+      Sponzorship: sponsorshipBuilder.setId("1").build()
     }
   }
 

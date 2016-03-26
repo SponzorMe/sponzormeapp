@@ -25,7 +25,7 @@ var perkTaskModule;
             var _this = this;
             return this.$http({
                 method: 'GET',
-                url: this.path + 'perk_tasks'
+                url: this.path + "perk_tasks"
             })
                 .then(function (response) { return _this.$q.when(_this._preparatePerkTasks(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
@@ -34,7 +34,7 @@ var perkTaskModule;
             var _this = this;
             return this.$http({
                 method: 'GET',
-                url: this.path + 'perk_tasks/' + perkTaskId,
+                url: this.path + "perk_tasks/" + perkTaskId,
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -46,7 +46,7 @@ var perkTaskModule;
             var _this = this;
             return this.$http({
                 method: 'GET',
-                url: this.path + 'perk_tasks_organizer/' + userId,
+                url: this.path + "perk_tasks_organizer/" + userId,
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -58,10 +58,10 @@ var perkTaskModule;
             var _this = this;
             return this.$http({
                 method: 'POST',
-                url: this.path + 'perk_tasks',
+                url: this.path + "perk_tasks",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + this._getToken()
+                    'Authorization': "Basic " + this._getToken()
                 },
                 data: data
             })
@@ -72,10 +72,10 @@ var perkTaskModule;
             var _this = this;
             return this.$http({
                 method: 'DELETE',
-                url: this.path + 'perk_tasks/' + perkTaskId,
+                url: this.path + "perk_tasks/" + perkTaskId,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + this._getToken()
+                    'Authorization': "Basic " + this._getToken()
                 }
             })
                 .then(function (response) { return _this.$q.when(response.data); })
@@ -85,10 +85,10 @@ var perkTaskModule;
             var _this = this;
             return this.$http({
                 method: 'PATCH',
-                url: this.path + 'perk_tasks/' + perkTaskId,
+                url: this.path + "perk_tasks/" + perkTaskId,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + this._getToken()
+                    'Authorization': "Basic " + this._getToken()
                 },
                 data: data
             })
@@ -99,10 +99,10 @@ var perkTaskModule;
             var _this = this;
             return this.$http({
                 method: 'PUT',
-                url: this.path + 'perk_tasks/' + perkTaskId,
+                url: this.path + "perk_tasks/" + perkTaskId,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + this._getToken()
+                    'Authorization': "Basic " + this._getToken()
                 },
                 data: data
             })

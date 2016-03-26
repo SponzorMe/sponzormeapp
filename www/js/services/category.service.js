@@ -25,7 +25,7 @@ var categoryModule;
             var _this = this;
             return this.$http({
                 method: 'GET',
-                url: this.path + 'categories'
+                url: this.path + "categories"
             })
                 .then(function (response) { return _this.$q.when(_this._preparateCategories(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
@@ -34,7 +34,7 @@ var categoryModule;
             var _this = this;
             return this.$http({
                 method: 'GET',
-                url: this.path + 'categories/' + categoryId
+                url: this.path + "categories/" + categoryId
             })
                 .then(function (response) { return _this.$q.when(_this._preparateCategory(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });

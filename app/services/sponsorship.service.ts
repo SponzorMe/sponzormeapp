@@ -29,16 +29,7 @@ module sponsorshipModule{
     perk:any;
     organizer:any;
     event:eventModule.Event;
-    tasks:any;
-  }
-  
-  export interface SponsorshipDetail{
-    id:string;
-    sponzor:any;
-    perk:any;
-    organizer:any;
-    event:any;
-    tasks:any;
+    tasks:any[];
   }
   
   export class sponsorshipService implements ISponsorshipService{
@@ -76,7 +67,7 @@ module sponsorshipModule{
         method: 'GET',
         url: `${this.path}sponzorships/${sponsorshipId}`
       })
-      .then( response => { return this.$q.when( this.buildSponsorship( response.data ) ); } )
+      .then( response => { return this.$q.when( this._preparateSponsorship( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     

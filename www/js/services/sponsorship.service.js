@@ -39,7 +39,7 @@ var sponsorshipModule;
                 method: 'GET',
                 url: this.path + "sponzorships/" + sponsorshipId
             })
-                .then(function (response) { return _this.$q.when(_this.buildSponsorship(response.data)); })
+                .then(function (response) { return _this.$q.when(_this._preparateSponsorship(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
         sponsorshipService.prototype.createSponzorship = function (data) {

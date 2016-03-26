@@ -26,12 +26,18 @@ var sponsorshipBuilder = (function() {
   
   return {
     build: build,
+    setId: setId,
     omit: omit,
     setEvent: setEvent,
   }
   
   function build() {
     return _resultSponsorship;
+  }
+  
+  function setId(id){
+    _resultSponsorship.id = id;
+    return this;
   }
   
   function setEvent(event){
