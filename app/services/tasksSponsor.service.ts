@@ -4,217 +4,136 @@
 *
 * @author Nicolas Molina
 * @version 0.1
-
-(function() {
-  'use strict';
-
-  angular
-    .module('app')
-    .factory('tasksSponsorService', tasksSponsorService);
-
-  tasksSponsorService.$inject = [
-    '$http',
-    '$localStorage',
-    'BackendVariables',
-    '$q',
-    '$httpParamSerializerJQLike'
-  ];
-
-  function tasksSponsorService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
-
-    var path = BackendVariables.url;
-    var token = $localStorage.token;
-
-    var service = {
-      getAllTasks: getAllTasks,
-      getTask: getTask,
-      createTask: createTask,
-      editPutTask: editPutTask,
-      editPatchTask: editPatchTask,
-      deleteTask: deleteTask
-    };
-
-    return service;
-
-    ////////////
-
-    function getToken(){
-      return $localStorage.token;
+*/
+module tasksSponsorModule{
+  
+  export interface ITasksSponsor{
+    getAllTasks():angular.IPromise<any>;
+    getTask(taskId:string):angular.IPromise<any>;
+    createTask(data:any):angular.IPromise<any>;
+    editPutTask(taskId:string, data:any):angular.IPromise<any>;
+    editPatchTask(taskId:string, data:any):angular.IPromise<any>;
+    deleteTask(taskId:string):angular.IPromise<any>;
+    //buildTaskSponsor(data:any):TaskSponsor;
+  }
+  
+  export interface TaskSponsor{
+    id:string;
+  }
+  
+  export class taskSponsorService implements ITasksSponsor{
+    
+    $inject = [
+      '$http',
+      '$localStorage',
+      'BackendVariables',
+      '$q'
+    ];
+    path:string;
+    
+    constructor(
+      private $http: angular.IHttpService,
+      private $localStorage,
+      private BackendVariables,
+      private $q: angular.IQService
+    ){
+      this.path = this.BackendVariables.url;
     }
-
-    function getAllTasks(){
-      return $http({
+    
+    getAllTasks():angular.IPromise<any>{
+      return this.$http({
         method: 'GET',
-        url: path + 'task_sponzor',
+        url: `${this.path}task_sponzor`,
         headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded'
+          'Content-Type' : 'application/json'
         }
       })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.TasksSponzor );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
+      .then( response => { return this.$q.when( this._preparateTaskSponsor( response.data) ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
     }
-
-    function getTask( taskId ){
-
-      //Validate
-      var typeTaskId = typeof taskId;
-      if(typeTaskId !== 'string' && typeTaskId !== 'number') throw new Error();
-
-      return $http({
+    
+    getTask( taskId:string ):angular.IPromise<any>{
+      return this.$http({
         method: 'GET',
-        url: path + 'task_sponzor/' +  taskId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        }
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( preparateTask( response.data.data ) );
-      }
-
-      function preparateTask( data ){
-        var task = data.Task;
-        task.organizer = data.Organizer || null;
-        task.event = data.Event || null;
-        task.sponzor = data.Sponzor || null;
-        return task;
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function createTask( data ){
-
-      //Validate
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
-        method: 'POST',
-        url: path + 'task_sponzor',
+        url: `${this.path}task_sponzor/taskId`,
         headers: {
           'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ getToken()
+          'Authorization' : `Basic ${this._getToken()}`
+        }
+      })
+      .then( response => { return this.$q.when( this._preparateTaskSponsor( response.data ) ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
+    }
+    
+    createTask( data:any ):angular.IPromise<any>{
+      return this.$http({
+        method: 'POST',
+        url: `${this.path}task_sponzor`,
+        headers: {
+          'Content-Type' : 'application/json',
+          'Authorization' : `Basic ${this._getToken()}`
         },
         data: data
       })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( preparateData(response.data) );
-      }
-      
-      function preparateData( data ) {
-        data.TaskSponzor.task = data.PerkTask;
-         return data.TaskSponzor;
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
+      .then( response => { return this.$q.when( this._preparateTaskSponsor( response.data ) ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
     }
-
-    function editPutTask( taskId, data ){
-
-
-      //Validate
-      var typeTaskId = typeof taskId;
-      if(typeTaskId !== 'string' && typeTaskId !== 'number') throw new Error();
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
+    
+    editPutTask( taskId:string, data:any ):angular.IPromise<any>{
+      return this.$http({
         method: 'PUT',
-        url: path + 'task_sponzor/' +  taskId,
+        url: `${this.path}task_sponzor/${taskId}`,
         headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
+          'Content-Type' : 'application/json',
+          'Authorization' : `Basic ${this._getToken()}`
         },
-        data: $httpParamSerializerJQLike(data)
+        data: data
       })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.TaskSponzor );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
+      .then( response => { return this.$q.when( this._preparateTaskSponsor( response.data ) ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
     }
-
-    function editPatchTask( taskId, data ){
-
-      //Validate
-      var typeTaskId = typeof taskId;
-      if(typeTaskId !== 'string' && typeTaskId !== 'number') throw new Error();
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
+    
+    editPatchTask( taskId:string, data:any ):angular.IPromise<any>{
+      return this.$http({
         method: 'PATCH',
-        url: path + 'task_sponzor/' +  taskId,
+        url: `${this.path}task_sponzor/${taskId}`,
         headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
+          'Content-Type' : 'application/json',
+          'Authorization' : `Basic ${this._getToken()}`
         },
-        data: $httpParamSerializerJQLike(data)
+        data: data
       })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.TaskSponzor );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
+      .then( response => { return this.$q.when( this._preparateTaskSponsor( response.data ) ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
     }
-
-    function deleteTask( taskId ){
-
-      //Validate
-      var typeTaskId = typeof taskId;
-      if(typeTaskId !== 'string' && typeTaskId !== 'number') throw new Error();
-
-      return $http({
+    
+    deleteTask( taskId:string ):angular.IPromise<any>{
+      return this.$http({
         method: 'DELETE',
-        url: path + 'task_sponzor/' +  taskId,
+        url: `${this.path}task_sponzor/${taskId}`,
         headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
+          'Content-Type' : 'application/json',
+          'Authorization' : `Basic ${this._getToken()}`
         }
       })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
+      .then( response => { return this.$q.when( response.data ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
     }
-
     
-
+    private _preparateTaskSponsor(data:any):TaskSponsor{
+      let taskSponsor = data.TaskSponzor;
+      taskSponsor.task = data.PerkTask;
+      return taskSponsor;
+    }
+    
+    private _getToken(){
+      return this.$localStorage.token;
+    }
+    
   }
-})();
-*/
+  
+  angular
+    .module('app')
+    .factory('taskSponsorService', taskSponsorService);
+  
+}
