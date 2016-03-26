@@ -9,23 +9,133 @@
 var sponsorshipModule;
 (function (sponsorshipModule) {
     var sponsorshipService = (function () {
-        function sponsorshipService(eventService, BackendVariables) {
+        function sponsorshipService($http, $localStorage, $q, eventService, BackendVariables) {
+            this.$http = $http;
+            this.$localStorage = $localStorage;
+            this.$q = $q;
             this.eventService = eventService;
             this.BackendVariables = BackendVariables;
             this.$inject = [
+                '$http',
+                '$localStorage',
+                '$q',
                 'eventService',
                 'BackendVariables'
             ];
-            this.xxx = 2;
             this.path = this.BackendVariables.url;
         }
+        sponsorshipService.prototype.allSponsorships = function () {
+            var _this = this;
+            return this.$http({
+                method: 'GET',
+                url: this.path + "sponzorships"
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateSponsorships(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        sponsorshipService.prototype.getSponzorship = function (sponsorshipId) {
+            var _this = this;
+            return this.$http({
+                method: 'GET',
+                url: this.path + "sponzorships/" + sponsorshipId
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateSponsorship(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        sponsorshipService.prototype.sponzorshipByOrganizer = function (organizerId) {
+            var _this = this;
+            return this.$http({
+                method: 'GET',
+                url: this.path + "sponzorships_sponzor/" + organizerId
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateSponsorships(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        sponsorshipService.prototype.sponzorshipBySponzor = function (sponsorId) {
+            var _this = this;
+            return this.$http({
+                method: 'GET',
+                url: this.path + "sponzorships_sponzor/" + sponsorId
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateSponsorships(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        sponsorshipService.prototype.createSponzorship = function (data) {
+            var _this = this;
+            return this.$http({
+                method: 'POST',
+                url: this.path + "sponzorships",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': "Basic " + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateSponsorship(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        sponsorshipService.prototype.deleteSponzorship = function (sponsorshipId) {
+            var _this = this;
+            return this.$http({
+                method: 'DELETE',
+                url: this.path + "sponzorships/" + sponsorshipId,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': "Basic " + this._getToken()
+                }
+            })
+                .then(function (response) { return _this.$q.when(response.data); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        sponsorshipService.prototype.editSponzorshipPatch = function (sponsorshipId, data) {
+            var _this = this;
+            return this.$http({
+                method: 'PATCH',
+                url: this.path + "sponzorships/" + sponsorshipId,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': "Basic " + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateSponsorship(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        sponsorshipService.prototype.editSponzorshipPut = function (sponsorshipId, data) {
+            var _this = this;
+            return this.$http({
+                method: 'PUT',
+                url: this.path + "sponzorships/" + sponsorshipId,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': "Basic " + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateSponsorship(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
         sponsorshipService.prototype.buildSponsorship = function (data) {
             var sponzorship = data;
-            if (sponzorship.sponzor) {
+            sponzorship.sponzor = data.Sponzor || {};
+            sponzorship.perk = data.Perk || {};
+            sponzorship.organizer = data.Organizer || {};
+            sponzorship.event = sponzorship.event ? sponzorship.event : data.Event || {};
+            sponzorship.tasks = data.Tasks || [];
+            if (sponzorship.sponzor.image) {
                 sponzorship.sponzor.image = (sponzorship.sponzor.image == "") ? 'img/photo.png' : sponzorship.sponzor.image;
             }
             sponzorship.event = this.eventService.buildEvent(sponzorship.event);
             return sponzorship;
+        };
+        sponsorshipService.prototype._getToken = function () {
+            return this.$localStorage.token;
+        };
+        sponsorshipService.prototype._preparateSponsorships = function (data) {
+            return data.SponzorsEvents;
+        };
+        sponsorshipService.prototype._preparateSponsorship = function (data) {
+            return this.buildSponsorship(data.Sponzorship);
         };
         return sponsorshipService;
     }());
@@ -34,264 +144,3 @@ var sponsorshipModule;
         .module('app')
         .service('sponsorshipService', sponsorshipService);
 })(sponsorshipModule || (sponsorshipModule = {}));
-/*
-(function() {
-  'use strict';
-
-  angular
-    .module('app')
-    .factory('sponsorshipService', sponsorshipService);
-
-  sponsorshipService.$inject = [
-    '$http',
-    '$localStorage',
-    'BackendVariables',
-    '$q',
-    '$httpParamSerializerJQLike'
-  ];
-
-  function sponsorshipService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
-
-    var path = BackendVariables.url;
-
-    var service = {
-      allSponsorships: allSponsorships,
-      getSponzorship: getSponzorship,
-      sponzorshipByOrganizer: sponzorshipByOrganizer,
-      sponzorshipBySponzor: sponzorshipBySponzor,
-      createSponzorship: createSponzorship,
-      deleteSponzorship: deleteSponzorship,
-      editSponzorshipPatch: editSponzorshipPatch,
-      editSponzorshipPut: editSponzorshipPut
-    };
-
-    return service;
-
-    ////////////
-
-    function allSponsorships(){
-      return $http.get(path + 'sponzorships')
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data.SponzorsEvents );
-      }
-
-      function failed( response ){
-        return $q.reject( response.data );
-      }
-    }
-
-    function getSponzorship( sponzorshipId ){
-
-      //Validate
-      var typeSponzorshipId = typeof sponzorshipId;
-      if(typeSponzorshipId !== 'string' && typeSponzorshipId !== 'number') throw new Error();
-
-      return $http.get(path + 'sponzorships/' + sponzorshipId)
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( preparateData( response.data.data ) );
-      }
-
-      function preparateData( data ){
-        var sponzorship = data.SponzorEvent;
-        sponzorship.sponzor = data.Sponzor || {};
-        sponzorship.perk = data.Perk || {};
-        sponzorship.organizer = data.Organizer || {};
-        sponzorship.event = data.Event || {};
-        sponzorship.tasks = data.Tasks || [];
-        return sponzorship;
-      }
-
-      function failed( response ){
-        return $q.reject( response.data );
-      }
-    }
-
-    function sponzorshipByOrganizer( organizerId ){
-
-      //Validate
-      var typeOrganizerId = typeof organizerId;
-      if(typeOrganizerId !== 'string' && typeOrganizerId !== 'number') throw new Error();
-
-      return $http({
-        method: 'GET',
-        url: path + 'sponzorships_organizer/' + organizerId,
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( preparateData( response.data.SponzorsEvents ) );
-      }
-
-      function preparateData( data ){
-        return data.map( preparateItem );
-
-        function preparateItem( item ){
-          item.starts = moment(item.starts)._d;
-          item.ends = moment(item.ends)._d;
-          return item;
-        }
-        
-      }
-
-      function failed( response ){
-        return $q.reject( response.data );
-      }
-    }
-
-    function sponzorshipBySponzor( sponzorId ){
-
-      //Validate
-      var typeSponzorId = typeof sponzorId;
-      if( typeSponzorId !== 'string' && typeSponzorId !== 'number') throw new Error();
-
-      return $http({
-        method: 'GET',
-        url: path + 'sponzorships_sponzor/' + sponzorId,
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( preparateData( response.data.SponzorsEvents ) );
-      }
-
-      function preparateData( data ){
-        return data.map( preparateItem );
-
-        function preparateItem( item ){
-          item.starts = moment(item.starts)._d;
-          item.ends = moment(item.ends)._d;
-          return item;
-        }
-      }
-
-      function failed( response ){
-        return $q.reject( response.data );
-      }
-    }
-
-    function createSponzorship( data ){
-
-      //Validate
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
-        method: 'POST',
-        url: path + 'sponzorships',
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data.Sponzorship );
-      }
-
-      function failed( response ){
-        return $q.reject( response.data );
-      }
-    }
-
-    function deleteSponzorship( sponzorshipId ){
-
-      //Validate
-      var typeSponzorshipId = typeof sponzorshipId;
-      if( typeSponzorshipId !== 'string' && typeSponzorshipId !== 'number') throw new Error();
-
-      return $http({
-        method: 'DELETE',
-        url: path + 'sponzorships/' + sponzorshipId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data );
-      }
-
-      function failed( response ){
-        return $q.reject( response.data );
-      }
-    }
-
-    function editSponzorshipPatch( sponzorshipId, data ){
-
-      //Validate
-      var typeSponzorshipId = typeof sponzorshipId;
-      if(typeSponzorshipId !== 'number' && typeSponzorshipId !== 'string') throw new Error();
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
-        method: 'PATCH',
-        url: path + 'sponzorships/' + sponzorshipId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data.Sponzorship );
-      }
-
-      function failed( response ){
-        return $q.reject( response.data );
-      }
-    }
-
-    function editSponzorshipPut( sponzorshipId, data ){
-
-      //Validate
-      var typeSponzorshipId = typeof sponzorshipId;
-      if(typeSponzorshipId !== 'number' && typeSponzorshipId !== 'string') throw new Error();
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
-        method: 'PUT',
-        url: path + 'sponzorships/' + sponzorshipId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ){
-        return $q.when( response.data.Sponzorship );
-      }
-
-      function failed( response ){
-        return $q.reject( response.data );
-      }
-    }
-
-    function getToken(){
-      return $localStorage.token;
-    }
-
-  }
-})();
-*/ 
