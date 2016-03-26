@@ -48,14 +48,14 @@ module tasksSponsorModule{
           'Content-Type' : 'application/json'
         }
       })
-      .then( response => { return this.$q.when( this._preparateTaskSponsor( response.data) ); } )
+      .then( response => { return this.$q.when( this._preparateTasksSponsor( response.data) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
     getTask( taskId:string ):angular.IPromise<any>{
       return this.$http({
         method: 'GET',
-        url: `${this.path}task_sponzor/taskId`,
+        url: `${this.path}task_sponzor/${taskId}`,
         headers: {
           'Content-Type' : 'application/json',
           'Authorization' : `Basic ${this._getToken()}`
@@ -75,7 +75,7 @@ module tasksSponsorModule{
         },
         data: data
       })
-      .then( response => { return this.$q.when( this._preparateTaskSponsor( response.data ) ); } )
+      .then( response => { return this.$q.when( response.data ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
@@ -120,8 +120,12 @@ module tasksSponsorModule{
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
+    private _preparateTasksSponsor(data:any):TaskSponsor[]{
+      return data.TasksSponzor;
+    }
+    
     private _preparateTaskSponsor(data:any):TaskSponsor{
-      let taskSponsor = data.TaskSponzor;
+      let taskSponsor = data.TaskSponzor ? data.TaskSponzor: data.data;
       taskSponsor.task = data.PerkTask;
       return taskSponsor;
     }
@@ -134,6 +138,6 @@ module tasksSponsorModule{
   
   angular
     .module('app')
-    .factory('taskSponsorService', taskSponsorService);
+    .service('taskSponsorService', taskSponsorService);
   
 }

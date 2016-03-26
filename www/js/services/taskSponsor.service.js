@@ -30,14 +30,14 @@ var tasksSponsorModule;
                     'Content-Type': 'application/json'
                 }
             })
-                .then(function (response) { return _this.$q.when(_this._preparateTaskSponsor(response.data)); })
+                .then(function (response) { return _this.$q.when(_this._preparateTasksSponsor(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
         taskSponsorService.prototype.getTask = function (taskId) {
             var _this = this;
             return this.$http({
                 method: 'GET',
-                url: this.path + "task_sponzor/taskId",
+                url: this.path + "task_sponzor/" + taskId,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': "Basic " + this._getToken()
@@ -57,7 +57,7 @@ var tasksSponsorModule;
                 },
                 data: data
             })
-                .then(function (response) { return _this.$q.when(_this._preparateTaskSponsor(response.data)); })
+                .then(function (response) { return _this.$q.when(response.data); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
         taskSponsorService.prototype.editPutTask = function (taskId, data) {
@@ -101,8 +101,11 @@ var tasksSponsorModule;
                 .then(function (response) { return _this.$q.when(response.data); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
+        taskSponsorService.prototype._preparateTasksSponsor = function (data) {
+            return data.TasksSponzor;
+        };
         taskSponsorService.prototype._preparateTaskSponsor = function (data) {
-            var taskSponsor = data.TaskSponzor;
+            var taskSponsor = data.TaskSponzor ? data.TaskSponzor : data.data;
             taskSponsor.task = data.PerkTask;
             return taskSponsor;
         };
@@ -114,5 +117,5 @@ var tasksSponsorModule;
     tasksSponsorModule.taskSponsorService = taskSponsorService;
     angular
         .module('app')
-        .factory('taskSponsorService', taskSponsorService);
+        .service('taskSponsorService', taskSponsorService);
 })(tasksSponsorModule || (tasksSponsorModule = {}));

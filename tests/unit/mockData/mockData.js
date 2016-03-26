@@ -87,7 +87,7 @@ var mockData = (function() {
       allEventTypes: allEventTypes,
       getEventType: getEventType
     },
-    tasksSponsorService: {
+    taskSponsorService: {
       getAllTasks: getAllTasks,
       getTask: getTask,
       createTask: createTask,
