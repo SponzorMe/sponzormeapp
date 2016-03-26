@@ -40,7 +40,7 @@ var perkTaskBuilder = (function() {
   }
   
   function omit(name){
-    _resultPerk = _.omit(_resultPerk, name);
+    _resultPerk = _.omit(_resultPerkTask, name);
     return this;
   }
   

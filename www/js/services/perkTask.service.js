@@ -65,7 +65,7 @@ var perkTaskModule;
                 },
                 data: data
             })
-                .then(function (response) { return _this.$q.when(response.data); })
+                .then(function (response) { return _this.$q.when(_this._preparatePerkTaskUpdate(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
         perkTaskService.prototype.deletePerkTask = function (perkTaskId) {
@@ -92,7 +92,7 @@ var perkTaskModule;
                 },
                 data: data
             })
-                .then(function (response) { return _this.$q.when(_this._preparatePerkTask(response.data)); })
+                .then(function (response) { return _this.$q.when(_this._preparatePerkTaskUpdate(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
         perkTaskService.prototype.editPerkTaskPut = function (perkTaskId, data) {
@@ -106,14 +106,15 @@ var perkTaskModule;
                 },
                 data: data
             })
-                .then(function (response) { return _this.$q.when(_this._preparatePerkTask(response.data)); })
+                .then(function (response) { return _this.$q.when(_this._preparatePerkTaskUpdate(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
-        perkTaskService.prototype.buildPerkTasks = function (data) {
+        perkTaskService.prototype.buildPerkTask = function (data) {
             var task = data.PerkTask;
             task.event = data.Event || {};
             task.perk = data.Perk || {};
             task.user = data.User || {};
+            task.status = task.status == 1 ? true : false;
             return task;
         };
         perkTaskService.prototype._getToken = function () {
@@ -123,7 +124,10 @@ var perkTaskModule;
             return data.PerkTasks;
         };
         perkTaskService.prototype._preparatePerkTask = function (data) {
-            return this.buildPerkTasks(data.data);
+            return this.buildPerkTask(data.data);
+        };
+        perkTaskService.prototype._preparatePerkTaskUpdate = function (data) {
+            return this.buildPerkTask(data.PerkTask);
         };
         return perkTaskService;
     }());

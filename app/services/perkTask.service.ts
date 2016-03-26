@@ -93,7 +93,7 @@ module perkTaskModule{
         },
         data: data
       })
-      .then( response => { return this.$q.when( response.data ); } )
+      .then( response => { return this.$q.when( this._preparatePerkTaskUpdate(response.data) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
@@ -120,7 +120,7 @@ module perkTaskModule{
         },
         data: data 
       })
-      .then( response => { return this.$q.when( this._preparatePerkTask( response.data ) ); } )
+      .then( response => { return this.$q.when( this._preparatePerkTaskUpdate( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
@@ -134,15 +134,16 @@ module perkTaskModule{
         },
         data: data
       })
-      .then( response => { return this.$q.when( this._preparatePerkTask( response.data ) ); } )
+      .then( response => { return this.$q.when( this._preparatePerkTaskUpdate( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
-    buildPerkTasks(data:any):PerkTask{
+    buildPerkTask(data:any):PerkTask{
       var task = data.PerkTask;
       task.event = data.Event || {};
       task.perk = data.Perk || {};
       task.user = data.User || {};
+      task.status = task.status == 1 ? true : false;
       return task;
     }
     
@@ -150,12 +151,16 @@ module perkTaskModule{
       return this.$localStorage.token;
     }
     
-    private _preparatePerkTasks( data ):PerkTask[]{
+    private _preparatePerkTasks( data:any ):PerkTask[]{
       return data.PerkTasks; 
     }
     
-    private _preparatePerkTask( data ):PerkTask{
-      return this.buildPerkTasks(data.data); 
+    private _preparatePerkTask( data:any ):PerkTask{
+      return this.buildPerkTask(data.data); 
+    }
+    
+    private _preparatePerkTaskUpdate( data:any):PerkTask{
+      return this.buildPerkTask(data.PerkTask); 
     }
       
   }
