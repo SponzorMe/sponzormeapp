@@ -51,7 +51,7 @@ module categoryModule{
     allCategories():angular.IPromise<any>{
       return this.$http({
         method: 'GET',
-        url: this.path + 'categories'
+        url: `${this.path}categories`
       })
       .then( response => { return this.$q.when( this._preparateCategories( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
@@ -61,7 +61,7 @@ module categoryModule{
 
       return this.$http({
         method: 'GET',
-        url: this.path + 'categories/' + categoryId
+        url: `${this.path}categories/${categoryId}`
       })
       .then( response => { return this.$q.when( this._preparateCategory( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );

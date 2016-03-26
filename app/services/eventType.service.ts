@@ -40,7 +40,7 @@ module eventTypeModule{
     allEventTypes():angular.IPromise<any> {
       return this.$http({
         method: 'GET',
-        url: this.path + 'event_types'
+        url: `${this.path}event_types`,
       })
       .then( response => { return this.$q.when( this._preparateEventsTypes( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
@@ -49,7 +49,7 @@ module eventTypeModule{
     getEventType( eventTypeId:string ):angular.IPromise<any>{
       return this.$http({
         method: 'GET',
-        url: this.path + 'event_types/' + eventTypeId
+        url: `${this.path}event_types/${eventTypeId}`
       })
       .then( response => { return this.$q.when( this._preparateEventType( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );

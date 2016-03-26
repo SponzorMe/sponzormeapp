@@ -52,7 +52,7 @@ module perkTaskModule{
     allPerkTasks():angular.IPromise<any>{
       return this.$http({
         method: 'GET',
-        url: this.path + 'perk_tasks'
+        url: `${this.path}perk_tasks`,
       })
       .then( response => { return this.$q.when( this._preparatePerkTasks( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
@@ -61,7 +61,7 @@ module perkTaskModule{
     getPerkTask( perkTaskId:string ):angular.IPromise<any>{
       return this.$http({
         method: 'GET',
-        url: this.path + 'perk_tasks/' + perkTaskId,
+        url: `${this.path}perk_tasks/${perkTaskId}`,
         headers: {
           'Content-Type' : 'application/json'
         }
@@ -73,7 +73,7 @@ module perkTaskModule{
     getPerkTaskByOrganizer( userId:string ):angular.IPromise<any>{
       return this.$http({
         method: 'GET',
-        url: this.path + 'perk_tasks_organizer/' + userId,
+        url: `${this.path}perk_tasks_organizer/${userId}`,
         headers: {
           'Content-Type' : 'application/json'
         }
@@ -83,13 +83,12 @@ module perkTaskModule{
     }
     
     createPerkTask( data:any ):angular.IPromise<any>{
-      
       return this.$http({
         method: 'POST',
-        url: this.path + 'perk_tasks',
+        url: `${this.path}perk_tasks`,
         headers: {
           'Content-Type':'application/json',
-          'Authorization' : 'Basic '+ this._getToken()
+          'Authorization' : `Basic ${this._getToken()}`
         },
         data: data
       })
@@ -100,10 +99,10 @@ module perkTaskModule{
     deletePerkTask( perkTaskId:string ):angular.IPromise<any>{
       return this.$http({
         method: 'DELETE',
-        url: this.path + 'perk_tasks/' + perkTaskId,
+        url: `${this.path}perk_tasks/${perkTaskId}`,
         headers: {
           'Content-Type':'application/json',
-          'Authorization': 'Basic '+ this._getToken()
+          'Authorization' : `Basic ${this._getToken()}`
         }
       })
       .then( response => { return this.$q.when( response.data ); } )
@@ -113,10 +112,10 @@ module perkTaskModule{
     editPerkTaskPatch( perkTaskId:string, data:any ):angular.IPromise<any>{
       return this.$http({
         method: 'PATCH',
-        url: this.path + 'perk_tasks/' + perkTaskId,
+        url: `${this.path}perk_tasks/${perkTaskId}`,
         headers: {
           'Content-Type':'application/json',
-          'Authorization': 'Basic '+ this._getToken()
+          'Authorization' : `Basic ${this._getToken()}`
         },
         data: data 
       })
@@ -127,10 +126,10 @@ module perkTaskModule{
    editPerkTaskPut( perkTaskId:string, data:any ):angular.IPromise<any>{
       return this.$http({
         method: 'PUT',
-        url: this.path + 'perk_tasks/' + perkTaskId,
+        url: `${this.path}perk_tasks/${perkTaskId}`,
         headers: {
           'Content-Type':'application/json',
-          'Authorization': 'Basic '+ this._getToken()
+          'Authorization' : `Basic ${this._getToken()}`
         },
         data: data
       })

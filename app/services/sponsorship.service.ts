@@ -11,8 +11,6 @@ module sponsorshipModule{
   export interface ISponsorshipService{
     allSponsorships():angular.IPromise<any>;
     getSponzorship(sponsorshipId:string):angular.IPromise<any>;
-    sponzorshipByOrganizer(organizerId:string):angular.IPromise<any>;
-    sponzorshipBySponzor(sponsorId:string):angular.IPromise<any>;
     createSponzorship(data:any):angular.IPromise<any>;
     deleteSponzorship(sponsorshipId:string):angular.IPromise<any>;
     editSponzorshipPatch(sponsorshipId:string, data:any):angular.IPromise<any>;
@@ -78,25 +76,7 @@ module sponsorshipModule{
         method: 'GET',
         url: `${this.path}sponzorships/${sponsorshipId}`
       })
-      .then( response => { return this.$q.when( this._preparateSponsorship( response.data) ); } )
-      .catch( response => { return this.$q.reject( response.data ); } );
-    }
-    
-    sponzorshipByOrganizer( organizerId:string ):angular.IPromise<any>{
-      return this.$http({
-        method: 'GET',
-        url: `${this.path}sponzorships_sponzor/${organizerId}`
-      })
-      .then( response => { return this.$q.when( this._preparateSponsorships( response.data) ); } )
-      .catch( response => { return this.$q.reject( response.data ); } );
-    }
-    
-    sponzorshipBySponzor( sponsorId:string ):angular.IPromise<any>{
-      return this.$http({
-        method: 'GET',
-        url: `${this.path}sponzorships_sponzor/${sponsorId}`
-      })
-      .then( response => { return this.$q.when( this._preparateSponsorships( response.data) ); } )
+      .then( response => { return this.$q.when( this.buildSponsorship( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     

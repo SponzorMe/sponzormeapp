@@ -39,25 +39,7 @@ var sponsorshipModule;
                 method: 'GET',
                 url: this.path + "sponzorships/" + sponsorshipId
             })
-                .then(function (response) { return _this.$q.when(_this._preparateSponsorship(response.data)); })
-                .catch(function (response) { return _this.$q.reject(response.data); });
-        };
-        sponsorshipService.prototype.sponzorshipByOrganizer = function (organizerId) {
-            var _this = this;
-            return this.$http({
-                method: 'GET',
-                url: this.path + "sponzorships_sponzor/" + organizerId
-            })
-                .then(function (response) { return _this.$q.when(_this._preparateSponsorships(response.data)); })
-                .catch(function (response) { return _this.$q.reject(response.data); });
-        };
-        sponsorshipService.prototype.sponzorshipBySponzor = function (sponsorId) {
-            var _this = this;
-            return this.$http({
-                method: 'GET',
-                url: this.path + "sponzorships_sponzor/" + sponsorId
-            })
-                .then(function (response) { return _this.$q.when(_this._preparateSponsorships(response.data)); })
+                .then(function (response) { return _this.$q.when(_this.buildSponsorship(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
         sponsorshipService.prototype.createSponzorship = function (data) {

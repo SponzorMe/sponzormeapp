@@ -59,8 +59,6 @@ var mockData = (function() {
     sponsorshipService: {
       allSponsorships: allSponsorships,
       getSponzorship: getSponzorship,
-      sponzorshipByOrganizer: sponzorshipByOrganizer,
-      sponzorshipBySponzor: sponzorshipBySponzor,
       createSponzorship: createSponzorship,
       deleteSponzorship: deleteSponzorship,
       editSponzorshipPatch: editSponzorshipPatch,
@@ -282,24 +280,8 @@ var mockData = (function() {
   function allSponsorships(){
     return {
       SponzorsEvents: [
-        {
-          cause: "asas",
-          event_id: "1018",
-          id: "12",
-          organizer_id: "1003",
-          perk_id: "18",
-          sponzor_id: "1002",
-          status: "3"
-        },
-        {
-          cause: "asas",
-          event_id: "1018",
-          id: "12",
-          organizer_id: "1003",
-          perk_id: "18",
-          sponzor_id: "1002",
-          status: "3"
-        }
+        sponsorshipBuilder.setId("1").omit("SponzorEvent").build(),
+        sponsorshipBuilder.setId("2").omit("SponzorEvent").build(),
       ],
       success: true
     }
@@ -307,77 +289,13 @@ var mockData = (function() {
 
   function getSponzorship(){
     return {
-      data: {
-        Event: {},
-        Organizer: {},
-        Perk: {},
-        Sponzor: {},
-        SponzorEvent: {
-          id: 1
-        },
-        Tasks: []
-      }
-    }
-  }
-
-  function sponzorshipByOrganizer(){
-    return {
-      SponzorsEvents: [
-        {
-          event_id: 1,
-          title: 'event',
-          starts: "2016-01-09 15:00:00",
-          ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss')
-        },
-        {
-          event_id: 1,
-          title: 'event',
-          starts: "2016-01-09 15:00:00",
-          ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss')
-        }
-      ]
-    }
-  }
-
-  function sponzorshipBySponzor(){
-    return {
-      SponzorsEvents: [
-        {
-          event_id: 1,
-          title: 'event',
-          status: 1,
-          starts: "2016-01-09 15:00:00",
-          ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss')
-        },
-        {
-          event_id: 1,
-          title: 'event',
-          status: 0,
-          starts: "2016-01-09 15:00:00",
-          ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss')
-        },
-        {
-          event_id: 1,
-          title: 'event',
-          status: 2,
-          starts: "2016-01-09 15:00:00",
-          ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss')
-        }
-      ]
+      data: sponsorshipBuilder.setId("1").build()
     }
   }
 
   function createSponzorship(){
     return {
-      Sponzorship: {
-        cause: "YOLO",
-        event_id: "1018",
-        id: 31,
-        organizer_id: "1003",
-        perk_id: "18",
-        sponzor_id: "1002",
-        status: "0"
-      },
+      Sponzorship: sponsorshipBuilder.setId("1").omit("SponzorEvent").build(),
       message: "Inserted"
     }
   }
@@ -390,7 +308,7 @@ var mockData = (function() {
 
   function editSponzorshipPatch(){
     return {
-      Sponzorship:{},
+      Sponzorship: sponsorshipBuilder.setId("1").omit("SponzorEvent").build(),
       message: "Updated",
       warnings: []
     }
@@ -398,7 +316,7 @@ var mockData = (function() {
 
   function editSponzorshipPut(){
     return {
-      Sponzorship:{},
+      Sponzorship: sponsorshipBuilder.setId("1").omit("SponzorEvent").build(),
       message: "Updated",
     }
   }

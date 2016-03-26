@@ -45,7 +45,7 @@ module perkModule{
     allPerks():angular.IPromise<any>{
       return this.$http({
         method: 'GET',
-        url: this.path + 'perks'
+        url: `${this.path}perks`,
       })
       .then( response => { return this.$q.when( this._preparatePerk( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
@@ -54,10 +54,10 @@ module perkModule{
     createPerk( data:any ):angular.IPromise<any>{
       return this.$http({
         method: 'POST',
-        url: this.path + 'perks',
+        url: `${this.path}perks`,
         headers: {
           'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ this._getToken()
+          'Authorization' : `Basic ${this._getToken()}`
         },
         data: data
       })
@@ -68,10 +68,10 @@ module perkModule{
     deletePerk( perkId:string ):angular.IPromise<any>{
       return this.$http({
         method: 'DELETE',
-        url: this.path + 'perks/' + perkId,
+        url: `${this.path}perks/${perkId}`,
         headers: {
           'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ this._getToken()
+          'Authorization' : `Basic ${this._getToken()}`
         },
       })
       .then( response => { return this.$q.when( response.data ); } )
@@ -81,10 +81,10 @@ module perkModule{
     editPerkPatch( perkId:string, data:any ):angular.IPromise<any>{
       return this.$http({
         method: 'PATCH',
-        url: this.path + 'perks/' + perkId,
+        url: `${this.path}perks/${perkId}`,
         headers: {
           'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ this._getToken()
+          'Authorization' : `Basic ${this._getToken()}`
         },
         data: data
       })
@@ -95,10 +95,10 @@ module perkModule{
     editPerkPut( perkId:string, data:any ):angular.IPromise<any>{
       return this.$http({
         method: 'PUT',
-        url: this.path + 'perks/' + perkId,
+        url: `${this.path}perks/${perkId}`,
         headers: {
           'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ this._getToken()
+          'Authorization' : `Basic ${this._getToken()}`
         },
         data: data
       })

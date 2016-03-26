@@ -54,7 +54,7 @@ module eventModule{
     allEvents():angular.IPromise<any>{
       return this.$http({
         method: 'GET',
-        url: this.path + 'events'
+        url: `${this.path}events`
       })
       .then( response => { return this.$q.when( this._preparateEvents( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
@@ -63,7 +63,7 @@ module eventModule{
     getEvent( eventId:string ):angular.IPromise<any>{
       return this.$http({
         method: 'GET',
-        url: this.path + 'events/' + eventId
+        url: `${this.path}events/${eventId}`
       })
       .then( response => { return this.$q.when( this._preparateEvent( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
@@ -72,10 +72,10 @@ module eventModule{
     createEvent( data:Event ):angular.IPromise<any>{
       return this.$http({
         method: 'POST',
-        url: this.path + 'events',
+        url: `${this.path}events`,
         headers: {
           'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ this._getToken()
+          'Authorization' : `Basic ${this._getToken()}`
         },
         data: data
       })
@@ -86,10 +86,10 @@ module eventModule{
     deleteEvent( eventId:string ):angular.IPromise<any>{
       return this.$http({
         method: 'DELETE',
-        url: this.path + 'events/' + eventId,
+        url: `${this.path}events/${eventId}`,
         headers: {
           'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ this._getToken()
+          'Authorization' : `Basic ${this._getToken()}`
         },
       })
       .then( response => { return this.$q.when( response.data ); } )
@@ -99,10 +99,10 @@ module eventModule{
     editEventPatch( eventId:string, data:Event ):angular.IPromise<any>{
       return this.$http({
         method: 'PATCH',
-        url: this.path + 'events/' + eventId,
+        url: `${this.path}events/${eventId}`,
         headers: {
           'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ this._getToken()
+          'Authorization' : `Basic ${this._getToken()}`
         },
         data: data
       })
@@ -113,10 +113,10 @@ module eventModule{
     editEventPut( eventId:string, data:Event ):angular.IPromise<any>{
       return this.$http({
         method: 'PUT',
-        url: this.path + 'events/' + eventId,
+        url: `${this.path}events/${eventId}`,
         headers: {
           'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ this._getToken()
+          'Authorization' : `Basic ${this._getToken()}`
         },
         data: data
       })

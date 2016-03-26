@@ -69,7 +69,7 @@ module notificationModule{
     }
     
     getNotifications( userId:string ) {
-      let url = this.path + 'notifications/' + userId;
+      let url = `${this.path}notifications/${userId}`;
       return this.$firebaseArray( new Firebase( url ));
     }
     
@@ -167,7 +167,7 @@ module notificationModule{
     }
     
     private _notificationForMe():void {
-      let url =  this.path + 'notifications/' + this.userAuth.id;
+      let url = `${this.path}notifications/${this.userAuth.id}`;
       let reference =  new Firebase( url );
       reference.on('child_added', snapshot => {
         let current = snapshot.val();
@@ -178,7 +178,7 @@ module notificationModule{
     }
     
     private _updateEvents():void {
-      let url =  this.path + 'notifications/events'
+      let url = `${this.path}notifications/events`;
       let reference =  new Firebase( url );
       reference.on('child_added', snapshot => {
         let current = snapshot.val();

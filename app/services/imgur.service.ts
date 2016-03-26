@@ -30,9 +30,9 @@ module imgurModule{
     uploadImage( image:string ):angular.IPromise<any> {
       return this.$http({
         method: 'POST',
-        url: this.path + 'image',
+        url: `${this.path}image`,
         headers: {
-          'Authorization' : 'Client-ID '+ this.clientId
+          'Authorization' : `Client-ID ${this.clientId}`
         },
         data: {
           image: image,

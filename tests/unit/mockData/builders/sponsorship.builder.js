@@ -1,14 +1,27 @@
 var sponsorshipBuilder = (function() {
   
   var _resultSponsorship = {
+    id: "30",
     cause: "test",
     event_id: "1002",
-    id: "30",
     organizer_id: "1003",
     perk_id: "3",
     sponzor_id: "1002",
     status: "0",
-    event: {}
+    Event: {},
+    Organizer: {},
+    Perk: {},
+    Sponzor: {},
+    SponzorEvent: {
+      id: "30",
+      cause: "test",
+      event_id: "1002",
+      organizer_id: "1003",
+      perk_id: "3",
+      sponzor_id: "1002",
+      status: "0",
+    },
+    Tasks: []
   };
   
   return {
