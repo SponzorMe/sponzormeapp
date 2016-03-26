@@ -4,217 +4,115 @@
 *
 * @author Nicolas Molina
 * @version 0.1
-
-(function() {
-  'use strict';
-
-  angular
-    .module('app')
-    .factory('tasksSponsorService', tasksSponsorService);
-
-  tasksSponsorService.$inject = [
-    '$http',
-    '$localStorage',
-    'BackendVariables',
-    '$q',
-    '$httpParamSerializerJQLike'
-  ];
-
-  function tasksSponsorService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
-
-    var path = BackendVariables.url;
-    var token = $localStorage.token;
-
-    var service = {
-      getAllTasks: getAllTasks,
-      getTask: getTask,
-      createTask: createTask,
-      editPutTask: editPutTask,
-      editPatchTask: editPatchTask,
-      deleteTask: deleteTask
-    };
-
-    return service;
-
-    ////////////
-
-    function getToken(){
-      return $localStorage.token;
-    }
-
-    function getAllTasks(){
-      return $http({
-        method: 'GET',
-        url: path + 'task_sponzor',
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded'
+*/
+var tasksSponsorModule;
+(function (tasksSponsorModule) {
+    var taskSponsorService = (function () {
+        function taskSponsorService($http, $localStorage, BackendVariables, $q) {
+            this.$http = $http;
+            this.$localStorage = $localStorage;
+            this.BackendVariables = BackendVariables;
+            this.$q = $q;
+            this.$inject = [
+                '$http',
+                '$localStorage',
+                'BackendVariables',
+                '$q'
+            ];
+            this.path = this.BackendVariables.url;
         }
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.TasksSponzor );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function getTask( taskId ){
-
-      //Validate
-      var typeTaskId = typeof taskId;
-      if(typeTaskId !== 'string' && typeTaskId !== 'number') throw new Error();
-
-      return $http({
-        method: 'GET',
-        url: path + 'task_sponzor/' +  taskId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        }
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( preparateTask( response.data.data ) );
-      }
-
-      function preparateTask( data ){
-        var task = data.Task;
-        task.organizer = data.Organizer || null;
-        task.event = data.Event || null;
-        task.sponzor = data.Sponzor || null;
-        return task;
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function createTask( data ){
-
-      //Validate
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
-        method: 'POST',
-        url: path + 'task_sponzor',
-        headers: {
-          'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: data
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( preparateData(response.data) );
-      }
-      
-      function preparateData( data ) {
-        data.TaskSponzor.task = data.PerkTask;
-         return data.TaskSponzor;
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function editPutTask( taskId, data ){
-
-
-      //Validate
-      var typeTaskId = typeof taskId;
-      if(typeTaskId !== 'string' && typeTaskId !== 'number') throw new Error();
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
-        method: 'PUT',
-        url: path + 'task_sponzor/' +  taskId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.TaskSponzor );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function editPatchTask( taskId, data ){
-
-      //Validate
-      var typeTaskId = typeof taskId;
-      if(typeTaskId !== 'string' && typeTaskId !== 'number') throw new Error();
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-
-      return $http({
-        method: 'PATCH',
-        url: path + 'task_sponzor/' +  taskId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.TaskSponzor );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    function deleteTask( taskId ){
-
-      //Validate
-      var typeTaskId = typeof taskId;
-      if(typeTaskId !== 'string' && typeTaskId !== 'number') throw new Error();
-
-      return $http({
-        method: 'DELETE',
-        url: path + 'task_sponzor/' +  taskId,
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        }
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-    
-
-  }
-})();
-*/ 
+        taskSponsorService.prototype.getAllTasks = function () {
+            var _this = this;
+            return this.$http({
+                method: 'GET',
+                url: this.path + "task_sponzor",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateTaskSponsor(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        taskSponsorService.prototype.getTask = function (taskId) {
+            var _this = this;
+            return this.$http({
+                method: 'GET',
+                url: this.path + "task_sponzor/taskId",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': "Basic " + this._getToken()
+                }
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateTaskSponsor(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        taskSponsorService.prototype.createTask = function (data) {
+            var _this = this;
+            return this.$http({
+                method: 'POST',
+                url: this.path + "task_sponzor",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': "Basic " + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateTaskSponsor(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        taskSponsorService.prototype.editPutTask = function (taskId, data) {
+            var _this = this;
+            return this.$http({
+                method: 'PUT',
+                url: this.path + "task_sponzor/" + taskId,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': "Basic " + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateTaskSponsor(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        taskSponsorService.prototype.editPatchTask = function (taskId, data) {
+            var _this = this;
+            return this.$http({
+                method: 'PATCH',
+                url: this.path + "task_sponzor/" + taskId,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': "Basic " + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateTaskSponsor(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        taskSponsorService.prototype.deleteTask = function (taskId) {
+            var _this = this;
+            return this.$http({
+                method: 'DELETE',
+                url: this.path + "task_sponzor/" + taskId,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': "Basic " + this._getToken()
+                }
+            })
+                .then(function (response) { return _this.$q.when(response.data); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        taskSponsorService.prototype._preparateTaskSponsor = function (data) {
+            var taskSponsor = data.TaskSponzor;
+            taskSponsor.task = data.PerkTask;
+            return taskSponsor;
+        };
+        taskSponsorService.prototype._getToken = function () {
+            return this.$localStorage.token;
+        };
+        return taskSponsorService;
+    }());
+    tasksSponsorModule.taskSponsorService = taskSponsorService;
+    angular
+        .module('app')
+        .factory('taskSponsorService', taskSponsorService);
+})(tasksSponsorModule || (tasksSponsorModule = {}));

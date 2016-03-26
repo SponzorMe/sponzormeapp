@@ -459,18 +459,16 @@ var mockData = (function() {
   function getAllTasks(){
     return {
       success: true,
-      TasksSponzor: []
+      TasksSponzor: [
+        taskSponsorBuilder.setId("1").build(),
+        taskSponsorBuilder.setId("2").build(),
+      ]
     }
   }
 
   function getTask(){
     return {
-      data: {
-        Task:{},
-        Organizer: {},
-        Sponzor: {},
-        Event: {}
-      },
+      data: taskSponsorBuilder.setId("1").build(),
       success: true,
     }
   }
@@ -478,15 +476,7 @@ var mockData = (function() {
   function createTask(){
     return {
       message: "Inserted",
-      TaskSponzor: {
-        sponzor_id: "1",
-        perk_id: "1",
-        event_id: "1",
-        task_id: "1",
-        sponzorship_id: "1",
-        organizer_id: "2",
-        id: 2
-      },
+      TaskSponzor: taskSponsorBuilder.setId("1").build(),
       PerkSponzor: {
         sponzor_id: "1",
         perk_id: "1",
@@ -502,16 +492,7 @@ var mockData = (function() {
   function editPatchTask(){
     return {
       message: "Updated",
-      TaskSponzor: {
-        id: 2,
-        task_id: "1",
-        perk_id: "1",
-        sponzor_id: "1",
-        organizer_id: "2",
-        event_id: "1",
-        sponzorship_id: "1",
-        status: 0
-      }
+      TaskSponzor: taskSponsorBuilder.setId("1").build(),
     }
   }
 
@@ -519,16 +500,7 @@ var mockData = (function() {
     return {
       message: "Updated",
       warnings: [],
-      TaskSponzor: {
-        id: 2,
-        task_id: "1",
-        perk_id: "1",
-        sponzor_id: "1",
-        organizer_id: "2",
-        event_id: "1",
-        sponzorship_id: "1",
-        status: 0
-      }
+      TaskSponzor: taskSponsorBuilder.setId("1").build(),
     }
   }
 
