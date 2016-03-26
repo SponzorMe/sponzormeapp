@@ -4,90 +4,72 @@
 *
 * @author Nicolas Molina
 * @version 0.1
-
-(function() {
-  'use strict';
-
-  angular
-    .module('app')
-    .factory('userInterestService', userInterestService);
-
-  userInterestService.$inject = [
-    '$http',
-    '$localStorage',
-    'BackendVariables',
-    '$q',
-    '$httpParamSerializerJQLike'
-  ];
-
-  function userInterestService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
-
-    var path = BackendVariables.url;
-
-    var service = {
-      createUserInterest: createUserInterest,
-      bulkUserInterest: bulkUserInterest
-    };
-
-    return service;
-
-    ////////////
-
-    function getToken(){
-      return $localStorage.token;
-    }
-
-    function createUserInterest( data ){
-      return $http({
-        method: 'POST',
-        url: path + 'user_interests',
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.UserInterest );
-      } 
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
+*/
+module userInterestModule{
+  
+   export interface IUserAuthService{
+    createUserInterest(data:any):angular.IPromise<any>;
+    bulkUserInterest(userId:string, data:any):angular.IPromise<any>;
+  }
+  
+  export class userInterestService implements IUserAuthService{
+    
+    $inject = [
+      '$http',
+      '$localStorage',
+      'BackendVariables',
+      '$q',
+    ];
+    path:string;
+    
+    constructor(
+      private $http: angular.IHttpService,
+      private $localStorage,
+      private BackendVariables,
+      private $q: angular.IQService
+    ){
+      this.path = BackendVariables.url;
     }
     
-    function bulkUserInterest( userId, data ) {
-      
-      //Validate
-      var typeUserId = typeof userId;
-      if(typeUserId !== 'number' && typeUserId !== 'string') throw new Error();
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-      
-      return $http({
-        method: 'PUT',
-        url: path + 'user_interests/' + userId,
+    createUserInterest( data:any ):angular.IPromise<any>{
+      return this.$http({
+        method: 'POST',
+        url: `${this.path}user_interests`,
         headers: {
           'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ getToken()
+          'Authorization' : `Basic ${this._getToken()}`
         },
         data: data
       })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      } 
+      .then( response => { return this.$q.when( this._preparateUserInterest(response.data) ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
     }
-
+    
+    bulkUserInterest( userId:string, data:any ):angular.IPromise<any>{
+      return this.$http({
+        method: 'PUT',
+        url: `${this.path}user_interests/${userId}`,
+        headers: {
+          'Content-Type' : 'application/json',
+          'Authorization' : `Basic ${this._getToken()}`
+        },
+        data: data
+      })
+      .then( response => { return this.$q.when( response.data ); } )
+      .catch( response => { return this.$q.reject( response.data ); } );
+    }
+    
+    private _preparateUserInterest(data:any){
+      return data.UserInterest;
+    }
+  
+    private _getToken(){
+      return this.$localStorage.token;
+    }
   }
-})();
-*/
+  
+  angular
+    .module('app')
+    .service('userInterestService', userInterestService);
+    
+}

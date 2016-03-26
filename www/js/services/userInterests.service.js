@@ -4,90 +4,61 @@
 *
 * @author Nicolas Molina
 * @version 0.1
-
-(function() {
-  'use strict';
-
-  angular
-    .module('app')
-    .factory('userInterestService', userInterestService);
-
-  userInterestService.$inject = [
-    '$http',
-    '$localStorage',
-    'BackendVariables',
-    '$q',
-    '$httpParamSerializerJQLike'
-  ];
-
-  function userInterestService( $http, $localStorage, BackendVariables, $q, $httpParamSerializerJQLike ) {
-
-    var path = BackendVariables.url;
-
-    var service = {
-      createUserInterest: createUserInterest,
-      bulkUserInterest: bulkUserInterest
-    };
-
-    return service;
-
-    ////////////
-
-    function getToken(){
-      return $localStorage.token;
-    }
-
-    function createUserInterest( data ){
-      return $http({
-        method: 'POST',
-        url: path + 'user_interests',
-        headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: $httpParamSerializerJQLike(data)
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data.UserInterest );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-    
-    function bulkUserInterest( userId, data ) {
-      
-      //Validate
-      var typeUserId = typeof userId;
-      if(typeUserId !== 'number' && typeUserId !== 'string') throw new Error();
-      var typeData = typeof data;
-      if(typeData !== 'object' || Array.isArray(data)) throw new Error();
-      
-      return $http({
-        method: 'PUT',
-        url: path + 'user_interests/' + userId,
-        headers: {
-          'Content-Type' : 'application/json',
-          'Authorization' : 'Basic '+ getToken()
-        },
-        data: data
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( response ) {
-        return $q.when( response.data );
-      }
-
-      function failed( response ) {
-        return $q.reject( response.data );
-      }
-    }
-
-  }
-})();
 */
+var userInterestModule;
+(function (userInterestModule) {
+    var userInterestService = (function () {
+        function userInterestService($http, $localStorage, BackendVariables, $q) {
+            this.$http = $http;
+            this.$localStorage = $localStorage;
+            this.BackendVariables = BackendVariables;
+            this.$q = $q;
+            this.$inject = [
+                '$http',
+                '$localStorage',
+                'BackendVariables',
+                '$q',
+            ];
+            this.path = BackendVariables.url;
+        }
+        userInterestService.prototype.createUserInterest = function (data) {
+            var _this = this;
+            return this.$http({
+                method: 'POST',
+                url: this.path + "user_interests",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': "Basic " + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(_this._preparateUserInterest(response.data)); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        userInterestService.prototype.bulkUserInterest = function (userId, data) {
+            var _this = this;
+            return this.$http({
+                method: 'PUT',
+                url: this.path + "user_interests/" + userId,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': "Basic " + this._getToken()
+                },
+                data: data
+            })
+                .then(function (response) { return _this.$q.when(response.data); })
+                .catch(function (response) { return _this.$q.reject(response.data); });
+        };
+        userInterestService.prototype._preparateUserInterest = function (data) {
+            return data.UserInterest;
+        };
+        userInterestService.prototype._getToken = function () {
+            return this.$localStorage.token;
+        };
+        return userInterestService;
+    }());
+    userInterestModule.userInterestService = userInterestService;
+    angular
+        .module('app')
+        .service('userInterestService', userInterestService);
+})(userInterestModule || (userInterestModule = {}));

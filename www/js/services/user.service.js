@@ -31,7 +31,7 @@ var userModule;
             var _this = this;
             return this.$http({
                 method: 'POST',
-                url: this.path + 'auth',
+                url: this.path + "auth",
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -47,10 +47,10 @@ var userModule;
             var _this = this;
             return this.$http({
                 method: 'GET',
-                url: this.path + 'home/' + userId,
+                url: this.path + "home/" + userId,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + this._getToken()
+                    'Authorization': "Basic " + this._getToken()
                 }
             })
                 .then(function (response) { return _this.$q.when(_this._preparateUser(response.data)); })
@@ -60,10 +60,10 @@ var userModule;
             var _this = this;
             return this.$http({
                 method: 'POST',
-                url: this.path + 'users',
+                url: this.path + "users",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + this._getToken()
+                    'Authorization': "Basic " + this._getToken()
                 },
                 data: data
             })
@@ -74,10 +74,10 @@ var userModule;
             var _this = this;
             return this.$http({
                 method: 'DELETE',
-                url: this.path + 'users/' + userId,
+                url: this.path + "users/" + userId,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'Authorization': 'Basic ' + this._getToken()
+                    'Authorization': "Basic " + this._getToken()
                 }
             })
                 .then(function (response) { return _this.$q.when(response.data); })
@@ -87,10 +87,10 @@ var userModule;
             var _this = this;
             return this.$http({
                 method: 'PATCH',
-                url: this.path + 'users/' + userId,
+                url: this.path + "users/" + userId,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + this._getToken()
+                    'Authorization': "Basic " + this._getToken()
                 },
                 data: data
             })
@@ -101,10 +101,10 @@ var userModule;
             var _this = this;
             return this.$http({
                 method: 'PUT',
-                url: this.path + 'users/' + userId,
+                url: this.path + "users/" + userId,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + this._getToken()
+                    'Authorization': "Basic " + this._getToken()
                 },
                 data: data
             })
@@ -115,10 +115,10 @@ var userModule;
             var _this = this;
             return this.$http({
                 method: 'POST',
-                url: this.path + 'send_reset_password',
+                url: this.path + "send_reset_password",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + this._getToken()
+                    'Authorization': "Basic " + this._getToken()
                 },
                 data: {
                     email: email
@@ -131,10 +131,10 @@ var userModule;
             var _this = this;
             return this.$http({
                 method: 'POST',
-                url: this.path + 'invite_friend',
+                url: this.path + "invite_friend",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + this._getToken()
+                    'Authorization': "Basic " + this._getToken()
                 },
                 data: data
             })
