@@ -4,7 +4,56 @@
 *
 * @author Carlos, Nicolas Molina
 * @version 0.2
-
+*/
+var utilsServiceModule;
+(function (utilsServiceModule) {
+    var utilsService = (function () {
+        function utilsService($ionicLoading, $ionicPopup, $translate, $ionicHistory) {
+            this.$ionicLoading = $ionicLoading;
+            this.$ionicPopup = $ionicPopup;
+            this.$translate = $translate;
+            this.$ionicHistory = $ionicHistory;
+            this.$inject = [
+                '$ionicLoading',
+                '$ionicPopup',
+                '$translate',
+                '$ionicHistory'
+            ];
+        }
+        utilsService.prototype.showLoad = function () {
+            return this.$ionicLoading.show();
+        };
+        utilsService.prototype.hideLoad = function () {
+            return this.$ionicLoading.hide();
+        };
+        utilsService.prototype.alert = function (msg) {
+            var options = msg || {};
+            options.title = options.title || '<p>Ocurrió un error.</p>';
+            options.template = options.template || '<p class="text-center">Intento de nuevo.</p>';
+            return this.$ionicPopup.alert(options);
+        };
+        utilsService.prototype.confirm = function (msg) {
+            var options = msg || {};
+            options.title = options.title || '¿ Estas seguro ?';
+            options.template = options.template || 'Estas seguro de eliminar.';
+            return this.$ionicPopup.confirm(options);
+        };
+        utilsService.prototype.trim = function (str) {
+            if (typeof (str) == "string" || typeof (str) == "number" || typeof (str) == "boolean") {
+                return str.toString().replace(/^\s+|\s+$/g, "");
+            }
+            return "";
+        };
+        ;
+        utilsService.prototype.resetForm = function (form) {
+            form.$setPristine();
+            form.$setUntouched();
+        };
+        return utilsService;
+    }());
+    utilsServiceModule.utilsService = utilsService;
+})(utilsServiceModule || (utilsServiceModule = {}));
+/*
 (function() {
   'use strict';
 
@@ -36,15 +85,7 @@
 
     ////////////
 
-    function showLoad(){
-      return $ionicLoading.show({
-        animation: 'fade-in',
-        showBackdrop: false,
-        maxWidth: 200,
-        showDelay: 500,
-        //template: '<p class="item-icon-left">'+ $translate.instant('MESSAGES.loading')+'<ion-spinner icon="bubbles"/></p>'
-      });
-    }
+    
 
     function hideLoad(){
       $ionicLoading.hide();

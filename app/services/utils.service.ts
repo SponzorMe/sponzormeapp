@@ -4,7 +4,72 @@
 *
 * @author Carlos, Nicolas Molina
 * @version 0.2
-
+*/
+module utilsServiceModule{
+  
+  export interface IUtilsService{
+    showLoad():void,
+    hideLoad():void,
+    alert(msg:any):ionic.popup.IonicPopupPromise,
+    confirm(msg:any):ionic.popup.IonicPopupPromise,
+    trim(str:string):string,
+    resetForm(form:any):void
+  }
+  
+  export class utilsService implements IUtilsService{
+    
+    $inject = [
+      '$ionicLoading',
+      '$ionicPopup',
+      '$translate',
+      '$ionicHistory'
+    ];
+    
+    constructor(
+      private $ionicLoading: ionic.loading.IonicLoadingService,
+      private $ionicPopup: ionic.popup.IonicPopupService,
+      private $translate,
+      private $ionicHistory: ionic.navigation.IonicHistoryService
+    ){}
+    
+    showLoad():void{
+      return this.$ionicLoading.show();
+    }
+    
+    hideLoad():void{
+      return this.$ionicLoading.hide();
+    }
+    
+    alert( msg:any ):ionic.popup.IonicPopupPromise{
+      var options = msg || {};
+      options.title = options.title || '<p>Ocurrió un error.</p>';
+      options.template  = options.template || '<p class="text-center">Intento de nuevo.</p>';
+      return this.$ionicPopup.alert( options );
+    }
+    
+    confirm( msg:any ):ionic.popup.IonicPopupPromise{
+      var options = msg || {};
+      options.title = options.title || '¿ Estas seguro ?';
+      options.template  = options.template || 'Estas seguro de eliminar.';
+      return this.$ionicPopup.confirm( options );
+    }
+    
+    trim( str ){
+      if(typeof(str) == "string" || typeof(str) == "number" || typeof(str) == "boolean"){
+        return str.toString().replace(/^\s+|\s+$/g,"");
+      }
+      return "";
+    };
+    
+    resetForm( form ){
+      form.$setPristine();
+      form.$setUntouched();
+    }
+    
+  }
+  
+}
+/*
 (function() {
   'use strict';
 
@@ -36,15 +101,7 @@
 
     ////////////
 
-    function showLoad(){
-      return $ionicLoading.show({
-        animation: 'fade-in',
-        showBackdrop: false,
-        maxWidth: 200,
-        showDelay: 500,
-        //template: '<p class="item-icon-left">'+ $translate.instant('MESSAGES.loading')+'<ion-spinner icon="bubbles"/></p>'
-      });
-    }
+    
 
     function hideLoad(){
       $ionicLoading.hide();
