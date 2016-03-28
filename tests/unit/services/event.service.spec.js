@@ -104,7 +104,7 @@ describe("Service: eventService", function() {
         eventService.allEvents()
         .then(function( result ) {
           chai.expect( result[0].image ).to.eql( 'img/banner.jpg' );
-          chai.expect( result[1].image ).to.eql( 'http://i.imgur.com/t8YehGM.jpg' );
+          chai.expect( result[1].image ).to.eql( 'img/banner.jpg' );
           done();
         });
         $httpBackend.flush();

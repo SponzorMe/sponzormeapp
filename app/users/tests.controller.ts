@@ -4,7 +4,7 @@
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
-
+*/
 (function() {
   'use strict';
 
@@ -29,7 +29,7 @@
     var vm = this;
     vm.userAuth = $localStorage.userAuth || {};
     
-    login();
+    allCategories();
     //////////////////////////////////////
 
     function rta( response ){
@@ -340,4 +340,3 @@
     }
   }
 })();
-*/

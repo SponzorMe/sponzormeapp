@@ -52,6 +52,9 @@ var utilsServiceModule;
         return utilsService;
     }());
     utilsServiceModule.utilsService = utilsService;
+    angular
+        .module('app')
+        .service('utilsService', utilsService);
 })(utilsServiceModule || (utilsServiceModule = {}));
 /*
 (function() {

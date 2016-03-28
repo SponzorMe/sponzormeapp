@@ -469,15 +469,15 @@ var mockData = (function() {
   function allCategories() {
     return {
       categories: [
-        categoryBuilder.setId(1)
+        categoryBuilder.setId("1")
         .setInterests([
-          interestBuilder.build(),
-          interestBuilder.build(),
+          interestBuilder.omit("id").build(),
+          interestBuilder.omit("id").build(),
         ]).build(),
-        categoryBuilder.setId(2)
+        categoryBuilder.setId("2")
         .setInterests([
-          interestBuilder.build(),
-          interestBuilder.build(),
+          interestBuilder.omit("id").build(),
+          interestBuilder.omit("id").build(),
         ]).build(),
       ],
       success: true

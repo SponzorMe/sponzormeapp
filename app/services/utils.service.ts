@@ -68,6 +68,10 @@ module utilsServiceModule{
     
   }
   
+  angular
+    .module('app')
+    .service('utilsService', utilsService);
+  
 }
 /*
 (function() {

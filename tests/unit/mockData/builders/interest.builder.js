@@ -2,6 +2,7 @@ var interestBuilder = (function() {
    
   var _resultInterest = {
     id: "1",
+    id_interest: "1",
     category_id: "1",
     description: "Tutorials About Photoshop",
     lang: "en",
@@ -24,6 +25,11 @@ var interestBuilder = (function() {
   
   function omit(args){
     _resultInterest = _.omit(_resultInterest, args);
+    return this;
+  }
+  
+  function setIdInterest(id_interest){
+    _resultInterest.id_interestid = id_interest;
     return this;
   }
   

@@ -92,9 +92,26 @@ describe("Service: categoryService", function() {
 
       it('Should return an array of categories', function( done ){
         categoryService.allCategories()
-          .then(function( rta ) {
-            chai.assert.isArray( rta );
-            chai.expect( rta ).to.eql( data.categories );
+          .then(function( result ) {
+            chai.assert.isArray( result );
+            for(var i = 0; i < result.length;i++){
+              var category = result[i];
+              chai.assert.isObject( category );
+              chai.assert.isDefined( category.id );
+              chai.assert.isString( category.body );
+              chai.assert.isString( category.lang );
+              chai.assert.isString( category.title );
+              chai.assert.isArray( category.interests );
+              for(var j = 0; j < category.interests.length;j++){
+                var interest = category.interests[j];
+                chai.assert.isObject( interest );
+                chai.assert.isDefined( interest.id_interest );
+                chai.assert.isString( interest.description );
+                chai.assert.isString( interest.lang );
+                chai.assert.isString( interest.category_id );
+                chai.assert.isString( interest.name );
+              }
+            }
             done();
           });
         $httpBackend.flush();

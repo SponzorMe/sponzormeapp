@@ -4,7 +4,7 @@
 *
 * @author Nicolas Molina
 * @version 0.1
-
+*/
 (function() {
   'use strict';
 
@@ -22,7 +22,7 @@
     '$ionicUser', 
     '$ionicAnalytics',
     'notificationService',
-    'userAuthService'
+    'userAuthService',
   ];
 
   function LoginController( $translate, userService, $localStorage, $state , utilsService, $base64, $ionicUser, $ionicAnalytics, notificationService, userAuthService) {
@@ -37,7 +37,7 @@
     ////////////
     
     function activate() {
-      if(userService.checkSession()){
+      if(userAuthService.checkSession()){
         vm.userResponse = $localStorage.userAuth;
         validateTutorial();
       }
@@ -56,7 +56,7 @@
         $localStorage.token = $base64.encode(vm.user.email +':'+ vm.user.password);
         
         
-        var user = Ionic.User.current();
+        /*var user = Ionic.User.current();
         if (!user.id) {
           user.id = vm.userResponse.id;
           user.set('email', vm.user.email);
@@ -64,7 +64,7 @@
         }
         user.save();
         vm.user = {};
-        $ionicAnalytics.register();
+        $ionicAnalytics.register();*/
         
         saveUser();
         notificationService.activate();
@@ -125,4 +125,3 @@
 
   }
 })();
-*/
