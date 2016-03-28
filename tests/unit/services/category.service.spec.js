@@ -90,7 +90,7 @@ describe("Service: categoryService", function() {
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('Should return an array of categories', function( done ){
+      it('Should return an array of categories with interests', function( done ){
         categoryService.allCategories()
           .then(function( result ) {
             chai.assert.isArray( result );
@@ -116,20 +116,7 @@ describe("Service: categoryService", function() {
           });
         $httpBackend.flush();
       });
-      
-      it('Should return the categories with interests', function( done ){
-        categoryService.allCategories()
-          .then(function( result ) {
-            
-            for(var i = 0;i < result.length; i++){
-              chai.assert.isArray( result[i].interests );
-            }
-            done();
-          });
-        $httpBackend.flush();
-      });
     });
-
   });
 
 	////////////////////////////////////////////////////////////
@@ -206,10 +193,24 @@ describe("Service: categoryService", function() {
       it('Should return a Category', function( done ){
         categoryService.getCategory(1)
           .then(function( result ) {
-            chai.assert.isObject( result );
-            chai.expect( result ).to.eql( data.data.category );
-            //chai.assert.isArray( result.events );
-            chai.assert.isArray( result.interests );
+            var category = result;
+            chai.assert.isObject( category );
+            chai.assert.isDefined( category.id );
+            chai.assert.isString( category.body );
+            chai.assert.isString( category.lang );
+            chai.assert.isString( category.title );
+            chai.assert.isArray( category.interests );
+            chai.assert.isArray( category.events );
+            for(var j = 0; j < category.interests.length;j++){
+              var interest = category.interests[j];
+              chai.assert.isObject( interest );
+              chai.assert.isDefined( interest.id_interest );
+            }
+            for(var j = 0; j < category.events.length;j++){
+              var event = category.events[j];
+              chai.assert.isObject( event );
+              chai.assert.isDefined( event.id );
+            }
             done();
           });
         $httpBackend.flush();

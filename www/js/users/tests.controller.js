@@ -24,7 +24,7 @@
     function TestsController($localStorage, userInterestService, userService, sponsorshipService, perkTaskService, perkService, eventTypeService, categoryService, eventService) {
         var vm = this;
         vm.userAuth = $localStorage.userAuth || {};
-        allCategories();
+        getCategory();
         //////////////////////////////////////
         function rta(response) {
             console.log(response);

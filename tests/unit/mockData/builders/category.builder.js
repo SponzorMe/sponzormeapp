@@ -5,7 +5,8 @@ var categoryBuilder = (function() {
     body: "All About the Bussines!",
     lang: "en",
     title: "Outdoor",
-    interests: []
+    interests: [],
+    events: []
   };
   
   return {
@@ -15,7 +16,8 @@ var categoryBuilder = (function() {
     setBody: setBody,
     setLang: setLang,
     setTitle: setTitle,
-    setInterests: setInterests
+    setInterests: setInterests,
+    setEvents: setEvents
   }
   
   function build() {
@@ -49,6 +51,11 @@ var categoryBuilder = (function() {
   
   function setInterests(interests){
     _resultCategory.interests = interests;
+    return this;
+  }
+  
+  function setEvents(events){
+    _resultCategory.events = events;
     return this;
   }
   
