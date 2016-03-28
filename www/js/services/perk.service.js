@@ -27,7 +27,7 @@ var perkModule;
                 method: 'GET',
                 url: this.path + "perks"
             })
-                .then(function (response) { return _this.$q.when(_this._preparatePerk(response.data)); })
+                .then(function (response) { return _this.$q.when(_this._preparatePerks(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
         perkService.prototype.createPerk = function (data) {
@@ -95,8 +95,11 @@ var perkModule;
         perkService.prototype._getToken = function () {
             return this.$localStorage.token;
         };
-        perkService.prototype._preparatePerk = function (data) {
+        perkService.prototype._preparatePerks = function (data) {
             return data.Perk;
+        };
+        perkService.prototype._preparatePerk = function (data) {
+            return this.buildPerk(data.Perk);
         };
         return perkService;
     }());

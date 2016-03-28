@@ -190,14 +190,13 @@ module userModule{
         user.sponzorships_like_organizer.forEach( this.sponsorshipService.buildSponsorship, this.sponsorshipService);
       }else{ 
         user.sponzorship.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
-        user.events = data.events.forEach( this.eventService.buildEvent, this.eventService);
+        data.events.forEach( this.eventService.buildEvent, this.eventService );
+        user.events = data.events;
       }
+      
       return user;
     }
     
-    private _preparateEvents(){
-      return true;
-    }
   }
   
   

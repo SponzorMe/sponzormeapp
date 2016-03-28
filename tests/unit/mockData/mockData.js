@@ -180,10 +180,16 @@ var mockData = (function() {
   }
   
   function home(type){
-    var data = {};
+    
+    var response = {
+      rating: null,
+      success: true,
+      token: null,
+      user: {}
+    };
     
     if(type == "0"){ //Is an Organizer
-      data.user = userBuilder
+      response.user = userBuilder
       .setEvents([
         createFullEvent(1),
         createFullEvent(2),
@@ -195,12 +201,12 @@ var mockData = (function() {
       .omit("sponzorship")
       .build();
     }else{ //Is an Sponsor
-      data.events = [
+      response.events = [
         createFullEvent(1),
         createFullEvent(2),
         createFullEvent(3)
       ];
-      data.user = userBuilder
+      response.user = userBuilder
       .omit(["events","sponzorships_like_organizer"])
       .setSponzorships([
         sponsorshipBuilder.setEvent(eventBuilder.build()).build(),
@@ -209,7 +215,7 @@ var mockData = (function() {
     }
     
     return {
-      data: data
+      data: response
     };
   }
 
@@ -268,7 +274,9 @@ var mockData = (function() {
 
   function getSponzorship(){
     return {
-      Sponzorship: sponsorshipBuilder.setId("1").build()
+      Sponzorship: sponsorshipBuilder.setId("1").setSponzor({
+        image: ""
+      }).build()
     }
   }
 
@@ -287,7 +295,9 @@ var mockData = (function() {
 
   function editSponzorshipPatch(){
     return {
-      Sponzorship: sponsorshipBuilder.setId("1").omit("SponzorEvent").build(),
+      Sponzorship: sponsorshipBuilder.setId("1").setSponzor({
+        image: ""
+      }).omit("SponzorEvent").build(),
       message: "Updated",
       warnings: []
     }
@@ -295,7 +305,9 @@ var mockData = (function() {
 
   function editSponzorshipPut(){
     return {
-      Sponzorship: sponsorshipBuilder.setId("1").omit("SponzorEvent").build(),
+      Sponzorship: sponsorshipBuilder.setId("1").setSponzor({
+        image: ""
+      }).omit("SponzorEvent").build(),
       message: "Updated",
     }
   }

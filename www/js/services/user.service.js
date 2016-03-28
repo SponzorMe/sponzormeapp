@@ -160,12 +160,10 @@ var userModule;
             }
             else {
                 user.sponzorship.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
-                user.events = data.events.forEach(this.eventService.buildEvent, this.eventService);
+                data.events.forEach(this.eventService.buildEvent, this.eventService);
+                user.events = data.events;
             }
             return user;
-        };
-        userService.prototype._preparateEvents = function () {
-            return true;
         };
         return userService;
     }());

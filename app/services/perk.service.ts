@@ -47,7 +47,7 @@ module perkModule{
         method: 'GET',
         url: `${this.path}perks`,
       })
-      .then( response => { return this.$q.when( this._preparatePerk( response.data ) ); } )
+      .then( response => { return this.$q.when( this._preparatePerks( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
@@ -118,8 +118,12 @@ module perkModule{
       return this.$localStorage.token;
     }
     
-    private _preparatePerk(data:any):Perk{
+    private _preparatePerks(data:any):Perk{
       return data.Perk;
+    }
+    
+    private _preparatePerk(data:any):Perk{
+      return this.buildPerk(data.Perk);
     }
     
     

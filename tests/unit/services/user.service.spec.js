@@ -742,6 +742,173 @@ describe("Service: userService", function(){
     });
 
   });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Test to home method as Organizer', function(){
+    
+    describe('home failed', function() {
+
+      var data = mockData.failed();
+
+      beforeEach(function() {
+        $httpBackend.whenGET( URL_REST + 'home/1').respond(400, data);
+      });
+
+      afterEach(function() {
+        $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingRequest();
+      });
+
+      it('Should return an error message', function( done ){
+        userService.home("1")
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
+        $httpBackend.flush();
+        $rootScope.$digest();
+      });
+    });
+
+    ////////////////////////////////////////////////////////////
+    describe('home success', function() {
+
+      var data = mockData.userService.home("0");
+       data.data.user.type = "0";
+
+      beforeEach(function() {
+        $httpBackend.whenGET(URL_REST + 'home/1').respond(200, data);
+      });
+
+      afterEach(function() {
+        $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingRequest();
+      });
+
+      it('Should return an user', function( done ){
+        userService.home("1")
+        .then(function( result ) {
+          chai.assert.isObject( result );
+          chai.assert.isDefined( result.id );
+          chai.assert.isString( result.email );
+          chai.assert.isString( result.type );
+          chai.assert.isNumber( result.age );
+          chai.assert.isNumber( result.comunity_size );
+          chai.assert.isString( result.name );
+          chai.assert.isString( result.company );
+          chai.assert.isString( result.description );
+          chai.assert.isArray( result.sponzorships_like_organizer );
+          chai.assert.isArray( result.events );
+          done();
+        });
+        $httpBackend.flush();
+        $rootScope.$digest();
+      });
+      
+      it('Should return an user with validate events', function( done ){
+        userService.home("1")
+        .then(function( result ) {
+          chai.assert.isArray( result.events );
+          for(var i=0; i < result.events.length; i++){
+            var event = result.events[i];
+            chai.assert.isObject( event.category );
+            chai.assert.isObject( event.type );
+            chai.assert.isObject( event.user_organizer );
+            chai.assert.isArray( event.sponzorship );
+            chai.assert.instanceOf( event.starts, Date );
+            chai.assert.instanceOf( event.ends, Date );
+          }
+          done();
+        });
+        $httpBackend.flush();
+        $rootScope.$digest();
+      });
+    });
+
+  });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Test to home method as Sponsor', function(){
+    
+    describe('home failed', function() {
+
+      var data = mockData.failed();
+
+      beforeEach(function() {
+        $httpBackend.whenGET( URL_REST + 'home/1').respond(400, data);
+      });
+
+      afterEach(function() {
+        $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingRequest();
+      });
+
+      it('Should return an error message', function( done ){
+        userService.home("1")
+        .catch(function( result ) {
+          chai.assert.isDefined( result.message );
+          done();
+        });
+        $httpBackend.flush();
+        $rootScope.$digest();
+      });
+    });
+
+    ////////////////////////////////////////////////////////////
+    describe('home success', function() {
+
+      var data = mockData.userService.home("1");
+      data.data.user.type = "1";
+
+      beforeEach(function() {
+        $httpBackend.whenGET(URL_REST + 'home/1').respond(200, data);
+      });
+
+      afterEach(function() {
+        $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingRequest();
+      });
+
+      it('Should return an user', function( done ){
+        userService.home("1")
+        .then(function( result ) {
+          chai.assert.isObject( result );
+          chai.assert.isDefined( result.id )
+          chai.assert.isString( result.email );
+          chai.assert.isString( result.type );
+          chai.assert.isNumber( result.age );
+          chai.assert.isNumber( result.comunity_size );
+          chai.assert.isString( result.name );
+          chai.assert.isString( result.company );
+          chai.assert.isString( result.description );
+          chai.assert.isArray( result.events );
+          done();
+        });
+        $httpBackend.flush();
+        $rootScope.$digest();
+      });
+      
+      it('Should return an user with validate events', function( done ){
+        userService.home("1")
+        .then(function( result ) {
+          chai.assert.isArray( result.events );
+          for(var i=0; i < result.events.length; i++){
+            var event = result.events[i];
+            chai.assert.isObject( event.category );
+            chai.assert.isObject( event.type );
+            chai.assert.isObject( event.user_organizer );
+            chai.assert.isArray( event.sponzorship );
+            chai.assert.instanceOf( event.starts, Date );
+            chai.assert.instanceOf( event.ends, Date );
+          }
+          done();
+        });
+        $httpBackend.flush();
+        $rootScope.$digest();
+      });
+    });
+
+  });
 
   
 });
