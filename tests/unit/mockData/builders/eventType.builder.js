@@ -9,12 +9,20 @@ var eventTypeBuilder = (function() {
   
   return{
     build: build,
+    omit: omit,
     setId: setId,
-    omit: omit
+    setDescription: setDescription,
+    setLang: setLang,
+    setName: setName
   }
   
   function build() {
     return _resultEventType;
+  }
+  
+  function omit(args){
+    _resultEventType = _.omit(_resultEventType, args);
+    return this;
   }
   
   function setId(id){
@@ -22,9 +30,21 @@ var eventTypeBuilder = (function() {
     return this;
   }
   
-  function omit(name){
-    _resultEventType = _.omit(_resultEventType, name);
+  function setDescription(description){
+    _resultEventType.description = description;
     return this;
   }
+  
+  function setLang(lang){
+    _resultEventType.lang = lang;
+    return this;
+  }
+  
+  function setName(name){
+    _resultEventType.name = name;
+    return this;
+  }
+  
+  
   
 })();

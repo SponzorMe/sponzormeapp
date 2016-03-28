@@ -26,13 +26,28 @@ var sponsorshipBuilder = (function() {
   
   return {
     build: build,
-    setId: setId,
     omit: omit,
+    setId: setId,
+    setCause: setCause,
+    setEventId: setEventId,
+    setOrganizerId: setOrganizerId,
+    setPerkId: setPerkId,
+    setSponzorId: setSponzorId,
+    setStatus: setStatus,
     setEvent: setEvent,
+    setOrganizer: setOrganizer,
+    setPerk: setPerk,
+    setSponzor: setSponzor,
+    setTasks: setTasks
   }
   
   function build() {
     return _resultSponsorship;
+  }
+  
+  function omit(args){
+    _resultSponsorship = _.omit(_resultSponsorship, args);
+    return this;
   }
   
   function setId(id){
@@ -40,15 +55,61 @@ var sponsorshipBuilder = (function() {
     return this;
   }
   
-  function setEvent(event){
-    _resultSponsorship.event = event;
+  function setCause(cause){
+    _resultSponsorship.cause = cause;
     return this;
   }
   
-  function omit(name){
-    _resultSponsorship = _.omit(_resultSponsorship, name);
+  function setEventId(event_id){
+    _resultSponsorship.event_id = event_id;
     return this;
   }
+  
+  function setOrganizerId(organizer_id){
+    _resultSponsorship.organizer_id = organizer_id;
+    return this;
+  }
+  
+  function setPerkId(perk_id){
+    _resultSponsorship.perk_id = perk_id;
+    return this;
+  }
+  
+  function setSponzorId(sponzor_id){
+    _resultSponsorship.sponzor_id = sponzor_id;
+    return this;
+  }
+  
+  function setStatus(status){
+    _resultSponsorship.status = status;
+    return this;
+  }
+  
+  function setEvent(event){
+    _resultSponsorship.Event = event;
+    return this;
+  }
+  
+  function setOrganizer(organizer){
+    _resultSponsorship.Organizer = organizer;
+    return this;
+  }
+  
+  function setPerk(perk){
+    _resultSponsorship.Perk = perk;
+    return this;
+  }
+  
+  function setSponzor(sponzor){
+    _resultSponsorship.Sponzor = sponzor;
+    return this;
+  }
+  
+  function setTasks(tasks){
+    _resultSponsorship.Tasks = tasks;
+    return this;
+  }
+  
   
 })();
 

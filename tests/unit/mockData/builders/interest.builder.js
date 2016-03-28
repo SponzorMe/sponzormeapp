@@ -10,12 +10,21 @@ var interestBuilder = (function() {
   
   return {
     build: build,
+    omit: omit,
     setId: setId,
-    omit: omit
+    setCategoryId: setCategoryId,
+    setDescription: setDescription,
+    setLang: setLang,
+    setName: setName
   }
   
   function build() {
     return _resultInterest;
+  }
+  
+  function omit(args){
+    _resultInterest = _.omit(_resultInterest, args);
+    return this;
   }
   
   function setId(id){
@@ -23,8 +32,23 @@ var interestBuilder = (function() {
     return this;
   }
   
-  function omit(name){
-    _resultInterest = _.omit(_resultInterest, name);
+  function setCategoryId(id){
+    _resultInterest.category_id = id;
+    return this;
+  }
+  
+  function setDescription(description){
+    _resultInterest.description = description;
+    return this;
+  }
+  
+  function setLang(lang){
+    _resultInterest.lang = lang;
+    return this;
+  }
+  
+  function setName(name){
+    _resultInterest.name = name;
     return this;
   }
   

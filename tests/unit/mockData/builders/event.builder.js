@@ -17,20 +17,57 @@ var eventBuilder = (function() {
   
   return {
     build: build,
+    omit: omit,
     setId: setId,
+    setTitle: setTitle,
+    setLocation: setLocation,
+    setStarts: setStarts,
+    setEnds: setEnds,
+    setImage: setImage,
     setCategory: setCategory,
     setType: setType,
     setUserOrganizer: setUserOrganizer,
-    setPerks: setPerks,
-    omit: omit
+    setPerks: setPerks, 
+    setSponzorTasks: setSponzorTasks,
+    setSponzorship: setSponzorship
   }
   
   function build() {
     return _resultEvent;
   }
   
+  function omit(args){
+    _resultEvent = _.omit(_resultEvent, args);
+    return this;
+  }
+  
   function setId(id){
     _resultEvent.id = id;
+    return this;
+  }
+  
+  function setTitle(title){
+    _resultEvent.title = title;
+    return this;
+  }
+  
+  function setLocation(location){
+    _resultEvent.location = location;
+    return this;
+  }
+  
+  function setStarts(starts){
+    _resultEvent.starts = starts;
+    return this;
+  }
+  
+  function setEnds(ends){
+    _resultEvent.ends = ends;
+    return this;
+  }
+  
+  function setImage(image){
+    _resultEvent.image = image;
     return this;
   }
   
@@ -54,8 +91,13 @@ var eventBuilder = (function() {
     return this;
   }
   
-  function omit(name){
-    _resultEvent = _.omit(_resultEvent, name);
+  function setSponzorTasks(sponzor_tasks){
+    _resultEvent.sponzor_tasks = sponzor_tasks;
+    return this;
+  }
+  
+  function setSponzorship(sponzorship){
+    _resultEvent.sponzorship = sponzorship;
     return this;
   }
   

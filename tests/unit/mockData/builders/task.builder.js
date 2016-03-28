@@ -11,12 +11,32 @@ var taskBuilder = (function() {
   
   return {
     build: build,
+    omit: omit,
+    setId: setId,
+    setPerkId: setPerkId,
     setStatus: setStatus,
-    omit: omit
+    setTitle: setTitle,
+    setType: setType,
+    setUserId: setUserId
   }
   
   function build() {
     return _resultTask;
+  }
+  
+  function omit(args){
+    _resultTask = _.omit(_resultTask, args);
+    return this;
+  }
+  
+  function setId(id){
+    _resultTask.id = id;
+    return this;
+  }
+  
+  function setPerkId(perk_id){
+    _resultTask.perk_id = perk_id;
+    return this;
   }
   
   function setStatus(status){
@@ -24,8 +44,18 @@ var taskBuilder = (function() {
     return this;
   }
   
-  function omit(name){
-    _resultTask = _.omit(_resultTask, name);
+  function setTitle(title){
+    _resultTask.title = title;
+    return this;
+  }
+  
+  function setType(type){
+    _resultTask.type = type;
+    return this;
+  }
+  
+  function setUserId(user_id){
+    _resultTask.user_id = user_id;
     return this;
   }
   

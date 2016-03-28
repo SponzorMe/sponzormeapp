@@ -54,14 +54,14 @@ module utilsServiceModule{
       return this.$ionicPopup.confirm( options );
     }
     
-    trim( str ){
+    trim( str:string ):string{
       if(typeof(str) == "string" || typeof(str) == "number" || typeof(str) == "boolean"){
         return str.toString().replace(/^\s+|\s+$/g,"");
       }
       return "";
     };
     
-    resetForm( form ){
+    resetForm( form:any):void{
       form.$setPristine();
       form.$setUntouched();
     }

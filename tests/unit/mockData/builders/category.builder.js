@@ -10,17 +10,40 @@ var categoryBuilder = (function() {
   
   return {
     build: build,
+    omit: omit,
     setId: setId,
-    setInterests: setInterests,
-    omit: omit
+    setBody: setBody,
+    setLang: setLang,
+    setTitle: setTitle,
+    setInterests: setInterests
   }
   
   function build() {
     return _resultCategory;
   }
   
+  function omit(args){
+    _resultCategory = _.omit(_resultCategory, args);
+    return this;
+  }
+  
   function setId(id){
     _resultCategory.id = id;
+    return this;
+  }
+  
+  function setBody(body){
+    _resultCategory.body = body;
+    return this;
+  }
+  
+  function setLang(lang){
+    _resultCategory.lang = lang;
+    return this;
+  }
+  
+  function setTitle(title){
+    _resultCategory.title = title;
     return this;
   }
   
@@ -29,9 +52,6 @@ var categoryBuilder = (function() {
     return this;
   }
   
-  function omit(name){
-    _resultCategory = _.omit(_resultCategory, name);
-    return this;
-  }
+  
   
 })();

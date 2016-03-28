@@ -14,16 +14,27 @@ var userBuilder = (function() {
   
   return {
     build: build,
-    setType: setType,
+    omit: omit,
+    setId: setId,
     setImage: setImage,
+    setType: setType,
     setEvents: setEvents,
     setSponzorships: setSponzorships,
     setSponzorshipLikeOrganizer: setSponzorshipLikeOrganizer,
-    omit: omit,
   }
   
   function build() {
     return _resultUser;
+  }
+  
+  function omit(args){
+    _resultUser = _.omit(_resultUser, args);
+    return this;
+  }
+  
+  function setId(id){
+    _resultUser.id = id;
+    return this;
   }
   
   function setType(type){
@@ -51,9 +62,6 @@ var userBuilder = (function() {
     return this;
   }
   
-  function omit(name){
-    _resultUser = _.omit(_resultUser, name);
-    return this;
-  }
+  
   
 })();

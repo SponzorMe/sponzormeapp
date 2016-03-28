@@ -26,12 +26,27 @@ var perkTaskBuilder = (function() {
   
   return {
     build: build,
+    omit: omit,
     setId: setId,
-    omit: omit
+    setTitle: setTitle,
+    setDescription: setDescription,
+    setPerkId: setPerkId,
+    setStatus: setStatus,
+    setEventId: setEventId,
+    setType: setType,
+    setUserId: setUserId,
+    setEvent: setEvent,
+    setPerk: setPerk,
+    setUser: setUser
   }
   
   function build() {
     return _resultPerkTask;
+  }
+  
+  function omit(args){
+    _resultPerk = _.omit(_resultPerkTask, args);
+    return this;
   }
   
   function setId(id){
@@ -39,9 +54,56 @@ var perkTaskBuilder = (function() {
     return this;
   }
   
-  function omit(name){
-    _resultPerk = _.omit(_resultPerkTask, name);
+  function setTitle(title){
+    _resultPerkTask.title = title;
     return this;
   }
+  
+  function setDescription(description){
+    _resultPerkTask.description = description;
+    return this;
+  }
+  
+  function setPerkId(perk_id){
+    _resultPerkTask.perk_id = perk_id;
+    return this;
+  }
+  
+  function setStatus(status){
+    _resultPerkTask.status = status;
+    return this;
+  }
+  
+  function setEventId(event_id){
+    _resultPerkTask.event_id = event_id;
+    return this;
+  }
+  
+  function setType(type){
+    _resultPerkTask.type = type;
+    return this;
+  }
+  
+  function setUserId(user_id){
+    _resultPerkTask.user_id = user_id;
+    return this;
+  }
+  
+  function setEvent(event){
+    _resultPerkTask.Event = event;
+    return this;
+  }
+  
+  function setPerk(perk){
+    _resultPerkTask.Perk = perk;
+    return this;
+  }
+  
+  function setUser(user){
+    _resultPerkTask.User = user;
+    return this;
+  }
+  
+  
   
 })();

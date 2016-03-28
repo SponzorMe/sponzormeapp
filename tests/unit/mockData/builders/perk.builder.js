@@ -12,14 +12,23 @@ var perkBuilder = (function() {
   
   return {
     build: build,
+    omit: omit,
     setId: setId,
     setEventId: setEventId,
-    setTasks: setTasks,
-    omit: omit
+    setKind: setKind,
+    setReservedQuantity: setReservedQuantity,
+    setTotalQuantity: setTotalQuantity,
+    setUsd: setUsd,
+    setTasks: setTasks
   }
   
   function build() {
     return _resultPerk;
+  }
+  
+  function omit(args){
+    _resultPerk = _.omit(_resultPerk, args);
+    return this;
   }
   
   function setId(id){
@@ -32,14 +41,31 @@ var perkBuilder = (function() {
     return this;
   }
   
+  function setKind(kind){
+    _resultPerk.kind = kind;
+    return this;
+  }
+  
+  function setReservedQuantity(reserved_quantity){
+    _resultPerk.reserved_quantity = reserved_quantity;
+    return this;
+  }
+  
+  function setTotalQuantity(total_quantity){
+    _resultPerk.total_quantity = total_quantity;
+    return this;
+  }
+  
+  function setUsd(usd){
+    _resultPerk.usd = usd;
+    return this;
+  }
+  
   function setTasks(tasks){
     _resultPerk.tasks = tasks;
     return this;
   }
   
-  function omit(name){
-    _resultPerk = _.omit(_resultPerk, name);
-    return this;
-  }
+  
   
 })();

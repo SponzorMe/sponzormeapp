@@ -16,12 +16,26 @@ var taskSponsorBuilder = (function() {
   
   return {
     build: build,
+    omit: omit,
     setId: setId,
-    omit: omit
+    setSponsorId: setSponsorId,
+    setPerkId: setPerkId,
+    setEventId: setEventId,
+    setTaskId: setTaskId,
+    setOrganizerId: setOrganizerId,
+    setTask: setTask,
+    setOrganizer: setOrganizer,
+    setSponzor: setSponzor,
+    setEvent: setEvent
   }
   
   function build() {
     return _resultTaskSponsor;
+  }
+  
+  function omit(args){
+    _resultTaskSponsor = _.omit(_resultTaskSponsor, args);
+    return this;
   }
   
   function setId(id){
@@ -29,9 +43,56 @@ var taskSponsorBuilder = (function() {
     return this;
   }
   
-  function omit(name){
-    _resultTaskSponsor = _.omit(_resultTaskSponsor, name);
+  function setSponsorId(sponzor_id){
+    _resultTaskSponsor.sponzor_id = sponzor_id;
     return this;
   }
+  
+  function setPerkId(perk_id){
+    _resultTaskSponsor.perk_id = perk_id;
+    return this;
+  }
+  
+  function setEventId(event_id){
+    _resultTaskSponsor.event_id = event_id;
+    return this;
+  }
+  
+  function setTaskId(task_id){
+    _resultTaskSponsor.task_id = task_id;
+    return this;
+  }
+  
+  function setTaskId(sponzorship_id){
+    _resultTaskSponsor.sponzorship_id = sponzorship_id;
+    return this;
+  }
+  
+  function setOrganizerId(organizer_id){
+    _resultTaskSponsor.organizer_id = organizer_id;
+    return this;
+  }
+  
+  function setTask(task){
+    _resultTaskSponsor.Task = task;
+    return this;
+  }
+  
+  function setOrganizer(organizer){
+    _resultTaskSponsor.Organizer = organizer;
+    return this;
+  }
+  
+  function setSponzor(sponzor){
+    _resultTaskSponsor.Sponzor = sponzor;
+    return this;
+  }
+  
+  function setEvent(event){
+    _resultTaskSponsor.Event = event;
+    return this;
+  }
+  
+  
   
 })();

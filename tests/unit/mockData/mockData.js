@@ -131,9 +131,9 @@ var mockData = (function() {
       response.user = userBuilder
       .setType("0")
       .setEvents([
-        createFullEvent(1),
-        createFullEvent(2),
-        createFullEvent(3)
+        createFullEvent("1"),
+        createFullEvent("2"),
+        createFullEvent("3")
       ])
       .setSponzorshipLikeOrganizer([
         sponsorshipBuilder.build(),
@@ -144,9 +144,9 @@ var mockData = (function() {
       .build();
     }else{ //Is an Sponsor
       response.events = [
-        createFullEvent(1),
-        createFullEvent(2),
-        createFullEvent(3)
+        createFullEvent("1"),
+        createFullEvent("2"),
+        createFullEvent("3")
       ];
       response.user = userBuilder
       .setType("1")
@@ -164,24 +164,9 @@ var mockData = (function() {
 
   function getUser(){
     return {
-      data: {
-        user: {
-          id: "1",
-          email: "mail@domain.com",
-          events: [
-            {
-              image: "event_dummy.png",
-              starts: "2016-01-09 15:00:00",
-              ends: "2016-01-09 15:00:00"
-            },
-            {
-              image: "https://staging.sponzor.me/#/event/1",
-              starts: "2016-01-09 15:00:00",
-              ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss')
-            }                                                         
-          ]
-        }
-      }
+      data: user_organizer.setEvents([
+        eventBuilder.build()
+      ]).build()
     }
   }
   
@@ -223,14 +208,7 @@ var mockData = (function() {
 
   function createUser(){
     return {
-      User:{
-        created_at: "2016-01-15 23:29:52",
-        email: "nico@as.co",
-        id: 1008,
-        lang: "en",
-        name: "Nicolas",
-        type: "1"
-      },
+      User: userBuilder.setId("1").build(),
       message: "Inserted"
     }
   }
@@ -243,13 +221,7 @@ var mockData = (function() {
 
   function editUserPatch(){
     return {
-      User:{
-        id: "1", 
-        email: "mail@domain.com",
-        age: "12",
-        comunity_size: "0",
-        image: 'http://i.imgur.com/SpKEBB5.jpg'
-      },
+      User: userBuilder.setId("1").build(),
       message: "Updated",
       warnings: []
     }
@@ -257,7 +229,7 @@ var mockData = (function() {
 
   function editUserPut(){
     return {
-      User:{},
+      User: userBuilder.setId("1").build(),
       message: "Updated",
     }
   }
@@ -425,18 +397,8 @@ var mockData = (function() {
   function allEventTypes(){
     return {
       eventTypes: [
-        {
-          description: "Give us your money",
-          id: "1",
-          lang: "en",
-          name: "Charity"
-        },
-        {
-          description: "Recruitment",
-          id: "2",
-          lang: "en",
-          name: "Recruitment"
-        }
+        eventTypeBuilder.setId("1").build(),
+        eventTypeBuilder.setId("1").build(),
       ]
     }
   }
@@ -444,13 +406,7 @@ var mockData = (function() {
   function getEventType(){
     return {
       data: {
-        eventTypes: {
-          description: "Give us your money",
-          events: [],
-          id: "1",
-          lang: "en",
-          name: "Charity"
-        }
+        eventTypes: eventTypeBuilder.setId("1").build()
       }
     }
   }
@@ -544,40 +500,8 @@ var mockData = (function() {
     return {
       data: {
         events: [
-          {
-            category: "1",
-            description: "",
-            ends: "2016-01-30 08:54:00",
-            id: "1002",
-            image: "event_dummy.png",
-            lang: "en",
-            location: "Medellin Colombia",
-            location_reference: "referenceafsddf",
-            privacy: "0",
-            starts: "2016-01-30 03:54:00",
-            title: "My Second Event",
-            type: "1",
-            user_organizer: {
-              image: ''
-            },
-          },
-          {
-            category: "1",
-            description: "Una intro",
-            ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
-            id: "1004",
-            image: "http://i.imgur.com/t8YehGM.jpg",
-            lang: "en",
-            location: "Bogota",
-            location_reference: "referencia",
-            privacy: "1",
-            starts: "2016-01-30 17:45:00",
-            title: "Ionic 102 - Workshop",
-            type: "1",
-            user_organizer: {
-              image: ''
-            },
-          }
+          createFullEvent("1"),
+          createFullEvent("1")
         ],
       },
       success: true
@@ -586,72 +510,13 @@ var mockData = (function() {
   
   function getEvent(){
     return {
-        event: {
-          id: "1",
-          title: "My Second Event",
-          location: "Medellin Colombia",
-          ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
-          starts: "2016-01-31 09:57:00",
-          image: '',
-          user_organizer: {
-            image: ''
-          },
-          category: {},
-          type: {},
-          perks: [
-            {
-              id: "3",
-              id_event: "1002",
-              kind: "A",
-              reserved_quantity: "0",
-              total_quantity: "2",
-              usd: "10",
-              tasks: []
-            },
-            {
-              id: "14",
-              id_event: "1002",
-              kind: "C",
-              reserved_quantity: "0",
-              total_quantity: "4",
-              usd: "8",
-              tasks: []
-            }
-          ],
-          sponzor_tasks: [],
-          sponzorship: [
-            {
-              cause: "test",
-              event_id: "1002",
-              id: "30",
-              organizer_id: "1003",
-              perk_id: "3",
-              sponzor_id: "1002",
-              status: "0"
-            }
-          ]
-        }
+        event: createFullEvent("1")
       }
   }
 
   function createEvent(){
     return {
-      event: {
-        category: "1",
-        description: "Una prueba",
-        ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
-        image: "http://i.imgur.com/t8YehGM.jpg",
-        lang: "es",
-        location: "event",
-        location_reference: "referencia",
-        privacy: "1",
-        starts: "2010-01-01 00:00:00",
-        title: "Test Event",
-        type: "1",
-        user_organizer: {
-          image: ''
-        },
-      },
+      event: createFullEvent("1"),
       message: "Inserted"
     }
   }
@@ -664,48 +529,14 @@ var mockData = (function() {
 
   function editEventPatch(){
     return {
-      event: {
-        category: "1",
-        description: "Una prueba",
-        ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
-        id: "1045",
-        image: "http://i.imgur.com/t8YehGM.jpg",
-        lang: "es",
-        location: "event",
-        location_reference: "referencia",
-        privacy: "1",
-        starts: "2010-01-01 00:00:00",
-        title: "Test Event 2",
-        type: "1",
-        message: "Updated",
-        user_organizer: {
-          image: ''
-        },
-      },
+      event: createFullEvent("1"),
       warnings: []
     }
   }
 
   function editEventPut(){
     return {
-      event: {
-        category: "1",
-        description: "Una prueba",
-        ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
-        id: "1045",
-        image: "http://i.imgur.com/t8YehGM.jpg",
-        lang: "es",
-        location: "event",
-        location_reference: "referencia",
-        privacy: "1",
-        starts: "2010-01-01 00:00:00",
-        title: "Test Event 2",
-        type: "1",
-        message: "Updated",
-        user_organizer: {
-          image: ''
-        },
-      }
+      event: createFullEvent("1")
     }
   }
 })();
