@@ -3,11 +3,13 @@ var eventBuilder = (function() {
   var _resultEvent = {
     id: "1",
     title: "My Second Event",
+    description: "lorem ..",
     location: "Medellin Colombia",
     location_reference: "ChIJIQBpAG2ahYAR_6128GcTUEo",
     starts: "2016-01-31 09:57:00",
     ends: moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'),
     image: '',
+    lang: "en",
     privacy: "0",
     user_organizer: {},
     category: {},

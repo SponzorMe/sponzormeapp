@@ -94,33 +94,20 @@ describe("Service: eventService", function() {
         eventService.allEvents()
           .then(function( result ) {
             chai.assert.isArray( result );
+            for(var j = 0; j < result.length;j++){
+              var event = result[j];
+              chai.assert.isObject( event );
+              chai.assert.isDefined( event.id );
+              chai.assert.instanceOf( event.starts, Date );
+              chai.assert.instanceOf( event.ends, Date );
+              chai.assert.isArray( event.perks );
+              chai.assert.isObject( event.type );
+              chai.assert.isObject( event.user_organizer );
+            }
             done();
           });
         $httpBackend.flush();
         
-      });
-
-      it('Should be match with images', function( done ){
-        eventService.allEvents()
-        .then(function( result ) {
-          chai.expect( result[0].image ).to.eql( 'img/banner.jpg' );
-          chai.expect( result[1].image ).to.eql( 'img/banner.jpg' );
-          done();
-        });
-        $httpBackend.flush();
-        
-      });
-
-      it('Should be instance Of Date the events', function( done ){
-        eventService.allEvents()
-        .then(function( result ) {
-          for (var i = 0; i < result.length; i++) {
-            chai.assert.instanceOf( result[i].starts, Date );
-            chai.assert.instanceOf( result[i].ends, Date );
-          };
-          done();
-        });
-        $httpBackend.flush();
       });
 
     });
@@ -207,13 +194,17 @@ describe("Service: eventService", function() {
       it('Should return an event', function( done ){
         eventService.getEvent( 1 )
         .then(function( result ) {
-          chai.assert.isObject( result );
-          chai.assert.isObject( result.category );
-          chai.assert.isObject( result.type );
-          chai.assert.isObject( result.user_organizer );
-          chai.assert.isArray( result.sponzorship );
-          chai.assert.instanceOf( result.starts, Date );
-          chai.assert.instanceOf( result.ends, Date );
+          var event = result;
+          chai.assert.isObject( event );
+          chai.assert.isDefined( event.id );
+          chai.assert.instanceOf( event.starts, Date );
+          chai.assert.instanceOf( event.ends, Date );
+          chai.assert.isArray( event.perks );
+          chai.assert.isObject( event.type );
+          chai.assert.isObject( event.category );
+          chai.assert.isObject( event.user_organizer );
+          chai.assert.isArray( event.sponzor_tasks );
+          chai.assert.isArray( event.sponzorship );
           done();
         });
         $httpBackend.flush();
@@ -301,6 +292,7 @@ describe("Service: eventService", function() {
         var result;
         eventService.createEvent({})
         .then(function( result ) {
+          console.log( result );
           chai.assert.isObject( result );
           chai.assert.isDefined( result.category );
           chai.assert.isDefined( result.description );
@@ -312,7 +304,9 @@ describe("Service: eventService", function() {
           chai.assert.instanceOf( result.ends, Date );
           chai.assert.isDefined( result.type );
           chai.assert.isDefined( result.user_organizer );
-          //chai.expect( result ).to.eql( data.event );
+          chai.assert.isArray( result.perks );
+          chai.assert.isArray( result.sponzor_tasks );
+          chai.assert.isArray( result.sponzorship );
           done();
         });
         $httpBackend.flush();

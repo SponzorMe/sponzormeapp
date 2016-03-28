@@ -29,7 +29,7 @@
     var vm = this;
     vm.userAuth = $localStorage.userAuth || {};
     
-    getCategory();
+    getEvent();
     //////////////////////////////////////
 
     function rta( response ){
