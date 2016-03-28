@@ -4,7 +4,8 @@ var eventTypeBuilder = (function() {
     id: "1",
     description: "Give us your money",
     lang: "en",
-    name: "Charity"
+    name: "Charity",
+    events: []
   };
   
   return{
