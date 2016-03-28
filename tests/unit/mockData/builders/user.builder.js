@@ -6,7 +6,9 @@ var userBuilder = (function() {
     age: "12",
     comunity_size: "0",
     image: "",
-    type: "0",
+    name: "as",
+    description: "asas",
+    company: "asas",
     events: [],
     sponzorships_like_organizer: [],
     sponzorship: []
@@ -17,7 +19,6 @@ var userBuilder = (function() {
     omit: omit,
     setId: setId,
     setImage: setImage,
-    setType: setType,
     setEvents: setEvents,
     setSponzorships: setSponzorships,
     setSponzorshipLikeOrganizer: setSponzorshipLikeOrganizer,
@@ -34,11 +35,6 @@ var userBuilder = (function() {
   
   function setId(id){
     _resultUser.id = id;
-    return this;
-  }
-  
-  function setType(type){
-    _resultUser.type = type;
     return this;
   }
   

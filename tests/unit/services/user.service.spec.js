@@ -10,11 +10,12 @@ describe("Service: userService", function(){
     $urlRouterProvider.deferIntercept();
   }));
 
-  beforeEach(inject(function($injector, _userService_) {
+  beforeEach(inject(function($injector, _userService_, _$rootScope_) {
     userService = _userService_;
 
     BackendVariables = $injector.get('BackendVariables');
     URL_REST = BackendVariables.url;
+    $rootScope = _$rootScope_;
 
     $httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
@@ -82,14 +83,15 @@ describe("Service: userService", function(){
           done();
         });
         $httpBackend.flush();
+        $rootScope.$digest();
       });
     });
 
     ////////////////////////////////////////////////////////////
     describe('login success', function() {
 
-      var data = mockData.userService.login();
-      data.user.type = "0";
+      var data = mockData.userService.login("0");
+       data.user.type = "0";
 
       beforeEach(function() {
         $httpBackend.whenPOST(URL_REST + 'auth').respond(200, data);
@@ -117,6 +119,7 @@ describe("Service: userService", function(){
           done();
         });
         $httpBackend.flush();
+        $rootScope.$digest();
       });
       
       it('Should return an user with validate events', function( done ){
@@ -124,16 +127,18 @@ describe("Service: userService", function(){
         .then(function( result ) {
           chai.assert.isArray( result.events );
           for(var i=0; i < result.events.length; i++){
-            chai.assert.isObject( result.category );
-            chai.assert.isObject( result.type );
-            chai.assert.isObject( result.user_organizer );
-            chai.assert.isArray( result.sponzorship );
-            chai.assert.instanceOf( result.starts, Date );
-            chai.assert.instanceOf( result.ends, Date );
+            var event = result.events[i];
+            chai.assert.isObject( event.category );
+            chai.assert.isObject( event.type );
+            chai.assert.isObject( event.user_organizer );
+            chai.assert.isArray( event.sponzorship );
+            chai.assert.instanceOf( event.starts, Date );
+            chai.assert.instanceOf( event.ends, Date );
           }
           done();
         });
         $httpBackend.flush();
+        $rootScope.$digest();
       });
     });
 
@@ -169,7 +174,7 @@ describe("Service: userService", function(){
     ////////////////////////////////////////////////////////////
     describe('login success', function() {
 
-      var data = mockData.userService.login();
+      var data = mockData.userService.login("1");
       data.user.type = "1";
 
       beforeEach(function() {

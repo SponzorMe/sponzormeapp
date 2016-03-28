@@ -43,6 +43,7 @@ var mockData = (function() {
       getCategory: getCategory
     },
     userInterestService:{
+      createUserInterest: createUserInterest,
       bulkUserInterest: bulkUserInterest
     },
     userService: {
@@ -112,6 +113,14 @@ var mockData = (function() {
     }
   }
   
+  function  createUserInterest() {
+    return {
+      data: {
+        UserInterest: {}
+      }
+    }
+  }
+  
   function bulkUserInterest() {
     return {
       inserted: [],
@@ -125,11 +134,12 @@ var mockData = (function() {
       rating: null,
       success: true,
       token: null,
+      user: {}
     };
+    
     
     if(type == "0"){ //Is an Organizer
       response.user = userBuilder
-      .setType("0")
       .setEvents([
         createFullEvent("1"),
         createFullEvent("2"),
@@ -149,13 +159,12 @@ var mockData = (function() {
         createFullEvent("3")
       ];
       response.user = userBuilder
-      .setType("1")
-      .omit(["events","sponzorships_like_organizer"])
       .setSponzorships([
         sponsorshipBuilder.build(),
         sponsorshipBuilder.build(),
         sponsorshipBuilder.build(),
       ])
+      .omit(["events","sponzorships_like_organizer"])
       .build();
     }
     
@@ -175,7 +184,6 @@ var mockData = (function() {
     
     if(type == "0"){ //Is an Organizer
       data.user = userBuilder
-      .setType("0")
       .setEvents([
         createFullEvent(1),
         createFullEvent(2),
@@ -193,7 +201,6 @@ var mockData = (function() {
         createFullEvent(3)
       ];
       data.user = userBuilder
-      .setType("1")
       .omit(["events","sponzorships_like_organizer"])
       .setSponzorships([
         sponsorshipBuilder.setEvent(eventBuilder.build()).build(),

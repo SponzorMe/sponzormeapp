@@ -31,7 +31,7 @@ describe("Service: userInterestService", function(){
 
   describe('Test createUserInterest success', function() {
 
-  	var data = mockData.userInterestService.createUserInterestSuccess();
+  	var data = mockData.userInterestService.createUserInterest();
 
   	beforeEach(function() {
       $httpBackend.whenPOST( URL_REST + 'user_interests').respond(200, data);

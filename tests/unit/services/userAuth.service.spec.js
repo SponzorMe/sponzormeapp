@@ -120,6 +120,7 @@ describe("Service: userAuthService", function(){
   describe('Test to refresh method like Organizer', function(){
     
     var data = mockData.userService.home("0");
+    data.data.user.type = "0";
 
     beforeEach(function() {
       $httpBackend.whenGET(URL_REST + 'home/1').respond(200, data);
@@ -140,6 +141,7 @@ describe("Service: userAuthService", function(){
   describe('Test to refresh method like Sponsor', function(){
     
     var data = mockData.userService.home("1");
+    data.data.user.type = "1";
 
     beforeEach(function() {
       $httpBackend.whenGET(URL_REST + 'home/1').respond(200, data);

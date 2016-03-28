@@ -152,6 +152,8 @@ var userModule;
         };
         userService.prototype._buildUser = function (data) {
             var user = data.user;
+            user.age = parseInt(data.user.age);
+            user.comunity_size = parseInt(data.user.comunity_size);
             if (user.type == "0") {
                 user.events.forEach(this.eventService.buildEvent, this.eventService);
                 user.sponzorships_like_organizer.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);

@@ -168,37 +168,7 @@ describe("Service: utilsService", function(){
     });
   });
 
-  describe('When I use updateUserAuth method', function(){
-    //Assemble
-    it('Should have updateUserAuth method', function() {
-      //Act and Assert
-      chai.assert.isDefined(utilsService.updateUserAuth);
-    });
-
-    //Assemble
-    it('Should extend the object userAuth and overwrite not delete', function() {
-      //Act
-      var response = utilsService.updateUserAuth();
-      //Assert
-      chai.assert.isObject( response );
-      //Act
-      $localStorage.userAuth = {
-        id: 2,
-        last_name: 'Molina'
-      };
-      var response = utilsService.updateUserAuth({
-        id: 1,
-        name: "Juan"
-      });
-      var data = {
-        id: 1,
-        name: "Juan",
-        last_name: "Molina"
-      };
-      //Assert
-      chai.expect(response).to.eql(data);
-    });
-  });
+  
 });
 
 

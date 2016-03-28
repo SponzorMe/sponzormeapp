@@ -292,7 +292,6 @@ describe("Service: eventService", function() {
         var result;
         eventService.createEvent({})
         .then(function( result ) {
-          console.log( result );
           chai.assert.isObject( result );
           chai.assert.isDefined( result.category );
           chai.assert.isDefined( result.description );
