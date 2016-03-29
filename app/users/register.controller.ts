@@ -4,7 +4,7 @@
 *
 * @author Nicolas Molina
 * @version 0.1
-
+*/
 (function() {
   'use strict';
 
@@ -100,4 +100,3 @@
 
   }
 })();
-*/

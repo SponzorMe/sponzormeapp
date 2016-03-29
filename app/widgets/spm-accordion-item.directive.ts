@@ -3,7 +3,7 @@
 //  Creates a new Spinner and sets its options
 // Usage:
 //  <div data-cc-spinner="vm.spinnerOptions"></div>
-/*
+
 (function() {
   'use strict';
 
@@ -36,4 +36,3 @@
     return directive;
   }
 })();
-*/

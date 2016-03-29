@@ -4,7 +4,7 @@
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
-
+*/
 (function() {
   'use strict';
 
@@ -67,6 +67,7 @@
       vm.newEvent.start = "2015-12-15";
       vm.newEvent.endtime = "00:00:00";
       vm.newEvent.end = "2015-12-24";
+      */
 
       $ionicModal.fromTemplateUrl('app/events-organizer/perk-edit-modal.html', {
         scope: $scope,
@@ -86,7 +87,7 @@
       getEventsTypes();
     }
     
-    /*-------------- DatePickers   --------------
+    /*-------------- DatePickers   --------------*/
 
     function showDatePicker( options ) {
       return $cordovaDatePicker.show( options );
@@ -176,7 +177,7 @@
       }
     }
 
-    /*-------------- Image --------------
+    /*-------------- Image --------------*/
 
     function getPhoto(){
 
@@ -204,10 +205,10 @@
       /*
       function failed( error ){
         console.log( error );
-      }
+      }*/
     }
 
-    /*-------------- Create Event --------------
+    /*-------------- Create Event --------------*/
 
     function updateEvent( form ){
       utilsService.showLoad();
@@ -234,8 +235,8 @@
           event = preparateEvent( event );
           function preparateEvent( item ){
             item.image = (item.image == "event_dummy.png") ? 'img/banner.jpg' : item.image;
-            item.starts = moment(item.starts)._d;
-            item.ends = moment(item.ends)._d;
+            item.starts = moment(item.starts).toDate();
+            item.ends = moment(item.ends).toDate();
             return item;
           }
           vm.userAuth.events[vm.indexEvent] = event;
@@ -286,6 +287,7 @@
         function failed( error ){
           console.log( error );
         }
+        */
     }
 
     function preparateData() {
@@ -313,7 +315,7 @@
       }
     }
 
-    /*-------------- Perks --------------
+    /*-------------- Perks --------------*/
 
     
 
@@ -369,4 +371,3 @@
 
   }
 })();
-*/

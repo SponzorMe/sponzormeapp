@@ -4,7 +4,7 @@
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
-
+*/
 (function() {
   'use strict';
 
@@ -61,12 +61,12 @@
     vm.deleteTask = deleteTask;
     
     
-    /*----- Options sponsorship  -----
+    /*----- Options sponsorship  ----- */
     vm.sponsorshipSelected = {};
     vm.openOptionsSponsorship = openOptionsSponsorship;
     vm.closeOptionsSponsorship = closeOptionsSponsorship;
     vm.updateSponsorship = updateSponsorship;
-    /*----- Options ActionSheet  -----
+    /*----- Options ActionSheet  ----- */
     vm.showActionSheet = showActionSheet;
     vm.hideActionSheet = hideActionSheet;
 
@@ -127,7 +127,7 @@
         }
     }
 
-    /*---------
+    /*---------*/
 
     function openOptionsSponsorship( sponsorship ){
       vm.sponsorshipSelected = sponsorship;
@@ -176,7 +176,7 @@
 
     }
 
-    /*
+    
     function showActionSheet(){
       hideSheet = $ionicActionSheet.show({
         buttons: [
@@ -215,7 +215,7 @@
         /*
         function failed( error ){
           console.log( error );
-        }
+        }*/
     }
 
     function editEvent(){
@@ -241,7 +241,7 @@
         /*
         function failed( error ){
           console.log( error );
-        }
+        }*/
     }
 
     function showModalTask(){
@@ -401,4 +401,3 @@
 
   }
 })();
-*/

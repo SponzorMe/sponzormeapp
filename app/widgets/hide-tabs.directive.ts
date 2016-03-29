@@ -4,7 +4,7 @@
 // Usage:
 // <ion-tabs class="tabs-icon-top tabs-positive {{$root.hideTabs}}"></ion-tabs>
 // <ion-view spm-hide-tabs></ion-view>
-/*
+
 (function() {
   'use strict';
 
@@ -31,4 +31,3 @@
     }
   }
 })();
-*/

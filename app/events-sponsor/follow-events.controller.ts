@@ -4,7 +4,7 @@
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
-
+*/
 (function() {
   'use strict';
 
@@ -68,7 +68,7 @@
     /*function filterByDateAndByPending( item ){
       var today = moment( new Date() ).subtract(1, 'days');
       return moment(item.ends).isAfter( today ) && item.status != '1';
-    }
+    }*/
     
     function filterByDateAndByPending( item ){
       return item.status != '1';
@@ -76,4 +76,3 @@
 
   }
 })();
-*/

@@ -4,7 +4,7 @@
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
-
+*/
 (function() {
   'use strict';
 
@@ -81,7 +81,7 @@
       getEventsTypes();
     }
 
-    /*-------------- DatePickers   --------------
+    /*-------------- DatePickers   --------------*/
 
     function showDatePicker( options ) {
       return $cordovaDatePicker.show( options );
@@ -167,7 +167,7 @@
       }
     }
 
-    /*-------------- Image --------------
+    /*-------------- Image --------------*/
 
     function getPhoto(){
 
@@ -195,10 +195,10 @@
       /*
       function failed( error ){
         console.log( error );
-      
+      */
     }
 
-    /*-------------- Create Event --------------
+    /*-------------- Create Event --------------*/
 
     function createEvent( form ){
       utilsService.showLoad();
@@ -224,8 +224,8 @@
           utilsService.resetForm( form );
           vm.newEvent = {};
           event.image = (event.image == "event_dummy.png") ? 'img/banner.jpg' : event.image;
-          event.starts = moment(event.starts)._d;
-          event.ends = moment(event.ends)._d;
+          event.starts = moment(event.starts).toDate();
+          event.ends = moment(event.ends).toDate();
           vm.userAuth.events.push( event );
           userAuthService.updateUserAuth( vm.userAuth );
           $ionicHistory.nextViewOptions({
@@ -266,6 +266,7 @@
         function failed( error ){
           console.log( error );
         }
+        */
     }
 
     function preparateData() {
@@ -293,7 +294,7 @@
       }
     }
 
-    /*-------------- Perks --------------
+    /*-------------- Perks --------------*/
 
     
 
@@ -352,4 +353,3 @@
 
   }
 })();
-*/

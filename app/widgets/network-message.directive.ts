@@ -3,7 +3,7 @@
 // Network message online / offline
 // Usage:
 // <spm-network-message></spm-network-message>
-/*
+
 (function() {
   'use strict';
 
@@ -50,4 +50,3 @@
     }
   }
 })();
-*/
