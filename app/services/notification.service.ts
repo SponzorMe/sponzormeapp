@@ -6,7 +6,7 @@ module notificationModule{
   
   export interface INotificationService{
     activate(): void;
-    getNotifications(userId:string): void;
+    getNotifications(userId:string): any;
     sendNewSponsorship(notification: Notification, to:string): void;
     sendAcceptSponsorship(notification: Notification, to:string): void,
     sendRejectSponsorship(notification: Notification, to:string): void,
