@@ -11,7 +11,6 @@
 class HomeOrganizerCtrl{
   
   $inject = [
-    '$localStorage',
     '$rootScope',
     'userAuthService',
     'notificationService'
@@ -23,14 +22,13 @@ class HomeOrganizerCtrl{
   notifications: any[];
   
   constructor(
-    private $$localStorage,
     private $rootScope: angular.IRootScopeService,
     private userAuthService: userAuthModule.IUserAuthService,
     private notificationService: notificationModule.INotificationService
   ){
     this.userAuth = userAuthService.getUserAuth();
     this.count_events = this.userAuth.events.filter( this.filterDate ).length;
-    this.count_comunity = this.userAuth.comunity_size || 0;
+    this.count_comunity = this.userAuth.comunity_size;
     this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;
     this.notifications = notificationService.getNotifications( this.userAuth.id );
     
@@ -53,7 +51,7 @@ class HomeOrganizerCtrl{
   }
   
   filterDate( item ){
-    var today = moment( new Date() ).subtract(1, 'days');
+    let today = moment( new Date() ).subtract(1, 'days');
     return moment(item.ends).isAfter( today );
   }
   

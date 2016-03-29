@@ -4,7 +4,7 @@ var userBuilder = (function() {
     id: "1",
     email: "mail@domain.com",
     age: "12",
-    comunity_size: "0",
+    comunity_size: "12",
     image: "",
     name: "as",
     description: "asas",

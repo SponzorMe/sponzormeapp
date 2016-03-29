@@ -1,4 +1,4 @@
-describe('Controller: HomeOrganizerController', function(){
+describe('Controller: HomeOrganizerCtrl', function(){
 
   beforeEach(function() {
     module('app');
@@ -13,6 +13,7 @@ describe('Controller: HomeOrganizerController', function(){
   beforeEach(inject(function($injector, _$rootScope_, $controller) {
 
   	$rootScope = _$rootScope_;
+    $rootScopeOn = chai.spy.on($rootScope, '$on');
 
     BackendVariables = $injector.get('BackendVariables');
     URL_REST = BackendVariables.url;
@@ -21,15 +22,24 @@ describe('Controller: HomeOrganizerController', function(){
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
-    $httpBackend.whenGET('app/dashboard-sponzor/menu.html').respond(200, '');
-    $httpBackend.whenGET('app/dashboard-sponzor/home.html').respond(200, '');
+    $httpBackend.whenGET('templates/dashboard-sponzor/menu.html').respond(200, '');
+    $httpBackend.whenGET('templates/dashboard-sponzor/home.html').respond(200, '');
 
     //Dependences
+    userAuthService = $injector.get('userAuthService');
+    notificationService = $injector.get('notificationService');
+    
     $localStorage = $injector.get('$localStorage');
-    $localStorage.userAuth = mockData.userService.login().user;
+    var userData = mockData.userService.login("0");
+    userData.user.type = "0";
+    $localStorage.userAuth = userAuthService.updateUserAuth( userData );
+    
+   
 
-    homeOrganizerController = $controller('HomeOrganizerController', {
-      '$localStorage': $localStorage
+    homeOrganizerCtrl = $controller('HomeOrganizerCtrl', {
+      '$rootScope': $rootScope,
+      'userAuthService': userAuthService,
+      'notificationService': notificationService
   	});
 
   }));
@@ -38,12 +48,12 @@ describe('Controller: HomeOrganizerController', function(){
   describe('Tests to userAuth variable', function(){
 
     it('Should have user variable', function() {
-      chai.assert.isDefined( homeOrganizerController.userAuth );
-      chai.assert.isObject( homeOrganizerController.userAuth );
+      chai.assert.isDefined( homeOrganizerCtrl.userAuth );
+      chai.assert.isObject( homeOrganizerCtrl.userAuth );
     });
 
     it('Should userAuth be equal that $localStorage.userAuth', function() {
-      chai.assert.equal( homeOrganizerController.userAuth, $localStorage.userAuth );
+      chai.assert.equal( homeOrganizerCtrl.userAuth, $localStorage.userAuth );
     });
 
   });
@@ -52,8 +62,8 @@ describe('Controller: HomeOrganizerController', function(){
   describe('Tests to count_events variable', function(){
 
     it('Should have count_events variable', function() {
-      chai.assert.isDefined( homeOrganizerController.count_events );
-      chai.assert.isNumber( homeOrganizerController.count_events );
+      chai.assert.isDefined( homeOrganizerCtrl.count_events );
+      chai.assert.isNumber( homeOrganizerCtrl.count_events );
     });
 
   });
@@ -62,8 +72,8 @@ describe('Controller: HomeOrganizerController', function(){
   describe('Tests to count_comunity variable', function(){
 
     it('Should have count_comunity variable', function() {
-      chai.assert.isDefined( homeOrganizerController.count_comunity );
-      chai.assert.isNumber( homeOrganizerController.count_comunity );
+      chai.assert.isDefined( homeOrganizerCtrl.count_comunity );
+      chai.assert.isNumber( homeOrganizerCtrl.count_comunity );
     });
 
   });
@@ -72,8 +82,8 @@ describe('Controller: HomeOrganizerController', function(){
   describe('Tests to count_sponsors variable', function(){
 
     it('Should have count_sponsors variable', function() {
-      chai.assert.isDefined( homeOrganizerController.count_sponsors );
-      chai.assert.isNumber( homeOrganizerController.count_sponsors );
+      chai.assert.isDefined( homeOrganizerCtrl.count_sponsors );
+      chai.assert.isNumber( homeOrganizerCtrl.count_sponsors );
     });
 
   });
@@ -83,17 +93,40 @@ describe('Controller: HomeOrganizerController', function(){
 
     it('Should count_events be equal that 1', function() {
       $rootScope.$digest();
-      chai.assert.equal( homeOrganizerController.count_events, 1);
+      chai.assert.equal( homeOrganizerCtrl.count_events, 3);
     });
     
-    it('Should count_sponsors be equal that 2', function() {
+    it('Should count_sponsors be equal that 3', function() {
       $rootScope.$digest();
-      chai.assert.equal( homeOrganizerController.count_sponsors, 2);
+      chai.assert.equal( homeOrganizerCtrl.count_sponsors, 3);
     });
     
-    it('Should count_comunity be equal that 0', function() {
+    it('Should count_comunity be equal that 12', function() {
       $rootScope.$digest();
-      chai.assert.equal( homeOrganizerController.count_comunity, 0);
+      chai.assert.equal( homeOrganizerCtrl.count_comunity, 12);
+    });
+
+  });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Tests to $rootScope.$on methods', function(){
+
+
+    it('Should have called a HomeOrganizerController:count_sponsors and HomeOrganizerController:count_events', function() {
+    	$rootScope.$digest();
+      chai.expect($rootScopeOn).to.have.been.called();
+    });
+
+    it('Should count_events be 3 before call Menu:count_following', function() {
+    	$rootScope.$digest();
+    	$rootScope.$broadcast('HomeOrganizerController:count_sponsors');
+      chai.assert.equal(homeOrganizerCtrl.count_events, 3);
+    });
+
+    it('Should count_sponsors be 3 before call Menu:count_sponsors', function() {
+    	$rootScope.$digest();
+    	$rootScope.$broadcast('HomeOrganizerController:count_events');
+      chai.assert.equal(homeOrganizerCtrl.count_sponsors, 3);
     });
 
   });

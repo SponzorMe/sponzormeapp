@@ -9,13 +9,11 @@
 * @version 0.3
 */
 var HomeOrganizerCtrl = (function () {
-    function HomeOrganizerCtrl($$localStorage, $rootScope, userAuthService, notificationService) {
-        this.$$localStorage = $$localStorage;
+    function HomeOrganizerCtrl($rootScope, userAuthService, notificationService) {
         this.$rootScope = $rootScope;
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
         this.$inject = [
-            '$localStorage',
             '$rootScope',
             'userAuthService',
             'notificationService'
@@ -25,7 +23,7 @@ var HomeOrganizerCtrl = (function () {
         this.count_comunity = 0;
         this.userAuth = userAuthService.getUserAuth();
         this.count_events = this.userAuth.events.filter(this.filterDate).length;
-        this.count_comunity = this.userAuth.comunity_size || 0;
+        this.count_comunity = this.userAuth.comunity_size;
         this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;
         this.notifications = notificationService.getNotifications(this.userAuth.id);
         this.registerListenerCountEvents();
