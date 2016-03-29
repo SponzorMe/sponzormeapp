@@ -22,7 +22,7 @@
       restrict: 'E',
       controller: controller,
       controllerAs: 'vm',
-      templateUrl: 'www/widgets/network-message.html'
+      templateUrl: 'templates/widgets/network-message.html'
     };
     return directive;
 
