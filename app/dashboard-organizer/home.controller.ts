@@ -4,7 +4,11 @@
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
-
+*/
+class HomeOrganizerCtrl{
+  
+}
+/*
 (function() {
   'use strict';
 

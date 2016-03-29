@@ -4,7 +4,13 @@
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
-
+*/
+var HomeOrganizerCtrl = (function () {
+    function HomeOrganizerCtrl() {
+    }
+    return HomeOrganizerCtrl;
+}());
+/*
 (function() {
   'use strict';
 
