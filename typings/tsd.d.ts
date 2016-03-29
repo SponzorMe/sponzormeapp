@@ -28,3 +28,4 @@
 /// <reference path="moment/moment.d.ts" />
 /// <reference path="cordova-ionic/cordova-ionic.d.ts" />
 /// <reference path="cordova-ionic/plugins/keyboard.d.ts" />
+/// <reference path="underscore/underscore.d.ts" />

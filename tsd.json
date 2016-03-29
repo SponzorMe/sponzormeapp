@@ -94,6 +94,9 @@
     },
     "cordova-ionic/plugins/keyboard.d.ts": {
       "commit": "ee9c524295333250ddbc7364f27c8b2ccd84b18a"
+    },
+    "underscore/underscore.d.ts": {
+      "commit": "ee9c524295333250ddbc7364f27c8b2ccd84b18a"
     }
   }
 }

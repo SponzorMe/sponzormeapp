@@ -1,4 +1,4 @@
-/// <reference path="../../typings/main.d.ts" />
+/// <reference path="../../typings/tsd.d.ts" />
 (function() {
   'use strict';
   angular.module('app.widgets', []);

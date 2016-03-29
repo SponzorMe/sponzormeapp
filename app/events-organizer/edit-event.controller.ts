@@ -1,4 +1,4 @@
-/// <reference path="../../typings/main.d.ts" />
+/// <reference path="../../typings/tsd.d.ts" />
 /**
 * @Controller for Add Events
 *
@@ -189,7 +189,7 @@
         encodingType: Camera.EncodingType.JPEG,
         targetWidth: 500,
         targetHeight: 500,
-        popoverOptions: CameraPopoverOptions,
+        //popoverOptions: CameraPopoverOptions,
         saveToPhotoAlbum: false,
       };
 
