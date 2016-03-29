@@ -115,8 +115,9 @@
       }
     }
     
-    function preparateTask( task ){
+    function preparateTask(){
       return {
+        id: -1,
         type: 1, //Because is created by the Sponzor
         status: vm.sponsorTask.status ? 1 : 0,
         perk_id: vm.sponzorship.perk.id,

@@ -29,3 +29,4 @@
 /// <reference path="cordova-ionic/cordova-ionic.d.ts" />
 /// <reference path="cordova-ionic/plugins/keyboard.d.ts" />
 /// <reference path="underscore/underscore.d.ts" />
+/// <reference path="es6-promise/es6-promise.d.ts" />

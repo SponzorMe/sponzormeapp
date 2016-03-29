@@ -97,6 +97,9 @@
     },
     "underscore/underscore.d.ts": {
       "commit": "ee9c524295333250ddbc7364f27c8b2ccd84b18a"
+    },
+    "es6-promise/es6-promise.d.ts": {
+      "commit": "ee9c524295333250ddbc7364f27c8b2ccd84b18a"
     }
   }
 }

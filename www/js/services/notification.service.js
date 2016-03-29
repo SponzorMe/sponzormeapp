@@ -1,4 +1,4 @@
-/// <reference path="../../typings/main.d.ts" />
+/// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="user.service.ts" />
 /// <reference path="userAuth.service.ts" />
 var notificationModule;

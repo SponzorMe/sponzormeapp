@@ -1,4 +1,4 @@
-/// <reference path="../typings/main.d.ts" />
+/// <reference path="../typings/tsd.d.ts" />
 /**
 * @author Nicolas Molina
 * @version 0.1
@@ -40,19 +40,23 @@
         })
             .state('joinnow', {
             url: "/joinnow",
-            templateUrl: "templates/users/register.html"
+            templateUrl: "templates/users/register.html",
+            controller: "RegisterController as register"
         })
             .state('profile', {
             url: "/profile",
-            templateUrl: "templates/users/form-profile.html"
+            templateUrl: "templates/users/form-profile.html",
+            controller: "FormProfileController as profile"
         })
             .state('interests', {
             url: "/interests",
-            templateUrl: "templates/users/form-interests.html"
+            templateUrl: "templates/users/form-interests.html",
+            controller: "FormInterestsController as interests"
         })
             .state('forgot-password', {
             url: "/forgot-password",
-            templateUrl: "templates/users/forgot-password.html"
+            templateUrl: "templates/users/forgot-password.html",
+            controller: "ForgotController as forgot"
         })
             .state('organizer', {
             url: "/organizer",
@@ -64,7 +68,8 @@
             url: "/intro",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/dashboard-organizer/intro.html"
+                    templateUrl: "templates/dashboard-organizer/intro.html",
+                    controller: "IntroOrganizerCtrl as intro"
                 }
             }
         })
@@ -72,7 +77,8 @@
             url: "/home",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/dashboard-organizer/home.html"
+                    templateUrl: "templates/dashboard-organizer/home.html",
+                    controller: "HomeOrganizerController as home"
                 }
             }
         })
@@ -80,7 +86,8 @@
             url: "/profile",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/users/profile.html"
+                    templateUrl: "templates/users/profile.html",
+                    controller: "ProfileController as profile"
                 }
             }
         })
@@ -89,7 +96,8 @@
             abstract: true,
             views: {
                 'menuContent': {
-                    templateUrl: "templates/events-organizer/event-list-tabs.html"
+                    templateUrl: "templates/events-organizer/event-list-tabs.html",
+                    controller: "EventsTabsController as tabs"
                 }
             }
         })
@@ -97,7 +105,8 @@
             url: "/list",
             views: {
                 'tabEventList': {
-                    templateUrl: "templates/events-organizer/event-list.html"
+                    templateUrl: "templates/events-organizer/event-list.html",
+                    controller: "EventListController as eventList"
                 }
             }
         })
@@ -105,7 +114,8 @@
             url: "/event/:idEvent",
             views: {
                 'tabEventList': {
-                    templateUrl: "templates/events-organizer/event-detail.html"
+                    templateUrl: "templates/events-organizer/event-detail.html",
+                    controller: "EventDetailOrganizerController as eventDetail"
                 }
             }
         })
@@ -113,7 +123,8 @@
             url: "/past",
             views: {
                 'tabPastEvents': {
-                    templateUrl: "templates/events-organizer/past-events.html"
+                    templateUrl: "templates/events-organizer/past-events.html",
+                    controller: "PastEventsController as eventList"
                 }
             }
         })
@@ -121,7 +132,8 @@
             url: "/past-event/:idEvent",
             views: {
                 'tabPastEvents': {
-                    templateUrl: "templates/events-organizer/event-detail.html"
+                    templateUrl: "templates/events-organizer/event-detail.html",
+                    controller: "EventDetailOrganizerController as eventDetail"
                 }
             }
         })
@@ -129,7 +141,8 @@
             url: "/addevent",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/events-organizer/add-event.html"
+                    templateUrl: "templates/events-organizer/add-event.html",
+                    controller: "AddEventController as addEvent"
                 }
             },
             cache: false
@@ -138,7 +151,8 @@
             url: "/editevent/:id",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/events-organizer/edit-event.html"
+                    templateUrl: "templates/events-organizer/edit-event.html",
+                    controller: "EditEventController as editEvent"
                 }
             },
             cache: false
@@ -147,7 +161,8 @@
             url: "/event/:idEvent",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/events-organizer/event-detail.html"
+                    templateUrl: "templates/events-organizer/event-detail.html",
+                    controller: "EventDetailOrganizerController as eventDetail"
                 }
             }
         })
@@ -155,7 +170,8 @@
             url: "/sponsorships",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/sponsors-organizer/sponsorships-tabs.html"
+                    templateUrl: "templates/sponsors-organizer/sponsorships-tabs.html",
+                    controller: "SponsorshipsTabsController as tabs"
                 }
             }
         })
@@ -163,7 +179,8 @@
             url: "/list",
             views: {
                 'tabEventList': {
-                    templateUrl: "templates/sponsors-organizer/sponsorships-list.html"
+                    templateUrl: "templates/sponsors-organizer/sponsorships-list.html",
+                    controller: "SponsorshipsListController as list"
                 }
             }
         })
@@ -171,7 +188,8 @@
             url: "/past",
             views: {
                 'tabPastEvents': {
-                    templateUrl: "templates/sponsors-organizer/sponsorships-past-events.html"
+                    templateUrl: "templates/sponsors-organizer/sponsorships-past-events.html",
+                    controller: "SponsorshipsPastEventsController as list"
                 }
             }
         })
@@ -179,7 +197,8 @@
             url: "/sponsorship/:id",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/sponsors-organizer/sponsorship-detail.html"
+                    templateUrl: "templates/sponsors-organizer/sponsorship-detail.html",
+                    controller: "SponsorshipOrganizerDetailController as detail"
                 }
             }
         })
@@ -188,7 +207,8 @@
             abstract: true,
             views: {
                 'menuContent': {
-                    templateUrl: "templates/tasks-organizer/task-list-tabs.html"
+                    templateUrl: "templates/tasks-organizer/task-list-tabs.html",
+                    controller: "TaskTabsController as tabs"
                 }
             }
         })
@@ -196,7 +216,8 @@
             url: "/list",
             views: {
                 'tabTasksList': {
-                    templateUrl: "templates/tasks-organizer/task-list.html"
+                    templateUrl: "templates/tasks-organizer/task-list.html",
+                    controller: "TaskListController as taskList"
                 }
             }
         })
@@ -204,7 +225,8 @@
             url: "/past",
             views: {
                 'tabPastTasks': {
-                    templateUrl: "templates/tasks-organizer/past-tasks.html"
+                    templateUrl: "templates/tasks-organizer/past-tasks.html",
+                    controller: "PastTaskController as taskList"
                 }
             }
         })
@@ -212,7 +234,8 @@
             url: "/invite",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/users/invite-users.html"
+                    templateUrl: "templates/users/invite-users.html",
+                    controller: "InviteUsersController as invite"
                 }
             }
         })
@@ -220,7 +243,8 @@
             url: "/settings",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/users/settings.html"
+                    templateUrl: "templates/users/settings.html",
+                    controller: "SettingsController as settings"
                 }
             }
         })
@@ -228,20 +252,23 @@
             url: "/notifications",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/users/notifications.html"
+                    templateUrl: "templates/users/notifications.html",
+                    controller: "NotificationsController as list"
                 }
             }
         })
             .state('sponzor', {
             url: "/sponzor",
             abstract: true,
-            templateUrl: "templates/dashboard-sponzor/menu.html"
+            templateUrl: "templates/dashboard-sponzor/menu.html",
+            controller: "MenuSponzorCtrl as menu"
         })
             .state('sponzor.intro', {
             url: "/intro",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/dashboard-sponzor/intro.html"
+                    templateUrl: "templates/dashboard-sponzor/intro.html",
+                    controller: "IntroSponzorCtrl as intro"
                 }
             }
         })
@@ -249,7 +276,8 @@
             url: "/home",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/dashboard-sponzor/home.html"
+                    templateUrl: "templates/dashboard-sponzor/home.html",
+                    controller: "HomeSponzorController as home"
                 }
             }
         })
@@ -257,7 +285,8 @@
             url: "/following",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/events-sponsor/follow-events.html"
+                    templateUrl: "templates/events-sponsor/follow-events.html",
+                    controller: "FollowEventsController as list"
                 }
             }
         })
@@ -265,7 +294,8 @@
             url: "/sponzoring",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/events-sponsor/sponsoring-events.html"
+                    templateUrl: "templates/events-sponsor/sponsoring-events.html",
+                    controller: "SponzoringEventsController as sponzoring"
                 }
             }
         })
@@ -273,7 +303,8 @@
             url: "/profile",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/users/profile.html"
+                    templateUrl: "templates/users/profile.html",
+                    controller: "ProfileController as profile"
                 }
             }
         })
@@ -281,7 +312,8 @@
             url: "/event/:idEvent",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/events-sponsor/event-detail.html"
+                    templateUrl: "templates/events-sponsor/event-detail.html",
+                    controller: "EventDetailSponzorController as eventDetail"
                 }
             }
         })
@@ -289,7 +321,8 @@
             url: "/sponsorship/:id",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/events-sponsor/sponsorship-detail.html"
+                    templateUrl: "templates/events-sponsor/sponsorship-detail.html",
+                    controller: "SponsorshipSponsorDetailController as detail"
                 }
             }
         })
@@ -297,7 +330,8 @@
             url: "/invite",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/users/invite-users.html"
+                    templateUrl: "templates/users/invite-users.html",
+                    controller: "InviteUsersController as invite"
                 }
             }
         })
@@ -305,7 +339,8 @@
             url: "/settings",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/users/settings.html"
+                    templateUrl: "templates/users/settings.html",
+                    controller: "SettingsController as settings"
                 }
             }
         })
@@ -313,7 +348,8 @@
             url: "/notifications",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/users/notifications.html"
+                    templateUrl: "templates/users/notifications.html",
+                    controller: "NotificationsController as list"
                 }
             }
         });
