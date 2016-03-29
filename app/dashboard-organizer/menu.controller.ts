@@ -11,6 +11,7 @@
   angular
     .module('app.dashboard-organizer')
     .controller('MenuOrganizerCtrl', MenuOrganizerCtrl);
+    
 
   MenuOrganizerCtrl.$inject = [
     '$state',
@@ -42,6 +43,29 @@
         $state.go('signin');
       });
     }
+    
+    function filterDate( item ){
+      return moment(item.ends).isAfter(new Date());
+    }
+    
+    function countTasks() {
+      return vm.userAuth.events
+        .reduce( mergePerks, [] )
+        .reduce( mergeTasks, [] )
+        .filter( filterByUserAndNotDone );
+      
+      function mergePerks(a,b){
+        return a.concat(b.perks || []);
+      }
+      
+      function mergeTasks(a,b){
+        return a.concat(b.tasks || []);
+      }
+      
+      function filterByUserAndNotDone( item ) {
+        return item.user_id == vm.userAuth.id && item.status != '1';
+      }
+    }
 
     function activate(){
       
@@ -72,28 +96,9 @@
       vm.count_tasks = countTasks().length;
     }
 
-    function filterDate( item ){
-      return moment(item.ends).isAfter(new Date());
-    }
     
-    function countTasks() {
-      return vm.userAuth.events
-        .reduce( mergePerks, [] )
-        .reduce( mergeTasks, [] )
-        .filter( filterByUserAndNotDone );
-      
-      function mergePerks(a,b){
-        return a.concat(b.perks || []);
-      }
-      
-      function mergeTasks(a,b){
-        return a.concat(b.tasks || []);
-      }
-      
-      function filterByUserAndNotDone( item ) {
-        return item.user_id == vm.userAuth.id && item.status != '1';
-      }
-    }
+    
+    
     
 
   }

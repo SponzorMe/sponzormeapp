@@ -67,7 +67,7 @@
         $ionicAnalytics.register();*/
         
         saveUser();
-        notificationService.activate();
+        //notificationService.activate();
         validateTutorial();
       }
 

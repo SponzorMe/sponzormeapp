@@ -36,6 +36,24 @@
                 $state.go('signin');
             });
         }
+        function filterDate(item) {
+            return moment(item.ends).isAfter(new Date());
+        }
+        function countTasks() {
+            return vm.userAuth.events
+                .reduce(mergePerks, [])
+                .reduce(mergeTasks, [])
+                .filter(filterByUserAndNotDone);
+            function mergePerks(a, b) {
+                return a.concat(b.perks || []);
+            }
+            function mergeTasks(a, b) {
+                return a.concat(b.tasks || []);
+            }
+            function filterByUserAndNotDone(item) {
+                return item.user_id == vm.userAuth.id && item.status != '1';
+            }
+        }
         function activate() {
             $rootScope.$on('MenuOrganizer:count_events', renderCountEvents);
             $rootScope.$on('MenuOrganizer:count_sponsors', renderCountSponsors);
@@ -56,24 +74,6 @@
         function renderCountTasks(event) {
             vm.userAuth = userAuthService.getUserAuth();
             vm.count_tasks = countTasks().length;
-        }
-        function filterDate(item) {
-            return moment(item.ends).isAfter(new Date());
-        }
-        function countTasks() {
-            return vm.userAuth.events
-                .reduce(mergePerks, [])
-                .reduce(mergeTasks, [])
-                .filter(filterByUserAndNotDone);
-            function mergePerks(a, b) {
-                return a.concat(b.perks || []);
-            }
-            function mergeTasks(a, b) {
-                return a.concat(b.tasks || []);
-            }
-            function filterByUserAndNotDone(item) {
-                return item.user_id == vm.userAuth.id && item.status != '1';
-            }
         }
     }
 })();
