@@ -32,7 +32,7 @@
       },
       controller: controller,
       link: link,
-      templateUrl: 'app/widgets/spm-notification.html'
+      templateUrl: 'templates/widgets/spm-notification.html'
     };
     return directive;
     

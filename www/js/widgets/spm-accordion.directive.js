@@ -18,7 +18,7 @@
                 autoOpen: '@autoOpen',
                 type: '@type'
             },
-            templateUrl: 'app/widgets/spm-accordion.html',
+            templateUrl: 'templates/widgets/spm-accordion.html',
             controller: function ($scope) {
                 var controller = this;
                 var sections = controller.sections = $scope.sections = [];

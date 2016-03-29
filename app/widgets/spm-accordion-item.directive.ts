@@ -24,7 +24,7 @@
         model: '@model',
       },
       controller: function() {},
-      templateUrl: 'app/widgets/spm-accordion-item.html',
+      templateUrl: 'templates/widgets/spm-accordion-item.html',
       link: function(scope, element, attrs, controller, transclude){
         scope.active = false;
         controller.addSection(scope);
