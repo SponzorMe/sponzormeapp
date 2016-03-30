@@ -5,55 +5,43 @@
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-(function() {
-  'use strict';
-
-  angular
-    .module('app.dashboard-sponzor')
-    .controller('IntroSponzorCtrl', IntroSponzorCtrl);
-
-  IntroSponzorCtrl.$inject = [
+class IntroSponzorCtrl{
+  
+  $inject = [
     '$state',
     '$ionicSlideBoxDelegate',
     '$ionicHistory',
     '$ionicSideMenuDelegate'
   ];
-
-  function IntroSponzorCtrl( $state, $ionicSlideBoxDelegate, $ionicHistory, $ionicSideMenuDelegate) {
-
-    var vm = this;
-    vm.slideIndex = 0;
-    vm.startApp = startApp;
-    vm.nextSlide = nextSlide;
-    vm.previousSlide = previousSlide;
-    vm.slideChanged = slideChanged;
-
-    activate();
-
-    ////////////
-    function activate(){
-      $ionicSideMenuDelegate.canDragContent(false);
-    }
-
-    function startApp(){
-      $ionicHistory.nextViewOptions({
-        disableAnimate: true,
-        disableBack: true
-      });
-      $state.go("sponzor.home");
-    }
-
-    function nextSlide() {
-      $ionicSlideBoxDelegate.next();
-    }
-
-    function previousSlide() {
-      $ionicSlideBoxDelegate.previous();
-    }
-
-    function slideChanged( index ) {
-      vm.slideIndex = index;
-    };
-
+  slideIndex:number = 0;
+  
+  constructor(
+    private $state: angular.ui.IStateService,
+    private $ionicSlideBoxDelegate: ionic.slideBox.IonicSlideBoxDelegate,
+    private $ionicHistory: ionic.navigation.IonicHistoryService,
+    private $ionicSideMenuDelegate: ionic.sideMenu.IonicSideMenuDelegate
+  ){
+    this.$ionicSideMenuDelegate.canDragContent(false);
   }
-})();
+  
+  startApp(){
+    this.$ionicHistory.nextViewOptions({
+      disableAnimate: true,
+      disableBack: true
+    });
+    this.$state.go("sponzor.home");
+  }
+
+  nextSlide() {
+    this.$ionicSlideBoxDelegate.next();
+  }
+
+  previousSlide() {
+    this.$ionicSlideBoxDelegate.previous();
+  }
+
+  slideChanged( index ) {
+    this.slideIndex = index;
+  };
+  
+}

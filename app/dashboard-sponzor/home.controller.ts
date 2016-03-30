@@ -30,8 +30,10 @@ class HomeSponzorCtrl{
     private $rootScope: angular.IRootScopeService,
     private userAuthService: userAuthModule.IUserAuthService
   ){
-    this.userAuth = userAuthService.getUserAuth();
+    this.userAuth = this.userAuthService.getUserAuth();
     this.events = this.userAuth.events.filter( this.filterDate );
+    
+    this.registerListenerEvents();
   }
   
   registerListenerEvents() {
