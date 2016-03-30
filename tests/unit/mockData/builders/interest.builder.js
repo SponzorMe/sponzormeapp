@@ -1,13 +1,6 @@
 var interestBuilder = (function() {
    
-  var _resultInterest = {
-    id: "1",
-    id_interest: "1",
-    category_id: "1",
-    description: "Tutorials About Photoshop",
-    lang: "en",
-    name: "Live Music"
-  };
+  var _resultInterest = init();
   
   return {
     build: build,
@@ -19,8 +12,21 @@ var interestBuilder = (function() {
     setName: setName
   }
   
+  function init(){
+    return {
+      id: "1",
+      id_interest: "1",
+      category_id: "1",
+      description: "Tutorials About Photoshop",
+      lang: "en",
+      name: "Live Music"
+    };
+  }
+  
   function build() {
-    return _resultInterest;
+    var copy = _.clone(_resultInterest);
+    _resultInterest = init();
+    return copy;
   }
   
   function omit(args){

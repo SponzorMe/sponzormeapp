@@ -1,18 +1,6 @@
 var userBuilder = (function() {
   
-  var _resultUser = {
-    id: "1",
-    email: "mail@domain.com",
-    age: "12",
-    comunity_size: "12",
-    image: "",
-    name: "as",
-    description: "asas",
-    company: "asas",
-    events: [],
-    sponzorships_like_organizer: [],
-    sponzorship: []
-  };
+  var _resultUser = init();
   
   return {
     build: build,
@@ -24,8 +12,26 @@ var userBuilder = (function() {
     setSponzorshipLikeOrganizer: setSponzorshipLikeOrganizer,
   }
   
+  function init(){
+    return {
+      id: "1",
+      email: "mail@domain.com",
+      age: "12",
+      comunity_size: "12",
+      image: "",
+      name: "as",
+      description: "asas",
+      company: "asas",
+      events: [],
+      sponzorships_like_organizer: [],
+      sponzorship: []
+    };
+  }
+  
   function build() {
-    return _resultUser;
+    var copy = angular.copy(_resultUser);
+    _resultUser = init();
+    return copy;
   }
   
   function omit(args){

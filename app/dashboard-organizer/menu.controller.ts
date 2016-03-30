@@ -11,7 +11,6 @@ class MenuOrganizerCtrl{
   
   $inject = [
     '$state',
-    '$localStorage',
     '$rootScope',
     '$ionicHistory',
     'userAuthService',
@@ -31,7 +30,8 @@ class MenuOrganizerCtrl{
     private userAuthService: userAuthModule.IUserAuthService,
     private notificationService: notificationModule.INotificationService,
     private $localStorage
-  ){ 
+  ){
+    this.userAuth = this.userAuthService.getUserAuth();
     this.count_events = this.userAuth.events.filter( this.filterDate ).length;
     this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;
     this.count_tasks = this.countTasks().length;
@@ -78,6 +78,9 @@ class MenuOrganizerCtrl{
     return this.userAuth.events
       .reduce( (a,b) => a.concat(b.perks || []), [] )
       .reduce( (a,b) => a.concat(b.tasks || []), [] )
-      .filter( item => item.user_id == this.userAuth.id && item.status != '1' );
+      .filter( item => item.user_id == this.userAuth.id && item.status != '1');
    }
 }
+angular
+  .module('app.dashboard-organizer')
+  .controller('MenuOrganizerCtrl', MenuOrganizerCtrl);

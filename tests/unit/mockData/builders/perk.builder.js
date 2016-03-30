@@ -1,14 +1,6 @@
 var perkBuilder = (function() {
   
-  var _resultPerk = {
-    id: "1",
-    id_event: "1002",
-    kind: "A",
-    reserved_quantity: "0",
-    total_quantity: "2",
-    usd: "10",
-    tasks: []
-  };
+  var _resultPerk = init();
   
   return {
     build: build,
@@ -22,8 +14,22 @@ var perkBuilder = (function() {
     setTasks: setTasks
   }
   
+  function init(){
+    return {
+      id: "1",
+      id_event: "1002",
+      kind: "A",
+      reserved_quantity: "0",
+      total_quantity: "2",
+      usd: "10",
+      tasks: []
+    }
+  }
+  
   function build() {
-    return _resultPerk;
+    var copy = _.clone(_resultPerk);
+    _resultPerk = init();
+    return copy;
   }
   
   function omit(args){

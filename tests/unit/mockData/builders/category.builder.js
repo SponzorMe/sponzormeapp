@@ -1,13 +1,6 @@
 var categoryBuilder = (function() {
   
-  var _resultCategory = {
-    id: "1",
-    body: "All About the Bussines!",
-    lang: "en",
-    title: "Outdoor",
-    interests: [],
-    events: []
-  };
+  var _resultCategory = init();
   
   return {
     build: build,
@@ -20,8 +13,21 @@ var categoryBuilder = (function() {
     setEvents: setEvents
   }
   
+  function init(){
+    return {
+      id: "1",
+      body: "All About the Bussines!",
+      lang: "en",
+      title: "Outdoor",
+      interests: [],
+      events: []
+    };
+  }
+  
   function build() {
-    return _resultCategory;
+    var copy = _.clone(_resultCategory);
+    _resultPerk = init();
+    return copy;
   }
   
   function omit(args){

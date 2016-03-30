@@ -40,8 +40,36 @@ var perkTaskBuilder = (function() {
     setUser: setUser
   }
   
+  function init(){
+    return {
+      id: "11",
+      title: "Prueba",
+      description: "asas sdsd",
+      perk_id: "3",
+      status: "1",
+      event_id: "1002",
+      type: "1",
+      user_id: "1002",
+      Event: {},
+      Perk: {},
+      User: {},
+      PerkTask: {
+        id: "11",
+        title: "Prueba",
+        description: "asas sdsd",
+        perk_id: "3",
+        status: "1",
+        event_id: "1002",
+        type: "1",
+        user_id: "1002",
+      }
+    }
+  }
+  
   function build() {
-    return _resultPerkTask;
+    var copy = angular.copy(_resultPerkTask);
+    _resultPerkTask = init();
+    return copy;
   }
   
   function omit(args){

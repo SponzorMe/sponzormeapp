@@ -13,7 +13,6 @@ var CameraPopoverOptions;
 var mockData = (function() {
   
   function createFullEvent(idEvent) {
-    
     return eventBuilder
       .setId(idEvent)
       .setCategory(categoryBuilder.omit("interests").build())
@@ -22,8 +21,8 @@ var mockData = (function() {
       .setPerks([
         perkBuilder
         .setTasks([
-          taskBuilder.build(),
-          taskBuilder.build()
+          taskBuilder.setStatus("0").build(),
+          taskBuilder.setStatus("0").build()
         ])
         .build(),
         perkBuilder
