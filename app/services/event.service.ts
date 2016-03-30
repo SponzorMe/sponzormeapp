@@ -11,10 +11,10 @@ module eventModule{
   export interface IEventService{
     allEvents():angular.IPromise<any>;
     getEvent(id:string):angular.IPromise<any>;
-    createEvent(event: Event):angular.IPromise<any>;
+    createEvent(event: any):angular.IPromise<any>;
     deleteEvent(id:string):angular.IPromise<any>;
-    editEventPatch(id:string, event: Event):angular.IPromise<any>;
-    editEventPut(id:string, event: Event):angular.IPromise<any>;
+    editEventPatch(id:string, event: any):angular.IPromise<any>;
+    editEventPut(id:string, event: any):angular.IPromise<any>;
     buildEvent(event:any):Event;
   }
   

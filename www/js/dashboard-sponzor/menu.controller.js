@@ -1,51 +1,51 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services/user.service.ts" />
+/// <reference path="../services/userAuth.service.ts" />
+/// <reference path="../services/notification.service.ts" />
 /**
 * @Controller for Home Organizer
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-(function () {
-    'use strict';
-    angular
-        .module('app.dashboard-sponzor')
-        .controller('MenuSponzorCtrl', MenuSponzorCtrl);
-    MenuSponzorCtrl.$inject = [
-        '$state',
-        '$localStorage',
-        '$rootScope',
-        '$ionicHistory',
-        'userAuthService',
-        'notificationService'
-    ];
+var MenuSponzorCtrl = (function () {
     function MenuSponzorCtrl($state, $localStorage, $rootScope, $ionicHistory, userAuthService, notificationService) {
-        var vm = this;
-        //Attributes
-        vm.userAuth = userAuthService.getUserAuth();
-        vm.count_following = 0;
-        vm.count_sponsoring = 0;
-        //Funcions
-        vm.logout = logout;
-        activate();
-        ////////////
-        function activate() {
-            $rootScope.$on('MenuSponzor:counts', renderCounts);
-            vm.count_sponsoring = vm.userAuth.sponzorships.filter(filterByAccepted).length;
-            vm.count_following = vm.userAuth.sponzorships.length - vm.count_sponsoring;
-            vm.notifications = notificationService.getNotifications(vm.userAuth.id);
-        }
-        function renderCounts() {
-            vm.userAuth = userAuthService.getUserAuth();
-            vm.count_sponsoring = vm.userAuth.sponzorships.filter(filterByAccepted).length;
-            vm.count_following = vm.userAuth.sponzorships.length - vm.count_sponsoring;
-        }
-        function logout() {
-            $localStorage.$reset();
-            $state.go('signin');
-            $ionicHistory.clearCache();
-        }
-        function filterByAccepted(item) {
-            return item.status == '1';
-        }
+        this.$state = $state;
+        this.$localStorage = $localStorage;
+        this.$rootScope = $rootScope;
+        this.$ionicHistory = $ionicHistory;
+        this.userAuthService = userAuthService;
+        this.notificationService = notificationService;
+        this.$inject = [
+            '$state',
+            '$localStorage',
+            '$rootScope',
+            '$ionicHistory',
+            'userAuthService',
+            'notificationService'
+        ];
+        this.count_following = 0;
+        this.count_sponsoring = 0;
+        this.notifications = [];
+        this.userAuth = userAuthService.getUserAuth();
+        this.count_sponsoring = this.userAuth.sponzorship.filter(this.filterByAccepted).length;
+        this.count_following = this.userAuth.sponzorship.length - this.count_sponsoring;
+        this.notifications = notificationService.getNotifications(this.userAuth.id);
+        this.registerListenerCounts();
     }
-})();
+    MenuSponzorCtrl.prototype.registerListenerCounts = function () {
+        var _this = this;
+        this.$rootScope.$on('MenuSponzor:counts', function () {
+            _this.userAuth = _this.userAuthService.getUserAuth();
+            _this.count_sponsoring = _this.userAuth.sponzorship.filter(_this.filterByAccepted).length;
+            _this.count_following = _this.userAuth.sponzorship.length - _this.count_sponsoring;
+        });
+    };
+    MenuSponzorCtrl.prototype.filterByAccepted = function (item) {
+        return item.status == '1';
+    };
+    return MenuSponzorCtrl;
+}());
+angular
+    .module('app.dashboard-sponzor')
+    .controller('MenuSponzorCtrl', MenuSponzorCtrl);

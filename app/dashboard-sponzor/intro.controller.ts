@@ -45,3 +45,6 @@ class IntroSponzorCtrl{
   };
   
 }
+angular
+  .module('app.dashboard-sponzor')
+  .controller('IntroSponzorCtrl', IntroSponzorCtrl);
