@@ -51,6 +51,12 @@ class MenuSponzorCtrl{
     return item.status == '1';
   }
   
+  logout(){
+    this.$localStorage.$reset();
+    this.$ionicHistory.clearCache()
+    .then( () => this.$state.go('signin') );
+  }
+  
 }
 angular
   .module('app.dashboard-sponzor')

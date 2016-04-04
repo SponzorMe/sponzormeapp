@@ -44,6 +44,12 @@ var MenuSponzorCtrl = (function () {
     MenuSponzorCtrl.prototype.filterByAccepted = function (item) {
         return item.status == '1';
     };
+    MenuSponzorCtrl.prototype.logout = function () {
+        var _this = this;
+        this.$localStorage.$reset();
+        this.$ionicHistory.clearCache()
+            .then(function () { return _this.$state.go('signin'); });
+    };
     return MenuSponzorCtrl;
 }());
 angular
