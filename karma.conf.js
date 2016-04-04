@@ -63,7 +63,8 @@ module.exports = function( config ){
       //"./tests/unit/dashboard-organizer/menu.controller.spec.js",
       //"./tests/unit/dashboard-sponzor/home.controller.spec.js",
       //"./tests/unit/dashboard-sponzor/intro.controller.spec.js",
-      "./tests/unit/dashboard-sponzor/menu.controller.spec.js"
+      //"./tests/unit/dashboard-sponzor/menu.controller.spec.js",
+      "./tests/unit/events-organizer/add-event.controller.spec.js"
     ]
   });
 };

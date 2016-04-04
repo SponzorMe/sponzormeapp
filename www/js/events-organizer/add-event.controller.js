@@ -11,7 +11,7 @@
 * @version 0.2
 */
 var AddEventCtrl = (function () {
-    function AddEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $q, $state, notificationService, userAuthService, $rootScope) {
+    function AddEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $state, notificationService, userAuthService, $rootScope) {
         this.$scope = $scope;
         this.$translate = $translate;
         this.utilsService = utilsService;
@@ -23,7 +23,6 @@ var AddEventCtrl = (function () {
         this.$cordovaToast = $cordovaToast;
         this.$ionicHistory = $ionicHistory;
         this.imgurService = imgurService;
-        this.$q = $q;
         this.$state = $state;
         this.notificationService = notificationService;
         this.userAuthService = userAuthService;
@@ -40,11 +39,9 @@ var AddEventCtrl = (function () {
             '$cordovaToast',
             '$ionicHistory',
             'imgurService',
-            '$q',
             '$state',
             'notificationService',
             'userAuthService',
-            'userService',
             '$rootScope',
         ];
         this.newEvent = {};
@@ -53,6 +50,7 @@ var AddEventCtrl = (function () {
         this.eventTypes = [];
         this.modalPerk = null;
         this.imageURI = null;
+        this.userAuth = userAuthService.getUserAuth();
         this.newEvent.access = true;
         this.newEvent.perks = [];
         this.newEvent.starttime = "13:00:00";
@@ -166,13 +164,13 @@ var AddEventCtrl = (function () {
     AddEventCtrl.prototype.submitEvent = function (form) {
         this.utilsService.showLoad();
         if (this.imageURI) {
-            this.createEventWithImage(form);
+            this._createEventWithImage(form);
         }
         else {
-            this.createEvent(form);
+            this._createEvent(form);
         }
     };
-    AddEventCtrl.prototype.createEventWithImage = function (form) {
+    AddEventCtrl.prototype._createEventWithImage = function (form) {
         var _this = this;
         this.imgurService.uploadImage(this.imageURI)
             .then(function (image) {
@@ -206,7 +204,7 @@ var AddEventCtrl = (function () {
             });
         });
     };
-    AddEventCtrl.prototype.createEvent = function (form) {
+    AddEventCtrl.prototype._createEvent = function (form) {
         var _this = this;
         this.eventService.createEvent(this._preparateData())
             .then(function (event) {

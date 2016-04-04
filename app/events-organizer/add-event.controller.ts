@@ -24,11 +24,9 @@ class AddEventCtrl{
     '$cordovaToast',
     '$ionicHistory',
     'imgurService',
-    '$q',
     '$state',
     'notificationService',
     'userAuthService',
-    'userService',
     '$rootScope',
   ];
   newEvent:any = {};
@@ -51,12 +49,13 @@ class AddEventCtrl{
     private $cordovaToast,
     private $ionicHistory: ionic.navigation.IonicHistoryService,
     private imgurService: imgurModule.IImgurService,
-    private $q: angular.IQService,
     private $state: angular.ui.IStateService,
     private notificationService: notificationModule.INotificationService,
     private userAuthService: userAuthModule.IUserAuthService,
     private $rootScope
   ){
+    this.userAuth = userAuthService.getUserAuth();
+    
     this.newEvent.access = true;
     this.newEvent.perks = [];
     this.newEvent.starttime = "13:00:00";
@@ -171,13 +170,13 @@ class AddEventCtrl{
   submitEvent( form ){
     this.utilsService.showLoad();
     if(this.imageURI){
-      this.createEventWithImage(form);
+      this._createEventWithImage(form);
     }else{
-      this.createEvent(form);
+      this._createEvent(form);
     }
   }
     
-  createEventWithImage(form:any){
+  private _createEventWithImage(form:any){
     this.imgurService.uploadImage( this.imageURI )
     .then(image => {
       this.newEvent.image = image;
@@ -211,7 +210,7 @@ class AddEventCtrl{
     });
   }
     
-  createEvent(form:any){
+  private _createEvent(form:any){
     this.eventService.createEvent( this._preparateData() )
       .then( event => {
         this.utilsService.hideLoad();
