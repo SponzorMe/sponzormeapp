@@ -599,6 +599,34 @@ describe("Controller: EditEventCtrl", function() {
     });
 
   });
+  
+  ///////////////////////////////////////////////////////////
+  describe('Test to submitEvent method failed without imageURI by editEventPatch', function(){
+
+    //var dataEvent = mockData.eventService.getEvent();
+  	var dataEventTypes = mockData.eventTypeService.allEventTypes();
+  	var dataImage = mockData.imgurService.uploadImage();
+  	//var dataEditEvent = mockData.eventService.editEventPatch();
+  	var dataEditEvent = mockData.failed();
+
+    beforeEach(function() {
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
+  		$httpBackend.whenPOST('https://api.imgur.com/3/image').respond(200, dataImage);
+  		$httpBackend.whenPATCH( URL_REST + 'events/1').respond(400, dataEditEvent);
+  	});
+
+    it('Should be called utilsService methods', function() {
+    	$rootScope.$digest();
+      $httpBackend.flush();
+      editEventController.submitEvent( mockForm );
+      $rootScope.$digest();
+      $httpBackend.flush();
+      //chai.expect(utilsService.showLoad).to.have.been.called();
+      //chai.expect(utilsService.hideLoad).to.have.been.called();
+      //chai.expect(utilsService.alert).to.have.been.called();
+    });
+
+  });
 
 	////////////////////////////////////////////////////////////
   describe('Tests to openModalPerk method', function(){
@@ -696,6 +724,57 @@ describe("Controller: EditEventCtrl", function() {
       editEventController.createPerk();
       $rootScope.$digest();
       chai.assert.isTrue(editEventController.isNewPerk);
+    });
+
+  });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Tests to deletePerk method', function(){
+
+  	var dataEventTypes = mockData.eventTypeService.allEventTypes();
+
+    beforeEach(function() {
+  		$httpBackend.whenGET( URL_REST + 'event_types').respond(200, dataEventTypes);
+  	});
+
+    it('Should have editPerk method', function() {
+      chai.assert.isDefined( editEventController.deletePerk );
+      chai.assert.isFunction( editEventController.deletePerk );
+    });
+
+    it('Should be called modalPerk.hide method', function() {
+    	$rootScope.$digest();
+      $httpBackend.flush();
+      var mockPerk = {
+      	id_event: "1002",
+				kind: "A",
+				reserved_quantity: "0",
+				total_quantity: "2",
+				usd: "10"
+      }
+      editEventController.newPerk = mockPerk;
+      editEventController.newEvent.perks.push(mockPerk);
+    	editEventController.deletePerk();
+      $rootScope.$digest();
+      chai.assert.isFalse(editEventController.modalPerk._isShown);
+    });
+
+    it('Should be perks be less', function() {
+    	$rootScope.$digest();
+      $httpBackend.flush();
+      var size = editEventController.newEvent.perks.length;
+      var mockPerk = {
+      	id_event: "1002",
+				kind: "A",
+				reserved_quantity: "0",
+				total_quantity: "2",
+				usd: "10"
+      }
+      editEventController.newPerk = mockPerk;
+      editEventController.newEvent.perks.push(mockPerk);
+    	editEventController.deletePerk();
+      $rootScope.$digest();
+      chai.assert.equal( editEventController.newEvent.perks.length, size  );
     });
 
   });
