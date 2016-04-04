@@ -13,6 +13,8 @@ describe('Controller: HomeSponzorController', function(){
   beforeEach(inject(function($injector, _$rootScope_, $controller) {
 
   	$rootScope = _$rootScope_;
+    $rootScopeOn = chai.spy.on($rootScope, '$on');
+    
   	$q = $injector.get('$q');
 
     BackendVariables = $injector.get('BackendVariables');
@@ -22,8 +24,8 @@ describe('Controller: HomeSponzorController', function(){
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
-    $httpBackend.whenGET('app/dashboard-sponzor/menu.html').respond(200, '');
-    $httpBackend.whenGET('app/dashboard-sponzor/home.html').respond(200, '');
+    $httpBackend.whenGET('templates/dashboard-sponzor/menu.html').respond(200, '');
+    $httpBackend.whenGET('templates/dashboard-sponzor/home.html').respond(200, '');
 
     //Dependences
   	$scope = $rootScope.$new();
@@ -35,8 +37,9 @@ describe('Controller: HomeSponzorController', function(){
     utilsService = chai.spy.object( utilsService , ['showLoad', 'hideLoad','alert', 'resetForm','trim', 'confirm']);
 
     $localStorage = $injector.get('$localStorage');
-  	
-    $localStorage.userAuth = mockData.userService.login().user;
+    var userData = mockData.userService.login("1");
+    userData.user.type = "1";
+    $localStorage.userAuth = userAuthService.updateUserAuth( userData );
 
     homeSponzorController = $controller('HomeSponzorController', {
       '$localStorage': $localStorage,
@@ -85,6 +88,23 @@ describe('Controller: HomeSponzorController', function(){
     });
 
   });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Tests to $rootScope.$on methods', function(){
+
+
+    it('Should have called a HomeSponzorController:getEvents', function() {
+    	$rootScope.$digest();
+      chai.expect($rootScopeOn).to.have.been.called();
+    });
+
+    it('Should count_events be 3 before call HomeOrganizerController:count_sponsors', function() {
+    	$rootScope.$digest();
+    	$rootScope.$broadcast('HomeOrganizerController:count_sponsors');
+      chai.assert.equal( homeSponzorController.events.length, 3 );
+    });
+
+  });
 
   ////////////////////////////////////////////////////////////
   describe('Tests to doRefresh success', function(){
@@ -111,7 +131,7 @@ describe('Controller: HomeSponzorController', function(){
       homeSponzorController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( homeSponzorController.events.length, 1 );
+      chai.assert.equal( homeSponzorController.events.length, 3 );
     });
 
   });

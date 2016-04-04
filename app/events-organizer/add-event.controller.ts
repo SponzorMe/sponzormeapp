@@ -84,8 +84,6 @@ class AddEventCtrl{
       });
   }
   
-  
-  
   clickedStartDate(){
     let minDate = ionic.Platform.isIOS() ? new Date() : new Date().getTime();
     this._showDatePicker({
@@ -171,20 +169,50 @@ class AddEventCtrl{
   }
   
   submitEvent( form ){
-      this.utilsService.showLoad();
-      if(this.imageURI){
-        this.createEventWithImage(form);
-      }else{
-        this.createEvent(form);
-      }
+    this.utilsService.showLoad();
+    if(this.imageURI){
+      this.createEventWithImage(form);
+    }else{
+      this.createEvent(form);
     }
+  }
     
-    createEventWithImage(form:any){
-      this.imgurService.uploadImage( this.imageURI )
-      .then(image => {
-        this.newEvent.image = image;
-        return this.eventService.createEvent( this._preparateData() );
-      })
+  createEventWithImage(form:any){
+    this.imgurService.uploadImage( this.imageURI )
+    .then(image => {
+      this.newEvent.image = image;
+      return this.eventService.createEvent( this._preparateData() );
+    })
+    .then( event => {
+      this.utilsService.hideLoad();
+      this.utilsService.resetForm( form );
+      this.newEvent = {};
+      this.userAuth.events.push( event );
+      this.userAuthService.updateUserAuth( this.userAuth );
+      this.$ionicHistory.nextViewOptions({
+        disableAnimate: false,
+        disableBack: true
+      });
+      this.$ionicHistory.clearCache().then(() => {
+        this.notificationService.sendNewEvent();
+        this.$rootScope.$broadcast('MenuOrganizer:count_events');
+        this.$rootScope.$broadcast('EventsTabsController:count_events');
+        this.$rootScope.$broadcast('HomeOrganizerController:count_events');
+        this.$state.go("organizer.events.list");
+      });
+      this.$cordovaToast.showShortBottom(this.$translate.instant("MESSAGES.succ_event_mess"));
+    })
+    .catch( error => {
+      this.utilsService.hideLoad();
+      this.utilsService.alert({
+        title: this.$translate.instant("ERRORS.addeventsform_error_tit"),
+        template: this.$translate.instant("ERRORS.addeventsform_error_mess"),
+      });
+    });
+  }
+    
+  createEvent(form:any){
+    this.eventService.createEvent( this._preparateData() )
       .then( event => {
         this.utilsService.hideLoad();
         this.utilsService.resetForm( form );
@@ -211,117 +239,87 @@ class AddEventCtrl{
           template: this.$translate.instant("ERRORS.addeventsform_error_mess"),
         });
       });
-    }
+  }
     
-    createEvent(form:any){
-      this.eventService.createEvent( this._preparateData() )
-        .then( event => {
-          this.utilsService.hideLoad();
-          this.utilsService.resetForm( form );
-          this.newEvent = {};
-          this.userAuth.events.push( event );
-          this.userAuthService.updateUserAuth( this.userAuth );
-          this.$ionicHistory.nextViewOptions({
-            disableAnimate: false,
-            disableBack: true
-          });
-          this.$ionicHistory.clearCache().then(() => {
-            this.notificationService.sendNewEvent();
-            this.$rootScope.$broadcast('MenuOrganizer:count_events');
-            this.$rootScope.$broadcast('EventsTabsController:count_events');
-            this.$rootScope.$broadcast('HomeOrganizerController:count_events');
-            this.$state.go("organizer.events.list");
-          });
-          this.$cordovaToast.showShortBottom(this.$translate.instant("MESSAGES.succ_event_mess"));
-        })
-        .catch( error => {
-          this.utilsService.hideLoad();
-          this.utilsService.alert({
-            title: this.$translate.instant("ERRORS.addeventsform_error_tit"),
-            template: this.$translate.instant("ERRORS.addeventsform_error_mess"),
-          });
-        });
+  openModalPerk(){
+    this.modalPerk.show();
+  }
+
+  closeModalPerk( form? ){
+    this.modalPerk.hide();
+    if (form) this.utilsService.resetForm( form );
+    this.newPerk = {};
+  } 
+
+  createPerk(){
+    this.isNewPerk = true;
+    this.openModalPerk();
+  }
+
+  editPerk( data ){
+    this.isNewPerk = false;
+    this.newPerk = data;
+    this.openModalPerk();
+  }
+
+  addPerk(){
+    this.newEvent.perks.push({
+      kind: this.newPerk.kind,
+      usd: this.newPerk.usd,
+      total_quantity: this.newPerk.total_quantity,
+      reserved_quantity: 0
+    });
+    this.closeModalPerk();
+  }
+
+  deletePerk(){
+    let index = this.newEvent.perks.indexOf( this.newPerk );
+    this.newEvent.perks.splice(index, 1);
+    this.closeModalPerk();
+  }
+
+  updatePerk(){
+    this.closeModalPerk();
+  }
+
+  submitPerk( form ){
+    if(this.isNewPerk){
+      this.addPerk();
+      this.utilsService.resetForm( form );
+    }else{
+      this.updatePerk();
+      this.utilsService.resetForm( form );
     }
-    
-    openModalPerk(){
-      this.modalPerk.show();
+  }
+  
+  private _showDatePicker( options ) {
+    return this.$cordovaDatePicker.show( options );
+  }
+  
+  private _preparateData() {
+
+    function joinDate(date, time) {
+      date = moment(date,"YYYY-MM-DD").format("YYYY-MM-DD");
+      time = moment(date + " " + time).format("HH:mm:ss");
+      return date + " " + time;
     }
 
-    closeModalPerk( form? ){
-      this.modalPerk.hide();
-      if (form) this.utilsService.resetForm( form );
-      this.newPerk = {};
-    } 
-
-    createPerk(){
-      this.isNewPerk = true;
-      this.openModalPerk();
+    return {
+      title: this.newEvent.title,
+      location: this.newEvent.location.formatted_address,
+      location_reference: this.newEvent.location.place_id,
+      description: this.newEvent.description,
+      starts: joinDate(this.newEvent.start, this.newEvent.starttime),
+      ends: joinDate(this.newEvent.end, this.newEvent.endtime),
+      image: this.newEvent.image ? this.newEvent.image : "http://i.imgur.com/t8YehGM.jpg",
+      privacy: this.newEvent.access ? 0 : 1,
+      lang: this.$translate.use(),
+      organizer: this.userAuth.id,
+      category: 1,
+      type: this.newEvent.type.id,
+      perks: this.newEvent.perks
     }
-
-    editPerk( data ){
-      this.isNewPerk = false;
-      this.newPerk = data;
-      this.openModalPerk();
-    }
-
-    addPerk(){
-      this.newEvent.perks.push({
-        kind: this.newPerk.kind,
-        usd: this.newPerk.usd,
-        total_quantity: this.newPerk.total_quantity,
-        reserved_quantity: 0
-      });
-      this.closeModalPerk();
-    }
-
-    deletePerk(){
-      let index = this.newEvent.perks.indexOf( this.newPerk );
-      this.newEvent.perks.splice(index, 1);
-      this.closeModalPerk();
-    }
-
-    updatePerk(){
-      this.closeModalPerk();
-    }
-
-    submitPerk( form ){
-      if(this.isNewPerk){
-        this.addPerk();
-        this.utilsService.resetForm( form );
-      }else{
-        this.updatePerk();
-        this.utilsService.resetForm( form );
-      }
-    }
-    
-    private _showDatePicker( options ) {
-      return this.$cordovaDatePicker.show( options );
-    }
-    
-    private _preparateData() {
-
-      function joinDate(date, time) {
-        date = moment(date,"YYYY-MM-DD").format("YYYY-MM-DD");
-        time = moment(date + " " + time).format("HH:mm:ss");
-        return date + " " + time;
-      }
-
-      return {
-        title: this.newEvent.title,
-        location: this.newEvent.location.formatted_address,
-        location_reference: this.newEvent.location.place_id,
-        description: this.newEvent.description,
-        starts: joinDate(this.newEvent.start, this.newEvent.starttime),
-        ends: joinDate(this.newEvent.end, this.newEvent.endtime),
-        image: this.newEvent.image ? this.newEvent.image : "http://i.imgur.com/t8YehGM.jpg",
-        privacy: this.newEvent.access ? 0 : 1,
-        lang: this.$translate.use(),
-        organizer: this.userAuth.id,
-        category: 1,
-        type: this.newEvent.type.id,
-        perks: this.newEvent.perks
-      }
-    }
+  }
   
 }
 angular
