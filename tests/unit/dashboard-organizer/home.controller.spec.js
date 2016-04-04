@@ -27,12 +27,14 @@ describe('Controller: HomeOrganizerCtrl', function(){
 
     //Dependences
     userAuthService = $injector.get('userAuthService');
+    userAuthService = $injector.get('userService');
     notificationService = $injector.get('notificationService');
     
     $localStorage = $injector.get('$localStorage');
     var userData = mockData.userService.login("0");
     userData.user.type = "0";
-    $localStorage.userAuth = userAuthService.updateUserAuth( userData );
+    
+    $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
     
    
 

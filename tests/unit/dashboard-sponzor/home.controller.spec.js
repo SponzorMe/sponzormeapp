@@ -1,4 +1,4 @@
-describe('Controller: HomeSponzorController', function(){
+describe('Controller: HomeSponzorCtrl', function(){
 
   beforeEach(function() {
     module('app');
@@ -36,17 +36,19 @@ describe('Controller: HomeSponzorController', function(){
     utilsService = $injector.get('utilsService');
     utilsService = chai.spy.object( utilsService , ['showLoad', 'hideLoad','alert', 'resetForm','trim', 'confirm']);
 
+    userAuthService = $injector.get('userAuthService');
+    userService = $injector.get('userService');
+    
     $localStorage = $injector.get('$localStorage');
     var userData = mockData.userService.login("1");
     userData.user.type = "1";
-    $localStorage.userAuth = userAuthService.updateUserAuth( userData );
+    $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
 
-    homeSponzorController = $controller('HomeSponzorController', {
+    homeSponzorController = $controller('HomeSponzorCtrl', {
       '$localStorage': $localStorage,
       'eventService': eventService,
       'utilsService': utilsService,
       '$scope': $scope
-  		
   	});
 
   }));
@@ -73,10 +75,6 @@ describe('Controller: HomeSponzorController', function(){
       chai.assert.isArray( homeSponzorController.events );
     });
 
-    it('Should events be empty', function() {
-      chai.assert.equal( homeSponzorController.events.length, 1 );
-    });
-
   });
 
   ////////////////////////////////////////////////////////////
@@ -93,15 +91,10 @@ describe('Controller: HomeSponzorController', function(){
   describe('Tests to $rootScope.$on methods', function(){
 
 
-    it('Should have called a HomeSponzorController:getEvents', function() {
+    it('Should have called a HomeSponzorCtrl:getEvents', function() {
     	$rootScope.$digest();
-      chai.expect($rootScopeOn).to.have.been.called();
-    });
-
-    it('Should count_events be 3 before call HomeOrganizerController:count_sponsors', function() {
-    	$rootScope.$digest();
-    	$rootScope.$broadcast('HomeOrganizerController:count_sponsors');
-      chai.assert.equal( homeSponzorController.events.length, 3 );
+      $rootScope.$broadcast('HomeSponzorCtrl:getEvents');
+      chai.assert.equal( homeSponzorController.events.length, 0 );
     });
 
   });
@@ -109,10 +102,12 @@ describe('Controller: HomeSponzorController', function(){
   ////////////////////////////////////////////////////////////
   describe('Tests to doRefresh success', function(){
 
-    var dataEvents = mockData.eventService.allEvents();
+    var userData = mockData.userService.home("1");
+    userData.data.user.type = "1";
+    console.log( userData );
  
     beforeEach(function() {
-      $httpBackend.whenGET( URL_REST + 'events').respond(200, dataEvents);
+      $httpBackend.whenGET( URL_REST + 'home/1').respond(200, userData);
     });
 
     it('Should be called $scopeBroadcast', function() {
@@ -131,7 +126,28 @@ describe('Controller: HomeSponzorController', function(){
       homeSponzorController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( homeSponzorController.events.length, 3 );
+      chai.assert.equal( homeSponzorController.events.length, 0 );
+    });
+
+  });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Tests to doRefresh failed', function(){
+
+    var data = mockData.failed();
+ 
+    beforeEach(function() {
+      $httpBackend.whenGET( URL_REST + 'home/1').respond(400, data);
+    });
+
+    it('Should be called $scopeBroadcast', function() {
+      $rootScope.$digest();
+      $httpBackend.flush();
+      homeSponzorController.doRefresh();
+      $rootScope.$digest();
+      $httpBackend.flush();
+      chai.expect($scopeBroadcast).to.have.been.called();
+      chai.expect($scopeBroadcast).to.have.been.with('scroll.refreshComplete');
     });
 
   });

@@ -34,7 +34,12 @@ describe('Controller: MenuSponzorCtrl', function(){
     $ionicHistory = $injector.get('$ionicHistory');
     $ionicHistory = chai.spy.object($ionicHistory, ['clearCache', 'nextViewOptions', 'goBack']);
 
-    $localStorage.userAuth = mockData.userService.login().user;
+    userAuthService = $injector.get('userAuthService');
+    userService = $injector.get('userService');
+    
+    var userData = mockData.userService.login("1");
+    userData.user.type = "1";
+    $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
 
     menuSponzorCtrl = $controller('MenuSponzorCtrl', {
   		'$state': $state,

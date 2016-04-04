@@ -38,7 +38,7 @@ module userAuthModule{
     }
     
     updateUserAuth( data:any ):userModule.User{
-      this.$localStorage.userAuth = angular.extend(this.$localStorage.userAuth || {}, this.userService.buildUser(data));
+      this.$localStorage.userAuth = angular.extend(this.$localStorage.userAuth || {}, data);
       this.$localStorage.lastUpdate = new Date().getTime();
       return this.$localStorage.userAuth;
     }

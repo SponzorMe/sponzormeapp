@@ -39,11 +39,12 @@ describe('Controller: MenuOrganizerCtrl', function(){
     }
     $ionicHistory = chai.spy.object($ionicHistory, ['clearCache', 'nextViewOptions', 'goBack']);
     userAuthService = $injector.get('userAuthService');
+    userService = $injector.get('userService');
     notificationService = $injector.get('notificationService');
 
     var userData = mockData.userService.login("0");
     userData.user.type = "0";
-    $localStorage.userAuth = userAuthService.updateUserAuth( userData );
+    $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
     
 
     menuOrganizerCtrl = $controller('MenuOrganizerCtrl', {

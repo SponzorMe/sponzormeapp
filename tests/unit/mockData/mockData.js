@@ -190,26 +190,30 @@ var mockData = (function() {
     if(type == "0"){ //Is an Organizer
       response.user = userBuilder
       .setEvents([
-        createFullEvent(1),
-        createFullEvent(2),
-        createFullEvent(3)
+        createFullEvent("1"),
+        createFullEvent("2"),
+        createFullEvent("3")
       ])
       .setSponzorshipLikeOrganizer([
-        sponsorshipBuilder.setEvent(eventBuilder.build()).build(),
+        sponsorshipBuilder.build(),
+        sponsorshipBuilder.build(),
+        sponsorshipBuilder.build(),
       ])
-      .omit("sponzorship")
+      .omit("sponzorships")
       .build();
     }else{ //Is an Sponsor
       response.events = [
-        createFullEvent(1),
-        createFullEvent(2),
-        createFullEvent(3)
+        createFullEvent("1"),
+        createFullEvent("2"),
+        createFullEvent("3")
       ];
       response.user = userBuilder
-      .omit(["events","sponzorships_like_organizer"])
       .setSponzorships([
-        sponsorshipBuilder.setEvent(eventBuilder.build()).build(),
+        sponsorshipBuilder.build(),
+        sponsorshipBuilder.build(),
+        sponsorshipBuilder.build(),
       ])
+      .omit(["events","sponzorships_like_organizer"])
       .build();
     }
     

@@ -32,7 +32,7 @@ var HomeSponzorCtrl = (function () {
     }
     HomeSponzorCtrl.prototype.registerListenerEvents = function () {
         var _this = this;
-        this.$rootScope.$on('HomeSponzorController:getEvents', function () {
+        this.$rootScope.$on('HomeSponzorCtrl:getEvents', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
             _this.events = _this.userAuth.events.filter(_this.filterDate);
         });

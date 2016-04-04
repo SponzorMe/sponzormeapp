@@ -37,7 +37,7 @@ class HomeSponzorCtrl{
   }
   
   registerListenerEvents() {
-    this.$rootScope.$on('HomeSponzorController:getEvents', () => {
+    this.$rootScope.$on('HomeSponzorCtrl:getEvents', () => {
       this.userAuth = this.userAuthService.getUserAuth();
       this.events = this.userAuth.events.filter( this.filterDate );
     });
