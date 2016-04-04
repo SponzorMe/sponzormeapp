@@ -27,7 +27,7 @@ describe('Controller: HomeOrganizerCtrl', function(){
 
     //Dependences
     userAuthService = $injector.get('userAuthService');
-    userAuthService = $injector.get('userService');
+    userService = $injector.get('userService');
     notificationService = $injector.get('notificationService');
     
     $localStorage = $injector.get('$localStorage');

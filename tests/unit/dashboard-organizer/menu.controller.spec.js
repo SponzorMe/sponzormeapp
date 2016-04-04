@@ -138,26 +138,26 @@ describe('Controller: MenuOrganizerCtrl', function(){
   describe('Tests to $rootScope.$on methods', function(){
 
 
-    it('Should have called a Menu:count_following and Menu:count_sponsoring', function() {
+    it('Should have called a MenuOrganizer:count_following and MenuOrganizer:count_sponsoring', function() {
     	$rootScope.$digest();
       chai.expect($rootScopeOn).to.have.been.called();
     });
 
     it('Should count_events be 3 before call Menu:count_following', function() {
     	$rootScope.$digest();
-    	$rootScope.$broadcast('Menu:count_events');
+    	$rootScope.$broadcast('MenuOrganizer:count_events');
       chai.assert.equal(menuOrganizerCtrl.count_events, 3);
     });
 
     it('Should count_sponsors be 3 before call Menu:count_sponsors', function() {
     	$rootScope.$digest();
-    	$rootScope.$broadcast('Menu:count_sponsors');
+    	$rootScope.$broadcast('MenuOrganizer:count_sponsors');
       chai.assert.equal(menuOrganizerCtrl.count_sponsors, 3);
     });
 
     it('Should count_tasks be 2 before call Menu:count_tasks', function() {
       $rootScope.$digest();
-      $rootScope.$broadcast('Menu:count_tasks');
+      $rootScope.$broadcast('MenuOrganizer:count_tasks');
       chai.assert.equal(menuOrganizerCtrl.count_tasks, 6);
     });
 
