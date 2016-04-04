@@ -53,10 +53,7 @@
     "./tests/unit/mockData/builders/*.builder.js"
   ],
   "tests": [
-    "./tests/unit/dashboard-organizer/home.controller.spec.js",
-    "./tests/unit/dashboard-organizer/intro.controller.spec.js",
-    "./tests/unit/dashboard-organizer/menu.controller.spec.js",
-    "./tests/unit/dashboard-sponzor/home.controller.spec.js"
+    "./tests/unit/dashboard-sponzor/intro.controller.spec.js"
   ],
   "fonts": [
     "./www/lib/ionic/fonts/**/*.*"
