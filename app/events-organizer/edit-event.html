@@ -1,7 +1,7 @@
 <ion-view>
   <ion-nav-title>{{"EDITEVENTS.title" | translate}}</ion-nav-title>
   <ion-content>
-    <form name="editEventForm" novalidate ng-submit="editEventForm.$valid && editEvent.updateEvent( editEventForm )">
+    <form name="editEventForm" novalidate ng-submit="editEventForm.$valid && editEvent.submitEvent( editEventForm )">
       <ion-list type="card">  
         <ion-item class="item-divider">
           {{"EDITEVENTS.forgot_title" | translate}}
@@ -115,7 +115,7 @@
           <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_endtime_required" | translate}}</div>
         </div>
         <!-- Access -->
-        <ion-toggle ng-model="editEvent.newEvent.access" toggle-class="toggle-positive">
+        <ion-toggle ng-model="editEvent.newEvent.privacy" toggle-class="toggle-positive">
           {{"EDITEVENTS.is_public_label" | translate}}
         </ion-toggle>
         <!-- Access 

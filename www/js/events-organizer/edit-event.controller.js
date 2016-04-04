@@ -293,7 +293,7 @@ var EditEventCtrl = (function () {
             starts: joinDate(this.newEvent.start, this.newEvent.starttime),
             ends: joinDate(this.newEvent.end, this.newEvent.endtime),
             image: this.newEvent.image ? this.newEvent.image : "http://i.imgur.com/t8YehGM.jpg",
-            privacy: this.newEvent.access ? 0 : 1,
+            privacy: this.newEvent.privacy ? 0 : 1,
             lang: this.$translate.use(),
             organizer: this.userAuth.id,
             category: 1,
