@@ -1,4 +1,5 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services/userAuth.service.ts" />
 /// <reference path="../services/utils.service.ts" />
 /// <reference path="../services/eventType.service.ts" />
 /// <reference path="../services/event.service.ts" />
