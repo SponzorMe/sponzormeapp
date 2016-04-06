@@ -1,50 +1,47 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services/userAuth.service.ts" />
+/// <reference path="../services/user.service.ts" />
 /**
 * @Controller for Home Organizer
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-(function() {
-  'use strict';
+class EventsTabsCtrl{
 
-  angular
-    .module('app.sponsors-organizer')
-    .controller('EventsTabsController', EventsTabsController);
-
-  EventsTabsController.$inject = [
-    'userAuthService',
-    '$rootScope'
+  $inject = [
+    '$rootScope',
+    'userAuthService'
   ];
-
-  function EventsTabsController( userAuthService, $rootScope ) {
-
-    var vm = this;
-    vm.userAuth = userAuthService.getUserAuth();
-    vm.count_events = 0;
-    vm.count_past_events = 0;
-
-    activate();
-    ////////////
-
-    function activate(){
+  userAuth:userModule.User; 
+  count_events:number = 0;
+  count_past_events:number = 0;
+  
+  constructor(
+    private userAuthService: userAuthModule.IUserAuthService,
+    private $rootScope
+  ){
+    this.userAuth = this.userAuthService.getUserAuth();
       
-      $rootScope.$on('EventsTabsController:count_events', renderCounts);
-      
-      vm.count_events = vm.userAuth.events.filter( filterByDateIsAfter ).length;
-      vm.count_past_events = vm.userAuth.events.length - vm.count_events;
-    }
+    this.count_events = this.userAuth.events.filter( this._filterByDateIsAfter ).length;
+    this.count_past_events = this.userAuth.events.length - this.count_events;
     
-    function filterByDateIsAfter( item ){
-      var today = moment( new Date() ).subtract(1, 'days');
-      return moment(item.ends).isAfter( today );
-    }
-    
-    function renderCounts() {
-      vm.userAuth = userAuthService.getUserAuth();
-      vm.count_events = vm.userAuth.events.filter( filterByDateIsAfter ).length;
-      vm.count_past_events = vm.userAuth.events.length - vm.count_events;
-    }
-
+    this._registerListenerCounts();
   }
-})();
+  
+  private _registerListenerCounts(){
+    this.$rootScope.$on('EventsTabsCtrl:count_events', () => {
+      this.userAuth = this.userAuthService.getUserAuth();
+      this.count_events = this.userAuth.events.filter( this._filterByDateIsAfter ).length;
+      this.count_past_events = this.userAuth.events.length - this.count_events;
+    });
+  }
+  
+  private _filterByDateIsAfter( item ){
+    var today = moment( new Date() ).subtract(1, 'days');
+    return moment(item.ends).isAfter( today );
+  }
+}
+angular
+  .module('app.events-organizer')
+  .controller('EventsTabsCtrl', EventsTabsCtrl);

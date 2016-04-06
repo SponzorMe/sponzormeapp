@@ -44,7 +44,7 @@ var userAuthModule;
                 var userAuth = _this.updateUserAuth(user);
                 if (userAuth.type == "0") {
                     _this.$rootScope.$broadcast('MenuOrganizer:count_events');
-                    _this.$rootScope.$broadcast('EventsTabsController:count_events');
+                    _this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
                     _this.$rootScope.$broadcast('HomeOrganizerController:count_events');
                     _this.$rootScope.$broadcast('MenuOrganizer:count_tasks');
                     _this.$rootScope.$broadcast('TaskTabsController:count_tasks');
