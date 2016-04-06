@@ -1,75 +1,71 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services/userAuth.service.ts" />
+/// <reference path="../services/user.service.ts" />
+/// <reference path="../services/utils.service.ts" />
 /**
 * @Controller for Home Organizer
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-(function() {
-  'use strict';
-
-  angular
-    .module('app.events-organizer')
-    .controller('PastEventsController', PastEventsController);
-
-  PastEventsController.$inject = [
-    '$localStorage',
-    'userService',
-    'utilsService',
+class PastEvents{
+  
+   $inject = [
     '$scope',
     '$rootScope',
+    'userService',
+    'utilsService',
     'userAuthService'
   ];
-
-  function PastEventsController( $localStorage, userService , utilsService, $scope, $rootScope, userAuthService) {
-
-    var vm = this;
-    //Attributes
-    vm.userAuth = userAuthService.getUserAuth();
-    vm.events = [];
-    vm.showEmptyState = false;
-    //Funcions
-    vm.doRefresh = doRefresh;
-
-    activate();
-    ////////////
-
-    function activate(){
-      $rootScope.$on('PastEventsController:getEvents', getEvents);
-      vm.events = vm.userAuth.events.filter( filterDate );
-      vm.showEmptyState = vm.events.length == 0 ? true : false;
-    }
+  userAuth:userModule.User;
+  events:any[] = []; 
+  showEmptyState:boolean = true;
+  
+  constructor(
+    private $scope: angular.IScope,
+    private $rootScope,
+    private userService: userModule.IUserService,
+    private utilsService: utilsServiceModule.IUtilsService,
+    private userAuthService: userAuthModule.IUserAuthService
+  ){
+    this.userAuth = this.userAuthService.getUserAuth();
+   
+    this.events = this.userAuth.events.filter( this._filterDate );
+    this.showEmptyState = this.events.length == 0 ? true : false;
     
-    function getEvents(){
-      vm.userAuth = userAuthService.getUserAuth();
-      vm.events = vm.userAuth.events.filter( filterDate );
-      vm.showEmptyState = vm.events.length == 0 ? true : false;
-    }
-
-    function doRefresh(){
-      userService.home( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( user ){
-          $scope.$broadcast('scroll.refreshComplete');
-          vm.userAuth = userAuthService.updateUserAuth( user );
-          vm.events = vm.userAuth.events.filter( filterDate );
-          $rootScope.$broadcast('MenuOrganizer:count_events');
-          $rootScope.$broadcast('EventsTabsController:count_events');
-          $rootScope.$broadcast('HomeOrganizerController:count_events');
-        }
-
-        function failed( error ){
-          $scope.$broadcast('scroll.refreshComplete');
-        }
-    }
-
-    function filterDate( item ){
-      var today = moment( new Date() ).subtract(1, 'days');
-      return moment(item.ends).isBefore( today );
-    }
-    
-
+    this._registerListenerEvents();
   }
-})();
+  
+  doRefresh(){
+    this.userService.home( this.userAuth.id )
+      .then( user => {
+        this.$scope.$broadcast('scroll.refreshComplete');
+        this.userAuth = this.userAuthService.updateUserAuth( this.userService.buildUser(user) );
+        this.events = this.userAuth.events.filter( this._filterDate );
+        this.showEmptyState = this.events.length == 0 ? true : false;
+        this.$rootScope.$broadcast('MenuOrganizer:count_events');
+        this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
+        this.$rootScope.$broadcast('HomeOrganizerController:count_events');
+      })
+      .catch( error => {
+        this.$scope.$broadcast('scroll.refreshComplete');
+      });
+  }
+  
+  private _filterDate( item ){
+    let today = moment( new Date() ).subtract(1, 'days');
+     return moment(item.ends).isBefore( today );
+  }
+  
+  private _registerListenerEvents(){
+    this.$rootScope.$on('PastEventsCtrl:getEvents', () => {
+      this.userAuth = this.userAuthService.getUserAuth();
+      this.events = this.userAuth.events.filter( this._filterDate );
+      this.showEmptyState = this.events.length == 0 ? true : false;
+    });
+  }
+  
+}
+angular
+  .module('app.events-organizer')
+  .controller('PastEventsCtrl', PastEvents);

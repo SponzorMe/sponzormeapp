@@ -1,62 +1,64 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services/userAuth.service.ts" />
+/// <reference path="../services/user.service.ts" />
+/// <reference path="../services/utils.service.ts" />
 /**
 * @Controller for Home Organizer
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-(function () {
-    'use strict';
-    angular
-        .module('app.events-organizer')
-        .controller('PastEventsController', PastEventsController);
-    PastEventsController.$inject = [
-        '$localStorage',
-        'userService',
-        'utilsService',
-        '$scope',
-        '$rootScope',
-        'userAuthService'
-    ];
-    function PastEventsController($localStorage, userService, utilsService, $scope, $rootScope, userAuthService) {
-        var vm = this;
-        //Attributes
-        vm.userAuth = userAuthService.getUserAuth();
-        vm.events = [];
-        vm.showEmptyState = false;
-        //Funcions
-        vm.doRefresh = doRefresh;
-        activate();
-        ////////////
-        function activate() {
-            $rootScope.$on('PastEventsController:getEvents', getEvents);
-            vm.events = vm.userAuth.events.filter(filterDate);
-            vm.showEmptyState = vm.events.length == 0 ? true : false;
-        }
-        function getEvents() {
-            vm.userAuth = userAuthService.getUserAuth();
-            vm.events = vm.userAuth.events.filter(filterDate);
-            vm.showEmptyState = vm.events.length == 0 ? true : false;
-        }
-        function doRefresh() {
-            userService.home(vm.userAuth.id)
-                .then(complete)
-                .catch(failed);
-            function complete(user) {
-                $scope.$broadcast('scroll.refreshComplete');
-                vm.userAuth = userAuthService.updateUserAuth(user);
-                vm.events = vm.userAuth.events.filter(filterDate);
-                $rootScope.$broadcast('MenuOrganizer:count_events');
-                $rootScope.$broadcast('EventsTabsController:count_events');
-                $rootScope.$broadcast('HomeOrganizerController:count_events');
-            }
-            function failed(error) {
-                $scope.$broadcast('scroll.refreshComplete');
-            }
-        }
-        function filterDate(item) {
-            var today = moment(new Date()).subtract(1, 'days');
-            return moment(item.ends).isBefore(today);
-        }
+var PastEvents = (function () {
+    function PastEvents($scope, $rootScope, userService, utilsService, userAuthService) {
+        this.$scope = $scope;
+        this.$rootScope = $rootScope;
+        this.userService = userService;
+        this.utilsService = utilsService;
+        this.userAuthService = userAuthService;
+        this.$inject = [
+            '$scope',
+            '$rootScope',
+            'userService',
+            'utilsService',
+            'userAuthService'
+        ];
+        this.events = [];
+        this.showEmptyState = true;
+        this.userAuth = this.userAuthService.getUserAuth();
+        this.events = this.userAuth.events.filter(this._filterDate);
+        this.showEmptyState = this.events.length == 0 ? true : false;
+        this._registerListenerEvents();
     }
+    PastEvents.prototype.doRefresh = function () {
+        var _this = this;
+        this.userService.home(this.userAuth.id)
+            .then(function (user) {
+            _this.$scope.$broadcast('scroll.refreshComplete');
+            _this.userAuth = _this.userAuthService.updateUserAuth(_this.userService.buildUser(user));
+            _this.events = _this.userAuth.events.filter(_this._filterDate);
+            _this.showEmptyState = _this.events.length == 0 ? true : false;
+            _this.$rootScope.$broadcast('MenuOrganizer:count_events');
+            _this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
+            _this.$rootScope.$broadcast('HomeOrganizerController:count_events');
+        })
+            .catch(function (error) {
+            _this.$scope.$broadcast('scroll.refreshComplete');
+        });
+    };
+    PastEvents.prototype._filterDate = function (item) {
+        var today = moment(new Date()).subtract(1, 'days');
+        return moment(item.ends).isBefore(today);
+    };
+    PastEvents.prototype._registerListenerEvents = function () {
+        var _this = this;
+        this.$rootScope.$on('PastEventsCtrl:getEvents', function () {
+            _this.userAuth = _this.userAuthService.getUserAuth();
+            _this.events = _this.userAuth.events.filter(_this._filterDate);
+            _this.showEmptyState = _this.events.length == 0 ? true : false;
+        });
+    };
+    return PastEvents;
 })();
+angular
+    .module('app.events-organizer')
+    .controller('PastEventsCtrl', PastEvents);

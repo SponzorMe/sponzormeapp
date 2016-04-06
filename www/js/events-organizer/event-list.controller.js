@@ -51,7 +51,7 @@ var EventListCtrl = (function () {
     };
     EventListCtrl.prototype._registerListenerEvents = function () {
         var _this = this;
-        this.$rootScope.$on('EventListController:getEvents', function () {
+        this.$rootScope.$on('EventListCtrl:getEvents', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
             _this.events = _this.userAuth.events.filter(_this._filterDate);
             _this.showEmptyState = _this.events.length == 0 ? true : false;

@@ -58,7 +58,7 @@ class EventListCtrl{
   }
   
   private _registerListenerEvents(){
-    this.$rootScope.$on('EventListController:getEvents', () => {
+    this.$rootScope.$on('EventListCtrl:getEvents', () => {
       this.userAuth = this.userAuthService.getUserAuth();
       this.events = this.userAuth.events.filter( this._filterDate );
       this.showEmptyState = this.events.length == 0 ? true : false;
