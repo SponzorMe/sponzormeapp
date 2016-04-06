@@ -38,7 +38,7 @@ var IntroOrganizerCtrl = (function () {
     };
     ;
     return IntroOrganizerCtrl;
-}());
+})();
 angular
     .module('app.dashboard-organizer')
     .controller('IntroOrganizerCtrl', IntroOrganizerCtrl);

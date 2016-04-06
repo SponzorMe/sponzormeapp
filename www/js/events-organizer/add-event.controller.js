@@ -306,7 +306,7 @@ var AddEventCtrl = (function () {
         };
     };
     return AddEventCtrl;
-}());
+})();
 angular
     .module('app.dashboard-sponzor')
     .controller('AddEventCtrl', AddEventCtrl);

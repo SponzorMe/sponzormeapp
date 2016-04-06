@@ -53,7 +53,7 @@
     "./tests/unit/mockData/builders/*.builder.js"
   ],
   "tests": [
-    "./tests/unit/events-organizer/edit-event.controller.spec.js"
+    "./tests/unit/events-organizer/event-detail.controller.spec.js"
   ],
   "fonts": [
     "./www/lib/ionic/fonts/**/*.*"

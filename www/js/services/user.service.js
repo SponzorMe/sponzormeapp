@@ -166,7 +166,7 @@ var userModule;
             return this.$localStorage.token;
         };
         return userService;
-    }());
+    })();
     userModule.userService = userService;
     angular
         .module('app')

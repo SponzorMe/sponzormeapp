@@ -51,7 +51,7 @@ var MenuSponzorCtrl = (function () {
             .then(function () { return _this.$state.go('signin'); });
     };
     return MenuSponzorCtrl;
-}());
+})();
 angular
     .module('app.dashboard-sponzor')
     .controller('MenuSponzorCtrl', MenuSponzorCtrl);

@@ -120,7 +120,7 @@ var sponsorshipModule;
             return this.buildSponsorship(data.Sponzorship);
         };
         return sponsorshipService;
-    }());
+    })();
     sponsorshipModule.sponsorshipService = sponsorshipService;
     angular
         .module('app')

@@ -113,7 +113,7 @@ var tasksSponsorModule;
             return this.$localStorage.token;
         };
         return taskSponsorService;
-    }());
+    })();
     tasksSponsorModule.taskSponsorService = taskSponsorService;
     angular
         .module('app')

@@ -10,7 +10,7 @@
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-class EventDetailOrganizertrl{
+class EventDetailOrganizerCtrl{
   
   $inject = [
     '$scope',
@@ -19,10 +19,10 @@ class EventDetailOrganizertrl{
     '$translate',
     '$rootScope',
     '$ionicPopup',
-    '$ionicPopup',
     '$ionicActionSheet',
     '$ionicSideMenuDelegate',
     '$ionicHistory',
+    '$ionicModal',
     '$cordovaSocialSharing',
     '$cordovaCalendar',
     '$cordovaToast',
@@ -36,7 +36,6 @@ class EventDetailOrganizertrl{
   ];
   popupOptionsSponsorship:any = null;
   hideSheet:any = null;
-  optionsActionSheet:any[] = [];
   url_image:string = '';
   event:eventModule.Event;
   userAuth:userModule.User; 
@@ -75,13 +74,6 @@ class EventDetailOrganizertrl{
     this.event.perks.forEach( this._preparatePerks, this );
     
     this.$ionicSideMenuDelegate.canDragContent(false);
-    
-    this.optionsActionSheet = [
-      this._editEvent,
-      this._shareEvent,
-      this._addToCalendar
-    ];
-
     this._loadTaskModal();    
   }
   
@@ -91,7 +83,7 @@ class EventDetailOrganizertrl{
   }
   
   private _loadTaskModal(){
-    this.$ionicModal.fromTemplateUrl('app/events-organizer/task-modal.html', {
+    this.$ionicModal.fromTemplateUrl('templates/events-organizer/task-modal.html', {
       scope: this.$scope,
       animation: 'slide-in-up'
     }).then((modal) => {
@@ -236,8 +228,16 @@ class EventDetailOrganizertrl{
       destructiveText: '<i class="icon ion-trash-a"></i> ' + this.$translate.instant("EVENTDETAIL.delete_event"),
       titleText: this.$translate.instant("EVENTDETAIL.options"),
       cancelText: '<i class="icon ion-close"></i> ' + this.$translate.instant("EVENTDETAIL.cancel"),
-      buttonClicked: function(index) {
-        this.optionsActionSheet[index]();
+      buttonClicked: index => {
+        
+        if(index == 0){
+          this._editEvent();
+        }else if(index == 1){
+          this._shareEvent();
+        }else if(index == 2){
+          this._addToCalendar();
+        }
+      
         return true;
       },
       destructiveButtonClicked: () => {
@@ -376,4 +376,4 @@ class EventDetailOrganizertrl{
 }
 angular
   .module('app.events-organizer')
-  .controller('EventDetailOrganizertrl', EventDetailOrganizertrl);
+  .controller('EventDetailOrganizerCtrl', EventDetailOrganizerCtrl);

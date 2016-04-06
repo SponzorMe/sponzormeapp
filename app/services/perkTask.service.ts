@@ -92,7 +92,7 @@ module perkTaskModule{
         },
         data: data
       })
-      .then( response => { return this.$q.when( this._preparatePerkTaskUpdate(response.data) ); } )
+      .then( response => { return this.$q.when( response.data ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     

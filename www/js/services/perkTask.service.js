@@ -65,7 +65,7 @@ var perkTaskModule;
                 },
                 data: data
             })
-                .then(function (response) { return _this.$q.when(_this._preparatePerkTaskUpdate(response.data)); })
+                .then(function (response) { return _this.$q.when(response.data); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
         perkTaskService.prototype.deletePerkTask = function (perkTaskId) {
@@ -130,7 +130,7 @@ var perkTaskModule;
             return this.buildPerkTask(data.PerkTask);
         };
         return perkTaskService;
-    }());
+    })();
     perkTaskModule.perkTaskService = perkTaskService;
     angular
         .module('app')

@@ -51,7 +51,7 @@ var HomeSponzorCtrl = (function () {
         return moment(item.starts).isAfter(new Date());
     };
     return HomeSponzorCtrl;
-}());
+})();
 angular
     .module('app.dashboard-sponzor')
     .controller('HomeSponzorCtrl', HomeSponzorCtrl);

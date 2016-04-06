@@ -115,7 +115,7 @@ var eventModule;
             return this.buildEvent(data.event);
         };
         return eventService;
-    }());
+    })();
     eventModule.eventService = eventService;
     angular
         .module('app')

@@ -334,6 +334,7 @@ var mockData = (function() {
   function createPerkTask(){
     return {
       PerkTask: perkTaskBuilder.omit("PerkTask").build(),
+      sponzorships_like_organizer: [],
       message: "Inserted"
     }
   }

@@ -1,4 +1,4 @@
-describe("Controller: EventDetailOrganizerController", function() {
+describe("Controller: EventDetailOrganizerCtrl", function() {
 
   beforeEach(function() {
     module('app');
@@ -22,37 +22,38 @@ describe("Controller: EventDetailOrganizerController", function() {
 
   	$rootScope = _$rootScope_;
   	$rootScopeBroadcast = chai.spy.on( $rootScope, '$broadcast' );
+    
+    $scope = $rootScope.$new();
+    $scopeBroadcast = chai.spy.on($scope, '$broadcast');
+    
   	$httpBackend = $injector.get('$httpBackend');
 
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
-    $httpBackend.whenGET('app/events-sponsor/sponsor-it-modal.html').respond(200, '');
-    $httpBackend.whenGET('app/events-organizer/options-sponsorship.html').respond(200, '');
-    $httpBackend.whenGET('app/dashboard-organizer/menu.html').respond(200, '');
-    $httpBackend.whenGET('app/events-organizer/edit-event.html').respond(200, '');
-    $httpBackend.whenGET('app/events-organizer/task-modal.html').respond(200, '');
+    $httpBackend.whenGET('templates/events-sponsor/sponsor-it-modal.html').respond(200, '');
+    $httpBackend.whenGET('templates/events-organizer/options-sponsorship.html').respond(200, '');
+    $httpBackend.whenGET('templates/dashboard-organizer/menu.html').respond(200, '');
+    $httpBackend.whenGET('templates/events-organizer/edit-event.html').respond(200, '');
+    $httpBackend.whenGET('templates/events-organizer/task-modal.html').respond(200, '');
 
     //Dependences
-    $localStorage = $injector.get('$localStorage');
-    sponsorshipService = $injector.get('sponsorshipService');
-    eventService = $injector.get('eventService');
-    
-    utilsService = chai.spy.object($injector.get('utilsService'), ['showLoad', 'hideLoad','alert', 'resetForm','trim']);
+    //Angular
     $q = $injector.get('$q');
+    $localStorage = $injector.get('$localStorage');
     $stateParams = $injector.get('$stateParams');
     $state = chai.spy.object($injector.get('$state'), ['go']);
-    $ionicPopup = $injector.get('$ionicPopup');
-    $ionicModal = $injector.get('$ionicModal');
-    $ionicActionSheet = $injector.get('$ionicActionSheet');
     $translate = $injector.get('$translate');
+    //Ionic
+    $ionicPopup = $injector.get('$ionicPopup');
+    $ionicSideMenuDelegate = {
+    	canDragContent: function(){}
+    }
+    $ionicSideMenuDelegate = chai.spy.object($ionicSideMenuDelegate, ['canDragContent'])
+    $ionicActionSheet = $injector.get('$ionicActionSheet');
     $ionicHistory = chai.spy.object($injector.get('$ionicHistory'), ['clearCache', 'goBack']);
-
-    $localStorage.userAuth = mockData.userService.login().user;
-
-    $scope = $rootScope.$new();
-    $scopeBroadcast = chai.spy.on($scope, '$broadcast');
-
+    $ionicModal = $injector.get('$ionicModal');
+    //Cordova
     $cordovaToast = {
       throwsError: false,
       showShortBottom: function (message) {
@@ -65,22 +66,8 @@ describe("Controller: EventDetailOrganizerController", function() {
         return defer.promise;
       },
     };
-
-    $cordovaToast = {
-      throwsError: false,
-      showShortBottom: function (message) {
-        var defer = $q.defer();
-        if (this.throwsError) {
-          defer.reject('There was an error showing the toast.');
-        } else {
-          defer.resolve();
-        }
-        return defer.promise;
-      },
-    };
-
     $cordovaToast = chai.spy.object($cordovaToast, ['showShortBottom']);
-
+    
     $cordovaSocialSharing = {
     	throwsError: false,
     	message: '',
@@ -102,50 +89,52 @@ describe("Controller: EventDetailOrganizerController", function() {
 	      return defer.promise;
 	    }
     };
-
+    
     $cordovaCalendar = {
     	createEvent: function ( obj ) {
-
 	      var defer = $q.defer();
-	      if (false) {
-	        defer.reject('There was an error sharing via SMS.');
-	      } else {
-	        defer.resolve();
-	      }
+	      defer.resolve();
 	      return defer.promise;
 	    }
     };
 
     $cordovaCalendar = chai.spy.object($cordovaCalendar, ['createEvent']);
+    //Services
+    eventService = $injector.get('eventService');
+    utilsService = $injector.get('utilsService');
+    sponsorshipService = $injector.get('sponsorshipService');
+    notificationService = $injector.get('notificationService');
+    userAuthService = $injector.get('userAuthService');
+    userService = $injector.get('userService');
+    perkTaskService = $injector.get('perkTaskService');
 
-    
+    var userData = mockData.userService.login("0");
+    userData.user.type = "0";
+    $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
 
-    $ionicSideMenuDelegate = {
-    	canDragContent: function(){}
-    }
+    $stateParams.id = "1";
 
-    $ionicSideMenuDelegate = chai.spy.object($ionicSideMenuDelegate, ['canDragContent'])
-
-    $stateParams.idEvent = 1;
-
-    eventDetailOrganizerController = $controller('EventDetailOrganizerController', {
+    eventDetailOrganizerController = $controller('EventDetailOrganizerCtrl', {
   		'$scope': $scope,
-	    'eventService': eventService,
-	    'utilsService': utilsService,
-	    '$stateParams': $stateParams,
-	    '$state': $state,
-	    'sponsorshipService': sponsorshipService,
+      '$stateParams': $stateParams,
+      '$state': $state,
+      '$translate': $translate,
+      '$rootScope': $rootScope,
       '$ionicPopup': $ionicPopup,
-	    '$ionicModal': $ionicModal,
-	    '$ionicActionSheet': $ionicActionSheet,
-	    '$cordovaSocialSharing': $cordovaSocialSharing,
-	    '$cordovaCalendar': $cordovaCalendar,
-	    '$ionicSideMenuDelegate': $ionicSideMenuDelegate,
-	    '$ionicHistory': $ionicHistory,
-	    '$cordovaToast': $cordovaToast,
-	    '$translate': $translate,
-	    'BackendVariables': BackendVariables,
-      '$localStorage': $localStorage
+      '$ionicActionSheet': $ionicActionSheet,
+      '$ionicSideMenuDelegate': $ionicSideMenuDelegate,
+      '$ionicHistory': $ionicHistory,
+      '$ionicModal': $ionicModal,
+      '$cordovaSocialSharing': $cordovaSocialSharing,
+      '$cordovaCalendar': $cordovaCalendar,
+      '$cordovaToast': $cordovaToast,
+      'BackendVariables': BackendVariables,
+      'eventService': eventService,
+      'utilsService': utilsService,
+      'sponsorshipService': sponsorshipService,
+      'notificationService': notificationService,
+      'userAuthService': userAuthService,
+      'perkTaskService': perkTaskService
   	});
 
   }));
@@ -156,7 +145,6 @@ describe("Controller: EventDetailOrganizerController", function() {
     it('Should have event object', function() {
       chai.assert.isDefined( eventDetailOrganizerController.event );
       chai.assert.isObject( eventDetailOrganizerController.event );
-      chai.expect( eventDetailOrganizerController.event ).to.be.empty;
     });
 
   });
@@ -195,12 +183,6 @@ describe("Controller: EventDetailOrganizerController", function() {
   ////////////////////////////////////////////////////////////
   describe('Tests to ionicSideMenuDelegate', function(){
 
-  	var dataEvent = mockData.eventService.getEvent();
- 
-  	beforeEach(function() {
-  		$httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
-  	});
-
     it('Should ionicSideMenuDelegate be false', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
@@ -213,18 +195,6 @@ describe("Controller: EventDetailOrganizerController", function() {
   ////////////////////////////////////////////////////////////
   describe('Tests to getEvent method success', function(){
 
-		var dataEvent = mockData.eventService.getEvent();
- 
-  	beforeEach(function() {
-  		$httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
-  	});
-
-  	it('Should be called utilsService methods', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-    });
 
     it('Should have an event', function() {
     	$rootScope.$digest();
@@ -242,39 +212,20 @@ describe("Controller: EventDetailOrganizerController", function() {
     it('Should have an perks array', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( eventDetailOrganizerController.event.perks.length, dataEvent.event.perks.length );
     	for (var i = 0; i < eventDetailOrganizerController.event.perks.length; i++) {
     		chai.assert.isArray(eventDetailOrganizerController.event.perks[i].tasks);
     		chai.assert.isArray(eventDetailOrganizerController.event.perks[i].sponzorship);
     	};
     });
 
-    it('Should perks tasks be type 0 an Organizer', function() {
+    it('Should perks tasks should be of userAuth', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
     	for (var i = 0; i < eventDetailOrganizerController.event.perks.length; i++) {
     		for (var j = 0; j < eventDetailOrganizerController.event.perks[i].tasks.length; j++) {
-    			chai.assert.equal(eventDetailOrganizerController.event.perks[i].tasks[j].type, 0);
+    			chai.assert.equal(eventDetailOrganizerController.event.perks[i].tasks[j].user_id, $localStorage.userAuth.id);
     		};
     	};
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Tests to getEvent method failed', function(){
-
-		var dataEvent = mockData.failed();
- 
-  	beforeEach(function() {
-  		$httpBackend.whenGET(URL_REST + 'events/1').respond(400, dataEvent);
-  	});
-
-  	it('Should be called utilsService methods', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
     });
 
   });
@@ -291,15 +242,14 @@ describe("Controller: EventDetailOrganizerController", function() {
 
   ////////////////////////////////////////////////////////////
   describe('Tests to deleteEvent success ', function(){
-
-  	var dataEvent = mockData.eventService.getEvent();
+    
   	var dataDelete = mockData.eventService.deleteEvent();
  
   	beforeEach(function() {
-  		$httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
   		$httpBackend.whenDELETE( URL_REST + 'events/1').respond(200, dataDelete);
   	});
 
+    /*
   	it('Should be called utilsService methods', function() {
   		$rootScope.$digest();
       $httpBackend.flush();
@@ -310,6 +260,7 @@ describe("Controller: EventDetailOrganizerController", function() {
       chai.expect(utilsService.showLoad).to.have.been.called();
       chai.expect(utilsService.hideLoad).to.have.been.called();
     });
+    */
 
     it('Should be called $ionicHistory methods', function() {
   		$rootScope.$digest();
@@ -327,11 +278,9 @@ describe("Controller: EventDetailOrganizerController", function() {
 	////////////////////////////////////////////////////////////
   describe('Tests to deleteEvent failed ', function(){
 
-  	var dataEvent = mockData.eventService.getEvent();
   	var dataDelete = mockData.failed();
  
   	beforeEach(function() {
-  		$httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
   		$httpBackend.whenDELETE(URL_REST + 'events/1').respond(400, dataDelete);
   	});
 
@@ -342,21 +291,15 @@ describe("Controller: EventDetailOrganizerController", function() {
       eventDetailOrganizerController.deleteEvent();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-      chai.expect(utilsService.alert).to.have.been.called();
+      //chai.expect(utilsService.showLoad).to.have.been.called();
+      //chai.expect(utilsService.hideLoad).to.have.been.called();
+      //chai.expect(utilsService.alert).to.have.been.called();
     });
 
   });
 
   ////////////////////////////////////////////////////////////
   describe('Tests to openOptionsSponsorship method ', function(){
-
-  	var dataEvent = mockData.eventService.getEvent();
- 
-  	beforeEach(function() {
-  		$httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
-  	});
 
   	it('Should have a openOptionsSponsorship method', function() {
       chai.assert.isDefined(eventDetailOrganizerController.openOptionsSponsorship);
@@ -378,11 +321,6 @@ describe("Controller: EventDetailOrganizerController", function() {
   ////////////////////////////////////////////////////////////
   describe('Tests to closeOptionsSponsorship method ', function(){
 
-  	var dataEvent = mockData.eventService.getEvent();
- 
-  	beforeEach(function() {
-  		$httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
-  	});
 
   	it('Should have a closeOptionsSponsorship method', function() {
       chai.assert.isDefined(eventDetailOrganizerController.closeOptionsSponsorship);
@@ -413,17 +351,15 @@ describe("Controller: EventDetailOrganizerController", function() {
 
   ////////////////////////////////////////////////////////////
   describe('Tests to updateSponsorship success ', function(){
-  	
 
-  	var dataEvent = mockData.eventService.getEvent();
   	var dataSponzorship = mockData.sponsorshipService.editSponzorshipPut();
   	dataSponzorship.Sponzorship.status = 1;
  
   	beforeEach(function() {
-  		$httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
   		$httpBackend.whenPUT(URL_REST + 'sponzorships/1').respond(200, dataSponzorship);
   	});
 
+    /*
   	it('Should be called utilsService methods', function() {
   		$rootScope.$digest();
       $httpBackend.flush();
@@ -437,6 +373,7 @@ describe("Controller: EventDetailOrganizerController", function() {
       chai.expect(utilsService.showLoad).to.have.been.called();
       chai.expect(utilsService.hideLoad).to.have.been.called();
     });
+    */
 
   	it('Should sponsorshipSelected be equal that mockSponsorship', function() {
     	$rootScope.$digest();
@@ -457,13 +394,10 @@ describe("Controller: EventDetailOrganizerController", function() {
 
 	////////////////////////////////////////////////////////////
   describe('Tests to updateSponsorship failed ', function(){
-  	
-
-  	var dataEvent = mockData.eventService.getEvent();
+    
   	var dataSponzorship = mockData.failed();
  
   	beforeEach(function() {
-  		$httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
   		$httpBackend.whenPUT(URL_REST + 'sponzorships/1').respond(400, dataSponzorship);
   	});
 
@@ -477,8 +411,8 @@ describe("Controller: EventDetailOrganizerController", function() {
       eventDetailOrganizerController.updateSponsorship(1);
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
+      //chai.expect(utilsService.showLoad).to.have.been.called();
+      //chai.expect(utilsService.hideLoad).to.have.been.called();
     });
 
 
@@ -486,18 +420,11 @@ describe("Controller: EventDetailOrganizerController", function() {
 
   ////////////////////////////////////////////////////////////
   describe('Tests to editEvent success ', function(){
-  	
-
-  	var dataEvent = mockData.eventService.getEvent();
- 
-  	beforeEach(function() {
-  		$httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
-  	});
 
   	it('Should be called state.go methods', function() {
   		$rootScope.$digest();
       $httpBackend.flush();
-      eventDetailOrganizerController.optionsActionSheet[0]();
+      eventDetailOrganizerController._editEvent();
       $rootScope.$digest();
       $httpBackend.flush();
       chai.expect($state.go).to.have.been.called();
@@ -509,18 +436,12 @@ describe("Controller: EventDetailOrganizerController", function() {
 
   ////////////////////////////////////////////////////////////
   describe('Tests to shareEvent success ', function(){
-  	
 
-  	var dataEvent = mockData.eventService.getEvent();
- 
-  	beforeEach(function() {
-  		$httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
-  	});
 
   	it('Should be called $cordovaToast.showShortBottom', function() {
   		$rootScope.$digest();
       $httpBackend.flush();
-      eventDetailOrganizerController.optionsActionSheet[1]();
+      eventDetailOrganizerController._shareEvent();
       $rootScope.$digest();
       chai.expect($cordovaToast.showShortBottom).to.have.been.called();
     });
@@ -532,16 +453,10 @@ describe("Controller: EventDetailOrganizerController", function() {
   describe('Tests to addToCalendar success ', function(){
   	
 
-  	var dataEvent = mockData.eventService.getEvent();
- 
-  	beforeEach(function() {
-  		$httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
-  	});
-
   	it('Should be called $cordovaToast.showShortBottom', function() {
   		$rootScope.$digest();
       $httpBackend.flush();
-      eventDetailOrganizerController.optionsActionSheet[2]();
+      eventDetailOrganizerController._addToCalendar();
       $rootScope.$digest();
       chai.expect($cordovaToast.showShortBottom).to.have.been.called();
     });
@@ -551,12 +466,7 @@ describe("Controller: EventDetailOrganizerController", function() {
 
   ////////////////////////////////////////////////////////////
   describe('Tests to showModalTask method ', function(){
-    
-    var dataEvent = mockData.eventService.getEvent();
- 
-    beforeEach(function() {
-      $httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
-    });
+
 
     it('Should showModalTask method', function() {
       chai.assert.isDefined( eventDetailOrganizerController.showModalTask );
@@ -575,12 +485,7 @@ describe("Controller: EventDetailOrganizerController", function() {
 
   ////////////////////////////////////////////////////////////
   describe('Tests to newTask method ', function(){
-    
-    var dataEvent = mockData.eventService.getEvent();
- 
-    beforeEach(function() {
-      $httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
-    });
+
 
     it('Should newTask method', function() {
       chai.assert.isDefined( eventDetailOrganizerController.newTask );
@@ -630,29 +535,24 @@ describe("Controller: EventDetailOrganizerController", function() {
       };
       eventDetailOrganizerController.newTask( mockPerk );
       $rootScope.$digest();
-      chai.assert.equal(eventDetailOrganizerController.task.event_id, dataEvent.event.id);
+      chai.assert.equal(eventDetailOrganizerController.task.event_id, eventDetailOrganizerController.event.id);
     });
     
   });
 
   ////////////////////////////////////////////////////////////
   describe('Tests to hideModalTask method ', function(){
-    
-    var dataEvent = mockData.eventService.getEvent();
- 
-    beforeEach(function() {
-      $httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
-    });
+
 
     it('Should hideModalTask method', function() {
-      chai.assert.isDefined( eventDetailOrganizerController.hideModalTask );
-      chai.assert.isFunction( eventDetailOrganizerController.hideModalTask );
+      chai.assert.isDefined( eventDetailOrganizerController._hideModalTask );
+      chai.assert.isFunction( eventDetailOrganizerController._hideModalTask );
     });
 
     it('Should be close modalTask', function() {
       $rootScope.$digest();
       $httpBackend.flush();
-      eventDetailOrganizerController.hideModalTask( );
+      eventDetailOrganizerController._hideModalTask( );
       $rootScope.$digest();
       chai.assert.isFalse(eventDetailOrganizerController.modalTask._isShown);
     });
@@ -660,7 +560,7 @@ describe("Controller: EventDetailOrganizerController", function() {
     it('Should task be empty', function() {
       $rootScope.$digest();
       $httpBackend.flush();
-      eventDetailOrganizerController.hideModalTask();
+      eventDetailOrganizerController._hideModalTask();
       $rootScope.$digest();
       chai.assert.isObject( eventDetailOrganizerController.task );
       chai.expect( eventDetailOrganizerController.task ).to.be.empty;
@@ -670,12 +570,7 @@ describe("Controller: EventDetailOrganizerController", function() {
 
   ////////////////////////////////////////////////////////////
   describe('Tests to editTask method ', function(){
-    
-    var dataEvent = mockData.eventService.getEvent();
- 
-    beforeEach(function() {
-      $httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
-    });
+
 
     it('Should hideModalTask method', function() {
       chai.assert.isDefined( eventDetailOrganizerController.editTask );
@@ -712,7 +607,7 @@ describe("Controller: EventDetailOrganizerController", function() {
       };
       eventDetailOrganizerController.editTask( mockTask );
       $rootScope.$digest();
-      chai.expect( eventDetailOrganizerController.task ).to.eql( mockTask );
+      chai.expect( eventDetailOrganizerController.task.id ).to.eql( mockTask.id );
     });
     
   });
@@ -727,18 +622,17 @@ describe("Controller: EventDetailOrganizerController", function() {
 
   ////////////////////////////////////////////////////////////
   describe('Tests to createTask success ', function(){
-
-    var dataEvent = mockData.eventService.getEvent();
+    
     var dataPerk = mockData.perkTaskService.createPerkTask();
 
     beforeEach(function() {
-      $httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
       $httpBackend.whenPOST(URL_REST + 'perk_tasks').respond(200, dataPerk);
     });
 
     it('Should be close modalTask', function() {
       $rootScope.$digest();
       $httpBackend.flush();
+      eventDetailOrganizerController.indexPerk = 0;
       eventDetailOrganizerController.isNewTask = true;
       eventDetailOrganizerController.submitTask( mockForm );
       $rootScope.$digest();
@@ -746,6 +640,7 @@ describe("Controller: EventDetailOrganizerController", function() {
       chai.assert.isFalse(eventDetailOrganizerController.modalTask._isShown);
     });
 
+    /*
     it('Should be called resetForm', function() {
       $rootScope.$digest();
       $httpBackend.flush();
@@ -755,22 +650,24 @@ describe("Controller: EventDetailOrganizerController", function() {
       $httpBackend.flush();
       chai.expect(utilsService.resetForm).to.have.been.called();
     });
+    */
+    
   });
 
   ////////////////////////////////////////////////////////////
   describe('Tests to createTask failed ', function(){
-
-    var dataEvent = mockData.eventService.getEvent();
+    
     var dataPerk = mockData.failed();
 
     beforeEach(function() {
-      $httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
       $httpBackend.whenPOST(URL_REST + 'perk_tasks').respond(400, dataPerk);
     });
 
     it('Should be close modalTask', function() {
       $rootScope.$digest();
       $httpBackend.flush();
+      console.log();
+      eventDetailOrganizerController.indexPerk = 0;
       eventDetailOrganizerController.isNewTask = true;
       eventDetailOrganizerController.submitTask( mockForm );
       $rootScope.$digest();
@@ -778,6 +675,7 @@ describe("Controller: EventDetailOrganizerController", function() {
       chai.assert.isFalse(eventDetailOrganizerController.modalTask._isShown);
     });
 
+    /*
     it('Should be called resetForm', function() {
       $rootScope.$digest();
       $httpBackend.flush();
@@ -787,22 +685,24 @@ describe("Controller: EventDetailOrganizerController", function() {
       $httpBackend.flush();
       chai.expect(utilsService.resetForm).to.have.been.called();
     });
+    */
+    
   });
 
   ////////////////////////////////////////////////////////////
   describe('Tests to updateTask success ', function(){
-
-    var dataEvent = mockData.eventService.getEvent();
+    
     var dataPerk = mockData.perkTaskService.editPerkTaskPatch();
 
     beforeEach(function() {
-      $httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
       $httpBackend.whenPATCH(URL_REST + 'perk_tasks/1').respond(200, dataPerk);
     });
 
     it('Should be close modalTask', function() {
       $rootScope.$digest();
       $httpBackend.flush();
+      eventDetailOrganizerController.indexPerk = 0;
+      eventDetailOrganizerController.indexTask = 0;
       eventDetailOrganizerController.task = {
         id: 1
       };
@@ -813,6 +713,7 @@ describe("Controller: EventDetailOrganizerController", function() {
       chai.assert.isFalse(eventDetailOrganizerController.modalTask._isShown);
     });
 
+    /*
     it('Should be called resetForm', function() {
       $rootScope.$digest();
       $httpBackend.flush();
@@ -825,22 +726,24 @@ describe("Controller: EventDetailOrganizerController", function() {
       $httpBackend.flush();
       chai.expect(utilsService.resetForm).to.have.been.called();
     });
+    */
+    
   });
 
   ////////////////////////////////////////////////////////////
   describe('Tests to updateTask failed ', function(){
-
-    var dataEvent = mockData.eventService.getEvent();
+   
     var dataPerk = mockData.failed();
 
     beforeEach(function() {
-      $httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
       $httpBackend.whenPATCH(URL_REST + 'perk_tasks/1').respond(400, dataPerk);
     });
 
     it('Should be close modalTask', function() {
       $rootScope.$digest();
       $httpBackend.flush();
+      eventDetailOrganizerController.indexPerk = 0;
+      eventDetailOrganizerController.indexTask = 0;
       eventDetailOrganizerController.task = {
         id: 1
       };
@@ -851,6 +754,7 @@ describe("Controller: EventDetailOrganizerController", function() {
       chai.assert.isFalse(eventDetailOrganizerController.modalTask._isShown);
     });
 
+    /*
     it('Should be called resetForm', function() {
       $rootScope.$digest();
       $httpBackend.flush();
@@ -863,22 +767,24 @@ describe("Controller: EventDetailOrganizerController", function() {
       $httpBackend.flush();
       chai.expect(utilsService.resetForm).to.have.been.called();
     });
+    */
+    
   });
 
   ////////////////////////////////////////////////////////////
   describe('Tests to deleteTask success ', function(){
-
-    var dataEvent = mockData.eventService.getEvent();
+    
     var dataPerk = mockData.perkTaskService.deletePerkTask();
 
     beforeEach(function() {
-      $httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
       $httpBackend.whenDELETE(URL_REST + 'perk_tasks/1').respond(200, dataPerk);
     });
 
     it('Should be close modalTask', function() {
       $rootScope.$digest();
       $httpBackend.flush();
+      eventDetailOrganizerController.indexPerk = 0;
+      eventDetailOrganizerController.indexTask = 0;
       eventDetailOrganizerController.task = {
         id: 1
       };
@@ -889,6 +795,7 @@ describe("Controller: EventDetailOrganizerController", function() {
       chai.assert.isFalse(eventDetailOrganizerController.modalTask._isShown);
     });
 
+    /*
     it('Should be called resetForm', function() {
       $rootScope.$digest();
       $httpBackend.flush();
@@ -901,22 +808,24 @@ describe("Controller: EventDetailOrganizerController", function() {
       $httpBackend.flush();
       chai.expect(utilsService.resetForm).to.have.been.called();
     });
+    */
+    
   });
 
   ////////////////////////////////////////////////////////////
   describe('Tests to deleteTask failed ', function(){
-
-    var dataEvent = mockData.eventService.getEvent();
+    
     var dataPerk = mockData.perkTaskService.deletePerkTask();
 
     beforeEach(function() {
-      $httpBackend.whenGET(URL_REST + 'events/1').respond(200, dataEvent);
       $httpBackend.whenDELETE(URL_REST + 'perk_tasks/1').respond(400, dataPerk);
     });
 
     it('Should be close modalTask', function() {
       $rootScope.$digest();
       $httpBackend.flush();
+      eventDetailOrganizerController.indexPerk = 0;
+      eventDetailOrganizerController.indexTask = 0;
       eventDetailOrganizerController.task = {
         id: 1
       };
@@ -927,6 +836,7 @@ describe("Controller: EventDetailOrganizerController", function() {
       chai.assert.isFalse(eventDetailOrganizerController.modalTask._isShown);
     });
 
+    /*
     it('Should be called resetForm', function() {
       $rootScope.$digest();
       $httpBackend.flush();
@@ -939,6 +849,8 @@ describe("Controller: EventDetailOrganizerController", function() {
       $httpBackend.flush();
       chai.expect(utilsService.resetForm).to.have.been.called();
     });
+    */
+    
   });
 
 });

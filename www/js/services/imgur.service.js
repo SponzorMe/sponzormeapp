@@ -38,7 +38,7 @@ var imgurModule;
             return data.data.link;
         };
         return imgurService;
-    }());
+    })();
     imgurModule.imgurService = imgurService;
     angular
         .module('app')
