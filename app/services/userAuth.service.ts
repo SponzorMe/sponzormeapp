@@ -1,5 +1,5 @@
 /// <reference path="../../typings/tsd.d.ts" />
-/// <reference path="user.service.ts" />
+
 /**
 * @Servicio de utlidades
 *
