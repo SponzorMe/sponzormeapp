@@ -58,13 +58,13 @@ module.exports = function( config ){
       //Tests
       //'tests/unit/**/*.service.spec.js',
       //'tests/unit/**/*.controller.spec.js',
-      //"./tests/unit/dashboard-organizer/home.controller.spec.js",
-      //"./tests/unit/dashboard-organizer/intro.controller.spec.js",
-      //"./tests/unit/dashboard-organizer/menu.controller.spec.js",
-      //"./tests/unit/dashboard-sponzor/home.controller.spec.js",
-      //"./tests/unit/dashboard-sponzor/intro.controller.spec.js",
-      //"./tests/unit/dashboard-sponzor/menu.controller.spec.js",
-      //"./tests/unit/events-organizer/add-event.controller.spec.js",
+      "./tests/unit/dashboard-organizer/home.controller.spec.js",
+      "./tests/unit/dashboard-organizer/intro.controller.spec.js",
+      "./tests/unit/dashboard-organizer/menu.controller.spec.js",
+      "./tests/unit/dashboard-sponzor/home.controller.spec.js",
+      "./tests/unit/dashboard-sponzor/intro.controller.spec.js",
+      "./tests/unit/dashboard-sponzor/menu.controller.spec.js",
+      "./tests/unit/events-organizer/add-event.controller.spec.js",
       "./tests/unit/events-organizer/edit-event.controller.spec.js"
     ]
   });

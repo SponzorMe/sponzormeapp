@@ -7,15 +7,15 @@ module notificationModule{
   export interface INotificationService{
     activate(): void;
     getNotifications(userId:string): any;
-    sendNewSponsorship(notification: Notification, to:string): void;
-    sendAcceptSponsorship(notification: Notification, to:string): void,
-    sendRejectSponsorship(notification: Notification, to:string): void,
-    sendNewTaskOrganizer(notification: Notification, to:string): void,
-    sendUpdateTaskOrganizer(notification: Notification, to:string): void,
-    sendDoneTaskOrganizer(notification: Notification, to:string): void,
-    sendNewTaskSponsor(notification: Notification, to:string): void,
-    sendUpdateTaskSponsor(notification: Notification, to:string): void,
-    sendDoneTaskSponsor(notification: Notification, to:string): void,
+    sendNewSponsorship(notification: any, to:string): void;
+    sendAcceptSponsorship(notification: any, to:string): void,
+    sendRejectSponsorship(notification: any, to:string): void,
+    sendNewTaskOrganizer(notification: any, to:string): void,
+    sendUpdateTaskOrganizer(notification: any, to:string): void,
+    sendDoneTaskOrganizer(notification: any, to:string): void,
+    sendNewTaskSponsor(notification: any, to:string): void,
+    sendUpdateTaskSponsor(notification: any, to:string): void,
+    sendDoneTaskSponsor(notification: any, to:string): void,
     sendNewEvent(): void,
     sendUpdateEvent(): void,
   }

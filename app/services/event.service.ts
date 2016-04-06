@@ -21,6 +21,7 @@ module eventModule{
   export interface Event{
     id: string;
     title: string;
+    description: string;
     location: string;
     ends: any;
     starts: any;
