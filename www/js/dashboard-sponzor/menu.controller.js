@@ -1,7 +1,5 @@
 /// <reference path="../../typings/tsd.d.ts" />
-/// <reference path="../services/user.service.ts" />
-/// <reference path="../services/userAuth.service.ts" />
-/// <reference path="../services/notification.service.ts" />
+/// <reference path="../services.d.ts" />
 /**
 * @Controller for Home Organizer
 *

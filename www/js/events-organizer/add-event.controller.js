@@ -1,10 +1,5 @@
 /// <reference path="../../typings/tsd.d.ts" />
-/// <reference path="../services/userAuth.service.ts" />
-/// <reference path="../services/utils.service.ts" />
-/// <reference path="../services/eventType.service.ts" />
-/// <reference path="../services/event.service.ts" />
-/// <reference path="../services/imgur.service.ts" />
-/// <reference path="../services/notification.service.ts" />
+/// <reference path="../services.d.ts" />
 /**
 * @Controller for Add Events
 *
