@@ -92,7 +92,7 @@ module perkTaskModule{
         },
         data: data
       })
-      .then( response => { return this.$q.when( response.data ); } )
+      .then( response => { return this.$q.when( this._preparatePerkTaskCreate(response.data) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
@@ -160,6 +160,11 @@ module perkTaskModule{
     
     private _preparatePerkTaskUpdate( data:any):PerkTask{
       return this.buildPerkTask(data.PerkTask); 
+    }
+    
+    private _preparatePerkTaskCreate(data:any){
+      data.PerkTask = this.buildPerkTask(data.PerkTask);
+      return data;
     }
       
   }
