@@ -1,4 +1,4 @@
-describe("Controller: SponzoringEventsController", function() {
+describe("Controller: SponsoringEventsCtrl", function() {
 
   beforeEach(function() {
     module('app');
@@ -14,33 +14,36 @@ describe("Controller: SponzoringEventsController", function() {
 
   	$rootScope = _$rootScope_;
   	$rootScopeBroadcast = chai.spy.on( $rootScope, '$broadcast' );
+    
+    $scope = $rootScope.$new();
+    $scopeBroadcast = chai.spy.on($scope, '$broadcast');
 
     BackendVariables = $injector.get('BackendVariables');
     URL_REST = BackendVariables.url;
 
   	$httpBackend = $injector.get('$httpBackend');
-
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
 
     //Dependences
+    userService = $injector.get('userService');
+    utilsService = $injector.get('utilsService');
+    userAuthService = $injector.get('userAuthService');
+    
     $localStorage = $injector.get('$localStorage');
-    userService= $injector.get('userService');
-    utilsService = chai.spy.object($injector.get('utilsService'), ['showLoad', 'hideLoad','alert', 'resetForm','trim']);
-    $q = $injector.get('$q');
 
-    $localStorage.userAuth = mockData.userService.login().user;
+    var userData = mockData.userService.login("1");
+    userData.user.type = "1";
+    $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
 
-    $scope = $rootScope.$new();
-    $scopeBroadcast = chai.spy.on($scope, '$broadcast');
 
-    sponzoringEventsController = $controller('SponzoringEventsController', {
-  		'$localStorage': $localStorage,
+    sponzoringEventsController = $controller('SponsoringEventsCtrl', {
+  		'$scope': $scope,
+      '$rootScope': $rootScope,
       'userService': userService,
-	    'utilsService': utilsService,
-	    '$scope': $scope,
-	    '$rootScope': $rootScope
+      'utilsService': utilsService,
+      'userAuthService': userAuthService
   	});
 
   }));
@@ -107,12 +110,11 @@ describe("Controller: SponzoringEventsController", function() {
       chai.assert.equal( sponzoringEventsController.sponzorships.length, 0);
     });
 
-    it('Should be called broadcast Menu:count_tasks', function() {
+    it('Should be called broadcast', function() {
     	sponzoringEventsController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
       chai.expect($rootScopeBroadcast).to.have.been.called();
-      chai.expect($rootScopeBroadcast).to.have.been.with('Menu:count_sponsoring', 0);
     });
 
     it('Should be called broadcast scroll.refreshComplete', function() {
@@ -142,6 +144,19 @@ describe("Controller: SponzoringEventsController", function() {
       chai.expect($scopeBroadcast).to.have.been.with('scroll.refreshComplete');
     });
 
+  });
+  
+   ////////////////////////////////////////////////////////////
+  describe('Tests called SponsoringEventsCtrl:getSponzorships', function(){
+    
+    it('Should have called a SponsoringEventsCtrl:getSponzorships', function() {
+    	$rootScope.$digest();
+      $rootScope.$broadcast('SponsoringEventsCtrl:getSponzorships');
+      chai.assert.equal( sponzoringEventsController.userAuth, $localStorage.userAuth );
+      chai.assert.equal( sponzoringEventsController.sponzorships.length, 0);
+      chai.assert.isTrue( sponzoringEventsController.showEmptyState );
+    });
+    
   });
 
 });
