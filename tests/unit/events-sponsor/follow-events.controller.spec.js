@@ -1,4 +1,4 @@
-describe("Controller: FollowEventsController", function() {
+describe("Controller: FollowEventsCtrl", function() {
 
   beforeEach(function() {
     module('app');
@@ -14,6 +14,9 @@ describe("Controller: FollowEventsController", function() {
 
   	$rootScope = _$rootScope_;
   	$rootScopeBroadcast = chai.spy.on( $rootScope, '$broadcast' );
+    
+    $scope = $rootScope.$new();
+    $scopeBroadcast = chai.spy.on($scope, '$broadcast');
 
     BackendVariables = $injector.get('BackendVariables');
     URL_REST = BackendVariables.url;
@@ -24,23 +27,22 @@ describe("Controller: FollowEventsController", function() {
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
 
     //Dependences
+    userService = $injector.get('userService');
+    utilsService = $injector.get('utilsService');
+    userAuthService = $injector.get('userAuthService');
+    
     $localStorage = $injector.get('$localStorage');
-    userService= $injector.get('userService');
-    utilsService= $injector.get('utilsService');
-    utilsService = chai.spy.object($injector.get('utilsService'), ['showLoad', 'hideLoad','alert', 'resetForm','trim']);
-    $q = $injector.get('$q');
 
-    $localStorage.userAuth = mockData.userService.login().user;
+    var userData = mockData.userService.login("1");
+    userData.user.type = "1";
+    $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
 
-    $scope = $rootScope.$new();
-    $scopeBroadcast = chai.spy.on($scope, '$broadcast');
-
-    followEventsController = $controller('FollowEventsController', {
-  		'$localStorage': $localStorage,
-	    'utilsService': utilsService,
-	    'userService': userService,
-	    '$scope': $scope,
-	    '$rootScope': $rootScope
+    followEventsController = $controller('FollowEventsCtrl', {
+  		'$scope': $scope,
+      '$rootScope': $rootScope,
+      'utilsService': utilsService,
+      'userService': userService,
+      'userAuthService': userAuthService
   	});
 
   }));
@@ -51,6 +53,7 @@ describe("Controller: FollowEventsController", function() {
     it('Should have events array', function() {
       chai.assert.isDefined( followEventsController.sponzorships );
       chai.assert.isArray( followEventsController.sponzorships );
+      chai.assert.equal( followEventsController.sponzorships.length, 3);
     });
 
   });
@@ -103,7 +106,7 @@ describe("Controller: FollowEventsController", function() {
       followEventsController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( followEventsController.sponzorships.length, 1);
+      chai.assert.equal( followEventsController.sponzorships.length, 3);
     });
 
     it('Should be called broadcast Menu:count_following', function() {
@@ -111,7 +114,6 @@ describe("Controller: FollowEventsController", function() {
       $rootScope.$digest();
       $httpBackend.flush();
       chai.expect($rootScopeBroadcast).to.have.been.called();
-      chai.expect($rootScopeBroadcast).to.have.been.with('Menu:count_following', 1);
     });
 
     it('Should be called broadcast scroll.refreshComplete', function() {
@@ -127,7 +129,7 @@ describe("Controller: FollowEventsController", function() {
 	////////////////////////////////////////////////////////////
   describe('Tests to doRefresh failed', function(){
 
-  	var dataHome = mockData.sponsorshipService.sponzorshipBySponzor();
+  	var dataHome = mockData.failed();
 
     beforeEach(function() {
   		$httpBackend.whenGET( URL_REST + 'home/' + $localStorage.userAuth.id ).respond(400, dataHome);
@@ -142,5 +144,19 @@ describe("Controller: FollowEventsController", function() {
     });
 
   });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Tests called FollowEventsController:getSponzorships', function(){
+    
+    it('Should have called a FollowEventsController:getSponzorships', function() {
+    	$rootScope.$digest();
+      $rootScope.$broadcast('FollowEventsController:getSponzorships');
+      chai.assert.equal( followEventsController.userAuth, $localStorage.userAuth );
+      chai.assert.equal( followEventsController.sponzorships.length, 3);
+      chai.assert.isFalse( followEventsController.showEmptyState );
+    });
+    
+  });
+
 
 });

@@ -70,7 +70,8 @@ module.exports = function( config ){
       //"./tests/unit/events-organizer/event-list-tabs.controller.spec.js",
       //"./tests/unit/events-organizer/event-list.controller.spec.js",
       //"./tests/unit/events-organizer/past-events.controller.spec.js",
-      "./tests/unit/events-sponsor/event-detail.controller.spec.js"
+      //"./tests/unit/events-sponsor/event-detail.controller.spec.js",
+      "./tests/unit/events-sponsor/follow-events.controller.spec.js"
     ]
   });
 };

@@ -1,65 +1,60 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
 /**
 * @Controller for Home Organizer
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-(function () {
-    'use strict';
-    angular
-        .module('app.events-sponzor')
-        .controller('FollowEventsController', FollowEventsController);
-    FollowEventsController.$inject = [
-        '$localStorage',
-        'utilsService',
-        'userService',
-        '$scope',
-        '$rootScope',
-        'userAuthService'
-    ];
-    function FollowEventsController($localStorage, utilsService, userService, $scope, $rootScope, userAuthService) {
-        var vm = this;
-        //Attributes
-        vm.userAuth = userAuthService.getUserAuth();
-        vm.sponzorships = [];
-        vm.showEmptyState = false;
-        //Funcions
-        vm.doRefresh = doRefresh;
-        activate();
-        ////////////
-        function activate() {
-            vm.sponzorships = vm.userAuth.sponzorships.filter(filterByDateAndByPending);
-            vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
-            $rootScope.$on('FollowEventsController:getSponzorships', getSponzorships);
-        }
-        function getSponzorships() {
-            vm.userAuth = $localStorage.userAuth;
-            vm.sponzorships = vm.userAuth.sponzorships.filter(filterByDateAndByPending);
-            vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
-        }
-        function doRefresh() {
-            userService.home(vm.userAuth.id)
-                .then(complete)
-                .catch(failed);
-            function complete(user) {
-                $scope.$broadcast('scroll.refreshComplete');
-                vm.userAuth = userAuthService.updateUserAuth(user);
-                vm.sponzorships = vm.userAuth.sponzorships.filter(filterByDateAndByPending);
-                vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
-                $rootScope.$broadcast('MenuSponzor:counts');
-                $rootScope.$broadcast('SponzoringEventsController:getSponzorships');
-            }
-            function failed(error) {
-                $scope.$broadcast('scroll.refreshComplete');
-            }
-        }
-        /*function filterByDateAndByPending( item ){
-          var today = moment( new Date() ).subtract(1, 'days');
-          return moment(item.ends).isAfter( today ) && item.status != '1';
-        }*/
-        function filterByDateAndByPending(item) {
-            return item.status != '1';
-        }
+var FollowEventsCtrl = (function () {
+    function FollowEventsCtrl($scope, $rootScope, utilsService, userService, userAuthService) {
+        this.$scope = $scope;
+        this.$rootScope = $rootScope;
+        this.utilsService = utilsService;
+        this.userService = userService;
+        this.userAuthService = userAuthService;
+        this.$inject = [
+            '$scope',
+            '$rootScope',
+            'utilsService',
+            'userService',
+            'userAuthService'
+        ];
+        this.sponzorships = [];
+        this.showEmptyState = false;
+        this.userAuth = this.userAuthService.getUserAuth();
+        this.sponzorships = this.userAuth.sponzorship.filter(this._filterByDateAndByPending);
+        this.showEmptyState = this.sponzorships.length == 0 ? true : false;
+        this._registerListenerSponzorships();
     }
-})();
+    FollowEventsCtrl.prototype.doRefresh = function () {
+        var _this = this;
+        this.userService.home(this.userAuth.id)
+            .then(function (user) {
+            _this.$scope.$broadcast('scroll.refreshComplete');
+            _this.userAuth = _this.userAuthService.updateUserAuth(user);
+            _this.sponzorships = _this.userAuth.sponzorship.filter(_this._filterByDateAndByPending);
+            _this.showEmptyState = _this.sponzorships.length == 0 ? true : false;
+            _this.$rootScope.$broadcast('MenuSponsorCtrl:counts');
+            _this.$rootScope.$broadcast('SponsoringEventsCtrl:getSponzorships');
+        })
+            .catch(function (error) {
+            _this.$scope.$broadcast('scroll.refreshComplete');
+        });
+    };
+    FollowEventsCtrl.prototype._registerListenerSponzorships = function () {
+        var _this = this;
+        this.$rootScope.$on('FollowEventsController:getSponzorships', function () {
+            _this.userAuth = _this.userAuthService.getUserAuth();
+            _this.sponzorships = _this.userAuth.sponzorship.filter(_this._filterByDateAndByPending);
+            _this.showEmptyState = _this.sponzorships.length == 0 ? true : false;
+        });
+    };
+    FollowEventsCtrl.prototype._filterByDateAndByPending = function (item) {
+        return item.status != '1';
+    };
+    return FollowEventsCtrl;
+}());
+angular
+    .module('app.events-sponzor')
+    .controller('FollowEventsCtrl', FollowEventsCtrl);
