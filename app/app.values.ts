@@ -9,8 +9,8 @@
   angular
     .module('app')
     .value('BackendVariables',{
-      url: "https://apistaging.sponzor.me/", // i'm using the Ionic Proxy
-      f_url: "https://sponzorme.firebaseio.com/staging/",
+      url: "https://api.sponzor.me/", // i'm using the Ionic Proxy
+      f_url: "https://sponzorme.firebaseio.com/production/",
       url_web: "https://sponzor.me/",
       version: "v1.1.1",
       channel: "dev"
