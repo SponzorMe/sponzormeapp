@@ -1,78 +1,66 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
 /**
 * @Controller for Home Organizer
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-(function() {
-  'use strict';
-
-  angular
-    .module('app.events-sponzor')
-    .controller('FollowEventsController', FollowEventsController);
-
-  FollowEventsController.$inject = [
-    '$localStorage',
-    'utilsService',
-    'userService',
+class FollowEventsCtrl{
+  
+  $inject = [
     '$scope',
     '$rootScope',
+    'utilsService',
+    'userService',
     'userAuthService'
   ];
-
-  function FollowEventsController( $localStorage, utilsService, userService, $scope, $rootScope, userAuthService) {
-
-    var vm = this;
-    //Attributes
-    vm.userAuth = userAuthService.getUserAuth();
-    vm.sponzorships = [];
-    vm.showEmptyState = false;
-    //Funcions
-    vm.doRefresh = doRefresh;
+  userAuth:userModule.User;
+  sponzorships:any[] = [];
+  showEmptyState:boolean = false;
+  
+  constructor(
+    private $scope: angular.IScope,
+    private $rootScope: angular.IRootScopeService,
+    private utilsService: utilsServiceModule.IUtilsService,
+    private userService: userModule.IUserService,
+    private userAuthService: userAuthModule.IUserAuthService
+  ){
+    this.userAuth = this.userAuthService.getUserAuth();
+    this.sponzorships = this.userAuth.sponzorship.filter( this._filterByDateAndByPending );
+    this.showEmptyState = this.sponzorships.length == 0 ? true : false;
     
-    activate();
-    ////////////
-
-    function activate(){
-      vm.sponzorships = vm.userAuth.sponzorships.filter( filterByDateAndByPending );
-      vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
-      $rootScope.$on('FollowEventsController:getSponzorships', getSponzorships);
-    }
-    
-    function getSponzorships() {
-      vm.userAuth = $localStorage.userAuth;
-      vm.sponzorships = vm.userAuth.sponzorships.filter( filterByDateAndByPending );
-      vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
-    }
-
-    function doRefresh(){
-      userService.home( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( user ){
-          $scope.$broadcast('scroll.refreshComplete');
-          vm.userAuth = userAuthService.updateUserAuth( user );
-          vm.sponzorships = vm.userAuth.sponzorships.filter( filterByDateAndByPending );
-          vm.showEmptyState = vm.sponzorships.length == 0 ? true : false;
-          $rootScope.$broadcast('MenuSponzor:counts');
-          $rootScope.$broadcast('SponzoringEventsController:getSponzorships');
-        }
-
-        function failed( error ){
-          $scope.$broadcast('scroll.refreshComplete');
-        }
-    }
-    
-    /*function filterByDateAndByPending( item ){
-      var today = moment( new Date() ).subtract(1, 'days');
-      return moment(item.ends).isAfter( today ) && item.status != '1';
-    }*/
-    
-    function filterByDateAndByPending( item ){
-      return item.status != '1';
-    }
-
+    this._registerListenerSponzorships();
   }
-})();
+  
+  doRefresh(){
+    this.userService.home( this.userAuth.id )
+    .then( user => {
+      this.$scope.$broadcast('scroll.refreshComplete');
+      this.userAuth = this.userAuthService.updateUserAuth( user );
+      this.sponzorships = this.userAuth.sponzorship.filter( this._filterByDateAndByPending );
+      this.showEmptyState = this.sponzorships.length == 0 ? true : false;
+      this.$rootScope.$broadcast('MenuSponsorCtrl:counts');
+      this.$rootScope.$broadcast('SponsoringEventsCtrl:getSponzorships');
+    })
+    .catch( error => {
+      this.$scope.$broadcast('scroll.refreshComplete');
+    });
+  }
+  
+  private _registerListenerSponzorships(){
+    this.$rootScope.$on('FollowEventsController:getSponzorships', ()=>{
+      this.userAuth = this.userAuthService.getUserAuth();
+      this.sponzorships = this.userAuth.sponzorship.filter( this._filterByDateAndByPending );
+      this.showEmptyState = this.sponzorships.length == 0 ? true : false;
+    });
+  }
+  
+  private _filterByDateAndByPending( item ){
+    return item.status != '1';
+  }
+  
+}
+angular
+  .module('app.events-sponzor')
+  .controller('FollowEventsCtrl', FollowEventsCtrl);
