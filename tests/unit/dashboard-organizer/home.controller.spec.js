@@ -33,7 +33,6 @@ describe('Controller: HomeOrganizerCtrl', function(){
     $localStorage = $injector.get('$localStorage');
     var userData = mockData.userService.login("0");
     userData.user.type = "0";
-    
     $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
     
    
@@ -114,20 +113,20 @@ describe('Controller: HomeOrganizerCtrl', function(){
   describe('Tests to $rootScope.$on methods', function(){
 
 
-    it('Should have called a HomeOrganizerController:count_sponsors and HomeOrganizerController:count_events', function() {
+    it('Should have called a HomeOrganizerCtrl:count_sponsors and HomeOrganizerCtrl:count_events', function() {
     	$rootScope.$digest();
       chai.expect($rootScopeOn).to.have.been.called();
     });
 
     it('Should count_events be 3 before call Menu:count_following', function() {
     	$rootScope.$digest();
-    	$rootScope.$broadcast('HomeOrganizerController:count_sponsors');
+    	$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
       chai.assert.equal(homeOrganizerCtrl.count_events, 3);
     });
 
     it('Should count_sponsors be 3 before call Menu:count_sponsors', function() {
     	$rootScope.$digest();
-    	$rootScope.$broadcast('HomeOrganizerController:count_events');
+    	$rootScope.$broadcast('HomeOrganizerCtrl:count_events');
       chai.assert.equal(homeOrganizerCtrl.count_sponsors, 3);
     });
 

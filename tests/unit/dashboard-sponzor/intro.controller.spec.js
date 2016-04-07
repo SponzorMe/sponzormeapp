@@ -1,4 +1,4 @@
-describe('Controller: IntroSponzorCtrl', function(){
+describe('Controller: IntroSponsorCtrl', function(){
 
   beforeEach(function() {
     module('app');
@@ -43,7 +43,7 @@ describe('Controller: IntroSponzorCtrl', function(){
     $ionicHistory = $injector.get('$ionicHistory');
     $ionicHistory = chai.spy.object($ionicHistory, ['clearCache', 'nextViewOptions', 'goBack']);
 
-    introSponzorCtrl = $controller('IntroSponzorCtrl', {
+    introSponzorCtrl = $controller('IntroSponsorCtrl', {
   		'$state': $state,
       '$ionicSlideBoxDelegate': $ionicSlideBoxDelegate,
       '$ionicHistory': $ionicHistory,

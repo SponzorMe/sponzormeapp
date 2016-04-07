@@ -1,4 +1,4 @@
-describe('Controller: MenuSponzorCtrl', function(){
+describe('Controller: MenuSponsorCtrl', function(){
 
   beforeEach(function() {
     module('app');
@@ -47,7 +47,7 @@ describe('Controller: MenuSponzorCtrl', function(){
     userData.user.type = "1";
     $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
 
-    menuSponzorCtrl = $controller('MenuSponzorCtrl', {
+    menuSponzorCtrl = $controller('MenuSponsorCtrl', {
       '$state': $state,
       '$localStorage': $localStorage,
       '$rootScope': $rootScope,
@@ -108,20 +108,20 @@ describe('Controller: MenuSponzorCtrl', function(){
   describe('Tests to $rootScope.$on methods', function(){
 
 
-    it('Should have called a MenuSponzor:counts', function() {
+    it('Should have called a MenuSponsorCtrl:counts', function() {
     	$rootScope.$digest();
       chai.expect($rootScopeOn).to.have.been.called();
     });
 
-    it('Should count_following be 3 before call MenuSponzor:counts', function() {
+    it('Should count_following be 3 before call MenuSponsorCtrl:counts', function() {
     	$rootScope.$digest();
-    	$rootScope.$broadcast('MenuSponzor:counts');
+    	$rootScope.$broadcast('MenuSponsorCtrl:counts');
       chai.assert.equal(menuSponzorCtrl.count_following, 3);
     });
 
     it('Should count_sponsoring be 0 before call Menu:count_sponsoring', function() {
     	$rootScope.$digest();
-    	$rootScope.$broadcast('MenuSponzor:counts');
+    	$rootScope.$broadcast('MenuSponsorCtrl:counts');
       chai.assert.equal(menuSponzorCtrl.count_sponsoring, 0);
     });
 

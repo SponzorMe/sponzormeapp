@@ -43,21 +43,21 @@ class MenuOrganizerCtrl{
   }
   
   registerListenerCountEvents(){
-    this.$rootScope.$on('MenuOrganizer:count_events', () => {
+    this.$rootScope.$on('MenuOrganizerCtrl:count_events', () => {
       this.userAuth = this.userAuthService.getUserAuth();
       this.count_events = this.userAuth.events.filter( this.filterDate ).length;
     });
   }
   
   registerListenerCountSponsors(){
-    this.$rootScope.$on('MenuOrganizer:count_sponsors', () => {
+    this.$rootScope.$on('MenuOrganizerCtrl:count_sponsors', () => {
       this.userAuth = this.userAuthService.getUserAuth();
       this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;
     });
   }
   
   registerListenerCountTasks(){
-    this.$rootScope.$on('MenuOrganizer:count_tasks', () => {
+    this.$rootScope.$on('MenuOrganizerCtrl:count_tasks', () => {
       this.userAuth = this.userAuthService.getUserAuth();
       this.count_tasks = this.countTasks().length;
     });

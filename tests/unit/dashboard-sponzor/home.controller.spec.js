@@ -1,4 +1,4 @@
-describe('Controller: HomeSponzorCtrl', function(){
+describe('Controller: HomeSponsorCtrl', function(){
 
   beforeEach(function() {
     module('app');
@@ -44,7 +44,7 @@ describe('Controller: HomeSponzorCtrl', function(){
     userData.user.type = "1";
     $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
 
-    homeSponzorController = $controller('HomeSponzorCtrl', {
+    homeSponzorController = $controller('HomeSponsorCtrl', {
       '$localStorage': $localStorage,
       'eventService': eventService,
       'utilsService': utilsService,
@@ -91,9 +91,9 @@ describe('Controller: HomeSponzorCtrl', function(){
   describe('Tests to $rootScope.$on methods', function(){
 
 
-    it('Should have called a HomeSponzorCtrl:getEvents', function() {
+    it('Should have called a HomeSponsorCtrl:getEvents', function() {
     	$rootScope.$digest();
-      $rootScope.$broadcast('HomeSponzorCtrl:getEvents');
+      $rootScope.$broadcast('HomeSponsorCtrl:getEvents');
       chai.assert.equal( homeSponzorController.events.length, 0 );
     });
 

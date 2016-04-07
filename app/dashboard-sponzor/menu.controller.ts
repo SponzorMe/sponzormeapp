@@ -6,7 +6,7 @@
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-class MenuSponzorCtrl{
+class MenuSponsorCtrl{
   
   $inject = [
     '$state',
@@ -38,7 +38,7 @@ class MenuSponzorCtrl{
   }
   
   registerListenerCounts(){
-    this.$rootScope.$on('MenuSponzor:counts', () => {
+    this.$rootScope.$on('MenuSponsorCtrl:counts', () => {
       this.userAuth =  this.userAuthService.getUserAuth();
       this.count_sponsoring = this.userAuth.sponzorship.filter( this.filterByAccepted ).length;
       this.count_following = this.userAuth.sponzorship.length - this.count_sponsoring;
@@ -58,4 +58,4 @@ class MenuSponzorCtrl{
 }
 angular
   .module('app.dashboard-sponzor')
-  .controller('MenuSponzorCtrl', MenuSponzorCtrl);
+  .controller('MenuSponsorCtrl', MenuSponsorCtrl);

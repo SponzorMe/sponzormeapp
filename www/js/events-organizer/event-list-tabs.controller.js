@@ -6,8 +6,8 @@
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-var EventsTabsCtrl = (function () {
-    function EventsTabsCtrl(userAuthService, $rootScope) {
+var EventsTabsOrganizerCtrl = (function () {
+    function EventsTabsOrganizerCtrl(userAuthService, $rootScope) {
         this.userAuthService = userAuthService;
         this.$rootScope = $rootScope;
         this.$inject = [
@@ -21,7 +21,7 @@ var EventsTabsCtrl = (function () {
         this.count_past_events = this.userAuth.events.length - this.count_events;
         this._registerListenerCounts();
     }
-    EventsTabsCtrl.prototype._registerListenerCounts = function () {
+    EventsTabsOrganizerCtrl.prototype._registerListenerCounts = function () {
         var _this = this;
         this.$rootScope.$on('EventsTabsCtrl:count_events', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
@@ -29,12 +29,12 @@ var EventsTabsCtrl = (function () {
             _this.count_past_events = _this.userAuth.events.length - _this.count_events;
         });
     };
-    EventsTabsCtrl.prototype._filterByDateIsAfter = function (item) {
+    EventsTabsOrganizerCtrl.prototype._filterByDateIsAfter = function (item) {
         var today = moment(new Date()).subtract(1, 'days');
         return moment(item.ends).isAfter(today);
     };
-    return EventsTabsCtrl;
+    return EventsTabsOrganizerCtrl;
 })();
 angular
     .module('app.events-organizer')
-    .controller('EventsTabsCtrl', EventsTabsCtrl);
+    .controller('EventsTabsOrganizerCtrl', EventsTabsOrganizerCtrl);

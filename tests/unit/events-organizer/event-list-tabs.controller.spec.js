@@ -1,4 +1,4 @@
-describe("Controller: EventsTabsCtrl", function() {
+describe("Controller: EventsTabsOrganizerCtrl", function() {
 
   beforeEach(function() {
     module('app');
@@ -32,7 +32,7 @@ describe("Controller: EventsTabsCtrl", function() {
     userData.user.type = "0";
     $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
 
-    eventsTabsCtrl = $controller('EventsTabsCtrl', {
+    eventsTabsCtrl = $controller('EventsTabsOrganizerCtrl', {
   		'$rootScope': $rootScope,
       'userAuthService': userAuthService
   	});
@@ -79,11 +79,11 @@ describe("Controller: EventsTabsCtrl", function() {
   });
   
   ////////////////////////////////////////////////////////////
-  describe('Tests called EventsTabsCtrl:count_events', function(){
+  describe('Tests called EventsTabsOrganizerCtrl:count_events', function(){
     
-    it('Should have called a EventsTabsCtrl:count_events', function() {
+    it('Should have called a EventsTabsOrganizerCtrl:count_events', function() {
     	$rootScope.$digest();
-      $rootScope.$broadcast('EventsTabsCtrl:count_events');
+      $rootScope.$broadcast('EventsTabsOrganizerCtrl:count_events');
       chai.assert.equal( eventsTabsCtrl.count_events, 3);
       chai.assert.equal( eventsTabsCtrl.count_past_events, 0);
     });

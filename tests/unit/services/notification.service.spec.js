@@ -12,32 +12,23 @@ describe("Service: notificationService", function() {
 
   beforeEach(inject(function($injector, _$rootScope_) {
     
-    $localStorage = $injector.get('$localStorage');
-    $localStorage.userAuth = mockData.userService.login().user;
-    
-    notificationService = $injector.get('notificationService');
-    
     $rootScope = _$rootScope_;
-
+    
     $httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
+    
+    $localStorage = $injector.get('$localStorage');
+    userAuthService = $injector.get('userAuthService');
+    userService = $injector.get('userService');
+    
+    notificationService = $injector.get('notificationService');
+    
   }));
   
-  ////////////////////////////////////////////////////////////
-  describe('Tests to userAuth variable', function(){
-
-    it('Should have user variable', function() {
-      chai.assert.isDefined( notificationService.userAuth );
-      chai.assert.isObject( notificationService.userAuth );
-    });
-
-    it('Should userAuth be equal that $localStorage.userAuth', function() {
-      chai.assert.equal( notificationService.userAuth, $localStorage.userAuth );
-    });
-
-  });
+  
+  
   
   ////////////////////////////////////////////////////////////
   describe('Test to activate method like Organizer', function(){
@@ -47,7 +38,9 @@ describe("Service: notificationService", function() {
     });
     
     it('Should be called activate', function() {
-      $localStorage.userAuth = mockData.userService.login("0").user;
+      var userData = mockData.userService.login("0");
+      userData.user.type = "0";
+      $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
     	notificationService.activate();
       $rootScope.$digest();
     });
@@ -62,7 +55,9 @@ describe("Service: notificationService", function() {
     });
     
     it('Should be called activate', function() {
-      $localStorage.userAuth = mockData.userService.login("1").user;
+      var userData = mockData.userService.login("1");
+      userData.user.type = "1";
+      $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
     	notificationService.activate();
       $rootScope.$digest();
     });

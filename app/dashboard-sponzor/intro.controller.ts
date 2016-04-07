@@ -5,7 +5,7 @@
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-class IntroSponzorCtrl{
+class IntroSponsorCtrl{
   
   $inject = [
     '$state',
@@ -47,4 +47,4 @@ class IntroSponzorCtrl{
 }
 angular
   .module('app.dashboard-sponzor')
-  .controller('IntroSponzorCtrl', IntroSponzorCtrl);
+  .controller('IntroSponsorCtrl', IntroSponsorCtrl);

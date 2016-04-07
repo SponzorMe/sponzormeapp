@@ -5,7 +5,7 @@
 module notificationModule{
   
   export interface INotificationService{
-    activate(): void;
+    activate():void;
     getNotifications(userId:string): any;
     sendNewSponsorship(notification: any, to:string): void;
     sendAcceptSponsorship(notification: any, to:string): void,
@@ -37,33 +37,33 @@ module notificationModule{
     $inject = [
       '$http',
       '$q',
+      '$localStorage',
+      '$rootScope',
       '$firebaseArray',
+      '$ionicHistory',
       'BackendVariables',
       'userService',
-      '$rootScope',
-      '$ionicHistory',
       'userAuthService',
-      '$localStorage'
     ];
     path:string;
-    userAuth:any;
+    userAuth:userModule.User;
     
     constructor(
       private $http: angular.IHttpService,
       private $q: angular.IQService,
+      private $localStorage,
+      private $rootScope: angular.IRootScopeService,
       private $firebaseArray,
+      private $ionicHistory: ionic.navigation.IonicHistoryService,
       private BackendVariables,
       private userService: userModule.IUserService,
-      private $rootScope: angular.IRootScopeService,
-      private $ionicHistory: ionic.navigation.IonicHistoryService,
-      private userAuthService: userAuthModule.IUserAuthService,
-      private $localStorage
+      private userAuthService: userAuthModule.IUserAuthService
     ){
       this.path = this.BackendVariables.f_url;
-      this.userAuth = this.userAuthService.getUserAuth();
     }
     
     activate() {
+      this.userAuth = this.userAuthService.getUserAuth();
       this._notificationForMe();
       if(this.userAuth.type == '1') this._updateEvents();
     }

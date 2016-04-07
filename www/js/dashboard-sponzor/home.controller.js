@@ -6,8 +6,8 @@
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-var HomeSponzorCtrl = (function () {
-    function HomeSponzorCtrl($localStorage, userService, utilsService, $scope, $rootScope, userAuthService) {
+var HomeSponsorCtrl = (function () {
+    function HomeSponsorCtrl($localStorage, userService, utilsService, $scope, $rootScope, userAuthService) {
         this.$localStorage = $localStorage;
         this.userService = userService;
         this.utilsService = utilsService;
@@ -27,14 +27,14 @@ var HomeSponzorCtrl = (function () {
         this.events = this.userAuth.events.filter(this.filterDate);
         this.registerListenerEvents();
     }
-    HomeSponzorCtrl.prototype.registerListenerEvents = function () {
+    HomeSponsorCtrl.prototype.registerListenerEvents = function () {
         var _this = this;
-        this.$rootScope.$on('HomeSponzorCtrl:getEvents', function () {
+        this.$rootScope.$on('HomeSponsorCtrl:getEvents', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
             _this.events = _this.userAuth.events.filter(_this.filterDate);
         });
     };
-    HomeSponzorCtrl.prototype.doRefresh = function () {
+    HomeSponsorCtrl.prototype.doRefresh = function () {
         var _this = this;
         this.userService.home(this.userAuth.id)
             .then(function (user) {
@@ -44,11 +44,11 @@ var HomeSponzorCtrl = (function () {
         })
             .catch(function () { return _this.$scope.$broadcast('scroll.refreshComplete'); });
     };
-    HomeSponzorCtrl.prototype.filterDate = function (item) {
+    HomeSponsorCtrl.prototype.filterDate = function (item) {
         return moment(item.starts).isAfter(new Date());
     };
-    return HomeSponzorCtrl;
+    return HomeSponsorCtrl;
 })();
 angular
     .module('app.dashboard-sponzor')
-    .controller('HomeSponzorCtrl', HomeSponzorCtrl);
+    .controller('HomeSponsorCtrl', HomeSponsorCtrl);

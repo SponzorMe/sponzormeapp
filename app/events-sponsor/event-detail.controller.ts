@@ -5,7 +5,7 @@
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
-*/
+
 class EventDetailSponzorCtrl{
  
   $inject = [
@@ -43,7 +43,6 @@ class EventDetailSponzorCtrl{
   ){}
   
 }
-/*
 (function() {
   'use strict';
 
@@ -165,3 +164,4 @@ class EventDetailSponzorCtrl{
 
   }
 })();
+*/

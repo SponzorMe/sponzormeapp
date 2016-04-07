@@ -35,14 +35,14 @@ class HomeOrganizerCtrl{
   }
   
   registerListenerCountSponsors(){
-    this.$rootScope.$on('HomeOrganizerController:count_sponsors', () => {
+    this.$rootScope.$on('HomeOrganizerCtrl:count_sponsors', () => {
       this.userAuth = this.userAuthService.getUserAuth();
       this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;
     });
   }
   
   registerListenerCountEvents(){
-    this.$rootScope.$on('HomeOrganizerController:count_events', () => {
+    this.$rootScope.$on('HomeOrganizerCtrl:count_events', () => {
       this.userAuth = this.userAuthService.getUserAuth();
       this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;
     });

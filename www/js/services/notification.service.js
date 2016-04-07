@@ -4,31 +4,31 @@
 var notificationModule;
 (function (notificationModule) {
     var notificationService = (function () {
-        function notificationService($http, $q, $firebaseArray, BackendVariables, userService, $rootScope, $ionicHistory, userAuthService, $localStorage) {
+        function notificationService($http, $q, $localStorage, $rootScope, $firebaseArray, $ionicHistory, BackendVariables, userService, userAuthService) {
             this.$http = $http;
             this.$q = $q;
+            this.$localStorage = $localStorage;
+            this.$rootScope = $rootScope;
             this.$firebaseArray = $firebaseArray;
+            this.$ionicHistory = $ionicHistory;
             this.BackendVariables = BackendVariables;
             this.userService = userService;
-            this.$rootScope = $rootScope;
-            this.$ionicHistory = $ionicHistory;
             this.userAuthService = userAuthService;
-            this.$localStorage = $localStorage;
             this.$inject = [
                 '$http',
                 '$q',
+                '$localStorage',
+                '$rootScope',
                 '$firebaseArray',
+                '$ionicHistory',
                 'BackendVariables',
                 'userService',
-                '$rootScope',
-                '$ionicHistory',
                 'userAuthService',
-                '$localStorage'
             ];
             this.path = this.BackendVariables.f_url;
-            this.userAuth = this.userAuthService.getUserAuth();
         }
         notificationService.prototype.activate = function () {
+            this.userAuth = this.userAuthService.getUserAuth();
             this._notificationForMe();
             if (this.userAuth.type == '1')
                 this._updateEvents();

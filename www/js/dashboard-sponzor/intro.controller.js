@@ -5,8 +5,8 @@
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-var IntroSponzorCtrl = (function () {
-    function IntroSponzorCtrl($state, $ionicSlideBoxDelegate, $ionicHistory, $ionicSideMenuDelegate) {
+var IntroSponsorCtrl = (function () {
+    function IntroSponsorCtrl($state, $ionicSlideBoxDelegate, $ionicHistory, $ionicSideMenuDelegate) {
         this.$state = $state;
         this.$ionicSlideBoxDelegate = $ionicSlideBoxDelegate;
         this.$ionicHistory = $ionicHistory;
@@ -20,25 +20,25 @@ var IntroSponzorCtrl = (function () {
         this.slideIndex = 0;
         this.$ionicSideMenuDelegate.canDragContent(false);
     }
-    IntroSponzorCtrl.prototype.startApp = function () {
+    IntroSponsorCtrl.prototype.startApp = function () {
         this.$ionicHistory.nextViewOptions({
             disableAnimate: true,
             disableBack: true
         });
         this.$state.go("sponzor.home");
     };
-    IntroSponzorCtrl.prototype.nextSlide = function () {
+    IntroSponsorCtrl.prototype.nextSlide = function () {
         this.$ionicSlideBoxDelegate.next();
     };
-    IntroSponzorCtrl.prototype.previousSlide = function () {
+    IntroSponsorCtrl.prototype.previousSlide = function () {
         this.$ionicSlideBoxDelegate.previous();
     };
-    IntroSponzorCtrl.prototype.slideChanged = function (index) {
+    IntroSponsorCtrl.prototype.slideChanged = function (index) {
         this.slideIndex = index;
     };
     ;
-    return IntroSponzorCtrl;
+    return IntroSponsorCtrl;
 })();
 angular
     .module('app.dashboard-sponzor')
-    .controller('IntroSponzorCtrl', IntroSponzorCtrl);
+    .controller('IntroSponsorCtrl', IntroSponsorCtrl);

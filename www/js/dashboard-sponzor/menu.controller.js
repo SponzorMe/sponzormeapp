@@ -6,8 +6,8 @@
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-var MenuSponzorCtrl = (function () {
-    function MenuSponzorCtrl($state, $localStorage, $rootScope, $ionicHistory, userAuthService, notificationService) {
+var MenuSponsorCtrl = (function () {
+    function MenuSponsorCtrl($state, $localStorage, $rootScope, $ionicHistory, userAuthService, notificationService) {
         this.$state = $state;
         this.$localStorage = $localStorage;
         this.$rootScope = $rootScope;
@@ -31,25 +31,25 @@ var MenuSponzorCtrl = (function () {
         this.notifications = notificationService.getNotifications(this.userAuth.id);
         this.registerListenerCounts();
     }
-    MenuSponzorCtrl.prototype.registerListenerCounts = function () {
+    MenuSponsorCtrl.prototype.registerListenerCounts = function () {
         var _this = this;
-        this.$rootScope.$on('MenuSponzor:counts', function () {
+        this.$rootScope.$on('MenuSponsorCtrl:counts', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
             _this.count_sponsoring = _this.userAuth.sponzorship.filter(_this.filterByAccepted).length;
             _this.count_following = _this.userAuth.sponzorship.length - _this.count_sponsoring;
         });
     };
-    MenuSponzorCtrl.prototype.filterByAccepted = function (item) {
+    MenuSponsorCtrl.prototype.filterByAccepted = function (item) {
         return item.status == '1';
     };
-    MenuSponzorCtrl.prototype.logout = function () {
+    MenuSponsorCtrl.prototype.logout = function () {
         var _this = this;
         this.$localStorage.$reset();
         this.$ionicHistory.clearCache()
             .then(function () { return _this.$state.go('signin'); });
     };
-    return MenuSponzorCtrl;
+    return MenuSponsorCtrl;
 })();
 angular
     .module('app.dashboard-sponzor')
-    .controller('MenuSponzorCtrl', MenuSponzorCtrl);
+    .controller('MenuSponsorCtrl', MenuSponsorCtrl);

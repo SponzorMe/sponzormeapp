@@ -29,14 +29,14 @@ var HomeOrganizerCtrl = (function () {
     }
     HomeOrganizerCtrl.prototype.registerListenerCountSponsors = function () {
         var _this = this;
-        this.$rootScope.$on('HomeOrganizerController:count_sponsors', function () {
+        this.$rootScope.$on('HomeOrganizerCtrl:count_sponsors', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
             _this.count_sponsors = _this.userAuth.sponzorships_like_organizer.length;
         });
     };
     HomeOrganizerCtrl.prototype.registerListenerCountEvents = function () {
         var _this = this;
-        this.$rootScope.$on('HomeOrganizerController:count_events', function () {
+        this.$rootScope.$on('HomeOrganizerCtrl:count_events', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
             _this.count_sponsors = _this.userAuth.sponzorships_like_organizer.length;
         });

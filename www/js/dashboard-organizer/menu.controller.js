@@ -37,21 +37,21 @@ var MenuOrganizerCtrl = (function () {
     }
     MenuOrganizerCtrl.prototype.registerListenerCountEvents = function () {
         var _this = this;
-        this.$rootScope.$on('MenuOrganizer:count_events', function () {
+        this.$rootScope.$on('MenuOrganizerCtrl:count_events', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
             _this.count_events = _this.userAuth.events.filter(_this.filterDate).length;
         });
     };
     MenuOrganizerCtrl.prototype.registerListenerCountSponsors = function () {
         var _this = this;
-        this.$rootScope.$on('MenuOrganizer:count_sponsors', function () {
+        this.$rootScope.$on('MenuOrganizerCtrl:count_sponsors', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
             _this.count_sponsors = _this.userAuth.sponzorships_like_organizer.length;
         });
     };
     MenuOrganizerCtrl.prototype.registerListenerCountTasks = function () {
         var _this = this;
-        this.$rootScope.$on('MenuOrganizer:count_tasks', function () {
+        this.$rootScope.$on('MenuOrganizerCtrl:count_tasks', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
             _this.count_tasks = _this.countTasks().length;
         });

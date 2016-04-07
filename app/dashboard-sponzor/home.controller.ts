@@ -6,7 +6,7 @@
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-class HomeSponzorCtrl{
+class HomeSponsorCtrl{
   
   $inject = [
     '$localStorage',
@@ -34,7 +34,7 @@ class HomeSponzorCtrl{
   }
   
   registerListenerEvents() {
-    this.$rootScope.$on('HomeSponzorCtrl:getEvents', () => {
+    this.$rootScope.$on('HomeSponsorCtrl:getEvents', () => {
       this.userAuth = this.userAuthService.getUserAuth();
       this.events = this.userAuth.events.filter( this.filterDate );
     });
@@ -57,4 +57,4 @@ class HomeSponzorCtrl{
 }
 angular
   .module('app.dashboard-sponzor')
-  .controller('HomeSponzorCtrl', HomeSponzorCtrl);
+  .controller('HomeSponsorCtrl', HomeSponsorCtrl);

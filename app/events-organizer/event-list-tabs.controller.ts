@@ -6,7 +6,7 @@
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-class EventsTabsCtrl{
+class EventsTabsOrganizerCtrl{
 
   $inject = [
     '$rootScope',
@@ -43,4 +43,4 @@ class EventsTabsCtrl{
 }
 angular
   .module('app.events-organizer')
-  .controller('EventsTabsCtrl', EventsTabsCtrl);
+  .controller('EventsTabsOrganizerCtrl', EventsTabsOrganizerCtrl);
