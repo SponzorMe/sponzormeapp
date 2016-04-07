@@ -99,7 +99,7 @@ var EventDetailSponsorCtrl = (function () {
         };
     };
     return EventDetailSponsorCtrl;
-})();
+}());
 angular
     .module('app.events-sponzor')
     .controller('EventDetailSponsorCtrl', EventDetailSponsorCtrl);

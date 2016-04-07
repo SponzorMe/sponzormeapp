@@ -1,7 +1,4 @@
-describe("Controller: EventDetailSponzorController", function() {
-
-	var eventDetailSponzorController, utilsService, eventService, sponsorshipService;
-	var $rootScope, $httpBackend, $localStorage, $ionicHistory, $q, $stateParams, $ionicModal;
+describe("Controller: EventDetailSponsorCtrl", function() {
 
   beforeEach(function() {
     module('app');
@@ -17,6 +14,11 @@ describe("Controller: EventDetailSponzorController", function() {
 
   	$rootScope = _$rootScope_;
   	$rootScopeBroadcast = chai.spy.on( $rootScope, '$broadcast' );
+    
+    $scope = $rootScope.$new();
+    $scopeBroadcast = chai.spy.on($scope, '$broadcast');
+    
+    $q = $injector.get('$q');
 
     BackendVariables = $injector.get('BackendVariables');
     URL_REST = BackendVariables.url;
@@ -25,25 +27,17 @@ describe("Controller: EventDetailSponzorController", function() {
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
-    $httpBackend.whenGET('app/events-sponsor/sponsor-it-modal.html').respond(200, '');
+    $httpBackend.whenGET('templates/events-sponsor/sponsor-it-modal.html').respond(200, '');
 
     //Dependences
-    $localStorage = $injector.get('$localStorage');
-    sponsorshipService = $injector.get('sponsorshipService');
-    eventService = $injector.get('eventService');
-    utilsService = chai.spy.object($injector.get('utilsService'), ['showLoad', 'hideLoad','alert', 'resetForm','trim']);
-    $q = $injector.get('$q');
+    //Angular
     $stateParams = $injector.get('$stateParams');
-    $ionicModal = $injector.get('$ionicModal');
     $translate = $injector.get('$translate');
+    //ionic
+    $ionicModal = $injector.get('$ionicModal');
     $ionicHistory = chai.spy.object($injector.get('$ionicHistory'), ['clearCache']);
-
-    $localStorage.userAuth = mockData.userService.login().user;
-
-    $scope = $rootScope.$new();
-    $scopeBroadcast = chai.spy.on($scope, '$broadcast');
-
-    $cordovaToastMock = {
+    //Cordova
+    $cordovaToast = {
       throwsError: false,
       showShortBottom: function (message) {
         var defer = $q.defer();
@@ -55,20 +49,36 @@ describe("Controller: EventDetailSponzorController", function() {
         return defer.promise;
       },
     };
+    //Services
+    eventService = $injector.get('eventService');
+    utilsService = $injector.get('utilsService');
+    sponsorshipService = $injector.get('sponsorshipService');
+    notificationService = $injector.get('notificationService');
+    userAuthService = $injector.get('userAuthService');
+    utilsService = $injector.get('utilsService');
+    userService = $injector.get('userService');
 
-    $stateParams.idEvent = 1;
+    $localStorage = $injector.get('$localStorage');
 
-    eventDetailSponzorController = $controller('EventDetailSponzorController', {
+    var userData = mockData.userService.login("0");
+    userData.user.type = "0";
+    $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
+    
+    $stateParams.id = "1";
+
+    eventDetailSponzorController = $controller('EventDetailSponsorCtrl', {
   		'$scope': $scope,
-	    'eventService': eventService,
-	    'utilsService': utilsService,
-	    '$stateParams': $stateParams,
-	    'sponsorshipService': sponsorshipService,
-	    '$localStorage': $localStorage,
-	    '$ionicModal': $ionicModal,
-	    '$ionicHistory': $ionicHistory,
-	    '$cordovaToast': $cordovaToastMock,
-	    '$translate': $translate
+      '$stateParams': $stateParams,
+      '$rootScope': $rootScope,
+      '$translate': $translate,
+      '$ionicModal': $ionicModal,
+      '$ionicHistory': $ionicHistory,
+      '$cordovaToast': $cordovaToast,
+      'eventService': eventService,
+      'utilsService': utilsService,
+      'sponsorshipService': sponsorshipService,
+      'notificationService': notificationService,
+      'userAuthService': userAuthService
   	});
 
   }));
@@ -79,7 +89,6 @@ describe("Controller: EventDetailSponzorController", function() {
     it('Should have event object', function() {
       chai.assert.isDefined( eventDetailSponzorController.event );
       chai.assert.isObject( eventDetailSponzorController.event );
-      chai.expect( eventDetailSponzorController.event ).to.be.empty;
     });
 
   });
@@ -101,18 +110,6 @@ describe("Controller: EventDetailSponzorController", function() {
   ////////////////////////////////////////////////////////////
   describe('Tests to getEvent method success', function(){
 
-		var dataEvent = mockData.eventService.getEvent();
- 
-  	beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
-  	});
-
-  	it('Should be called utilsService methods', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-    });
 
     it('Should have an event', function() {
     	$rootScope.$digest();
@@ -129,7 +126,7 @@ describe("Controller: EventDetailSponzorController", function() {
     it('Should have an perks array', function() {
     	$rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( eventDetailSponzorController.event.perks.length, dataEvent.event.perks.length );
+      chai.assert.equal( eventDetailSponzorController.event.perks.length, $localStorage.userAuth.events[0].perks.length );
     	for (var i = 0; i < eventDetailSponzorController.event.perks.length; i++) {
     		chai.assert.isArray(eventDetailSponzorController.event.perks[i].tasks);
     		chai.assert.isArray(eventDetailSponzorController.event.perks[i].sponzorship);
@@ -138,32 +135,8 @@ describe("Controller: EventDetailSponzorController", function() {
 
   });
 
-	////////////////////////////////////////////////////////////
-  describe('Tests to getEvent method failed', function(){
-
-		var dataEvent = mockData.failed();
- 
-  	beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'events/1').respond(400, dataEvent);
-  	});
-
-  	it('Should be called utilsService methods', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-    });
-
-  });
-
   ////////////////////////////////////////////////////////////
   describe('Tests to openModalSponsorIt method', function(){
-
-  	var dataEvent = mockData.eventService.getEvent();
- 
-  	beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
-  	});
 
     it('Should have openModalSponsorIt method', function() {
       chai.assert.isDefined( eventDetailSponzorController.openModalSponsorIt );
@@ -182,11 +155,6 @@ describe("Controller: EventDetailSponzorController", function() {
   ////////////////////////////////////////////////////////////
   describe('Tests to closeModalSponsorIt method', function(){
 
-  	var dataEvent = mockData.eventService.getEvent();
- 
-  	beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
-  	});
 
     it('Should have closeModalSponsorIt method', function() {
       chai.assert.isDefined( eventDetailSponzorController.closeModalSponsorIt );
@@ -213,11 +181,6 @@ describe("Controller: EventDetailSponzorController", function() {
 	////////////////////////////////////////////////////////////
   describe('Tests to createSponsorIt method', function(){
 
-  	var dataEvent = mockData.eventService.getEvent();
- 
-  	beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
-  	});
 
     it('Should have createSponsorIt method', function() {
       chai.assert.isDefined( eventDetailSponzorController.createSponsorIt );
@@ -258,14 +221,11 @@ describe("Controller: EventDetailSponzorController", function() {
 
   ////////////////////////////////////////////////////////////
   describe('Tests to submitSponsorIt method success', function(){
-
-
-  	var dataEvent = mockData.eventService.getEvent();
+    
   	var dataSponzorship = mockData.sponsorshipService.createSponzorship();
 
  
   	beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
   		$httpBackend.whenPOST( URL_REST + 'sponzorships').respond(200, dataSponzorship);
   	});
 
@@ -286,14 +246,10 @@ describe("Controller: EventDetailSponzorController", function() {
 
 	////////////////////////////////////////////////////////////
   describe('Tests to submitSponsorIt method failed', function(){
-
-
-  	var dataEvent = mockData.eventService.getEvent();
+    
   	var dataSponzorship = mockData.failed();
-
  
   	beforeEach(function() {
-  		$httpBackend.whenGET( URL_REST + 'events/1').respond(200, dataEvent);
   		$httpBackend.whenPOST( URL_REST + 'sponzorships').respond(400, dataSponzorship);
   	});
 

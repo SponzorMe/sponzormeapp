@@ -340,7 +340,7 @@ var EventDetailOrganizerCtrl = (function () {
         return task.type == '0'; //Organizer
     };
     return EventDetailOrganizerCtrl;
-})();
+}());
 angular
     .module('app.events-organizer')
     .controller('EventDetailOrganizerCtrl', EventDetailOrganizerCtrl);

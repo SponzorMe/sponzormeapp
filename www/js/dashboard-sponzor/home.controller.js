@@ -48,7 +48,7 @@ var HomeSponsorCtrl = (function () {
         return moment(item.starts).isAfter(new Date());
     };
     return HomeSponsorCtrl;
-})();
+}());
 angular
     .module('app.dashboard-sponzor')
     .controller('HomeSponsorCtrl', HomeSponsorCtrl);

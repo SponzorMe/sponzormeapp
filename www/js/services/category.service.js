@@ -49,7 +49,7 @@ var categoryModule;
             return data.data.category;
         };
         return categoryService;
-    })();
+    }());
     categoryModule.categoryService = categoryService;
     angular
         .module('app')

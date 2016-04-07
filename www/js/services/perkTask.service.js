@@ -134,7 +134,7 @@ var perkTaskModule;
             return data;
         };
         return perkTaskService;
-    })();
+    }());
     perkTaskModule.perkTaskService = perkTaskService;
     angular
         .module('app')

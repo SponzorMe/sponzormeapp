@@ -46,7 +46,7 @@ var HomeOrganizerCtrl = (function () {
         return moment(item.ends).isAfter(today);
     };
     return HomeOrganizerCtrl;
-})();
+}());
 angular
     .module('app.dashboard-organizer')
     .controller('HomeOrganizerCtrl', HomeOrganizerCtrl);

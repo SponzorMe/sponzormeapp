@@ -102,7 +102,7 @@ var perkModule;
             return this.buildPerk(data.Perk);
         };
         return perkService;
-    })();
+    }());
     perkModule.perkService = perkService;
     angular
         .module('app')

@@ -49,7 +49,7 @@ var eventTypeModule;
             return data.data.eventTypes;
         };
         return eventTypeService;
-    })();
+    }());
     eventTypeModule.eventTypeService = eventTypeService;
     angular
         .module('app')

@@ -56,7 +56,7 @@ var userInterestModule;
             return this.$localStorage.token;
         };
         return userInterestService;
-    })();
+    }());
     userInterestModule.userInterestService = userInterestService;
     angular
         .module('app')

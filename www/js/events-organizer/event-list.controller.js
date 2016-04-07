@@ -56,7 +56,7 @@ var EventListOrganizerCtrl = (function () {
         });
     };
     return EventListOrganizerCtrl;
-})();
+}());
 angular
     .module('app.events-organizer')
     .controller('EventListOrganizerCtrl', EventListOrganizerCtrl);

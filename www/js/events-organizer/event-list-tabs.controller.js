@@ -34,7 +34,7 @@ var EventsTabsOrganizerCtrl = (function () {
         return moment(item.ends).isAfter(today);
     };
     return EventsTabsOrganizerCtrl;
-})();
+}());
 angular
     .module('app.events-organizer')
     .controller('EventsTabsOrganizerCtrl', EventsTabsOrganizerCtrl);

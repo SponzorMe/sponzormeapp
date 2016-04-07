@@ -64,7 +64,7 @@ var userAuthModule;
             });
         };
         return userAuthService;
-    })();
+    }());
     userAuthModule.userAuthService = userAuthService;
     angular
         .module('app')

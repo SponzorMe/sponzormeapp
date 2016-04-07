@@ -56,7 +56,7 @@ var PastEventsOrganizerCtrl = (function () {
         });
     };
     return PastEventsOrganizerCtrl;
-})();
+}());
 angular
     .module('app.events-organizer')
     .controller('PastEventsOrganizerCtrl', PastEventsOrganizerCtrl);

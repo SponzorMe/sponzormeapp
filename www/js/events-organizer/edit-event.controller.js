@@ -300,7 +300,7 @@ var EditEventCtrl = (function () {
         return this.$cordovaDatePicker.show(options);
     };
     return EditEventCtrl;
-})();
+}());
 angular
     .module('app.events-organizer')
     .controller('EditEventCtrl', EditEventCtrl);

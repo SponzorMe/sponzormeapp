@@ -73,7 +73,7 @@ var MenuOrganizerCtrl = (function () {
             .filter(function (item) { return item.user_id == _this.userAuth.id && item.status != '1'; });
     };
     return MenuOrganizerCtrl;
-})();
+}());
 angular
     .module('app.dashboard-organizer')
     .controller('MenuOrganizerCtrl', MenuOrganizerCtrl);

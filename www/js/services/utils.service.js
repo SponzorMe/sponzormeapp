@@ -50,7 +50,7 @@ var utilsServiceModule;
             form.$setUntouched();
         };
         return utilsService;
-    })();
+    }());
     utilsServiceModule.utilsService = utilsService;
     angular
         .module('app')

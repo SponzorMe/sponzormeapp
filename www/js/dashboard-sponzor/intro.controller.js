@@ -38,7 +38,7 @@ var IntroSponsorCtrl = (function () {
     };
     ;
     return IntroSponsorCtrl;
-})();
+}());
 angular
     .module('app.dashboard-sponzor')
     .controller('IntroSponsorCtrl', IntroSponsorCtrl);

@@ -139,7 +139,7 @@ var notificationModule;
             });
         };
         return notificationService;
-    })();
+    }());
     notificationModule.notificationService = notificationService;
     angular
         .module('app')
