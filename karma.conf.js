@@ -68,7 +68,8 @@ module.exports = function( config ){
       //"./tests/unit/events-organizer/edit-event.controller.spec.js",
       //"./tests/unit/events-organizer/event-detail.controller.spec.js",
       //"./tests/unit/events-organizer/event-list-tabs.controller.spec.js",
-      "./tests/unit/events-organizer/event-list.controller.spec.js"
+      //"./tests/unit/events-organizer/event-list.controller.spec.js"
+      "./tests/unit/events-organizer/past-events.controller.spec.js"
     ]
   });
 };
