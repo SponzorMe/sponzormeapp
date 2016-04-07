@@ -1,4 +1,4 @@
-describe('Controller: EventListController', function(){
+describe('Controller: EventListOrganizerCtrl', function(){
 
 	var eventListController, utilsService, userService;
 	var $rootScope, $httpBackend, $localStorage, $scope, $rootScopeBroadcast, $scopeBroadcast;
@@ -17,6 +17,9 @@ describe('Controller: EventListController', function(){
 
   	$rootScope = _$rootScope_;
   	$rootScopeBroadcast = chai.spy.on( $rootScope, '$broadcast' );
+    
+    $scope = $rootScope.$new();
+    $scopeBroadcast = chai.spy.on($scope, '$broadcast');
 
     BackendVariables = $injector.get('BackendVariables');
     URL_REST = BackendVariables.url;
@@ -29,19 +32,20 @@ describe('Controller: EventListController', function(){
     //Dependences
     $localStorage = $injector.get('$localStorage');
     userService = $injector.get('userService');
-    utilsService = chai.spy.object($injector.get('utilsService'), ['showLoad', 'hideLoad','alert', 'resetForm','trim']);
+    userAuthService = $injector.get('userAuthService');
+    utilsService = $injector.get('utilsService');
 
-    $localStorage.userAuth = mockData.userService.login().user;
+    var userData = mockData.userService.login("0");
+    userData.user.type = "0";
+    $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
 
-    $scope = $rootScope.$new();
-    $scopeBroadcast = chai.spy.on($scope, '$broadcast');
 
-    eventListController = $controller('EventListController', {
-  		'$localStorage': $localStorage,
-	    'userService': userService,
-	    'utilsService': utilsService,
-	    '$scope': $scope,
-	    '$rootScope': $rootScope
+    eventListController = $controller('EventListOrganizerCtrl', {
+  		'$scope': $scope,
+      '$rootScope': $rootScope,
+      'userService': userService,
+      'utilsService': utilsService,
+      'userAuthService': userAuthService
   	});
 
   }));
@@ -69,7 +73,7 @@ describe('Controller: EventListController', function(){
     });
     
      it('Should filter by newst events', function() {
-      chai.assert.equal(eventListController.events.length, 1);
+      chai.assert.equal(eventListController.events.length, 3);
     });
 
   });
@@ -94,7 +98,7 @@ describe('Controller: EventListController', function(){
     
     it('Should filter by newst events', function() {
       $rootScope.$digest();
-      chai.assert.equal(eventListController.events.length, 1);
+      chai.assert.equal(eventListController.events.length, 3);
     });
 
   });
@@ -102,7 +106,8 @@ describe('Controller: EventListController', function(){
   ////////////////////////////////////////////////////////////
   describe('Tests to doRefresh success', function(){
 
-  	var dataEvents = mockData.userService.home();
+  	var dataEvents = mockData.userService.home("0");
+    dataEvents.data.user.type = "0";
 
     beforeEach(function() {
   		$httpBackend.whenGET( URL_REST + 'home/1').respond(200, dataEvents);
@@ -119,15 +124,14 @@ describe('Controller: EventListController', function(){
       eventListController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal(eventListController.events.length, 1);
+      chai.assert.equal(eventListController.events.length, 3);
     });
 
-    it('Should be called broadcast Menu:count_events', function() {
+    it('Should be called broadcast', function() {
       eventListController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
       chai.expect($rootScopeBroadcast).to.have.been.called();
-      chai.expect($rootScopeBroadcast).to.have.been.with('Menu:count_events', 1);
     });
 
     it('Should be called broadcast scroll.refreshComplete', function() {
@@ -157,6 +161,19 @@ describe('Controller: EventListController', function(){
       chai.expect($scopeBroadcast).to.have.been.with('scroll.refreshComplete');
     });
 
+  });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Tests called EventListOrganizerCtrl:getEvents', function(){
+    
+    it('Should have called a EventListOrganizerCtrl:getEvents', function() {
+    	$rootScope.$digest();
+      $rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
+      chai.assert.equal( eventListController.userAuth, $localStorage.userAuth );
+      chai.assert.equal(eventListController.events.length, 3);
+      chai.assert.isFalse( eventListController.showEmptyState );
+    });
+    
   });
 
 

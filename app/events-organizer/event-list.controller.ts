@@ -6,7 +6,7 @@
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-class EventListCtrl{
+class EventListOrganizerCtrl{
   
    $inject = [
     '$scope',
@@ -16,7 +16,7 @@ class EventListCtrl{
     'userAuthService'
   ];
   userAuth:userModule.User;
-  events:any[] = []; 
+  events:eventModule.Event[] = []; 
   showEmptyState:boolean = true;
   
   constructor(
@@ -38,12 +38,12 @@ class EventListCtrl{
     this.userService.home( this.userAuth.id )
       .then( user => {
         this.$scope.$broadcast('scroll.refreshComplete');
-        this.userAuth = this.userAuthService.updateUserAuth( this.userService.buildUser(user) );
+        this.userAuth = this.userAuthService.updateUserAuth( user );
         this.events = this.userAuth.events.filter( this._filterDate );
         this.showEmptyState = this.events.length == 0 ? true : false;
-        this.$rootScope.$broadcast('MenuOrganizer:count_events');
-        this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
-        this.$rootScope.$broadcast('HomeOrganizerController:count_events');
+        this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
+        this.$rootScope.$broadcast('EventsTabsOrganizerCtrl:count_events');
+        this.$rootScope.$broadcast('HomeOrganizerCtrl:count_events');
       })
       .catch( error => {
         this.$scope.$broadcast('scroll.refreshComplete');
@@ -56,7 +56,7 @@ class EventListCtrl{
   }
   
   private _registerListenerEvents(){
-    this.$rootScope.$on('EventListCtrl:getEvents', () => {
+    this.$rootScope.$on('EventListOrganizerCtrl:getEvents', () => {
       this.userAuth = this.userAuthService.getUserAuth();
       this.events = this.userAuth.events.filter( this._filterDate );
       this.showEmptyState = this.events.length == 0 ? true : false;
@@ -66,4 +66,4 @@ class EventListCtrl{
 }
 angular
   .module('app.events-organizer')
-  .controller('EventListCtrl', EventListCtrl);
+  .controller('EventListOrganizerCtrl', EventListOrganizerCtrl);

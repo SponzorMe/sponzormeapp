@@ -6,8 +6,8 @@
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-var EventListCtrl = (function () {
-    function EventListCtrl($scope, $rootScope, userService, utilsService, userAuthService) {
+var EventListOrganizerCtrl = (function () {
+    function EventListOrganizerCtrl($scope, $rootScope, userService, utilsService, userAuthService) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.userService = userService;
@@ -27,36 +27,36 @@ var EventListCtrl = (function () {
         this.showEmptyState = this.events.length == 0 ? true : false;
         this._registerListenerEvents();
     }
-    EventListCtrl.prototype.doRefresh = function () {
+    EventListOrganizerCtrl.prototype.doRefresh = function () {
         var _this = this;
         this.userService.home(this.userAuth.id)
             .then(function (user) {
             _this.$scope.$broadcast('scroll.refreshComplete');
-            _this.userAuth = _this.userAuthService.updateUserAuth(_this.userService.buildUser(user));
+            _this.userAuth = _this.userAuthService.updateUserAuth(user);
             _this.events = _this.userAuth.events.filter(_this._filterDate);
             _this.showEmptyState = _this.events.length == 0 ? true : false;
-            _this.$rootScope.$broadcast('MenuOrganizer:count_events');
-            _this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
-            _this.$rootScope.$broadcast('HomeOrganizerController:count_events');
+            _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
+            _this.$rootScope.$broadcast('EventsTabsOrganizerCtrl:count_events');
+            _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_events');
         })
             .catch(function (error) {
             _this.$scope.$broadcast('scroll.refreshComplete');
         });
     };
-    EventListCtrl.prototype._filterDate = function (item) {
+    EventListOrganizerCtrl.prototype._filterDate = function (item) {
         var today = moment(new Date()).subtract(1, 'days');
         return moment(item.ends).isAfter(today);
     };
-    EventListCtrl.prototype._registerListenerEvents = function () {
+    EventListOrganizerCtrl.prototype._registerListenerEvents = function () {
         var _this = this;
-        this.$rootScope.$on('EventListCtrl:getEvents', function () {
+        this.$rootScope.$on('EventListOrganizerCtrl:getEvents', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
             _this.events = _this.userAuth.events.filter(_this._filterDate);
             _this.showEmptyState = _this.events.length == 0 ? true : false;
         });
     };
-    return EventListCtrl;
+    return EventListOrganizerCtrl;
 })();
 angular
     .module('app.events-organizer')
-    .controller('EventListCtrl', EventListCtrl);
+    .controller('EventListOrganizerCtrl', EventListOrganizerCtrl);
