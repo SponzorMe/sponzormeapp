@@ -1,10 +1,49 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
 /**
 * @Controller for Detail Event
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
+class EventDetailSponzorCtrl{
+ 
+  $inject = [
+    '$scope',
+    '$stateParams',
+    '$rootScope',
+    '$translate',
+    '$ionicModal',
+    '$ionicHistory',
+    '$cordovaToast',
+    'eventService',
+    'utilsService',
+    'sponsorshipService',
+    'notificationService',
+    'userAuthService'
+  ];
+  event:any = {};
+  userAuth:userModule.User;
+  modalSponsorIt = null;
+  newSponsorIt = {};
+  
+  constructor(
+    private $scope: angular.IScope,
+    private $stateParams,
+    private $rootScope: angular.IRootScopeService,
+    private $translate,
+    private $ionicModal: ionic.modal.IonicModalService,
+    private $ionicHistory: ionic.navigation.IonicHistoryService,
+    private $cordovaToast,
+    private eventService: eventModule.IEventService,
+    private utilsService: utilsServiceModule.IUtilsService,
+    private sponsorshipService: sponsorshipModule.ISponsorshipService,
+    private notificationService: notificationModule.INotificationService,
+    private userAuthService: userAuthModule.IUserAuthService
+  ){}
+  
+}
+/*
 (function() {
   'use strict';
 

@@ -66,7 +66,8 @@ module.exports = function( config ){
       //"./tests/unit/dashboard-sponzor/menu.controller.spec.js",
       //"./tests/unit/events-organizer/add-event.controller.spec.js",
       //"./tests/unit/events-organizer/edit-event.controller.spec.js",
-      "./tests/unit/events-organizer/event-detail.controller.spec.js"
+      //"./tests/unit/events-organizer/event-detail.controller.spec.js",
+      "./tests/unit/events-organizer/event-list-tabs.controller.spec.js"
     ]
   });
 };
