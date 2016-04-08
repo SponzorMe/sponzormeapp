@@ -62,5 +62,5 @@ class SponsoringEventsCtrl{
   
 }
 angular
-    .module('app.events-sponzor')
-    .controller('SponsoringEventsCtrl', SponsoringEventsCtrl);
+  .module('app.events-sponzor')
+  .controller('SponsoringEventsCtrl', SponsoringEventsCtrl);
