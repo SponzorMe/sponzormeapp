@@ -10,7 +10,6 @@ class SponsorshipOrganizerDetailCtrl{
   
   $inject = [
     '$stateParams',
-    '$ionicHistory',
     'sponsorshipService',
     'utilsService',
     'userAuthService',
@@ -23,7 +22,6 @@ class SponsorshipOrganizerDetailCtrl{
   
   constructor(
     private $stateParams,
-    private $ionicHistory: ionic.navigation.IonicHistoryService,
     private sponsorshipService: sponsorshipModule.ISponsorshipService,
     private utilsService: utilsServiceModule.IUtilsService,
     private userAuthService: userAuthModule.IUserAuthService,

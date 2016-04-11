@@ -162,7 +162,6 @@ module notificationModule{
       
       let url = this.path + 'notifications/' + to;
       let notificationsRef =  this.$firebaseArray( new Firebase( url ));
-      
       notificationsRef.$add(notification);
     }
     

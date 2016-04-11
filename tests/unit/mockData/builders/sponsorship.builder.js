@@ -28,7 +28,9 @@ var sponsorshipBuilder = (function() {
       perk_id: "3",
       sponzor_id: "1002",
       status: "0",
-      Event: {},
+      Event: {
+        title: "Text"
+      },
       Organizer: {},
       Perk: {
         tasks: [
