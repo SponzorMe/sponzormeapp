@@ -7,17 +7,15 @@
 * @version 0.2
 */
 var SponsorshipOrganizerDetailCtrl = (function () {
-    function SponsorshipOrganizerDetailCtrl($stateParams, $ionicHistory, sponsorshipService, utilsService, userAuthService, notificationService) {
+    function SponsorshipOrganizerDetailCtrl($stateParams, sponsorshipService, utilsService, userAuthService, notificationService) {
         var _this = this;
         this.$stateParams = $stateParams;
-        this.$ionicHistory = $ionicHistory;
         this.sponsorshipService = sponsorshipService;
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
         this.$inject = [
             '$stateParams',
-            '$ionicHistory',
             'sponsorshipService',
             'utilsService',
             'userAuthService',
