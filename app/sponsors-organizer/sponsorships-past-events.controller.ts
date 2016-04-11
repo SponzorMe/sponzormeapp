@@ -12,7 +12,8 @@ class SponsorshipsPastEventsCtrl{
     '$scope',
     '$rootScope',
     '$ionicScrollDelegate',
-    'sponsorshipService'
+    'userService',
+    'userAuthService'
   ];
   sponsorships:any[] = [];
   userAuth:userModule.User;
@@ -22,6 +23,7 @@ class SponsorshipsPastEventsCtrl{
     private $scope: angular.IScope,
     private $rootScope: angular.IRootScopeService,
     private $ionicScrollDelegate: ionic.navigation.IonicHistoryService,
+    private userService: userModule.IUserService,
     private userAuthService: userAuthModule.IUserAuthService
   ){
     this.userAuth = this.userAuthService.getUserAuth();
@@ -29,6 +31,22 @@ class SponsorshipsPastEventsCtrl{
     this.showEmptyState = this.sponsorships.length == 0 ? true : false;
     
     this._registerListenerSponzorships();
+  }
+  
+  doRefresh(){
+    this.userService.home( this.userAuth.id )
+    .then( user => {
+      this.$scope.$broadcast('scroll.refreshComplete');
+      this.userAuth = this.userAuthService.updateUserAuth( user );
+      this.sponsorships = this.userAuth.sponzorships_like_organizer.filter( this._filterByDateIsBefore );
+      this.showEmptyState = this.sponsorships.length == 0 ? true : false;
+      this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
+      this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
+      this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
+    })
+    .catch( error => {
+      this.showEmptyState = true;
+    });
   }
   
   private _registerListenerSponzorships(){

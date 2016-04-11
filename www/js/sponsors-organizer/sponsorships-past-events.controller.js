@@ -7,16 +7,18 @@
 * @version 0.2
 */
 var SponsorshipsPastEventsCtrl = (function () {
-    function SponsorshipsPastEventsCtrl($scope, $rootScope, $ionicScrollDelegate, userAuthService) {
+    function SponsorshipsPastEventsCtrl($scope, $rootScope, $ionicScrollDelegate, userService, userAuthService) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.$ionicScrollDelegate = $ionicScrollDelegate;
+        this.userService = userService;
         this.userAuthService = userAuthService;
         this.$inject = [
             '$scope',
             '$rootScope',
             '$ionicScrollDelegate',
-            'sponsorshipService'
+            'userService',
+            'userAuthService'
         ];
         this.sponsorships = [];
         this.showEmptyState = false;
@@ -25,6 +27,22 @@ var SponsorshipsPastEventsCtrl = (function () {
         this.showEmptyState = this.sponsorships.length == 0 ? true : false;
         this._registerListenerSponzorships();
     }
+    SponsorshipsPastEventsCtrl.prototype.doRefresh = function () {
+        var _this = this;
+        this.userService.home(this.userAuth.id)
+            .then(function (user) {
+            _this.$scope.$broadcast('scroll.refreshComplete');
+            _this.userAuth = _this.userAuthService.updateUserAuth(user);
+            _this.sponsorships = _this.userAuth.sponzorships_like_organizer.filter(_this._filterByDateIsBefore);
+            _this.showEmptyState = _this.sponsorships.length == 0 ? true : false;
+            _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
+            _this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
+            _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
+        })
+            .catch(function (error) {
+            _this.showEmptyState = true;
+        });
+    };
     SponsorshipsPastEventsCtrl.prototype._registerListenerSponzorships = function () {
         var _this = this;
         this.$rootScope.$on('SponsorshipsPastEventsCtrl:getSponzorships', function () {

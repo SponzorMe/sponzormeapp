@@ -72,7 +72,8 @@ module.exports = function( config ){
       //"./tests/unit/events-organizer/past-events.controller.spec.js",
       //"./tests/unit/events-sponsor/event-detail.controller.spec.js",
       //"./tests/unit/events-sponsor/follow-events.controller.spec.js",
-      "./tests/unit/events-sponsor/sponsoring-events.controller.spec.js"
+      //"./tests/unit/events-sponsor/sponsoring-events.controller.spec.js",
+       "./tests/unit/sponsors-organizer/sponsorships-past-events.controller.spec.js"
     ]
   });
 };
