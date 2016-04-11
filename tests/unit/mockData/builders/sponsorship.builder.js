@@ -30,7 +30,17 @@ var sponsorshipBuilder = (function() {
       status: "0",
       Event: {},
       Organizer: {},
-      Perk: {},
+      Perk: {
+        tasks: [
+          {
+            id: "1",
+            title: "Nicoas",
+            description: "Bla",
+            status: "0",
+            user_id: "1"
+          }
+        ]
+      },
       Sponzor: {},
       SponzorEvent: {
         id: "30",
@@ -41,7 +51,18 @@ var sponsorshipBuilder = (function() {
         sponzor_id: "1002",
         status: "0",
       },
-      Tasks: []
+      Tasks: [],
+      task_sponzor: [
+        {
+          id: "1",
+          task:{
+            title: "Nicoas",
+            description: "Bla",
+            status: "0",
+            user_id: "1"
+          }
+        }
+      ]
     };
   }
   

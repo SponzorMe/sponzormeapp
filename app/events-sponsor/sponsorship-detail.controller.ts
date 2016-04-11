@@ -16,7 +16,7 @@ class SponsorshipSponsorDetailCtrl{
     '$ionicHistory',
     '$cordovaToast',
     'utilsService',
-    'tasksSponsorService',
+    'taskSponsorService',
     'userAuthService',
     'notificationService'
   ];
@@ -35,14 +35,14 @@ class SponsorshipSponsorDetailCtrl{
     private $ionicHistory: ionic.navigation.IonicHistoryService,
     private $cordovaToast,
     private utilsService: utilsServiceModule.IUtilsService,
-    private tasksSponsorService: tasksSponsorModule.ITasksSponsor,
+    private taskSponsorService: taskSponsorModule.ITasksSponsor,
     private userAuthService: userAuthModule.IUserAuthService,
     private notificationService: notificationModule.INotificationService
   ){
     this.userAuth = this.userAuthService.getUserAuth();
     this.sponsorship = _.findWhere(this.userAuth.sponzorship, {id: $stateParams.id});
-    this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter( this._filterTaskSponsor );
-
+    this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter( item => item.task.user_id == this.userAuth.id);
+    
     this._loadModalTask(); 
   }
   
@@ -74,16 +74,16 @@ class SponsorshipSponsorDetailCtrl{
   
   createTask( form ){
     this.utilsService.showLoad();
-    this.tasksSponsorService.createTask( this._preparateTask() )
-    .then( TaskSponzor => {
-      this.sponsorship.perk.tasks.push( TaskSponzor.task );
-      this.sponsorship.task_sponzor.push( TaskSponzor );
+    this.taskSponsorService.createTask( this._preparateTask() )
+    .then( data => {
+      this.sponsorship.perk.tasks.push( data.TaskSponzor.Task );
+      this.sponsorship.task_sponzor.push( data.TaskSponzor );
       this.hideModalTask( form );
       
       this.notificationService.sendNewTaskSponsor({
-        text: TaskSponzor.task.title,
+        text: data.TaskSponzor.Task.title,
         modelId: this.sponsorship.id
-      }, TaskSponzor.organizer_id);
+      }, data.TaskSponzor.organizer_id);
       
       this.utilsService.hideLoad();
     })
@@ -94,7 +94,7 @@ class SponsorshipSponsorDetailCtrl{
   
   deleteTask( form ){
     this.utilsService.showLoad();
-    this.tasksSponsorService.deleteTask( this.sponsorTask.id )
+    this.taskSponsorService.deleteTask( this.sponsorTask.id )
     .then( data => {
       let perkTask = _.findWhere( this.sponsorship.perk.tasks, {id: this.sponsorTask.task.id} );
       let taskSponzor = _.findWhere( this.sponsorship.task_sponzor, {id: this.sponsorTask.id} );
@@ -117,7 +117,7 @@ class SponsorshipSponsorDetailCtrl{
     let task = this._preparateTask();
     task.id = this.sponsorTask.id;
     
-    this.tasksSponsorService.editPutTask( String(task.id), task )
+    this.taskSponsorService.editPutTask( String(task.id), task )
     .then( TaskSponsor => {
       
       let perkTask = _.findWhere( this.sponsorship.perk.tasks, {id: this.sponsorTask.task.id} );
@@ -184,9 +184,6 @@ class SponsorshipSponsorDetailCtrl{
     });
   }
   
-  private _filterTaskSponsor( item ) {
-    return item.task.user_id == this.userAuth.id;
-  }
 }
 angular
   .module('app.events-sponzor')

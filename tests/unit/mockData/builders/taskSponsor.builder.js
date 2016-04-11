@@ -20,16 +20,20 @@ var taskSponsorBuilder = (function() {
   function init(){
     return {
       id: "1",
+      title: "title",
       sponzor_id: "1",
       perk_id: "1",
       event_id: "1",
       task_id: "1",
       sponzorship_id: "1",
       organizer_id: "2",
-      Task:{},
+      Task:{
+        title: "title"
+      },
       Organizer: {},
       Sponzor: {},
-      Event: {}
+      Event: {},
+      task_sponzor: []
     };
   }
   

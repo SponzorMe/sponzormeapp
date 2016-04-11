@@ -5,8 +5,8 @@
 * @author Nicolas Molina
 * @version 0.1
 */
-var tasksSponsorModule;
-(function (tasksSponsorModule) {
+var taskSponsorModule;
+(function (taskSponsorModule) {
     var taskSponsorService = (function () {
         function taskSponsorService($http, $localStorage, BackendVariables, $q) {
             this.$http = $http;
@@ -114,8 +114,8 @@ var tasksSponsorModule;
         };
         return taskSponsorService;
     }());
-    tasksSponsorModule.taskSponsorService = taskSponsorService;
+    taskSponsorModule.taskSponsorService = taskSponsorService;
     angular
         .module('app')
         .service('taskSponsorService', taskSponsorService);
-})(tasksSponsorModule || (tasksSponsorModule = {}));
+})(taskSponsorModule || (taskSponsorModule = {}));

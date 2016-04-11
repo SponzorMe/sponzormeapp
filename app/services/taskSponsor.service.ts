@@ -5,7 +5,7 @@
 * @author Nicolas Molina
 * @version 0.1
 */
-module tasksSponsorModule{
+module taskSponsorModule{
   
   export interface ITasksSponsor{
     getAllTasks():angular.IPromise<any>;

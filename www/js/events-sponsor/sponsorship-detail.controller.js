@@ -7,7 +7,8 @@
 * @version 0.2
 */
 var SponsorshipSponsorDetailCtrl = (function () {
-    function SponsorshipSponsorDetailCtrl($scope, $stateParams, $translate, $ionicModal, $ionicHistory, $cordovaToast, utilsService, tasksSponsorService, userAuthService, notificationService) {
+    function SponsorshipSponsorDetailCtrl($scope, $stateParams, $translate, $ionicModal, $ionicHistory, $cordovaToast, utilsService, taskSponsorService, userAuthService, notificationService) {
+        var _this = this;
         this.$scope = $scope;
         this.$stateParams = $stateParams;
         this.$translate = $translate;
@@ -15,7 +16,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
         this.$ionicHistory = $ionicHistory;
         this.$cordovaToast = $cordovaToast;
         this.utilsService = utilsService;
-        this.tasksSponsorService = tasksSponsorService;
+        this.taskSponsorService = taskSponsorService;
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
         this.$inject = [
@@ -26,7 +27,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
             '$ionicHistory',
             '$cordovaToast',
             'utilsService',
-            'tasksSponsorService',
+            'taskSponsorService',
             'userAuthService',
             'notificationService'
         ];
@@ -37,7 +38,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
         this.indexSlide = 0;
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponsorship = _.findWhere(this.userAuth.sponzorship, { id: $stateParams.id });
-        this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter(this._filterTaskSponsor);
+        this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter(function (item) { return item.task.user_id == _this.userAuth.id; });
         this._loadModalTask();
     }
     SponsorshipSponsorDetailCtrl.prototype.slideChange = function (index) {
@@ -65,15 +66,15 @@ var SponsorshipSponsorDetailCtrl = (function () {
     SponsorshipSponsorDetailCtrl.prototype.createTask = function (form) {
         var _this = this;
         this.utilsService.showLoad();
-        this.tasksSponsorService.createTask(this._preparateTask())
-            .then(function (TaskSponzor) {
-            _this.sponsorship.perk.tasks.push(TaskSponzor.task);
-            _this.sponsorship.task_sponzor.push(TaskSponzor);
+        this.taskSponsorService.createTask(this._preparateTask())
+            .then(function (data) {
+            _this.sponsorship.perk.tasks.push(data.TaskSponzor.Task);
+            _this.sponsorship.task_sponzor.push(data.TaskSponzor);
             _this.hideModalTask(form);
             _this.notificationService.sendNewTaskSponsor({
-                text: TaskSponzor.task.title,
+                text: data.TaskSponzor.Task.title,
                 modelId: _this.sponsorship.id
-            }, TaskSponzor.organizer_id);
+            }, data.TaskSponzor.organizer_id);
             _this.utilsService.hideLoad();
         })
             .catch(function (error) {
@@ -83,7 +84,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
     SponsorshipSponsorDetailCtrl.prototype.deleteTask = function (form) {
         var _this = this;
         this.utilsService.showLoad();
-        this.tasksSponsorService.deleteTask(this.sponsorTask.id)
+        this.taskSponsorService.deleteTask(this.sponsorTask.id)
             .then(function (data) {
             var perkTask = _.findWhere(_this.sponsorship.perk.tasks, { id: _this.sponsorTask.task.id });
             var taskSponzor = _.findWhere(_this.sponsorship.task_sponzor, { id: _this.sponsorTask.id });
@@ -104,7 +105,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
         this.utilsService.showLoad();
         var task = this._preparateTask();
         task.id = this.sponsorTask.id;
-        this.tasksSponsorService.editPutTask(String(task.id), task)
+        this.taskSponsorService.editPutTask(String(task.id), task)
             .then(function (TaskSponsor) {
             var perkTask = _.findWhere(_this.sponsorship.perk.tasks, { id: _this.sponsorTask.task.id });
             var taskSponzor = _.findWhere(_this.sponsorship.task_sponzor, { id: _this.sponsorTask.id });
@@ -164,9 +165,6 @@ var SponsorshipSponsorDetailCtrl = (function () {
         }).then(function (modal) {
             _this.modalTask = modal;
         });
-    };
-    SponsorshipSponsorDetailCtrl.prototype._filterTaskSponsor = function (item) {
-        return item.task.user_id == this.userAuth.id;
     };
     return SponsorshipSponsorDetailCtrl;
 }());
