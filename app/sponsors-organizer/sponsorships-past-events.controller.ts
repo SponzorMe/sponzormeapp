@@ -17,7 +17,7 @@ class SponsorshipsPastEventsCtrl{
   ];
   sponsorships:any[] = [];
   userAuth:userModule.User;
-  showEmptyState: boolean = false
+  showEmptyState: boolean = false;
   
   constructor(
     private $scope: angular.IScope,
