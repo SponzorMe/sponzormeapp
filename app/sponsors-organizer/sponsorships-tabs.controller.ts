@@ -28,7 +28,7 @@ class SponsorshipsTabsCtrl{
   }
   
   private _registerListenerCounts(){
-    this.$rootScope.$on('SponsorshipsTabsController:count_sponsors', () => {
+    this.$rootScope.$on('SponsorshipsTabsCtrl:count_sponsors', () => {
       this.userAuth = this.userAuthService.getUserAuth();
       this.count_events = this.userAuth.sponzorships_like_organizer.length;
       this.count_past_events = this.userAuth.sponzorships_like_organizer.length - this.count_events;

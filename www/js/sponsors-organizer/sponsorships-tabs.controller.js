@@ -23,7 +23,7 @@ var SponsorshipsTabsCtrl = (function () {
     }
     SponsorshipsTabsCtrl.prototype._registerListenerCounts = function () {
         var _this = this;
-        this.$rootScope.$on('SponsorshipsTabsController:count_sponsors', function () {
+        this.$rootScope.$on('SponsorshipsTabsCtrl:count_sponsors', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
             _this.count_events = _this.userAuth.sponzorships_like_organizer.length;
             _this.count_past_events = _this.userAuth.sponzorships_like_organizer.length - _this.count_events;
