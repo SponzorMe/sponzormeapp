@@ -12,8 +12,8 @@ var Camera = {
 var CameraPopoverOptions;
 var mockData = (function() {
   
-  function createFullEvent(idEvent) {
-    return eventBuilder
+  function createFullEvent(idEvent, ends) {
+    var event = eventBuilder
       .setId(idEvent)
       .setCategory(categoryBuilder.omit("interests").build())
       .setType(eventTypeBuilder.build())
@@ -33,6 +33,10 @@ var mockData = (function() {
         .build(),
       ])
       .build();
+    if(ends){
+      event.ends = moment(new Date().getTime()).subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss');
+    }
+    return event;
   }
   
   return {
@@ -140,9 +144,9 @@ var mockData = (function() {
     if(type == "0"){ //Is an Organizer
       response.user = userBuilder
       .setEvents([
-        createFullEvent("1"),
-        createFullEvent("2"),
-        createFullEvent("3")
+        createFullEvent("1", false),
+        createFullEvent("2", false),
+        createFullEvent("3", true)
       ])
       .setSponzorshipLikeOrganizer([
         sponsorshipBuilder.build(),
@@ -153,9 +157,9 @@ var mockData = (function() {
       .build();
     }else{ //Is an Sponsor
       response.events = [
-        createFullEvent("1"),
-        createFullEvent("2"),
-        createFullEvent("3")
+        createFullEvent("1", false),
+        createFullEvent("2", false),
+        createFullEvent("3", true)
       ];
       response.user = userBuilder
       .setSponzorships([
@@ -190,9 +194,9 @@ var mockData = (function() {
     if(type == "0"){ //Is an Organizer
       response.user = userBuilder
       .setEvents([
-        createFullEvent("1"),
-        createFullEvent("2"),
-        createFullEvent("3")
+        createFullEvent("1", false),
+        createFullEvent("2", false),
+        createFullEvent("3", true)
       ])
       .setSponzorshipLikeOrganizer([
         sponsorshipBuilder.build(),
@@ -203,9 +207,9 @@ var mockData = (function() {
       .build();
     }else{ //Is an Sponsor
       response.events = [
-        createFullEvent("1"),
-        createFullEvent("2"),
-        createFullEvent("3")
+        createFullEvent("1", false),
+        createFullEvent("2", false),
+        createFullEvent("3", true)
       ];
       response.user = userBuilder
       .setSponzorships([

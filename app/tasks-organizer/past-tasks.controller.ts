@@ -7,7 +7,7 @@
 * @version 0.2
 
 */
-class PastTaskCtrl{
+class PastTasksCtrl{
   
   $inject = [
     '$scope',
@@ -40,18 +40,15 @@ class PastTaskCtrl{
     private notificationService: notificationModule.INotificationService
   ){
     this.userAuth = this.userAuthService.getUserAuth();
-    this.events = this.userAuth.events
-      .filter( this._filterEvents )
-      .map( this._preparateEvents );
-      
+    this.events = this.userAuth.events.filter( this._filterEvents );
+    this.events.forEach( this._preparateEvents, this );
     this.showEmptyState = this.events.length == 0 ? true : false;
     this._loadTaskModal();
   }
   
   private _filterEvents( event ){
-    let count = event.perks.reduce(function(a,b){ return a.concat(b.tasks)}, []);
-    let today = moment( new Date() ).subtract(1, 'days');
-    return moment( event.ends ).isBefore( today ) && count.length > 0;
+    let count = event.perks.reduce((a,b) => a.concat(b.tasks), []);
+    return moment( event.ends ).isBefore( new Date() ) && count.length > 0;
   }
   
   private _preparateEvents( event ){
@@ -75,9 +72,8 @@ class PastTaskCtrl{
     .then( user => {
       this.$scope.$broadcast('scroll.refreshComplete');
       this.userAuth = this.userAuthService.updateUserAuth( user );
-      this.events = this.userAuth.events
-        .filter( this._filterEvents )
-        .map( this._preparateEvents );
+      this.events = this.userAuth.events.filter( this._filterEvents );
+      this.events.forEach( this._preparateEvents, this );
       this.showEmptyState = this.events.length == 0 ? true : false;
       this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
       this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
@@ -225,4 +221,4 @@ class PastTaskCtrl{
 }
 angular
   .module('app.tasks-organizer')
-  .controller('PastTaskCtrl', PastTaskCtrl);
+  .controller('PastTasksCtrl', PastTasksCtrl);

@@ -7,8 +7,8 @@
 * @version 0.2
 
 */
-var PastTaskCtrl = (function () {
-    function PastTaskCtrl($scope, $rootScope, $ionicModal, perkTaskService, userService, utilsService, userAuthService, notificationService) {
+var PastTasksCtrl = (function () {
+    function PastTasksCtrl($scope, $rootScope, $ionicModal, perkTaskService, userService, utilsService, userAuthService, notificationService) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.$ionicModal = $ionicModal;
@@ -36,25 +36,23 @@ var PastTaskCtrl = (function () {
         this.isNewTask = true;
         this.task = {};
         this.userAuth = this.userAuthService.getUserAuth();
-        this.events = this.userAuth.events
-            .filter(this._filterEvents)
-            .map(this._preparateEvents);
+        this.events = this.userAuth.events.filter(this._filterEvents);
+        this.events.forEach(this._preparateEvents, this);
         this.showEmptyState = this.events.length == 0 ? true : false;
         this._loadTaskModal();
     }
-    PastTaskCtrl.prototype._filterEvents = function (event) {
+    PastTasksCtrl.prototype._filterEvents = function (event) {
         var count = event.perks.reduce(function (a, b) { return a.concat(b.tasks); }, []);
-        var today = moment(new Date()).subtract(1, 'days');
-        return moment(event.ends).isBefore(today) && count.length > 0;
+        return moment(event.ends).isBefore(new Date()) && count.length > 0;
     };
-    PastTaskCtrl.prototype._preparateEvents = function (event) {
+    PastTasksCtrl.prototype._preparateEvents = function (event) {
         var _this = this;
         event.perks = event.perks.map(function (perk) {
             perk.sponzorship = _.where(_this.userAuth.sponzorships_like_organizer, { perk_id: perk.id });
         });
         return event;
     };
-    PastTaskCtrl.prototype._loadTaskModal = function () {
+    PastTasksCtrl.prototype._loadTaskModal = function () {
         var _this = this;
         this.$ionicModal.fromTemplateUrl('templates/tasks-organizer/task-modal.html', {
             scope: this.$scope,
@@ -63,15 +61,14 @@ var PastTaskCtrl = (function () {
             _this.modalTask = modal;
         });
     };
-    PastTaskCtrl.prototype.doRefresh = function () {
+    PastTasksCtrl.prototype.doRefresh = function () {
         var _this = this;
         this.userService.home(this.userAuth.id)
             .then(function (user) {
             _this.$scope.$broadcast('scroll.refreshComplete');
             _this.userAuth = _this.userAuthService.updateUserAuth(user);
-            _this.events = _this.userAuth.events
-                .filter(_this._filterEvents)
-                .map(_this._preparateEvents);
+            _this.events = _this.userAuth.events.filter(_this._filterEvents);
+            _this.events.forEach(_this._preparateEvents, _this);
             _this.showEmptyState = _this.events.length == 0 ? true : false;
             _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
             _this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
@@ -80,7 +77,7 @@ var PastTaskCtrl = (function () {
             _this.$scope.$broadcast('scroll.refreshComplete');
         });
     };
-    PastTaskCtrl.prototype.sendNewTaskNotification = function (text) {
+    PastTasksCtrl.prototype.sendNewTaskNotification = function (text) {
         for (var index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
             var sponzorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
             this.notificationService.sendNewTaskOrganizer({
@@ -89,7 +86,7 @@ var PastTaskCtrl = (function () {
             }, sponzorship.sponzor_id);
         }
     };
-    PastTaskCtrl.prototype.sendUpdateTaskNotification = function (text, done) {
+    PastTasksCtrl.prototype.sendUpdateTaskNotification = function (text, done) {
         for (var index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
             var sponzorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
             if (done) {
@@ -106,10 +103,10 @@ var PastTaskCtrl = (function () {
             }
         }
     };
-    PastTaskCtrl.prototype.showModalTask = function () {
+    PastTasksCtrl.prototype.showModalTask = function () {
         this.modalTask.show();
     };
-    PastTaskCtrl.prototype.newTask = function (perk, indexEvent, indexPerk) {
+    PastTasksCtrl.prototype.newTask = function (perk, indexEvent, indexPerk) {
         this.isNewTask = true;
         this.indexEvent = indexEvent;
         this.indexPerk = indexPerk;
@@ -117,13 +114,13 @@ var PastTaskCtrl = (function () {
         this.task.event_id = perk.id_event;
         this.showModalTask();
     };
-    PastTaskCtrl.prototype.hideModalTask = function (form) {
+    PastTasksCtrl.prototype.hideModalTask = function (form) {
         this.modalTask.hide();
         if (form)
             this.utilsService.resetForm(form);
         this.task = {};
     };
-    PastTaskCtrl.prototype.editTask = function (task, indexEvent, indexPerk, indexTask) {
+    PastTasksCtrl.prototype.editTask = function (task, indexEvent, indexPerk, indexTask) {
         this.isNewTask = false;
         this.indexEvent = indexEvent;
         this.indexPerk = indexPerk;
@@ -132,7 +129,7 @@ var PastTaskCtrl = (function () {
         this.task.status = this.task.status == 1 ? true : false;
         this.showModalTask();
     };
-    PastTaskCtrl.prototype.createTask = function (form) {
+    PastTasksCtrl.prototype.createTask = function (form) {
         var _this = this;
         this.utilsService.showLoad();
         this.perkTaskService.createPerkTask(this.preparateTask())
@@ -150,7 +147,7 @@ var PastTaskCtrl = (function () {
             _this.utilsService.hideLoad();
         });
     };
-    PastTaskCtrl.prototype.preparateTask = function () {
+    PastTasksCtrl.prototype.preparateTask = function () {
         return {
             user_id: this.userAuth.id,
             event_id: this.task.event_id,
@@ -161,7 +158,7 @@ var PastTaskCtrl = (function () {
             status: this.task.status ? 1 : 0
         };
     };
-    PastTaskCtrl.prototype.deleteTask = function (form) {
+    PastTasksCtrl.prototype.deleteTask = function (form) {
         var _this = this;
         this.utilsService.showLoad();
         this.perkTaskService.deletePerkTask(this.task.id)
@@ -182,7 +179,7 @@ var PastTaskCtrl = (function () {
             _this.utilsService.hideLoad();
         });
     };
-    PastTaskCtrl.prototype.updateTask = function (form) {
+    PastTasksCtrl.prototype.updateTask = function (form) {
         var _this = this;
         this.utilsService.showLoad();
         this.task.status = this.task.status ? 1 : 0;
@@ -201,7 +198,7 @@ var PastTaskCtrl = (function () {
             _this.utilsService.hideLoad();
         });
     };
-    PastTaskCtrl.prototype.submitTask = function (form) {
+    PastTasksCtrl.prototype.submitTask = function (form) {
         if (this.isNewTask) {
             this.createTask(form);
         }
@@ -209,8 +206,8 @@ var PastTaskCtrl = (function () {
             this.updateTask(form);
         }
     };
-    return PastTaskCtrl;
+    return PastTasksCtrl;
 }());
 angular
     .module('app.tasks-organizer')
-    .controller('PastTaskCtrl', PastTaskCtrl);
+    .controller('PastTasksCtrl', PastTasksCtrl);
