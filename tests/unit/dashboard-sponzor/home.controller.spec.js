@@ -104,7 +104,6 @@ describe('Controller: HomeSponsorCtrl', function(){
 
     var userData = mockData.userService.home("1");
     userData.data.user.type = "1";
-    console.log( userData );
  
     beforeEach(function() {
       $httpBackend.whenGET( URL_REST + 'home/1').respond(200, userData);

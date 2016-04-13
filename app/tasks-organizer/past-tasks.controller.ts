@@ -42,8 +42,7 @@ class PastTaskCtrl{
     this.userAuth = this.userAuthService.getUserAuth();
     this.events = this.userAuth.events
       .filter( this._filterEvents )
-      .map( this._preparateEvents )
-      .sort( this._orderByDateEnd );
+      .map( this._preparateEvents );
       
     this.showEmptyState = this.events.length == 0 ? true : false;
     this._loadTaskModal();
@@ -62,10 +61,6 @@ class PastTaskCtrl{
     return event;
   }
   
-  private _orderByDateEnd( a,b ){
-    return b.ends - a.ends;
-  }
-  
   private _loadTaskModal(){
     this.$ionicModal.fromTemplateUrl('templates/tasks-organizer/task-modal.html', {
       scope: this.$scope,
@@ -82,8 +77,7 @@ class PastTaskCtrl{
       this.userAuth = this.userAuthService.updateUserAuth( user );
       this.events = this.userAuth.events
         .filter( this._filterEvents )
-        .map( this._preparateEvents )
-        .sort( this._orderByDateEnd );
+        .map( this._preparateEvents );
       this.showEmptyState = this.events.length == 0 ? true : false;
       this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
       this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
