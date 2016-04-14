@@ -1,69 +1,61 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
 /**
 * @Controller for Home Organizer
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-(function() {
-  'use strict';
-
-  angular
-    .module('app.tasks-organizer')
-    .controller('TaskTabsController', TaskTabsController);
-
-  TaskTabsController.$inject = [
+class TaskTabsCtrl{
+  
+  $inject = [
     '$rootScope',
     'userAuthService'
   ];
-
-  function TaskTabsController( $rootScope, userAuthService ) {
-
-    var vm = this;
-    //Attributes
-    vm.userAuth = userAuthService.getUserAuth();
-    vm.count_tasks = 0;
-    vm.count_past_tasks = 0;
+  userAuth:userModule.User;
+  count_tasks:number = 0;
+  count_past_tasks:number = 0;
+  
+  constructor(
+    private $rootScope: angular.IRootScopeService,
+    private userAuthService: userAuthModule.IUserAuthService
+  ){
+    this.userAuth = this.userAuthService.getUserAuth();
     
-    activate();
-    ////////////
-
-    function activate(){
-      $rootScope.$on('TaskTabsController:count_tasks', rendercountTasks);
-      
-      vm.count_tasks = countTasks(vm.userAuth.events.filter( filterEventsIsAfter )).length;
-      vm.count_past_tasks = countTasks(vm.userAuth.events.filter( filterEventsisBefore )).length;
-     
-    }
+    this.count_tasks = this._countTasks(this.userAuth.events.filter( this._filterEventsIsAfter )).length;
+    this.count_past_tasks = this._countTasks(this.userAuth.events.filter( this._filterEventsisBefore )).length;
     
-    function filterEventsIsAfter( event ){
-      var count = event.perks.reduce(function(a,b){ return a.concat(b.tasks)}, []);
-      var today = moment( new Date() ).subtract(1, 'days');
-      return moment( event.ends ).isAfter( today ) && count.length > 0;
-    }
-    
-    function filterEventsisBefore( event ){
-      var count = event.perks.reduce(function(a,b){ return a.concat(b.tasks)}, []);
-      var today = moment( new Date() ).subtract(1, 'days');
-      return moment( event.ends ).isBefore( today ) && count.length > 0;
-    }
-    
-    function rendercountTasks(){
-      vm.userAuth = userAuthService.getUserAuth();
-      vm.count_tasks = countTasks(vm.userAuth.events.filter( filterEventsIsAfter )).length;
-      vm.count_past_tasks = countTasks(vm.userAuth.events.filter( filterEventsisBefore )).length;
-    }
-    
-    function countTasks( events ) {
-      return events
-        .reduce(function(a,b){ return a.concat(b.perks)}, [])
-        .reduce(function(a,b){ return a.concat(b.tasks)}, [])
-        .filter( filterByUserAndNotDone  );
-        
-        function filterByUserAndNotDone( item ) {
-          return item.user_id == vm.userAuth.id && item.status != '1';
-        }
-    }
-    
+    this._registerListenerCounts();
   }
-})();
+  
+  private _registerListenerCounts(){
+    this.$rootScope.$on('TaskTabsCtrl:count_tasks', () => {
+      this.userAuth = this.userAuthService.getUserAuth();
+      this.count_tasks = this._countTasks(this.userAuth.events.filter( this._filterEventsIsAfter )).length;
+      this.count_past_tasks = this._countTasks(this.userAuth.events.filter( this._filterEventsisBefore )).length;
+    });
+  }
+  
+  private _filterEventsIsAfter( event ){
+    let count = event.perks.reduce((a,b) =>a.concat(b.tasks), []);
+    let today = moment( new Date() ).subtract(1, 'days');
+    return moment( event.ends ).isAfter( today ) && count.length > 0;
+  }
+  
+  private _filterEventsisBefore( event ){
+    let count = event.perks.reduce((a,b) =>a.concat(b.tasks), []);
+    let today = moment( new Date() ).subtract(1, 'days');
+    return moment( event.ends ).isBefore( today ) && count.length > 0;
+  }
+  
+  private _countTasks( events ) {
+    return events
+      .reduce((a,b) => a.concat(b.perks), [])
+      .reduce((a,b) => a.concat(b.tasks), [])
+      .filter( item => item.user_id == this.userAuth.id && item.status != '1' );
+  }
+    
+}
+angular
+  .module('app.tasks-organizer')
+  .controller('TaskTabsCtrl', TaskTabsCtrl);
