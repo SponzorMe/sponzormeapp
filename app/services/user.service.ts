@@ -26,10 +26,14 @@ module userModule{
     type:string;
     email:string;
     age: number;
+    name: string;
     comunity_size: number;
     events:eventModule.Event[];
     sponzorship?:sponsorshipModule.Sponsorship[];
     sponzorships_like_organizer?:sponsorshipModule.Sponsorship[];
+    location:any;
+    lang: string;
+    sex: number;
   }
   
   export class userService implements IUserService{
