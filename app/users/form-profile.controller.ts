@@ -10,9 +10,9 @@ class FormProfileCtrl{
   
   $inject = [
     '$state',
-    'translate',
+    '$translate',
     'userService',
-    'utilsService',,
+    'utilsService',
     'userAuthService'
   ];
   userAuth:userModule.User;
@@ -24,6 +24,8 @@ class FormProfileCtrl{
     private utilsService: utilsServiceModule.IUtilsService,
     private userAuthService: userAuthModule.IUserAuthService
   ){
+    this.userAuth = this.userAuthService.getUserAuth();
+    
     this.userAuth.lang = 'en';
     this.userAuth.sex = 1;
   }
