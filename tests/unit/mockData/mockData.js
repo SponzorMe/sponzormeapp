@@ -34,7 +34,7 @@ var mockData = (function() {
       ])
       .build();
     if(ends){
-      event.ends = moment(new Date().getTime()).subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss');
+      event.ends = ends;
     }
     return event;
   }
@@ -144,9 +144,9 @@ var mockData = (function() {
     if(type == "0"){ //Is an Organizer
       response.user = userBuilder
       .setEvents([
-        createFullEvent("1", false),
-        createFullEvent("2", false),
-        createFullEvent("3", true)
+        createFullEvent("1", moment(new Date().getTime()).subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')),
+        createFullEvent("2", moment(new Date().getTime()).format('YYYY-MM-DD HH:mm:ss')),
+        createFullEvent("3", moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'))
       ])
       .setSponzorshipLikeOrganizer([
         sponsorshipBuilder.build(),
@@ -194,9 +194,9 @@ var mockData = (function() {
     if(type == "0"){ //Is an Organizer
       response.user = userBuilder
       .setEvents([
-        createFullEvent("1", false),
-        createFullEvent("2", false),
-        createFullEvent("3", true)
+        createFullEvent("1", moment(new Date().getTime()).subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')),
+        createFullEvent("2", moment(new Date().getTime()).format('YYYY-MM-DD HH:mm:ss')),
+        createFullEvent("3", moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'))
       ])
       .setSponzorshipLikeOrganizer([
         sponsorshipBuilder.build(),
