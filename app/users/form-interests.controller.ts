@@ -1,119 +1,81 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
 /**
 * @Controller for Interests of user
 *
 * @author Nicolas Molina
 * @version 0.1
 */
-(function() {
-  //'use strict';
-
-  angular
-    .module('app.users')
-    .controller('FormInterestsController', FormInterestsController);
-
-  FormInterestsController.$inject = [
-    'userService',
+class FormInterestsCtrl{
+  
+  $inject = [
     '$state',
     'utilsService',
-    '$localStorage',
     'categoryService',
     'userInterestService',
-    '$q',
+    'userService',
     'userAuthService'
   ];
-
-  function FormInterestsController( userService, $state , utilsService, $localStorage, categoryService, userInterestService, $q, userAuthService) {
-
-    var vm = this;
-    //Attributes
-    vm.userAuth = userAuthService.getUserAuth();
-    vm.categories = [];
-    //Funcions
-    vm.updateInterests = updateInterests;
-    
-    activate();
-    ////////////
-    
-    function activate(){
-      getCategories();
-    }
-
-    function updateInterests(){
-      utilsService.showLoad();
-      userInterestService.bulkUserInterest( vm.userAuth.id, {
-        interests: getInterestCheck()
-      })
-      .then( complete )
-      .catch( failed );
-
-      function complete( results ){
-        utilsService.hideLoad();
-        redirectTutorial();
-      }
-
-      function failed( error ){
-        utilsService.hideLoad();
-      }
-
-    }
-
-    function getInterestCheck(){
-      return vm.categories
-        .filter( ByInterest )
-        .map( mapInterest )
-        .reduce( mergeArrays, [] )
-        .filter( interestCheck )
-        .map( preparateData );
-
-        function ByInterest( item ){
-          return item.interests;
-        }
-
-        function mapInterest( item ){
-          return item.interests;
-        }
-
-        function mergeArrays(a,b){
-          return a.concat(b);
-        }
-
-        function interestCheck( item ){
-          return item.check;
-        }
-        
-        function preparateData( item ) {
-           return {
-             'user_id': vm.userAuth.id,
-             'interest_id': item.id_interest
-           }
-        }
-    }
-
-    function getCategories(){
-      utilsService.showLoad();
-      categoryService.allCategories()
-        .then( complete )
-        .catch( failed );
-
-        function complete( categories ){
-          utilsService.hideLoad();
-          vm.categories = categories;
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-        }
-    }
-
-    function redirectTutorial(){
-      if( vm.userAuth.type == 0 ){ // is an Organizer.
-        $state.go("organizer.intro");
-      }else{ // is an Sponzor
-        $state.go("sponzor.intro");
-      }
-    }
-
-    
+  userAuth:userModule.User;
+  categories:any[] = [];
+  
+  constructor(
+    private $state: angular.ui.IStateService,
+    private utilsService: utilsServiceModule.IUtilsService,
+    private categoryService: categoryModule.ICategoryService,
+    private userInterestService: userInterestModule.IUserAuthService,
+    private userService: userModule.IUserService,
+    private userAuthService: userAuthModule.IUserAuthService
+  ){
+    this.userAuth = this.userAuthService.getUserAuth();
   }
-})();
+  
+  updateInterests(){
+    this.utilsService.showLoad();
+    this.userInterestService.bulkUserInterest( this.userAuth.id, {
+      interests: this._getInterestCheck()
+    })
+    .then( () => {
+      this.utilsService.hideLoad();
+      if( this.userAuth.type == "0" ){ // is an Organizer.
+        this.$state.go("organizer.intro");
+      }else{ // is an Sponzor
+        this.$state.go("sponzor.intro");
+      }
+    })
+    .catch( error => {
+      this.utilsService.hideLoad();
+    });
+
+  }
+  
+  private _getCategories(){
+    this.utilsService.showLoad();
+    this.categoryService.allCategories()
+    .then( categories => {
+      this.utilsService.hideLoad();
+      this.categories = categories;
+    })
+    .catch( error => {
+      this.utilsService.hideLoad();
+    });
+  }
+  
+  private _getInterestCheck(){
+    return this.categories
+      .filter( item => item.interests )
+      .map( item => item.interests )
+      .reduce( (a,b) => a.concat(b), [] )
+      .filter( item => item.check )
+      .map( item => {
+        return {
+          'user_id': this.userAuth.id,
+          'interest_id': item.id_interest
+        }
+      });
+  }
+  
+}
+angular
+  .module('app.users')
+  .controller('FormInterestsCtrl', FormInterestsCtrl);
