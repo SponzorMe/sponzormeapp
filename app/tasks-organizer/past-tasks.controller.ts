@@ -52,10 +52,9 @@ class PastTasksCtrl{
   }
   
   private _preparateEvents( event ){
-    event.perks = event.perks.map( perk => {
+    event.perks.forEach( perk => {
       perk.sponzorship = _.where(this.userAuth.sponzorships_like_organizer, {perk_id: perk.id});
     });
-    return event;
   }
   
   private _loadTaskModal(){

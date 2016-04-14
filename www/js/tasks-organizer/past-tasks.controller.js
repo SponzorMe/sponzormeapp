@@ -47,10 +47,9 @@ var PastTasksCtrl = (function () {
     };
     PastTasksCtrl.prototype._preparateEvents = function (event) {
         var _this = this;
-        event.perks = event.perks.map(function (perk) {
+        event.perks.forEach(function (perk) {
             perk.sponzorship = _.where(_this.userAuth.sponzorships_like_organizer, { perk_id: perk.id });
         });
-        return event;
     };
     PastTasksCtrl.prototype._loadTaskModal = function () {
         var _this = this;

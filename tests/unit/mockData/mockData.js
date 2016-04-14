@@ -345,6 +345,7 @@ var mockData = (function() {
 
   function deletePerkTask(){
     return {
+      sponzorships_like_organizer: [],
       message: "Deleted"
     }
   }
