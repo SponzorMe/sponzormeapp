@@ -53,7 +53,7 @@
     "./tests/unit/mockData/builders/*.builder.js"
   ],
   "tests": [
-      "./tests/unit/tasks-organizer/past-tasks.controller.spec.js"
+      "./tests/unit/tasks-organizer/task-list-tabs.controller.spec.js"
   ],
   "fonts": [
     "./www/lib/ionic/fonts/**/*.*"
