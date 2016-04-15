@@ -26,7 +26,7 @@ class FormProfileCtrl{
   ){
     this.userAuth = this.userAuthService.getUserAuth();
     
-    this.userAuth.lang = 'en';
+    this.userAuth.lang = 'es';
     this.userAuth.sex = 1;
   }
   
