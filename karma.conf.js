@@ -56,26 +56,8 @@ module.exports = function( config ){
       "www/js/**/*.controller.js",
       "www/js/app.run.js",
       //Tests
-      //'./tests/unit/**/*.service.spec.js',
-      //'tests/unit/**/*.controller.spec.js',
-      //"./tests/unit/dashboard-organizer/home.controller.spec.js",
-      //"./tests/unit/dashboard-organizer/intro.controller.spec.js",
-      //"./tests/unit/dashboard-organizer/menu.controller.spec.js",
-      //"./tests/unit/dashboard-sponzor/home.controller.spec.js",
-      //"./tests/unit/dashboard-sponzor/intro.controller.spec.js",
-      //"./tests/unit/dashboard-sponzor/menu.controller.spec.js",
-      //"./tests/unit/events-organizer/add-event.controller.spec.js",
-      //"./tests/unit/events-organizer/edit-event.controller.spec.js",
-      //"./tests/unit/events-organizer/event-detail.controller.spec.js",
-      //"./tests/unit/events-organizer/event-list-tabs.controller.spec.js",
-      //"./tests/unit/events-organizer/event-list.controller.spec.js",
-      //"./tests/unit/events-organizer/past-events.controller.spec.js",
-      //"./tests/unit/events-sponsor/event-detail.controller.spec.js",
-      //"./tests/unit/events-sponsor/follow-events.controller.spec.js",
-      //"./tests/unit/events-sponsor/sponsoring-events.controller.spec.js",
-      //"./tests/unit/sponsors-organizer/sponsorships-past-events.controller.spec.js",
-      //"./tests/unit/sponsors-organizer/sponsorships-tabs.controller.spec.js"
-      "./tests/unit/users/form-profile.controller.spec.js"
+      './tests/unit/**/*.service.spec.js',
+      './tests/unit/**/*.controller.spec.js',
     ]
   });
 };
