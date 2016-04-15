@@ -9,8 +9,6 @@
 class NotificationsCtrl{
   
   $inject = [
-    '$state',
-    '$translate',
     'userAuthService', 
     'notificationService'
   ];
@@ -18,13 +16,11 @@ class NotificationsCtrl{
   notifications:any[] = [];
   
   constructor(
-    private $state: angular.ui.IStateService,
-    private $translate,
     private userAuthService: userAuthModule.IUserAuthService,
     private notificationService: notificationModule.INotificationService
   ){
     this.userAuth = this.userAuthService.getUserAuth();
-    this.notifications = notificationService.getNotifications( this.userAuth.id );
+    this.notifications = this.notificationService.getNotifications( this.userAuth.id );
     /*vm.notifications = [
         {
           typeNotification: 'newEvent',

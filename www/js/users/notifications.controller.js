@@ -7,20 +7,16 @@
 * @version 0.2
 */
 var NotificationsCtrl = (function () {
-    function NotificationsCtrl($state, $translate, userAuthService, notificationService) {
-        this.$state = $state;
-        this.$translate = $translate;
+    function NotificationsCtrl(userAuthService, notificationService) {
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
         this.$inject = [
-            '$state',
-            '$translate',
             'userAuthService',
             'notificationService'
         ];
         this.notifications = [];
         this.userAuth = this.userAuthService.getUserAuth();
-        this.notifications = notificationService.getNotifications(this.userAuth.id);
+        this.notifications = this.notificationService.getNotifications(this.userAuth.id);
         /*vm.notifications = [
             {
               typeNotification: 'newEvent',
