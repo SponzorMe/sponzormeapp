@@ -34,6 +34,7 @@ module userModule{
     location:any;
     lang: string;
     sex: number;
+    image?: string;
   }
   
   export class userService implements IUserService{

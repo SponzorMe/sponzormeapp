@@ -18,7 +18,7 @@ var userBuilder = (function() {
       email: "mail@domain.com",
       age: "12",
       comunity_size: "12",
-      image: "",
+      image: "http://i.imgur.com/SpKEBB5.jpg",
       name: "as",
       description: "asas",
       company: "asas",
