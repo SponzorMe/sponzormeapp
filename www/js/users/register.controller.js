@@ -1,90 +1,89 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
 /**
 * @Controller for Login user
 *
 * @author Nicolas Molina
 * @version 0.1
 */
-(function () {
-    'use strict';
-    angular
-        .module('app.users')
-        .controller('RegisterController', RegisterController);
-    RegisterController.$inject = [
-        '$translate',
-        '$state',
-        'userService',
-        'utilsService',
-        '$localStorage',
-        '$base64',
-        'notificationService',
-        'userAuthService'
-    ];
-    function RegisterController($translate, $state, userService, utilsService, $localStorage, $base64, notificationService, userAuthService) {
-        var vm = this;
-        vm.newUser = {};
-        vm.registerNewUser = registerNewUser;
-        activate();
-        ////////////
-        function activate() {
-            vm.newUser.type = 0;
-        }
-        function registerNewUser(form) {
-            utilsService.showLoad();
-            userService.createUser(preparateData())
-                .then(signIn)
-                .then(complete)
-                .catch(failed);
-            function complete(user) {
-                utilsService.hideLoad();
-                utilsService.resetForm(form);
-                utilsService.alert({
-                    title: $translate.instant("MESSAGES.succ_user_tit"),
-                    template: $translate.instant("MESSAGES.succ_user_mess")
-                });
-                $localStorage.token = $base64.encode(vm.newUser.email + ':' + vm.newUser.password);
-                vm.newUser = {};
-                vm.newUser.type = 0;
-                userAuthService.getUserAuth(user);
-                notificationService.activate();
-                $state.go("profile");
-            }
-            function failed(data) {
-                utilsService.hideLoad();
-                if (utilsService.trim(data.message) === "Invalid credentials") {
-                    utilsService.alert({
-                        title: $translate.instant("ERRORS.signin_title_credentials"),
-                        template: $translate.instant("ERRORS.signin_incorrect_credentials")
-                    });
-                }
-                else if (utilsService.trim(data.message) === "Not inserted") {
-                    utilsService.alert({
-                        title: $translate.instant("ERRORS.signin_notinserted_credentials_title"),
-                        template: $translate.instant("ERRORS.signin_notinserted_credentials_message")
-                    });
-                }
-                else if (data.error && utilsService.trim(data.error.email) === "The email has already been taken.") {
-                    utilsService.alert({
-                        title: $translate.instant("ERRORS.signin_taken_credentials_title"),
-                        template: $translate.instant("ERRORS.signin_taken_credentials_message")
-                    });
-                }
-            }
-        }
-        ;
-        function preparateData() {
-            return {
-                email: vm.newUser.email,
-                password: vm.newUser.password,
-                password_confirmation: vm.newUser.password,
-                name: vm.newUser.name,
-                lang: 'en',
-                type: vm.newUser.type
-            };
-        }
-        function signIn() {
-            return userService.login(vm.newUser.email, vm.newUser.password);
-        }
-        ;
+var RegisterCtrl = (function () {
+    function RegisterCtrl($state, $translate, $base64, $localStorage, userService, utilsService, notificationService, userAuthService) {
+        this.$state = $state;
+        this.$translate = $translate;
+        this.$base64 = $base64;
+        this.$localStorage = $localStorage;
+        this.userService = userService;
+        this.utilsService = utilsService;
+        this.notificationService = notificationService;
+        this.userAuthService = userAuthService;
+        this.$inject = [
+            '$state',
+            '$translate',
+            '$base64',
+            '$localStorage',
+            'userService',
+            'utilsService',
+            'notificationService',
+            'userAuthService'
+        ];
+        this.newUser = {};
+        this.newUser.type = 0;
     }
-})();
+    RegisterCtrl.prototype.registerNewUser = function (form) {
+        var _this = this;
+        this.utilsService.showLoad();
+        this.userService.createUser(this._preparateData())
+            .then(function (user) {
+            return _this.userService.login(_this.newUser.email, _this.newUser.password);
+        })
+            .then(function (user) {
+            _this.utilsService.hideLoad();
+            _this.utilsService.resetForm(form);
+            _this.utilsService.alert({
+                title: _this.$translate.instant("MESSAGES.succ_user_tit"),
+                template: _this.$translate.instant("MESSAGES.succ_user_mess")
+            });
+            _this.$localStorage.token = _this.$base64.encode(_this.newUser.email + ':' + _this.newUser.password);
+            _this.newUser = {};
+            _this.newUser.type = 0;
+            _this.userAuthService.updateUserAuth(user);
+            _this.notificationService.activate();
+            _this.$state.go("profile");
+        })
+            .catch(function (data) {
+            _this.utilsService.hideLoad();
+            if (_this.utilsService.trim(data.message) === "Invalid credentials") {
+                _this.utilsService.alert({
+                    title: _this.$translate.instant("ERRORS.signin_title_credentials"),
+                    template: _this.$translate.instant("ERRORS.signin_incorrect_credentials")
+                });
+            }
+            else if (_this.utilsService.trim(data.message) === "Not inserted") {
+                _this.utilsService.alert({
+                    title: _this.$translate.instant("ERRORS.signin_notinserted_credentials_title"),
+                    template: _this.$translate.instant("ERRORS.signin_notinserted_credentials_message")
+                });
+            }
+            else if (data.error && _this.utilsService.trim(data.error.email) === "The email has already been taken.") {
+                _this.utilsService.alert({
+                    title: _this.$translate.instant("ERRORS.signin_taken_credentials_title"),
+                    template: _this.$translate.instant("ERRORS.signin_taken_credentials_message")
+                });
+            }
+        });
+    };
+    RegisterCtrl.prototype._preparateData = function () {
+        return {
+            email: this.newUser.email,
+            password: this.newUser.password,
+            password_confirmation: this.newUser.password,
+            name: this.newUser.name,
+            lang: 'en',
+            type: this.newUser.type
+        };
+    };
+    return RegisterCtrl;
+}());
+angular
+    .module('app.users')
+    .controller('RegisterCtrl', RegisterCtrl);

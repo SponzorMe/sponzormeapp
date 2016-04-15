@@ -1,4 +1,4 @@
-describe("Controller: RegisterController", function() {
+describe("Controller: RegisterCtrl", function() {
 
   beforeEach(function() {
     module('app');
@@ -10,25 +10,47 @@ describe("Controller: RegisterController", function() {
     $urlRouterProvider.deferIntercept();
   }));
 
-	beforeEach(inject(function($injector, $rootScope, $controller) {
-
-    $translate = $injector.get('$translate');
-    $state = chai.spy.object($injector.get('$state'), ['go']);
-    userService = $injector.get('userService');
-		utilsService = chai.spy.object($injector.get('utilsService'), ['showLoad', 'hideLoad','alert', 'resetForm','trim']);
-    $localStorage = $injector.get('$localStorage');
-    $base64 = $injector.get('$base64');
+	beforeEach(inject(function($injector, _$rootScope_, $controller) {
+    
+    $rootScope = _$rootScope_;
+    $httpBackend = $injector.get('$httpBackend');
 
     BackendVariables = $injector.get('BackendVariables');
     URL_REST = BackendVariables.url;
 
-    registerController = $controller('RegisterController', {
-      '$translate': $translate,
+    $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
+    
+    mockForm = {
+      $setPristine: function() {},
+      $setUntouched: function() {},
+    }
+
+    //Angular
+    $state = chai.spy.object($injector.get('$state'), ['go']);
+    $translate = $injector.get('$translate');
+    $base64 = $injector.get('$base64');
+    $localStorage = $injector.get('$localStorage');
+    //Services
+    userService = $injector.get('userService');
+    utilsService = $injector.get('utilsService');
+    notificationService = $injector.get('notificationService');
+    userAuthService = $injector.get('userAuthService');
+    
+
+    BackendVariables = $injector.get('BackendVariables');
+    URL_REST = BackendVariables.url;
+
+    registerController = $controller('RegisterCtrl', {
       '$state': $state,
+      '$translate': $translate,
+      '$base64': $base64,
+      '$localStorage': $localStorage,
       'userService': userService,
       'utilsService': utilsService,
-      '$localStorage': $localStorage,
-      '$base64': $base64
+      'notificationService': notificationService,
+      'userAuthService': userAuthService
     });
   }));
 
@@ -49,25 +71,16 @@ describe("Controller: RegisterController", function() {
 
   ////////////////////////////////////////////////////////////
   describe('Test to registerNewUser method success', function(){
-
-    var $httpBackend;
+    
     var dataCreateUser = mockData.userService.createUser();
     var dataLogin = mockData.userService.login();
-    var mockForm = {
-      $setPristine: function() {},
-      $setUntouched: function() {},
-    }
+    
 
-    beforeEach(inject(function($injector) {
-      // Set up the mock http service responses
-      $httpBackend = $injector.get('$httpBackend');
+    beforeEach(function() {
       $httpBackend.whenPOST( URL_REST + 'users').respond(200, dataCreateUser);
       $httpBackend.whenPOST( URL_REST + 'auth').respond(200, dataLogin);
-      $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
-      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
-      $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
-      $httpBackend.whenGET('app/users/form-profile.html').respond(200,"");
-    }));
+      $httpBackend.whenGET('templates/users/form-profile.html').respond(200,"");
+    });
 
     it('Should have registerNewUser method', function() {
       chai.assert.isDefined(registerController.registerNewUser);
@@ -98,52 +111,19 @@ describe("Controller: RegisterController", function() {
       chai.assert.isDefined(registerController.newUser.type);
       chai.assert.equal(registerController.newUser.type, 0);
     });
-
-    it('Methods that should be called', function() {
-
-      afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-      });
-
-      registerController.newUser = {
-        email: "nicolas.molina.monroy@mail.com",
-        password: "123456",
-        name: "Nicolas",
-        type: 0,//An organizer
-      };
-
-      registerController.registerNewUser( mockForm );
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-      chai.expect(utilsService.alert).to.have.been.called();
-      chai.expect(utilsService.resetForm).to.have.been.called();
-      chai.expect($state.go).to.have.been.called();
-      chai.expect($state.go).to.have.been.with('profile');
-    });
   });
 
   ////////////////////////////////////////////////////////////
   describe('Test to registerNewUser method failed by Not inserted', function(){
 
-    var $httpBackend;
     var data = mockData.failed();
     data.message = "Not inserted";
-    var mockForm = {
-      $setPristine: function() {},
-      $setUntouched: function() {},
-    }
 
-    beforeEach(inject(function($injector) {
+    beforeEach(function() {
       // Set up the mock http service responses
-      $httpBackend = $injector.get('$httpBackend');
       $httpBackend.whenPOST( URL_REST + 'users').respond(400, data);
-      $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
-      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
-      $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
-      $httpBackend.whenGET('app/users/form-profile.html').respond(200,"");
-    }));
+      $httpBackend.whenGET('templates/users/form-profile.html').respond(200,"");
+    });
 
     it('Methods that should be called', function() {
 
@@ -161,34 +141,21 @@ describe("Controller: RegisterController", function() {
 
       registerController.registerNewUser( mockForm );
       $httpBackend.flush();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-      chai.expect(utilsService.alert).to.have.been.called();
-      chai.expect(utilsService.trim).to.have.been.called();
     });
   });
 
   ////////////////////////////////////////////////////////////
   describe('Test to registerNewUser method failed by email has already', function(){
 
-    var $httpBackend;
     var data = mockData.failed();
     data.error = {
       email : "The email has already been taken."
     }
 
-    var mockForm = {
-      $setPristine: function() {},
-      $setUntouched: function() {},
-    }
-
     beforeEach(inject(function($injector) { 
       // Set up the mock http service responses
-      $httpBackend = $injector.get('$httpBackend');
       $httpBackend.whenPOST( URL_REST + 'users').respond(400, data);
-      $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
-      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
-      $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
-      $httpBackend.whenGET('app/users/form-profile.html').respond(200,"");
+      $httpBackend.whenGET('templates/users/form-profile.html').respond(200,"");
     }));
 
     it('Methods that should be called', function() {
@@ -207,32 +174,19 @@ describe("Controller: RegisterController", function() {
 
       registerController.registerNewUser( mockForm );
       $httpBackend.flush();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-      chai.expect(utilsService.alert).to.have.been.called();
-      chai.expect(utilsService.trim).to.have.been.called();
     });
   });
 
   ////////////////////////////////////////////////////////////
   describe('Test to registerNewUser method failed by Invalid credentials', function(){
 
-    var $httpBackend;
     var data = mockData.failed();
     data.message = "Invalid credentials";
 
-    var mockForm = {
-      $setPristine: function() {},
-      $setUntouched: function() {},
-    }
-
     beforeEach(inject(function($injector) {
       // Set up the mock http service responses
-      $httpBackend = $injector.get('$httpBackend');
       $httpBackend.whenPOST( URL_REST + 'users').respond(400, data);
-      $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
-      $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
-      $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
-      $httpBackend.whenGET('app/users/form-profile.html').respond(200,"");
+      $httpBackend.whenGET('templates/users/form-profile.html').respond(200,"");
     }));
 
     it('Methods that should be called', function() {
@@ -251,9 +205,6 @@ describe("Controller: RegisterController", function() {
 
       registerController.registerNewUser( mockForm );
       $httpBackend.flush();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-      chai.expect(utilsService.alert).to.have.been.called();
-      chai.expect(utilsService.trim).to.have.been.called();
     });
   });
 });
