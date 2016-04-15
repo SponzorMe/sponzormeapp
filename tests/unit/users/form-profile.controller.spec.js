@@ -67,7 +67,7 @@ describe("Controller: FormProfileCtrl", function() {
 
     it('Should userAuth have be lang variable', function() {
     	chai.assert.isDefined( formProfileController.userAuth.lang );
-      chai.assert.equal( formProfileController.userAuth.lang, 'es' );
+      chai.assert.equal( formProfileController.userAuth.lang, 'en' );
     });
 
     it('Should userAuth have be sex variable', function() {

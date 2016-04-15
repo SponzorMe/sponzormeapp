@@ -1,6 +1,4 @@
-describe("Controller: SettingsController", function() {
-
-	var settingsController;
+describe("Controller: SettingsCtrl", function() {
 
   beforeEach(function() {
     module('app');
@@ -13,21 +11,36 @@ describe("Controller: SettingsController", function() {
   }));
 
 	beforeEach(inject(function($injector, _$rootScope_, $controller) {
+    
     $rootScope = _$rootScope_;
-    $translate = $injector.get('$translate');
 
     BackendVariables = $injector.get('BackendVariables');
     URL_REST = BackendVariables.url;
 
     $httpBackend = $injector.get('$httpBackend');
-    utilsService = $injector.get('utilsService');
-    utilsService.confirm = function(){
-      var defer = $q.defer();
-      defer.resolve(true);
-      return defer.promise;
-    }
-    utilsService = chai.spy.object(utilsService, ['showLoad', 'hideLoad','alert', 'resetForm','trim', 'confirm']);
+    $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
+    $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
+    
     $q = $injector.get('$q');
+    
+    //Dependeces
+    //Angular
+    $translate = $injector.get('$translate');
+    //Cordova
+    $cordovaToast = {
+      throwsError: false,
+      showShortBottom: function (message) {
+        var defer = $q.defer();
+        if (this.throwsError) {
+          defer.reject('There was an error showing the toast.');
+        } else {
+          defer.resolve();
+        }
+        return defer.promise;
+      },
+    };
+    $cordovaToast = chai.spy.object($cordovaToast, ['showShortBottom']);
 
     $ionicDeploy = {
       throwsError: false,
@@ -62,30 +75,20 @@ describe("Controller: SettingsController", function() {
       }
     }
 
-    $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
-    $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
-    $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
+    utilsService = $injector.get('utilsService');
+    utilsService.confirm = function(){
+      var defer = $q.defer();
+      defer.resolve(true);
+      return defer.promise;
+    }
+    utilsService = chai.spy.object($injector.get('$utilsService'), ['confirm']);
 
-    //Mock Toast
-    $cordovaToast = {
-      throwsError: false,
-      showShortBottom: function (message) {
-        var defer = $q.defer();
-        if (this.throwsError) {
-          defer.reject('There was an error showing the toast.');
-        } else {
-          defer.resolve();
-        }
-        return defer.promise;
-      },
-    };
-    $cordovaToast = chai.spy.object($cordovaToast, ['showShortBottom']);
-
-    settingsController = $controller('SettingsController', {
+    settingsController = $controller('SettingsCtrl', {
     	'$translate': $translate,
-      'utilsService': utilsService,
       '$cordovaToast': $cordovaToast,
-      '$ionicDeploy': $ionicDeploy
+      '$ionicDeploy': $ionicDeploy,
+      'utilsService': utilsService,
+      'BackendVariables': BackendVariables
     });
   }));
 
@@ -114,14 +117,13 @@ describe("Controller: SettingsController", function() {
       settingsController.lang = "es";
       settingsController.save();
       $rootScope.$digest();
-      //chai.assert.equal(settingsController.lang, $translate.use());
+      $httpBackend.flush();
+      chai.assert.equal(settingsController.lang, $translate.use());
     });
 
 
   });
-
   
-
   
   ////////////////////////////////////////////////////////////
   describe('Test to checkForUpdates ', function(){
@@ -137,29 +139,7 @@ describe("Controller: SettingsController", function() {
       settingsController.checkForUpdates();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
       chai.expect(utilsService.confirm).to.have.been.called();
-    });
-
-    it('Should be called utilsService success and not have update', function() {
-      $ionicDeploy.checkRta = false;
-      settingsController.checkForUpdates();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-      chai.expect(utilsService.alert).to.have.been.called();
-    });
-
-    it('Should be called utilsService failed ', function() {
-      $ionicDeploy.checkRta = false;
-      $ionicDeploy.throwsError = true;
-      settingsController.checkForUpdates();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
     });
 
   });
@@ -176,19 +156,7 @@ describe("Controller: SettingsController", function() {
       settingsController.doUpdate();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
       chai.expect($cordovaToast.showShortBottom).to.have.been.called();
-    });
-
-    it('Should be called utilsService failed', function() {
-      $ionicDeploy.throwsError = true;
-      settingsController.doUpdate();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-      chai.expect(utilsService.alert).to.have.been.called();
     });
 
   });
