@@ -1,4 +1,4 @@
-describe("Controller: TaskListCtrl", function() {
+describe("Controller: PastTasksCtrl", function() {
 
   beforeEach(function() {
     module('app');
@@ -48,7 +48,7 @@ describe("Controller: TaskListCtrl", function() {
     userData.user.type = "0";
     $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
     
-    taskListCtrl = $controller('TaskListCtrl', {
+    pastTasksCtrl = $controller('PastTasksCtrl', {
   		'$scope': $scope,
       '$rootScope': $rootScope,
       '$ionicModal': $ionicModal,
@@ -66,12 +66,12 @@ describe("Controller: TaskListCtrl", function() {
   describe('Tests to userAuth variable', function(){
 
     it('Should have user variable', function() {
-      chai.assert.isDefined( taskListCtrl.userAuth );
-      chai.assert.isObject( taskListCtrl.userAuth );
+      chai.assert.isDefined( pastTasksCtrl.userAuth );
+      chai.assert.isObject( pastTasksCtrl.userAuth );
     });
 
     it('Should userAuth be equal that $localStorage.userAuth', function() {
-      chai.assert.equal( taskListCtrl.userAuth, $localStorage.userAuth );
+      chai.assert.equal( pastTasksCtrl.userAuth, $localStorage.userAuth );
     });
 
   });
@@ -80,12 +80,12 @@ describe("Controller: TaskListCtrl", function() {
   describe('Tests to doRefresh method', function(){
 
     it('Should have doRefresh method', function() {
-      chai.assert.isDefined( taskListCtrl.doRefresh );
-      chai.assert.isFunction( taskListCtrl.doRefresh );
+      chai.assert.isDefined( pastTasksCtrl.doRefresh );
+      chai.assert.isFunction( pastTasksCtrl.doRefresh );
     });
 
     it('Should userAuth be equal that $localStorage.userAuth', function() {
-      chai.assert.equal( taskListCtrl.userAuth, $localStorage.userAuth );
+      chai.assert.equal( pastTasksCtrl.userAuth, $localStorage.userAuth );
     });
 
   });
@@ -101,14 +101,14 @@ describe("Controller: TaskListCtrl", function() {
   	});
 
     it('Should have an event in the array', function() {
-    	taskListCtrl.doRefresh();
+    	pastTasksCtrl.doRefresh();
     	$rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( taskListCtrl.events.length, 2 );
+      chai.assert.equal( pastTasksCtrl.events.length, 2 );
     });
     
     it('Should be called broadcast scroll.refreshComplete', function() {
-    	taskListCtrl.doRefresh();
+    	pastTasksCtrl.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
       chai.expect($scopeBroadcast).to.have.been.called();
@@ -127,7 +127,7 @@ describe("Controller: TaskListCtrl", function() {
   	});
 
     it('Should be called broadcast scroll.refreshComplete', function() {
-    	taskListCtrl.doRefresh();
+    	pastTasksCtrl.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
       chai.expect($scopeBroadcast).to.have.been.called();
@@ -141,16 +141,16 @@ describe("Controller: TaskListCtrl", function() {
 
 
     it('Should showModalTask method', function() {
-      chai.assert.isDefined( taskListCtrl.showModalTask );
-      chai.assert.isFunction( taskListCtrl.showModalTask );
+      chai.assert.isDefined( pastTasksCtrl.showModalTask );
+      chai.assert.isFunction( pastTasksCtrl.showModalTask );
     });
 
     it('Should be called showModalTask', function() {
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.showModalTask();
+      pastTasksCtrl.showModalTask();
       $rootScope.$digest();
-      chai.assert.isTrue(taskListCtrl.modalTask._isShown);
+      chai.assert.isTrue(pastTasksCtrl.modalTask._isShown);
     });
 
   });
@@ -160,8 +160,8 @@ describe("Controller: TaskListCtrl", function() {
 
 
     it('Should newTask method', function() {
-      chai.assert.isDefined( taskListCtrl.newTask );
-      chai.assert.isFunction( taskListCtrl.newTask );
+      chai.assert.isDefined( pastTasksCtrl.newTask );
+      chai.assert.isFunction( pastTasksCtrl.newTask );
     });
     
      it('Should indexEvent and indexPerk be 1 and 2', function() {
@@ -170,10 +170,10 @@ describe("Controller: TaskListCtrl", function() {
       };
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.newTask( mockPerk, 1, 2 );
+      pastTasksCtrl.newTask( mockPerk, 1, 2 );
       $rootScope.$digest();
-      chai.assert.equal(taskListCtrl.indexEvent, 1);
-      chai.assert.equal(taskListCtrl.indexPerk, 2);
+      chai.assert.equal(pastTasksCtrl.indexEvent, 1);
+      chai.assert.equal(pastTasksCtrl.indexPerk, 2);
     });
 
     it('Should be open modalTask', function() {
@@ -182,9 +182,9 @@ describe("Controller: TaskListCtrl", function() {
       };
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.newTask( mockPerk, 1, 1  );
+      pastTasksCtrl.newTask( mockPerk, 1, 1  );
       $rootScope.$digest();
-      chai.assert.isTrue( taskListCtrl.modalTask._isShown );
+      chai.assert.isTrue( pastTasksCtrl.modalTask._isShown );
     });
 
     it('Should isNewTask be true', function() {
@@ -193,9 +193,9 @@ describe("Controller: TaskListCtrl", function() {
       };
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.newTask( mockPerk, 1, 1 );
+      pastTasksCtrl.newTask( mockPerk, 1, 1 );
       $rootScope.$digest();
-      chai.assert.isTrue(taskListCtrl.isNewTask);
+      chai.assert.isTrue(pastTasksCtrl.isNewTask);
     });
 
     it('Should task.perk_id be equal that mockPerk.id', function() {
@@ -204,9 +204,9 @@ describe("Controller: TaskListCtrl", function() {
       };
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.newTask( mockPerk, 1, 1 );
+      pastTasksCtrl.newTask( mockPerk, 1, 1 );
       $rootScope.$digest();
-      chai.assert.equal(taskListCtrl.task.perk_id, mockPerk.id);
+      chai.assert.equal(pastTasksCtrl.task.perk_id, mockPerk.id);
     });
 
     it('Should task.event_id be equal that event.id', function() {
@@ -216,9 +216,9 @@ describe("Controller: TaskListCtrl", function() {
       };
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.newTask( mockPerk, 1, 1 );
+      pastTasksCtrl.newTask( mockPerk, 1, 1 );
       $rootScope.$digest();
-      chai.assert.equal(taskListCtrl.task.event_id, mockPerk.id_event);
+      chai.assert.equal(pastTasksCtrl.task.event_id, mockPerk.id_event);
     });
     
   });
@@ -228,24 +228,24 @@ describe("Controller: TaskListCtrl", function() {
 
 
     it('Should hideModalTask method', function() {
-      chai.assert.isDefined( taskListCtrl.hideModalTask );
-      chai.assert.isFunction( taskListCtrl.hideModalTask );
+      chai.assert.isDefined( pastTasksCtrl.hideModalTask );
+      chai.assert.isFunction( pastTasksCtrl.hideModalTask );
     });
 
     it('Should close the modalTask', function() {
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.hideModalTask();
+      pastTasksCtrl.hideModalTask();
       $rootScope.$digest();
-      chai.assert.isFalse( taskListCtrl.modalTask._isShown );
+      chai.assert.isFalse( pastTasksCtrl.modalTask._isShown );
     });
 
     it('Should close the modalTask with form', function() {
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.hideModalTask();
+      pastTasksCtrl.hideModalTask();
       $rootScope.$digest();
-      chai.assert.isFalse( taskListCtrl.modalTask._isShown );
+      chai.assert.isFalse( pastTasksCtrl.modalTask._isShown );
     });
     
   });
@@ -254,8 +254,8 @@ describe("Controller: TaskListCtrl", function() {
   describe('Tests to editTask method ', function(){
 
     it('Should editTask method', function() {
-      chai.assert.isDefined( taskListCtrl.editTask );
-      chai.assert.isFunction( taskListCtrl.editTask );
+      chai.assert.isDefined( pastTasksCtrl.editTask );
+      chai.assert.isFunction( pastTasksCtrl.editTask );
     });
     
      it('Should indexEvent, indexPerk and indexTask be 1, 2, 3', function() {
@@ -264,11 +264,11 @@ describe("Controller: TaskListCtrl", function() {
       };
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.editTask( mockTask, 1, 2, 3 );
+      pastTasksCtrl.editTask( mockTask, 1, 2, 3 );
       $rootScope.$digest();
-      chai.assert.equal(taskListCtrl.indexEvent, 1);
-      chai.assert.equal(taskListCtrl.indexPerk, 2);
-      chai.assert.equal(taskListCtrl.indexTask, 3);
+      chai.assert.equal(pastTasksCtrl.indexEvent, 1);
+      chai.assert.equal(pastTasksCtrl.indexPerk, 2);
+      chai.assert.equal(pastTasksCtrl.indexTask, 3);
     });
 
     it('Should isNewTask be false', function() {
@@ -278,9 +278,9 @@ describe("Controller: TaskListCtrl", function() {
       };
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.editTask( mockTask, 1, 1, 1 );
+      pastTasksCtrl.editTask( mockTask, 1, 1, 1 );
       $rootScope.$digest();
-      chai.assert.isFalse(taskListCtrl.isNewTask);
+      chai.assert.isFalse(pastTasksCtrl.isNewTask);
     });
 
     it('Should status be true', function() {
@@ -290,9 +290,9 @@ describe("Controller: TaskListCtrl", function() {
       };
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.editTask( mockTask, 1, 1, 1 );
+      pastTasksCtrl.editTask( mockTask, 1, 1, 1 );
       $rootScope.$digest();
-      chai.assert.isTrue(taskListCtrl.task.status);
+      chai.assert.isTrue(pastTasksCtrl.task.status);
     });
     
     it('Should status be false', function() {
@@ -302,9 +302,9 @@ describe("Controller: TaskListCtrl", function() {
       };
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.editTask( mockTask, 1, 1, 1 );
+      pastTasksCtrl.editTask( mockTask, 1, 1, 1 );
       $rootScope.$digest();
-      chai.assert.isFalse(taskListCtrl.task.status);
+      chai.assert.isFalse(pastTasksCtrl.task.status);
     });
 
     it('Should be open modalTask', function() {
@@ -314,9 +314,9 @@ describe("Controller: TaskListCtrl", function() {
       };
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.editTask( mockTask, 1, 1, 1 );
+      pastTasksCtrl.editTask( mockTask, 1, 1, 1 );
       $rootScope.$digest();
-      chai.assert.isTrue( taskListCtrl.modalTask._isShown );
+      chai.assert.isTrue( pastTasksCtrl.modalTask._isShown );
     });
     
   });
@@ -325,8 +325,8 @@ describe("Controller: TaskListCtrl", function() {
   describe('Tests to createTask method', function(){
     
     it('Should createTask method', function() {
-      chai.assert.isDefined( taskListCtrl.createTask );
-      chai.assert.isFunction( taskListCtrl.createTask );
+      chai.assert.isDefined( pastTasksCtrl.createTask );
+      chai.assert.isFunction( pastTasksCtrl.createTask );
     });
     
   });
@@ -342,63 +342,63 @@ describe("Controller: TaskListCtrl", function() {
     
     it('Should add an event in the array', function() {
       
-      taskListCtrl.task = {
+      pastTasksCtrl.task = {
         event_id: 1,
         perk_id: 1,
         title: "title",
         description: "description",
         status: 1
       };
-      taskListCtrl.indexEvent = 0;
-      taskListCtrl.indexPerk = 0;
-      taskListCtrl.indexTask = 0;
-      var size = taskListCtrl.events[0].perks[0].tasks.length;
+      pastTasksCtrl.indexEvent = 0;
+      pastTasksCtrl.indexPerk = 0;
+      pastTasksCtrl.indexTask = 0;
+      var size = pastTasksCtrl.events[0].perks[0].tasks.length;
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.createTask();
+      pastTasksCtrl.createTask();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal(taskListCtrl.events[0].perks[0].tasks.length, size + 1);
+      chai.assert.equal(pastTasksCtrl.events[0].perks[0].tasks.length, size + 1);
     });
     
     it('Should be called $rootScopeBroadcast', function() {
-      taskListCtrl.task = {
+      pastTasksCtrl.task = {
         event_id: 1,
         perk_id: 1,
         title: "title",
         description: "description",
         status: 1
       };
-      taskListCtrl.indexEvent = 0;
-      taskListCtrl.indexPerk = 0;
-      taskListCtrl.indexTask = 0;
-      var size = taskListCtrl.events[0].perks[0].tasks.length;
+      pastTasksCtrl.indexEvent = 0;
+      pastTasksCtrl.indexPerk = 0;
+      pastTasksCtrl.indexTask = 0;
+      var size = pastTasksCtrl.events[0].perks[0].tasks.length;
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.createTask();
+      pastTasksCtrl.createTask();
       $rootScope.$digest();
       $httpBackend.flush();
       chai.expect($rootScopeBroadcast).to.have.been.called();
     });
     
     it('Should sponzorships_like_organizer be equal that 0', function() {
-      taskListCtrl.task = {
+      pastTasksCtrl.task = {
         event_id: 1,
         perk_id: 1,
         title: "title",
         description: "description",
         status: 1
       };
-      taskListCtrl.indexEvent = 0;
-      taskListCtrl.indexPerk = 0;
-      taskListCtrl.indexTask = 0;
-      var size = taskListCtrl.events[0].perks[0].tasks.length;
+      pastTasksCtrl.indexEvent = 0;
+      pastTasksCtrl.indexPerk = 0;
+      pastTasksCtrl.indexTask = 0;
+      var size = pastTasksCtrl.events[0].perks[0].tasks.length;
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.createTask();
+      pastTasksCtrl.createTask();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal(taskListCtrl.userAuth.sponzorships_like_organizer, 0);
+      chai.assert.equal(pastTasksCtrl.userAuth.sponzorships_like_organizer, 0);
     });
     
     
@@ -415,23 +415,23 @@ describe("Controller: TaskListCtrl", function() {
     
     it('Should add an event in the array', function() {
       
-      taskListCtrl.task = {
+      pastTasksCtrl.task = {
         event_id: 1,
         perk_id: 1,
         title: "title",
         description: "description",
         status: 1
       };
-      taskListCtrl.indexEvent = 0;
-      taskListCtrl.indexPerk = 0;
-      taskListCtrl.indexTask = 0;
-      var size = taskListCtrl.events[0].perks[0].tasks.length;
+      pastTasksCtrl.indexEvent = 0;
+      pastTasksCtrl.indexPerk = 0;
+      pastTasksCtrl.indexTask = 0;
+      var size = pastTasksCtrl.events[0].perks[0].tasks.length;
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.createTask();
+      pastTasksCtrl.createTask();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.isFalse( taskListCtrl.modalTask._isShown );
+      chai.assert.isFalse( pastTasksCtrl.modalTask._isShown );
     });
     
   });
@@ -440,8 +440,8 @@ describe("Controller: TaskListCtrl", function() {
   describe('Tests to deleteTask method', function(){
     
     it('Should deleteTask method', function() {
-      chai.assert.isDefined( taskListCtrl.deleteTask );
-      chai.assert.isFunction( taskListCtrl.deleteTask );
+      chai.assert.isDefined( pastTasksCtrl.deleteTask );
+      chai.assert.isFunction( pastTasksCtrl.deleteTask );
     });
     
   });
@@ -457,7 +457,7 @@ describe("Controller: TaskListCtrl", function() {
     
     it('Should subtract an event in the array', function() {
       
-      taskListCtrl.task = {
+      pastTasksCtrl.task = {
         event_id: 1,
         perk_id: 1,
         title: "title",
@@ -465,20 +465,20 @@ describe("Controller: TaskListCtrl", function() {
         status: 1,
         id: 1
       };
-      taskListCtrl.indexEvent = 0;
-      taskListCtrl.indexPerk = 0;
-      taskListCtrl.indexTask = 0;
-      var size = taskListCtrl.events[0].perks[0].tasks.length;
+      pastTasksCtrl.indexEvent = 0;
+      pastTasksCtrl.indexPerk = 0;
+      pastTasksCtrl.indexTask = 0;
+      var size = pastTasksCtrl.events[0].perks[0].tasks.length;
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.deleteTask();
+      pastTasksCtrl.deleteTask();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal(taskListCtrl.events[0].perks[0].tasks.length, size - 1);
+      chai.assert.equal(pastTasksCtrl.events[0].perks[0].tasks.length, size - 1);
     });
     
     it('Should be called $rootScopeBroadcast', function() {
-      taskListCtrl.task = {
+      pastTasksCtrl.task = {
         event_id: 1,
         perk_id: 1,
         title: "title",
@@ -486,20 +486,20 @@ describe("Controller: TaskListCtrl", function() {
         status: 1,
         id: 1
       };
-      taskListCtrl.indexEvent = 0;
-      taskListCtrl.indexPerk = 0;
-      taskListCtrl.indexTask = 0;
-      var size = taskListCtrl.events[0].perks[0].tasks.length;
+      pastTasksCtrl.indexEvent = 0;
+      pastTasksCtrl.indexPerk = 0;
+      pastTasksCtrl.indexTask = 0;
+      var size = pastTasksCtrl.events[0].perks[0].tasks.length;
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.deleteTask();
+      pastTasksCtrl.deleteTask();
       $rootScope.$digest();
       $httpBackend.flush();
       chai.expect($rootScopeBroadcast).to.have.been.called();
     });
     
     it('Should sponzorships_like_organizer be equal that 0', function() {
-      taskListCtrl.task = {
+      pastTasksCtrl.task = {
         event_id: 1,
         perk_id: 1,
         title: "title",
@@ -507,16 +507,16 @@ describe("Controller: TaskListCtrl", function() {
         status: 1,
         id: 1
       };
-      taskListCtrl.indexEvent = 0;
-      taskListCtrl.indexPerk = 0;
-      taskListCtrl.indexTask = 0;
-      var size = taskListCtrl.events[0].perks[0].tasks.length;
+      pastTasksCtrl.indexEvent = 0;
+      pastTasksCtrl.indexPerk = 0;
+      pastTasksCtrl.indexTask = 0;
+      var size = pastTasksCtrl.events[0].perks[0].tasks.length;
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.deleteTask();
+      pastTasksCtrl.deleteTask();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal(taskListCtrl.userAuth.sponzorships_like_organizer, 0);
+      chai.assert.equal(pastTasksCtrl.userAuth.sponzorships_like_organizer, 0);
     });
     
     
@@ -533,7 +533,7 @@ describe("Controller: TaskListCtrl", function() {
     
     it('Should add an event in the array', function() {
       
-      taskListCtrl.task = {
+      pastTasksCtrl.task = {
         event_id: 1,
         perk_id: 1,
         title: "title",
@@ -541,16 +541,16 @@ describe("Controller: TaskListCtrl", function() {
         status: 1,
         id: 1
       };
-      taskListCtrl.indexEvent = 0;
-      taskListCtrl.indexPerk = 0;
-      taskListCtrl.indexTask = 0;
-      var size = taskListCtrl.events[0].perks[0].tasks.length;
+      pastTasksCtrl.indexEvent = 0;
+      pastTasksCtrl.indexPerk = 0;
+      pastTasksCtrl.indexTask = 0;
+      var size = pastTasksCtrl.events[0].perks[0].tasks.length;
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.deleteTask();
+      pastTasksCtrl.deleteTask();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.isFalse( taskListCtrl.modalTask._isShown );
+      chai.assert.isFalse( pastTasksCtrl.modalTask._isShown );
     });
     
   });
@@ -559,8 +559,8 @@ describe("Controller: TaskListCtrl", function() {
   describe('Tests to updateTask method', function(){
     
     it('Should updateTask method', function() {
-      chai.assert.isDefined( taskListCtrl.updateTask );
-      chai.assert.isFunction( taskListCtrl.updateTask );
+      chai.assert.isDefined( pastTasksCtrl.updateTask );
+      chai.assert.isFunction( pastTasksCtrl.updateTask );
     });
     
   });
@@ -576,7 +576,7 @@ describe("Controller: TaskListCtrl", function() {
     
     it('Should add an event in the array', function() {
       
-      taskListCtrl.task = {
+      pastTasksCtrl.task = {
         event_id: 1,
         perk_id: 1,
         title: "title",
@@ -584,19 +584,19 @@ describe("Controller: TaskListCtrl", function() {
         status: 1,
         id: 1
       };
-      taskListCtrl.indexEvent = 0;
-      taskListCtrl.indexPerk = 0;
-      taskListCtrl.indexTask = 0;
+      pastTasksCtrl.indexEvent = 0;
+      pastTasksCtrl.indexPerk = 0;
+      pastTasksCtrl.indexTask = 0;
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.updateTask( mockForm );
+      pastTasksCtrl.updateTask( mockForm );
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal(taskListCtrl.events[0].perks[0].tasks[0].id, data.PerkTask.id);
+      chai.assert.equal(pastTasksCtrl.events[0].perks[0].tasks[0].id, data.PerkTask.id);
     });
     
     it('Should be called $rootScopeBroadcast', function() {
-      taskListCtrl.task = {
+      pastTasksCtrl.task = {
         event_id: 1,
         perk_id: 1,
         title: "title",
@@ -604,13 +604,13 @@ describe("Controller: TaskListCtrl", function() {
         status: 1,
         id: 1
       };
-      taskListCtrl.indexEvent = 0;
-      taskListCtrl.indexPerk = 0;
-      taskListCtrl.indexTask = 0;
-      var size = taskListCtrl.events[0].perks[0].tasks.length;
+      pastTasksCtrl.indexEvent = 0;
+      pastTasksCtrl.indexPerk = 0;
+      pastTasksCtrl.indexTask = 0;
+      var size = pastTasksCtrl.events[0].perks[0].tasks.length;
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.updateTask( mockForm );
+      pastTasksCtrl.updateTask( mockForm );
       $rootScope.$digest();
       $httpBackend.flush();
       chai.expect($rootScopeBroadcast).to.have.been.called();
@@ -630,7 +630,7 @@ describe("Controller: TaskListCtrl", function() {
     
     it('Should add an event in the array', function() {
       
-      taskListCtrl.task = {
+      pastTasksCtrl.task = {
         event_id: 1,
         perk_id: 1,
         title: "title",
@@ -638,16 +638,16 @@ describe("Controller: TaskListCtrl", function() {
         status: 1,
         id: 1
       };
-      taskListCtrl.indexEvent = 0;
-      taskListCtrl.indexPerk = 0;
-      taskListCtrl.indexTask = 0;
-      var size = taskListCtrl.events[0].perks[0].tasks.length;
+      pastTasksCtrl.indexEvent = 0;
+      pastTasksCtrl.indexPerk = 0;
+      pastTasksCtrl.indexTask = 0;
+      var size = pastTasksCtrl.events[0].perks[0].tasks.length;
       $rootScope.$digest();
       $httpBackend.flush();
-      taskListCtrl.updateTask( mockForm );
+      pastTasksCtrl.updateTask( mockForm );
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.isFalse( taskListCtrl.modalTask._isShown );
+      chai.assert.isFalse( pastTasksCtrl.modalTask._isShown );
     });
     
   });

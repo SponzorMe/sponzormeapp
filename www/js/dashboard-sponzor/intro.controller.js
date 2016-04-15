@@ -5,45 +5,40 @@
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-(function () {
-    'use strict';
-    angular
-        .module('app.dashboard-sponzor')
-        .controller('IntroSponzorCtrl', IntroSponzorCtrl);
-    IntroSponzorCtrl.$inject = [
-        '$state',
-        '$ionicSlideBoxDelegate',
-        '$ionicHistory',
-        '$ionicSideMenuDelegate'
-    ];
-    function IntroSponzorCtrl($state, $ionicSlideBoxDelegate, $ionicHistory, $ionicSideMenuDelegate) {
-        var vm = this;
-        vm.slideIndex = 0;
-        vm.startApp = startApp;
-        vm.nextSlide = nextSlide;
-        vm.previousSlide = previousSlide;
-        vm.slideChanged = slideChanged;
-        activate();
-        ////////////
-        function activate() {
-            $ionicSideMenuDelegate.canDragContent(false);
-        }
-        function startApp() {
-            $ionicHistory.nextViewOptions({
-                disableAnimate: true,
-                disableBack: true
-            });
-            $state.go("sponzor.home");
-        }
-        function nextSlide() {
-            $ionicSlideBoxDelegate.next();
-        }
-        function previousSlide() {
-            $ionicSlideBoxDelegate.previous();
-        }
-        function slideChanged(index) {
-            vm.slideIndex = index;
-        }
-        ;
+var IntroSponsorCtrl = (function () {
+    function IntroSponsorCtrl($state, $ionicSlideBoxDelegate, $ionicHistory, $ionicSideMenuDelegate) {
+        this.$state = $state;
+        this.$ionicSlideBoxDelegate = $ionicSlideBoxDelegate;
+        this.$ionicHistory = $ionicHistory;
+        this.$ionicSideMenuDelegate = $ionicSideMenuDelegate;
+        this.$inject = [
+            '$state',
+            '$ionicSlideBoxDelegate',
+            '$ionicHistory',
+            '$ionicSideMenuDelegate'
+        ];
+        this.slideIndex = 0;
+        this.$ionicSideMenuDelegate.canDragContent(false);
     }
-})();
+    IntroSponsorCtrl.prototype.startApp = function () {
+        this.$ionicHistory.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true
+        });
+        this.$state.go("sponzor.home");
+    };
+    IntroSponsorCtrl.prototype.nextSlide = function () {
+        this.$ionicSlideBoxDelegate.next();
+    };
+    IntroSponsorCtrl.prototype.previousSlide = function () {
+        this.$ionicSlideBoxDelegate.previous();
+    };
+    IntroSponsorCtrl.prototype.slideChanged = function (index) {
+        this.slideIndex = index;
+    };
+    ;
+    return IntroSponsorCtrl;
+}());
+angular
+    .module('app.dashboard-sponzor')
+    .controller('IntroSponsorCtrl', IntroSponsorCtrl);

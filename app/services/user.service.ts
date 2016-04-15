@@ -10,6 +10,7 @@
 module userModule{
   
   export interface IUserService{
+    buildUser(data:any):User;
     login(email:string, password:string):angular.IPromise<any>;
     home(userId:string):angular.IPromise<any>;
     createUser(user:any):angular.IPromise<any>;
@@ -25,10 +26,15 @@ module userModule{
     type:string;
     email:string;
     age: number;
+    name: string;
     comunity_size: number;
     events:eventModule.Event[];
     sponzorship?:sponsorshipModule.Sponsorship[];
     sponzorships_like_organizer?:sponsorshipModule.Sponsorship[];
+    location:any;
+    lang: string;
+    sex: number;
+    image?: string;
   }
   
   export class userService implements IUserService{
@@ -54,6 +60,21 @@ module userModule{
       this.path = BackendVariables.url;
     }
     
+    buildUser( data:any ):User{
+      let user:User = data.user;
+      user.age = parseInt(data.user.age || 0);
+      user.comunity_size = parseInt(data.user.comunity_size || 0);
+      if(user.type == "0"){ // Is an Organizer
+        user.events.forEach( this.eventService.buildEvent, this.eventService);
+        user.sponzorships_like_organizer.forEach( this.sponsorshipService.buildSponsorship, this.sponsorshipService);
+      }else{ 
+        user.sponzorship.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
+        data.events.forEach( this.eventService.buildEvent, this.eventService );
+        user.events = data.events;
+      }
+      return user;
+    }
+    
     
     login( email:string, password:string):angular.IPromise<any>{
       return this.$http({
@@ -67,7 +88,7 @@ module userModule{
           password: password
         }
       })
-      .then( response => { return this.$q.when( this._buildUser( response.data ) ); } )
+      .then( response => { return this.$q.when( this.buildUser( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
@@ -174,28 +195,14 @@ module userModule{
     }
     
     private _preparateUser(data:any):User{
-      return this._buildUser( data.data );
+      return this.buildUser( data.data );
     }
     
     private _getToken():string{
       return this.$localStorage.token;
     }
     
-    private _buildUser( data:any ):User{
-      let user:User = data.user;
-      user.age = parseInt(data.user.age);
-      user.comunity_size = parseInt(data.user.comunity_size);
-      if(user.type == "0"){ // Is an Organizer
-        user.events.forEach( this.eventService.buildEvent, this.eventService);
-        user.sponzorships_like_organizer.forEach( this.sponsorshipService.buildSponsorship, this.sponsorshipService);
-      }else{ 
-        user.sponzorship.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
-        data.events.forEach( this.eventService.buildEvent, this.eventService );
-        user.events = data.events;
-      }
-      
-      return user;
-    }
+    
     
   }
   

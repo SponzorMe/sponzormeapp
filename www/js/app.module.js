@@ -11,6 +11,7 @@
         // Core 
         'ionic',
         'ionic.service.core',
+        //'ionic.service.auth',
         'ionic.service.deploy',
         'ionic.service.analytics',
         'ngCordova',

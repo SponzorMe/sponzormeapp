@@ -1,12 +1,6 @@
 var eventTypeBuilder = (function() {
   
-  var _resultEventType = {
-    id: "1",
-    description: "Give us your money",
-    lang: "en",
-    name: "Charity",
-    events: []
-  };
+  var _resultEventType = init();
   
   return{
     build: build,
@@ -17,8 +11,20 @@ var eventTypeBuilder = (function() {
     setName: setName
   }
   
+  function init(){
+    return {
+      id: "1",
+      description: "Give us your money",
+      lang: "en",
+      name: "Charity",
+      events: []
+    };
+  }
+  
   function build() {
-    return _resultEventType;
+    var copy = _.clone(_resultEventType);
+    _resultEventType = init();
+    return copy;
   }
   
   function omit(args){

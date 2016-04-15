@@ -1,117 +1,62 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
 /**
 * @Controller for Home Organizer
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-(function () {
-    'use strict';
-    angular
-        .module('app.sponsors-organizer')
-        .controller('SponsorshipsPastEventsController', SponsorshipsPastEventsController);
-    SponsorshipsPastEventsController.$inject = [
-        '$localStorage',
-        'sponsorshipService',
-        'userService',
-        'utilsService',
-        '$ionicScrollDelegate',
-        '$scope',
-        '$rootScope',
-        'notificationService',
-        'userAuthService'
-    ];
-    function SponsorshipsPastEventsController($localStorage, sponsorshipService, userService, utilsService, $ionicScrollDelegate, $scope, $rootScope, notificationService, userAuthService) {
-        var vm = this;
-        //Atributes
-        vm.sponsorships = [];
-        vm.userAuth = userAuthService.getUserAuth();
-        vm.showEmptyState = false;
-        //Accions
-        vm.sponsorAccept = sponsorAccept;
-        vm.sponsorReject = sponsorReject;
-        vm.doRefresh = doRefresh;
-        activate();
-        ////////////
-        function activate() {
-            vm.sponsorships = vm.userAuth.sponzorships_like_organizer.filter(filterByDateIsBefore);
-            vm.showEmptyState = vm.sponsorships.length == 0 ? true : false;
-            $rootScope.$on('SponsorshipsPastEventsController:getSponzorships', getSponzorships);
-        }
-        function filterByDateIsBefore(item) {
-            var today = moment(new Date()).subtract(1, 'days');
-            return moment(item.event.ends).isBefore(today);
-        }
-        function getSponzorships() {
-            vm.userAuth = userAuthService.getUserAuth();
-            vm.sponsorships = vm.userAuth.sponzorships_like_organizer.filter(filterByDateIsBefore);
-            ;
-            vm.showEmptyState = vm.sponsorships.length == 0 ? true : false;
-        }
-        function sponsorAccept(sponzor) {
-            utilsService.confirm({
-                title: 'Are you sure?',
-                template: '<p class="text-center">In the accept the sponsor</p>'
-            })
-                .then(complete);
-            function complete(rta) {
-                if (rta)
-                    updateSponsorship(sponzor, 1); //Accepted 
-            }
-        }
-        function sponsorReject(sponzor) {
-            utilsService.confirm({
-                title: 'Are you sure?',
-                template: '<p class="text-center">In the reject the sponsor</p>'
-            })
-                .then(complete);
-            function complete(rta) {
-                if (rta)
-                    updateSponsorship(sponzor, 2); //Deny
-            }
-        }
-        function updateSponsorship(sponzor, status) {
-            utilsService.showLoad();
-            var sponzorCopy = angular.copy(sponzor);
-            sponzorCopy.status = status;
-            sponsorshipService.editSponzorshipPut(sponzorCopy.id, sponzorCopy)
-                .then(complete)
-                .catch(failed);
-            function complete(sponsorship) {
-                utilsService.hideLoad();
-                sponzor.status = sponsorship.status;
-                var notification = {
-                    text: sponzor.event.title,
-                    link: '#/sponzors/sponzoring',
-                    modelId: sponsorship.id
-                };
-                if (sponzor.status == 1) {
-                    notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id);
-                }
-                else if (sponzor.status == 2) {
-                    notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id);
-                }
-            }
-            function failed(error) {
-                utilsService.hideLoad();
-            }
-        }
-        function doRefresh() {
-            userService.home(vm.userAuth.id)
-                .then(complete)
-                .catch(failed);
-            function complete(user) {
-                $scope.$broadcast('scroll.refreshComplete');
-                vm.userAuth = userAuthService.updateUserAuth(user);
-                vm.sponsorships = vm.userAuth.sponzorships_like_organizer;
-                vm.showEmptyState = vm.sponsorships.length == 0 ? true : false;
-                $rootScope.$broadcast('MenuOrganizer:count_sponsors');
-                $rootScope.$broadcast('SponsorshipsTabsController:count_sponsors');
-                $rootScope.$broadcast('HomeOrganizerController:count_sponsors');
-            }
-            function failed(error) {
-                vm.showEmptyState = true;
-            }
-        }
+var SponsorshipsPastEventsCtrl = (function () {
+    function SponsorshipsPastEventsCtrl($scope, $rootScope, $ionicScrollDelegate, userService, userAuthService) {
+        this.$scope = $scope;
+        this.$rootScope = $rootScope;
+        this.$ionicScrollDelegate = $ionicScrollDelegate;
+        this.userService = userService;
+        this.userAuthService = userAuthService;
+        this.$inject = [
+            '$scope',
+            '$rootScope',
+            '$ionicScrollDelegate',
+            'userService',
+            'userAuthService'
+        ];
+        this.sponsorships = [];
+        this.showEmptyState = false;
+        this.userAuth = this.userAuthService.getUserAuth();
+        this.sponsorships = this.userAuth.sponzorships_like_organizer.filter(this._filterByDateIsBefore);
+        this.showEmptyState = this.sponsorships.length == 0 ? true : false;
+        this._registerListenerSponzorships();
     }
-})();
+    SponsorshipsPastEventsCtrl.prototype.doRefresh = function () {
+        var _this = this;
+        this.userService.home(this.userAuth.id)
+            .then(function (user) {
+            _this.$scope.$broadcast('scroll.refreshComplete');
+            _this.userAuth = _this.userAuthService.updateUserAuth(user);
+            _this.sponsorships = _this.userAuth.sponzorships_like_organizer.filter(_this._filterByDateIsBefore);
+            _this.showEmptyState = _this.sponsorships.length == 0 ? true : false;
+            _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
+            _this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
+            _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
+        })
+            .catch(function (error) {
+            _this.showEmptyState = true;
+        });
+    };
+    SponsorshipsPastEventsCtrl.prototype._registerListenerSponzorships = function () {
+        var _this = this;
+        this.$rootScope.$on('SponsorshipsPastEventsCtrl:getSponzorships', function () {
+            _this.userAuth = _this.userAuthService.getUserAuth();
+            _this.sponsorships = _this.userAuth.sponzorships_like_organizer.filter(_this._filterByDateIsBefore);
+            _this.showEmptyState = _this.sponsorships.length == 0 ? true : false;
+        });
+    };
+    SponsorshipsPastEventsCtrl.prototype._filterByDateIsBefore = function (item) {
+        var today = moment(new Date()).subtract(1, 'days');
+        return moment(item.event.ends).isBefore(today);
+    };
+    return SponsorshipsPastEventsCtrl;
+}());
+angular
+    .module('app.sponsors-organizer')
+    .controller('SponsorshipsPastEventsCtrl', SponsorshipsPastEventsCtrl);

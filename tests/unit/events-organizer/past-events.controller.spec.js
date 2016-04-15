@@ -1,4 +1,4 @@
-describe('Controller: PastEventsController', function(){
+describe('Controller: PastEventsOrganizerCtrl', function(){
 
 	var pastEventsController, utilsService, userService;
 	var $rootScope, $httpBackend, $localStorage, $scope, $rootScopeBroadcast, $scopeBroadcast;
@@ -17,11 +17,14 @@ describe('Controller: PastEventsController', function(){
 
   	$rootScope = _$rootScope_;
   	$rootScopeBroadcast = chai.spy.on( $rootScope, '$broadcast' );
+    
+    $scope = $rootScope.$new();
+    $scopeBroadcast = chai.spy.on($scope, '$broadcast');
 
     BackendVariables = $injector.get('BackendVariables');
     URL_REST = BackendVariables.url;
 
-  	$httpBackend = $injector.get('$httpBackend');
+    $httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});	
@@ -29,19 +32,19 @@ describe('Controller: PastEventsController', function(){
     //Dependences
     $localStorage = $injector.get('$localStorage');
     userService = $injector.get('userService');
-    utilsService = chai.spy.object($injector.get('utilsService'), ['showLoad', 'hideLoad','alert', 'resetForm','trim']);
+    userAuthService = $injector.get('userAuthService');
+    utilsService = $injector.get('utilsService');
 
-    $localStorage.userAuth = mockData.userService.login().user;
+    var userData = mockData.userService.login("0");
+    userData.user.type = "0";
+    $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
 
-    $scope = $rootScope.$new();
-    $scopeBroadcast = chai.spy.on($scope, '$broadcast');
-
-    pastEventsController = $controller('PastEventsController', {
-  		'$localStorage': $localStorage,
-	    'userService': userService,
-	    'utilsService': utilsService,
-	    '$scope': $scope,
-	    '$rootScope': $rootScope
+    pastEventsController = $controller('PastEventsOrganizerCtrl', {
+  		'$scope': $scope,
+      '$rootScope': $rootScope,
+      'userService': userService,
+      'utilsService': utilsService,
+      'userAuthService': userAuthService
   	});
 
   }));
@@ -97,7 +100,8 @@ describe('Controller: PastEventsController', function(){
   ////////////////////////////////////////////////////////////
   describe('Tests to doRefresh success', function(){
 
-  	var dataEvents = mockData.userService.home();
+  	var dataEvents = mockData.userService.home("0");
+    dataEvents.data.user.type = "0"; 
 
     beforeEach(function() {
   		$httpBackend.whenGET( URL_REST + 'home/1').respond(200, dataEvents);
@@ -117,12 +121,11 @@ describe('Controller: PastEventsController', function(){
       chai.assert.equal(pastEventsController.events.length, 1);
     });
 
-    it('Should be called broadcast Menu:count_events', function() {
+    it('Should be called broadcast', function() {
       pastEventsController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
       chai.expect($rootScopeBroadcast).to.have.been.called();
-      chai.expect($rootScopeBroadcast).to.have.been.with('Menu:count_events', 1);
     });
 
     it('Should be called broadcast scroll.refreshComplete', function(){
@@ -154,6 +157,19 @@ describe('Controller: PastEventsController', function(){
       chai.expect($scopeBroadcast).to.have.been.with('scroll.refreshComplete');
     });
 
+  });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Tests called PastEventsOrganizerCtrl:getEvents', function(){
+    
+    it('Should have called a PastEventsOrganizerCtrl:getEvents', function() {
+    	$rootScope.$digest();
+      $rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
+      chai.assert.equal( pastEventsController.userAuth, $localStorage.userAuth );
+      chai.assert.equal( pastEventsController.events.length, 1);
+      chai.assert.isFalse( pastEventsController.showEmptyState );
+    });
+    
   });
 
 });

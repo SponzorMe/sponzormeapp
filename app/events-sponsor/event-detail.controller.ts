@@ -1,128 +1,121 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
 /**
 * @Controller for Detail Event
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-(function() {
-  'use strict';
-
-  angular
-    .module('app.events-sponzor')
-    .controller('EventDetailSponzorController', EventDetailSponzorController);
-
-  EventDetailSponzorController.$inject = [
+class EventDetailSponsorCtrl{
+ 
+  $inject = [
     '$scope',
-    'eventService',
-    'utilsService',
     '$stateParams',
-    'sponsorshipService',
-    '$localStorage',
+    '$rootScope',
+    '$translate',
     '$ionicModal',
     '$ionicHistory',
     '$cordovaToast',
-    '$translate',
+    'eventService',
+    'utilsService',
+    'sponsorshipService',
     'notificationService',
-    '$rootScope',
     'userAuthService'
   ];
-
-  function EventDetailSponzorController( $scope, eventService, utilsService, $stateParams, sponsorshipService, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate, notificationService, $rootScope, userAuthService) {
-
-    var vm = this;
-    vm.event = {};
-    vm.userAuth = userAuthService.getUserAuth();
-
-    vm.modalSponsorIt = null;
-    vm.newSponsorIt = {};
-    vm.openModalSponsorIt = openModalSponsorIt;
-    vm.closeModalSponsorIt = closeModalSponsorIt;
-    vm.createSponsorIt = createSponsorIt;
-    vm.submitSponsorIt = submitSponsorIt;
-
-    activate();
-
-    ////////////
-
-    function activate(){
-      vm.event = _.findWhere(vm.userAuth.events, {id: $stateParams.idEvent});
-      vm.event.perks =  vm.event.perks.map( preparatePerks );
-
-      $ionicModal.fromTemplateUrl('app/events-sponsor/sponsor-it-modal.html', {
-        scope: $scope,
-        animation: 'slide-in-up'
-      }).then(function(modal) {
-        vm.modalSponsorIt = modal;
-      });
-    }
+  event:eventModule.Event;
+  userAuth:userModule.User;
+  modalSponsorIt:ionic.modal.IonicModalController = null;
+  newSponsorIt:any = {};
+  
+  constructor(
+    private $scope: angular.IScope,
+    private $stateParams,
+    private $rootScope: angular.IRootScopeService,
+    private $translate,
+    private $ionicModal: ionic.modal.IonicModalService,
+    private $ionicHistory: ionic.navigation.IonicHistoryService,
+    private $cordovaToast,
+    private eventService: eventModule.IEventService,
+    private utilsService: utilsServiceModule.IUtilsService,
+    private sponsorshipService: sponsorshipModule.ISponsorshipService,
+    private notificationService: notificationModule.INotificationService,
+    private userAuthService: userAuthModule.IUserAuthService
+  ){
+    this.userAuth = this.userAuthService.getUserAuth();
     
-    function preparatePerks( perk ){
-      perk.sponzorship = _.where(vm.userAuth.sponzorships, {perk_id: perk.id});
-      perk.already = _.findWhere(perk.sponzorship , {sponzor_id: vm.userAuth.id});
-      perk.tasks = _.where(perk.tasks, {type: "0"});
-      return perk;
-    }
+    this.event = _.findWhere(this.userAuth.events, {id: $stateParams.id});
+    this.event.perks.forEach( this._preparatePerks, this );
 
-    function filterByTypePerk( task ){
-      return task.type == '0'; //Organizer
-    }
-    
-    function openModalSponsorIt(){
-      vm.modalSponsorIt.show();
-    }
-
-    function closeModalSponsorIt(){
-      vm.modalSponsorIt.hide();
-      vm.newSponsorIt = {};
-    } 
-
-    function createSponsorIt( perk ){
-      vm.newSponsorIt.perk = perk;
-      vm.openModalSponsorIt();
-    } 
-
-    function submitSponsorIt(){
-      sponsorshipService.createSponzorship( preparateDataSponzorship() )
-        .then( complete )
-        .catch( failed );
-
-        function complete( newSponsorship ){
-          vm.closeModalSponsorIt();
-          
-          vm.userAuth.sponzorships.push( newSponsorship );
-          vm.event.perks = vm.event.perks.map( preparatePerks );
-          userAuthService.updateUserAuth( vm.userAuth );
-          
-          $rootScope.$broadcast('MenuSponzor:counts');
-          $rootScope.$broadcast('FollowEventsController:getSponzorships');
-          
-          var notification = {
-            text: vm.event.title,
-            link: '#/organizers/sponzors',
-            modelId: newSponsorship.id,
-          };
-          notificationService.sendNewSponsorship(notification, vm.event.user_organizer.id);
-          
-          $cordovaToast.showShortBottom($translate.instant("MESSAGES.succ_sponsor_it"));
-        }
-
-        function failed( error ){
-          vm.closeModalSponsorIt();
-        }
-    }
-
-    function preparateDataSponzorship(){
-      return {
-        sponzor_id: vm.userAuth.id,
-        perk_id: vm.newSponsorIt.perk.id,
-        event_id: vm.event.id,
-        organizer_id: vm.event.user_organizer.id,
-        status: 0,
-        cause: vm.newSponsorIt.cause
-      }
-    }
-    
-
+    this._loadModalSponsorIt();
   }
-})();
+  
+  private _preparatePerks( perk ){
+    perk.sponzorship = _.where(this.userAuth.sponzorship, {perk_id: perk.id});
+    perk.already = _.findWhere(perk.sponzorship , {sponzor_id: this.userAuth.id});
+    perk.tasks = _.where(perk.tasks, {type: "0"});
+  }
+  
+  private _loadModalSponsorIt(){
+    this.$ionicModal.fromTemplateUrl('templates/events-sponsor/sponsor-it-modal.html', {
+      scope: this.$scope,
+      animation: 'slide-in-up'
+    }).then(modal => {
+      this.modalSponsorIt = modal;
+    });
+  }
+  
+  openModalSponsorIt(){
+    this.modalSponsorIt.show();
+  }
+
+  closeModalSponsorIt(){
+    this.modalSponsorIt.hide();
+    this.newSponsorIt = {};
+  } 
+
+  createSponsorIt( perk ){
+    this.newSponsorIt.perk = perk;
+    this.openModalSponsorIt();
+  } 
+
+  submitSponsorIt(){
+    this.sponsorshipService.createSponzorship( this._preparateDataSponzorship() )
+    .then( newSponsorship => {
+      this.closeModalSponsorIt();
+      
+      this.userAuth.sponzorship.push( newSponsorship );
+      this.event.perks.forEach( this._preparatePerks, this );
+      this.userAuthService.updateUserAuth( this.userAuth );
+      
+      this.$rootScope.$broadcast('MenuSponsorCtrl:counts');
+      this.$rootScope.$broadcast('FollowEventsCtrl:getSponzorships');
+      
+      var notification = {
+        text: this.event.title,
+        link: '#/organizers/sponzors',
+        modelId: newSponsorship.id,
+      };
+      this.notificationService.sendNewSponsorship(notification, this.event.user_organizer.id);
+      
+      this.$cordovaToast.showShortBottom(this.$translate.instant("MESSAGES.succ_sponsor_it"));
+    })
+    .catch( error => {
+      this.closeModalSponsorIt();
+    });
+  }
+  
+  private _preparateDataSponzorship(){
+    return {
+      sponzor_id: this.userAuth.id,
+      perk_id: this.newSponsorIt.perk.id,
+      event_id: this.event.id,
+      organizer_id: this.event.user_organizer.id,
+      status: 0,
+      cause: this.newSponsorIt.cause
+    }
+  }
+  
+}
+angular
+  .module('app.events-sponzor')
+  .controller('EventDetailSponsorCtrl', EventDetailSponsorCtrl);

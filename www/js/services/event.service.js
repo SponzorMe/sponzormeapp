@@ -102,6 +102,7 @@ var eventModule;
             }
             event.starts = moment(event.starts).toDate();
             event.ends = moment(event.ends).toDate();
+            event.privacy = event.privacy || "0" == "1" ? true : false;
             return event;
         };
         eventService.prototype._getToken = function () {

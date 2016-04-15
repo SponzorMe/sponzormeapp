@@ -22,8 +22,8 @@ describe('Controller: IntroOrganizerCtrl', function(){
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
-    $httpBackend.whenGET('app/dashboard-organizer/menu.html').respond(200, '');
-    $httpBackend.whenGET('app/dashboard-organizer/home.html').respond(200, '');
+    $httpBackend.whenGET('templates/dashboard-organizer/menu.html').respond(200, '');
+    $httpBackend.whenGET('templates/dashboard-organizer/home.html').respond(200, '');
 
     //Dependences
   	$state = $injector.get('$state');

@@ -1,28 +1,6 @@
 var sponsorshipBuilder = (function() {
   
-  var _resultSponsorship = {
-    id: "30",
-    cause: "test",
-    event_id: "1002",
-    organizer_id: "1003",
-    perk_id: "3",
-    sponzor_id: "1002",
-    status: "0",
-    Event: {},
-    Organizer: {},
-    Perk: {},
-    Sponzor: {},
-    SponzorEvent: {
-      id: "30",
-      cause: "test",
-      event_id: "1002",
-      organizer_id: "1003",
-      perk_id: "3",
-      sponzor_id: "1002",
-      status: "0",
-    },
-    Tasks: []
-  };
+  var _resultSponsorship = init();
   
   return {
     build: build,
@@ -41,8 +19,59 @@ var sponsorshipBuilder = (function() {
     setTasks: setTasks
   }
   
+  function init(){
+    return {
+      id: "30",
+      cause: "test",
+      event_id: "1002",
+      organizer_id: "1003",
+      perk_id: "3",
+      sponzor_id: "1002",
+      status: "0",
+      Event: {
+        title: "Text"
+      },
+      Organizer: {},
+      Perk: {
+        tasks: [
+          {
+            id: "1",
+            title: "Nicoas",
+            description: "Bla",
+            status: "0",
+            user_id: "1"
+          }
+        ]
+      },
+      Sponzor: {},
+      SponzorEvent: {
+        id: "30",
+        cause: "test",
+        event_id: "1002",
+        organizer_id: "1003",
+        perk_id: "3",
+        sponzor_id: "1002",
+        status: "0",
+      },
+      Tasks: [],
+      task_sponzor: [
+        {
+          id: "1",
+          task:{
+            title: "Nicoas",
+            description: "Bla",
+            status: "0",
+            user_id: "1"
+          }
+        }
+      ]
+    };
+  }
+  
   function build() {
-    return _resultSponsorship;
+    var copy = _.clone(_resultSponsorship);
+    _resultSponsorship = init();
+    return copy;
   }
   
   function omit(args){

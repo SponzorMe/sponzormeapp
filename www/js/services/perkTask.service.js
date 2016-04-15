@@ -65,7 +65,7 @@ var perkTaskModule;
                 },
                 data: data
             })
-                .then(function (response) { return _this.$q.when(_this._preparatePerkTaskUpdate(response.data)); })
+                .then(function (response) { return _this.$q.when(_this._preparatePerkTaskCreate(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
         perkTaskService.prototype.deletePerkTask = function (perkTaskId) {
@@ -128,6 +128,10 @@ var perkTaskModule;
         };
         perkTaskService.prototype._preparatePerkTaskUpdate = function (data) {
             return this.buildPerkTask(data.PerkTask);
+        };
+        perkTaskService.prototype._preparatePerkTaskCreate = function (data) {
+            data.PerkTask = this.buildPerkTask(data.PerkTask);
+            return data;
         };
         return perkTaskService;
     }());

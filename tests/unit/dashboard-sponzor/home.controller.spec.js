@@ -1,4 +1,4 @@
-describe('Controller: HomeSponzorController', function(){
+describe('Controller: HomeSponsorCtrl', function(){
 
   beforeEach(function() {
     module('app');
@@ -13,6 +13,8 @@ describe('Controller: HomeSponzorController', function(){
   beforeEach(inject(function($injector, _$rootScope_, $controller) {
 
   	$rootScope = _$rootScope_;
+    $rootScopeOn = chai.spy.on($rootScope, '$on');
+    
   	$q = $injector.get('$q');
 
     BackendVariables = $injector.get('BackendVariables');
@@ -22,8 +24,8 @@ describe('Controller: HomeSponzorController', function(){
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
-    $httpBackend.whenGET('app/dashboard-sponzor/menu.html').respond(200, '');
-    $httpBackend.whenGET('app/dashboard-sponzor/home.html').respond(200, '');
+    $httpBackend.whenGET('templates/dashboard-sponzor/menu.html').respond(200, '');
+    $httpBackend.whenGET('templates/dashboard-sponzor/home.html').respond(200, '');
 
     //Dependences
   	$scope = $rootScope.$new();
@@ -34,16 +36,19 @@ describe('Controller: HomeSponzorController', function(){
     utilsService = $injector.get('utilsService');
     utilsService = chai.spy.object( utilsService , ['showLoad', 'hideLoad','alert', 'resetForm','trim', 'confirm']);
 
+    userAuthService = $injector.get('userAuthService');
+    userService = $injector.get('userService');
+    
     $localStorage = $injector.get('$localStorage');
-  	
-    $localStorage.userAuth = mockData.userService.login().user;
+    var userData = mockData.userService.login("1");
+    userData.user.type = "1";
+    $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
 
-    homeSponzorController = $controller('HomeSponzorController', {
+    homeSponzorController = $controller('HomeSponsorCtrl', {
       '$localStorage': $localStorage,
       'eventService': eventService,
       'utilsService': utilsService,
       '$scope': $scope
-  		
   	});
 
   }));
@@ -70,10 +75,6 @@ describe('Controller: HomeSponzorController', function(){
       chai.assert.isArray( homeSponzorController.events );
     });
 
-    it('Should events be empty', function() {
-      chai.assert.equal( homeSponzorController.events.length, 1 );
-    });
-
   });
 
   ////////////////////////////////////////////////////////////
@@ -85,14 +86,27 @@ describe('Controller: HomeSponzorController', function(){
     });
 
   });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Tests to $rootScope.$on methods', function(){
+
+
+    it('Should have called a HomeSponsorCtrl:getEvents', function() {
+    	$rootScope.$digest();
+      $rootScope.$broadcast('HomeSponsorCtrl:getEvents');
+      chai.assert.equal( homeSponzorController.events.length, 0 );
+    });
+
+  });
 
   ////////////////////////////////////////////////////////////
   describe('Tests to doRefresh success', function(){
 
-    var dataEvents = mockData.eventService.allEvents();
+    var userData = mockData.userService.home("1");
+    userData.data.user.type = "1";
  
     beforeEach(function() {
-      $httpBackend.whenGET( URL_REST + 'events').respond(200, dataEvents);
+      $httpBackend.whenGET( URL_REST + 'home/1').respond(200, userData);
     });
 
     it('Should be called $scopeBroadcast', function() {
@@ -111,7 +125,28 @@ describe('Controller: HomeSponzorController', function(){
       homeSponzorController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( homeSponzorController.events.length, 1 );
+      chai.assert.equal( homeSponzorController.events.length, 0 );
+    });
+
+  });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Tests to doRefresh failed', function(){
+
+    var data = mockData.failed();
+ 
+    beforeEach(function() {
+      $httpBackend.whenGET( URL_REST + 'home/1').respond(400, data);
+    });
+
+    it('Should be called $scopeBroadcast', function() {
+      $rootScope.$digest();
+      $httpBackend.flush();
+      homeSponzorController.doRefresh();
+      $rootScope.$digest();
+      $httpBackend.flush();
+      chai.expect($scopeBroadcast).to.have.been.called();
+      chai.expect($scopeBroadcast).to.have.been.with('scroll.refreshComplete');
     });
 
   });

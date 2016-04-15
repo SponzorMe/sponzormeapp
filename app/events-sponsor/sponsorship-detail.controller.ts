@@ -1,206 +1,190 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
 /**
 * @Controller for Detail Event
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-(function() {
-  'use strict';
-
-  angular
-    .module('app.events-sponzor')
-    .controller('SponsorshipSponsorDetailController', SponsorshipSponsorDetailController);
-
-  SponsorshipSponsorDetailController.$inject = [
+class SponsorshipSponsorDetailCtrl{
+  
+  $inject = [
     '$scope',
-    'utilsService',
     '$stateParams',
-    '$localStorage',
+    '$translate',
     '$ionicModal',
     '$ionicHistory',
     '$cordovaToast',
-    '$translate',
-    'tasksSponsorService',
+    'utilsService',
+    'taskSponsorService',
     'userAuthService',
     'notificationService'
   ];
-
-  function SponsorshipSponsorDetailController( $scope, utilsService, $stateParams, $localStorage, $ionicModal, $ionicHistory, $cordovaToast, $translate, tasksSponsorService, userAuthService, notificationService) {
-
-    var vm = this;
-    vm.sponzorship = {};
-    vm.userAuth = userAuthService.getUserAuth();
+  sponsorship:any = {};
+  userAuth:userModule.User;
+  modalTask: ionic.modal.IonicModalController = null;
+  isNewTask:boolean = true;
+  sponsorTask:any = { task: {} };
+  indexSlide:number = 0;
+  
+  constructor(
+    private $scope: angular.IScope,
+    private $stateParams,
+    private $translate,
+    private $ionicModal: ionic.modal.IonicModalService,
+    private $ionicHistory: ionic.navigation.IonicHistoryService,
+    private $cordovaToast,
+    private utilsService: utilsServiceModule.IUtilsService,
+    private taskSponsorService: taskSponsorModule.ITasksSponsor,
+    private userAuthService: userAuthModule.IUserAuthService,
+    private notificationService: notificationModule.INotificationService
+  ){
+    this.userAuth = this.userAuthService.getUserAuth();
+    this.sponsorship = _.findWhere(this.userAuth.sponzorship, {id: $stateParams.id});
+    this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter( item => item.task.user_id == this.userAuth.id);
     
-    vm.modalTask = null;
-    vm.isNewTask = true;
-    vm.showModalTask = showModalTask;
-    vm.sponsorTask = {};
-    vm.hideModalTask = hideModalTask;
-    vm.newTask = newTask;
-    vm.editTask = editTask;
-    vm.submitTask = submitTask;
-    vm.deleteTask = deleteTask;
-    
-    vm.indexSlide = 0;
-    vm.slideChange = slideChange;
-
-    activate();
-    ////////////
-
-    function activate(){
-      vm.sponsorTask = { task: {} }
-      vm.sponzorship = _.findWhere(vm.userAuth.sponzorships, {id: $stateParams.id});
-      vm.sponzorship.task_sponzor = vm.sponzorship.task_sponzor.filter( filterTaskSponsor );
-
-      $ionicModal.fromTemplateUrl('app/events-sponsor/task-modal.html', {
-        scope: $scope,
-        animation: 'slide-in-up'
-      }).then(function(modal) {
-        vm.modalTask = modal;
-      });
-    }
-    
-    function filterTaskSponsor( item ) {
-      return item.task.user_id == vm.userAuth.id;
-    }
-    
-    function slideChange( index ) {
-      vm.indexSlide = index;
-    }
-    
-    function showModalTask(){
-      vm.modalTask.show();
-    }
-
-    function newTask(){
-      vm.isNewTask = true;
-      vm.showModalTask();
-    }
-
-    function hideModalTask( form ){
-      vm.modalTask.hide();
-      if (form) utilsService.resetForm( form );
-      vm.sponsorTask = { task: {} }
-    }
-
-    function editTask( task ){
-      vm.isNewTask = false;
-      vm.sponsorTask = angular.copy(task);
-      vm.sponsorTask.status = vm.sponsorTask.status == 1 ? true:false;
-      vm.showModalTask();
-    }
-
-    function createTask( form ){
-      utilsService.showLoad();
-      tasksSponsorService.createTask( preparateTask() )
-      .then( complete )
-      .catch( failed );
-      
-      function complete( TaskSponzor ) {
-        vm.sponzorship.perk.tasks.push( TaskSponzor.task );
-        vm.sponzorship.task_sponzor.push( TaskSponzor );
-        vm.hideModalTask( form );
-        
-        notificationService.sendNewTaskSponsor({
-          text: TaskSponzor.task.title,
-          modelId: vm.sponzorship.id
-        }, TaskSponzor.organizer_id);
-        
-        utilsService.hideLoad();
-      }
-      
-      function failed() {
-        utilsService.hideLoad();
-      }
-    }
-    
-    function preparateTask(){
-      return {
-        id: -1,
-        type: 1, //Because is created by the Sponzor
-        status: vm.sponsorTask.status ? 1 : 0,
-        perk_id: vm.sponzorship.perk.id,
-        event_id: vm.sponzorship.event.id,
-        sponzorship_id: vm.sponzorship.id,
-        user_id: vm.userAuth.id,
-        organizer_id: vm.sponzorship.organizer.id,
-        sponzor_id: vm.userAuth.id,
-        title: vm.sponsorTask.task.title,
-        description: vm.sponsorTask.task.description,
-        task_id: vm.sponsorTask.task.id
-      }
-    }
-
-    function deleteTask( form ){
-      utilsService.showLoad();
-      tasksSponsorService.deleteTask( vm.sponsorTask.id )
-      .then( complete )
-      .catch( failed );
-      
-      function complete( data ) {
-        var perkTask = _.findWhere( vm.sponzorship.perk.tasks, {id: vm.sponsorTask.task.id} );
-        var taskSponzor = _.findWhere( vm.sponzorship.task_sponzor, {id: vm.sponsorTask.id} );
-        var indexPerkTask = _.indexOf(vm.sponzorship.perk.tasks, perkTask);
-        var indexSponzorTask = _.indexOf(vm.sponzorship.task_sponzor, taskSponzor);
-        vm.sponzorship.perk.tasks.splice(indexPerkTask, 1);
-        vm.sponzorship.task_sponzor.splice(indexSponzorTask, 1);
-        vm.hideModalTask( form );
-        utilsService.hideLoad();
-      }
-      
-      function failed() {
-        vm.hideModalTask( form );
-        utilsService.hideLoad();
-      }
-    }
-
-    function updateTask( form ){
-      utilsService.showLoad();
-      var task = preparateTask();
-      task.id = vm.sponsorTask.id;
-      tasksSponsorService.editPutTask( task.id, task )
-      .then( complete )
-      .catch( failed );
-      
-      function complete( TaskSponsor ) {
-        var perkTask = _.findWhere( vm.sponzorship.perk.tasks, {id: vm.sponsorTask.task.id} );
-        var taskSponzor = _.findWhere( vm.sponzorship.task_sponzor, {id: vm.sponsorTask.id} );
-        var indexPerkTask = _.indexOf(vm.sponzorship.perk.tasks, perkTask);
-        var indexSponzorTask = _.indexOf(vm.sponzorship.task_sponzor, taskSponzor);
-       
-       
-        if(vm.sponsorTask.status == 1 && TaskSponsor.status == "1"){
-          notificationService.sendDoneTaskSponsor({
-            text: vm.sponsorTask.task.title,
-            modelId: vm.sponzorship.id
-          }, TaskSponsor.organizer_id);
-        }else{
-          notificationService.sendUpdateTaskSponsor({
-            text: vm.sponsorTask.task.title,
-            modelId: vm.sponzorship.id
-          }, TaskSponsor.organizer_id);
-        }
-        vm.sponzorship.perk.tasks[indexPerkTask] = vm.sponsorTask.task;
-        vm.sponzorship.task_sponzor[indexSponzorTask] = vm.sponsorTask;
-        vm.hideModalTask( form );
-        utilsService.hideLoad();
-      }
-      
-      function failed() {
-        vm.hideModalTask( form );
-        utilsService.hideLoad();
-      }
-    }
-
-    function submitTask( form ){
-      if(vm.isNewTask){
-        createTask( form );
-      }else{
-        updateTask( form );
-      }
-    }
-    
-
+    this._loadModalTask(); 
   }
-})();
+  
+  slideChange( index ) {
+    this.indexSlide = index;
+  }
+  
+  showModalTask(){
+    this.modalTask.show();
+  }
+
+  newTask(){
+    this.isNewTask = true;
+    this.showModalTask();
+  }
+  
+  hideModalTask( form ){
+    this.modalTask.hide();
+    if (form) this.utilsService.resetForm( form );
+    this.sponsorTask = { task: {} }
+  }
+
+  editTask( task ){
+    this.isNewTask = false;
+    this.sponsorTask = angular.copy(task);
+    this.sponsorTask.status = this.sponsorTask.status == 1 ? true:false;
+    this.showModalTask();
+  }
+  
+  createTask( form ){
+    this.utilsService.showLoad();
+    this.taskSponsorService.createTask( this._preparateTask() )
+    .then( data => {
+      this.sponsorship.perk.tasks.push( data.TaskSponzor.Task );
+      this.sponsorship.task_sponzor.push( data.TaskSponzor );
+      this.hideModalTask( form );
+      
+      this.notificationService.sendNewTaskSponsor({
+        text: data.TaskSponzor.Task.title,
+        modelId: this.sponsorship.id
+      }, data.TaskSponzor.organizer_id);
+      
+      this.utilsService.hideLoad();
+    })
+    .catch( error => {
+      this.utilsService.hideLoad();
+    });
+  }
+  
+  deleteTask( form ){
+    this.utilsService.showLoad();
+    this.taskSponsorService.deleteTask( this.sponsorTask.id )
+    .then( data => {
+      let perkTask = _.findWhere( this.sponsorship.perk.tasks, {id: this.sponsorTask.task.id} );
+      let taskSponzor = _.findWhere( this.sponsorship.task_sponzor, {id: this.sponsorTask.id} );
+      let indexPerkTask = _.indexOf(this.sponsorship.perk.tasks, perkTask);
+      let indexSponzorTask = _.indexOf(this.sponsorship.task_sponzor, taskSponzor);
+      this.sponsorship.perk.tasks.splice(indexPerkTask, 1);
+      this.sponsorship.task_sponzor.splice(indexSponzorTask, 1);
+      this.hideModalTask( form );
+      this.utilsService.hideLoad();
+    })
+    .catch( error => {
+      this.hideModalTask( form );
+      this.utilsService.hideLoad();
+    });
+  }
+  
+  updateTask( form ){
+    this.utilsService.showLoad();
+    
+    let task = this._preparateTask();
+    task.id = this.sponsorTask.id;
+    
+    this.taskSponsorService.editPutTask( String(task.id), task )
+    .then( TaskSponsor => {
+      
+      let perkTask = _.findWhere( this.sponsorship.perk.tasks, {id: this.sponsorTask.task.id} );
+      let taskSponzor = _.findWhere( this.sponsorship.task_sponzor, {id: this.sponsorTask.id} );
+      let indexPerkTask = _.indexOf(this.sponsorship.perk.tasks, perkTask);
+      let indexSponzorTask = _.indexOf(this.sponsorship.task_sponzor, taskSponzor);
+      
+      if(this.sponsorTask.status == 1 && TaskSponsor.status == "1"){
+        this.notificationService.sendDoneTaskSponsor({
+          text: this.sponsorTask.task.title,
+          modelId: this.sponsorship.id
+        }, 
+        TaskSponsor.organizer_id);
+      }else{
+        this.notificationService.sendUpdateTaskSponsor({
+          text: this.sponsorTask.task.title,
+          modelId: this.sponsorship.id
+        }, 
+        TaskSponsor.organizer_id);
+      }
+      
+      this.sponsorship.perk.tasks[indexPerkTask] = this.sponsorTask.task;
+      this.sponsorship.task_sponzor[indexSponzorTask] = this.sponsorTask;
+      this.hideModalTask( form );
+      this.utilsService.hideLoad();
+    })
+    .catch( error => {
+      this.hideModalTask( form );
+      this.utilsService.hideLoad();
+    });
+  }
+  
+  submitTask( form ){
+    if(this.isNewTask){
+      this.createTask( form );
+    }else{
+      this.updateTask( form );
+    }
+  }
+  
+  private _preparateTask(){
+    return {
+      id: -1,
+      type: 1, //Because is created by the Sponzor
+      status: this.sponsorTask.status ? 1 : 0,
+      perk_id: this.sponsorship.perk.id,
+      event_id: this.sponsorship.event.id,
+      sponzorship_id: this.sponsorship.id,
+      user_id: this.userAuth.id,
+      organizer_id: this.sponsorship.organizer.id,
+      sponzor_id: this.userAuth.id,
+      title: this.sponsorTask.task.title,
+      description: this.sponsorTask.task.description,
+      task_id: this.sponsorTask.task.id
+    }
+  }
+  
+  private _loadModalTask(){
+    this.$ionicModal.fromTemplateUrl('templates/events-sponsor/task-modal.html', {
+      scope: this.$scope,
+      animation: 'slide-in-up'
+    }).then(modal => {
+      this.modalTask = modal;
+    });
+  }
+  
+}
+angular
+  .module('app.events-sponzor')
+  .controller('SponsorshipSponsorDetailCtrl', SponsorshipSponsorDetailCtrl);

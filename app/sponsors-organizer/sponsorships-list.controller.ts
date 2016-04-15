@@ -1,138 +1,120 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
 /**
 * @Controller for Home Organizer
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-(function() {
-  'use strict';
-
-  angular
-    .module('app.sponsors-organizer')
-    .controller('SponsorshipsListController', SponsorshipsListController);
-
-  SponsorshipsListController.$inject = [
-    '$localStorage',
+class SponsorshipsListCtrl{
+  
+  $inject = [
+    '$scope',
+    '$rootScope',
+    '$ionicScrollDelegate',
     'sponsorshipService',
     'userService',
     'utilsService',
-    '$ionicScrollDelegate',
-    '$scope',
-    '$rootScope',
     'notificationService',
     'userAuthService'
   ];
-
-  function SponsorshipsListController( $localStorage, sponsorshipService, userService, utilsService, $ionicScrollDelegate, $scope, $rootScope, notificationService, userAuthService) {
-
-    var vm = this;
-    //Atributes
-    vm.sponsorships = [];
-    vm.userAuth = userAuthService.getUserAuth();
-    vm.showEmptyState = false;
-    //Accions
-    vm.sponsorAccept = sponsorAccept;
-    vm.sponsorReject = sponsorReject;
-    vm.doRefresh = doRefresh;
-
-    activate();
-    ////////////
-
-    function activate(){
-      vm.sponsorships = vm.userAuth.sponzorships_like_organizer.filter( filterByDateIsAfter );
-      vm.showEmptyState = vm.sponsorships.length == 0 ? true : false;
-      $rootScope.$on('SponsorshipsListController:getSponzorships', getSponzorships);
-    }
+  sponsorships:any[] = [];
+  userAuth:userModule.User;
+  showEmptyState: boolean = false
+  
+  constructor(
+    private $scope: angular.IScope,
+    private $rootScope,
+    private $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate,
+    private sponsorshipService: sponsorshipModule.ISponsorshipService,
+    private userService: userModule.IUserService,
+    private utilsService: utilsServiceModule.IUtilsService,
+    private notificationService: notificationModule.INotificationService,
+    private userAuthService: userAuthModule.IUserAuthService
+  ){
+    this.userAuth = this.userAuthService.getUserAuth();
+    this.sponsorships = this.userAuth.sponzorships_like_organizer.filter( this._filterByDateIsAfter );
+    this.showEmptyState = this.sponsorships.length == 0 ? true : false;
     
-    function filterByDateIsAfter( item ){
-      var today = moment( new Date() ).subtract(1, 'days');
-      return moment(item.event.ends).isAfter( today );
-    }
-    
-    function getSponzorships() {
-      vm.userAuth = userAuthService.getUserAuth();
-      vm.sponsorships = vm.userAuth.sponzorships_like_organizer.filter( filterByDateIsAfter );;
-      vm.showEmptyState = vm.sponsorships.length == 0 ? true : false;
-    }
-
-    function sponsorAccept( sponzor ){
-      utilsService.confirm({
-        title: 'Are you sure?', 
-        template: '<p class="text-center">In the accept the sponsor</p>'
-      })
-      .then( complete );
-
-      function complete( rta ){
-        if( rta ) updateSponsorship( sponzor, 1 ); //Accepted 
-      }
-    }
-
-    function sponsorReject( sponzor ){
-      utilsService.confirm({
-        title: 'Are you sure?', 
-        template: '<p class="text-center">In the reject the sponsor</p>'
-      })
-      .then( complete );
-
-      function complete( rta ){
-        if( rta ) updateSponsorship( sponzor, 2 ); //Deny
-      }
-    }
-
-    function updateSponsorship( sponzor, status ){
-      utilsService.showLoad();
-      var sponzorCopy = angular.copy( sponzor );
-      sponzorCopy.status = status;
-      sponsorshipService.editSponzorshipPut( sponzorCopy.id, sponzorCopy )
-        .then( complete )
-        .catch( failed );
-
-        function complete( sponsorship ){
-          utilsService.hideLoad();
-          sponzor.status = sponsorship.status;
-          
-          var notification = {
-            text: sponzor.event.title,
-            link: '#/sponzors/sponzoring',
-            modelId: sponsorship.id
-          };
-          
-          if(sponzor.status == 1){ //Accepted 
-            notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id);
-          }else if(sponzor.status == 2){//Deny
-            notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id);
-          }
-         
-          
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-        }
-
-    }
-
-    function doRefresh(){
-      userService.home( vm.userAuth.id )
-        .then( complete )
-        .catch( failed );
-
-        function complete( user ){
-          $scope.$broadcast('scroll.refreshComplete');
-          vm.userAuth = userAuthService.updateUserAuth( user );
-          vm.sponsorships = vm.userAuth.sponzorships_like_organizer.filter( filterByDateIsAfter );
-          vm.showEmptyState = vm.sponsorships.length == 0 ? true : false;
-          $rootScope.$broadcast('MenuOrganizer:count_sponsors');
-          $rootScope.$broadcast('SponsorshipsTabsController:count_sponsors');
-          $rootScope.$broadcast('HomeOrganizerController:count_sponsors');
-        }
-
-        function failed( error ){
-          vm.showEmptyState = true;
-        }
-    }
-    
-
+    this._registerListenerSponzorships();
   }
-})();
+  
+  sponsorAccept( sponzor ){
+    this.utilsService.confirm({
+      title: 'Are you sure?', 
+      template: '<p class="text-center">In the accept the sponsor</p>'
+    })
+    .then( rta => {
+      if( rta ) this._updateSponsorship( sponzor, 1 ); //Accepted 
+    });
+  }
+
+  sponsorReject( sponzor ){
+    this.utilsService.confirm({
+      title: 'Are you sure?', 
+      template: '<p class="text-center">In the reject the sponsor</p>'
+    })
+    .then( rta => {
+      if( rta ) this._updateSponsorship( sponzor, 2 ); //Deny
+    });
+  }
+  
+  doRefresh(){
+    this.userService.home( this.userAuth.id )
+    .then( user => {
+      this.$scope.$broadcast('scroll.refreshComplete');
+      this.userAuth = this.userAuthService.updateUserAuth( user );
+      this.sponsorships = this.userAuth.sponzorships_like_organizer.filter( this._filterByDateIsAfter );
+      this.showEmptyState = this.sponsorships.length == 0 ? true : false;
+      this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
+      this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
+      this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
+    })
+    .catch( error => {
+      this.showEmptyState = true;
+    });
+  }
+
+  private _updateSponsorship( sponzor, status ){
+    this.utilsService.showLoad();
+    let sponzorCopy = angular.copy( sponzor );
+    sponzorCopy.status = status;
+    this.sponsorshipService.editSponzorshipPut( sponzorCopy.id, sponzorCopy )
+    .then( sponsorship => {
+      this.utilsService.hideLoad();
+      sponzor.status = sponsorship.status;
+      
+      let notification = {
+        text: sponzor.event.title,
+        link: '#/sponzors/sponzoring',
+        modelId: sponsorship.id
+      };
+      
+      if(sponzor.status == 1){ //Accepted 
+        this.notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id);
+      }else if(sponzor.status == 2){//Deny
+        this.notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id);
+      }
+    })
+    .catch( error => {
+      this.utilsService.hideLoad();
+    });
+  }
+  
+  private _registerListenerSponzorships(){
+    this.$rootScope.$on('SponsorshipsListCtrl:getSponzorships', () => {
+      this.userAuth = this.userAuthService.getUserAuth();
+      this.sponsorships = this.userAuth.sponzorships_like_organizer.filter( this._filterByDateIsAfter );;
+      this.showEmptyState = this.sponsorships.length == 0 ? true : false;
+    });
+  }
+  
+  private _filterByDateIsAfter( item ){
+    let today = moment( new Date() ).subtract(1, 'days');
+    return moment(item.event.ends).isAfter( today );
+  }
+  
+}
+angular
+  .module('app.sponsors-organizer')
+  .controller('SponsorshipsListCtrl', SponsorshipsListCtrl)

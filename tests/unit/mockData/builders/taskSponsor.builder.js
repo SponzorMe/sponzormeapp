@@ -1,18 +1,6 @@
 var taskSponsorBuilder = (function() {
   
-  var _resultTaskSponsor = {
-    id: "1",
-    sponzor_id: "1",
-    perk_id: "1",
-    event_id: "1",
-    task_id: "1",
-    sponzorship_id: "1",
-    organizer_id: "2",
-    Task:{},
-    Organizer: {},
-    Sponzor: {},
-    Event: {}
-  };
+  var _resultTaskSponsor = init();
   
   return {
     build: build,
@@ -29,8 +17,30 @@ var taskSponsorBuilder = (function() {
     setEvent: setEvent
   }
   
+  function init(){
+    return {
+      id: "1",
+      title: "title",
+      sponzor_id: "1",
+      perk_id: "1",
+      event_id: "1",
+      task_id: "1",
+      sponzorship_id: "1",
+      organizer_id: "2",
+      Task:{
+        title: "title"
+      },
+      Organizer: {},
+      Sponzor: {},
+      Event: {},
+      task_sponzor: []
+    };
+  }
+  
   function build() {
-    return _resultTaskSponsor;
+    var copy = angular.copy(_resultTaskSponsor);
+    _resultTaskSponsor = init();
+    return copy;
   }
   
   function omit(args){

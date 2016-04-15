@@ -261,18 +261,19 @@ describe("Service: perkTaskService", function(){
       it('Should return a PerkTask', function( done ){
         perkTaskService.createPerkTask({})
         .then(function( result ) {
-          chai.assert.isObject( result );
-          chai.assert.isString( result.id );
-          chai.assert.isString( result.title );
-          chai.assert.isString( result.description );
-          chai.assert.isString( result.perk_id );
-          chai.assert.isBoolean( result.status );
-          chai.assert.isString( result.event_id );
-          chai.assert.isString( result.type );
-          chai.assert.isString( result.user_id );
-          chai.assert.isObject( result.event );
-          chai.assert.isObject( result.perk );
-          chai.assert.isObject( result.user );
+          chai.assert.isObject( result.PerkTask );
+          chai.assert.isString( result.PerkTask.id );
+          chai.assert.isString( result.PerkTask.title );
+          chai.assert.isString( result.PerkTask.description );
+          chai.assert.isString( result.PerkTask.perk_id );
+          chai.assert.isBoolean( result.PerkTask.status );
+          chai.assert.isString( result.PerkTask.event_id );
+          chai.assert.isString( result.PerkTask.type );
+          chai.assert.isString( result.PerkTask.user_id );
+          chai.assert.isObject( result.PerkTask.event );
+          chai.assert.isObject( result.PerkTask.perk );
+          chai.assert.isObject( result.PerkTask.user );
+          chai.assert.isArray( result.sponzorships_like_organizer );
           done();
         });
         $httpBackend.flush();

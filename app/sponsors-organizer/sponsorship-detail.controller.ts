@@ -1,106 +1,84 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
 /**
 * @Controller for Detail Sponsorship
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-(function() {
-  'use strict';
-
-  angular
-    .module('app.sponsors-organizer')
-    .controller('SponsorshipOrganizerDetailController', SponsorshipOrganizerDetailController);
-
-  SponsorshipOrganizerDetailController.$inject = [
-    '$localStorage',
+class SponsorshipOrganizerDetailCtrl{
+  
+  $inject = [
+    '$stateParams',
     'sponsorshipService',
     'utilsService',
-    '$stateParams',
-    '$ionicHistory',
     'userAuthService',
     'notificationService'
   ];
-
-  function SponsorshipOrganizerDetailController( $localStorage, sponsorshipService , utilsService, $stateParams, $ionicHistory, userAuthService, notificationService) {
-
-    var vm = this;
-    //Atributes
-    vm.sponzorship = {};
-    vm.userAuth = userAuthService.getUserAuth();
-    vm.showEmptyState = false;
-    //Accions
-    vm.sponsorAccept = sponsorAccept;
-    vm.sponsorReject = sponsorReject;
-
-    activate();
-
-    ////////////
-
-    function activate(){
-      vm.sponzorship = _.findWhere(vm.userAuth.sponzorships_like_organizer, {id: $stateParams.id});
-      vm.sponzorship.task_sponzor = vm.sponzorship.task_sponzor.filter( filterTaskSponsor );
-    }
+  
+  sponsorship:any = {};
+  userAuth: userModule.User;
+  showEmptyState: boolean = false;
+  
+  constructor(
+    private $stateParams,
+    private sponsorshipService: sponsorshipModule.ISponsorshipService,
+    private utilsService: utilsServiceModule.IUtilsService,
+    private userAuthService: userAuthModule.IUserAuthService,
+    private notificationService: notificationModule.INotificationService
+  ){
+    this.userAuth = this.userAuthService.getUserAuth();
     
-    function filterTaskSponsor( item ) {
-      return item.task.user_id != vm.userAuth.id;
-    }
-
-    function sponsorAccept(){
-       utilsService.confirm({
-         title: 'Are you sure?', 
-         template: '<p class="text-center">In accept the sponsor</p>'
-       })
-      .then( complete );
-
-      function complete( rta ){
-        if( rta ) updateSponsorship( 1 ); //Accepted 
-      }
-    }
-
-    function sponsorReject(){
-      utilsService.confirm({
-         title: 'Are you sure?', 
-         template: '<p class="text-center">In reject the sponsor</p>'
-       })
-      .then( complete );
-
-      function complete( rta ){
-        if( rta ) updateSponsorship( 2 ); //Deny
-      }
-    }
-
-    function updateSponsorship( status ){
-      utilsService.showLoad();
-      var sponzorship = angular.copy( vm.sponzorship );
-      sponzorship.status = status;
-      sponsorshipService.editSponzorshipPut( sponzorship.id, sponzorship )
-        .then( complete )
-        .catch( failed );
-
-        function complete( sponzorship ){
-          utilsService.hideLoad();
-          var notification = {
-            text: vm.sponzorship.event.title,
-            link: '#/sponzors/sponzoring',
-            modelId: vm.sponzorship.id
-          };
-          vm.sponzorship.status = sponzorship.status;
-          
-          if( vm.sponzorship.status == 1){ //Accepted 
-            notificationService.sendAcceptSponsorship(notification, vm.sponzorship.sponzor_id);
-          }else if( vm.sponzorship.status == 2){//Deny
-            notificationService.sendRejectSponsorship(notification, vm.sponzorship.sponzor_id);
-          }
-         
-        }
-
-        function failed( error ){
-          utilsService.hideLoad();
-        }
-
-    }
-    
-
+    this.sponsorship = _.findWhere(this.userAuth.sponzorships_like_organizer, {id: this.$stateParams.id});
+    this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter( item => item.task.user_id != this.userAuth.id );
   }
-})();
+  
+  sponsorAccept(){
+    this.utilsService.confirm({
+      title: 'Are you sure?', 
+      template: '<p class="text-center">In accept the sponsor</p>'
+    })
+    .then( rta => {
+      if( rta ) this._updateSponsorship( 1 ); //Accepted 
+    });
+  }
+
+  sponsorReject(){
+    this.utilsService.confirm({
+      title: 'Are you sure?', 
+      template: '<p class="text-center">In reject the sponsor</p>'
+    })
+    .then( rta => {
+      if( rta ) this._updateSponsorship( 2 ); //Deny
+    });
+  }
+
+  private _updateSponsorship( status ){
+    this.utilsService.showLoad();
+    let sponsorship = angular.copy( this.sponsorship );
+    sponsorship.status = status;
+    this.sponsorshipService.editSponzorshipPut( sponsorship.id, sponsorship )
+    .then( sponsorship => {
+      this.utilsService.hideLoad();
+      let notification = {
+        text: this.sponsorship.event.title,
+        link: '#/sponzors/sponzoring',
+        modelId: this.sponsorship.id
+      };
+      this.sponsorship.status = sponsorship.status;
+      
+      if( this.sponsorship.status == 1){ //Accepted 
+        this.notificationService.sendAcceptSponsorship(notification, this.sponsorship.sponzor_id);
+      }else if( this.sponsorship.status == 2){//Deny
+        this.notificationService.sendRejectSponsorship(notification, this.sponsorship.sponzor_id);
+      }
+    })
+    .catch( error => {
+      this.utilsService.hideLoad();
+    });
+  }
+  
+}
+angular
+  .module('app.sponsors-organizer')
+  .controller('SponsorshipOrganizerDetailCtrl', SponsorshipOrganizerDetailCtrl);

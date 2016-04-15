@@ -1,4 +1,4 @@
-describe("Controller: LoginController", function() {
+describe("Controller: LoginCtrl", function() {
 
   beforeEach(function() {
     module('app');
@@ -21,29 +21,38 @@ describe("Controller: LoginController", function() {
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
-
-    //Dependences with spy
-    utilsService = chai.spy.object($injector.get('utilsService'), ['showLoad', 'hideLoad','alert', 'resetForm','trim']);
-    $state = chai.spy.object($injector.get('$state'), ['go']);
-    $localStorage = $injector.get('$localStorage');
-    $translate = $injector.get('$translate');
-    userService =  chai.spy.object($injector.get('userService'), ['editUserPatch']);
-    $base64 = $injector.get('$base64');
-
+    
     mockForm = {
       $setPristine: function() {},
       $setUntouched: function() {},
     }
 
-    loginController = $controller('LoginController', {
-  		'$translate': $translate,
-	    'userService': userService,
-	    '$localStorage': $localStorage,
-	    '$state': $state,
-	    'utilsService': utilsService,
-	    '$base64': $base64,
-      '$ionicUser': $injector.get('$ionicUser'),
-      '$ionicAnalytics': $injector.get('$ionicAnalytics')
+    //Dependences
+    //Angular
+    $state = chai.spy.object($injector.get('$state'), ['go']);
+    $translate = $injector.get('$translate');
+    $base64 = $injector.get('$base64');
+    $localStorage = $injector.get('$localStorage');
+    //Ionic
+    $ionicUser = $injector.get('$ionicUser');
+    $ionicAnalytics = $injector.get('$ionicAnalytics');
+    //Services
+    userService =  $injector.get('userService');
+    utilsService =  $injector.get('utilsService');
+    userAuthService =  $injector.get('userAuthService');
+    notificationService =  $injector.get('notificationService');
+
+    loginController = $controller('LoginCtrl', {
+  		'$state': $state,
+      '$translate': $translate,
+      '$base64': $base64,
+      '$localStorage': $localStorage,
+      '$ionicUser': $ionicUser, 
+      '$ionicAnalytics': $ionicAnalytics,
+      'userService': userService,
+      'utilsService': utilsService,
+      'notificationService': notificationService,
+      'userAuthService': userAuthService,
   	});
 
   }));
@@ -54,11 +63,6 @@ describe("Controller: LoginController", function() {
     it('Should have user variable', function() {
       chai.assert.isDefined( loginController.user );
       chai.assert.isObject( loginController.user );
-    });
-
-    it('Should have userResponse variable', function() {
-      chai.assert.isDefined( loginController.userResponse );
-      chai.assert.isObject( loginController.userResponse );
     });
 
   });
@@ -81,17 +85,6 @@ describe("Controller: LoginController", function() {
   		$httpBackend.whenPOST( URL_REST + 'auth').respond(400, data);
   	});
 
-    it('Should be called utilsService methods', function() {
-    	loginController.user.email = "mail@domain.com";
-    	loginController.user.password = "123456";
-      loginController.signIn( mockForm );
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-      chai.expect(utilsService.trim).to.have.been.called();
-      chai.expect(utilsService.alert).to.have.been.called();
-    });
-
     it('Should password be empty ', function() {
     	loginController.user.email = "mail@domain.com";
     	loginController.user.password = "123456";
@@ -103,49 +96,16 @@ describe("Controller: LoginController", function() {
 
   });
 
-	////////////////////////////////////////////////////////////
-  describe('Tests to signIn failed by editUserPatch', function(){
-  	var data = mockData.userService.login();
-  	var dataUser = mockData.failed();
-  	data.user.type = 0;
-  	data.user.demo = 0;
-  	beforeEach(function() {
-  		$httpBackend.whenPOST( URL_REST + 'auth').respond(200, data);
-  		$httpBackend.whenPATCH( URL_REST + 'users/1').respond(400, dataUser);
-  	});
-
-    it('Should be failed', function() {
-    	loginController.user.email = "mail@domain.com";
-    	loginController.user.password = "123456";
-      loginController.signIn( mockForm );
-      $rootScope.$digest();
-      $httpBackend.flush();
-    });
-
-  });
-
   ////////////////////////////////////////////////////////////
-  describe('Tests to signIn method like organizer and demo 0 success', function(){
-  	var data = mockData.userService.login();
-  	var dataUser = mockData.userService.editUserPatch();
-  	data.user.type = 0;
-  	data.user.demo = 0;
+  describe('Tests to signIn method like organizer success', function(){
+  	var userData = mockData.userService.login("0");
+    userData.user.type = "0";
+    
   	beforeEach(function() {
-  		$httpBackend.whenPOST( URL_REST + 'auth').respond(200, data);
-  		$httpBackend.whenPATCH( URL_REST + 'users/1').respond(200, dataUser);
-  		$httpBackend.whenGET('app/dashboard-organizer/menu.html').respond(200, '');
-  		$httpBackend.whenGET('app/dashboard-organizer/intro.html').respond(200, '');
+  		$httpBackend.whenPOST( URL_REST + 'auth').respond(200, userData);
+  		$httpBackend.whenGET('templates/dashboard-organizer/menu.html').respond(200, '');
+  		$httpBackend.whenGET('templates/dashboard-organizer/home.html').respond(200, '');
   	});
-
-    it('Should be called utilsService', function() {
-    	loginController.user.email = "mail@domain.com";
-    	loginController.user.password = "123456";
-      loginController.signIn( mockForm );
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-      chai.expect(utilsService.resetForm).to.have.been.called();
-    });
 
     it('Should token be equal that localStorage.token', function() {
     	loginController.user.email = "mail@domain.com";
@@ -156,15 +116,6 @@ describe("Controller: LoginController", function() {
       var token = $base64.encode('mail@domain.com:123456');
     	chai.assert.equal( $localStorage.token, token );
     	chai.expect( loginController.user ).to.be.empty;
-    });
-
-    it('Should be called userService.editUserPatch', function() {
-    	loginController.user.email = "mail@domain.com";
-    	loginController.user.password = "123456";
-      loginController.signIn( mockForm );
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(userService.editUserPatch).to.have.been.called();
     });
 
     it('Should redirect to organizer.intro', function() {
@@ -173,183 +124,6 @@ describe("Controller: LoginController", function() {
       loginController.signIn( mockForm );
       $rootScope.$digest();
       $httpBackend.flush();
-  		chai.expect($state.go).to.have.been.called();
-      chai.expect($state.go).to.have.been.with("organizer.intro");
-      $localStorage.$reset();
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Tests to signIn method like sponzor and demo 0 success', function(){
-  	var data = mockData.userService.login();
-  	var dataUser = mockData.userService.editUserPatch();
-  	data.user.type = 1;
-  	data.user.demo = 0;
-  	beforeEach(function() {
-  		$httpBackend.whenPOST( URL_REST + 'auth').respond(200, data);
-  		$httpBackend.whenPATCH( URL_REST + 'users/1').respond(200, dataUser);
-  		$httpBackend.whenGET('app/dashboard-sponzor/menu.html').respond(200, '');
-  		$httpBackend.whenGET('app/dashboard-sponzor/intro.html').respond(200, '');
-  	});
-
-    it('Should be called utilsService', function() {
-    	loginController.user.email = "mail@domain.com";
-    	loginController.user.password = "123456";
-      loginController.signIn( mockForm );
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-      chai.expect(utilsService.resetForm).to.have.been.called();
-    });
-
-    it('Should token be equal that localStorage.token', function() {
-    	loginController.user.email = "mail@domain.com";
-    	loginController.user.password = "123456";
-      loginController.signIn( mockForm );
-      $rootScope.$digest();
-      $httpBackend.flush();
-      var token = $base64.encode('mail@domain.com:123456');
-    	chai.assert.equal( $localStorage.token, token );
-    	chai.expect( loginController.user ).to.be.empty;
-    });
-
-    it('Should be called userService.editUserPatch', function() {
-    	loginController.user.email = "mail@domain.com";
-    	loginController.user.password = "123456";
-      loginController.signIn( mockForm );
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(userService.editUserPatch).to.have.been.called();
-    });
-
-    it('Should redirect to sponzor.intro', function() {
-    	loginController.user.email = "mail@domain.com";
-    	loginController.user.password = "123456";
-      loginController.signIn( mockForm );
-      $rootScope.$digest();
-      $httpBackend.flush();
-  		chai.expect($state.go).to.have.been.called();
-      chai.expect($state.go).to.have.been.with("sponzor.intro");
-      $localStorage.$reset();
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to signIn with session demo is 1 and type is 1', function(){
-
-  	var loginControllerSession;
-
-  	beforeEach(inject(function($controller) {
-			//Start session
-	    var data = mockData.userService.login().user;
-	    data.type = 1;
-	    data.demo = 1;
-	  	$localStorage.userAuth = data;
-	    $localStorage.token = "1234565";
-
-	  	loginControllerSession = $controller('LoginController', {
-	  		'$translate': $translate,
-		    'userService': userService,
-		    '$localStorage': $localStorage,
-		    '$state': $state,
-		    'utilsService': utilsService,
-		    '$base64': $base64
-	  	});
-  	}));
-
-  	it('Should have userResponse be equal that $localStorage.userAuth', function() {
-      chai.assert.equal( loginControllerSession.userResponse, $localStorage.userAuth );
-    });
-
-    it('Should redirect to sponzor.home', function() {
-  		chai.expect($state.go).to.have.been.called();
-      chai.expect($state.go).to.have.been.with("sponzor.home");
-      $localStorage.$reset();
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Tests to signIn with session demo is 0 and type is 1', function(){
-
-  	var loginControllerSession;
-  	var data = mockData.userService.login().user;
-  	var dataUser = mockData.userService.editUserPatch();
-
-  	beforeEach(inject(function($controller) {
-
-  		$httpBackend.whenPATCH( URL_REST + 'users/1').respond(200, dataUser);
-  		$httpBackend.whenGET('app/dashboard-sponzor/menu.html').respond(200, '');
-  		$httpBackend.whenGET('app/dashboard-sponzor/intro.html').respond(200, '');
-			//Start session
-	    data.type = 1;
-	    data.demo = 0;
-	  	$localStorage.userAuth = data;
-	    $localStorage.token = "1234565";
-
-	  	loginControllerSession = $controller('LoginController', {
-	  		'$translate': $translate,
-		    'userService': userService,
-		    '$localStorage': $localStorage,
-		    '$state': $state,
-		    'utilsService': utilsService,
-		    '$base64': $base64
-	  	});
-
-	  	
-  		$httpBackend.flush();
-  	}));
-
-  	it('Should have userResponse be equal that $localStorage.userAuth', function() {
-      chai.assert.equal( loginControllerSession.userResponse, $localStorage.userAuth );
-    });
-
-    it('Should be demo variables equal 1', function() {
-      chai.assert.equal( loginControllerSession.userResponse.demo, 1);
-    });
-
-    it('Should be called editUserPatch', function() {
-    	chai.expect( userService.editUserPatch ).to.have.been.called();
-    });
-
-    it('Should redirect to sponzor.intro', function() {
-  		chai.expect($state.go).to.have.been.called();
-      chai.expect($state.go).to.have.been.with("sponzor.intro");
-      $localStorage.$reset();
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Tests to signIn with session demo is 1 and type is 0', function(){
-
-  	var loginControllerSession;
-
-  	beforeEach(inject(function($controller) {
-			//Start session
-	    var data = mockData.userService.login().user;
-	    data.type = 0;
-	    data.demo = 1;
-	  	$localStorage.userAuth = data;
-	    $localStorage.token = "1234565";
-
-	  	loginControllerSession = $controller('LoginController', {
-	  		'$translate': $translate,
-		    'userService': userService,
-		    '$localStorage': $localStorage,
-		    '$state': $state,
-		    'utilsService': utilsService,
-		    '$base64': $base64
-	  	});
-  	}));
-
-  	it('Should have userResponse be equal that $localStorage.userAuth', function() {
-      chai.assert.equal( loginControllerSession.userResponse, $localStorage.userAuth );
-    });
-
-    it('Should redirect to organizer.home', function() {
   		chai.expect($state.go).to.have.been.called();
       chai.expect($state.go).to.have.been.with("organizer.home");
       $localStorage.$reset();
@@ -357,56 +131,114 @@ describe("Controller: LoginController", function() {
 
   });
 
-  ////////////////////////////////////////////////////////////
-  describe('Tests to signIn with session demo is 0 and type is 0', function(){
+	////////////////////////////////////////////////////////////
+  describe('Tests to signIn method like sponsor success', function(){
+    
+  	var userData = mockData.userService.login("1");
+    userData.user.type = "1";
+    
+  	beforeEach(function() {
+  		$httpBackend.whenPOST( URL_REST + 'auth').respond(200, userData);
+  		$httpBackend.whenGET('templates/dashboard-sponzor/menu.html').respond(200, '');
+  		$httpBackend.whenGET('templates/dashboard-sponzor/home.html').respond(200, '');
+  	});
 
-  	var loginControllerSession;
-  	var data = mockData.userService.login().user;
-  	var dataUser = mockData.userService.editUserPatch();
-
-  	beforeEach(inject(function($controller) {
-
-  		$httpBackend.whenPATCH( URL_REST + 'users/1').respond(200, dataUser);
-  		$httpBackend.whenGET('app/dashboard-organizer/menu.html').respond(200, '');
-  		$httpBackend.whenGET('app/dashboard-organizer/intro.html').respond(200, '');
-			//Start session
-	    data.type = 0;
-	    data.demo = 0;
-	  	$localStorage.userAuth = data;
-	    $localStorage.token = "1234565";
-
-	  	loginControllerSession = $controller('LoginController', {
-	  		'$translate': $translate,
-		    'userService': userService,
-		    '$localStorage': $localStorage,
-		    '$state': $state,
-		    'utilsService': utilsService,
-		    '$base64': $base64
-	  	});
-
-	  	
-  		$httpBackend.flush();
-  	}));
-
-  	it('Should have userResponse be equal that $localStorage.userAuth', function() {
-      chai.assert.equal( loginControllerSession.userResponse, $localStorage.userAuth );
+    it('Should token be equal that localStorage.token', function() {
+    	loginController.user.email = "mail@domain.com";
+    	loginController.user.password = "123456";
+      loginController.signIn( mockForm );
+      $rootScope.$digest();
+      $httpBackend.flush();
+      var token = $base64.encode('mail@domain.com:123456');
+    	chai.assert.equal( $localStorage.token, token );
+    	chai.expect( loginController.user ).to.be.empty;
     });
 
-    it('Should be demo variables equal 1', function() {
-      chai.assert.equal( loginControllerSession.userResponse.demo, 1);
-    });
-
-    it('Should be called editUserPatch', function() {
-    	chai.expect( userService.editUserPatch ).to.have.been.called();
-    });
-
-    it('Should redirect to organizer.intro', function() {
+    it('Should redirect to sponzor.intro', function() {
+    	loginController.user.email = "mail@domain.com";
+    	loginController.user.password = "123456";
+      loginController.signIn( mockForm );
+      $rootScope.$digest();
+      $httpBackend.flush();
   		chai.expect($state.go).to.have.been.called();
-      chai.expect($state.go).to.have.been.with("organizer.intro");
+      chai.expect($state.go).to.have.been.with("sponzor.home");
       $localStorage.$reset();
     });
 
   });
 
+  ////////////////////////////////////////////////////////////
+  describe('Tests to signIn with session as organizer', function(){
+
+  	beforeEach(inject(function($controller) {
+			//Start session
+	    var userData = mockData.userService.login("0");
+      userData.user.type = "0";
+	  	$localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
+	    $localStorage.token = "1234565";
+      
+      loginController = $controller('LoginCtrl', {
+        '$state': $state,
+        '$translate': $translate,
+        '$base64': $base64,
+        '$localStorage': $localStorage,
+        '$ionicUser': $ionicUser, 
+        '$ionicAnalytics': $ionicAnalytics,
+        'userService': userService,
+        'utilsService': utilsService,
+        'notificationService': notificationService,
+        'userAuthService': userAuthService,
+      });
+  	}));
+
+  	it('Should have userResponse be equal that $localStorage.userAuth', function() {
+      chai.assert.equal( loginController.user, $localStorage.userAuth );
+    });
+
+    it('Should redirect to sponzor.home', function() {
+  		chai.expect($state.go).to.have.been.called();
+      chai.expect($state.go).to.have.been.with("organizer.home");
+      $localStorage.$reset();
+    });
+
+  });
+
+	////////////////////////////////////////////////////////////
+  describe('Tests to signIn with session as sponsor', function(){
+
+  	var loginControllerSession;
+
+  	beforeEach(inject(function($controller) {
+			//Start session
+	    var userData = mockData.userService.login("1");
+      userData.user.type = "1";
+	  	$localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
+	    $localStorage.token = "1234565";
+      
+      loginController = $controller('LoginCtrl', {
+        '$state': $state,
+        '$translate': $translate,
+        '$base64': $base64,
+        '$localStorage': $localStorage,
+        '$ionicUser': $ionicUser, 
+        '$ionicAnalytics': $ionicAnalytics,
+        'userService': userService,
+        'utilsService': utilsService,
+        'notificationService': notificationService,
+        'userAuthService': userAuthService,
+      });
+  	}));
+
+  	it('Should have userResponse be equal that $localStorage.userAuth', function() {
+      chai.assert.equal( loginController.user, $localStorage.userAuth );
+    });
+
+    it('Should redirect to organizer.home', function() {
+  		chai.expect($state.go).to.have.been.called();
+      chai.expect($state.go).to.have.been.with("sponzor.home");
+      $localStorage.$reset();
+    });
+
+  });
 
 });

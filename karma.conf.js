@@ -56,8 +56,8 @@ module.exports = function( config ){
       "www/js/**/*.controller.js",
       "www/js/app.run.js",
       //Tests
-      'tests/unit/**/*.service.spec.js',
-      //'tests/unit/**/*.controller.spec.js'
+      './tests/unit/**/*.service.spec.js',
+      './tests/unit/**/*.controller.spec.js',
     ]
   });
 };

@@ -1,13 +1,6 @@
 var taskBuilder = (function() {
   
-  var _resultTask = {
-    id: "11",
-    perk_id: "3",
-    status: "1",
-    title: "Prueba",
-    type: "1",
-    user_id: "1002"
-  };
+  var _resultTask = init();
   
   return {
     build: build,
@@ -20,8 +13,21 @@ var taskBuilder = (function() {
     setUserId: setUserId
   }
   
+  function init(){
+    return {
+      id: "11",
+      perk_id: "3",
+      status: "1",
+      title: "Prueba",
+      type: "1",
+      user_id: "1"
+    };
+  }
+  
   function build() {
-    return _resultTask;
+    var copy = angular.copy(_resultTask);
+    _resultTask = init();
+    return copy;
   }
   
   function omit(args){

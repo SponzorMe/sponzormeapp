@@ -11,16 +11,17 @@ module eventModule{
   export interface IEventService{
     allEvents():angular.IPromise<any>;
     getEvent(id:string):angular.IPromise<any>;
-    createEvent(event: Event):angular.IPromise<any>;
+    createEvent(event: any):angular.IPromise<any>;
     deleteEvent(id:string):angular.IPromise<any>;
-    editEventPatch(id:string, event: Event):angular.IPromise<any>;
-    editEventPut(id:string, event: Event):angular.IPromise<any>;
+    editEventPatch(id:string, event: any):angular.IPromise<any>;
+    editEventPut(id:string, event: any):angular.IPromise<any>;
     buildEvent(event:any):Event;
   }
   
   export interface Event{
     id: string;
     title: string;
+    description: string;
     location: string;
     ends: any;
     starts: any;
@@ -131,6 +132,7 @@ module eventModule{
       }
       event.starts = moment(event.starts).toDate();
       event.ends = moment(event.ends).toDate();
+      event.privacy = event.privacy || "0" == "1" ? true : false;
       return event;
     }
     

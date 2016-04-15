@@ -1,4 +1,4 @@
-describe('Controller: IntroSponzorCtrl', function(){
+describe('Controller: IntroSponsorCtrl', function(){
 
   beforeEach(function() {
     module('app');
@@ -22,8 +22,8 @@ describe('Controller: IntroSponzorCtrl', function(){
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
-    $httpBackend.whenGET('app/dashboard-sponzor/menu.html').respond(200, '');
-    $httpBackend.whenGET('app/dashboard-sponzor/home.html').respond(200, '');
+    $httpBackend.whenGET('templates/dashboard-sponzor/menu.html').respond(200, '');
+    $httpBackend.whenGET('templates/dashboard-sponzor/home.html').respond(200, '');
 
     //Dependences
   	$state = $injector.get('$state');
@@ -43,7 +43,7 @@ describe('Controller: IntroSponzorCtrl', function(){
     $ionicHistory = $injector.get('$ionicHistory');
     $ionicHistory = chai.spy.object($ionicHistory, ['clearCache', 'nextViewOptions', 'goBack']);
 
-    introSponzorCtrl = $controller('IntroSponzorCtrl', {
+    introSponzorCtrl = $controller('IntroSponsorCtrl', {
   		'$state': $state,
       '$ionicSlideBoxDelegate': $ionicSlideBoxDelegate,
       '$ionicHistory': $ionicHistory,

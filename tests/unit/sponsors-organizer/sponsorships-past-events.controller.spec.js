@@ -1,4 +1,4 @@
-describe("Controller: SponsorshipsListCtrl", function() {
+describe("Controller: SponsorshipsPastEventsCtrl", function() {
 
   beforeEach(function() {
     module('app');
@@ -36,12 +36,6 @@ describe("Controller: SponsorshipsListCtrl", function() {
     //Services
     sponsorshipService = $injector.get('sponsorshipService');
     userService = $injector.get('userService');
-    utilsService = $injector.get('utilsService');
-    utilsService.confirm = function(){
-      var defer = $q.defer();
-      defer.resolve(true);
-      return defer.promise;
-    }
     notificationService = $injector.get('notificationService');
     userAuthService = $injector.get('userAuthService');
     
@@ -56,15 +50,12 @@ describe("Controller: SponsorshipsListCtrl", function() {
     userData.user.type = "0";
     $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
 
-    sponsorshipsListController = $controller('SponsorshipsListCtrl', {
+    sponsorshipsListController = $controller('SponsorshipsPastEventsCtrl', {
   		'$scope': $scope,
       '$rootScope': $rootScope,
       '$ionicScrollDelegate': $ionicScrollDelegate,
-      'sponsorshipService': sponsorshipService,
       'userService': userService,
-      'utilsService': utilsService,
-      'notificationService': notificationService,
-      'userAuthService': userAuthService
+      'userAuthService': userAuthService,
   	});
 
   }));
@@ -104,118 +95,7 @@ describe("Controller: SponsorshipsListCtrl", function() {
     });
 
   });
-
   
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to sponsorAccept method', function(){
-
-    it('Should have sponsorAccept method', function() {
-      chai.assert.isDefined( sponsorshipsListController.sponsorAccept );
-      chai.assert.isFunction( sponsorshipsListController.sponsorAccept );
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to sponsorAccept method success', function(){
-
-  	
-  	var dataEdit = mockData.sponsorshipService.editSponzorshipPut();
-  	dataEdit.Sponzorship.status = 1;
-
-  	beforeEach(function() {
-  		$httpBackend.whenPUT( URL_REST + 'sponzorships/1').respond(200, dataEdit);
-  	});
-
-    it('Should status be equal that Sponzorship.status', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-    	var mockSponsor = {
-    		id: 1,
-        event: {
-          title: "Evento"
-        }
-    	};
-      sponsorshipsListController.sponsorAccept( mockSponsor );
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.equal(mockSponsor.status, dataEdit.Sponzorship.status)
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Tests to sponsorAccept method failed', function(){
-
-  	var dataEdit = mockData.failed();
-
-  	beforeEach(function() {
-  		$httpBackend.whenPUT( URL_REST + 'sponzorships/1').respond(400, dataEdit);
-  	});
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to sponsorReject method', function(){
-
-    it('Should have sponsorReject method', function() {
-      chai.assert.isDefined( sponsorshipsListController.sponsorReject );
-      chai.assert.isFunction( sponsorshipsListController.sponsorReject );
-    });
-
-  });
-
-  ////////////////////////////////////////////////////////////
-  describe('Tests to sponsorReject method success', function(){
-
-  	var dataEdit = mockData.sponsorshipService.editSponzorshipPut();
-  	dataEdit.Sponzorship.status = 2;
-
-  	beforeEach(function() {
-  		$httpBackend.whenPUT( URL_REST + 'sponzorships/1').respond(200, dataEdit);
-  	});
-
-    it('Should status be equal that Sponzorship.status', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-    	var mockSponsor = {
-    		id: 1,
-        event: {
-          title: "Evento"
-        }
-    	};
-      sponsorshipsListController.sponsorReject( mockSponsor );
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.assert.equal(mockSponsor.status, dataEdit.Sponzorship.status)
-    });
-
-  });
-
-	////////////////////////////////////////////////////////////
-  describe('Tests to sponsorReject method failed', function(){
-
-  	var dataEdit = mockData.failed();
-
-  	beforeEach(function() {
-  		$httpBackend.whenPUT( URL_REST + 'sponzorships/1').respond(400, dataEdit);
-  	});
-
-    it('Should be called utilsService methods', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-    	var mockSponsor = {
-    		id: 1
-    	};
-      sponsorshipsListController.sponsorReject( mockSponsor );
-      $rootScope.$digest();
-      $httpBackend.flush();
-      //chai.expect(utilsService.showLoad).to.have.been.called();
-      //chai.expect(utilsService.hideLoad).to.have.been.called();
-    });
-
-  });
 
   ////////////////////////////////////////////////////////////
   describe('Tests to doRefresh method', function(){
@@ -243,7 +123,7 @@ describe("Controller: SponsorshipsListCtrl", function() {
       sponsorshipsListController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( sponsorshipsListController.sponsorships.length, dataUser.data.user.sponzorships_like_organizer.length)
+      chai.assert.equal( sponsorshipsListController.sponsorships.length, 0 )
     });
 
     it('Should be called scroll.refreshComplete broadcast', function() {
@@ -254,15 +134,6 @@ describe("Controller: SponsorshipsListCtrl", function() {
       $httpBackend.flush();
       chai.expect($scopeBroadcast).to.have.been.called();
       chai.expect($scopeBroadcast).to.have.been.with('scroll.refreshComplete');
-    });
-
-    it('Should be called Menu:count_sponsors broadcast', function() {
-    	$rootScope.$digest();
-      $httpBackend.flush();
-      sponsorshipsListController.doRefresh();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect($rootScopeBroadcast).to.have.been.called();
     });
 
   });
@@ -285,6 +156,19 @@ describe("Controller: SponsorshipsListCtrl", function() {
       chai.assert.isTrue(sponsorshipsListController.showEmptyState);
     });
 
+  });
+  
+   ////////////////////////////////////////////////////////////
+  describe('Tests called SponsorshipsPastEventsCtrl:getSponzorships', function(){
+    
+    it('Should have called a SponsorshipsPastEventsCtrl:getSponzorships', function() {
+    	$rootScope.$digest();
+      $rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
+      chai.assert.equal( sponsorshipsListController.userAuth, $localStorage.userAuth );
+      chai.assert.equal( sponsorshipsListController.sponsorships.length, 0);
+      chai.assert.isTrue( sponsorshipsListController.showEmptyState );
+    });
+    
   });
 
 });

@@ -1,90 +1,75 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
 /**
 * @Controller for Forgot Password
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-(function() {
-
-  angular
-    .module('app.users')
-    .controller('SettingsController', SettingsController);
-
-  SettingsController.$inject = [
+class SettingsCtrl{
+  
+  $inject = [
     '$translate',
-    'utilsService',
     '$cordovaToast',
-    '$ionicDeploy'
+    '$ionicDeploy',
+    'utilsService',
+    'BackendVariables'
   ];
-
-  function SettingsController( $translate, utilsService, $cordovaToast, $ionicDeploy ) {
-
-    var vm = this;
-    vm.lang = $translate.use();
-    vm.save = save;
-    vm.checkForUpdates = checkForUpdates;
-    vm.doUpdate = doUpdate;
-
-    activate();
-    ////////////
-
-    function activate(){
-      $ionicDeploy.setChannel("production");
-    }
-
-    function save(){
-      $translate.use(vm.lang);
-    }
-
-    function checkForUpdates(){
-      utilsService.showLoad();
-      $ionicDeploy.check()
-      .then( complete )
-      .catch( failed );
-
-      function complete( hasUpdate ){
-        utilsService.hideLoad();
-        if (hasUpdate){
-
-          utilsService.confirm({
-            title: $translate.instant("MESSAGES.update_title"),
-            template: '<p class="text-center">'+ $translate.instant("MESSAGES.update_text") +'</p>'
-          })
-          .then( complete );
-
-          function complete( rta ){
-            if(rta) vm.doUpdate();
-          }
-        }else{
-          utilsService.alert({
-            title: $translate.instant("MESSAGES.update_title"),
-            template: '<p class="text-center">'+ $translate.instant("MESSAGES.update_text_nothing") +'</p>'
-          });
-        }
-      }
-
-      function failed(){
-        utilsService.hideLoad();
-      }
-    }
-
-    function doUpdate(){
-      utilsService.showLoad();
-      $ionicDeploy.update()
-      .then( complete )
-      .catch( failed );
-
-      function complete(){
-        utilsService.hideLoad();
-        $cordovaToast.showShortBottom($translate.instant("MESSAGES.update_success"));
-      }
-
-      function failed(){
-        utilsService.hideLoad();
-        utilsService.alert();
-      }
-    }
-
+  lang:string;
+  
+  constructor(
+    private $translate,
+    private $cordovaToast,
+    private $ionicDeploy,
+    private utilsService,
+    private BackendVariables
+  ){
+    this.lang = this.$translate.use();
+    this.$ionicDeploy.setChannel(BackendVariables.channel);
   }
-})();
+  
+  save(){
+    this.$translate.use(this.lang);
+  }
+  
+  checkForUpdates(){
+    this.utilsService.showLoad();
+    this.$ionicDeploy.check()
+    .then( hasUpdate => {
+      this.utilsService.hideLoad();
+      if (hasUpdate){
+        this.utilsService.confirm({
+          title: this.$translate.instant("MESSAGES.update_title"),
+          template: '<p class="text-center">'+ this.$translate.instant("MESSAGES.update_text") +'</p>'
+        })
+        .then( rta => {
+          if(rta) this._doUpdate();
+        });
+      }else{
+        this.utilsService.alert({
+          title: this.$translate.instant("MESSAGES.update_title"),
+          template: '<p class="text-center">'+ this.$translate.instant("MESSAGES.update_text_nothing") +'</p>'
+        });
+      }
+    })
+    .catch( error => {
+      this.utilsService.hideLoad();
+    });
+  }
+  
+  private _doUpdate(){
+    this.utilsService.showLoad();
+    this.$ionicDeploy.update()
+    .then( () => {
+      this.utilsService.hideLoad();
+      this.$cordovaToast.showShortBottom(this.$translate.instant("MESSAGES.update_success"));
+    })
+    .catch( error => {
+      this.utilsService.hideLoad();
+      this.utilsService.alert();
+    });
+  }
+}
+angular
+  .module('app.users')
+  .controller('SettingsCtrl', SettingsCtrl);

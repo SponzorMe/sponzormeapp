@@ -12,9 +12,8 @@ var Camera = {
 var CameraPopoverOptions;
 var mockData = (function() {
   
-  function createFullEvent(idEvent) {
-    
-    return eventBuilder
+  function createFullEvent(idEvent, ends) {
+    var event = eventBuilder
       .setId(idEvent)
       .setCategory(categoryBuilder.omit("interests").build())
       .setType(eventTypeBuilder.build())
@@ -22,8 +21,8 @@ var mockData = (function() {
       .setPerks([
         perkBuilder
         .setTasks([
-          taskBuilder.build(),
-          taskBuilder.build()
+          taskBuilder.setStatus("0").build(),
+          taskBuilder.setStatus("0").build()
         ])
         .build(),
         perkBuilder
@@ -34,6 +33,10 @@ var mockData = (function() {
         .build(),
       ])
       .build();
+    if(ends){
+      event.ends = ends;
+    }
+    return event;
   }
   
   return {
@@ -141,9 +144,9 @@ var mockData = (function() {
     if(type == "0"){ //Is an Organizer
       response.user = userBuilder
       .setEvents([
-        createFullEvent("1"),
-        createFullEvent("2"),
-        createFullEvent("3")
+        createFullEvent("1", moment(new Date().getTime()).subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')),
+        createFullEvent("2", moment(new Date().getTime()).format('YYYY-MM-DD HH:mm:ss')),
+        createFullEvent("3", moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'))
       ])
       .setSponzorshipLikeOrganizer([
         sponsorshipBuilder.build(),
@@ -154,9 +157,9 @@ var mockData = (function() {
       .build();
     }else{ //Is an Sponsor
       response.events = [
-        createFullEvent("1"),
-        createFullEvent("2"),
-        createFullEvent("3")
+        createFullEvent("1", false),
+        createFullEvent("2", false),
+        createFullEvent("3", true)
       ];
       response.user = userBuilder
       .setSponzorships([
@@ -191,26 +194,30 @@ var mockData = (function() {
     if(type == "0"){ //Is an Organizer
       response.user = userBuilder
       .setEvents([
-        createFullEvent(1),
-        createFullEvent(2),
-        createFullEvent(3)
+        createFullEvent("1", moment(new Date().getTime()).subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')),
+        createFullEvent("2", moment(new Date().getTime()).format('YYYY-MM-DD HH:mm:ss')),
+        createFullEvent("3", moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD HH:mm:ss'))
       ])
       .setSponzorshipLikeOrganizer([
-        sponsorshipBuilder.setEvent(eventBuilder.build()).build(),
+        sponsorshipBuilder.build(),
+        sponsorshipBuilder.build(),
+        sponsorshipBuilder.build(),
       ])
-      .omit("sponzorship")
+      .omit("sponzorships")
       .build();
     }else{ //Is an Sponsor
       response.events = [
-        createFullEvent(1),
-        createFullEvent(2),
-        createFullEvent(3)
+        createFullEvent("1", false),
+        createFullEvent("2", false),
+        createFullEvent("3", true)
       ];
       response.user = userBuilder
-      .omit(["events","sponzorships_like_organizer"])
       .setSponzorships([
-        sponsorshipBuilder.setEvent(eventBuilder.build()).build(),
+        sponsorshipBuilder.build(),
+        sponsorshipBuilder.build(),
+        sponsorshipBuilder.build(),
       ])
+      .omit(["events","sponzorships_like_organizer"])
       .build();
     }
     
@@ -331,12 +338,14 @@ var mockData = (function() {
   function createPerkTask(){
     return {
       PerkTask: perkTaskBuilder.omit("PerkTask").build(),
+      sponzorships_like_organizer: [],
       message: "Inserted"
     }
   }
 
   function deletePerkTask(){
     return {
+      sponzorships_like_organizer: [],
       message: "Deleted"
     }
   }

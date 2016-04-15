@@ -1,4 +1,4 @@
-describe("Controller: FormInterestsController", function() {
+describe("Controller: FormInterestsCtrl", function() {
 
   beforeEach(function() {
     module('app');
@@ -23,30 +23,28 @@ describe("Controller: FormInterestsController", function() {
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
 
     //Dependences with spy
-    utilsService = chai.spy.object($injector.get('utilsService'), ['showLoad', 'hideLoad','alert', 'resetForm','trim']);
-    $localStorage = $injector.get('$localStorage');
-    $translate = chai.spy.object( $injector.get('$translate'), ['use']);
+    //Angular
     $state = chai.spy.object( $injector.get('$state'), ['go']);
-    userService =  chai.spy.object($injector.get('userService'), ['editUserPatch']);
+    //Services
+    utilsService = $injector.get('utilsService');
     categoryService = $injector.get('categoryService');
-    userInterestService = chai.spy.object($injector.get('userInterestService'), ['bulkUserInterest']);
-    $q = $injector.get('$q');
+    userInterestService = $injector.get('userInterestService');
+    userService =  $injector.get('userService');
+    userAuthService =  $injector.get('userAuthService');
 
-    mockForm = {
-      $setPristine: function() {},
-      $setUntouched: function() {},
-    }
+    $localStorage = $injector.get('$localStorage');
 
-    $localStorage.userAuth = mockData.userService.login().user;
+    var userData = mockData.userService.login("0");
+    userData.user.type = "0";
+    $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
 
-    formInterestsController = $controller('FormInterestsController', {
-  		'userService': userService,
-	    '$state': $state,
-	    'utilsService': utilsService,
-	    '$localStorage': $localStorage,
-	    'categoryService': categoryService,
-	    'userInterestService': userInterestService,
-	    '$q': $q
+    formInterestsController = $controller('FormInterestsCtrl', {
+  		'$state': $state,
+      'utilsService': utilsService,
+      'categoryService': categoryService,
+      'userInterestService': userInterestService,
+      'userService': userService,
+      'userAuthService': userAuthService
   	});
 
   }));
@@ -92,7 +90,6 @@ describe("Controller: FormInterestsController", function() {
   	var dataCategories = mockData.categoryService.allCategories();
 
   	 beforeEach(function() {
-  	 	$localStorage.userAuth.type = 0;
       $httpBackend.whenPUT( URL_REST + 'user_interests/1').respond(400, data);
   		$httpBackend.whenGET( URL_REST + 'categories').respond(200, dataCategories);
   	});
@@ -103,7 +100,7 @@ describe("Controller: FormInterestsController", function() {
       formInterestsController.updateInterests();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
+      //chai.expect(utilsService.hideLoad).to.have.been.called();
     });
 
   });
@@ -115,31 +112,12 @@ describe("Controller: FormInterestsController", function() {
   	var dataCategories = mockData.categoryService.allCategories();
 
   	 beforeEach(function() {
-  	 	$localStorage.userAuth.type = 0;
+  	 	formInterestsController.userAuth.type = 0;
   		$httpBackend.whenPUT( URL_REST + 'user_interests/1').respond(200, data);
   		$httpBackend.whenGET( URL_REST + 'categories').respond(200, dataCategories);
-  		$httpBackend.whenGET('app/dashboard-organizer/menu.html').respond(200, dataCategories);
-  		$httpBackend.whenGET('app/dashboard-organizer/intro.html').respond(200, dataCategories);
+  		$httpBackend.whenGET('templates/dashboard-organizer/menu.html').respond(200, dataCategories);
+  		$httpBackend.whenGET('templates/dashboard-organizer/intro.html').respond(200, dataCategories);
   	});
-
-    it('Should be called utilsService methods', function() {
-			$rootScope.$digest();
-      $httpBackend.flush();
-      formInterestsController.updateInterests();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-    });
-
-		it('Should be called bulkUserInterest', function() {
-			$rootScope.$digest();
-      $httpBackend.flush();
-      formInterestsController.updateInterests();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(userInterestService.bulkUserInterest).to.have.been.called.exactly(1);
-    });
 
     it('Should redirect to organizer.intro', function() {
 			$rootScope.$digest();
@@ -161,33 +139,14 @@ describe("Controller: FormInterestsController", function() {
 
   	 beforeEach(function() {
 
-  	 	$localStorage.userAuth.type = 1;
+  	 	formInterestsController.userAuth.type = 1;
 
   		$httpBackend.whenPUT( URL_REST + 'user_interests/1').respond(200, data);
   		$httpBackend.whenGET( URL_REST + 'categories').respond(200, dataCategories);
-  		$httpBackend.whenGET('app/dashboard-sponzor/menu.html').respond(200, dataCategories);
-  		$httpBackend.whenGET('app/dashboard-sponzor/intro.html').respond(200, dataCategories);
+  		$httpBackend.whenGET('templates/dashboard-sponzor/menu.html').respond(200, dataCategories);
+  		$httpBackend.whenGET('templates/dashboard-sponzor/intro.html').respond(200, dataCategories);
   	
   	});
-
-    it('Should be called utilsService methods', function() {
-			$rootScope.$digest();
-      $httpBackend.flush();
-      formInterestsController.updateInterests();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(utilsService.showLoad).to.have.been.called();
-      chai.expect(utilsService.hideLoad).to.have.been.called();
-    });
-
-		it('Should be called bulkUserInterest', function() {
-			$rootScope.$digest();
-      $httpBackend.flush();
-      formInterestsController.updateInterests();
-      $rootScope.$digest();
-      $httpBackend.flush();
-      chai.expect(userInterestService.bulkUserInterest).to.have.been.called.exactly(1);
-    });
 
     it('Should redirect to sponzor.intro', function() {
 			$rootScope.$digest();

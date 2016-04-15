@@ -23,7 +23,7 @@ describe('Controller: MenuOrganizerCtrl', function(){
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
-    $httpBackend.whenGET('app/users/login.html').respond(200, {});
+    $httpBackend.whenGET('templates/users/login.html').respond(200, {});
 
     //Dependences
   	$localStorage = $injector.get('$localStorage');
@@ -38,14 +38,22 @@ describe('Controller: MenuOrganizerCtrl', function(){
       return q.promise;
     }
     $ionicHistory = chai.spy.object($ionicHistory, ['clearCache', 'nextViewOptions', 'goBack']);
+    userAuthService = $injector.get('userAuthService');
+    userService = $injector.get('userService');
+    notificationService = $injector.get('notificationService');
 
-    $localStorage.userAuth = mockData.userService.login().user;
+    var userData = mockData.userService.login("0");
+    userData.user.type = "0";
+    $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
+    
 
     menuOrganizerCtrl = $controller('MenuOrganizerCtrl', {
   		'$state': $state,
-      '$localStorage': $localStorage,
       '$rootScope': $rootScope,
-      '$ionicHistory': $ionicHistory
+      '$ionicHistory': $ionicHistory,
+      'userAuthService': userAuthService,
+      'notificationService': notificationService,
+      '$localStorage': $localStorage
   	});
 
   }));
@@ -83,13 +91,23 @@ describe('Controller: MenuOrganizerCtrl', function(){
     });
 
   });
+  
+  ////////////////////////////////////////////////////////////
+  describe('Tests to notifications array', function(){
+
+    it('Should have count_sponsors variable', function() {
+      chai.assert.isDefined( menuOrganizerCtrl.notifications );
+      chai.assert.isArray( menuOrganizerCtrl.notifications );
+    });
+
+  });
 
   ////////////////////////////////////////////////////////////
   describe('Tests to getEvents success', function(){
     
-    it('Should count_events be 1', function() {
+    it('Should count_events be 2', function() {
     	$rootScope.$digest();
-    	chai.assert.equal(menuOrganizerCtrl.count_events, 1);
+    	chai.assert.equal(menuOrganizerCtrl.count_events, 2);
     });
 
   });
@@ -97,9 +115,9 @@ describe('Controller: MenuOrganizerCtrl', function(){
   ////////////////////////////////////////////////////////////
   describe('Tests to getSponsors success', function(){
     
-    it('Should count_sponsors be 2', function() {
+    it('Should count_sponsors be 3', function() {
       $rootScope.$digest();
-      chai.assert.equal(menuOrganizerCtrl.count_sponsors, 2);
+      chai.assert.equal(menuOrganizerCtrl.count_sponsors, 3);
     });
 
   });
@@ -108,9 +126,9 @@ describe('Controller: MenuOrganizerCtrl', function(){
   describe('Tests to getTasks success', function(){
     
     
-    it('Should count_tasks be 1', function() {
+    it('Should count_tasks be 6', function() {
       $rootScope.$digest();
-      chai.assert.equal(menuOrganizerCtrl.count_tasks, 4);
+      chai.assert.equal(menuOrganizerCtrl.count_tasks, 6);
     });
 
   });
@@ -119,27 +137,27 @@ describe('Controller: MenuOrganizerCtrl', function(){
   describe('Tests to $rootScope.$on methods', function(){
 
 
-    it('Should have called a Menu:count_following and Menu:count_sponsoring', function() {
+    it('Should have called a MenuOrganizerCtrl:count_following and MenuOrganizerCtrl:count_sponsoring', function() {
     	$rootScope.$digest();
       chai.expect($rootScopeOn).to.have.been.called();
     });
 
-    it('Should count_events be 3 before call Menu:count_following', function() {
+    it('Should count_events be 2 before call Menu:count_following', function() {
     	$rootScope.$digest();
-    	$rootScope.$broadcast('Menu:count_events', 3);
-      chai.assert.equal(menuOrganizerCtrl.count_events, 3);
+    	$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
+      chai.assert.equal(menuOrganizerCtrl.count_events, 2);
     });
 
-    it('Should count_sponsors be 31 before call Menu:count_sponsors', function() {
+    it('Should count_sponsors be 3 before call Menu:count_sponsors', function() {
     	$rootScope.$digest();
-    	$rootScope.$broadcast('Menu:count_sponsors', 31);
-      chai.assert.equal(menuOrganizerCtrl.count_sponsors, 31);
+    	$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
+      chai.assert.equal(menuOrganizerCtrl.count_sponsors, 3);
     });
 
-    it('Should count_tasks be 1 before call Menu:count_tasks', function() {
+    it('Should count_tasks be 2 before call Menu:count_tasks', function() {
       $rootScope.$digest();
-      $rootScope.$broadcast('Menu:count_tasks', 1);
-      chai.assert.equal(menuOrganizerCtrl.count_tasks, 1);
+      $rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+      chai.assert.equal(menuOrganizerCtrl.count_tasks, 6);
     });
 
   });

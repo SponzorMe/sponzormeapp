@@ -1,4 +1,4 @@
-describe('Controller: MenuSponzorCtrl', function(){
+describe('Controller: MenuSponsorCtrl', function(){
 
   beforeEach(function() {
     module('app');
@@ -23,24 +23,37 @@ describe('Controller: MenuSponzorCtrl', function(){
     $httpBackend.whenGET('langs/lang-en.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-pt.json').respond(200, {});
     $httpBackend.whenGET('langs/lang-es.json').respond(200, {});
-    $httpBackend.whenGET('app/users/login.html').respond(200, {});
+    $httpBackend.whenGET('templates/users/login.html').respond(200, {});
 
     //Dependences
   	$localStorage = $injector.get('$localStorage');
   	$localStorage = chai.spy.object($localStorage, ['$reset']);
   	$state = $injector.get('$state');
   	$state = chai.spy.object($state, ['go']);
-  	
+   
     $ionicHistory = $injector.get('$ionicHistory');
+    $ionicHistory.clearCache = function () {
+      var q = $q.defer();
+      q.resolve();
+      return q.promise;
+    }
     $ionicHistory = chai.spy.object($ionicHistory, ['clearCache', 'nextViewOptions', 'goBack']);
 
-    $localStorage.userAuth = mockData.userService.login().user;
+    userAuthService = $injector.get('userAuthService');
+    userService = $injector.get('userService');
+    notificationService = $injector.get('notificationService');
+    
+    var userData = mockData.userService.login("1");
+    userData.user.type = "1";
+    $localStorage.userAuth = userAuthService.updateUserAuth( userService.buildUser(userData) );
 
-    menuSponzorCtrl = $controller('MenuSponzorCtrl', {
-  		'$state': $state,
-	    '$localStorage': $localStorage,
-	    '$rootScope': $rootScope,
-	    '$ionicHistory': $ionicHistory
+    menuSponzorCtrl = $controller('MenuSponsorCtrl', {
+      '$state': $state,
+      '$localStorage': $localStorage,
+      '$rootScope': $rootScope,
+      '$ionicHistory': $ionicHistory,
+      'userAuthService': userAuthService,
+      'notificationService': notificationService
   	});
 
   }));
@@ -69,7 +82,7 @@ describe('Controller: MenuSponzorCtrl', function(){
     
     it('Should count_following be equal that 1', function() {
       $rootScope.$digest();
-      chai.assert.equal(menuSponzorCtrl.count_following, 1);
+      chai.assert.equal(menuSponzorCtrl.count_following, 3);
     });
     
     
@@ -95,36 +108,21 @@ describe('Controller: MenuSponzorCtrl', function(){
   describe('Tests to $rootScope.$on methods', function(){
 
 
-    it('Should have called a Menu:count_following and Menu:count_sponsoring', function() {
+    it('Should have called a MenuSponsorCtrl:counts', function() {
     	$rootScope.$digest();
-
-    	function renderCountFollowing(event, total ){
-	      vm.count_following = total;
-	    }
-
-	    function renderCountSponsoring(event, total ){
-	      vm.count_sponsoring = total;
-	    }
-
-    	/*var params = [
-    		['Menu:count_following', renderCountFollowing],
-    		['Menu:count_sponsoring', renderCountSponsoring],
-    	]*/
-    	
       chai.expect($rootScopeOn).to.have.been.called();
-      //chai.expect($rootScopeOn).to.have.been.with(params);
     });
 
-    it('Should count_following be 3 before call Menu:count_following', function() {
+    it('Should count_following be 3 before call MenuSponsorCtrl:counts', function() {
     	$rootScope.$digest();
-    	$rootScope.$broadcast('Menu:count_following', 3);
+    	$rootScope.$broadcast('MenuSponsorCtrl:counts');
       chai.assert.equal(menuSponzorCtrl.count_following, 3);
     });
 
-    it('Should count_sponsoring be 31 before call Menu:count_sponsoring', function() {
+    it('Should count_sponsoring be 0 before call Menu:count_sponsoring', function() {
     	$rootScope.$digest();
-    	$rootScope.$broadcast('Menu:count_sponsoring', 31);
-      chai.assert.equal(menuSponzorCtrl.count_sponsoring, 31);
+    	$rootScope.$broadcast('MenuSponsorCtrl:counts');
+      chai.assert.equal(menuSponzorCtrl.count_sponsoring, 0);
     });
 
   });
@@ -132,7 +130,7 @@ describe('Controller: MenuSponzorCtrl', function(){
    ////////////////////////////////////////////////////////////
   describe('Tests to logout', function(){
     
-    it('Should have createEvent method', function() {
+    it('Should have logout method', function() {
     	$rootScope.$digest();
       chai.assert.isDefined( menuSponzorCtrl.logout );
       chai.assert.isFunction( menuSponzorCtrl.logout );

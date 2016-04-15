@@ -23,9 +23,9 @@
         StatusBar.styleDefault();
       }
       
-      activateNotifications();
-      chooseLanguage();
-      ionicAnalytics();
+      //activateNotifications();
+      //chooseLanguage();
+      //ionicAnalytics();
     });
     
     

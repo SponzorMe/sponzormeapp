@@ -1,98 +1,77 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
 /**
 * @Controller for Interests of user
 *
 * @author Nicolas Molina
 * @version 0.1
 */
-(function () {
-    //'use strict';
-    angular
-        .module('app.users')
-        .controller('FormInterestsController', FormInterestsController);
-    FormInterestsController.$inject = [
-        'userService',
-        '$state',
-        'utilsService',
-        '$localStorage',
-        'categoryService',
-        'userInterestService',
-        '$q',
-        'userAuthService'
-    ];
-    function FormInterestsController(userService, $state, utilsService, $localStorage, categoryService, userInterestService, $q, userAuthService) {
-        var vm = this;
-        //Attributes
-        vm.userAuth = userAuthService.getUserAuth();
-        vm.categories = [];
-        //Funcions
-        vm.updateInterests = updateInterests;
-        activate();
-        ////////////
-        function activate() {
-            getCategories();
-        }
-        function updateInterests() {
-            utilsService.showLoad();
-            userInterestService.bulkUserInterest(vm.userAuth.id, {
-                interests: getInterestCheck()
-            })
-                .then(complete)
-                .catch(failed);
-            function complete(results) {
-                utilsService.hideLoad();
-                redirectTutorial();
-            }
-            function failed(error) {
-                utilsService.hideLoad();
-            }
-        }
-        function getInterestCheck() {
-            return vm.categories
-                .filter(ByInterest)
-                .map(mapInterest)
-                .reduce(mergeArrays, [])
-                .filter(interestCheck)
-                .map(preparateData);
-            function ByInterest(item) {
-                return item.interests;
-            }
-            function mapInterest(item) {
-                return item.interests;
-            }
-            function mergeArrays(a, b) {
-                return a.concat(b);
-            }
-            function interestCheck(item) {
-                return item.check;
-            }
-            function preparateData(item) {
-                return {
-                    'user_id': vm.userAuth.id,
-                    'interest_id': item.id_interest
-                };
-            }
-        }
-        function getCategories() {
-            utilsService.showLoad();
-            categoryService.allCategories()
-                .then(complete)
-                .catch(failed);
-            function complete(categories) {
-                utilsService.hideLoad();
-                vm.categories = categories;
-            }
-            function failed(error) {
-                utilsService.hideLoad();
-            }
-        }
-        function redirectTutorial() {
-            if (vm.userAuth.type == 0) {
-                $state.go("organizer.intro");
+var FormInterestsCtrl = (function () {
+    function FormInterestsCtrl($state, utilsService, categoryService, userInterestService, userService, userAuthService) {
+        this.$state = $state;
+        this.utilsService = utilsService;
+        this.categoryService = categoryService;
+        this.userInterestService = userInterestService;
+        this.userService = userService;
+        this.userAuthService = userAuthService;
+        this.$inject = [
+            '$state',
+            'utilsService',
+            'categoryService',
+            'userInterestService',
+            'userService',
+            'userAuthService'
+        ];
+        this.categories = [];
+        this.userAuth = this.userAuthService.getUserAuth();
+    }
+    FormInterestsCtrl.prototype.updateInterests = function () {
+        var _this = this;
+        this.utilsService.showLoad();
+        this.userInterestService.bulkUserInterest(this.userAuth.id, {
+            interests: this._getInterestCheck()
+        })
+            .then(function () {
+            _this.utilsService.hideLoad();
+            if (_this.userAuth.type == "0") {
+                _this.$state.go("organizer.intro");
             }
             else {
-                $state.go("sponzor.intro");
+                _this.$state.go("sponzor.intro");
             }
-        }
-    }
-})();
+        })
+            .catch(function (error) {
+            _this.utilsService.hideLoad();
+        });
+    };
+    FormInterestsCtrl.prototype._getCategories = function () {
+        var _this = this;
+        this.utilsService.showLoad();
+        this.categoryService.allCategories()
+            .then(function (categories) {
+            _this.utilsService.hideLoad();
+            _this.categories = categories;
+        })
+            .catch(function (error) {
+            _this.utilsService.hideLoad();
+        });
+    };
+    FormInterestsCtrl.prototype._getInterestCheck = function () {
+        var _this = this;
+        return this.categories
+            .filter(function (item) { return item.interests; })
+            .map(function (item) { return item.interests; })
+            .reduce(function (a, b) { return a.concat(b); }, [])
+            .filter(function (item) { return item.check; })
+            .map(function (item) {
+            return {
+                'user_id': _this.userAuth.id,
+                'interest_id': item.id_interest
+            };
+        });
+    };
+    return FormInterestsCtrl;
+}());
+angular
+    .module('app.users')
+    .controller('FormInterestsCtrl', FormInterestsCtrl);

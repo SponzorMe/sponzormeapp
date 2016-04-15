@@ -5,17 +5,17 @@
 module notificationModule{
   
   export interface INotificationService{
-    activate(): void;
-    getNotifications(userId:string): void;
-    sendNewSponsorship(notification: Notification, to:string): void;
-    sendAcceptSponsorship(notification: Notification, to:string): void,
-    sendRejectSponsorship(notification: Notification, to:string): void,
-    sendNewTaskOrganizer(notification: Notification, to:string): void,
-    sendUpdateTaskOrganizer(notification: Notification, to:string): void,
-    sendDoneTaskOrganizer(notification: Notification, to:string): void,
-    sendNewTaskSponsor(notification: Notification, to:string): void,
-    sendUpdateTaskSponsor(notification: Notification, to:string): void,
-    sendDoneTaskSponsor(notification: Notification, to:string): void,
+    activate():void;
+    getNotifications(userId:string): any;
+    sendNewSponsorship(notification: any, to:string): void;
+    sendAcceptSponsorship(notification: any, to:string): void,
+    sendRejectSponsorship(notification: any, to:string): void,
+    sendNewTaskOrganizer(notification: any, to:string): void,
+    sendUpdateTaskOrganizer(notification: any, to:string): void,
+    sendDoneTaskOrganizer(notification: any, to:string): void,
+    sendNewTaskSponsor(notification: any, to:string): void,
+    sendUpdateTaskSponsor(notification: any, to:string): void,
+    sendDoneTaskSponsor(notification: any, to:string): void,
     sendNewEvent(): void,
     sendUpdateEvent(): void,
   }
@@ -37,33 +37,33 @@ module notificationModule{
     $inject = [
       '$http',
       '$q',
+      '$localStorage',
+      '$rootScope',
       '$firebaseArray',
+      '$ionicHistory',
       'BackendVariables',
       'userService',
-      '$rootScope',
-      '$ionicHistory',
       'userAuthService',
-      '$localStorage'
     ];
     path:string;
-    userAuth:any;
+    userAuth:userModule.User;
     
     constructor(
       private $http: angular.IHttpService,
       private $q: angular.IQService,
+      private $localStorage,
+      private $rootScope: angular.IRootScopeService,
       private $firebaseArray,
+      private $ionicHistory: ionic.navigation.IonicHistoryService,
       private BackendVariables,
       private userService: userModule.IUserService,
-      private $rootScope: angular.IRootScopeService,
-      private $ionicHistory: ionic.navigation.IonicHistoryService,
-      private userAuthService: userAuthModule.IUserAuthService,
-      private $localStorage
+      private userAuthService: userAuthModule.IUserAuthService
     ){
       this.path = this.BackendVariables.f_url;
-      this.userAuth = this.userAuthService.getUserAuth();
     }
     
     activate() {
+      this.userAuth = this.userAuthService.getUserAuth();
       this._notificationForMe();
       if(this.userAuth.type == '1') this._updateEvents();
     }
@@ -162,7 +162,6 @@ module notificationModule{
       
       let url = this.path + 'notifications/' + to;
       let notificationsRef =  this.$firebaseArray( new Firebase( url ));
-      
       notificationsRef.$add(notification);
     }
     

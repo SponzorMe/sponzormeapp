@@ -19,9 +19,9 @@
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
-            activateNotifications();
-            chooseLanguage();
-            ionicAnalytics();
+            //activateNotifications();
+            //chooseLanguage();
+            //ionicAnalytics();
         });
         function activateNotifications() {
             if (userAuthService.checkSession()) {

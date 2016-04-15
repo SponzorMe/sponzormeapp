@@ -68,6 +68,11 @@
       "version": "",
       "locator": "android"
     },
-    "ios"
+    "ios",
+    {
+      "platform": "ios",
+      "version": "",
+      "locator": "ios"
+    }
   ]
 }

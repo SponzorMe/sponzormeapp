@@ -5,45 +5,40 @@
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
-(function () {
-    'use strict';
-    angular
-        .module('app.dashboard-organizer')
-        .controller('IntroOrganizerCtrl', IntroOrganizerCtrl);
-    IntroOrganizerCtrl.$inject = [
-        '$state',
-        '$ionicSlideBoxDelegate',
-        '$ionicHistory',
-        '$ionicSideMenuDelegate'
-    ];
+var IntroOrganizerCtrl = (function () {
     function IntroOrganizerCtrl($state, $ionicSlideBoxDelegate, $ionicHistory, $ionicSideMenuDelegate) {
-        var vm = this;
-        vm.slideIndex = 0;
-        vm.startApp = startApp;
-        vm.nextSlide = nextSlide;
-        vm.previousSlide = previousSlide;
-        vm.slideChanged = slideChanged;
-        activate();
-        ////////////
-        function activate() {
-            $ionicSideMenuDelegate.canDragContent(false);
-        }
-        function startApp() {
-            $ionicHistory.nextViewOptions({
-                disableAnimate: true,
-                disableBack: true
-            });
-            $state.go("organizer.home");
-        }
-        function nextSlide() {
-            $ionicSlideBoxDelegate.next();
-        }
-        function previousSlide() {
-            $ionicSlideBoxDelegate.previous();
-        }
-        function slideChanged(index) {
-            vm.slideIndex = index;
-        }
-        ;
+        this.$state = $state;
+        this.$ionicSlideBoxDelegate = $ionicSlideBoxDelegate;
+        this.$ionicHistory = $ionicHistory;
+        this.$ionicSideMenuDelegate = $ionicSideMenuDelegate;
+        this.$inject = [
+            '$state',
+            '$ionicSlideBoxDelegate',
+            '$ionicHistory',
+            '$ionicSideMenuDelegate'
+        ];
+        this.slideIndex = 0;
+        this.$ionicSideMenuDelegate.canDragContent(false);
     }
-})();
+    IntroOrganizerCtrl.prototype.startApp = function () {
+        this.$ionicHistory.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true
+        });
+        this.$state.go("organizer.home");
+    };
+    IntroOrganizerCtrl.prototype.nextSlide = function () {
+        this.$ionicSlideBoxDelegate.next();
+    };
+    IntroOrganizerCtrl.prototype.previousSlide = function () {
+        this.$ionicSlideBoxDelegate.previous();
+    };
+    IntroOrganizerCtrl.prototype.slideChanged = function (index) {
+        this.slideIndex = index;
+    };
+    ;
+    return IntroOrganizerCtrl;
+}());
+angular
+    .module('app.dashboard-organizer')
+    .controller('IntroOrganizerCtrl', IntroOrganizerCtrl);
