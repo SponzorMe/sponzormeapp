@@ -5,6 +5,17 @@
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
+
+/*
+class SettingsCtrl{
+  
+  $inject = [
+    '$cordovaToast',
+    '$ionicDeploy',
+    'utilsService',
+  ];
+  
+}
 (function() {
 
   angular
@@ -88,3 +99,4 @@
 
   }
 })();
+*/
