@@ -1,127 +1,88 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
 /**
 * @Controller for Login user
 *
 * @author Nicolas Molina
 * @version 0.1
 */
-(function() {
-  'use strict';
-
-  angular
-    .module('app.users')
-    .controller('LoginController', LoginController);
-
-  LoginController.$inject = [
-    '$translate',
-    'userService',
-    '$localStorage',
+class LoginCtrl{
+  
+  $inject = [
     '$state',
-    'utilsService',
+    '$translate',
     '$base64',
+    '$localStorage',
     '$ionicUser', 
     '$ionicAnalytics',
+    'userService',
+    'utilsService',
     'notificationService',
     'userAuthService',
   ];
-
-  function LoginController( $translate, userService, $localStorage, $state , utilsService, $base64, $ionicUser, $ionicAnalytics, notificationService, userAuthService) {
-
-    var vm = this;
-    vm.user = {};
-    vm.userResponse = {};
-    vm.signIn = signIn;
-
-    activate();
-
-    ////////////
-    
-    function activate() {
-      if(userAuthService.checkSession()){
-        vm.userResponse = $localStorage.userAuth;
-        validateTutorial();
-      }
-    }
-
-    function signIn( form ){
-      utilsService.showLoad();
-      userService.login( vm.user.email, vm.user.password )
-        .then( complete )
-        .catch( failed );
-
-      function complete( user ){
-        utilsService.hideLoad();
-        utilsService.resetForm( form );
-        vm.userResponse = user;
-        $localStorage.token = $base64.encode(vm.user.email +':'+ vm.user.password);
-        
-        
-        /*var user = Ionic.User.current();
-        if (!user.id) {
-          user.id = vm.userResponse.id;
-          user.set('email', vm.user.email);
-          user.set('type', vm.user.type);
-        }
-        user.save();
-        vm.user = {};
-        $ionicAnalytics.register();*/
-        
-        saveUser();
-        //notificationService.activate();
-        validateTutorial();
-      }
-
-      function failed( data ){
-        utilsService.hideLoad();
-        if(utilsService.trim(data.message) === "Invalid credentials"){
-          utilsService.alert({
-            title: $translate.instant("ERRORS.signin_title_credentials"),
-            template: $translate.instant("ERRORS.signin_incorrect_credentials"),
-          });
-        }
-        vm.user.password = '';
-      }
-    };
-
-    function updateUser(){
-      vm.userResponse.demo = 1;
-      saveUser();
-      userService.editUserPatch( vm.userResponse.id, vm.userResponse )
-        .then( redirectTutorial )
-        .catch( failed );
-
-        function failed( error ){
-          console.log( error );
-        }
-    };
-
-    function validateTutorial(){
-      if( vm.userResponse.demo == 0){
-        updateUser();
-      }else{
-        redirectHome();
-      }
-    }
-
-    function redirectTutorial(){
-      if( vm.userResponse.type == 0 ){ // is an Organizer.
-        $state.go("organizer.intro");
+  user:any = {};
+  
+  constructor(
+    private $state: angular.ui.IStateService,
+    private $translate,
+    private $base64,
+    private $localStorage,
+    private $ionicUser,
+    private $ionicAnalytics,
+    private userService: userModule.IUserService,
+    private utilsService: utilsServiceModule.IUtilsService,
+    private notificationService: notificationModule.INotificationService,
+    private userAuthService: userAuthModule.IUserAuthService
+  ){
+    if(userAuthService.checkSession()){
+      this.user = this.userAuthService.getUserAuth();
+      if( this.user.type == 0 ){ // is an Organizer.
+        this.$state.go("organizer.home");
       }else{ // is an Sponzor
-        $state.go("sponzor.intro");
+        this.$state.go("sponzor.home");
       }
     }
-
-    function redirectHome(){
-      if( vm.userResponse.type == 0 ){ // is an Organizer.
-        $state.go("organizer.home");
-      }else{ // is an Sponzor
-        $state.go("sponzor.home");
-      }
-    }
-
-    function saveUser(){
-       userAuthService.updateUserAuth(vm.userResponse);
-    }
-
   }
-})();
+  
+  signIn( form ){
+    this.utilsService.showLoad();
+    this.userService.login( this.user.email, this.user.password )
+    .then( user => {
+      this.utilsService.hideLoad();
+      this.utilsService.resetForm( form );
+      this.$localStorage.token = this.$base64.encode(this.user.email +':'+ this.user.password);
+      this.user = this.userAuthService.updateUserAuth( user );
+
+      let userIonic = this.$ionicUser.current();
+      if (!userIonic.id) {
+        userIonic.id = this.user.id;
+        userIonic.set('email', this.user.email);
+        userIonic.set('type', this.user.type);
+      }
+      userIonic.save();
+      
+      this.$ionicAnalytics.register();
+      this.notificationService.activate();
+      if( this.user.type == 0 ){ // is an Organizer.
+        this.$state.go("organizer.home");
+      }else{ // is an Sponsor
+        this.$state.go("sponzor.home");
+      }
+      this.user = {};
+    })
+    .catch( error => {
+      this.utilsService.hideLoad();
+      if(this.utilsService.trim(error.message) === "Invalid credentials"){
+        this.utilsService.alert({
+          title: this.$translate.instant("ERRORS.signin_title_credentials"),
+          template: this.$translate.instant("ERRORS.signin_incorrect_credentials"),
+        });
+      }
+      this.user.password = '';
+    });
+  };
+  
+}
+angular
+  .module('app.users')
+  .controller('LoginCtrl', LoginCtrl);
