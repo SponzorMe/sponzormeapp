@@ -92,7 +92,7 @@ describe("Controller: FormProfileCtrl", function() {
 
   });
 
-  /*
+  
   
   ////////////////////////////////////////////////////////////
   describe('Tests to updateProfile method success', function(){
@@ -128,7 +128,7 @@ describe("Controller: FormProfileCtrl", function() {
     });
 
   });
-  */
+  
 	////////////////////////////////////////////////////////////
   describe('Tests to updateProfile method failed', function(){
 
