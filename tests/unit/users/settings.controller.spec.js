@@ -81,7 +81,6 @@ describe("Controller: SettingsCtrl", function() {
       defer.resolve(true);
       return defer.promise;
     }
-    utilsService = chai.spy.object($injector.get('$utilsService'), ['confirm']);
 
     settingsController = $controller('SettingsCtrl', {
     	'$translate': $translate,
@@ -139,7 +138,6 @@ describe("Controller: SettingsCtrl", function() {
       settingsController.checkForUpdates();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.expect(utilsService.confirm).to.have.been.called();
     });
 
   });
@@ -148,12 +146,12 @@ describe("Controller: SettingsCtrl", function() {
   describe('Test to doUpdate method', function(){
 
     it('Should have doUpdate method', function() {
-      chai.assert.isDefined(settingsController.doUpdate);
-      chai.assert.isFunction(settingsController.doUpdate);
+      chai.assert.isDefined(settingsController._doUpdate);
+      chai.assert.isFunction(settingsController._doUpdate);
     });
 
     it('Should be called utilsService methods success', function() {
-      settingsController.doUpdate();
+      settingsController._doUpdate();
       $rootScope.$digest();
       $httpBackend.flush();
       chai.expect($cordovaToast.showShortBottom).to.have.been.called();

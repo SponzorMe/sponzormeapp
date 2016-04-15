@@ -73,7 +73,7 @@ describe('Controller: EventListOrganizerCtrl', function(){
     });
     
      it('Should filter by newst events', function() {
-      chai.assert.equal(eventListController.events.length, 3);
+      chai.assert.equal(eventListController.events.length, 2);
     });
 
   });
@@ -98,7 +98,7 @@ describe('Controller: EventListOrganizerCtrl', function(){
     
     it('Should filter by newst events', function() {
       $rootScope.$digest();
-      chai.assert.equal(eventListController.events.length, 3);
+      chai.assert.equal(eventListController.events.length, 2);
     });
 
   });
@@ -124,7 +124,7 @@ describe('Controller: EventListOrganizerCtrl', function(){
       eventListController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal(eventListController.events.length, 3);
+      chai.assert.equal(eventListController.events.length, 2);
     });
 
     it('Should be called broadcast', function() {
@@ -170,7 +170,7 @@ describe('Controller: EventListOrganizerCtrl', function(){
     	$rootScope.$digest();
       $rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
       chai.assert.equal( eventListController.userAuth, $localStorage.userAuth );
-      chai.assert.equal(eventListController.events.length, 3);
+      chai.assert.equal(eventListController.events.length, 2);
       chai.assert.isFalse( eventListController.showEmptyState );
     });
     

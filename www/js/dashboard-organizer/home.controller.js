@@ -42,7 +42,7 @@ var HomeOrganizerCtrl = (function () {
         });
     };
     HomeOrganizerCtrl.prototype.filterDate = function (item) {
-        var today = moment(new Date()).subtract(1, 'days');
+        var today = moment(new Date().getTime()).subtract(1, 'days');
         return moment(item.ends).isAfter(today);
     };
     return HomeOrganizerCtrl;

@@ -112,7 +112,6 @@ describe("Controller: SponsorshipsPastEventsCtrl", function() {
 
     var dataUser = mockData.userService.home("0");
     dataUser.data.user.type = "0";
-    console.log(dataUser);
 
   	beforeEach(function() {
 			$httpBackend.whenGET( URL_REST + 'home/' + $localStorage.userAuth.id ).respond(200, dataUser);

@@ -72,7 +72,7 @@ describe('Controller: PastEventsOrganizerCtrl', function(){
     });
     
     it('Should events be equal that 1', function() {
-      chai.assert.equal( pastEventsController.events.length, 0 );
+      chai.assert.equal( pastEventsController.events.length, 1 );
     });
 
   });
@@ -82,7 +82,7 @@ describe('Controller: PastEventsOrganizerCtrl', function(){
 
     it('Should have showEmptyState variable', function() {
       chai.assert.isDefined( pastEventsController.showEmptyState );
-      chai.assert.isTrue( pastEventsController.showEmptyState );
+      chai.assert.isFalse( pastEventsController.showEmptyState );
     });
 
   });
@@ -100,7 +100,8 @@ describe('Controller: PastEventsOrganizerCtrl', function(){
   ////////////////////////////////////////////////////////////
   describe('Tests to doRefresh success', function(){
 
-  	var dataEvents = mockData.userService.home();
+  	var dataEvents = mockData.userService.home("0");
+    dataEvents.data.user.type = "0"; 
 
     beforeEach(function() {
   		$httpBackend.whenGET( URL_REST + 'home/1').respond(200, dataEvents);
@@ -117,7 +118,7 @@ describe('Controller: PastEventsOrganizerCtrl', function(){
       pastEventsController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal(pastEventsController.events.length, 0);
+      chai.assert.equal(pastEventsController.events.length, 1);
     });
 
     it('Should be called broadcast', function() {
@@ -165,8 +166,8 @@ describe('Controller: PastEventsOrganizerCtrl', function(){
     	$rootScope.$digest();
       $rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
       chai.assert.equal( pastEventsController.userAuth, $localStorage.userAuth );
-      chai.assert.equal( pastEventsController.events.length, 0);
-      chai.assert.isTrue( pastEventsController.showEmptyState );
+      chai.assert.equal( pastEventsController.events.length, 1);
+      chai.assert.isFalse( pastEventsController.showEmptyState );
     });
     
   });

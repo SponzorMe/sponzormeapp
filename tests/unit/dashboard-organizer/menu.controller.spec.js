@@ -105,9 +105,9 @@ describe('Controller: MenuOrganizerCtrl', function(){
   ////////////////////////////////////////////////////////////
   describe('Tests to getEvents success', function(){
     
-    it('Should count_events be 3', function() {
+    it('Should count_events be 2', function() {
     	$rootScope.$digest();
-    	chai.assert.equal(menuOrganizerCtrl.count_events, 3);
+    	chai.assert.equal(menuOrganizerCtrl.count_events, 2);
     });
 
   });
@@ -128,7 +128,6 @@ describe('Controller: MenuOrganizerCtrl', function(){
     
     it('Should count_tasks be 6', function() {
       $rootScope.$digest();
-      console.log(menuOrganizerCtrl.count_tasks);
       chai.assert.equal(menuOrganizerCtrl.count_tasks, 6);
     });
 
@@ -143,10 +142,10 @@ describe('Controller: MenuOrganizerCtrl', function(){
       chai.expect($rootScopeOn).to.have.been.called();
     });
 
-    it('Should count_events be 3 before call Menu:count_following', function() {
+    it('Should count_events be 2 before call Menu:count_following', function() {
     	$rootScope.$digest();
     	$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
-      chai.assert.equal(menuOrganizerCtrl.count_events, 3);
+      chai.assert.equal(menuOrganizerCtrl.count_events, 2);
     });
 
     it('Should count_sponsors be 3 before call Menu:count_sponsors', function() {

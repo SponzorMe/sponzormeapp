@@ -14,7 +14,7 @@ var SettingsCtrl = (function () {
         this.utilsService = utilsService;
         this.BackendVariables = BackendVariables;
         this.$inject = [
-            'translate',
+            '$translate',
             '$cordovaToast',
             '$ionicDeploy',
             'utilsService',

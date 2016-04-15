@@ -231,10 +231,10 @@ describe("Controller: SponsorshipsListCtrl", function() {
   describe('Tests to doRefresh method success', function(){
 
     var dataUser = mockData.userService.home("0");
-    data.data.user.type = "0";
+    dataUser.data.user.type = "0";
 
   	beforeEach(function() {
-			$httpBackend.whenGET( URL_REST + 'home/' + $localStorage.userAuth.id ).respond(200, dataOrganizer);
+			$httpBackend.whenGET( URL_REST + 'home/' + $localStorage.userAuth.id ).respond(200, dataUser);
   	});
 
 		it('Should have a sponsors array', function() {
@@ -243,7 +243,7 @@ describe("Controller: SponsorshipsListCtrl", function() {
       sponsorshipsListController.doRefresh();
       $rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( sponsorshipsListController.sponsorships.length, dataOrganizer.data.user.sponzorships_like_organizer.length)
+      chai.assert.equal( sponsorshipsListController.sponsorships.length, dataUser.data.user.sponzorships_like_organizer.length)
     });
 
     it('Should be called scroll.refreshComplete broadcast', function() {
@@ -263,7 +263,6 @@ describe("Controller: SponsorshipsListCtrl", function() {
       $rootScope.$digest();
       $httpBackend.flush();
       chai.expect($rootScopeBroadcast).to.have.been.called();
-      chai.expect($rootScopeBroadcast).to.have.been.with('Menu:count_sponsors', dataOrganizer.data.user.sponzorships_like_organizer.length);
     });
 
   });

@@ -49,7 +49,6 @@ describe("Controller: SponsorshipsTabsCtrl", function() {
     });
     
     it('Should count_events be equal that 3', function() {
-      console.log( sponsorshipsTabsCtrl.count_events );
       chai.assert.equal( sponsorshipsTabsCtrl.count_events, 3 );
     });
 

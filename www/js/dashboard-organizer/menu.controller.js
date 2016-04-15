@@ -63,7 +63,8 @@ var MenuOrganizerCtrl = (function () {
             .then(function () { return _this.$state.go('signin'); });
     };
     MenuOrganizerCtrl.prototype.filterDate = function (item) {
-        return moment(item.ends).isAfter(new Date());
+        var today = moment(new Date().getTime()).subtract(1, 'days');
+        return moment(item.ends).isAfter(today);
     };
     MenuOrganizerCtrl.prototype.countTasks = function () {
         var _this = this;

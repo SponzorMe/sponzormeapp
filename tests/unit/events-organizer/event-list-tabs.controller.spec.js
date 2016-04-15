@@ -66,14 +66,14 @@ describe("Controller: EventsTabsOrganizerCtrl", function() {
       chai.assert.isNumber( eventsTabsCtrl.count_past_events );
     });
     
-    it('Should be count_events equal that 0', function() {
+    it('Should be count_events equal that 2', function() {
       $rootScope.$digest();
-      chai.assert.equal( eventsTabsCtrl.count_events, 3);
+      chai.assert.equal( eventsTabsCtrl.count_events, 2);
     });
     
-    it('Should be count_past_events equal that 0', function() {
+    it('Should be count_past_events equal that 1', function() {
       $rootScope.$digest();
-      chai.assert.equal( eventsTabsCtrl.count_past_events, 0);
+      chai.assert.equal( eventsTabsCtrl.count_past_events, 1);
     });
     
   });
@@ -84,8 +84,8 @@ describe("Controller: EventsTabsOrganizerCtrl", function() {
     it('Should have called a EventsTabsOrganizerCtrl:count_events', function() {
     	$rootScope.$digest();
       $rootScope.$broadcast('EventsTabsOrganizerCtrl:count_events');
-      chai.assert.equal( eventsTabsCtrl.count_events, 3);
-      chai.assert.equal( eventsTabsCtrl.count_past_events, 0);
+      chai.assert.equal( eventsTabsCtrl.count_events, 2);
+      chai.assert.equal( eventsTabsCtrl.count_past_events, 1);
     });
     
   });

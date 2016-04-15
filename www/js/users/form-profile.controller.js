@@ -21,7 +21,7 @@ var FormProfileCtrl = (function () {
             'userAuthService'
         ];
         this.userAuth = this.userAuthService.getUserAuth();
-        this.userAuth.lang = 'es';
+        this.userAuth.lang = 'en';
         this.userAuth.sex = 1;
     }
     FormProfileCtrl.prototype.changeLang = function () {

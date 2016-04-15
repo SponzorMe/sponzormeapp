@@ -70,7 +70,8 @@ class MenuOrganizerCtrl{
   }
   
   filterDate( item ){
-    return moment(item.ends).isAfter(new Date());
+    let today = moment( new Date().getTime() ).subtract(1, 'days');
+    return moment(item.ends).isAfter(today);
   }
   
   countTasks() {

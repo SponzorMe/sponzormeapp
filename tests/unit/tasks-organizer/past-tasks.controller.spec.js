@@ -104,7 +104,7 @@ describe("Controller: PastTasksCtrl", function() {
     	pastTasksCtrl.doRefresh();
     	$rootScope.$digest();
       $httpBackend.flush();
-      chai.assert.equal( pastTasksCtrl.events.length, 1 );
+      chai.assert.equal( pastTasksCtrl.events.length, 2 );
     });
     
     it('Should be called broadcast scroll.refreshComplete', function() {

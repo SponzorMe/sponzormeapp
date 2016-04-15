@@ -49,7 +49,7 @@ class HomeOrganizerCtrl{
   }
   
   filterDate( item ){
-    let today = moment( new Date() ).subtract(1, 'days');
+    let today = moment( new Date().getTime() ).subtract(1, 'days');
     return moment(item.ends).isAfter( today );
   }
   

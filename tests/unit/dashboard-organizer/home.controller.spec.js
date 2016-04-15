@@ -92,9 +92,9 @@ describe('Controller: HomeOrganizerCtrl', function(){
   ////////////////////////////////////////////////////////////
   describe('Tests to activate()', function(){
 
-    it('Should count_events be equal that 1', function() {
+    it('Should count_events be equal that 2', function() {
       $rootScope.$digest();
-      chai.assert.equal( homeOrganizerCtrl.count_events, 3);
+      chai.assert.equal( homeOrganizerCtrl.count_events, 2);
     });
     
     it('Should count_sponsors be equal that 3', function() {
@@ -118,10 +118,10 @@ describe('Controller: HomeOrganizerCtrl', function(){
       chai.expect($rootScopeOn).to.have.been.called();
     });
 
-    it('Should count_events be 3 before call Menu:count_following', function() {
+    it('Should count_events be 2 before call Menu:count_following', function() {
     	$rootScope.$digest();
     	$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
-      chai.assert.equal(homeOrganizerCtrl.count_events, 3);
+      chai.assert.equal(homeOrganizerCtrl.count_events, 2);
     });
 
     it('Should count_sponsors be 3 before call Menu:count_sponsors', function() {
