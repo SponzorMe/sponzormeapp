@@ -13,6 +13,8 @@
   function routeConfig($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider, $ionicAutoTrackProvider) {
 
     $ionicConfigProvider.views.swipeBackEnabled(false);
+    $ionicConfigProvider.scrolling.jsScrolling(false);
+    
     $ionicConfigProvider.views.maxCache(10);
     $ionicConfigProvider.backButton.text('');
     $ionicAutoTrackProvider.disableTracking('Tap');
