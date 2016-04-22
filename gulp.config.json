@@ -21,7 +21,6 @@
     "./www/lib/ngstorage/ngStorage.min.js",
     "./www/lib/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js",
     "./www/lib/tabbedSlideBox/tabSlideBox.js",
-    "./www/lib/aws-sdk/dist/aws-sdk.min.js",
     "./www/lib/moment/min/moment.min.js",
     "./www/lib/angular-moment/angular-moment.min.js",
     "./www/lib/ngCordova/dist/ng-cordova.min.js"

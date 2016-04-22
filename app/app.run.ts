@@ -10,7 +10,7 @@
     .module('app')
     .run(run);
 
-  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics, $localStorage, userAuthService, notificationService, BackendVariables ) {
+  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics, $localStorage, userAuthService, notificationService, BackendVariables, $ionicPush ) {
     //function run($ionicPlatform ) {
 
     $ionicPlatform.ready(function() {
@@ -23,10 +23,25 @@
         StatusBar.styleDefault();
       }
       
+      registerPush();
       //activateNotifications();
       //chooseLanguage();
       //ionicAnalytics();
     });
+    
+    function registerPush() {
+      $ionicPush.init({
+        "debug": true,
+        "onNotification": function(notification) {
+          var payload = notification.payload;
+          console.log(notification, payload);
+        },
+        "onRegister": function(data) {
+          console.log(data.token);
+        }
+      });
+      $ionicPush.register();
+    }
     
     
     function activateNotifications() {
