@@ -6,19 +6,31 @@
 * @version 0.2
 */
 var IntroSponsorCtrl = (function () {
-    function IntroSponsorCtrl($state, $ionicSlideBoxDelegate, $ionicHistory, $ionicSideMenuDelegate) {
+    function IntroSponsorCtrl($state, $scope, $ionicHistory, $ionicSideMenuDelegate) {
+        var _this = this;
         this.$state = $state;
-        this.$ionicSlideBoxDelegate = $ionicSlideBoxDelegate;
+        this.$scope = $scope;
         this.$ionicHistory = $ionicHistory;
         this.$ionicSideMenuDelegate = $ionicSideMenuDelegate;
         this.$inject = [
             '$state',
-            '$ionicSlideBoxDelegate',
+            '$scope',
             '$ionicHistory',
             '$ionicSideMenuDelegate'
         ];
         this.slideIndex = 0;
+        this.slider = null;
+        this.data = {};
         this.$ionicSideMenuDelegate.canDragContent(false);
+        this.$scope.$watch(function () { return _this.data; }, function (oldValue, newValue) {
+            if (Object.keys(_this.data).length > 0) {
+                _this.slider = _this.data;
+                _this.slider.on('slideChangeEnd', function () {
+                    _this.slideIndex = _this.slider.activeIndex;
+                    _this.$scope.$apply();
+                });
+            }
+        });
     }
     IntroSponsorCtrl.prototype.startApp = function () {
         this.$ionicHistory.nextViewOptions({
@@ -28,15 +40,11 @@ var IntroSponsorCtrl = (function () {
         this.$state.go("sponzor.home");
     };
     IntroSponsorCtrl.prototype.nextSlide = function () {
-        this.$ionicSlideBoxDelegate.next();
+        this.slider.slideNext();
     };
     IntroSponsorCtrl.prototype.previousSlide = function () {
-        this.$ionicSlideBoxDelegate.previous();
+        this.slider.slidePrev();
     };
-    IntroSponsorCtrl.prototype.slideChanged = function (index) {
-        this.slideIndex = index;
-    };
-    ;
     return IntroSponsorCtrl;
 }());
 angular

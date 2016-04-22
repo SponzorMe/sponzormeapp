@@ -3,7 +3,7 @@
     <button class="button button-positive button-clear no-animation" ng-click="intro.startApp()" ng-show="intro.slideIndex == 0">
       {{'INTROORG.skip_nav_btn' | translate}}
     </button>
-    <button class="button button-positive button-clear no-animation" ng-click="intro.previousSlide()" ng-show="intro.slideIndex  > 0">
+    <button class="button button-positive button-clear no-animation" ng-click="intro.previousSlide()" ng-show="intro.slideIndex > 0">
       {{'INTROORG.prev_nav_btn' | translate}}
     </button>
   </ion-nav-buttons>
@@ -16,8 +16,8 @@
     </button>
   </ion-nav-buttons>
   <ion-content class="intro">
-    <ion-slide-box on-slide-changed="intro.slideChanged(index)">
-      <ion-slide class="text-center">
+    <ion-slides slider="intro.data">
+      <ion-slide-page class="text-center">
         <h3>{{'INTROORG.head_page1' | translate}}</h3>
         <div id="logo" class="center-block">
           <img src="img/logo.png" class="full-image">
@@ -25,19 +25,19 @@
         <p align="justify" class="padding">
           {{'INTROORG.content_page1' | translate}}
         </p>
-      </ion-slide>
-      <ion-slide class="text-center">
+      </ion-slide-page>
+      <ion-slide-page class="text-center">
         <h3 class="padding">{{'INTROSPO.head_page2' | translate}}</h3>
         <i class="icon ion-wand cover"></i>
         <p align="justify" class="padding">
         {{'INTROORG.content_page2' | translate}}
         </p>
-      </ion-slide>
-      <ion-slide class="text-center">
+      </ion-slide-page>
+      <ion-slide-page class="text-center">
         <h4>{{'INTROORG.head_page3' | translate}}</h4>
         <p align="justify" class="padding" ng-bind-html="'INTROORG.content_page3' | translate">
         </p>
-      </ion-slide>
-    </ion-slide-box>
+      </ion-slide-page>
+    </ion-slides>
   </ion-content>
 </ion-view>

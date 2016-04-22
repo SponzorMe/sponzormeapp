@@ -66,7 +66,7 @@ gulp.task('watch', function() {
   //Watching all files
   gulp.watch( paths.sass, ['sass']);
   gulp.watch( paths.css, ['css']);
-  gulp.watch(paths.tsc, ['tsc']);
+  //gulp.watch(paths.tsc, ['tsc']);
   gulp.watch(paths.templates, ['templates']);
   //gulp.watch( paths.js, ['js']);
 });

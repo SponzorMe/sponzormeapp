@@ -9,19 +9,31 @@ class IntroSponsorCtrl{
   
   $inject = [
     '$state',
-    '$ionicSlideBoxDelegate',
+    '$scope',
     '$ionicHistory',
     '$ionicSideMenuDelegate'
   ];
   slideIndex:number = 0;
+  slider:any = null;
+  data:any = {};
   
   constructor(
     private $state: angular.ui.IStateService,
-    private $ionicSlideBoxDelegate: ionic.slideBox.IonicSlideBoxDelegate,
+    private $scope,
     private $ionicHistory: ionic.navigation.IonicHistoryService,
     private $ionicSideMenuDelegate: ionic.sideMenu.IonicSideMenuDelegate
   ){
     this.$ionicSideMenuDelegate.canDragContent(false);
+    
+    this.$scope.$watch(() => this.data, (oldValue: string, newValue: string) => {
+      if( Object.keys(this.data).length > 0 ){
+        this.slider = this.data;
+        this.slider.on('slideChangeEnd', () => {
+          this.slideIndex = this.slider.activeIndex;
+          this.$scope.$apply();
+        });
+      }
+    });
   }
   
   startApp(){
@@ -33,16 +45,12 @@ class IntroSponsorCtrl{
   }
 
   nextSlide() {
-    this.$ionicSlideBoxDelegate.next();
+    this.slider.slideNext();
   }
-
+  
   previousSlide() {
-    this.$ionicSlideBoxDelegate.previous();
+    this.slider.slidePrev();
   }
-
-  slideChanged( index ) {
-    this.slideIndex = index;
-  };
   
 }
 angular

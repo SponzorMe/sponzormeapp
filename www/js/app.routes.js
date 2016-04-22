@@ -10,6 +10,7 @@
         .config(routeConfig);
     function routeConfig($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider, $ionicAutoTrackProvider) {
         $ionicConfigProvider.views.swipeBackEnabled(false);
+        $ionicConfigProvider.scrolling.jsScrolling(false);
         $ionicConfigProvider.views.maxCache(10);
         $ionicConfigProvider.backButton.text('');
         $ionicAutoTrackProvider.disableTracking('Tap');
@@ -36,27 +37,27 @@
             .state('signin', {
             url: '/sign-in',
             templateUrl: 'templates/users/login.html',
-            controller: 'LoginController as login'
+            controller: 'LoginCtrl as login'
         })
             .state('joinnow', {
             url: "/joinnow",
             templateUrl: "templates/users/register.html",
-            controller: "RegisterController as register"
+            controller: "RegisterCtrl as register"
         })
             .state('profile', {
             url: "/profile",
             templateUrl: "templates/users/form-profile.html",
-            controller: "FormProfileController as profile"
+            controller: "FormProfileCtrl as profile"
         })
             .state('interests', {
             url: "/interests",
             templateUrl: "templates/users/form-interests.html",
-            controller: "FormInterestsController as interests"
+            controller: "FormInterestsCtrl as interests"
         })
             .state('forgot-password', {
             url: "/forgot-password",
             templateUrl: "templates/users/forgot-password.html",
-            controller: "ForgotController as forgot"
+            controller: "ForgotCtrl as forgot"
         })
             .state('organizer', {
             url: "/organizer",
@@ -78,7 +79,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/dashboard-organizer/home.html",
-                    controller: "HomeOrganizerController as home"
+                    controller: "HomeOrganizerCtrl as home"
                 }
             }
         })
@@ -87,7 +88,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/users/profile.html",
-                    controller: "ProfileController as profile"
+                    controller: "ProfileCtrl as profile"
                 }
             }
         })
@@ -97,7 +98,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/events-organizer/event-list-tabs.html",
-                    controller: "EventsTabsController as tabs"
+                    controller: "EventsTabsOrganizerCtrl as tabs"
                 }
             }
         })
@@ -106,7 +107,7 @@
             views: {
                 'tabEventList': {
                     templateUrl: "templates/events-organizer/event-list.html",
-                    controller: "EventListController as eventList"
+                    controller: "EventListOrganizerCtrl as eventList"
                 }
             }
         })
@@ -115,7 +116,7 @@
             views: {
                 'tabEventList': {
                     templateUrl: "templates/events-organizer/event-detail.html",
-                    controller: "EventDetailOrganizerController as eventDetail"
+                    controller: "EventDetailOrganizerCtrl as eventDetail"
                 }
             }
         })
@@ -124,7 +125,7 @@
             views: {
                 'tabPastEvents': {
                     templateUrl: "templates/events-organizer/past-events.html",
-                    controller: "PastEventsController as eventList"
+                    controller: "PastEventsOrganizerCtrl as eventList"
                 }
             }
         })
@@ -133,7 +134,7 @@
             views: {
                 'tabPastEvents': {
                     templateUrl: "templates/events-organizer/event-detail.html",
-                    controller: "EventDetailOrganizerController as eventDetail"
+                    controller: "EventDetailOrganizerCtrl as eventDetail"
                 }
             }
         })
@@ -142,7 +143,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/events-organizer/add-event.html",
-                    controller: "AddEventController as addEvent"
+                    controller: "AddEventCtrl as addEvent"
                 }
             },
             cache: false
@@ -152,7 +153,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/events-organizer/edit-event.html",
-                    controller: "EditEventController as editEvent"
+                    controller: "EditEventCtrl as editEvent"
                 }
             },
             cache: false
@@ -162,7 +163,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/events-organizer/event-detail.html",
-                    controller: "EventDetailOrganizerController as eventDetail"
+                    controller: "EventDetailOrganizerCtrl as eventDetail"
                 }
             }
         })
@@ -171,7 +172,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/sponsors-organizer/sponsorships-tabs.html",
-                    controller: "SponsorshipsTabsController as tabs"
+                    controller: "SponsorshipsTabsCtrl as tabs"
                 }
             }
         })
@@ -180,7 +181,7 @@
             views: {
                 'tabEventList': {
                     templateUrl: "templates/sponsors-organizer/sponsorships-list.html",
-                    controller: "SponsorshipsListController as list"
+                    controller: "SponsorshipsListCtrl as list"
                 }
             }
         })
@@ -189,7 +190,7 @@
             views: {
                 'tabPastEvents': {
                     templateUrl: "templates/sponsors-organizer/sponsorships-past-events.html",
-                    controller: "SponsorshipsPastEventsController as list"
+                    controller: "SponsorshipsPastEventsCtrl as list"
                 }
             }
         })
@@ -198,7 +199,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/sponsors-organizer/sponsorship-detail.html",
-                    controller: "SponsorshipOrganizerDetailController as detail"
+                    controller: "SponsorshipOrganizerDetailCtrl as detail"
                 }
             }
         })
@@ -208,7 +209,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/tasks-organizer/task-list-tabs.html",
-                    controller: "TaskTabsController as tabs"
+                    controller: "TaskTabsCtrl as tabs"
                 }
             }
         })
@@ -217,7 +218,7 @@
             views: {
                 'tabTasksList': {
                     templateUrl: "templates/tasks-organizer/task-list.html",
-                    controller: "TaskListController as taskList"
+                    controller: "TaskListCtrl as taskList"
                 }
             }
         })
@@ -226,7 +227,7 @@
             views: {
                 'tabPastTasks': {
                     templateUrl: "templates/tasks-organizer/past-tasks.html",
-                    controller: "PastTaskController as taskList"
+                    controller: "PastTasksCtrl as taskList"
                 }
             }
         })
@@ -235,7 +236,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/users/invite-users.html",
-                    controller: "InviteUsersController as invite"
+                    controller: "InviteUsersCtrl as invite"
                 }
             }
         })
@@ -244,7 +245,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/users/settings.html",
-                    controller: "SettingsController as settings"
+                    controller: "SettingsCtrl as settings"
                 }
             }
         })
@@ -253,7 +254,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/users/notifications.html",
-                    controller: "NotificationsController as list"
+                    controller: "NotificationsCtrl as list"
                 }
             }
         })
@@ -261,14 +262,14 @@
             url: "/sponzor",
             abstract: true,
             templateUrl: "templates/dashboard-sponzor/menu.html",
-            controller: "MenuSponzorCtrl as menu"
+            controller: "MenuSponsorCtrl as menu"
         })
             .state('sponzor.intro', {
             url: "/intro",
             views: {
                 'menuContent': {
                     templateUrl: "templates/dashboard-sponzor/intro.html",
-                    controller: "IntroSponzorCtrl as intro"
+                    controller: "IntroSponsorCtrl as intro"
                 }
             }
         })
@@ -277,7 +278,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/dashboard-sponzor/home.html",
-                    controller: "HomeSponzorController as home"
+                    controller: "HomeSponsorCtrl as home"
                 }
             }
         })
@@ -286,7 +287,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/events-sponsor/follow-events.html",
-                    controller: "FollowEventsController as list"
+                    controller: "FollowEventsCtrl as list"
                 }
             }
         })
@@ -295,7 +296,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/events-sponsor/sponsoring-events.html",
-                    controller: "SponzoringEventsController as sponzoring"
+                    controller: "SponsoringEventsCtrl as sponzoring"
                 }
             }
         })
@@ -304,7 +305,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/users/profile.html",
-                    controller: "ProfileController as profile"
+                    controller: "ProfileCtrl as profile"
                 }
             }
         })
@@ -313,7 +314,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/events-sponsor/event-detail.html",
-                    controller: "EventDetailSponzorController as eventDetail"
+                    controller: "EventDetailSponsorCtrl as eventDetail"
                 }
             }
         })
@@ -322,7 +323,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/events-sponsor/sponsorship-detail.html",
-                    controller: "SponsorshipSponsorDetailController as detail"
+                    controller: "SponsorshipSponsorDetailCtrl as detail"
                 }
             }
         })
@@ -331,7 +332,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/users/invite-users.html",
-                    controller: "InviteUsersController as invite"
+                    controller: "InviteUsersCtrl as invite"
                 }
             }
         })
@@ -340,7 +341,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/users/settings.html",
-                    controller: "SettingsController as settings"
+                    controller: "SettingsCtrl as settings"
                 }
             }
         })
@@ -349,7 +350,7 @@
             views: {
                 'menuContent': {
                     templateUrl: "templates/users/notifications.html",
-                    controller: "NotificationsController as list"
+                    controller: "NotificationsCtrl as list"
                 }
             }
         });
