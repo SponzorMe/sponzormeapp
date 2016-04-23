@@ -7,12 +7,13 @@
 * @version 0.1
 */
 var LoginCtrl = (function () {
-    function LoginCtrl($state, $translate, $base64, $localStorage, $ionicAuth, $ionicAnalytics, userService, utilsService, notificationService, userAuthService) {
+    function LoginCtrl($state, $translate, $base64, $localStorage, $ionicAuth, $ionicPush, $ionicAnalytics, userService, utilsService, notificationService, userAuthService) {
         this.$state = $state;
         this.$translate = $translate;
         this.$base64 = $base64;
         this.$localStorage = $localStorage;
         this.$ionicAuth = $ionicAuth;
+        this.$ionicPush = $ionicPush;
         this.$ionicAnalytics = $ionicAnalytics;
         this.userService = userService;
         this.utilsService = utilsService;
@@ -24,6 +25,7 @@ var LoginCtrl = (function () {
             '$base64',
             '$localStorage',
             '$ionicAuth',
+            '$ionicPush',
             '$ionicAnalytics',
             'userService',
             'utilsService',
@@ -48,9 +50,9 @@ var LoginCtrl = (function () {
             .then(function (user) {
             _this.utilsService.hideLoad();
             _this.utilsService.resetForm(form);
+            _this._loginInIonicIO(_this.user.email, _this.user.password);
             _this.$localStorage.token = _this.$base64.encode(_this.user.email + ':' + _this.user.password);
             _this.user = _this.userAuthService.updateUserAuth(user);
-            _this.$ionicAnalytics.register();
             _this.notificationService.activate();
             if (_this.user.type == 0) {
                 _this.$state.go("organizer.home");
@@ -72,7 +74,22 @@ var LoginCtrl = (function () {
         });
     };
     ;
+    LoginCtrl.prototype._registerToken = function () {
+        var _this = this;
+        this.$ionicPush.init({
+            "debug": true,
+            "onNotification": function (notification) {
+                var payload = notification.payload;
+                console.log(notification, payload);
+            },
+            "onRegister": function (data) {
+                _this.$ionicPush.saveToken(data.token);
+            }
+        });
+        this.$ionicPush.register();
+    };
     LoginCtrl.prototype._loginInIonicIO = function (email, password) {
+        var _this = this;
         this.$ionicAuth
             .login(
         //authProvider
@@ -86,6 +103,22 @@ var LoginCtrl = (function () {
         })
             .then(function (data) {
             console.log(data);
+            _this._registerToken();
+            _this.$ionicAnalytics.register();
+        })
+            .catch(function (error) {
+            _this._registerInIonicIO(email, password);
+        });
+    };
+    LoginCtrl.prototype._registerInIonicIO = function (email, password) {
+        var _this = this;
+        this.$ionicAuth
+            .signup({
+            'email': email,
+            'password': password
+        }).then(function (data) {
+            _this._registerToken();
+            _this.$ionicAnalytics.register();
         })
             .catch(function (error) {
             console.log(error);

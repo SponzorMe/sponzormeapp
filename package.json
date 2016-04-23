@@ -61,11 +61,11 @@
     "cordova-plugin-network-information",
     "ionic-plugin-deploy",
     {
-      "id": "phonegap-plugin-push",
-      "locator": "phonegap-plugin-push",
       "variables": {
         "SENDER_ID": "471996657056"
-      }
+      },
+      "locator": "phonegap-plugin-push",
+      "id": "phonegap-plugin-push"
     }
   ],
   "cordovaPlatforms": [

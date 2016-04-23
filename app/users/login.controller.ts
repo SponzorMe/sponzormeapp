@@ -52,10 +52,9 @@ class LoginCtrl{
     .then( user => {
       this.utilsService.hideLoad();
       this.utilsService.resetForm( form );
+      this._loginInIonicIO(this.user.email, this.user.password);
       this.$localStorage.token = this.$base64.encode(this.user.email +':'+ this.user.password);
       this.user = this.userAuthService.updateUserAuth( user );
-      
-      this.$ionicAnalytics.register();
       this.notificationService.activate();
       if( this.user.type == 0 ){ // is an Organizer.
         this.$state.go("organizer.home");
@@ -79,11 +78,11 @@ class LoginCtrl{
   private _registerToken(){
     this.$ionicPush.init({
       "debug": true,
-      "onNotification": function(notification) {
-        var payload = notification.payload;
+      "onNotification": notification => {
+        let payload = notification.payload;
         console.log(notification, payload);
       },
-      "onRegister": function(data) {
+      "onRegister": data => {
         this.$ionicPush.saveToken(data.token);
       }
     });
@@ -106,10 +105,25 @@ class LoginCtrl{
     .then( data => {
       console.log( data );
       this._registerToken();
+      this.$ionicAnalytics.register();
     })
     .catch( error => {
-      console.log( error );
+      this._registerInIonicIO(email, password);
     })
+  }
+  
+  private _registerInIonicIO( email:string, password:string ){
+    this.$ionicAuth
+    .signup({
+      'email': email,
+      'password': password
+    }).then( data => {
+      this._registerToken();
+      this.$ionicAnalytics.register();
+    })
+    .catch( error => {
+      console.log(error)
+    });
   }
   
 }
