@@ -14,6 +14,7 @@ class LoginCtrl{
     '$base64',
     '$localStorage',
     '$ionicAuth',
+    '$ionicPush',
     '$ionicAnalytics',
     'userService',
     'utilsService',
@@ -28,6 +29,7 @@ class LoginCtrl{
     private $base64,
     private $localStorage,
     private $ionicAuth,
+    private $ionicPush,
     private $ionicAnalytics,
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
@@ -74,6 +76,20 @@ class LoginCtrl{
     });
   };
   
+  private _registerToken(){
+    this.$ionicPush.init({
+      "debug": true,
+      "onNotification": function(notification) {
+        var payload = notification.payload;
+        console.log(notification, payload);
+      },
+      "onRegister": function(data) {
+        this.$ionicPush.saveToken(data.token);
+      }
+    });
+    this.$ionicPush.register();
+  }
+  
   private _loginInIonicIO(email:string, password:string){
     this.$ionicAuth
     .login(
@@ -88,7 +104,8 @@ class LoginCtrl{
       }
     )
     .then( data => {
-      console.log(data);
+      console.log( data );
+      this._registerToken();
     })
     .catch( error => {
       console.log( error );
