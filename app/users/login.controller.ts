@@ -52,14 +52,6 @@ class LoginCtrl{
       this.utilsService.resetForm( form );
       this.$localStorage.token = this.$base64.encode(this.user.email +':'+ this.user.password);
       this.user = this.userAuthService.updateUserAuth( user );
-
-      let userIonic = this.$ionicUser.current();
-      if (!userIonic.id) {
-        userIonic.id = this.user.id;
-        userIonic.set('email', this.user.email);
-        userIonic.set('type', this.user.type);
-      }
-      userIonic.save();
       
       this.$ionicAnalytics.register();
       this.notificationService.activate();

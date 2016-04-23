@@ -37,7 +37,7 @@
           console.log(notification, payload);
         },
         "onRegister": function(data) {
-          console.log(data.token);
+          $ionicPush.saveToken(data.token);
         }
       });
       $ionicPush.register();

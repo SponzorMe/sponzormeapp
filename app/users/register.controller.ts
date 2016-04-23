@@ -13,6 +13,8 @@ class RegisterCtrl{
     '$translate',
     '$base64',
     '$localStorage',
+    '$ionicUser',
+    '$ionicAuth',
     'userService',
     'utilsService',
     'notificationService',
@@ -25,6 +27,8 @@ class RegisterCtrl{
     private $translate,
     private $base64,
     private $localStorage,
+    private $ionicUser,
+    private $ionicAuth,
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
     private notificationService: notificationModule.INotificationService,
@@ -47,6 +51,7 @@ class RegisterCtrl{
         template: this.$translate.instant("MESSAGES.succ_user_mess")
       });
       this.$localStorage.token = this.$base64.encode(this.newUser.email +':'+ this.newUser.password);
+      this._registerInIonicIO(this.newUser.email, this.newUser.password);
       this.newUser = {}
       this.newUser.type = 0;
       this.userAuthService.updateUserAuth( user );
@@ -73,6 +78,19 @@ class RegisterCtrl{
           template: this.$translate.instant("ERRORS.signin_taken_credentials_message")
         });
       }
+    });
+  }
+  
+  private _registerInIonicIO( email:string, password:string ){
+    this.$ionicAuth
+    .signup({
+      'email': email,
+      'password': password
+    }).then( data => {
+      console.log(data);
+    })
+    .catch( error => {
+      console.log(error)
     });
   }
   

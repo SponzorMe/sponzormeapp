@@ -51,11 +51,13 @@ var LoginCtrl = (function () {
             _this.$localStorage.token = _this.$base64.encode(_this.user.email + ':' + _this.user.password);
             _this.user = _this.userAuthService.updateUserAuth(user);
             var userIonic = _this.$ionicUser.current();
+            console.log(userIonic);
             if (!userIonic.id) {
                 userIonic.id = _this.user.id;
                 userIonic.set('email', _this.user.email);
                 userIonic.set('type', _this.user.type);
             }
+            userIonic.migrate();
             userIonic.save();
             _this.$ionicAnalytics.register();
             _this.notificationService.activate();
