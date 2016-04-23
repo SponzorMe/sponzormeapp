@@ -13,7 +13,7 @@ class LoginCtrl{
     '$translate',
     '$base64',
     '$localStorage',
-    '$ionicUser', 
+    '$ionicAuth',
     '$ionicAnalytics',
     'userService',
     'utilsService',
@@ -27,7 +27,7 @@ class LoginCtrl{
     private $translate,
     private $base64,
     private $localStorage,
-    private $ionicUser,
+    private $ionicAuth,
     private $ionicAnalytics,
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
@@ -73,6 +73,27 @@ class LoginCtrl{
       this.user.password = '';
     });
   };
+  
+  private _loginInIonicIO(email:string, password:string){
+    this.$ionicAuth
+    .login(
+      //authProvider
+      'basic', 
+      //authSettings
+      { 'remember': true },
+      //data
+      {
+        'email': email,
+        'password': password
+      }
+    )
+    .then( data => {
+      console.log(data);
+    })
+    .catch( error => {
+      console.log( error );
+    })
+  }
   
 }
 angular

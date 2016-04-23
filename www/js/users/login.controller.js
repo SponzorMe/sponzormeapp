@@ -7,12 +7,12 @@
 * @version 0.1
 */
 var LoginCtrl = (function () {
-    function LoginCtrl($state, $translate, $base64, $localStorage, $ionicUser, $ionicAnalytics, userService, utilsService, notificationService, userAuthService) {
+    function LoginCtrl($state, $translate, $base64, $localStorage, $ionicAuth, $ionicAnalytics, userService, utilsService, notificationService, userAuthService) {
         this.$state = $state;
         this.$translate = $translate;
         this.$base64 = $base64;
         this.$localStorage = $localStorage;
-        this.$ionicUser = $ionicUser;
+        this.$ionicAuth = $ionicAuth;
         this.$ionicAnalytics = $ionicAnalytics;
         this.userService = userService;
         this.utilsService = utilsService;
@@ -23,7 +23,7 @@ var LoginCtrl = (function () {
             '$translate',
             '$base64',
             '$localStorage',
-            '$ionicUser',
+            '$ionicAuth',
             '$ionicAnalytics',
             'userService',
             'utilsService',
@@ -50,15 +50,6 @@ var LoginCtrl = (function () {
             _this.utilsService.resetForm(form);
             _this.$localStorage.token = _this.$base64.encode(_this.user.email + ':' + _this.user.password);
             _this.user = _this.userAuthService.updateUserAuth(user);
-            var userIonic = _this.$ionicUser.current();
-            console.log(userIonic);
-            if (!userIonic.id) {
-                userIonic.id = _this.user.id;
-                userIonic.set('email', _this.user.email);
-                userIonic.set('type', _this.user.type);
-            }
-            userIonic.migrate();
-            userIonic.save();
             _this.$ionicAnalytics.register();
             _this.notificationService.activate();
             if (_this.user.type == 0) {
@@ -81,6 +72,25 @@ var LoginCtrl = (function () {
         });
     };
     ;
+    LoginCtrl.prototype._loginInIonicIO = function (email, password) {
+        this.$ionicAuth
+            .login(
+        //authProvider
+        'basic', 
+        //authSettings
+        { 'remember': true }, 
+        //data
+        {
+            'email': email,
+            'password': password
+        })
+            .then(function (data) {
+            console.log(data);
+        })
+            .catch(function (error) {
+            console.log(error);
+        });
+    };
     return LoginCtrl;
 }());
 angular

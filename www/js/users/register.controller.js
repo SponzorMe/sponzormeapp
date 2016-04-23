@@ -7,11 +7,12 @@
 * @version 0.1
 */
 var RegisterCtrl = (function () {
-    function RegisterCtrl($state, $translate, $base64, $localStorage, userService, utilsService, notificationService, userAuthService) {
+    function RegisterCtrl($state, $translate, $base64, $localStorage, $ionicAuth, userService, utilsService, notificationService, userAuthService) {
         this.$state = $state;
         this.$translate = $translate;
         this.$base64 = $base64;
         this.$localStorage = $localStorage;
+        this.$ionicAuth = $ionicAuth;
         this.userService = userService;
         this.utilsService = utilsService;
         this.notificationService = notificationService;
@@ -21,6 +22,7 @@ var RegisterCtrl = (function () {
             '$translate',
             '$base64',
             '$localStorage',
+            '$ionicAuth',
             'userService',
             'utilsService',
             'notificationService',
@@ -44,6 +46,7 @@ var RegisterCtrl = (function () {
                 template: _this.$translate.instant("MESSAGES.succ_user_mess")
             });
             _this.$localStorage.token = _this.$base64.encode(_this.newUser.email + ':' + _this.newUser.password);
+            _this._registerInIonicIO(_this.newUser.email, _this.newUser.password);
             _this.newUser = {};
             _this.newUser.type = 0;
             _this.userAuthService.updateUserAuth(user);
@@ -70,6 +73,18 @@ var RegisterCtrl = (function () {
                     template: _this.$translate.instant("ERRORS.signin_taken_credentials_message")
                 });
             }
+        });
+    };
+    RegisterCtrl.prototype._registerInIonicIO = function (email, password) {
+        this.$ionicAuth
+            .signup({
+            'email': email,
+            'password': password
+        }).then(function (data) {
+            console.log(data);
+        })
+            .catch(function (error) {
+            console.log(error);
         });
     };
     RegisterCtrl.prototype._preparateData = function () {

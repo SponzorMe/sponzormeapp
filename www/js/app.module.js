@@ -11,6 +11,7 @@
         // Core 
         'ionic',
         'ionic.service.core',
+        'ionic.service.auth',
         'ionic.service.push',
         'ionic.service.deploy',
         'ionic.service.analytics',

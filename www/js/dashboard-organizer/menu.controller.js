@@ -7,9 +7,10 @@
 * @version 0.2
 */
 var MenuOrganizerCtrl = (function () {
-    function MenuOrganizerCtrl($state, $rootScope, $ionicHistory, userAuthService, notificationService, $localStorage) {
+    function MenuOrganizerCtrl($state, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService, $localStorage) {
         this.$state = $state;
         this.$rootScope = $rootScope;
+        this.$ionicAuth = $ionicAuth;
         this.$ionicHistory = $ionicHistory;
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
@@ -17,6 +18,7 @@ var MenuOrganizerCtrl = (function () {
         this.$inject = [
             '$state',
             '$rootScope',
+            '$ionicAuth',
             '$ionicHistory',
             'userAuthService',
             'notificationService',
@@ -58,6 +60,7 @@ var MenuOrganizerCtrl = (function () {
     };
     MenuOrganizerCtrl.prototype.logout = function () {
         var _this = this;
+        this.$ionicAuth.logout();
         this.$localStorage.$reset();
         this.$ionicHistory.clearCache()
             .then(function () { return _this.$state.go('signin'); });

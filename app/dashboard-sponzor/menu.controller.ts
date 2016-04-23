@@ -12,6 +12,7 @@ class MenuSponsorCtrl{
     '$state',
     '$localStorage',
     '$rootScope',
+    '$ionicAuth',
     '$ionicHistory',
     'userAuthService',
     'notificationService'
@@ -25,6 +26,7 @@ class MenuSponsorCtrl{
     private $state: angular.ui.IStateService,
     private $localStorage,
     private $rootScope: angular.IRootScopeService,
+    private $ionicAuth,
     private $ionicHistory: ionic.navigation.IonicHistoryService,
     private userAuthService: userAuthModule.IUserAuthService,
     private notificationService: notificationModule.INotificationService
@@ -50,6 +52,7 @@ class MenuSponsorCtrl{
   }
   
   logout(){
+    this.$ionicAuth.logout();
     this.$localStorage.$reset();
     this.$ionicHistory.clearCache()
     .then( () => this.$state.go('signin') );

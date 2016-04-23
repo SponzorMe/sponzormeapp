@@ -11,6 +11,7 @@ class MenuOrganizerCtrl{
   $inject = [
     '$state',
     '$rootScope',
+    '$ionicAuth',
     '$ionicHistory',
     'userAuthService',
     'notificationService',
@@ -25,6 +26,7 @@ class MenuOrganizerCtrl{
   constructor(
     private $state: angular.ui.IStateService,
     private $rootScope: angular.IRootScopeService,
+    private $ionicAuth,
     private $ionicHistory: ionic.navigation.IonicHistoryService,
     private userAuthService: userAuthModule.IUserAuthService,
     private notificationService: notificationModule.INotificationService,
@@ -64,6 +66,7 @@ class MenuOrganizerCtrl{
   }
   
   logout(){
+    this.$ionicAuth.logout();
     this.$localStorage.$reset();
     this.$ionicHistory.clearCache()
     .then( () => this.$state.go('signin') );
