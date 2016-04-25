@@ -91,9 +91,9 @@ class SponsorshipsListCtrl{
       };
       
       if(sponzor.status == 1){ //Accepted 
-        this.notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id);
+        this.notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
       }else if(sponzor.status == 2){//Deny
-        this.notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id);
+        this.notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
       }
     })
     .catch( error => {

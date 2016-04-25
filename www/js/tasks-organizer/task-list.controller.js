@@ -78,27 +78,27 @@ var TaskListCtrl = (function () {
     };
     TaskListCtrl.prototype.sendNewTaskNotification = function (text) {
         for (var index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
-            var sponzorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
+            var sponsorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
             this.notificationService.sendNewTaskOrganizer({
                 text: text,
-                modelId: sponzorship.id
-            }, sponzorship.sponzor_id);
+                modelId: sponsorship.id
+            }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
         }
     };
     TaskListCtrl.prototype.sendUpdateTaskNotification = function (text, done) {
         for (var index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
-            var sponzorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
+            var sponsorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
             if (done) {
                 this.notificationService.sendDoneTaskOrganizer({
                     text: text,
-                    modelId: sponzorship.id
-                }, sponzorship.sponzor_id);
+                    modelId: sponsorship.id
+                }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
             }
             else {
                 this.notificationService.sendUpdateTaskOrganizer({
                     text: text,
-                    modelId: sponzorship.id
-                }, sponzorship.sponzor_id);
+                    modelId: sponsorship.id
+                }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
             }
         }
     };

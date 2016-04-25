@@ -81,7 +81,7 @@ var EventDetailSponsorCtrl = (function () {
                 link: '#/organizers/sponzors',
                 modelId: newSponsorship.id
             };
-            _this.notificationService.sendNewSponsorship(notification, _this.event.user_organizer.id);
+            _this.notificationService.sendNewSponsorship(notification, _this.event.user_organizer.id, _this.event.user_organizer.ionic_id);
             _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_sponsor_it"));
         })
             .catch(function (error) {

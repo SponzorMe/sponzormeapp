@@ -68,9 +68,9 @@ class SponsorshipOrganizerDetailCtrl{
       this.sponsorship.status = sponsorship.status;
       
       if( this.sponsorship.status == 1){ //Accepted 
-        this.notificationService.sendAcceptSponsorship(notification, this.sponsorship.sponzor_id);
+        this.notificationService.sendAcceptSponsorship(notification, this.sponsorship.sponzor_id, this.sponsorship.sponzor_ionic_id);
       }else if( this.sponsorship.status == 2){//Deny
-        this.notificationService.sendRejectSponsorship(notification, this.sponsorship.sponzor_id);
+        this.notificationService.sendRejectSponsorship(notification, this.sponsorship.sponzor_id, this.sponsorship.sponzor_ionic_id);
       }
     })
     .catch( error => {

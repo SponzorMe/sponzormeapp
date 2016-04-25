@@ -24,20 +24,10 @@
             scope: {
                 model: '='
             },
-            controller: controller,
             link: link,
             templateUrl: 'templates/widgets/spm-notification.html'
         };
         return directive;
-        function controller($scope) {
-            activate();
-            function activate() {
-                if ($scope.model.typeNotification) {
-                    $scope.title = $translate.instant("NOTIFICATIONS." + $scope.model.typeNotification + "_title");
-                    $scope.text = $translate.instant("NOTIFICATIONS." + $scope.model.typeNotification + "_text").replace('TEXT', $scope.model.text || '');
-                }
-            }
-        }
         function link($scope) {
             $scope.read = read;
             var events = {

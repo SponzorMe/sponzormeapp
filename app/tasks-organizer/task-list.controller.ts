@@ -84,27 +84,39 @@ class TaskListCtrl{
   
   sendNewTaskNotification( text ) {
     for (let index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
-      let sponzorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
-      this.notificationService.sendNewTaskOrganizer({
-        text: text,
-        modelId: sponzorship.id
-      }, sponzorship.sponzor_id);
+      let sponsorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
+      this.notificationService.sendNewTaskOrganizer(
+        {
+          text: text,
+          modelId: sponsorship.id
+        }, 
+        sponsorship.sponzor_id,
+        sponsorship.sponzor_ionic_id
+      );
     }
   }
   
   sendUpdateTaskNotification( text, done ) {
     for (let index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
-      let sponzorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
+      let sponsorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
       if(done){
-        this.notificationService.sendDoneTaskOrganizer({
-          text: text,
-          modelId: sponzorship.id
-        }, sponzorship.sponzor_id);
+        this.notificationService.sendDoneTaskOrganizer(
+          {
+            text: text,
+            modelId: sponsorship.id
+          },
+          sponsorship.sponzor_id,
+          sponsorship.sponzor_ionic_id
+        );
       }else{
-        this.notificationService.sendUpdateTaskOrganizer({
-          text: text,
-          modelId: sponzorship.id
-        }, sponzorship.sponzor_id);
+        this.notificationService.sendUpdateTaskOrganizer(
+          {
+            text: text,
+            modelId: sponsorship.id
+          }, 
+          sponsorship.sponzor_id,
+          sponsorship.sponzor_ionic_id
+        );
       }
     }
   }

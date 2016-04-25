@@ -111,27 +111,27 @@ var EventDetailOrganizerCtrl = (function () {
     //Send Notifications
     EventDetailOrganizerCtrl.prototype._sendNewTaskNotification = function (text) {
         for (var index = 0; index < this.event.perks[this.indexPerk].sponzorship.length; index++) {
-            var sponzorship = this.event.perks[this.indexPerk].sponzorship[index];
+            var sponsorship = this.event.perks[this.indexPerk].sponzorship[index];
             this.notificationService.sendNewTaskOrganizer({
                 text: text,
-                modelId: sponzorship.id
-            }, sponzorship.sponzor_id);
+                modelId: sponsorship.id
+            }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
         }
     };
     EventDetailOrganizerCtrl.prototype._sendUpdateTaskNotification = function (text, done) {
         for (var index = 0; index < this.event.perks[this.indexPerk].sponzorship.length; index++) {
-            var sponzorship = this.event.perks[this.indexPerk].sponzorship[index];
+            var sponsorship = this.event.perks[this.indexPerk].sponzorship[index];
             if (done) {
                 this.notificationService.sendDoneTaskOrganizer({
                     text: text,
-                    modelId: sponzorship.id
-                }, sponzorship.sponzor_id);
+                    modelId: sponsorship.id
+                }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
             }
             else {
                 this.notificationService.sendUpdateTaskOrganizer({
                     text: text,
-                    modelId: sponzorship.id
-                }, sponzorship.sponzor_id);
+                    modelId: sponsorship.id
+                }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
             }
         }
     };
@@ -182,10 +182,10 @@ var EventDetailOrganizerCtrl = (function () {
                 modelId: sponsorship.id
             };
             if (sponsorship.status == 1) {
-                _this.notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id);
+                _this.notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id, sponsorship.ionic_id);
             }
             else if (sponsorship.status == 2) {
-                _this.notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id);
+                _this.notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id, sponsorship.ionic_id);
             }
             _this.closeOptionsSponsorship();
         })

@@ -64,10 +64,10 @@ var SponsorshipOrganizerDetailCtrl = (function () {
             };
             _this.sponsorship.status = sponsorship.status;
             if (_this.sponsorship.status == 1) {
-                _this.notificationService.sendAcceptSponsorship(notification, _this.sponsorship.sponzor_id);
+                _this.notificationService.sendAcceptSponsorship(notification, _this.sponsorship.sponzor_id, _this.sponsorship.sponzor_ionic_id);
             }
             else if (_this.sponsorship.status == 2) {
-                _this.notificationService.sendRejectSponsorship(notification, _this.sponsorship.sponzor_id);
+                _this.notificationService.sendRejectSponsorship(notification, _this.sponsorship.sponzor_id, _this.sponsorship.sponzor_ionic_id);
             }
         })
             .catch(function (error) {

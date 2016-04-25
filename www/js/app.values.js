@@ -8,8 +8,8 @@
     angular
         .module('app')
         .value('BackendVariables', {
-        url: "https://api.sponzor.me/",
-        f_url: "https://sponzorme.firebaseio.com/production/",
+        url: "https://apistaging.sponzor.me/",
+        f_url: "https://sponzorme.firebaseio.com/staging/",
         url_web: "https://sponzor.me/",
         version: "v1.1.1",
         channel: "dev"
@@ -20,5 +20,10 @@
         'AMAZONBUCKET': 'sponzormewebappimages',
         'AMAZONBUCKETREGION': 'us-west-2',
         'AMAZONBUCKETURL': 'https://s3-us-west-2.amazonaws.com/sponzormewebappimages/'
+    })
+        .value('IONIC', {
+        'TOKEN': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI0MDU3MDJkMi1lZDdkLTRiNGEtYTMzNC1jNDZjMWVlZDJmM2YifQ.atiOm4djFPeewnRRNIzc5Wba3m0rkozNRBouEI1DcaE',
+        'PROFILE': 'production',
+        'URL': 'https://api.ionic.io/push/notifications'
     });
 })();

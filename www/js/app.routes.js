@@ -112,7 +112,7 @@
             }
         })
             .state('organizer.events.detail-list', {
-            url: "/event/:idEvent",
+            url: "/event/:id",
             views: {
                 'tabEventList': {
                     templateUrl: "templates/events-organizer/event-detail.html",
@@ -130,7 +130,7 @@
             }
         })
             .state('organizer.events.detail-past', {
-            url: "/past-event/:idEvent",
+            url: "/past-event/:id",
             views: {
                 'tabPastEvents': {
                     templateUrl: "templates/events-organizer/event-detail.html",
@@ -159,7 +159,7 @@
             cache: false
         })
             .state('organizer.event', {
-            url: "/event/:idEvent",
+            url: "/event/:id",
             views: {
                 'menuContent': {
                     templateUrl: "templates/events-organizer/event-detail.html",
@@ -310,7 +310,7 @@
             }
         })
             .state('sponzor.event', {
-            url: "/event/:idEvent",
+            url: "/event/:id",
             views: {
                 'menuContent': {
                     templateUrl: "templates/events-sponsor/event-detail.html",

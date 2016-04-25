@@ -82,7 +82,7 @@ var PastTasksCtrl = (function () {
             this.notificationService.sendNewTaskOrganizer({
                 text: text,
                 modelId: sponzorship.id
-            }, sponzorship.sponzor_id);
+            }, sponzorship.sponzor_id, sponzorship.sponzor_ionic_id);
         }
     };
     PastTasksCtrl.prototype.sendUpdateTaskNotification = function (text, done) {
@@ -92,13 +92,13 @@ var PastTasksCtrl = (function () {
                 this.notificationService.sendDoneTaskOrganizer({
                     text: text,
                     modelId: sponzorship.id
-                }, sponzorship.sponzor_id);
+                }, sponzorship.sponzor_id, sponzorship.sponzor_ionic_id);
             }
             else {
                 this.notificationService.sendUpdateTaskOrganizer({
                     text: text,
                     modelId: sponzorship.id
-                }, sponzorship.sponzor_id);
+                }, sponzorship.sponzor_id, sponzorship.sponzor_ionic_id);
             }
         }
     };

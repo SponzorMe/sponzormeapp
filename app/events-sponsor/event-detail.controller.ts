@@ -95,7 +95,7 @@ class EventDetailSponsorCtrl{
         link: '#/organizers/sponzors',
         modelId: newSponsorship.id,
       };
-      this.notificationService.sendNewSponsorship(notification, this.event.user_organizer.id);
+      this.notificationService.sendNewSponsorship(notification, this.event.user_organizer.id, this.event.user_organizer.ionic_id);
       
       this.$cordovaToast.showShortBottom(this.$translate.instant("MESSAGES.succ_sponsor_it"));
     })

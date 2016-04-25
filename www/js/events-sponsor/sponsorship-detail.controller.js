@@ -74,7 +74,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
             _this.notificationService.sendNewTaskSponsor({
                 text: data.TaskSponzor.Task.title,
                 modelId: _this.sponsorship.id
-            }, data.TaskSponzor.organizer_id);
+            }, data.TaskSponzor.organizer_id, data.TaskSponzor.organizer_ionic_id);
             _this.utilsService.hideLoad();
         })
             .catch(function (error) {
@@ -115,13 +115,13 @@ var SponsorshipSponsorDetailCtrl = (function () {
                 _this.notificationService.sendDoneTaskSponsor({
                     text: _this.sponsorTask.task.title,
                     modelId: _this.sponsorship.id
-                }, TaskSponsor.organizer_id);
+                }, TaskSponsor.organizer_id, TaskSponsor.organizer_ionic_id);
             }
             else {
                 _this.notificationService.sendUpdateTaskSponsor({
                     text: _this.sponsorTask.task.title,
                     modelId: _this.sponsorship.id
-                }, TaskSponsor.organizer_id);
+                }, TaskSponsor.organizer_id, TaskSponsor.organizer_ionic_id);
             }
             _this.sponsorship.perk.tasks[indexPerkTask] = _this.sponsorTask.task;
             _this.sponsorship.task_sponzor[indexSponzorTask] = _this.sponsorTask;

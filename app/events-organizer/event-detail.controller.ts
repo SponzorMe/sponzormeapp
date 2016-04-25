@@ -122,28 +122,40 @@ class EventDetailOrganizerCtrl{
   //Send Notifications
   
   private _sendNewTaskNotification( text ) {
-    for (var index = 0; index < this.event.perks[this.indexPerk].sponzorship.length; index++) {
-      var sponzorship = this.event.perks[this.indexPerk].sponzorship[index];
-      this.notificationService.sendNewTaskOrganizer({
-        text: text,
-        modelId: sponzorship.id
-      }, sponzorship.sponzor_id);
+    for (let index = 0; index < this.event.perks[this.indexPerk].sponzorship.length; index++) {
+      let sponsorship = this.event.perks[this.indexPerk].sponzorship[index];
+      this.notificationService.sendNewTaskOrganizer(
+        {
+          text: text,
+          modelId: sponsorship.id
+        }, 
+        sponsorship.sponzor_id, 
+        sponsorship.sponzor_ionic_id
+      );
     }
   }
     
   private _sendUpdateTaskNotification( text, done ) {
-    for (var index = 0; index < this.event.perks[this.indexPerk].sponzorship.length; index++) {
-      var sponzorship = this.event.perks[this.indexPerk].sponzorship[index];
+    for (let index = 0; index < this.event.perks[this.indexPerk].sponzorship.length; index++) {
+      let sponsorship = this.event.perks[this.indexPerk].sponzorship[index];
       if(done){
-        this.notificationService.sendDoneTaskOrganizer({
-          text: text,
-          modelId: sponzorship.id
-        }, sponzorship.sponzor_id);
+        this.notificationService.sendDoneTaskOrganizer(
+          {
+            text: text,
+            modelId: sponsorship.id
+          }, 
+          sponsorship.sponzor_id,
+          sponsorship.sponzor_ionic_id
+         );
       }else{
-        this.notificationService.sendUpdateTaskOrganizer({
-          text: text,
-          modelId: sponzorship.id
-        }, sponzorship.sponzor_id);
+        this.notificationService.sendUpdateTaskOrganizer(
+          {
+            text: text,
+            modelId: sponsorship.id
+          }, 
+          sponsorship.sponzor_id,
+          sponsorship.sponzor_ionic_id
+        );
       }
     }
   }
@@ -200,9 +212,9 @@ class EventDetailOrganizerCtrl{
       };
       
       if(sponsorship.status == 1){ //Accepted 
-        this.notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id);
+        this.notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id, sponsorship.ionic_id);
       }else if(sponsorship.status == 2){//Deny
-        this.notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id);
+        this.notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id, sponsorship.ionic_id);
       }
       
       this.closeOptionsSponsorship();

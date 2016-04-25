@@ -80,10 +80,14 @@ class SponsorshipSponsorDetailCtrl{
       this.sponsorship.task_sponzor.push( data.TaskSponzor );
       this.hideModalTask( form );
       
-      this.notificationService.sendNewTaskSponsor({
-        text: data.TaskSponzor.Task.title,
-        modelId: this.sponsorship.id
-      }, data.TaskSponzor.organizer_id);
+      this.notificationService.sendNewTaskSponsor(
+        {
+          text: data.TaskSponzor.Task.title,
+          modelId: this.sponsorship.id
+        },
+        data.TaskSponzor.organizer_id,
+        data.TaskSponzor.organizer_ionic_id
+      );
       
       this.utilsService.hideLoad();
     })
@@ -126,17 +130,23 @@ class SponsorshipSponsorDetailCtrl{
       let indexSponzorTask = _.indexOf(this.sponsorship.task_sponzor, taskSponzor);
       
       if(this.sponsorTask.status == 1 && TaskSponsor.status == "1"){
-        this.notificationService.sendDoneTaskSponsor({
-          text: this.sponsorTask.task.title,
-          modelId: this.sponsorship.id
-        }, 
-        TaskSponsor.organizer_id);
+        this.notificationService.sendDoneTaskSponsor(
+          {
+            text: this.sponsorTask.task.title,
+            modelId: this.sponsorship.id
+          }, 
+          TaskSponsor.organizer_id,
+          TaskSponsor.organizer_ionic_id
+        );
       }else{
-        this.notificationService.sendUpdateTaskSponsor({
-          text: this.sponsorTask.task.title,
-          modelId: this.sponsorship.id
-        }, 
-        TaskSponsor.organizer_id);
+        this.notificationService.sendUpdateTaskSponsor(
+          {
+            text: this.sponsorTask.task.title,
+            modelId: this.sponsorship.id
+          }, 
+          TaskSponsor.organizer_id,
+          TaskSponsor.organizer_ionic_id
+        );
       }
       
       this.sponsorship.perk.tasks[indexPerkTask] = this.sponsorTask.task;

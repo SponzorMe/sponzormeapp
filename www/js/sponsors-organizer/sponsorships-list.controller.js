@@ -86,10 +86,10 @@ var SponsorshipsListCtrl = (function () {
                 modelId: sponsorship.id
             };
             if (sponzor.status == 1) {
-                _this.notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id);
+                _this.notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
             }
             else if (sponzor.status == 2) {
-                _this.notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id);
+                _this.notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
             }
         })
             .catch(function (error) {
