@@ -24,7 +24,7 @@ var userBuilder = (function() {
       company: "asas",
       events: [],
       sponzorships_like_organizer: [],
-      sponzorship: []
+      sponzorships: []
     };
   }
   

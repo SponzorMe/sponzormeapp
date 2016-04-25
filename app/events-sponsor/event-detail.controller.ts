@@ -50,7 +50,7 @@ class EventDetailSponsorCtrl{
   }
   
   private _preparatePerks( perk ){
-    perk.sponzorship = _.where(this.userAuth.sponzorship, {perk_id: perk.id});
+    perk.sponzorship = _.where(this.userAuth.sponzorships, {perk_id: perk.id});
     perk.already = _.findWhere(perk.sponzorship , {sponzor_id: this.userAuth.id});
     perk.tasks = _.where(perk.tasks, {type: "0"});
   }
@@ -83,7 +83,7 @@ class EventDetailSponsorCtrl{
     .then( newSponsorship => {
       this.closeModalSponsorIt();
       
-      this.userAuth.sponzorship.push( newSponsorship );
+      this.userAuth.sponzorships.push( newSponsorship );
       this.event.perks.forEach( this._preparatePerks, this );
       this.userAuthService.updateUserAuth( this.userAuth );
       

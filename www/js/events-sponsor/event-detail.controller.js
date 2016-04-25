@@ -42,7 +42,7 @@ var EventDetailSponsorCtrl = (function () {
         this._loadModalSponsorIt();
     }
     EventDetailSponsorCtrl.prototype._preparatePerks = function (perk) {
-        perk.sponzorship = _.where(this.userAuth.sponzorship, { perk_id: perk.id });
+        perk.sponzorship = _.where(this.userAuth.sponzorships, { perk_id: perk.id });
         perk.already = _.findWhere(perk.sponzorship, { sponzor_id: this.userAuth.id });
         perk.tasks = _.where(perk.tasks, { type: "0" });
     };
@@ -71,7 +71,7 @@ var EventDetailSponsorCtrl = (function () {
         this.sponsorshipService.createSponzorship(this._preparateDataSponzorship())
             .then(function (newSponsorship) {
             _this.closeModalSponsorIt();
-            _this.userAuth.sponzorship.push(newSponsorship);
+            _this.userAuth.sponzorships.push(newSponsorship);
             _this.event.perks.forEach(_this._preparatePerks, _this);
             _this.userAuthService.updateUserAuth(_this.userAuth);
             _this.$rootScope.$broadcast('MenuSponsorCtrl:counts');

@@ -40,7 +40,7 @@ class SponsorshipSponsorDetailCtrl{
     private notificationService: notificationModule.INotificationService
   ){
     this.userAuth = this.userAuthService.getUserAuth();
-    this.sponsorship = _.findWhere(this.userAuth.sponzorship, {id: $stateParams.id});
+    this.sponsorship = _.findWhere(this.userAuth.sponzorships, {id: $stateParams.id});
     this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter( item => item.task.user_id == this.userAuth.id);
     
     this._loadModalTask(); 

@@ -36,7 +36,7 @@ var userModule;
                 user.sponzorships_like_organizer.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
             }
             else {
-                user.sponzorship.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
+                user.sponzorships.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
                 data.events.forEach(this.eventService.buildEvent, this.eventService);
                 user.events = data.events;
             }

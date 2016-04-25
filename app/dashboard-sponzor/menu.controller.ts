@@ -32,8 +32,8 @@ class MenuSponsorCtrl{
     private notificationService: notificationModule.INotificationService
   ){
     this.userAuth = userAuthService.getUserAuth();
-    this.count_sponsoring = this.userAuth.sponzorship.filter( this.filterByAccepted ).length;
-    this.count_following = this.userAuth.sponzorship.length - this.count_sponsoring; 
+    this.count_sponsoring = this.userAuth.sponzorships.filter( this.filterByAccepted ).length;
+    this.count_following = this.userAuth.sponzorships.length - this.count_sponsoring; 
     this.notifications = notificationService.getNotifications( this.userAuth.id );
     
     this.registerListenerCounts();
@@ -42,8 +42,8 @@ class MenuSponsorCtrl{
   registerListenerCounts(){
     this.$rootScope.$on('MenuSponsorCtrl:counts', () => {
       this.userAuth =  this.userAuthService.getUserAuth();
-      this.count_sponsoring = this.userAuth.sponzorship.filter( this.filterByAccepted ).length;
-      this.count_following = this.userAuth.sponzorship.length - this.count_sponsoring;
+      this.count_sponsoring = this.userAuth.sponzorships.filter( this.filterByAccepted ).length;
+      this.count_following = this.userAuth.sponzorships.length - this.count_sponsoring;
     });
   }
   

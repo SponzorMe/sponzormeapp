@@ -29,7 +29,7 @@ module userModule{
     name: string;
     comunity_size: number;
     events:eventModule.Event[];
-    sponzorship?:sponsorshipModule.Sponsorship[];
+    sponzorships?:sponsorshipModule.Sponsorship[];
     sponzorships_like_organizer?:sponsorshipModule.Sponsorship[];
     location:any;
     lang: string;
@@ -68,7 +68,7 @@ module userModule{
         user.events.forEach( this.eventService.buildEvent, this.eventService);
         user.sponzorships_like_organizer.forEach( this.sponsorshipService.buildSponsorship, this.sponsorshipService);
       }else{ 
-        user.sponzorship.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
+        user.sponzorships.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
         data.events.forEach( this.eventService.buildEvent, this.eventService );
         user.events = data.events;
       }

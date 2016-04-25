@@ -27,7 +27,7 @@ class FollowEventsCtrl{
     private userAuthService: userAuthModule.IUserAuthService
   ){
     this.userAuth = this.userAuthService.getUserAuth();
-    this.sponzorships = this.userAuth.sponzorship.filter( this._filterByDateAndByPending );
+    this.sponzorships = this.userAuth.sponzorships.filter( this._filterByDateAndByPending );
     this.showEmptyState = this.sponzorships.length == 0 ? true : false;
     
     this._registerListenerSponzorships();
@@ -38,7 +38,7 @@ class FollowEventsCtrl{
     .then( user => {
       this.$scope.$broadcast('scroll.refreshComplete');
       this.userAuth = this.userAuthService.updateUserAuth( user );
-      this.sponzorships = this.userAuth.sponzorship.filter( this._filterByDateAndByPending );
+      this.sponzorships = this.userAuth.sponzorships.filter( this._filterByDateAndByPending );
       this.showEmptyState = this.sponzorships.length == 0 ? true : false;
       this.$rootScope.$broadcast('MenuSponsorCtrl:counts');
       this.$rootScope.$broadcast('SponsoringEventsCtrl:getSponzorships');
@@ -51,7 +51,7 @@ class FollowEventsCtrl{
   private _registerListenerSponzorships(){
     this.$rootScope.$on('FollowEventsController:getSponzorships', ()=>{
       this.userAuth = this.userAuthService.getUserAuth();
-      this.sponzorships = this.userAuth.sponzorship.filter( this._filterByDateAndByPending );
+      this.sponzorships = this.userAuth.sponzorships.filter( this._filterByDateAndByPending );
       this.showEmptyState = this.sponzorships.length == 0 ? true : false;
     });
   }

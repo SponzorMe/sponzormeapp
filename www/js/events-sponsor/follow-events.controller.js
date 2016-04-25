@@ -23,7 +23,7 @@ var FollowEventsCtrl = (function () {
         this.sponzorships = [];
         this.showEmptyState = false;
         this.userAuth = this.userAuthService.getUserAuth();
-        this.sponzorships = this.userAuth.sponzorship.filter(this._filterByDateAndByPending);
+        this.sponzorships = this.userAuth.sponzorships.filter(this._filterByDateAndByPending);
         this.showEmptyState = this.sponzorships.length == 0 ? true : false;
         this._registerListenerSponzorships();
     }
@@ -33,7 +33,7 @@ var FollowEventsCtrl = (function () {
             .then(function (user) {
             _this.$scope.$broadcast('scroll.refreshComplete');
             _this.userAuth = _this.userAuthService.updateUserAuth(user);
-            _this.sponzorships = _this.userAuth.sponzorship.filter(_this._filterByDateAndByPending);
+            _this.sponzorships = _this.userAuth.sponzorships.filter(_this._filterByDateAndByPending);
             _this.showEmptyState = _this.sponzorships.length == 0 ? true : false;
             _this.$rootScope.$broadcast('MenuSponsorCtrl:counts');
             _this.$rootScope.$broadcast('SponsoringEventsCtrl:getSponzorships');
@@ -46,7 +46,7 @@ var FollowEventsCtrl = (function () {
         var _this = this;
         this.$rootScope.$on('FollowEventsController:getSponzorships', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
-            _this.sponzorships = _this.userAuth.sponzorship.filter(_this._filterByDateAndByPending);
+            _this.sponzorships = _this.userAuth.sponzorships.filter(_this._filterByDateAndByPending);
             _this.showEmptyState = _this.sponzorships.length == 0 ? true : false;
         });
     };

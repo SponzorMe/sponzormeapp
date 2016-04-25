@@ -28,8 +28,8 @@ var MenuSponsorCtrl = (function () {
         this.count_sponsoring = 0;
         this.notifications = [];
         this.userAuth = userAuthService.getUserAuth();
-        this.count_sponsoring = this.userAuth.sponzorship.filter(this.filterByAccepted).length;
-        this.count_following = this.userAuth.sponzorship.length - this.count_sponsoring;
+        this.count_sponsoring = this.userAuth.sponzorships.filter(this.filterByAccepted).length;
+        this.count_following = this.userAuth.sponzorships.length - this.count_sponsoring;
         this.notifications = notificationService.getNotifications(this.userAuth.id);
         this.registerListenerCounts();
     }
@@ -37,8 +37,8 @@ var MenuSponsorCtrl = (function () {
         var _this = this;
         this.$rootScope.$on('MenuSponsorCtrl:counts', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
-            _this.count_sponsoring = _this.userAuth.sponzorship.filter(_this.filterByAccepted).length;
-            _this.count_following = _this.userAuth.sponzorship.length - _this.count_sponsoring;
+            _this.count_sponsoring = _this.userAuth.sponzorships.filter(_this.filterByAccepted).length;
+            _this.count_following = _this.userAuth.sponzorships.length - _this.count_sponsoring;
         });
     };
     MenuSponsorCtrl.prototype.filterByAccepted = function (item) {

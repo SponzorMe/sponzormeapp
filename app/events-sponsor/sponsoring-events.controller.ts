@@ -27,7 +27,7 @@ class SponsoringEventsCtrl{
     private userAuthService: userAuthModule.IUserAuthService
   ){
     this.userAuth = this.userAuthService.getUserAuth();
-    this.sponzorships = this.userAuth.sponzorship.filter( this._filterByAccepted );
+    this.sponzorships = this.userAuth.sponzorships.filter( this._filterByAccepted );
     this.showEmptyState = this.sponzorships.length == 0 ? true : false;
     
     this._registerListenerSponzorships();
@@ -38,7 +38,7 @@ class SponsoringEventsCtrl{
     .then( user => {
       this.$scope.$broadcast('scroll.refreshComplete');
       this.userAuth = this.userAuthService.updateUserAuth( user );
-      this.sponzorships = this.userAuth.sponzorship.filter( this._filterByAccepted );
+      this.sponzorships = this.userAuth.sponzorships.filter( this._filterByAccepted );
       this.showEmptyState = this.sponzorships.length == 0 ? true : false;
       this.$rootScope.$broadcast('MenuSponzor:counts');
       this.$rootScope.$broadcast('FollowEventsController:getSponzorships');
@@ -51,7 +51,7 @@ class SponsoringEventsCtrl{
   private _registerListenerSponzorships(){
     this.$rootScope.$on('SponsoringEventsCtrl:getSponzorships', () => {
       this.userAuth = this.userAuthService.getUserAuth();
-      this.sponzorships = this.userAuth.sponzorship.filter( this._filterByAccepted );
+      this.sponzorships = this.userAuth.sponzorships.filter( this._filterByAccepted );
       this.showEmptyState = this.sponzorships.length == 0 ? true : false;
     });
   }
