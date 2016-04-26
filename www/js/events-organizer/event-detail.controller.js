@@ -61,7 +61,6 @@ var EventDetailOrganizerCtrl = (function () {
         this.sponsorshipSelected = {};
         this.userAuth = this.userAuthService.getUserAuth();
         this.event = _.findWhere(this.userAuth.events, { id: $stateParams.id });
-        console.log(this.event);
         this.event.perks.forEach(this._preparatePerks, this);
         this.$ionicSideMenuDelegate.canDragContent(false);
         this._loadTaskModal();
@@ -116,7 +115,7 @@ var EventDetailOrganizerCtrl = (function () {
             this.notificationService.sendNewTaskOrganizer({
                 text: text,
                 modelId: sponsorship.id
-            }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
+            }, sponsorship.sponzor.id, sponsorship.sponzor.ionic_id || "");
         }
     };
     EventDetailOrganizerCtrl.prototype._sendUpdateTaskNotification = function (text, done) {
@@ -126,13 +125,13 @@ var EventDetailOrganizerCtrl = (function () {
                 this.notificationService.sendDoneTaskOrganizer({
                     text: text,
                     modelId: sponsorship.id
-                }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
+                }, sponsorship.sponzor.id, sponsorship.sponzor.ionic_id || "");
             }
             else {
                 this.notificationService.sendUpdateTaskOrganizer({
                     text: text,
                     modelId: sponsorship.id
-                }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
+                }, sponsorship.sponzor.id, sponsorship.sponzor.ionic_id || "");
             }
         }
     };

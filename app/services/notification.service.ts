@@ -169,11 +169,22 @@ module notificationModule{
       notification.read = false;
       notification.title = this._getTitle( notification.typeNotification );
       notification.message = this._getText( notification.typeNotification, notification.text );
-      notification.ionicId = ionicId;
+      notification.ionicId = ionicId || "";
       
+      /*
       if(notification.ionicId  && notification.ionicId != ""){
         this.pushService.sendPushNotification([ notification.ionicId ], notification);
       }
+      */
+      
+      
+      this.pushService.sendPushNotification([ notification.ionicId ], notification)
+      .then(data => {
+        console.log( data );
+      })
+      .catch( error => {
+        console.log( error );
+      })
       
       let url = this.path + 'notifications/' + to;
       let notificationsRef =  this.$firebaseArray( new Firebase( url ));

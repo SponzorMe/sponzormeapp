@@ -113,10 +113,19 @@ var notificationModule;
             notification.read = false;
             notification.title = this._getTitle(notification.typeNotification);
             notification.message = this._getText(notification.typeNotification, notification.text);
-            notification.ionicId = ionicId;
-            if (notification.ionicId && notification.ionicId != "") {
-                this.pushService.sendPushNotification([notification.ionicId], notification);
+            notification.ionicId = ionicId || "";
+            /*
+            if(notification.ionicId  && notification.ionicId != ""){
+              this.pushService.sendPushNotification([ notification.ionicId ], notification);
             }
+            */
+            this.pushService.sendPushNotification([notification.ionicId], notification)
+                .then(function (data) {
+                console.log(data);
+            })
+                .catch(function (error) {
+                console.log(error);
+            });
             var url = this.path + 'notifications/' + to;
             var notificationsRef = this.$firebaseArray(new Firebase(url));
             notificationsRef.$add(notification);

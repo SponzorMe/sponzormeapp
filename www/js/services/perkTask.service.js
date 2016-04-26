@@ -130,7 +130,7 @@ var perkTaskModule;
             return this.buildPerkTask(data.PerkTask);
         };
         perkTaskService.prototype._preparatePerkTaskCreate = function (data) {
-            data.PerkTask = this.buildPerkTask(data.PerkTask);
+            data.PerkTask = this.buildPerkTask(data);
             return data;
         };
         return perkTaskService;

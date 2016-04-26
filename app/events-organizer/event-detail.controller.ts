@@ -67,7 +67,6 @@ class EventDetailOrganizerCtrl{
     this.userAuth = this.userAuthService.getUserAuth();
     
     this.event = _.findWhere(this.userAuth.events, {id: $stateParams.id});
-    console.log( this.event );
     this.event.perks.forEach( this._preparatePerks, this );
     
     this.$ionicSideMenuDelegate.canDragContent(false);
@@ -130,8 +129,8 @@ class EventDetailOrganizerCtrl{
           text: text,
           modelId: sponsorship.id
         }, 
-        sponsorship.sponzor_id, 
-        sponsorship.sponzor_ionic_id
+        sponsorship.sponzor.id, 
+        sponsorship.sponzor.ionic_id || ""
       );
     }
   }
@@ -145,8 +144,8 @@ class EventDetailOrganizerCtrl{
             text: text,
             modelId: sponsorship.id
           }, 
-          sponsorship.sponzor_id,
-          sponsorship.sponzor_ionic_id
+          sponsorship.sponzor.id,
+          sponsorship.sponzor.ionic_id || ""
          );
       }else{
         this.notificationService.sendUpdateTaskOrganizer(
@@ -154,8 +153,8 @@ class EventDetailOrganizerCtrl{
             text: text,
             modelId: sponsorship.id
           }, 
-          sponsorship.sponzor_id,
-          sponsorship.sponzor_ionic_id
+          sponsorship.sponzor.id,
+          sponsorship.sponzor.ionic_id || ""
         );
       }
     }

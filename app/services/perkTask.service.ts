@@ -138,7 +138,7 @@ module perkTaskModule{
     }
     
     buildPerkTask(data:any):PerkTask{
-      var task = data.PerkTask;
+      let task = data.PerkTask;
       task.event = data.Event || {};
       task.perk = data.Perk || {};
       task.user = data.User || {};
@@ -163,7 +163,7 @@ module perkTaskModule{
     }
     
     private _preparatePerkTaskCreate(data:any){
-      data.PerkTask = this.buildPerkTask(data.PerkTask);
+      data.PerkTask = this.buildPerkTask(data);
       return data;
     }
       
