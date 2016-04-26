@@ -159,7 +159,7 @@ module perkTaskModule{
     }
     
     private _preparatePerkTaskUpdate( data:any):PerkTask{
-      return this.buildPerkTask(data.PerkTask); 
+      return this.buildPerkTask(data); 
     }
     
     private _preparatePerkTaskCreate(data:any){

@@ -127,7 +127,7 @@ var perkTaskModule;
             return this.buildPerkTask(data.data);
         };
         perkTaskService.prototype._preparatePerkTaskUpdate = function (data) {
-            return this.buildPerkTask(data.PerkTask);
+            return this.buildPerkTask(data);
         };
         perkTaskService.prototype._preparatePerkTaskCreate = function (data) {
             data.PerkTask = this.buildPerkTask(data);
