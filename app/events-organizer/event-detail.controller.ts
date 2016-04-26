@@ -67,7 +67,6 @@ class EventDetailOrganizerCtrl{
     this.userAuth = this.userAuthService.getUserAuth();
     
     this.event = _.findWhere(this.userAuth.events, {id: $stateParams.id});
-    console.log( this.event );
     this.event.perks.forEach( this._preparatePerks, this );
     
     this.$ionicSideMenuDelegate.canDragContent(false);
@@ -199,14 +198,14 @@ class EventDetailOrganizerCtrl{
   
   updateSponsorship( status ){
     this.utilsService.showLoad();
-    var sponsorship = angular.copy( this.sponsorshipSelected );
+    let sponsorship = angular.copy( this.sponsorshipSelected );
     sponsorship.status = status;
     this.sponsorshipService.editSponzorshipPut( sponsorship.id, sponsorship )
     .then( sponsorship => {
       this.utilsService.hideLoad();
       this.sponsorshipSelected.status = sponsorship.status; 
       
-      var notification = {
+      let notification = {
         text: this.event.title,
         link: '#/sponzors/sponzoring',
         modelId: sponsorship.id

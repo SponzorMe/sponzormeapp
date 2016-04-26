@@ -103,7 +103,7 @@ module sponsorshipModule{
         method: 'PATCH',
         url: `${this.path}sponzorships/${sponsorshipId}`,
         headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Content-Type' : 'application/json',
           'Authorization' : `Basic ${this._getToken()}`
         },
         data: data
@@ -117,7 +117,7 @@ module sponsorshipModule{
         method: 'PUT',
         url: `${this.path}sponzorships/${sponsorshipId}`,
         headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Content-Type' : 'application/json',
           'Authorization' : `Basic ${this._getToken()}`
         },
         data: data
