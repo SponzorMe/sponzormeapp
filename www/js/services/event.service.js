@@ -60,25 +60,11 @@ var eventModule;
                 method: 'DELETE',
                 url: this.path + "events/" + eventId,
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': 'application/json',
                     'Authorization': "Basic " + this._getToken()
                 }
             })
                 .then(function (response) { return _this.$q.when(response.data); })
-                .catch(function (response) { return _this.$q.reject(response.data); });
-        };
-        eventService.prototype.editEventPatch = function (eventId, data) {
-            var _this = this;
-            return this.$http({
-                method: 'PATCH',
-                url: this.path + "events/" + eventId,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': "Basic " + this._getToken()
-                },
-                data: data
-            })
-                .then(function (response) { return _this.$q.when(_this._preparateEvent(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
         eventService.prototype.editEventPut = function (eventId, data) {

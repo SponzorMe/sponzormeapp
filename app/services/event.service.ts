@@ -13,7 +13,6 @@ module eventModule{
     getEvent(id:string):angular.IPromise<any>;
     createEvent(event: any):angular.IPromise<any>;
     deleteEvent(id:string):angular.IPromise<any>;
-    editEventPatch(id:string, event: any):angular.IPromise<any>;
     editEventPut(id:string, event: any):angular.IPromise<any>;
     buildEvent(event:any):Event;
   }
@@ -89,25 +88,11 @@ module eventModule{
         method: 'DELETE',
         url: `${this.path}events/${eventId}`,
         headers: {
-          'Content-Type' : 'application/x-www-form-urlencoded',
+          'Content-Type' : 'application/json',
           'Authorization' : `Basic ${this._getToken()}`
         },
       })
       .then( response => { return this.$q.when( response.data ); } )
-      .catch( response => { return this.$q.reject( response.data ); } );
-    }
-    
-    editEventPatch( eventId:string, data:Event ):angular.IPromise<any>{
-      return this.$http({
-        method: 'PATCH',
-        url: `${this.path}events/${eventId}`,
-        headers: {
-          'Content-Type' : 'application/json',
-          'Authorization' : `Basic ${this._getToken()}`
-        },
-        data: data
-      })
-      .then( response => { return this.$q.when( this._preparateEvent( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     

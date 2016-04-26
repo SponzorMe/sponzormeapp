@@ -52,7 +52,10 @@
         </div>
       </ion-list>
       <div class="row">
-        <div class="col col-50">
+        <div class="col col-50" ng-show="!editEvent.isNewPerk && !editEvent.newPerk.id">
+          <button class="button button-block" type="button" ng-click="editEvent.deletePerk()">Delete</button>
+        </div>
+        <div class="col col-50" ng-show="editEvent.isNewPerk || editEvent.newPerk.id">
           <button class="button button-block" type="button" ng-click="editEvent.closeModalPerk( FormTypeSponsorship )">{{'ADDPERK.cancel_button' | translate}}</button>
         </div>
         <div class="col col-50">

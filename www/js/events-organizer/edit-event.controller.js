@@ -60,7 +60,7 @@ var EditEventCtrl = (function () {
     }
     EditEventCtrl.prototype.loadModal = function () {
         var _this = this;
-        this.$ionicModal.fromTemplateUrl('templates/events-organizer/perk-modal.html', {
+        this.$ionicModal.fromTemplateUrl('templates/events-organizer/perk-edit-modal.html', {
             scope: this.$scope,
             animation: 'slide-in-up'
         }).then(function (modal) { return _this.modalPerk = modal; });
@@ -180,6 +180,8 @@ var EditEventCtrl = (function () {
     };
     EditEventCtrl.prototype.editPerk = function (data) {
         this.isNewPerk = false;
+        data.total_quantity = parseInt(data.total_quantity);
+        data.usd = parseInt(data.usd);
         this.newPerk = data;
         this.openModalPerk();
     };
@@ -215,7 +217,7 @@ var EditEventCtrl = (function () {
         this.imgurService.uploadImage(this.imageURI)
             .then(function (image) {
             _this.newEvent.image = image;
-            return _this.eventService.editEventPatch(_this.newEvent.id, _this._preparateData());
+            return _this.eventService.editEventPut(_this.newEvent.id, _this._preparateData());
         })
             .then(function (event) {
             _this.utilsService.hideLoad();
@@ -246,7 +248,7 @@ var EditEventCtrl = (function () {
     };
     EditEventCtrl.prototype._updateEvent = function (form) {
         var _this = this;
-        this.eventService.editEventPatch(this.newEvent.id, this._preparateData())
+        this.eventService.editEventPut(this.newEvent.id, this._preparateData())
             .then(function (event) {
             _this.utilsService.hideLoad();
             _this.utilsService.resetForm(form);

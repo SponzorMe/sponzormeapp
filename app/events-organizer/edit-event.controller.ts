@@ -67,7 +67,7 @@ class EditEventCtrl{
   }
   
   loadModal(){
-    this.$ionicModal.fromTemplateUrl('templates/events-organizer/perk-modal.html', {
+    this.$ionicModal.fromTemplateUrl('templates/events-organizer/perk-edit-modal.html', {
       scope: this.$scope,
       animation: 'slide-in-up'
     }).then( modal => this.modalPerk = modal );
@@ -190,6 +190,8 @@ class EditEventCtrl{
 
   editPerk( data ){
     this.isNewPerk = false;
+    data.total_quantity = parseInt( data.total_quantity );
+    data.usd = parseInt( data.usd );
     this.newPerk = data;
     this.openModalPerk();
   }
@@ -228,7 +230,7 @@ class EditEventCtrl{
     this.imgurService.uploadImage( this.imageURI )
     .then(image => {
       this.newEvent.image = image;
-      return this.eventService.editEventPatch( this.newEvent.id, this._preparateData() );
+      return this.eventService.editEventPut( this.newEvent.id, this._preparateData() );
     })
     .then( event => {
       this.utilsService.hideLoad();
@@ -259,7 +261,7 @@ class EditEventCtrl{
   }
   
   private _updateEvent(form:any){
-    this.eventService.editEventPatch( this.newEvent.id, this._preparateData() )
+    this.eventService.editEventPut( this.newEvent.id, this._preparateData() )
     .then( event => {
       this.utilsService.hideLoad();
       this.utilsService.resetForm( form );

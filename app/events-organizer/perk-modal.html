@@ -27,6 +27,7 @@
           name="total_quantity" 
           placeholder="{{'ADDPERK.quantity_placeholder' | translate}}" 
           ng-model="addEvent.newPerk.total_quantity" 
+          string-to-number 
           min="1" 
           required>
         </label>
@@ -41,6 +42,7 @@
           name="price"
           placeholder="{{'ADDPERK.price_placeholder' | translate}}" 
           ng-model="addEvent.newPerk.usd" 
+          string-to-number
           min="1"
           max="200"
           required>
