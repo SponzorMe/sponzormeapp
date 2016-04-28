@@ -15,44 +15,44 @@
           <ion-scroll style="height:90%" >
             <div class="padding">
               <div class="button-bar">
-                <button class="button icon-left ion-close-circled" ng-click="detail.sponsorReject()" ng-class="{'button-balanced': detail.sponzorship.status == '2'}">{{"SPONSORSHIPDETAIL.reject_button" | translate}}</button>
-                <button class="button icon-left ion-checkmark-circled" ng-click="detail.sponsorAccept()" ng-class="{'button-balanced': detail.sponzorship.status == '1', 'button-calm': detail.sponzorship.status == '0'}">{{"SPONSORSHIPDETAIL.accept_button" | translate}}</button>
+                <button class="button icon-left ion-close-circled" ng-click="detail.sponsorReject()" ng-class="{'button-balanced': detail.sponsorship.status == '2'}">{{"SPONSORSHIPDETAIL.reject_button" | translate}}</button>
+                <button class="button icon-left ion-checkmark-circled" ng-click="detail.sponsorAccept()" ng-class="{'button-balanced': detail.sponsorship.status == '1', 'button-calm': detail.sponsorship.status == '0'}">{{"SPONSORSHIPDETAIL.accept_button" | translate}}</button>
               </div>
             </div>
             <ion-list type="card">
               <ion-item class="item-divider">{{"SPONSORSHIPDETAIL.sponsor_divider" | translate}}</ion-item>
               <ion-item class="item-avatar">
-                <img ng-src="{{ detail.sponzorship.sponzor.image }}" alt="">
-                <h2>{{ detail.sponzorship.sponzor.name }}</h2>
-                <p>{{ detail.sponzorship.sponzor.email }}</p>
+                <img ng-src="{{ detail.sponsorship.sponzor.image }}" alt="">
+                <h2>{{ detail.sponsorship.sponzor.name }}</h2>
+                <p>{{ detail.sponsorship.sponzor.email }}</p>
               </ion-item>
               <ion-item class="item-divider">{{"SPONSORSHIPDETAIL.cause_divider" | translate}}</ion-item>
               <ion-item class="item-body">
-                {{ detail.sponzorship.cause }}</br>
+                {{ detail.sponsorship.cause }}</br>
               </ion-item>
               <ion-item class="item-divider">{{"SPONSORSHIPDETAIL.perk_divider" | translate}}</ion-item>
               <ion-item class="item-body">
                 <strong>{{"SPONSORSHIPDETAIL.kind" | translate}}: </strong>
-                {{ detail.sponzorship.perk.kind }}</br>
+                {{ detail.sponsorship.perk.kind }}</br>
                 <strong>{{"SPONSORSHIPDETAIL.quantity" | translate}}: </strong>
-                {{ detail.sponzorship.perk.total_quantity }}</br>
+                {{ detail.sponsorship.perk.total_quantity }}</br>
                 <strong>Usd: </strong>
-                {{ detail.sponzorship.perk.usd }}</br>
+                {{ detail.sponsorship.perk.usd }}</br>
               </ion-item>
               <ion-item class="item-divider">{{"SPONSORSHIPDETAIL.event_divider" | translate}}</ion-item>
               <ion-item>
                 <strong>{{"SPONSORSHIPDETAIL.title_event" | translate}}: </strong>
-                {{ detail.sponzorship.event.title }}</br>
+                {{ detail.sponsorship.event.title }}</br>
                 <strong>{{"SPONSORSHIPDETAIL.description_event" | translate}}: </strong>
-                {{ detail.sponzorship.event.description }}</br>
-                <a class="button button-block icon-left ion-eye" href="#/organizer/event/{{ detail.sponzorship.event.id }}">{{"SPONSORSHIPDETAIL.button_event" | translate}}</a>
+                {{ detail.sponsorship.event.description }}</br>
+                <a class="button button-block icon-left ion-eye" href="#/organizer/event/{{ detail.sponsorship.event.id }}">{{"SPONSORSHIPDETAIL.button_event" | translate}}</a>
               </ion-item>
             </ion-list>
           </ion-scroll>
         </ion-slide>
         <ion-slide>
           <ion-scroll style="height:90%" >
-            <div class="row text-center" ng-show="detail.sponzorship.task_sponzor.length == 0">
+            <div class="row text-center" ng-show="detail.sponsorship.task_sponzor.length == 0">
               <div class="col">
                 <div class="empty-states">
                   <i class="icon ion-checkmark"></i>
@@ -60,11 +60,11 @@
                 </div>
               </div>
             </div>
-            <ion-list type="card" ng-show="detail.sponzorship.task_sponzor.length > 0">
+            <ion-list type="card" ng-show="detail.sponsorship.task_sponzor.length > 0">
               <ion-item class="item-divider">
                 {{"SPONSORSHIPDETAIL.sponsors_tasks" | translate}}
               </ion-item> 
-              <ion-item class="item-icon-left" ng-repeat="taskSponsor in detail.sponzorship.task_sponzor" ng-class="{done: taskSponsor.status == 1}">
+              <ion-item class="item-icon-left" ng-repeat="taskSponsor in detail.sponsorship.task_sponzor" ng-class="{done: taskSponsor.status == 1}">
                 <i class="icon ion-checkmark"></i>
                 <h2> {{ taskSponsor.task.title }} </h2>
                 <p> {{ taskSponsor.task.description }} </p>

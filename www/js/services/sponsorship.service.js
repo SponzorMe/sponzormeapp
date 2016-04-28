@@ -104,8 +104,11 @@ var sponsorshipModule;
             sponzorship.organizer = data.Organizer || data.organizer || {};
             sponzorship.event = sponzorship.event ? sponzorship.event : data.Event || {};
             sponzorship.tasks = data.Tasks || data.tasks || [];
-            if (sponzorship.sponzor.image) {
+            if (!sponzorship.sponzor.image) {
                 sponzorship.sponzor.image = (sponzorship.sponzor.image == "") ? 'img/photo.png' : sponzorship.sponzor.image;
+            }
+            if (!sponzorship.organizer.image) {
+                sponzorship.organizer.image = sponzorship.organizer.image == "" ? 'img/photo.png' : sponzorship.organizer.image;
             }
             sponzorship.event = this.eventService.buildEvent(sponzorship.event);
             return sponzorship;
