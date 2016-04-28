@@ -41,8 +41,6 @@ class SponsorshipSponsorDetailCtrl{
   ){
     this.userAuth = this.userAuthService.getUserAuth();
     this.sponsorship = _.findWhere(this.userAuth.sponzorships, {id: $stateParams.id});
-    console.log( this.sponsorship );
-    console.log(this.userAuth.sponzorships);
     this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter( item => item.task.user_id == this.userAuth.id);
     
     this._loadModalTask(); 
