@@ -287,8 +287,8 @@ var EventDetailOrganizerCtrl = (function () {
                 _this.utilsService.resetForm(form);
             _this._hideModalTask(form);
             _this.utilsService.hideLoad();
-            _this.$rootScope.$broadcast('MenuOrganizer:count_tasks');
-            _this.$rootScope.$broadcast('TaskTabsController:count_tasks');
+            _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+            _this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
         })
             .catch(function (error) {
             _this._hideModalTask(form);

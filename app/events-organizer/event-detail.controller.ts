@@ -326,8 +326,8 @@ class EventDetailOrganizerCtrl{
       if( form ) this.utilsService.resetForm( form );
       this._hideModalTask( form );
       this.utilsService.hideLoad();
-      this.$rootScope.$broadcast('MenuOrganizer:count_tasks');
-      this.$rootScope.$broadcast('TaskTabsController:count_tasks');
+      this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+      this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
     })
     .catch( error => {
       this._hideModalTask( form );

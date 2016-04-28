@@ -99,11 +99,11 @@ var sponsorshipModule;
         };
         sponsorshipService.prototype.buildSponsorship = function (data) {
             var sponzorship = data;
-            sponzorship.sponzor = data.Sponzor || {};
-            sponzorship.perk = data.Perk || {};
-            sponzorship.organizer = data.Organizer || {};
+            sponzorship.sponzor = data.Sponzor || data.sponzor || {};
+            sponzorship.perk = data.Perk || data.perk || {};
+            sponzorship.organizer = data.Organizer || data.organizer || {};
             sponzorship.event = sponzorship.event ? sponzorship.event : data.Event || {};
-            sponzorship.tasks = data.Tasks || [];
+            sponzorship.tasks = data.Tasks || data.tasks || [];
             if (sponzorship.sponzor.image) {
                 sponzorship.sponzor.image = (sponzorship.sponzor.image == "") ? 'img/photo.png' : sponzorship.sponzor.image;
             }

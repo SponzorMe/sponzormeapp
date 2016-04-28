@@ -57,7 +57,7 @@ class FollowEventsCtrl{
   }
   
   private _filterByDateAndByPending( item ){
-    return item.status != '1';
+    return item.status != '1' && moment(item.event.starts).isAfter( new Date() );
   }
   
 }

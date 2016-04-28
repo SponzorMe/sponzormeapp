@@ -38,7 +38,6 @@ var EventDetailSponsorCtrl = (function () {
         this.newSponsorIt = {};
         this.userAuth = this.userAuthService.getUserAuth();
         this.event = _.findWhere(this.userAuth.events, { id: $stateParams.id });
-        console.log(this.event);
         this.event.perks.forEach(this._preparatePerks, this);
         this._loadModalSponsorIt();
     }

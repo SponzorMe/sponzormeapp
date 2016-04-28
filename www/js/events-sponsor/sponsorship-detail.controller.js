@@ -38,6 +38,8 @@ var SponsorshipSponsorDetailCtrl = (function () {
         this.indexSlide = 0;
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponsorship = _.findWhere(this.userAuth.sponzorships, { id: $stateParams.id });
+        console.log(this.sponsorship);
+        console.log(this.userAuth.sponzorships);
         this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter(function (item) { return item.task.user_id == _this.userAuth.id; });
         this._loadModalTask();
     }

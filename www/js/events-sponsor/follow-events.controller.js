@@ -51,7 +51,7 @@ var FollowEventsCtrl = (function () {
         });
     };
     FollowEventsCtrl.prototype._filterByDateAndByPending = function (item) {
-        return item.status != '1';
+        return item.status != '1' && moment(item.event.starts).isAfter(new Date());
     };
     return FollowEventsCtrl;
 }());
