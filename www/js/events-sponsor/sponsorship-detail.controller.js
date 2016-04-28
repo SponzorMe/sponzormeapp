@@ -70,11 +70,11 @@ var SponsorshipSponsorDetailCtrl = (function () {
         this.utilsService.showLoad();
         this.taskSponsorService.createTask(this._preparateTask())
             .then(function (data) {
-            _this.sponsorship.perk.tasks.push(data.TaskSponzor.Task);
+            _this.sponsorship.perk.tasks.push(data.TaskSponzor.task);
             _this.sponsorship.task_sponzor.push(data.TaskSponzor);
             _this.hideModalTask(form);
             _this.notificationService.sendNewTaskSponsor({
-                text: data.TaskSponzor.Task.title,
+                text: data.TaskSponzor.task.title,
                 modelId: _this.sponsorship.id
             }, data.TaskSponzor.organizer_id, data.TaskSponzor.organizer_ionic_id);
             _this.utilsService.hideLoad();

@@ -78,13 +78,13 @@ class SponsorshipSponsorDetailCtrl{
     this.utilsService.showLoad();
     this.taskSponsorService.createTask( this._preparateTask() )
     .then( data => {
-      this.sponsorship.perk.tasks.push( data.TaskSponzor.Task );
+      this.sponsorship.perk.tasks.push( data.TaskSponzor.task );
       this.sponsorship.task_sponzor.push( data.TaskSponzor );
       this.hideModalTask( form );
       
       this.notificationService.sendNewTaskSponsor(
         {
-          text: data.TaskSponzor.Task.title,
+          text: data.TaskSponzor.task.title,
           modelId: this.sponsorship.id
         },
         data.TaskSponzor.organizer_id,

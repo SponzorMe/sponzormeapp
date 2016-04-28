@@ -313,7 +313,7 @@ class AddEventCtrl{
       category: 1,
       type: this.newEvent.type.id,
       perks: this.newEvent.perks,
-      summary: ""
+      sumary: this.newEvent.description
     }
   }
   

@@ -297,7 +297,8 @@ var AddEventCtrl = (function () {
             organizer: this.userAuth.id,
             category: 1,
             type: this.newEvent.type.id,
-            perks: this.newEvent.perks
+            perks: this.newEvent.perks,
+            sumary: this.newEvent.description
         };
     };
     return AddEventCtrl;
