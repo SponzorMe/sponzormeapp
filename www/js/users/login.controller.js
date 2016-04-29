@@ -67,7 +67,7 @@ var LoginCtrl = (function () {
             if (_this.utilsService.trim(error.message) === "Invalid credentials") {
                 _this.utilsService.alert({
                     title: _this.$translate.instant("ERRORS.signin_title_credentials"),
-                    template: _this.$translate.instant("ERRORS.signin_incorrect_credentials")
+                    template: "<p class=\"text-center\">" + _this.$translate.instant("ERRORS.signin_incorrect_credentials") + "</p>"
                 });
             }
             _this.user.password = '';
