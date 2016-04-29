@@ -45,46 +45,64 @@ var notificationModule;
         notificationService.prototype.sendNewSponsorship = function (notification, to, ionicId) {
             notification.typeNotification = "newSponsorship";
             notification.type = "sponsorship";
+            notification.pushNotification = true;
+            notification.hide = false;
             this._sendNotification(notification, to, ionicId);
         };
         notificationService.prototype.sendAcceptSponsorship = function (notification, to, ionicId) {
             notification.typeNotification = "acceptSponsorship";
             notification.type = "sponsorship";
+            notification.pushNotification = true;
+            notification.hide = false;
             this._sendNotification(notification, to, ionicId);
         };
         notificationService.prototype.sendRejectSponsorship = function (notification, to, ionicId) {
             notification.typeNotification = "rejectSponsorship";
             notification.type = "sponsorship";
+            notification.pushNotification = true;
+            notification.hide = false;
             this._sendNotification(notification, to, ionicId);
         };
         notificationService.prototype.sendNewTaskOrganizer = function (notification, to, ionicId) {
             notification.typeNotification = "newTaskOrganizer";
             notification.type = "task";
+            notification.pushNotification = true;
+            notification.hide = false;
             this._sendNotification(notification, to, ionicId);
         };
         notificationService.prototype.sendUpdateTaskOrganizer = function (notification, to, ionicId) {
             notification.typeNotification = "doneTaskOrganizer";
             notification.type = "task";
+            notification.pushNotification = true;
+            notification.hide = false;
             this._sendNotification(notification, to, ionicId);
         };
         notificationService.prototype.sendDoneTaskOrganizer = function (notification, to, ionicId) {
             notification.typeNotification = "updateTaskOrganizer";
             notification.type = "task";
+            notification.pushNotification = true;
+            notification.hide = false;
             this._sendNotification(notification, to, ionicId);
         };
         notificationService.prototype.sendNewTaskSponsor = function (notification, to, ionicId) {
             notification.typeNotification = "newTaskSponsor";
             notification.type = "task";
+            notification.pushNotification = false;
+            notification.hide = true;
             this._sendNotification(notification, to, ionicId);
         };
         notificationService.prototype.sendUpdateTaskSponsor = function (notification, to, ionicId) {
             notification.typeNotification = "updateTaskSponsor";
             notification.type = "task";
+            notification.pushNotification = false;
+            notification.hide = true;
             this._sendNotification(notification, to, ionicId);
         };
         notificationService.prototype.sendDoneTaskSponsor = function (notification, to, ionicId) {
             notification.typeNotification = "doneTaskSponsor";
             notification.type = "task";
+            notification.pushNotification = false;
+            notification.hide = true;
             this._sendNotification(notification, to, ionicId);
         };
         notificationService.prototype.sendNewEvent = function () {
@@ -92,6 +110,8 @@ var notificationModule;
             notification.date = new Date().getTime();
             notification.fromApp = 'mobileApp';
             notification.toApp = 'mobileApp';
+            notification.pushNotification = false;
+            notification.hide = true;
             var url = this.path + 'notifications/events';
             var notificationsRef = this.$firebaseArray(new Firebase(url));
             notificationsRef.$add(notification);
@@ -101,6 +121,8 @@ var notificationModule;
             notification.date = new Date().getTime();
             notification.fromApp = 'mobileApp';
             notification.toApp = 'mobileApp';
+            notification.pushNotification = false;
+            notification.hide = true;
             var url = this.path + 'notifications/events';
             var notificationsRef = this.$firebaseArray(new Firebase(url));
             notificationsRef.$add(notification);
@@ -121,13 +143,15 @@ var notificationModule;
                 .then(function (response) {
                 notification.title = String(response[0]);
                 notification.message = String(response[1]);
-                _this.pushService.sendPushNotification([notification.ionicId], notification)
-                    .then(function (data) {
-                    console.log(data);
-                })
-                    .catch(function (error) {
-                    console.log(error);
-                });
+                if (notification.pushNotification) {
+                    _this.pushService.sendPushNotification([notification.ionicId], notification)
+                        .then(function (data) {
+                        console.log(data);
+                    })
+                        .catch(function (error) {
+                        console.log(error);
+                    });
+                }
                 var url = _this.path + 'notifications/' + to;
                 var notificationsRef = _this.$firebaseArray(new Firebase(url));
                 notificationsRef.$add(notification);

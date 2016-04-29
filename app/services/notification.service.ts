@@ -34,6 +34,8 @@ module notificationModule{
     text: string;
     modelId: string;
     ionicId: string;
+    pushNotification: boolean;
+    hide: boolean;
   }
   
   export class notificationService implements INotificationService{
@@ -84,54 +86,72 @@ module notificationModule{
     sendNewSponsorship(notification: Notification, to:string, ionicId:string):void {
       notification.typeNotification = "newSponsorship";
       notification.type = "sponsorship";
+      notification.pushNotification = true;
+      notification.hide = false;
       this._sendNotification(notification, to, ionicId);
     }
     
     sendAcceptSponsorship(notification: Notification, to:string, ionicId:string):void {
       notification.typeNotification = "acceptSponsorship";
       notification.type = "sponsorship";
+      notification.pushNotification = true;
+      notification.hide = false;
       this._sendNotification(notification, to, ionicId);
     }
     
     sendRejectSponsorship(notification: Notification, to:string, ionicId:string):void {
       notification.typeNotification = "rejectSponsorship";
       notification.type = "sponsorship";
+      notification.pushNotification = true;
+      notification.hide = false;
       this._sendNotification(notification, to, ionicId);
     }
     
     sendNewTaskOrganizer(notification: Notification, to:string, ionicId:string):void {
       notification.typeNotification = "newTaskOrganizer";
       notification.type = "task";
+      notification.pushNotification = true;
+      notification.hide = false;
       this._sendNotification(notification, to, ionicId);
     }
     
     sendUpdateTaskOrganizer(notification: Notification, to:string, ionicId:string):void {
       notification.typeNotification = "doneTaskOrganizer";
       notification.type = "task";
+      notification.pushNotification = true;
+      notification.hide = false;
       this._sendNotification(notification, to, ionicId);
     }
     
     sendDoneTaskOrganizer(notification: Notification, to:string, ionicId:string):void {
       notification.typeNotification = "updateTaskOrganizer";
       notification.type = "task";
+      notification.pushNotification = true;
+      notification.hide = false;
       this._sendNotification(notification, to, ionicId);
     }
     
     sendNewTaskSponsor(notification: Notification, to:string, ionicId:string):void {
       notification.typeNotification = "newTaskSponsor";
       notification.type = "task";
+      notification.pushNotification = false;
+      notification.hide = true;
       this._sendNotification(notification, to, ionicId);
     }
     
     sendUpdateTaskSponsor(notification: Notification, to:string, ionicId:string):void{
       notification.typeNotification = "updateTaskSponsor";
       notification.type = "task";
+      notification.pushNotification = false;
+      notification.hide = true;
       this._sendNotification(notification, to, ionicId);
     }
     
     sendDoneTaskSponsor(notification: Notification, to:string, ionicId:string):void{
       notification.typeNotification = "doneTaskSponsor";
       notification.type = "task";
+      notification.pushNotification = false;
+      notification.hide = true;
       this._sendNotification(notification, to, ionicId);
     }
     
@@ -141,6 +161,8 @@ module notificationModule{
       notification.date = new Date().getTime();
       notification.fromApp = 'mobileApp';
       notification.toApp = 'mobileApp';
+      notification.pushNotification = false;
+      notification.hide = true;
       
       let url = this.path + 'notifications/events';
       let notificationsRef =  this.$firebaseArray( new Firebase( url ));
@@ -153,6 +175,8 @@ module notificationModule{
       notification.date = new Date().getTime();
       notification.fromApp = 'mobileApp';
       notification.toApp = 'mobileApp';
+      notification.pushNotification = false;
+      notification.hide = true;
       
       let url = this.path + 'notifications/events';
       let notificationsRef =  this.$firebaseArray( new Firebase( url ));
@@ -180,13 +204,15 @@ module notificationModule{
         notification.title = String(response[0]);
         notification.message = String(response[1]);
         
-        this.pushService.sendPushNotification([ notification.ionicId ], notification)
-        .then(data => {
-          console.log( data );
-        })
-        .catch( error => {
-          console.log( error );
-        })
+        if(notification.pushNotification){
+          this.pushService.sendPushNotification([ notification.ionicId ], notification)
+          .then(data => {
+            console.log( data );
+          })
+          .catch( error => {
+            console.log( error );
+          });
+        }
         
         let url = this.path + 'notifications/' + to;
         let notificationsRef =  this.$firebaseArray( new Firebase( url ));

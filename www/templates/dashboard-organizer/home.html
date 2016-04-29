@@ -29,7 +29,7 @@
     <div class="card number-bar">
       <a class="item item-thumbnail-left number-bar-communtity" href="#/organizer/notifications">
         <i class="icon ion-android-notifications item-image"></i>
-        <h2>{{ (home.notifications | filter: {read: false, toApp: 'mobileApp'}).length }}</h2>
+        <h2>{{ (home.notifications | filter: {read: false, hide: false}).length }}</h2>
         <p>{{'DASHORGANIZERS.notifications' | translate}}</p>
       </a>
     </div>
