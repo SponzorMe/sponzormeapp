@@ -167,28 +167,35 @@ module notificationModule{
       notification.fromApp = 'mobileApp';
       notification.toApp = 'mobileApp';
       notification.read = false;
-      notification.title = this._getTitle( notification.typeNotification );
-      notification.message = this._getText( notification.typeNotification, notification.text );
       notification.ionicId = ionicId || "";
       
-      /*
-      if(notification.ionicId  && notification.ionicId != ""){
-        this.pushService.sendPushNotification([ notification.ionicId ], notification);
-      }
-      */
+      let promises = [ 
+        this._getTitle( notification.typeNotification ),
+        this._getText( notification.typeNotification, notification.text )
+      ];
       
-      
-      this.pushService.sendPushNotification([ notification.ionicId ], notification)
-      .then(data => {
-        console.log( data );
+      this.$q.all(  promises )
+      .then( response => {
+        
+        notification.title = String(response[0]);
+        notification.message = String(response[1]);
+        
+        this.pushService.sendPushNotification([ notification.ionicId ], notification)
+        .then(data => {
+          console.log( data );
+        })
+        .catch( error => {
+          console.log( error );
+        })
+        
+        let url = this.path + 'notifications/' + to;
+        let notificationsRef =  this.$firebaseArray( new Firebase( url ));
+        notificationsRef.$add(notification);
+        
       })
-      .catch( error => {
-        console.log( error );
-      })
-      
-      let url = this.path + 'notifications/' + to;
-      let notificationsRef =  this.$firebaseArray( new Firebase( url ));
-      notificationsRef.$add(notification);
+      .catch(error => {
+        console.log(error);
+      });
       
     }
     
@@ -204,11 +211,15 @@ module notificationModule{
     }
     
     private _getTitle(typeNotification){
-      return this.$translate.instant(`NOTIFICATIONS.${typeNotification}_title`);
+      return this.$translate(`NOTIFICATIONS.${typeNotification}_title`)
+      .then( message => { return this.$q.when( message ); } )
+      .catch( data => { return this.$q.reject( null ); } );
     }
     
     private _getText(typeNotification, text){
-      return this.$translate.instant(`NOTIFICATIONS.${typeNotification}_message`).replace('TEXT', text || '');
+      return this.$translate(`NOTIFICATIONS.${typeNotification}_text`)
+      .then( message => { return this.$q.when( message.replace('TEXT', text || '') ); } )
+      .catch( error => { return this.$q.reject( null ); } );
     }
     
     private _updateEvents():void {

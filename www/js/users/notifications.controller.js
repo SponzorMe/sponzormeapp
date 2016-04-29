@@ -16,72 +16,69 @@ var NotificationsCtrl = (function () {
         ];
         this.notifications = [];
         this.userAuth = this.userAuthService.getUserAuth();
-        //this.notifications = this.notificationService.getNotifications( this.userAuth.id );
-        this.notifications = [
+        this.notifications = this.notificationService.getNotifications(this.userAuth.id);
+        /*this.notifications = [
             {
-                typeNotification: 'newEvent',
-                type: 'event',
-                date: new Date(),
-                text: 'Ionic 2',
-                modelId: 1,
-                read: false,
-                toApp: 'mobileApp'
+              title: 'nuevo',
+              text: 'Angular 2',
+              typeNotification: 'newSponsorship',
+              type: 'sponsorship',
+              date: new Date(),
+              modelId: 1,
+              read: false,
+              toApp: 'mobileApp'
             },
             {
-                typeNotification: 'newSponsorship',
-                type: 'sponsorship',
-                date: new Date(),
-                text: 'Angular 2',
-                modelId: 1,
-                read: false,
-                toApp: 'mobileApp'
+              title: 'nuevo',
+              text: 'Angular 2',
+              typeNotification: 'acceptSponsorship',
+              type: 'sponsorship',
+              date: new Date(),
+              modelId: 1,
+              read: false,
+              toApp: 'mobileApp'
             },
             {
-                typeNotification: 'acceptSponsorship',
-                type: 'sponsorship',
-                date: new Date(),
-                text: 'Angular 2',
-                modelId: 1,
-                read: false,
-                toApp: 'mobileApp'
+              title: 'nuevo',
+              text: 'Angular 2',
+              typeNotification: 'rejectSponsorship',
+              type: 'sponsorship',
+              date: new Date(),
+              modelId: 1,
+              read: false,
+              toApp: 'mobileApp'
             },
             {
-                typeNotification: 'rejectSponsorship',
-                type: 'sponsorship',
-                date: new Date(),
-                text: 'Angular 2',
-                modelId: 1,
-                read: false,
-                toApp: 'mobileApp'
+              title: 'nuevo',
+              text: 'Angular 2',
+              typeNotification: 'newTaskOrganizer',
+              type: 'task',
+              date: new Date(),
+              modelId: 1,
+              read: false,
+              toApp: 'mobileApp'
             },
             {
-                typeNotification: 'newTaskOrganizer',
-                type: 'task',
-                date: new Date(),
-                text: 'Mostrar en redes sociales',
-                modelId: 1,
-                read: false,
-                toApp: 'mobileApp'
+              title: 'nuevo',
+              text: 'Angular 2',
+              typeNotification: 'updateTaskOrganizer',
+              type: 'task',
+              date: new Date(),
+              modelId: 1,
+              read: false,
+              toApp: 'mobileApp'
             },
             {
-                typeNotification: 'updateTaskOrganizer',
-                type: 'task',
-                date: new Date(),
-                text: 'Mostrar en redes sociales',
-                modelId: 1,
-                read: false,
-                toApp: 'mobileApp'
+              title: 'nuevo',
+              text: 'Angular 2',
+              typeNotification: 'doneTaskOrganizer',
+              type: 'task',
+              date: new Date(),
+              modelId: 1,
+              read: false,
+              toApp: 'mobileApp'
             },
-            {
-                typeNotification: 'doneTaskOrganizer',
-                type: 'task',
-                date: new Date(),
-                text: 'Mostrar en redes sociales',
-                modelId: 1,
-                read: false,
-                toApp: 'mobileApp'
-            },
-        ];
+          ];*/
     }
     return NotificationsCtrl;
 }());

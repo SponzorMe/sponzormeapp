@@ -106,29 +106,35 @@ var notificationModule;
             notificationsRef.$add(notification);
         };
         notificationService.prototype._sendNotification = function (notification, to, ionicId) {
+            var _this = this;
             notification.date = new Date().getTime();
             notification.to = to;
             notification.fromApp = 'mobileApp';
             notification.toApp = 'mobileApp';
             notification.read = false;
-            notification.title = this._getTitle(notification.typeNotification);
-            notification.message = this._getText(notification.typeNotification, notification.text);
             notification.ionicId = ionicId || "";
-            /*
-            if(notification.ionicId  && notification.ionicId != ""){
-              this.pushService.sendPushNotification([ notification.ionicId ], notification);
-            }
-            */
-            this.pushService.sendPushNotification([notification.ionicId], notification)
-                .then(function (data) {
-                console.log(data);
+            var promises = [
+                this._getTitle(notification.typeNotification),
+                this._getText(notification.typeNotification, notification.text)
+            ];
+            this.$q.all(promises)
+                .then(function (response) {
+                notification.title = String(response[0]);
+                notification.message = String(response[1]);
+                _this.pushService.sendPushNotification([notification.ionicId], notification)
+                    .then(function (data) {
+                    console.log(data);
+                })
+                    .catch(function (error) {
+                    console.log(error);
+                });
+                var url = _this.path + 'notifications/' + to;
+                var notificationsRef = _this.$firebaseArray(new Firebase(url));
+                notificationsRef.$add(notification);
             })
                 .catch(function (error) {
                 console.log(error);
             });
-            var url = this.path + 'notifications/' + to;
-            var notificationsRef = this.$firebaseArray(new Firebase(url));
-            notificationsRef.$add(notification);
         };
         notificationService.prototype._notificationForMe = function () {
             var _this = this;
@@ -142,10 +148,16 @@ var notificationModule;
             });
         };
         notificationService.prototype._getTitle = function (typeNotification) {
-            return this.$translate.instant("NOTIFICATIONS." + typeNotification + "_title");
+            var _this = this;
+            return this.$translate("NOTIFICATIONS." + typeNotification + "_title")
+                .then(function (message) { return _this.$q.when(message); })
+                .catch(function (data) { return _this.$q.reject(null); });
         };
         notificationService.prototype._getText = function (typeNotification, text) {
-            return this.$translate.instant("NOTIFICATIONS." + typeNotification + "_message").replace('TEXT', text || '');
+            var _this = this;
+            return this.$translate("NOTIFICATIONS." + typeNotification + "_text")
+                .then(function (message) { return _this.$q.when(message.replace('TEXT', text || '')); })
+                .catch(function (error) { return _this.$q.reject(null); });
         };
         notificationService.prototype._updateEvents = function () {
             var _this = this;
