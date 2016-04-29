@@ -26,8 +26,10 @@ class PastTasksCtrl{
   indexPerk:number = -1;
   indexTask:number = -1;
   modalTask:ionic.modal.IonicModalController = null;
+  modalSponsorship :ionic.modal.IonicModalController = null;
   isNewTask:boolean = true;
   task:any = {};
+  perk:any = {};
   
   constructor(
     private $scope: angular.IScope,
@@ -44,6 +46,7 @@ class PastTasksCtrl{
     this.events.forEach( this._preparateEvents, this );
     this.showEmptyState = this.events.length == 0 ? true : false;
     this._loadTaskModal();
+    this._loadSponsorshipModal();
   }
   
   private _filterEvents( event ){
@@ -63,6 +66,15 @@ class PastTasksCtrl{
       animation: 'slide-in-up'
     }).then(modal => {
       this.modalTask = modal;
+    });
+  }
+  
+  private _loadSponsorshipModal(){
+    this.$ionicModal.fromTemplateUrl('templates/tasks-organizer/sponsorship-detail-modal.html', {
+      scope: this.$scope,
+      animation: 'slide-in-up'
+    }).then(modal => {
+      this.modalSponsorship = modal;
     });
   }
   
@@ -123,6 +135,16 @@ class PastTasksCtrl{
   
   showModalTask(){
     this.modalTask.show();
+  }
+  
+  openSponsorship( perk ){
+    this.perk = perk;
+    this.modalSponsorship.show();
+  }
+  
+  hideModalSponsorship(){
+    this.modalSponsorship.hide();
+    this.perk = {};
   }
 
   newTask( perk, indexEvent, indexPerk ){

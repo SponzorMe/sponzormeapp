@@ -1,0 +1,23 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive" align-title="center">
+    <h1 class="title">{{ taskList.perk.kind }}</h1>
+    <div class="buttons">
+      <a class="button button-icon icon ion-close-circled" ng-click="taskList.hideModalSponsorship()"></a>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <ion-list type="card">
+      <ion-item ng-show="taskList.perk.sponzorship.length == 0">
+        {{"EVENTDETAIL.list_empty" | translate}}
+      </ion-item>
+      <ion-item class="item-icon-left item-icon-right" ng-repeat="sponzorship in taskList.perk.sponzorship">
+        <i class="icon ion-flag"></i>
+        <h2> {{ sponzorship.cause }} </h2>
+        <p> {{ sponzorship.sponzor.name }} </p>
+        <i class="icon ion-checkmark-circled status-sponzorship accept" ng-if="sponzorship.status == 1"></i>
+        <i class="icon ion-close-circled status-sponzorship reject" ng-if="sponzorship.status == 2"></i>
+        <i class="icon ion-alert status-sponzorship pending" ng-if="sponzorship.status == 0"></i>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-modal-view>

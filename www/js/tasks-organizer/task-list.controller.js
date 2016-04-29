@@ -32,13 +32,16 @@ var TaskListCtrl = (function () {
         this.indexPerk = -1;
         this.indexTask = -1;
         this.modalTask = null;
+        this.modalSponsorship = null;
         this.isNewTask = true;
         this.task = {};
+        this.perk = {};
         this.userAuth = this.userAuthService.getUserAuth();
         this.events = this.userAuth.events.filter(this._filterEvents);
         this.events.forEach(this._preparateEvents, this);
         this.showEmptyState = this.events.length == 0 ? true : false;
         this._loadTaskModal();
+        this._loadSponsorshipModal();
     }
     TaskListCtrl.prototype._filterEvents = function (event) {
         var count = event.perks.reduce(function (a, b) { return a.concat(b.tasks); }, []);
@@ -58,6 +61,15 @@ var TaskListCtrl = (function () {
             animation: 'slide-in-up'
         }).then(function (modal) {
             _this.modalTask = modal;
+        });
+    };
+    TaskListCtrl.prototype._loadSponsorshipModal = function () {
+        var _this = this;
+        this.$ionicModal.fromTemplateUrl('templates/tasks-organizer/sponsorship-detail-modal.html', {
+            scope: this.$scope,
+            animation: 'slide-in-up'
+        }).then(function (modal) {
+            _this.modalSponsorship = modal;
         });
     };
     TaskListCtrl.prototype.doRefresh = function () {
@@ -101,6 +113,14 @@ var TaskListCtrl = (function () {
                 }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
             }
         }
+    };
+    TaskListCtrl.prototype.openSponsorship = function (perk) {
+        this.perk = perk;
+        this.modalSponsorship.show();
+    };
+    TaskListCtrl.prototype.hideModalSponsorship = function () {
+        this.modalSponsorship.hide();
+        this.perk = {};
     };
     TaskListCtrl.prototype.showModalTask = function () {
         this.modalTask.show();
