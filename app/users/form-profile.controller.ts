@@ -40,9 +40,6 @@ class FormProfileCtrl{
     .then( user => {
       this.utilsService.hideLoad();
       this.utilsService.resetForm( form );
-      console.log( user );
-      //user.age = parseInt( user.age );
-      //user.comunity_size = parseInt( user.comunity_size );
       this.userAuth = this.userAuthService.updateUserAuth( user );
       this.$state.go("interests");
     })

@@ -29,7 +29,7 @@ var InviteUsersCtrl = (function () {
             _this.friend = {};
             _this.utilsService.alert({
                 title: "Nice!",
-                template: "Your Invitation was Sent."
+                template: '<p class="text-center">Your Invitation was Sent.</p>'
             });
         })
             .catch(function (error) {

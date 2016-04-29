@@ -33,7 +33,7 @@ class InviteUsersCtrl{
       this.friend = {};
       this.utilsService.alert({
         title: "Nice!",
-        template: "Your Invitation was Sent."
+        template: '<p class="text-center">Your Invitation was Sent.</p>'
       });
     })
     .catch( error => {

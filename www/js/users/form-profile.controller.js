@@ -34,9 +34,6 @@ var FormProfileCtrl = (function () {
             .then(function (user) {
             _this.utilsService.hideLoad();
             _this.utilsService.resetForm(form);
-            console.log(user);
-            //user.age = parseInt( user.age );
-            //user.comunity_size = parseInt( user.comunity_size );
             _this.userAuth = _this.userAuthService.updateUserAuth(user);
             _this.$state.go("interests");
         })
