@@ -191,6 +191,8 @@ module userModule{
     }
     
     private _getUser(data:any){
+      data.User.age = parseInt(data.User.age || 0);
+      data.User.comunity_size = parseInt(data.User.comunity_size || 0);
       return data.User;
     }
     
