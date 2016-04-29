@@ -20,8 +20,8 @@ class NotificationsCtrl{
     private notificationService: notificationModule.INotificationService
   ){
     this.userAuth = this.userAuthService.getUserAuth();
-    this.notifications = this.notificationService.getNotifications( this.userAuth.id );
-    /*vm.notifications = [
+    //this.notifications = this.notificationService.getNotifications( this.userAuth.id );
+    this.notifications = [
         {
           typeNotification: 'newEvent',
           type: 'event',
@@ -85,7 +85,7 @@ class NotificationsCtrl{
           read: false,
           toApp: 'mobileApp'
         },
-      ];*/
+      ];
   }
 }
 angular

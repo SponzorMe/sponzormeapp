@@ -24,6 +24,7 @@ var FormInterestsCtrl = (function () {
         ];
         this.categories = [];
         this.userAuth = this.userAuthService.getUserAuth();
+        this._getCategories();
     }
     FormInterestsCtrl.prototype.updateInterests = function () {
         var _this = this;

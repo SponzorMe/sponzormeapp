@@ -10,12 +10,10 @@
         .directive('spmNotification', spmNotification);
     spmNotification.$inject = [
         '$state',
-        '$firebaseArray',
         'BackendVariables',
         'userAuthService',
-        '$translate'
     ];
-    function spmNotification($state, $firebaseArray, BackendVariables, userAuthService, $translate) {
+    function spmNotification($state, BackendVariables, userAuthService) {
         var path = BackendVariables.f_url;
         var userAuth = userAuthService.getUserAuth();
         var directive = {
@@ -36,12 +34,7 @@
                 'rejectSponsorship': goFollowing,
                 'newTaskOrganizer': goDetailSponsorshipSponsor,
                 'updateTaskOrganizer': goDetailSponsorshipSponsor,
-                'doneTaskOrganizer': goDetailSponsorshipSponsor,
-                'newTaskSponsor': goDetailSponsorshipOrganizer,
-                'updateTaskSponsor': goDetailSponsorshipOrganizer,
-                'doneTaskSponsor': goDetailSponsorshipOrganizer,
-                'newEvent': goDetailEvent,
-                'updateEvent': goDetailEvent
+                'doneTaskOrganizer': goDetailSponsorshipSponsor
             };
             function read() {
                 var url = path + 'notifications/' + userAuth.id + '/' + $scope.model.$id;
@@ -49,8 +42,8 @@
                 reference.update({
                     read: true
                 }).then(function () {
-                    if ($scope.model.typeNotification) {
-                        events[$scope.model.typeNotification]($scope.model.modelId || null);
+                    if ($scope.model.typeNotification && $scope.model.modelId) {
+                        events[$scope.model.typeNotification]($scope.model.modelId);
                     }
                 });
             }
@@ -64,9 +57,6 @@
                     id: id
                 });
             }
-            function goSponzoring() {
-                $state.go('sponzor.sponzoring');
-            }
             function goFollowing() {
                 $state.go('sponzor.following');
             }
@@ -75,16 +65,25 @@
                     id: id
                 });
             }
-            function goDetailSponsorshipOrganizer(id) {
-                $state.go('organizer.sponsorship', {
-                    id: id
-                });
+            /*
+            function goSponzoring() {
+              $state.go('sponzor.sponzoring');
             }
-            function goDetailEvent(id) {
-                $state.go('sponzor.event', {
-                    idEvent: id
-                });
+            */
+            /*
+            function goDetailSponsorshipOrganizer( id ){
+               $state.go('organizer.sponsorship',{
+                 id: id
+               });
             }
+            */
+            /*
+            function goDetailEvent( id ) {
+              $state.go('sponzor.event',{
+                 idEvent: id
+               });
+            }
+            */
         }
     }
 })();

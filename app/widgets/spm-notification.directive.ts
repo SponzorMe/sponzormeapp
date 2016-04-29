@@ -13,13 +13,11 @@
 
   spmNotification.$inject = [
     '$state',
-    '$firebaseArray',
     'BackendVariables',
     'userAuthService',
-    '$translate'
   ];
 
-  function spmNotification( $state, $firebaseArray, BackendVariables, userAuthService, $translate ) {
+  function spmNotification( $state, BackendVariables, userAuthService ) {
     
     var path = BackendVariables.f_url;
     var userAuth = userAuthService.getUserAuth();
@@ -46,11 +44,11 @@
         'newTaskOrganizer': goDetailSponsorshipSponsor,
         'updateTaskOrganizer': goDetailSponsorshipSponsor,
         'doneTaskOrganizer': goDetailSponsorshipSponsor,
-        'newTaskSponsor': goDetailSponsorshipOrganizer,
-        'updateTaskSponsor': goDetailSponsorshipOrganizer,
-        'doneTaskSponsor': goDetailSponsorshipOrganizer,
-        'newEvent': goDetailEvent,
-        'updateEvent': goDetailEvent
+        //'newTaskSponsor': goDetailSponsorshipOrganizer,
+        //'updateTaskSponsor': goDetailSponsorshipOrganizer,
+        //'doneTaskSponsor': goDetailSponsorshipOrganizer,
+        //'newEvent': goDetailEvent,
+        //'updateEvent': goDetailEvent
       }
       
       function read(){
@@ -59,8 +57,8 @@
         reference.update({
           read: true
         }).then(function(){
-          if($scope.model.typeNotification){
-            events[$scope.model.typeNotification]($scope.model.modelId || null);
+          if( $scope.model.typeNotification && $scope.model.modelId ){
+            events[$scope.model.typeNotification]($scope.model.modelId);
           }
         });
       }
@@ -77,10 +75,6 @@
         });
       }
       
-      function goSponzoring() {
-        $state.go('sponzor.sponzoring');
-      }
-      
       function goFollowing() {
         $state.go('sponzor.following');
       }
@@ -91,17 +85,27 @@
          });
       }
       
+      /*
+      function goSponzoring() {
+        $state.go('sponzor.sponzoring');
+      }
+      */
+      
+      /*
       function goDetailSponsorshipOrganizer( id ){
          $state.go('organizer.sponsorship',{
            id: id
          });
       }
+      */
       
+      /*
       function goDetailEvent( id ) {
         $state.go('sponzor.event',{
            idEvent: id
          });
       }
+      */
       
 
     }

@@ -28,6 +28,7 @@ class FormInterestsCtrl{
     private userAuthService: userAuthModule.IUserAuthService
   ){
     this.userAuth = this.userAuthService.getUserAuth();
+    this._getCategories();
   }
   
   updateInterests(){

@@ -10,7 +10,6 @@ class ForgotCtrl{
   
   $inject = [
     '$state',
-    '$translate',
     '$ionicHistory',
     'userService', 
     'utilsService',
@@ -19,23 +18,32 @@ class ForgotCtrl{
   
   constructor(
     private $state: angular.ui.IStateService,
-    private $translate,
     private $ionicHistory: ionic.navigation.IonicHistoryService,
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService
   ){}
   
-  resetPassword(){
+  resetPassword( form ){
     this.utilsService.showLoad();
     this.userService.forgotPassword( this.user.email )
     .then( () => {
       this.utilsService.hideLoad();
-      this.$ionicHistory.clearCache();
-      this.$state.go("signin");
-      this.user = {};
+      this.utilsService.resetForm( form );
+      
+      this.utilsService.alert({
+        title: 'Reset password',
+        template: '<p class="text-center">Reset password Link sent, review your email.</p>',
+      })
+      .then(() => {
+        this.$ionicHistory.clearCache();
+        this.$state.go("signin");
+        this.user = {};
+      });
+      
     })
     .catch( error => {
       this.utilsService.hideLoad();
+      this.utilsService.resetForm( form );
     });
   };
   
