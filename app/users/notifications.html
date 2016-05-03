@@ -10,6 +10,6 @@
         </div>
       </div>
     </div>
-    <spm-notification model="notification" ng-repeat="notification in list.notifications | filter: {read: false, hide: false} | orderBy: '-date'"></spm-notification>
+    <spm-notification class="animate-notification" model="notification" ng-repeat="notification in list.notifications | filter: {read: false, hide: false} | orderBy: '-date'"></spm-notification>
   </ion-content>
 </ion-view>

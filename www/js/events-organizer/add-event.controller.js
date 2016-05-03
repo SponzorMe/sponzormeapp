@@ -298,7 +298,7 @@ var AddEventCtrl = (function () {
             category: 1,
             type: this.newEvent.type.id,
             perks: this.newEvent.perks,
-            sumary: this.newEvent.description
+            sumary: this.newEvent.description.substr(0, 159)
         };
     };
     return AddEventCtrl;

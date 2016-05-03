@@ -33,7 +33,7 @@ class MenuSponsorCtrl{
   ){
     this.userAuth = userAuthService.getUserAuth();
     this.count_sponsoring = this.userAuth.sponzorships.filter( this.filterByAccepted ).length;
-    this.count_following = this.userAuth.sponzorships.length - this.count_sponsoring; 
+    this.count_following = this.userAuth.sponzorships.filter( this._filterByDateAndByPending ).length; 
     this.notifications = notificationService.getNotifications( this.userAuth.id );
     
     this.registerListenerCounts();
@@ -43,12 +43,16 @@ class MenuSponsorCtrl{
     this.$rootScope.$on('MenuSponsorCtrl:counts', () => {
       this.userAuth =  this.userAuthService.getUserAuth();
       this.count_sponsoring = this.userAuth.sponzorships.filter( this.filterByAccepted ).length;
-      this.count_following = this.userAuth.sponzorships.length - this.count_sponsoring;
+      this.count_following = this.userAuth.sponzorships.filter( this._filterByDateAndByPending ).length;
     });
   }
   
   filterByAccepted( item ){
     return item.status == '1';
+  }
+  
+  private _filterByDateAndByPending( item ){
+    return item.status != '1' && moment(item.event.starts).isAfter( new Date() );
   }
   
   logout(){

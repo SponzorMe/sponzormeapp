@@ -54,33 +54,35 @@
       function read(){
         var url = path + 'notifications/' + userAuth.id + '/' + $scope.model.$id;
         var reference = new Firebase(url);
-        reference.update({
-          read: true
-        }).then(function(){
-          if( $scope.model.typeNotification && $scope.model.modelId ){
-            events[$scope.model.typeNotification]($scope.model.modelId);
-          }
-        });
+        if( $scope.model.typeNotification && $scope.model.modelId ){
+          events[$scope.model.typeNotification]($scope.model.modelId)
+          .then(function() {
+            reference.update({read: true})
+            .then(function () {
+              console.log('update notification');
+            });
+          });
+        }
       }
       
       function goDetailOrganizerSponsorhip( id ) {
-        $state.go('organizer.sponsorship', {
+        return $state.go('organizer.sponsorship', {
           id: id
         });
       }
       
       function goDetailSponsorSponsorhip( id ) {
-        $state.go('sponzor.sponsorship', {
+        return $state.go('sponzor.sponsorship', {
           id: id
         });
       }
       
       function goFollowing() {
-        $state.go('sponzor.following');
+        return $state.go('sponzor.following');
       }
       
       function goDetailSponsorshipSponsor( id ){
-         $state.go('sponzor.sponsorship',{
+         return $state.go('sponzor.sponsorship',{
            id: id
          });
       }

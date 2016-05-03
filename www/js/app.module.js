@@ -23,6 +23,7 @@
         'ngMessages',
         'ngStorage',
         'ngSanitize',
+        'ngAnimate',
         'ngIOS9UIWebViewPatch',
         'pascalprecht.translate',
         'base64',
