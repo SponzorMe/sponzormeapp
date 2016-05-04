@@ -13,10 +13,12 @@ module notificationModule{
     sendRejectSponsorship(notification: any, to:string, ionicId:string): void,
     sendNewTaskOrganizer(notification: any, to:string, ionicId:string): void,
     sendUpdateTaskOrganizer(notification: any, to:string, ionicId:string): void,
+    sendDeleteTaskOrganizer(notification: any, to:string, ionicId:string): void,
     sendDoneTaskOrganizer(notification: any, to:string, ionicId:string): void,
     sendNewTaskSponsor(notification: any, to:string, ionicId:string): void,
     sendUpdateTaskSponsor(notification: any, to:string, ionicId:string): void,
     sendDoneTaskSponsor(notification: any, to:string, ionicId:string): void,
+    sendDeleteTaskSponsor(notification: any, to:string, ionicId:string): void,
     sendNewEvent(): void,
     sendUpdateEvent(): void,
   }
@@ -131,6 +133,14 @@ module notificationModule{
       this._sendNotification(notification, to, ionicId);
     }
     
+    sendDeleteTaskOrganizer(notification: Notification, to:string, ionicId:string):void{
+      notification.typeNotification = "deleteTaskSponsor";
+      notification.type = "task";
+      notification.pushNotification = false;
+      notification.hide = true;
+      this._sendNotification(notification, to, ionicId);
+    }
+    
     sendNewTaskSponsor(notification: Notification, to:string, ionicId:string):void {
       notification.typeNotification = "newTaskSponsor";
       notification.type = "task";
@@ -149,6 +159,14 @@ module notificationModule{
     
     sendDoneTaskSponsor(notification: Notification, to:string, ionicId:string):void{
       notification.typeNotification = "doneTaskSponsor";
+      notification.type = "task";
+      notification.pushNotification = false;
+      notification.hide = true;
+      this._sendNotification(notification, to, ionicId);
+    }
+    
+    sendDeleteTaskSponsor(notification: Notification, to:string, ionicId:string):void{
+      notification.typeNotification = "deleteTaskSponsor";
       notification.type = "task";
       notification.pushNotification = false;
       notification.hide = true;

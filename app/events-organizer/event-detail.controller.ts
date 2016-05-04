@@ -134,6 +134,20 @@ class EventDetailOrganizerCtrl{
       );
     }
   }
+  
+  private _sendDeleteTaskNotification( text ) {
+    for (let index = 0; index < this.event.perks[this.indexPerk].sponzorship.length; index++) {
+      let sponsorship = this.event.perks[this.indexPerk].sponzorship[index];
+      this.notificationService.sendNewTaskOrganizer(
+        {
+          text: text,
+          modelId: sponsorship.id
+        }, 
+        sponsorship.sponzor.id, 
+        sponsorship.sponzor.ionic_id || ""
+      );
+    }
+  }
     
   private _sendUpdateTaskNotification( text, done ) {
     for (let index = 0; index < this.event.perks[this.indexPerk].sponzorship.length; index++) {
@@ -322,6 +336,9 @@ class EventDetailOrganizerCtrl{
     this.perkTaskService.deletePerkTask( this.task.id )
     .then( data => {
       this.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
+      
+      this._sendDeleteTaskNotification( this.event.perks[this.indexPerk].tasks[this.indexTask].title );
+      
       this.event.perks[this.indexPerk].tasks.splice(this.indexTask, 1);
       this.userAuthService.updateUserAuth( this.userAuth );
       if( form ) this.utilsService.resetForm( form );

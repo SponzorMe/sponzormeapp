@@ -109,6 +109,20 @@ class TaskListCtrl{
     }
   }
   
+  sendDeleteTaskNotification( text ) {
+    for (let index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
+      let sponzorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
+      this.notificationService.sendDeleteTaskOrganizer(
+        {
+        text: text,
+        modelId: sponzorship.id
+        }, 
+        sponzorship.sponzor_id,
+        sponzorship.sponzor_ionic_id
+      );
+    }
+  }
+  
   sendUpdateTaskNotification( text, done ) {
     for (let index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
       let sponsorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
@@ -212,6 +226,9 @@ class TaskListCtrl{
     .then( data => {
       this.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
       this.userAuth = this.userAuthService.updateUserAuth( this.userAuth );
+      
+      this.sendDeleteTaskNotification( this.events[this.indexEvent].perks[this.indexPerk].tasks[this.indexTask].title );
+      
       this.events[this.indexEvent].perks[this.indexPerk].tasks.splice(this.indexTask, 1);
       this.hideModalTask( form );
       this.utilsService.hideLoad();
