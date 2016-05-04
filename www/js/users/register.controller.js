@@ -34,7 +34,11 @@ var RegisterCtrl = (function () {
     RegisterCtrl.prototype.registerNewUser = function (form) {
         var _this = this;
         this.utilsService.showLoad();
-        this.userService.createUser(this._preparateData())
+        this._registerInIonicIO(this.newUser.email, this.newUser.password)
+            .then(function (data) {
+            console.log(data);
+            return _this.userService.createUser(_this._preparateData());
+        })
             .then(function (user) {
             return _this.userService.login(_this.newUser.email, _this.newUser.password);
         })
@@ -46,7 +50,6 @@ var RegisterCtrl = (function () {
                 template: _this.$translate.instant("MESSAGES.succ_user_mess")
             });
             _this.$localStorage.token = _this.$base64.encode(_this.newUser.email + ':' + _this.newUser.password);
-            _this._registerInIonicIO(_this.newUser.email, _this.newUser.password);
             _this.newUser = {};
             _this.newUser.type = 0;
             _this.userAuthService.updateUserAuth(user);
@@ -76,15 +79,9 @@ var RegisterCtrl = (function () {
         });
     };
     RegisterCtrl.prototype._registerInIonicIO = function (email, password) {
-        this.$ionicAuth
-            .signup({
+        return this.$ionicAuth.signup({
             'email': email,
             'password': password
-        }).then(function (data) {
-            console.log(data);
-        })
-            .catch(function (error) {
-            console.log(error);
         });
     };
     RegisterCtrl.prototype._preparateData = function () {

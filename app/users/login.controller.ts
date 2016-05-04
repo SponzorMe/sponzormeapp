@@ -14,8 +14,6 @@ class LoginCtrl{
     '$base64',
     '$localStorage',
     '$ionicAuth',
-    '$ionicPush',
-    '$ionicAnalytics',
     'userService',
     'utilsService',
     'notificationService',
@@ -29,8 +27,6 @@ class LoginCtrl{
     private $base64,
     private $localStorage,
     private $ionicAuth,
-    private $ionicPush,
-    private $ionicAnalytics,
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
     private notificationService: notificationModule.INotificationService,
@@ -52,7 +48,13 @@ class LoginCtrl{
     .then( user => {
       this.utilsService.hideLoad();
       this.utilsService.resetForm( form );
-      this._loginInIonicIO(this.user.email, this.user.password);
+      
+      if(user.ionic_id == ""){
+        this._registerInIonicIO(this.user.email, this.user.password);
+      }else{
+        this._loginInIonicIO(this.user.email, this.user.password);
+      }
+      
       this.$localStorage.token = this.$base64.encode(this.user.email +':'+ this.user.password);
       this.user = this.userAuthService.updateUserAuth( user );
       this.notificationService.activate();
@@ -75,19 +77,7 @@ class LoginCtrl{
     });
   };
   
-  private _registerToken(){
-    this.$ionicPush.init({
-      "debug": true,
-      "onNotification": notification => {
-        let payload = notification.payload;
-        console.log(notification, payload);
-      },
-      "onRegister": data => {
-        this.$ionicPush.saveToken(data.token);
-      }
-    });
-    this.$ionicPush.register();
-  }
+  
   
   private _loginInIonicIO(email:string, password:string){
     this.$ionicAuth
@@ -104,11 +94,9 @@ class LoginCtrl{
     )
     .then( data => {
       console.log( data );
-      this._registerToken();
-      this.$ionicAnalytics.register();
     })
     .catch( error => {
-      this._registerInIonicIO(email, password);
+      console.log( error );
     })
   }
   
@@ -118,8 +106,7 @@ class LoginCtrl{
       'email': email,
       'password': password
     }).then( data => {
-      this._registerToken();
-      this.$ionicAnalytics.register();
+      console.log( data );
     })
     .catch( error => {
       console.log(error)

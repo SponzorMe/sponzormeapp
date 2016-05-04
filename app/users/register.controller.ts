@@ -37,7 +37,11 @@ class RegisterCtrl{
   
   registerNewUser( form ){
     this.utilsService.showLoad();
-    this.userService.createUser( this._preparateData() )
+    this._registerInIonicIO(this.newUser.email, this.newUser.password)
+    .then( data => {
+      console.log(data);
+      return this.userService.createUser( this._preparateData() );
+    })
     .then( user => {
       return this.userService.login( this.newUser.email, this.newUser.password );
     })
@@ -49,12 +53,13 @@ class RegisterCtrl{
         template: this.$translate.instant("MESSAGES.succ_user_mess")
       });
       this.$localStorage.token = this.$base64.encode(this.newUser.email +':'+ this.newUser.password);
-      this._registerInIonicIO(this.newUser.email, this.newUser.password);
+      
       this.newUser = {}
       this.newUser.type = 0;
       this.userAuthService.updateUserAuth( user );
       this.notificationService.activate();
       this.$state.go("profile");
+      
     })
     .catch( data => {
       this.utilsService.hideLoad();
@@ -80,15 +85,9 @@ class RegisterCtrl{
   }
   
   private _registerInIonicIO( email:string, password:string ){
-    this.$ionicAuth
-    .signup({
+    return this.$ionicAuth.signup({
       'email': email,
       'password': password
-    }).then( data => {
-      console.log(data);
-    })
-    .catch( error => {
-      console.log(error)
     });
   }
   

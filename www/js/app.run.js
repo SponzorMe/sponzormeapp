@@ -8,7 +8,7 @@
     angular
         .module('app')
         .run(run);
-    function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics, $localStorage, userAuthService, notificationService, BackendVariables) {
+    function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics, $ionicPush, $localStorage, userAuthService, notificationService, BackendVariables) {
         //function run($ionicPlatform ) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -19,9 +19,10 @@
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
-            //activateNotifications();
-            //chooseLanguage();
-            //ionicAnalytics();
+            registerToken();
+            activateNotifications();
+            chooseLanguage();
+            ionicAnalytics();
         });
         function activateNotifications() {
             if (userAuthService.checkSession()) {
@@ -36,6 +37,19 @@
                 channel: BackendVariables.channel,
                 day_of_week: (new Date()).getDay()
             });
+        }
+        function registerToken() {
+            $ionicPush.init({
+                "debug": true,
+                "onNotification": function (notification) {
+                    var payload = notification.payload;
+                    console.log(notification, payload);
+                },
+                "onRegister": function (data) {
+                    $ionicPush.saveToken(data.token);
+                }
+            });
+            $ionicPush.register();
         }
         function chooseLanguage() {
             if (!checkChooseLang()) {
