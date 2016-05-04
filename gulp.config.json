@@ -3,8 +3,8 @@
   "index": "./www/index.html",
   "indexMocha": "./tests/unit/index.html",
   "includeCss": "./www/build/css/app.min.css",
-  "includeVendors": "./www/build/js/vendors.min.js",
-  "includeJs": "./www/build/js/app.min.js",
+  "includeVendors": "./www/build/js/vendors.js",
+  "includeJs": "./www/build/js/app.js",
   "htmltemplates": "./ww/templates/**/*.html",
   "vendorjs": [
     "./www/lib/ionic/js/ionic.bundle.min.js",

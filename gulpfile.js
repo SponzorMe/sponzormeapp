@@ -46,16 +46,16 @@ gulp.task('sass', function(done) {
  */
 gulp.task('js', function(done) {
 
-  var dest = paths.build + 'js';
+  var dest = paths.build + 'build/js';
 
   gulp.src( paths.js )
     .pipe(concat('app.js'))
     .pipe(bytediff.start())
     .pipe(gulp.dest( dest ))
-    .pipe(uglify())
-    .pipe(bytediff.stop(bytediffFormatter))
-    .pipe(rename({ extname: '.min.js' }))
-    .pipe(gulp.dest( dest ))
+    //.pipe(uglify())
+    //.pipe(bytediff.stop(bytediffFormatter))
+    //.pipe(rename({ extname: '.min.js' }))
+    //.pipe(gulp.dest( dest ))
     .on('end', done);
 });
 
@@ -77,16 +77,16 @@ gulp.task('watch', function() {
  */
 gulp.task('vendorjs', function( done ) {
 
-  var dest = paths.build + 'js';
+  var dest = paths.build + 'build/js';
 
   gulp.src( paths.vendorjs )
     .pipe(concat('vendors.js'))
     .pipe(bytediff.start())
     .pipe(gulp.dest( dest ))
-    .pipe(uglify())
-    .pipe(bytediff.stop(bytediffFormatter))
-    .pipe(rename({ extname: '.min.js' }))
-    .pipe(gulp.dest( dest ))
+    //.pipe(uglify())
+    //.pipe(bytediff.stop(bytediffFormatter))
+    //.pipe(rename({ extname: '.min.js' }))
+    //.pipe(gulp.dest( dest ))
     .on('end', done);
 });
 
@@ -95,7 +95,7 @@ gulp.task('vendorjs', function( done ) {
  */
 gulp.task('css', function( done ) {
 
-  var dest = paths.build + 'css';
+  var dest = paths.build + 'build/css';
 
   gulp.src( paths.css )
     .pipe(concat('app.css'))
