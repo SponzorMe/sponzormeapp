@@ -87,8 +87,8 @@ class EventDetailSponsorCtrl{
       this.event.perks.forEach( this._preparatePerks, this );
       this.userAuthService.updateUserAuth( this.userAuth );
       
-      this.$rootScope.$broadcast('MenuSponsorCtrl:counts');
-      this.$rootScope.$broadcast('FollowEventsCtrl:getSponzorships');
+      this.$rootScope.$broadcast('MenuSponsorCtrl:count');
+      this.$rootScope.$broadcast('FollowEventsController:getSponzorships');
       
       var notification = {
         text: this.event.title,

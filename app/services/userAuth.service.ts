@@ -56,7 +56,7 @@ module userAuthModule{
         let userAuth = this.updateUserAuth( user );
         if(userAuth.type == "0"){ //Is an organizer
           
-          this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+          this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
           this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
           this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
           

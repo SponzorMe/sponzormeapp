@@ -40,9 +40,6 @@ class SponsorshipsPastEventsCtrl{
       this.userAuth = this.userAuthService.updateUserAuth( user );
       this.sponsorships = this.userAuth.sponzorships_like_organizer.filter( this._filterByDateIsBefore );
       this.showEmptyState = this.sponsorships.length == 0 ? true : false;
-      this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
-      this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
-      this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
     })
     .catch( error => {
       this.showEmptyState = true;

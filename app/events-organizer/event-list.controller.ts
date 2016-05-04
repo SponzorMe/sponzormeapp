@@ -41,9 +41,6 @@ class EventListOrganizerCtrl{
         this.userAuth = this.userAuthService.updateUserAuth( user );
         this.events = this.userAuth.events.filter( this._filterDate );
         this.showEmptyState = this.events.length == 0 ? true : false;
-        this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
-        this.$rootScope.$broadcast('EventsTabsOrganizerCtrl:count_events');
-        this.$rootScope.$broadcast('HomeOrganizerCtrl:count_events');
       })
       .catch( error => {
         this.$scope.$broadcast('scroll.refreshComplete');

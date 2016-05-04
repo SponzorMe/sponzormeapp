@@ -244,9 +244,13 @@ class EditEventCtrl{
       });
       this.$ionicHistory.clearCache().then(() => {
         this.notificationService.sendNewEvent();
-        this.$rootScope.$broadcast('MenuOrganizer:count_events');
-        this.$rootScope.$broadcast('EventsTabsController:count_events');
-        this.$rootScope.$broadcast('HomeOrganizerController:count_events');
+        
+        this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
+        this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
+        this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
+        this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
+        
+        
         this.$ionicHistory.goBack();
       });
       this.$cordovaToast.showShortBottom(this.$translate.instant("MESSAGES.succ_event_mess"));
@@ -274,9 +278,12 @@ class EditEventCtrl{
       });
       this.$ionicHistory.clearCache().then(() => {
         this.notificationService.sendNewEvent();
-        this.$rootScope.$broadcast('MenuOrganizer:count_events');
-        this.$rootScope.$broadcast('EventsTabsController:count_events');
-        this.$rootScope.$broadcast('HomeOrganizerController:count_events');
+        
+        this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
+        this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
+        this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
+        this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
+        
         this.$ionicHistory.goBack();
       });
       this.$cordovaToast.showShortBottom(this.$translate.instant("MESSAGES.succ_event_mess"));

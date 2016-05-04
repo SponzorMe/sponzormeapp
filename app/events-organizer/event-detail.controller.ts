@@ -289,7 +289,8 @@ class EventDetailOrganizerCtrl{
       this.userAuthService.updateUserAuth( this.userAuth );
       this._sendNewTaskNotification( data.PerkTask.title );
       
-      this.$rootScope.$broadcast('MenuOrganizer:count_tasks');
+      this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+      this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
       
       this.utilsService.resetForm( form );
       this._hideModalTask( form );
@@ -326,8 +327,10 @@ class EventDetailOrganizerCtrl{
       if( form ) this.utilsService.resetForm( form );
       this._hideModalTask( form );
       this.utilsService.hideLoad();
+      
       this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
       this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
+      
     })
     .catch( error => {
       this._hideModalTask( form );
@@ -348,8 +351,8 @@ class EventDetailOrganizerCtrl{
       this.event.perks[this.indexPerk].tasks[this.indexTask] = task;
       this.utilsService.resetForm( form );
       
-      this.$rootScope.$broadcast('MenuOrganizer:count_tasks');
-      this.$rootScope.$broadcast('TaskTabsController:count_tasks');
+      this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+      this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
       
       this._hideModalTask( form );
       this.utilsService.hideLoad();

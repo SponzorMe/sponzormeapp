@@ -66,9 +66,6 @@ class SponsorshipsListCtrl{
       this.userAuth = this.userAuthService.updateUserAuth( user );
       this.sponsorships = this.userAuth.sponzorships_like_organizer.filter( this._filterByDateIsAfter );
       this.showEmptyState = this.sponsorships.length == 0 ? true : false;
-      this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
-      this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
-      this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
     })
     .catch( error => {
       this.showEmptyState = true;
@@ -89,6 +86,10 @@ class SponsorshipsListCtrl{
         link: '#/sponzors/sponzoring',
         modelId: sponsorship.id
       };
+      
+      this.$rootScope.$broadcast('SponsorshipsListCtrl:getSponzorships');
+      this.$rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
+      this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
       
       if(sponzor.status == 1){ //Accepted 
         this.notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);

@@ -10,6 +10,7 @@ class SponsorshipOrganizerDetailCtrl{
   
   $inject = [
     '$stateParams',
+    '$rootScope',
     'sponsorshipService',
     'utilsService',
     'userAuthService',
@@ -22,6 +23,7 @@ class SponsorshipOrganizerDetailCtrl{
   
   constructor(
     private $stateParams,
+    private $rootScope: angular.IRootScopeService,
     private sponsorshipService: sponsorshipModule.ISponsorshipService,
     private utilsService: utilsServiceModule.IUtilsService,
     private userAuthService: userAuthModule.IUserAuthService,
@@ -66,6 +68,10 @@ class SponsorshipOrganizerDetailCtrl{
         modelId: this.sponsorship.id
       };
       this.sponsorship.status = sponsorship.status;
+      
+      this.$rootScope.$broadcast('SponsorshipsListCtrl:getSponzorships');
+      this.$rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
+      this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
       
       if( this.sponsorship.status == 1){ //Accepted 
         this.notificationService.sendAcceptSponsorship(notification, this.sponsorship.sponzor_id, this.sponsorship.sponzor_ionic_id);

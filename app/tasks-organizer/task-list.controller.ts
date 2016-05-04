@@ -183,7 +183,10 @@ class TaskListCtrl{
       this.hideModalTask( form );
       this.utilsService.hideLoad();
       this.sendNewTaskNotification( data.PerkTask.title );
-      this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+      
+      this.$rootScope.$broadcast('TaskListCtrl:getTasks');
+      this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
+      
     })
     .catch( error => {
       this.hideModalTask( form );
@@ -212,8 +215,11 @@ class TaskListCtrl{
       this.events[this.indexEvent].perks[this.indexPerk].tasks.splice(this.indexTask, 1);
       this.hideModalTask( form );
       this.utilsService.hideLoad();
+      
+      this.$rootScope.$broadcast('TaskListCtrl:getTasks');
+      this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
       this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
-      this.$rootScope.$broadcast('TaskTabsController:count_tasks');
+      
     })
     .catch( error => {
       this.hideModalTask( form );
@@ -235,8 +241,10 @@ class TaskListCtrl{
       this.events[this.indexEvent].perks[this.indexPerk].tasks[this.indexTask] = task;
       this.hideModalTask( form );
       this.utilsService.hideLoad();
+      
+      this.$rootScope.$broadcast('TaskListCtrl:getTasks');
+      this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
       this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
-      this.$rootScope.$broadcast('TaskTabsController:count_tasks');
       
     })
     .catch( error => {
