@@ -50,6 +50,14 @@ class FormInterestsCtrl{
 
   }
   
+  goIntro(){
+    if( this.userAuth.type == "0" ){ // is an Organizer.
+      this.$state.go("organizer.intro");
+    }else{ // is an Sponzor
+      this.$state.go("sponzor.intro");
+    }
+  }
+  
   private _getCategories(){
     this.utilsService.showLoad();
     this.categoryService.allCategories()

@@ -45,6 +45,14 @@ var FormInterestsCtrl = (function () {
             _this.utilsService.hideLoad();
         });
     };
+    FormInterestsCtrl.prototype.goIntro = function () {
+        if (this.userAuth.type == "0") {
+            this.$state.go("organizer.intro");
+        }
+        else {
+            this.$state.go("sponzor.intro");
+        }
+    };
     FormInterestsCtrl.prototype._getCategories = function () {
         var _this = this;
         this.utilsService.showLoad();
