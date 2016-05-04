@@ -121,7 +121,7 @@ var EventDetailOrganizerCtrl = (function () {
     EventDetailOrganizerCtrl.prototype._sendDeleteTaskNotification = function (text) {
         for (var index = 0; index < this.event.perks[this.indexPerk].sponzorship.length; index++) {
             var sponsorship = this.event.perks[this.indexPerk].sponzorship[index];
-            this.notificationService.sendNewTaskOrganizer({
+            this.notificationService.sendDeleteTaskOrganizer({
                 text: text,
                 modelId: sponsorship.id
             }, sponsorship.sponzor.id, sponsorship.sponzor.ionic_id || "");

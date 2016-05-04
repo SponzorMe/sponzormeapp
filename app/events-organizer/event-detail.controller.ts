@@ -138,7 +138,7 @@ class EventDetailOrganizerCtrl{
   private _sendDeleteTaskNotification( text ) {
     for (let index = 0; index < this.event.perks[this.indexPerk].sponzorship.length; index++) {
       let sponsorship = this.event.perks[this.indexPerk].sponzorship[index];
-      this.notificationService.sendNewTaskOrganizer(
+      this.notificationService.sendDeleteTaskOrganizer(
         {
           text: text,
           modelId: sponsorship.id
