@@ -47,6 +47,7 @@ class PastTasksCtrl{
     this.showEmptyState = this.events.length == 0 ? true : false;
     this._loadTaskModal();
     this._loadSponsorshipModal();
+    this._registerListenerPastTasksCtrl();
   }
   
   private _filterEvents( event ){
@@ -249,6 +250,15 @@ class PastTasksCtrl{
     }else{
       this.updateTask( form );
     }
+  }
+  
+  private _registerListenerPastTasksCtrl(){
+    this.$rootScope.$on('PastTasksCtrl:getTasks', () => {
+      this.userAuth = this.userAuthService.getUserAuth();
+      this.events = this.userAuth.events.filter( this._filterEvents );
+      this.events.forEach( this._preparateEvents, this );
+      this.showEmptyState = this.events.length == 0 ? true : false;
+    }); 
   }
   
 }

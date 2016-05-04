@@ -68,27 +68,22 @@ module userAuthModule{
           this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
           
           this.$rootScope.$broadcast('TaskListCtrl:getTasks');
-          
-          
-          
-          this.$rootScope.$broadcast('MenuOrganizer:count_sponsors');
-          this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
-          this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
+          this.$rootScope.$broadcast('PastTasksCtrl:getTasks');
+          this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
           
           this.$rootScope.$broadcast('SponsorshipsListCtrl:getSponzorships');
           this.$rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
-          
-          this.$rootScope.$broadcast('EventListCtrl:getEvents');
-          this.$rootScope.$broadcast('PastEventsController:getEvents');
+          this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
           
         }else{
           
-          this.$rootScope.$broadcast('MenuSponsorCtrl:counts');
+          this.$rootScope.$broadcast('HomeSponsorCtrl:getEvents');
+          this.$rootScope.$broadcast('MenuSponsorCtrl:count');
           
           this.$rootScope.$broadcast('FollowEventsController:getSponzorships');
-          this.$rootScope.$broadcast('SponzoringEventsController:getSponzorships');
+          this.$rootScope.$broadcast('SponsoringEventsCtrl:getSponzorships');
           this.$rootScope.$broadcast('SponsorshipSponsorDetailCtrl:update');
-          this.$rootScope.$broadcast('HomeSponzorController:getEvents');
+          
         }
       });
     }
