@@ -225,6 +225,15 @@ var TaskListCtrl = (function () {
             this.updateTask(form);
         }
     };
+    TaskListCtrl.prototype._registerListenerTaskListCtrl = function () {
+        var _this = this;
+        this.$rootScope.$on('TaskListCtrl:getTasks', function () {
+            _this.userAuth = _this.userAuthService.getUserAuth();
+            _this.events = _this.userAuth.events.filter(_this._filterEvents);
+            _this.events.forEach(_this._preparateEvents, _this);
+            _this.showEmptyState = _this.events.length == 0 ? true : false;
+        });
+    };
     return TaskListCtrl;
 }());
 angular
