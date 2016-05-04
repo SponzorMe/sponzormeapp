@@ -43,6 +43,7 @@ var PastTasksCtrl = (function () {
         this.showEmptyState = this.events.length == 0 ? true : false;
         this._loadTaskModal();
         this._loadSponsorshipModal();
+        this._registerListenerPastTasksCtrl();
     }
     PastTasksCtrl.prototype._filterEvents = function (event) {
         var count = event.perks.reduce(function (a, b) { return a.concat(b.tasks); }, []);
@@ -92,6 +93,15 @@ var PastTasksCtrl = (function () {
         for (var index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
             var sponzorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
             this.notificationService.sendNewTaskOrganizer({
+                text: text,
+                modelId: sponzorship.id
+            }, sponzorship.sponzor_id, sponzorship.sponzor_ionic_id);
+        }
+    };
+    PastTasksCtrl.prototype.sendDeleteTaskNotification = function (text) {
+        for (var index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
+            var sponzorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
+            this.notificationService.sendDeleteTaskOrganizer({
                 text: text,
                 modelId: sponzorship.id
             }, sponzorship.sponzor_id, sponzorship.sponzor_ionic_id);
@@ -159,7 +169,6 @@ var PastTasksCtrl = (function () {
             _this.hideModalTask(form);
             _this.utilsService.hideLoad();
             _this.sendNewTaskNotification(data.PerkTask.title);
-            _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
         })
             .catch(function (error) {
             _this.hideModalTask(form);
@@ -184,11 +193,13 @@ var PastTasksCtrl = (function () {
             .then(function (data) {
             _this.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
             _this.userAuth = _this.userAuthService.updateUserAuth(_this.userAuth);
+            _this.sendDeleteTaskNotification(_this.events[_this.indexEvent].perks[_this.indexPerk].tasks[_this.indexTask].title);
             _this.events[_this.indexEvent].perks[_this.indexPerk].tasks.splice(_this.indexTask, 1);
             _this.hideModalTask(form);
             _this.utilsService.hideLoad();
+            _this.$rootScope.$broadcast('PastTasksCtrl:getTasks');
+            _this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
             _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
-            _this.$rootScope.$broadcast('TaskTabsController:count_tasks');
         })
             .catch(function (error) {
             _this.hideModalTask(form);
@@ -209,8 +220,9 @@ var PastTasksCtrl = (function () {
             _this.events[_this.indexEvent].perks[_this.indexPerk].tasks[_this.indexTask] = task;
             _this.hideModalTask(form);
             _this.utilsService.hideLoad();
+            _this.$rootScope.$broadcast('PastTasksCtrl:getTasks');
+            _this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
             _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
-            _this.$rootScope.$broadcast('TaskTabsController:count_tasks');
         })
             .catch(function (error) {
             _this.hideModalTask(form);
@@ -224,6 +236,15 @@ var PastTasksCtrl = (function () {
         else {
             this.updateTask(form);
         }
+    };
+    PastTasksCtrl.prototype._registerListenerPastTasksCtrl = function () {
+        var _this = this;
+        this.$rootScope.$on('PastTasksCtrl:getTasks', function () {
+            _this.userAuth = _this.userAuthService.getUserAuth();
+            _this.events = _this.userAuth.events.filter(_this._filterEvents);
+            _this.events.forEach(_this._preparateEvents, _this);
+            _this.showEmptyState = _this.events.length == 0 ? true : false;
+        });
     };
     return PastTasksCtrl;
 }());

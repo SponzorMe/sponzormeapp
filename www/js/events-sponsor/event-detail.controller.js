@@ -74,8 +74,8 @@ var EventDetailSponsorCtrl = (function () {
             _this.userAuth.sponzorships.push(newSponsorship);
             _this.event.perks.forEach(_this._preparatePerks, _this);
             _this.userAuthService.updateUserAuth(_this.userAuth);
-            _this.$rootScope.$broadcast('MenuSponsorCtrl:counts');
-            _this.$rootScope.$broadcast('FollowEventsCtrl:getSponzorships');
+            _this.$rootScope.$broadcast('MenuSponsorCtrl:count');
+            _this.$rootScope.$broadcast('FollowEventsController:getSponzorships');
             var notification = {
                 text: _this.event.title,
                 link: '#/organizers/sponzors',

@@ -35,8 +35,6 @@ var FollowEventsCtrl = (function () {
             _this.userAuth = _this.userAuthService.updateUserAuth(user);
             _this.sponzorships = _this.userAuth.sponzorships.filter(_this._filterByDateAndByPending);
             _this.showEmptyState = _this.sponzorships.length == 0 ? true : false;
-            _this.$rootScope.$broadcast('MenuSponsorCtrl:counts');
-            _this.$rootScope.$broadcast('SponsoringEventsCtrl:getSponzorships');
         })
             .catch(function (error) {
             _this.$scope.$broadcast('scroll.refreshComplete');

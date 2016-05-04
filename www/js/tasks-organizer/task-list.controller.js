@@ -97,6 +97,15 @@ var TaskListCtrl = (function () {
             }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
         }
     };
+    TaskListCtrl.prototype.sendDeleteTaskNotification = function (text) {
+        for (var index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
+            var sponzorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
+            this.notificationService.sendDeleteTaskOrganizer({
+                text: text,
+                modelId: sponzorship.id
+            }, sponzorship.sponzor_id, sponzorship.sponzor_ionic_id);
+        }
+    };
     TaskListCtrl.prototype.sendUpdateTaskNotification = function (text, done) {
         for (var index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
             var sponsorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
@@ -159,7 +168,8 @@ var TaskListCtrl = (function () {
             _this.hideModalTask(form);
             _this.utilsService.hideLoad();
             _this.sendNewTaskNotification(data.PerkTask.title);
-            _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+            _this.$rootScope.$broadcast('TaskListCtrl:getTasks');
+            _this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
         })
             .catch(function (error) {
             _this.hideModalTask(form);
@@ -184,11 +194,13 @@ var TaskListCtrl = (function () {
             .then(function (data) {
             _this.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
             _this.userAuth = _this.userAuthService.updateUserAuth(_this.userAuth);
+            _this.sendDeleteTaskNotification(_this.events[_this.indexEvent].perks[_this.indexPerk].tasks[_this.indexTask].title);
             _this.events[_this.indexEvent].perks[_this.indexPerk].tasks.splice(_this.indexTask, 1);
             _this.hideModalTask(form);
             _this.utilsService.hideLoad();
+            _this.$rootScope.$broadcast('TaskListCtrl:getTasks');
+            _this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
             _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
-            _this.$rootScope.$broadcast('TaskTabsController:count_tasks');
         })
             .catch(function (error) {
             _this.hideModalTask(form);
@@ -209,8 +221,9 @@ var TaskListCtrl = (function () {
             _this.events[_this.indexEvent].perks[_this.indexPerk].tasks[_this.indexTask] = task;
             _this.hideModalTask(form);
             _this.utilsService.hideLoad();
+            _this.$rootScope.$broadcast('TaskListCtrl:getTasks');
+            _this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
             _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
-            _this.$rootScope.$broadcast('TaskTabsController:count_tasks');
         })
             .catch(function (error) {
             _this.hideModalTask(form);

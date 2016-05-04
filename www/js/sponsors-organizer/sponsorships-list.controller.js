@@ -63,9 +63,6 @@ var SponsorshipsListCtrl = (function () {
             _this.userAuth = _this.userAuthService.updateUserAuth(user);
             _this.sponsorships = _this.userAuth.sponzorships_like_organizer.filter(_this._filterByDateIsAfter);
             _this.showEmptyState = _this.sponsorships.length == 0 ? true : false;
-            _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
-            _this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
-            _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
         })
             .catch(function (error) {
             _this.showEmptyState = true;
@@ -85,6 +82,9 @@ var SponsorshipsListCtrl = (function () {
                 link: '#/sponzors/sponzoring',
                 modelId: sponsorship.id
             };
+            _this.$rootScope.$broadcast('SponsorshipsListCtrl:getSponzorships');
+            _this.$rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
+            _this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
             if (sponzor.status == 1) {
                 _this.notificationService.sendAcceptSponsorship(notification, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
             }

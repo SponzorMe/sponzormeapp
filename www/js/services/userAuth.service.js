@@ -42,7 +42,7 @@ var userAuthModule;
                 .then(function (user) {
                 var userAuth = _this.updateUserAuth(user);
                 if (userAuth.type == "0") {
-                    _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+                    _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
                     _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
                     _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
                     _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
@@ -51,20 +51,18 @@ var userAuthModule;
                     _this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
                     _this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
                     _this.$rootScope.$broadcast('TaskListCtrl:getTasks');
-                    _this.$rootScope.$broadcast('MenuOrganizer:count_sponsors');
-                    _this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
-                    _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
+                    _this.$rootScope.$broadcast('PastTasksCtrl:getTasks');
+                    _this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
                     _this.$rootScope.$broadcast('SponsorshipsListCtrl:getSponzorships');
                     _this.$rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
-                    _this.$rootScope.$broadcast('EventListCtrl:getEvents');
-                    _this.$rootScope.$broadcast('PastEventsController:getEvents');
+                    _this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
                 }
                 else {
-                    _this.$rootScope.$broadcast('MenuSponsorCtrl:counts');
+                    _this.$rootScope.$broadcast('HomeSponsorCtrl:getEvents');
+                    _this.$rootScope.$broadcast('MenuSponsorCtrl:count');
                     _this.$rootScope.$broadcast('FollowEventsController:getSponzorships');
-                    _this.$rootScope.$broadcast('SponzoringEventsController:getSponzorships');
+                    _this.$rootScope.$broadcast('SponsoringEventsCtrl:getSponzorships');
                     _this.$rootScope.$broadcast('SponsorshipSponsorDetailCtrl:update');
-                    _this.$rootScope.$broadcast('HomeSponzorController:getEvents');
                 }
             });
         };

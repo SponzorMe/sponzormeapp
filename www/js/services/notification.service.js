@@ -84,6 +84,13 @@ var notificationModule;
             notification.hide = false;
             this._sendNotification(notification, to, ionicId);
         };
+        notificationService.prototype.sendDeleteTaskOrganizer = function (notification, to, ionicId) {
+            notification.typeNotification = "deleteTaskSponsor";
+            notification.type = "task";
+            notification.pushNotification = false;
+            notification.hide = true;
+            this._sendNotification(notification, to, ionicId);
+        };
         notificationService.prototype.sendNewTaskSponsor = function (notification, to, ionicId) {
             notification.typeNotification = "newTaskSponsor";
             notification.type = "task";
@@ -100,6 +107,13 @@ var notificationModule;
         };
         notificationService.prototype.sendDoneTaskSponsor = function (notification, to, ionicId) {
             notification.typeNotification = "doneTaskSponsor";
+            notification.type = "task";
+            notification.pushNotification = false;
+            notification.hide = true;
+            this._sendNotification(notification, to, ionicId);
+        };
+        notificationService.prototype.sendDeleteTaskSponsor = function (notification, to, ionicId) {
+            notification.typeNotification = "deleteTaskSponsor";
             notification.type = "task";
             notification.pushNotification = false;
             notification.hide = true;

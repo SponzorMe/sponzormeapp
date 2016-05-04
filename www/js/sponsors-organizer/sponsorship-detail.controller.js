@@ -7,15 +7,17 @@
 * @version 0.2
 */
 var SponsorshipOrganizerDetailCtrl = (function () {
-    function SponsorshipOrganizerDetailCtrl($stateParams, sponsorshipService, utilsService, userAuthService, notificationService) {
+    function SponsorshipOrganizerDetailCtrl($stateParams, $rootScope, sponsorshipService, utilsService, userAuthService, notificationService) {
         var _this = this;
         this.$stateParams = $stateParams;
+        this.$rootScope = $rootScope;
         this.sponsorshipService = sponsorshipService;
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
         this.$inject = [
             '$stateParams',
+            '$rootScope',
             'sponsorshipService',
             'utilsService',
             'userAuthService',
@@ -63,6 +65,9 @@ var SponsorshipOrganizerDetailCtrl = (function () {
                 modelId: _this.sponsorship.id
             };
             _this.sponsorship.status = sponsorship.status;
+            _this.$rootScope.$broadcast('SponsorshipsListCtrl:getSponzorships');
+            _this.$rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
+            _this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
             if (_this.sponsorship.status == 1) {
                 _this.notificationService.sendAcceptSponsorship(notification, _this.sponsorship.sponzor_id, _this.sponsorship.sponzor_ionic_id);
             }

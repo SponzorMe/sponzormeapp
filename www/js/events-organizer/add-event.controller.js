@@ -185,9 +185,9 @@ var AddEventCtrl = (function () {
             });
             _this.$ionicHistory.clearCache().then(function () {
                 _this.notificationService.sendNewEvent();
-                _this.$rootScope.$broadcast('MenuOrganizer:count_events');
-                _this.$rootScope.$broadcast('EventsTabsController:count_events');
-                _this.$rootScope.$broadcast('HomeOrganizerController:count_events');
+                _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
+                _this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
+                _this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
                 _this.$state.go("organizer.events.list");
             });
             _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_event_mess"));
@@ -215,9 +215,9 @@ var AddEventCtrl = (function () {
             });
             _this.$ionicHistory.clearCache().then(function () {
                 _this.notificationService.sendNewEvent();
-                _this.$rootScope.$broadcast('MenuOrganizer:count_events');
-                _this.$rootScope.$broadcast('EventsTabsController:count_events');
-                _this.$rootScope.$broadcast('HomeOrganizerController:count_events');
+                _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
+                _this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
+                _this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
                 _this.$state.go("organizer.events.list");
             });
             _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_event_mess"));

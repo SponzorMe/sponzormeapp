@@ -118,6 +118,15 @@ var EventDetailOrganizerCtrl = (function () {
             }, sponsorship.sponzor.id, sponsorship.sponzor.ionic_id || "");
         }
     };
+    EventDetailOrganizerCtrl.prototype._sendDeleteTaskNotification = function (text) {
+        for (var index = 0; index < this.event.perks[this.indexPerk].sponzorship.length; index++) {
+            var sponsorship = this.event.perks[this.indexPerk].sponzorship[index];
+            this.notificationService.sendNewTaskOrganizer({
+                text: text,
+                modelId: sponsorship.id
+            }, sponsorship.sponzor.id, sponsorship.sponzor.ionic_id || "");
+        }
+    };
     EventDetailOrganizerCtrl.prototype._sendUpdateTaskNotification = function (text, done) {
         for (var index = 0; index < this.event.perks[this.indexPerk].sponzorship.length; index++) {
             var sponsorship = this.event.perks[this.indexPerk].sponzorship[index];
@@ -253,7 +262,8 @@ var EventDetailOrganizerCtrl = (function () {
             _this.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
             _this.userAuthService.updateUserAuth(_this.userAuth);
             _this._sendNewTaskNotification(data.PerkTask.title);
-            _this.$rootScope.$broadcast('MenuOrganizer:count_tasks');
+            _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+            _this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
             _this.utilsService.resetForm(form);
             _this._hideModalTask(form);
             _this.utilsService.hideLoad();
@@ -281,6 +291,7 @@ var EventDetailOrganizerCtrl = (function () {
         this.perkTaskService.deletePerkTask(this.task.id)
             .then(function (data) {
             _this.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
+            _this._sendDeleteTaskNotification(_this.event.perks[_this.indexPerk].tasks[_this.indexTask].title);
             _this.event.perks[_this.indexPerk].tasks.splice(_this.indexTask, 1);
             _this.userAuthService.updateUserAuth(_this.userAuth);
             if (form)
@@ -309,8 +320,8 @@ var EventDetailOrganizerCtrl = (function () {
             _this._sendUpdateTaskNotification(task.title, _this.event.perks[_this.indexPerk].tasks[_this.indexTask].status == 0 && task.status == 1);
             _this.event.perks[_this.indexPerk].tasks[_this.indexTask] = task;
             _this.utilsService.resetForm(form);
-            _this.$rootScope.$broadcast('MenuOrganizer:count_tasks');
-            _this.$rootScope.$broadcast('TaskTabsController:count_tasks');
+            _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+            _this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
             _this._hideModalTask(form);
             _this.utilsService.hideLoad();
         })

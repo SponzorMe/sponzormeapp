@@ -35,9 +35,6 @@ var SponsorshipsPastEventsCtrl = (function () {
             _this.userAuth = _this.userAuthService.updateUserAuth(user);
             _this.sponsorships = _this.userAuth.sponzorships_like_organizer.filter(_this._filterByDateIsBefore);
             _this.showEmptyState = _this.sponsorships.length == 0 ? true : false;
-            _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
-            _this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
-            _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
         })
             .catch(function (error) {
             _this.showEmptyState = true;

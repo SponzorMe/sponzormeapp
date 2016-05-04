@@ -35,9 +35,6 @@ var PastEventsOrganizerCtrl = (function () {
             _this.userAuth = _this.userAuthService.updateUserAuth(user);
             _this.events = _this.userAuth.events.filter(_this._filterDate);
             _this.showEmptyState = _this.events.length == 0 ? true : false;
-            _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
-            _this.$rootScope.$broadcast('EventsTabsOrganizerCtrl:count_events');
-            _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_events');
         })
             .catch(function (error) {
             _this.$scope.$broadcast('scroll.refreshComplete');
