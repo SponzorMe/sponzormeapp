@@ -111,7 +111,7 @@ gulp.task('css', function( done ) {
 /**
  * Bundling, minifying, and copying the vendors for production
  */
-gulp.task('release', [ 'sass', 'css', 'tsc', 'templates', 'vendorjs', 'js' ] , function ( done ) {
+gulp.task('release', [ 'templates', 'tsc', 'sass', 'css', 'fonts', 'vendorjs', 'js' ] , function ( done ) {
   var css = gulp.src( paths.includeCss, {read: false});
   var vendors = gulp.src( paths.includeVendors, {read: false});
   var js = gulp.src( paths.includeJs, {read: false});
@@ -128,7 +128,7 @@ gulp.task('release', [ 'sass', 'css', 'tsc', 'templates', 'vendorjs', 'js' ] , f
  * Copy fonts
  */
 gulp.task('fonts', function( done ) {
-  var dest = paths.build + 'fonts';
+  var dest = paths.build + 'build/fonts';
   gulp
     .src(paths.fonts)
     .pipe(gulp.dest(dest))
