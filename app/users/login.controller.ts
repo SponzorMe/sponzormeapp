@@ -10,9 +10,11 @@ class LoginCtrl{
   
   $inject = [
     '$state',
+    '$q',
     '$translate',
     '$base64',
     '$localStorage',
+    '$ionicUser',
     '$ionicAuth',
     'userService',
     'utilsService',
@@ -23,9 +25,11 @@ class LoginCtrl{
   
   constructor(
     private $state: angular.ui.IStateService,
+    private $q: angular.IQService,
     private $translate,
     private $base64,
     private $localStorage,
+    private $ionicUser,
     private $ionicAuth,
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
@@ -49,21 +53,26 @@ class LoginCtrl{
       this.utilsService.hideLoad();
       this.utilsService.resetForm( form );
       
-      if(user.ionic_id == ""){
-        this._registerInIonicIO(this.user.email, this.user.password);
-      }else{
-        this._loginInIonicIO(this.user.email, this.user.password);
-      }
-      
       this.$localStorage.token = this.$base64.encode(this.user.email +':'+ this.user.password);
       this.user = this.userAuthService.updateUserAuth( user );
       this.notificationService.activate();
-      if( this.user.type == 0 ){ // is an Organizer.
-        this.$state.go("organizer.home");
-      }else{ // is an Sponsor
-        this.$state.go("sponzor.home");
-      }
-      this.user = {};
+      
+      this._validateIonicId( user )
+      .then( data => {
+        console.log( data );
+        
+        if( this.user.type == 0 ){ // is an Organizer.
+          this.$state.go("organizer.home");
+        }else{ // is an Sponsor
+          this.$state.go("sponzor.home");
+        }
+        this.user = {};
+        
+      })
+      .catch ( error => {
+        console.log( error );
+      });
+      
     })
     .catch( error => {
       this.utilsService.hideLoad();
@@ -80,7 +89,7 @@ class LoginCtrl{
   
   
   private _loginInIonicIO(email:string, password:string){
-    this.$ionicAuth
+    return this.$ionicAuth
     .login(
       //authProvider
       'basic', 
@@ -92,25 +101,32 @@ class LoginCtrl{
         'password': password
       }
     )
-    .then( data => {
-      console.log( data );
-    })
-    .catch( error => {
-      console.log( error );
-    })
   }
   
   private _registerInIonicIO( email:string, password:string ){
-    this.$ionicAuth
+    return this.$ionicAuth
     .signup({
       'email': email,
       'password': password
-    }).then( data => {
-      console.log( data );
+    })
+    .then(data => {
+      this.user.ionic_id = this.$ionicUser.current()._id;
+      return this._uploadProfile();
     })
     .catch( error => {
-      console.log(error)
-    });
+      return this.$q.reject( error );
+    })
+  }
+  
+  private _uploadProfile( ){
+     return this.userService.editUserPatch( this.user.id, this.user );
+  }
+  
+  private _validateIonicId( user ){
+    if(user.ionic_id == ""){
+      return this._registerInIonicIO(this.user.email, this.user.password);
+    }
+    return this._loginInIonicIO(this.user.email, this.user.password);
   }
   
 }

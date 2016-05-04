@@ -13,6 +13,7 @@ class RegisterCtrl{
     '$translate',
     '$base64',
     '$localStorage',
+    '$ionicUser',
     '$ionicAuth',
     'userService',
     'utilsService',
@@ -26,6 +27,7 @@ class RegisterCtrl{
     private $translate,
     private $base64,
     private $localStorage,
+    private $ionicUser,
     private $ionicAuth,
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
@@ -39,7 +41,7 @@ class RegisterCtrl{
     this.utilsService.showLoad();
     this._registerInIonicIO(this.newUser.email, this.newUser.password)
     .then( data => {
-      console.log(data);
+      this.newUser.ionic_id = this.$ionicUser.current()._id;
       return this.userService.createUser( this._preparateData() );
     })
     .then( user => {
@@ -99,6 +101,7 @@ class RegisterCtrl{
       name: this.newUser.name,
       lang: 'en',
       type: this.newUser.type,
+      ionic_id: this.newUser.ionic_id
     }
   }
   

@@ -7,11 +7,13 @@
 * @version 0.1
 */
 var LoginCtrl = (function () {
-    function LoginCtrl($state, $translate, $base64, $localStorage, $ionicAuth, userService, utilsService, notificationService, userAuthService) {
+    function LoginCtrl($state, $q, $translate, $base64, $localStorage, $ionicUser, $ionicAuth, userService, utilsService, notificationService, userAuthService) {
         this.$state = $state;
+        this.$q = $q;
         this.$translate = $translate;
         this.$base64 = $base64;
         this.$localStorage = $localStorage;
+        this.$ionicUser = $ionicUser;
         this.$ionicAuth = $ionicAuth;
         this.userService = userService;
         this.utilsService = utilsService;
@@ -19,9 +21,11 @@ var LoginCtrl = (function () {
         this.userAuthService = userAuthService;
         this.$inject = [
             '$state',
+            '$q',
             '$translate',
             '$base64',
             '$localStorage',
+            '$ionicUser',
             '$ionicAuth',
             'userService',
             'utilsService',
@@ -46,22 +50,23 @@ var LoginCtrl = (function () {
             .then(function (user) {
             _this.utilsService.hideLoad();
             _this.utilsService.resetForm(form);
-            if (user.ionic_id == "") {
-                _this._registerInIonicIO(_this.user.email, _this.user.password);
-            }
-            else {
-                _this._loginInIonicIO(_this.user.email, _this.user.password);
-            }
             _this.$localStorage.token = _this.$base64.encode(_this.user.email + ':' + _this.user.password);
             _this.user = _this.userAuthService.updateUserAuth(user);
             _this.notificationService.activate();
-            if (_this.user.type == 0) {
-                _this.$state.go("organizer.home");
-            }
-            else {
-                _this.$state.go("sponzor.home");
-            }
-            _this.user = {};
+            _this._validateIonicId(user)
+                .then(function (data) {
+                console.log(data);
+                if (_this.user.type == 0) {
+                    _this.$state.go("organizer.home");
+                }
+                else {
+                    _this.$state.go("sponzor.home");
+                }
+                _this.user = {};
+            })
+                .catch(function (error) {
+                console.log(error);
+            });
         })
             .catch(function (error) {
             _this.utilsService.hideLoad();
@@ -76,7 +81,7 @@ var LoginCtrl = (function () {
     };
     ;
     LoginCtrl.prototype._loginInIonicIO = function (email, password) {
-        this.$ionicAuth
+        return this.$ionicAuth
             .login(
         //authProvider
         'basic', 
@@ -86,25 +91,31 @@ var LoginCtrl = (function () {
         {
             'email': email,
             'password': password
-        })
-            .then(function (data) {
-            console.log(data);
-        })
-            .catch(function (error) {
-            console.log(error);
         });
     };
     LoginCtrl.prototype._registerInIonicIO = function (email, password) {
-        this.$ionicAuth
+        var _this = this;
+        return this.$ionicAuth
             .signup({
             'email': email,
             'password': password
-        }).then(function (data) {
-            console.log(data);
+        })
+            .then(function (data) {
+            _this.user.ionic_id = _this.$ionicUser.current()._id;
+            return _this._uploadProfile();
         })
             .catch(function (error) {
-            console.log(error);
+            return _this.$q.reject(error);
         });
+    };
+    LoginCtrl.prototype._uploadProfile = function () {
+        return this.userService.editUserPatch(this.user.id, this.user);
+    };
+    LoginCtrl.prototype._validateIonicId = function (user) {
+        if (user.ionic_id == "") {
+            return this._registerInIonicIO(this.user.email, this.user.password);
+        }
+        return this._loginInIonicIO(this.user.email, this.user.password);
     };
     return LoginCtrl;
 }());

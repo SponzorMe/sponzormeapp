@@ -7,11 +7,12 @@
 * @version 0.1
 */
 var RegisterCtrl = (function () {
-    function RegisterCtrl($state, $translate, $base64, $localStorage, $ionicAuth, userService, utilsService, notificationService, userAuthService) {
+    function RegisterCtrl($state, $translate, $base64, $localStorage, $ionicUser, $ionicAuth, userService, utilsService, notificationService, userAuthService) {
         this.$state = $state;
         this.$translate = $translate;
         this.$base64 = $base64;
         this.$localStorage = $localStorage;
+        this.$ionicUser = $ionicUser;
         this.$ionicAuth = $ionicAuth;
         this.userService = userService;
         this.utilsService = utilsService;
@@ -22,6 +23,7 @@ var RegisterCtrl = (function () {
             '$translate',
             '$base64',
             '$localStorage',
+            '$ionicUser',
             '$ionicAuth',
             'userService',
             'utilsService',
@@ -36,7 +38,7 @@ var RegisterCtrl = (function () {
         this.utilsService.showLoad();
         this._registerInIonicIO(this.newUser.email, this.newUser.password)
             .then(function (data) {
-            console.log(data);
+            _this.newUser.ionic_id = _this.$ionicUser.current()._id;
             return _this.userService.createUser(_this._preparateData());
         })
             .then(function (user) {
@@ -91,7 +93,8 @@ var RegisterCtrl = (function () {
             password_confirmation: this.newUser.password,
             name: this.newUser.name,
             lang: 'en',
-            type: this.newUser.type
+            type: this.newUser.type,
+            ionic_id: this.newUser.ionic_id
         };
     };
     return RegisterCtrl;
