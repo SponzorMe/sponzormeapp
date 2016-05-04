@@ -44,6 +44,7 @@ class TaskListCtrl{
     this.events = this.userAuth.events.filter( this._filterEvents );
     this.events.forEach( this._preparateEvents, this );
     this.showEmptyState = this.events.length == 0 ? true : false;
+    
     this._loadTaskModal();
     this._loadSponsorshipModal();
   }
@@ -236,6 +237,7 @@ class TaskListCtrl{
       this.utilsService.hideLoad();
       this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
       this.$rootScope.$broadcast('TaskTabsController:count_tasks');
+      
     })
     .catch( error => {
       this.hideModalTask( form );
@@ -249,6 +251,15 @@ class TaskListCtrl{
     }else{
       this.updateTask( form );
     }
+  }
+  
+  private _registerListenerTaskListCtrl(){
+    this.$rootScope.$on('TaskListCtrl:getTasks', () => {
+      this.userAuth = this.userAuthService.getUserAuth();
+      this.events = this.userAuth.events.filter( this._filterEvents );
+      this.events.forEach( this._preparateEvents, this );
+      this.showEmptyState = this.events.length == 0 ? true : false;
+    }); 
   }
   
 }

@@ -55,25 +55,35 @@ module userAuthModule{
       .then( user => {
         let userAuth = this.updateUserAuth( user );
         if(userAuth.type == "0"){ //Is an organizer
-          this.$rootScope.$broadcast('MenuOrganizer:count_events');
-          this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
-          this.$rootScope.$broadcast('HomeOrganizerController:count_events');
           
-          this.$rootScope.$broadcast('MenuOrganizer:count_tasks');
-          this.$rootScope.$broadcast('TaskTabsController:count_tasks');
+          this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+          this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
+          this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+          
+          this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
+          this.$rootScope.$broadcast('HomeOrganizerCtrl:count_events');
+          
+          this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
+          this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
+          this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
+          
+          this.$rootScope.$broadcast('TaskListCtrl:getTasks');
+          
+          
           
           this.$rootScope.$broadcast('MenuOrganizer:count_sponsors');
-          this.$rootScope.$broadcast('SponsorshipsTabsController:count_sponsors');
-          this.$rootScope.$broadcast('HomeOrganizerController:count_sponsors');
+          this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
+          this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
           
-          this.$rootScope.$broadcast('SponsorshipsListController:getSponzorships');
-          this.$rootScope.$broadcast('SponsorshipsPastEventsController:getSponzorships');
+          this.$rootScope.$broadcast('SponsorshipsListCtrl:getSponzorships');
+          this.$rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
           
-          this.$rootScope.$broadcast('EventListController:getEvents');
+          this.$rootScope.$broadcast('EventListCtrl:getEvents');
           this.$rootScope.$broadcast('PastEventsController:getEvents');
           
         }else{
-          this.$rootScope.$broadcast('MenuSponzor:counts');
+          
+          this.$rootScope.$broadcast('MenuSponsorCtrl:counts');
           
           this.$rootScope.$broadcast('FollowEventsController:getSponzorships');
           this.$rootScope.$broadcast('SponzoringEventsController:getSponzorships');
