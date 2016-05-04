@@ -101,13 +101,13 @@ var TaskListCtrl = (function () {
         for (var index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
             var sponsorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
             if (done) {
-                this.notificationService.sendDoneTaskOrganizer({
+                this.notificationService.sendUpdateTaskOrganizer({
                     text: text,
                     modelId: sponsorship.id
                 }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
             }
             else {
-                this.notificationService.sendUpdateTaskOrganizer({
+                this.notificationService.sendDoneTaskOrganizer({
                     text: text,
                     modelId: sponsorship.id
                 }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
@@ -205,7 +205,7 @@ var TaskListCtrl = (function () {
         this.perkTaskService.editPerkTaskPatch(this.task.id, this.task)
             .then(function (task) {
             _this.utilsService.resetForm(form);
-            _this.sendUpdateTaskNotification(task.title, _this.events[_this.indexEvent].perks[_this.indexPerk].tasks[_this.indexTask].status == 0 && task.status == 1);
+            _this.sendUpdateTaskNotification(task.title, _this.events[_this.indexEvent].perks[_this.indexPerk].tasks[_this.indexTask].status == false && task.status);
             _this.events[_this.indexEvent].perks[_this.indexPerk].tasks[_this.indexTask] = task;
             _this.hideModalTask(form);
             _this.utilsService.hideLoad();

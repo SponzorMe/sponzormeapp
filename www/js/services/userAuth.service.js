@@ -59,6 +59,7 @@ var userAuthModule;
                     _this.$rootScope.$broadcast('MenuSponzor:counts');
                     _this.$rootScope.$broadcast('FollowEventsController:getSponzorships');
                     _this.$rootScope.$broadcast('SponzoringEventsController:getSponzorships');
+                    _this.$rootScope.$broadcast('SponsorshipSponsorDetailCtrl:update');
                     _this.$rootScope.$broadcast('HomeSponzorController:getEvents');
                 }
             });

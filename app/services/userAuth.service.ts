@@ -77,7 +77,7 @@ module userAuthModule{
           
           this.$rootScope.$broadcast('FollowEventsController:getSponzorships');
           this.$rootScope.$broadcast('SponzoringEventsController:getSponzorships');
-          
+          this.$rootScope.$broadcast('SponsorshipSponsorDetailCtrl:update');
           this.$rootScope.$broadcast('HomeSponzorController:getEvents');
         }
       });

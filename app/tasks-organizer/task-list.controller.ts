@@ -112,7 +112,7 @@ class TaskListCtrl{
     for (let index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
       let sponsorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
       if(done){
-        this.notificationService.sendDoneTaskOrganizer(
+        this.notificationService.sendUpdateTaskOrganizer(
           {
             text: text,
             modelId: sponsorship.id
@@ -121,7 +121,7 @@ class TaskListCtrl{
           sponsorship.sponzor_ionic_id
         );
       }else{
-        this.notificationService.sendUpdateTaskOrganizer(
+        this.notificationService.sendDoneTaskOrganizer(
           {
             text: text,
             modelId: sponsorship.id
@@ -230,7 +230,7 @@ class TaskListCtrl{
     this.perkTaskService.editPerkTaskPatch( this.task.id, this.task )
     .then( task => {
       this.utilsService.resetForm( form );
-      this.sendUpdateTaskNotification( task.title, this.events[this.indexEvent].perks[this.indexPerk].tasks[this.indexTask].status == 0 && task.status == 1);
+      this.sendUpdateTaskNotification( task.title, this.events[this.indexEvent].perks[this.indexPerk].tasks[this.indexTask].status == false && task.status);
       this.events[this.indexEvent].perks[this.indexPerk].tasks[this.indexTask] = task;
       this.hideModalTask( form );
       this.utilsService.hideLoad();

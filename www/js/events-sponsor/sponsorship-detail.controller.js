@@ -7,9 +7,10 @@
 * @version 0.2
 */
 var SponsorshipSponsorDetailCtrl = (function () {
-    function SponsorshipSponsorDetailCtrl($scope, $stateParams, $translate, $ionicModal, $ionicHistory, $cordovaToast, utilsService, taskSponsorService, userAuthService, notificationService) {
+    function SponsorshipSponsorDetailCtrl($scope, $rootScope, $stateParams, $translate, $ionicModal, $ionicHistory, $cordovaToast, utilsService, taskSponsorService, userAuthService, notificationService) {
         var _this = this;
         this.$scope = $scope;
+        this.$rootScope = $rootScope;
         this.$stateParams = $stateParams;
         this.$translate = $translate;
         this.$ionicModal = $ionicModal;
@@ -21,6 +22,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
         this.notificationService = notificationService;
         this.$inject = [
             '$scope',
+            '$rootScope',
             '$stateParams',
             '$translate',
             '$ionicModal',
@@ -37,9 +39,10 @@ var SponsorshipSponsorDetailCtrl = (function () {
         this.sponsorTask = { task: {} };
         this.indexSlide = 0;
         this.userAuth = this.userAuthService.getUserAuth();
-        this.sponsorship = _.findWhere(this.userAuth.sponzorships, { id: $stateParams.id });
+        this.sponsorship = _.findWhere(this.userAuth.sponzorships, { id: this.$stateParams.id });
         this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter(function (item) { return item.task.user_id == _this.userAuth.id; });
         this._loadModalTask();
+        this._registerListenerSponsorshipDetail();
     }
     SponsorshipSponsorDetailCtrl.prototype.slideChange = function (index) {
         this.indexSlide = index;
@@ -164,6 +167,14 @@ var SponsorshipSponsorDetailCtrl = (function () {
             animation: 'slide-in-up'
         }).then(function (modal) {
             _this.modalTask = modal;
+        });
+    };
+    SponsorshipSponsorDetailCtrl.prototype._registerListenerSponsorshipDetail = function () {
+        var _this = this;
+        this.$rootScope.$on('SponsorshipSponsorDetailCtrl:update', function () {
+            _this.userAuth = _this.userAuthService.getUserAuth();
+            _this.sponsorship = _.findWhere(_this.userAuth.sponzorships, { id: _this.$stateParams.id });
+            _this.sponsorship.task_sponzor = _this.sponsorship.task_sponzor.filter(function (item) { return item.task.user_id == _this.userAuth.id; });
         });
     };
     return SponsorshipSponsorDetailCtrl;

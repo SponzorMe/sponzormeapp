@@ -10,6 +10,7 @@ class SponsorshipSponsorDetailCtrl{
   
   $inject = [
     '$scope',
+    '$rootScope',
     '$stateParams',
     '$translate',
     '$ionicModal',
@@ -29,6 +30,7 @@ class SponsorshipSponsorDetailCtrl{
   
   constructor(
     private $scope: angular.IScope,
+    private $rootScope: angular.IRootScopeService,
     private $stateParams,
     private $translate,
     private $ionicModal: ionic.modal.IonicModalService,
@@ -40,10 +42,11 @@ class SponsorshipSponsorDetailCtrl{
     private notificationService: notificationModule.INotificationService
   ){
     this.userAuth = this.userAuthService.getUserAuth();
-    this.sponsorship = _.findWhere(this.userAuth.sponzorships, {id: $stateParams.id});
+    this.sponsorship = _.findWhere(this.userAuth.sponzorships, {id: this.$stateParams.id});
     this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter( item => item.task.user_id == this.userAuth.id);
     
     this._loadModalTask(); 
+    this._registerListenerSponsorshipDetail();
   }
   
   slideChange( index ) {
@@ -191,6 +194,14 @@ class SponsorshipSponsorDetailCtrl{
       animation: 'slide-in-up'
     }).then(modal => {
       this.modalTask = modal;
+    });
+  }
+  
+  private _registerListenerSponsorshipDetail(){
+    this.$rootScope.$on('SponsorshipSponsorDetailCtrl:update', () => {
+      this.userAuth = this.userAuthService.getUserAuth();
+      this.sponsorship = _.findWhere(this.userAuth.sponzorships, {id: this.$stateParams.id});
+      this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter( item => item.task.user_id == this.userAuth.id);
     });
   }
   

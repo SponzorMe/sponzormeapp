@@ -29,7 +29,7 @@ var MenuSponsorCtrl = (function () {
         this.notifications = [];
         this.userAuth = userAuthService.getUserAuth();
         this.count_sponsoring = this.userAuth.sponzorships.filter(this.filterByAccepted).length;
-        this.count_following = this.userAuth.sponzorships.length - this.count_sponsoring;
+        this.count_following = this.userAuth.sponzorships.filter(this._filterByDateAndByPending).length;
         this.notifications = notificationService.getNotifications(this.userAuth.id);
         this.registerListenerCounts();
     }
@@ -38,11 +38,14 @@ var MenuSponsorCtrl = (function () {
         this.$rootScope.$on('MenuSponsorCtrl:counts', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
             _this.count_sponsoring = _this.userAuth.sponzorships.filter(_this.filterByAccepted).length;
-            _this.count_following = _this.userAuth.sponzorships.length - _this.count_sponsoring;
+            _this.count_following = _this.userAuth.sponzorships.filter(_this._filterByDateAndByPending).length;
         });
     };
     MenuSponsorCtrl.prototype.filterByAccepted = function (item) {
         return item.status == '1';
+    };
+    MenuSponsorCtrl.prototype._filterByDateAndByPending = function (item) {
+        return item.status != '1' && moment(item.event.starts).isAfter(new Date());
     };
     MenuSponsorCtrl.prototype.logout = function () {
         var _this = this;
