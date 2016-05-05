@@ -10,6 +10,7 @@ class MenuSponsorCtrl{
   
   $inject = [
     '$state',
+    '$q',
     '$localStorage',
     '$rootScope',
     '$ionicAuth',
@@ -24,6 +25,7 @@ class MenuSponsorCtrl{
   
   constructor(
     private $state: angular.ui.IStateService,
+    private $q,
     private $localStorage,
     private $rootScope: angular.IRootScopeService,
     private $ionicAuth,
@@ -56,10 +58,13 @@ class MenuSponsorCtrl{
   }
   
   logout(){
-    this.$ionicAuth.logout();
-    this.$localStorage.$reset();
-    this.$ionicHistory.clearCache()
-    .then( () => this.$state.go('signin') );
+    this.$ionicAuth.logout()
+    .then(() => { 
+      this.$localStorage.$reset();
+      return this.$q.when( true ); 
+    })
+    .then(() => { return this.$ionicHistory.clearCache();})
+    .then(() => { this.$state.go('signin') });
   }
   
 }
