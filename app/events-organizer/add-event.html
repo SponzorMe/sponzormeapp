@@ -19,7 +19,7 @@
           placeholder='{{"ADDEVENTS.title_field" | translate}}' 
           ng-model="addEvent.newEvent.title"
           ng-minlength="5"
-          ng-maxlength="30"
+          ng-maxlength="60"
           required>
         </label>
          <div class="form-errors" ng-messages="addEventForm.txttitle.$error" ng-if="addEventForm.$invalid && addEventForm.$submitted">

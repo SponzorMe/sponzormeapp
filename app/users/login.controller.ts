@@ -56,12 +56,12 @@ class LoginCtrl{
       this.utilsService.resetForm( form );
       
       this.$localStorage.token = this.$base64.encode(this.user.email +':'+ this.user.password);
-      this.user = this.userAuthService.updateUserAuth( user );
+      
       this.notificationService.activate();
       
       this._validateIonicId( user )
       .then( data => {
-        
+        this.user = this.userAuthService.updateUserAuth( user );
         this.$ionicPush.register();
         
         if( this.user.type == 0 ){ // is an Organizer.

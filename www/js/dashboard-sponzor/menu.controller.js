@@ -7,8 +7,9 @@
 * @version 0.2
 */
 var MenuSponsorCtrl = (function () {
-    function MenuSponsorCtrl($state, $localStorage, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService) {
+    function MenuSponsorCtrl($state, $q, $localStorage, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService) {
         this.$state = $state;
+        this.$q = $q;
         this.$localStorage = $localStorage;
         this.$rootScope = $rootScope;
         this.$ionicAuth = $ionicAuth;
@@ -17,6 +18,7 @@ var MenuSponsorCtrl = (function () {
         this.notificationService = notificationService;
         this.$inject = [
             '$state',
+            '$q',
             '$localStorage',
             '$rootScope',
             '$ionicAuth',
@@ -48,11 +50,10 @@ var MenuSponsorCtrl = (function () {
         return item.status != '1' && moment(item.event.starts).isAfter(new Date());
     };
     MenuSponsorCtrl.prototype.logout = function () {
-        var _this = this;
         this.$ionicAuth.logout();
         this.$localStorage.$reset();
-        this.$ionicHistory.clearCache()
-            .then(function () { return _this.$state.go('signin'); });
+        this.$ionicHistory.clearCache();
+        this.$state.go('signin');
     };
     return MenuSponsorCtrl;
 }());

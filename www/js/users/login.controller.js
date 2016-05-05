@@ -53,10 +53,10 @@ var LoginCtrl = (function () {
             _this.utilsService.hideLoad();
             _this.utilsService.resetForm(form);
             _this.$localStorage.token = _this.$base64.encode(_this.user.email + ':' + _this.user.password);
-            _this.user = _this.userAuthService.updateUserAuth(user);
             _this.notificationService.activate();
             _this._validateIonicId(user)
                 .then(function (data) {
+                _this.user = _this.userAuthService.updateUserAuth(user);
                 _this.$ionicPush.register();
                 if (_this.user.type == 0) {
                     _this.$state.go("organizer.home");

@@ -7,8 +7,9 @@
 * @version 0.2
 */
 var MenuOrganizerCtrl = (function () {
-    function MenuOrganizerCtrl($state, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService, $localStorage) {
+    function MenuOrganizerCtrl($state, $q, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService, $localStorage) {
         this.$state = $state;
+        this.$q = $q;
         this.$rootScope = $rootScope;
         this.$ionicAuth = $ionicAuth;
         this.$ionicHistory = $ionicHistory;
@@ -17,6 +18,7 @@ var MenuOrganizerCtrl = (function () {
         this.$localStorage = $localStorage;
         this.$inject = [
             '$state',
+            '$q',
             '$rootScope',
             '$ionicAuth',
             '$ionicHistory',
@@ -59,11 +61,10 @@ var MenuOrganizerCtrl = (function () {
         });
     };
     MenuOrganizerCtrl.prototype.logout = function () {
-        var _this = this;
         this.$ionicAuth.logout();
         this.$localStorage.$reset();
-        this.$ionicHistory.clearCache()
-            .then(function () { return _this.$state.go('signin'); });
+        this.$ionicHistory.clearCache();
+        this.$state.go('signin');
     };
     MenuOrganizerCtrl.prototype.filterDate = function (item) {
         var today = moment(new Date().getTime()).subtract(1, 'days');
