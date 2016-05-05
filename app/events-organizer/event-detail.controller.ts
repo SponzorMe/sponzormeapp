@@ -68,6 +68,7 @@ class EventDetailOrganizerCtrl{
     
     this.event = _.findWhere(this.userAuth.events, {id: $stateParams.id});
     this.event.perks.forEach( this._preparatePerks, this );
+    this.url_image = this.BackendVariables.url_web;
     
     this.$ionicSideMenuDelegate.canDragContent(false);
     this._loadTaskModal();    
