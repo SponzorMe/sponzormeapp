@@ -3056,7 +3056,6 @@ var EditEventCtrl = (function () {
         this.eventTypeService.allEventTypes()
             .then(function (eventTypes) {
             _this.eventTypes = eventTypes;
-            console.log(_this.eventTypes);
             _this.newEvent.type = _.findWhere(_this.eventTypes, { id: _this.newEvent.type });
         });
     };
@@ -5589,7 +5588,7 @@ var ProfileCtrl = (function () {
             quality: 100,
             destinationType: Camera.DestinationType.DATA_URL,
             sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-            allowEdit: true,
+            allowEdit: false,
             encodingType: Camera.EncodingType.JPEG,
             targetWidth: 500,
             targetHeight: 500,

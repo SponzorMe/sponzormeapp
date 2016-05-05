@@ -150,7 +150,7 @@ class AddEventCtrl{
   }
   
   getPhoto(){
-    var options = {
+    let options = {
       quality: 100,
       destinationType:  Camera.DestinationType.DATA_URL,
       sourceType:  Camera.PictureSourceType.PHOTOLIBRARY,

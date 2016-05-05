@@ -70,7 +70,6 @@ var EditEventCtrl = (function () {
         this.eventTypeService.allEventTypes()
             .then(function (eventTypes) {
             _this.eventTypes = eventTypes;
-            console.log(_this.eventTypes);
             _this.newEvent.type = _.findWhere(_this.eventTypes, { id: _this.newEvent.type });
         });
     };
