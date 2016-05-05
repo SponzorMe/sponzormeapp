@@ -77,6 +77,7 @@ class EditEventCtrl{
     this.eventTypeService.allEventTypes()
       .then( eventTypes => {
         this.eventTypes = eventTypes;
+        this.newEvent.type = _.findWhere( this.eventTypes, {id: this.newEvent.type});
       });
   }
   

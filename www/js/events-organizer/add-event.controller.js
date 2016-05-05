@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var AddEventCtrl = (function () {
-    function AddEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $state, notificationService, userAuthService, $rootScope) {
+    function AddEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $state, notificationService, userAuthService, $rootScope, BackendVariables) {
         this.$scope = $scope;
         this.$translate = $translate;
         this.utilsService = utilsService;
@@ -23,6 +23,7 @@ var AddEventCtrl = (function () {
         this.notificationService = notificationService;
         this.userAuthService = userAuthService;
         this.$rootScope = $rootScope;
+        this.BackendVariables = BackendVariables;
         this.$inject = [
             '$scope',
             '$translate',
@@ -39,6 +40,7 @@ var AddEventCtrl = (function () {
             'notificationService',
             'userAuthService',
             '$rootScope',
+            'BackendVariables'
         ];
         this.newEvent = {};
         this.newPerk = {};
@@ -49,10 +51,12 @@ var AddEventCtrl = (function () {
         this.userAuth = userAuthService.getUserAuth();
         this.newEvent.access = true;
         this.newEvent.perks = [];
-        this.newEvent.starttime = "13:00:00";
-        this.newEvent.start = moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD');
-        this.newEvent.endtime = "15:00:00";
-        this.newEvent.end = moment(new Date().getTime()).add(4, 'days').format('YYYY-MM-DD');
+        if (this.BackendVariables.debug) {
+            this.newEvent.starttime = "13:00:00";
+            this.newEvent.start = moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD');
+            this.newEvent.endtime = "15:00:00";
+            this.newEvent.end = moment(new Date().getTime()).add(4, 'days').format('YYYY-MM-DD');
+        }
         this.$rootScope.hideTabs = '';
         this.loadModal();
         this.getEventsTypes();
@@ -204,7 +208,6 @@ var AddEventCtrl = (function () {
         var _this = this;
         this.eventService.createEvent(this._preparateData())
             .then(function (event) {
-            _this.utilsService.hideLoad();
             _this.utilsService.resetForm(form);
             _this.newEvent = {};
             _this.userAuth.events.push(event);
@@ -213,14 +216,19 @@ var AddEventCtrl = (function () {
                 disableAnimate: false,
                 disableBack: true
             });
-            _this.$ionicHistory.clearCache().then(function () {
+            _this.$ionicHistory.clearCache()
+                .then(function () {
                 _this.notificationService.sendNewEvent();
                 _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
                 _this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
                 _this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
+                _this.utilsService.hideLoad();
+                _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_event_mess"));
                 _this.$state.go("organizer.events.list");
+            })
+                .catch(function (error) {
+                _this.utilsService.hideLoad();
             });
-            _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_event_mess"));
         })
             .catch(function (error) {
             _this.utilsService.hideLoad();

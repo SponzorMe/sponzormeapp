@@ -15,6 +15,7 @@ class LoginCtrl{
     '$base64',
     '$localStorage',
     '$ionicUser',
+    '$ionicPush',
     '$ionicAuth',
     'userService',
     'utilsService',
@@ -30,6 +31,7 @@ class LoginCtrl{
     private $base64,
     private $localStorage,
     private $ionicUser,
+    private $ionicPush,
     private $ionicAuth,
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
@@ -59,7 +61,8 @@ class LoginCtrl{
       
       this._validateIonicId( user )
       .then( data => {
-        console.log( data );
+        
+        this.$ionicPush.register();
         
         if( this.user.type == 0 ){ // is an Organizer.
           this.$state.go("organizer.home");

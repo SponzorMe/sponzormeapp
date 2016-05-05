@@ -24,6 +24,7 @@ class AddEventCtrl{
     'notificationService',
     'userAuthService',
     '$rootScope',
+    'BackendVariables'
   ];
   newEvent:any = {};
   newPerk:any = {};
@@ -48,16 +49,21 @@ class AddEventCtrl{
     private $state: angular.ui.IStateService,
     private notificationService: notificationModule.INotificationService,
     private userAuthService: userAuthModule.IUserAuthService,
-    private $rootScope
+    private $rootScope,
+    private BackendVariables
   ){
     this.userAuth = userAuthService.getUserAuth();
     
     this.newEvent.access = true;
     this.newEvent.perks = [];
-    this.newEvent.starttime = "13:00:00";
-    this.newEvent.start = moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD');
-    this.newEvent.endtime = "15:00:00";
-    this.newEvent.end = moment(new Date().getTime()).add(4, 'days').format('YYYY-MM-DD');
+    
+    if(this.BackendVariables.debug){
+      this.newEvent.starttime = "13:00:00";
+      this.newEvent.start = moment(new Date().getTime()).add(1, 'days').format('YYYY-MM-DD');
+      this.newEvent.endtime = "15:00:00";
+      this.newEvent.end = moment(new Date().getTime()).add(4, 'days').format('YYYY-MM-DD');
+    }
+    
     this.$rootScope.hideTabs = '';
     
     this.loadModal();
@@ -211,7 +217,7 @@ class AddEventCtrl{
   private _createEvent(form:any){
     this.eventService.createEvent( this._preparateData() )
       .then( event => {
-        this.utilsService.hideLoad();
+        
         this.utilsService.resetForm( form );
         this.newEvent = {};
         this.userAuth.events.push( event );
@@ -220,16 +226,21 @@ class AddEventCtrl{
           disableAnimate: false,
           disableBack: true
         });
-        this.$ionicHistory.clearCache().then(() => {
+        this.$ionicHistory.clearCache()
+        .then(() => {
           this.notificationService.sendNewEvent();
           
           this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
           this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
           this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
-          
+          this.utilsService.hideLoad();
+          this.$cordovaToast.showShortBottom(this.$translate.instant("MESSAGES.succ_event_mess"));
           this.$state.go("organizer.events.list");
-        });
-        this.$cordovaToast.showShortBottom(this.$translate.instant("MESSAGES.succ_event_mess"));
+        })
+        .catch( error => {
+          this.utilsService.hideLoad();
+        })
+        
       })
       .catch( error => {
         this.utilsService.hideLoad();

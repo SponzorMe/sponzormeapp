@@ -8,11 +8,14 @@
     angular
         .module('app')
         .value('BackendVariables', {
-        url: "https://apistaging.sponzor.me/",
-        f_url: "https://sponzorme.firebaseio.com/staging/",
+        //url: "https://apistaging.sponzor.me/", // i'm using the Ionic Proxy
+        url: "https://api.sponzor.me/",
+        //f_url: "https://sponzorme.firebaseio.com/staging/",
+        f_url: "https://sponzorme.firebaseio.com/production/",
         url_web: "https://sponzor.me/",
         version: "v1.1.1",
-        channel: "dev"
+        channel: "dev",
+        debug: true
     })
         .value('AMAZON', {
         'AMAZONSECRET': 'RlzqEBFUlJW/8YGkeasfmTZRLTlWMWwaBpJNBxu6',

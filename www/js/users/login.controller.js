@@ -7,13 +7,14 @@
 * @version 0.1
 */
 var LoginCtrl = (function () {
-    function LoginCtrl($state, $q, $translate, $base64, $localStorage, $ionicUser, $ionicAuth, userService, utilsService, notificationService, userAuthService) {
+    function LoginCtrl($state, $q, $translate, $base64, $localStorage, $ionicUser, $ionicPush, $ionicAuth, userService, utilsService, notificationService, userAuthService) {
         this.$state = $state;
         this.$q = $q;
         this.$translate = $translate;
         this.$base64 = $base64;
         this.$localStorage = $localStorage;
         this.$ionicUser = $ionicUser;
+        this.$ionicPush = $ionicPush;
         this.$ionicAuth = $ionicAuth;
         this.userService = userService;
         this.utilsService = utilsService;
@@ -26,6 +27,7 @@ var LoginCtrl = (function () {
             '$base64',
             '$localStorage',
             '$ionicUser',
+            '$ionicPush',
             '$ionicAuth',
             'userService',
             'utilsService',
@@ -55,7 +57,7 @@ var LoginCtrl = (function () {
             _this.notificationService.activate();
             _this._validateIonicId(user)
                 .then(function (data) {
-                console.log(data);
+                _this.$ionicPush.register();
                 if (_this.user.type == 0) {
                     _this.$state.go("organizer.home");
                 }

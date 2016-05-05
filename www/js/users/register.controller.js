@@ -7,12 +7,13 @@
 * @version 0.1
 */
 var RegisterCtrl = (function () {
-    function RegisterCtrl($state, $translate, $base64, $localStorage, $ionicUser, $ionicAuth, userService, utilsService, notificationService, userAuthService) {
+    function RegisterCtrl($state, $translate, $base64, $localStorage, $ionicUser, $ionicPush, $ionicAuth, userService, utilsService, notificationService, userAuthService) {
         this.$state = $state;
         this.$translate = $translate;
         this.$base64 = $base64;
         this.$localStorage = $localStorage;
         this.$ionicUser = $ionicUser;
+        this.$ionicPush = $ionicPush;
         this.$ionicAuth = $ionicAuth;
         this.userService = userService;
         this.utilsService = utilsService;
@@ -24,6 +25,7 @@ var RegisterCtrl = (function () {
             '$base64',
             '$localStorage',
             '$ionicUser',
+            '$ionicPush',
             '$ionicAuth',
             'userService',
             'utilsService',
@@ -52,6 +54,7 @@ var RegisterCtrl = (function () {
                 template: _this.$translate.instant("MESSAGES.succ_user_mess")
             });
             _this.$localStorage.token = _this.$base64.encode(_this.newUser.email + ':' + _this.newUser.password);
+            _this.$ionicPush.register();
             _this.newUser = {};
             _this.newUser.type = 0;
             _this.userAuthService.updateUserAuth(user);

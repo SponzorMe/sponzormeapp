@@ -14,6 +14,7 @@ class RegisterCtrl{
     '$base64',
     '$localStorage',
     '$ionicUser',
+    '$ionicPush',
     '$ionicAuth',
     'userService',
     'utilsService',
@@ -28,6 +29,7 @@ class RegisterCtrl{
     private $base64,
     private $localStorage,
     private $ionicUser,
+    private $ionicPush,
     private $ionicAuth,
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
@@ -50,11 +52,14 @@ class RegisterCtrl{
     .then( user => {
       this.utilsService.hideLoad();
       this.utilsService.resetForm( form );
+      
       this.utilsService.alert({
         title: this.$translate.instant("MESSAGES.succ_user_tit"),
         template: this.$translate.instant("MESSAGES.succ_user_mess")
       });
       this.$localStorage.token = this.$base64.encode(this.newUser.email +':'+ this.newUser.password);
+      
+      this.$ionicPush.register();
       
       this.newUser = {}
       this.newUser.type = 0;
