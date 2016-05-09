@@ -25,7 +25,7 @@ var pushModule;
                     'Authorization': "Bearer " + this.token
                 },
                 data: {
-                    "user_ids": ['d4254687-b993-4918-8127-d037a1cc156c'],
+                    "user_ids": user_ids,
                     "profile": this.profile,
                     "notification": {
                         "title": notification.title,

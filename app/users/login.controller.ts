@@ -52,16 +52,17 @@ class LoginCtrl{
     this.utilsService.showLoad();
     this.userService.login( this.user.email, this.user.password )
     .then( user => {
-      this.utilsService.hideLoad();
+      
       this.utilsService.resetForm( form );
       
       this.$localStorage.token = this.$base64.encode(this.user.email +':'+ this.user.password);
+      this.userAuthService.updateUserAuth( user );
       
       this.notificationService.activate();
       
       this._validateIonicId( user )
       .then( data => {
-        this.user = this.userAuthService.updateUserAuth( user );
+        this.user = this.userAuthService.getUserAuth();
         this.$ionicPush.register();
         
         if( this.user.type == 0 ){ // is an Organizer.
@@ -70,10 +71,11 @@ class LoginCtrl{
           this.$state.go("sponzor.home");
         }
         this.user = {};
-        
+        this.utilsService.hideLoad();
       })
       .catch ( error => {
         console.log( error );
+        this.utilsService.hideLoad();
       });
       
     })

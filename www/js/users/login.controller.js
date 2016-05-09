@@ -50,13 +50,13 @@ var LoginCtrl = (function () {
         this.utilsService.showLoad();
         this.userService.login(this.user.email, this.user.password)
             .then(function (user) {
-            _this.utilsService.hideLoad();
             _this.utilsService.resetForm(form);
             _this.$localStorage.token = _this.$base64.encode(_this.user.email + ':' + _this.user.password);
+            _this.userAuthService.updateUserAuth(user);
             _this.notificationService.activate();
             _this._validateIonicId(user)
                 .then(function (data) {
-                _this.user = _this.userAuthService.updateUserAuth(user);
+                _this.user = _this.userAuthService.getUserAuth();
                 _this.$ionicPush.register();
                 if (_this.user.type == 0) {
                     _this.$state.go("organizer.home");
@@ -65,9 +65,11 @@ var LoginCtrl = (function () {
                     _this.$state.go("sponzor.home");
                 }
                 _this.user = {};
+                _this.utilsService.hideLoad();
             })
                 .catch(function (error) {
                 console.log(error);
+                _this.utilsService.hideLoad();
             });
         })
             .catch(function (error) {
