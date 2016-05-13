@@ -16,7 +16,8 @@ class SponsorshipsListCtrl{
     'userService',
     'utilsService',
     'notificationService',
-    'userAuthService'
+    'userAuthService',
+    'ionicMaterialInk'
   ];
   sponsorships:any[] = [];
   userAuth:userModule.User;
@@ -30,8 +31,11 @@ class SponsorshipsListCtrl{
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
     private notificationService: notificationModule.INotificationService,
-    private userAuthService: userAuthModule.IUserAuthService
+    private userAuthService: userAuthModule.IUserAuthService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
     this.sponsorships = this.userAuth.sponzorships_like_organizer.filter( this._filterByDateIsAfter );
     this.showEmptyState = this.sponsorships.length == 0 ? true : false;

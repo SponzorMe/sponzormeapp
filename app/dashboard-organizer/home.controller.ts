@@ -11,7 +11,8 @@ class HomeOrganizerCtrl{
   $inject = [
     '$rootScope',
     'userAuthService',
-    'notificationService'
+    'notificationService',
+    'ionicMaterialInk'
   ];
   count_events:number = 0;
   count_sponsors:number = 0;
@@ -22,8 +23,11 @@ class HomeOrganizerCtrl{
   constructor(
     private $rootScope: angular.IRootScopeService,
     private userAuthService: userAuthModule.IUserAuthService,
-    private notificationService: notificationModule.INotificationService
+    private notificationService: notificationModule.INotificationService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = userAuthService.getUserAuth();
     this.count_events = this.userAuth.events.filter( this.filterDate ).length;
     this.count_comunity = this.userAuth.comunity_size;

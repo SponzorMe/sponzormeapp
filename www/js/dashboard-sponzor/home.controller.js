@@ -7,22 +7,25 @@
 * @version 0.2
 */
 var HomeSponsorCtrl = (function () {
-    function HomeSponsorCtrl($localStorage, userService, utilsService, $scope, $rootScope, userAuthService) {
+    function HomeSponsorCtrl($localStorage, userService, utilsService, $scope, $rootScope, userAuthService, ionicMaterialInk) {
         this.$localStorage = $localStorage;
         this.userService = userService;
         this.utilsService = utilsService;
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$localStorage',
             'userService',
             'utilsService',
             '$scope',
             '$rootScope',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.events = [];
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.events = this.userAuth.events.filter(this.filterDate);
         this.registerListenerEvents();

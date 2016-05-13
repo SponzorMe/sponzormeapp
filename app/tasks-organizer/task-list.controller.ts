@@ -16,7 +16,8 @@ class TaskListCtrl{
     'userService',
     'utilsService',
     'userAuthService',
-    'notificationService'
+    'notificationService',
+    'ionicMaterialInk'
   ];
   userAuth:userModule.User;
   events:eventModule.Event[] = [];
@@ -38,8 +39,11 @@ class TaskListCtrl{
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
     private userAuthService: userAuthModule.IUserAuthService,
-    private notificationService: notificationModule.INotificationService
+    private notificationService: notificationModule.INotificationService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
     this.events = this.userAuth.events.filter( this._filterEvents );
     this.events.forEach( this._preparateEvents, this );

@@ -7,21 +7,24 @@
 * @version 0.2
 */
 var FollowEventsCtrl = (function () {
-    function FollowEventsCtrl($scope, $rootScope, utilsService, userService, userAuthService) {
+    function FollowEventsCtrl($scope, $rootScope, utilsService, userService, userAuthService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.utilsService = utilsService;
         this.userService = userService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$rootScope',
             'utilsService',
             'userService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.sponzorships = [];
         this.showEmptyState = false;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponzorships = this.userAuth.sponzorships.filter(this._filterByDateAndByPending);
         this.showEmptyState = this.sponzorships.length == 0 ? true : false;

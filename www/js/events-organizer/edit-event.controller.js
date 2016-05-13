@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var EditEventCtrl = (function () {
-    function EditEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $stateParams, userAuthService, notificationService, $rootScope) {
+    function EditEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $stateParams, userAuthService, notificationService, $rootScope, ionicMaterialInk) {
         this.$scope = $scope;
         this.$translate = $translate;
         this.utilsService = utilsService;
@@ -23,6 +23,7 @@ var EditEventCtrl = (function () {
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
         this.$rootScope = $rootScope;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$translate',
@@ -38,7 +39,8 @@ var EditEventCtrl = (function () {
             '$stateParams',
             'userAuthService',
             'notificationService',
-            '$rootScope'
+            '$rootScope',
+            'ionicMaterialInk'
         ];
         this.indexEvent = -1;
         this.newEvent = {};
@@ -47,6 +49,7 @@ var EditEventCtrl = (function () {
         this.eventTypes = [];
         this.modalPerk = null;
         this.imageURI = null;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = userAuthService.getUserAuth();
         this.newEvent = _.findWhere(this.userAuth.events, { id: this.$stateParams.id });
         this.indexEvent = _.indexOf(this.userAuth.events, this.newEvent);

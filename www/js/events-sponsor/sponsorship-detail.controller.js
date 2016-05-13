@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var SponsorshipSponsorDetailCtrl = (function () {
-    function SponsorshipSponsorDetailCtrl($scope, $rootScope, $stateParams, $translate, $ionicModal, $ionicHistory, $cordovaToast, utilsService, taskSponsorService, userAuthService, notificationService) {
+    function SponsorshipSponsorDetailCtrl($scope, $rootScope, $stateParams, $translate, $ionicModal, $ionicHistory, $cordovaToast, utilsService, taskSponsorService, userAuthService, notificationService, ionicMaterialInk) {
         var _this = this;
         this.$scope = $scope;
         this.$rootScope = $rootScope;
@@ -20,6 +20,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
         this.taskSponsorService = taskSponsorService;
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$rootScope',
@@ -31,13 +32,15 @@ var SponsorshipSponsorDetailCtrl = (function () {
             'utilsService',
             'taskSponsorService',
             'userAuthService',
-            'notificationService'
+            'notificationService',
+            'ionicMaterialInk'
         ];
         this.sponsorship = {};
         this.modalTask = null;
         this.isNewTask = true;
         this.sponsorTask = { task: {} };
         this.indexSlide = 0;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponsorship = _.findWhere(this.userAuth.sponzorships, { id: this.$stateParams.id });
         this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter(function (item) { return item.task.user_id == _this.userAuth.id; });

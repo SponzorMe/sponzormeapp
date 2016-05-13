@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var EventDetailOrganizerCtrl = (function () {
-    function EventDetailOrganizerCtrl($scope, $stateParams, $state, $translate, $rootScope, $ionicPopup, $ionicActionSheet, $ionicSideMenuDelegate, $ionicHistory, $ionicModal, $cordovaSocialSharing, $cordovaCalendar, $cordovaToast, BackendVariables, eventService, utilsService, sponsorshipService, notificationService, userAuthService, perkTaskService) {
+    function EventDetailOrganizerCtrl($scope, $stateParams, $state, $translate, $rootScope, $ionicPopup, $ionicActionSheet, $ionicSideMenuDelegate, $ionicHistory, $ionicModal, $cordovaSocialSharing, $cordovaCalendar, $cordovaToast, BackendVariables, eventService, utilsService, sponsorshipService, notificationService, userAuthService, perkTaskService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$stateParams = $stateParams;
         this.$state = $state;
@@ -28,6 +28,7 @@ var EventDetailOrganizerCtrl = (function () {
         this.notificationService = notificationService;
         this.userAuthService = userAuthService;
         this.perkTaskService = perkTaskService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$stateParams',
@@ -48,7 +49,8 @@ var EventDetailOrganizerCtrl = (function () {
             'sponsorshipService',
             'notificationService',
             'userAuthService',
-            'perkTaskService'
+            'perkTaskService',
+            'ionicMaterialInk'
         ];
         this.popupOptionsSponsorship = null;
         this.hideSheet = null;
@@ -59,6 +61,7 @@ var EventDetailOrganizerCtrl = (function () {
         this.isNewTask = true;
         this.task = {};
         this.sponsorshipSelected = {};
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.event = _.findWhere(this.userAuth.events, { id: $stateParams.id });
         this.event.perks.forEach(this._preparatePerks, this);

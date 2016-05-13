@@ -10,15 +10,19 @@ class NotificationsCtrl{
   
   $inject = [
     'userAuthService', 
-    'notificationService'
+    'notificationService',
+    'ionicMaterialInk'
   ];
   userAuth:userModule.User;
   notifications:any[] = [];
   
   constructor(
     private userAuthService: userAuthModule.IUserAuthService,
-    private notificationService: notificationModule.INotificationService
+    private notificationService: notificationModule.INotificationService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
     this.notifications = this.notificationService.getNotifications( this.userAuth.id );
     /*this.notifications = [

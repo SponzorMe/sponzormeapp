@@ -7,22 +7,25 @@
 * @version 0.2
 */
 var ProfileCtrl = (function () {
-    function ProfileCtrl($cordovaToast, $cordovaCamera, userService, utilsService, imgurService, userAuthService) {
+    function ProfileCtrl($cordovaToast, $cordovaCamera, userService, utilsService, imgurService, userAuthService, ionicMaterialInk) {
         this.$cordovaToast = $cordovaToast;
         this.$cordovaCamera = $cordovaCamera;
         this.userService = userService;
         this.utilsService = utilsService;
         this.imgurService = imgurService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$cordovaToast',
             '$cordovaCamera',
             'userService',
             'utilsService',
             'imgurService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.imageURI = null;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
     }
     ProfileCtrl.prototype.getPhoto = function () {

@@ -14,7 +14,8 @@ class FormInterestsCtrl{
     'categoryService',
     'userInterestService',
     'userService',
-    'userAuthService'
+    'userAuthService',
+    'ionicMaterialInk'
   ];
   userAuth:userModule.User;
   categories:any[] = [];
@@ -25,8 +26,11 @@ class FormInterestsCtrl{
     private categoryService: categoryModule.ICategoryService,
     private userInterestService: userInterestModule.IUserAuthService,
     private userService: userModule.IUserService,
-    private userAuthService: userAuthModule.IUserAuthService
+    private userAuthService: userAuthModule.IUserAuthService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
     this._getCategories();
   }

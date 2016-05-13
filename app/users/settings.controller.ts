@@ -13,7 +13,8 @@ class SettingsCtrl{
     '$cordovaToast',
     '$ionicDeploy',
     'utilsService',
-    'BackendVariables'
+    'BackendVariables',
+    'ionicMaterialInk'
   ];
   lang:string;
   
@@ -22,8 +23,11 @@ class SettingsCtrl{
     private $cordovaToast,
     private $ionicDeploy,
     private utilsService,
-    private BackendVariables
+    private BackendVariables,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.lang = this.$translate.use();
     this.$ionicDeploy.setChannel(BackendVariables.channel);
   }

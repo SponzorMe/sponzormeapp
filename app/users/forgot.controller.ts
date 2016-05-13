@@ -13,6 +13,7 @@ class ForgotCtrl{
     '$ionicHistory',
     'userService', 
     'utilsService',
+    'ionicMaterialInk'
   ];
   user:any = {};
   
@@ -20,8 +21,11 @@ class ForgotCtrl{
     private $state: angular.ui.IStateService,
     private $ionicHistory: ionic.navigation.IonicHistoryService,
     private userService: userModule.IUserService,
-    private utilsService: utilsServiceModule.IUtilsService
-  ){}
+    private utilsService: utilsServiceModule.IUtilsService,
+    private ionicMaterialInk
+  ){
+    this.ionicMaterialInk.displayEffect();
+  }
   
   resetPassword( form ){
     this.utilsService.showLoad();

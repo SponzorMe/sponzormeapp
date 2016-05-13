@@ -10,7 +10,8 @@ class EventsTabsOrganizerCtrl{
 
   $inject = [
     '$rootScope',
-    'userAuthService'
+    'userAuthService',
+    'ionicMaterialInk'
   ];
   userAuth:userModule.User; 
   count_events:number = 0;
@@ -18,8 +19,12 @@ class EventsTabsOrganizerCtrl{
   
   constructor(
     private userAuthService: userAuthModule.IUserAuthService,
-    private $rootScope
+    private $rootScope,
+    private ionicMaterialInk
   ){
+    
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
       
     this.count_events = this.userAuth.events.filter( this._filterByDateIsAfter ).length;

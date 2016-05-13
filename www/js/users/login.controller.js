@@ -37,7 +37,7 @@ var LoginCtrl = (function () {
             'ionicMaterialInk'
         ];
         this.user = {};
-        ionicMaterialInk.displayEffect();
+        this.ionicMaterialInk.displayEffect();
         if (userAuthService.checkSession()) {
             this.user = this.userAuthService.getUserAuth();
             if (this.user.type == 0) {

@@ -14,7 +14,8 @@ class HomeSponsorCtrl{
     'utilsService',
     '$scope',
     '$rootScope',
-    'userAuthService'
+    'userAuthService',
+    'ionicMaterialInk'
   ];
   userAuth:userModule.User;
   events:eventModule.Event[] = [];
@@ -25,8 +26,11 @@ class HomeSponsorCtrl{
     private utilsService: utilsServiceModule.IUtilsService,
     private $scope: angular.IRootScopeService,
     private $rootScope: angular.IRootScopeService,
-    private userAuthService: userAuthModule.IUserAuthService
+    private userAuthService: userAuthModule.IUserAuthService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
     this.events = this.userAuth.events.filter( this.filterDate );
     

@@ -41,7 +41,7 @@ class LoginCtrl{
     private ionicMaterialInk
   ){
     
-    ionicMaterialInk.displayEffect();
+    this.ionicMaterialInk.displayEffect();
     
     if(userAuthService.checkSession()){
       this.user = this.userAuthService.getUserAuth();

@@ -7,14 +7,17 @@
 * @version 0.2
 */
 var NotificationsCtrl = (function () {
-    function NotificationsCtrl(userAuthService, notificationService) {
+    function NotificationsCtrl(userAuthService, notificationService, ionicMaterialInk) {
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             'userAuthService',
-            'notificationService'
+            'notificationService',
+            'ionicMaterialInk'
         ];
         this.notifications = [];
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.notifications = this.notificationService.getNotifications(this.userAuth.id);
         /*this.notifications = [

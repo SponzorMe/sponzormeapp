@@ -13,7 +13,8 @@ class SponsorshipsPastEventsCtrl{
     '$rootScope',
     '$ionicScrollDelegate',
     'userService',
-    'userAuthService'
+    'userAuthService',
+    'ionicMaterialInk'
   ];
   sponsorships:any[] = [];
   userAuth:userModule.User;
@@ -24,8 +25,11 @@ class SponsorshipsPastEventsCtrl{
     private $rootScope: angular.IRootScopeService,
     private $ionicScrollDelegate: ionic.navigation.IonicHistoryService,
     private userService: userModule.IUserService,
-    private userAuthService: userAuthModule.IUserAuthService
+    private userAuthService: userAuthModule.IUserAuthService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
     this.sponsorships = this.userAuth.sponzorships_like_organizer.filter( this._filterByDateIsBefore );
     this.showEmptyState = this.sponsorships.length == 0 ? true : false;

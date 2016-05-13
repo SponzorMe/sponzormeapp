@@ -11,7 +11,8 @@ class InviteUsersCtrl{
   $inject = [
     'userService', 
     'utilsService',
-    'userAuthService'
+    'userAuthService',
+    'ionicMaterialInk'
   ];
   friend:any = {};
   userAuth:userModule.User;
@@ -19,8 +20,11 @@ class InviteUsersCtrl{
   constructor(
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
-    private userAuthService: userAuthModule.IUserAuthService
+    private userAuthService: userAuthModule.IUserAuthService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
   }
   

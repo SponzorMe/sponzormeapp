@@ -19,7 +19,8 @@ class RegisterCtrl{
     'userService',
     'utilsService',
     'notificationService',
-    'userAuthService'
+    'userAuthService',
+    'ionicMaterialInk'
   ];
   newUser:any = {};
   
@@ -34,8 +35,11 @@ class RegisterCtrl{
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
     private notificationService: notificationModule.INotificationService,
-    private userAuthService: userAuthModule.IUserAuthService
+    private userAuthService: userAuthModule.IUserAuthService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.newUser.type = 0;
   }
   

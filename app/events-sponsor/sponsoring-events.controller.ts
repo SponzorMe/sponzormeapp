@@ -13,7 +13,8 @@ class SponsoringEventsCtrl{
     '$rootScope',
     'userService',
     'utilsService',
-    'userAuthService'
+    'userAuthService',
+    'ionicMaterialInk'
   ];
   userAuth:userModule.User;
   sponzorships:any[] = [];
@@ -24,8 +25,11 @@ class SponsoringEventsCtrl{
     private $rootScope: angular.IRootScopeService,
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
-    private userAuthService: userAuthModule.IUserAuthService
+    private userAuthService: userAuthModule.IUserAuthService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
     this.sponzorships = this.userAuth.sponzorships.filter( this._filterByAccepted );
     this.showEmptyState = this.sponzorships.length == 0 ? true : false;

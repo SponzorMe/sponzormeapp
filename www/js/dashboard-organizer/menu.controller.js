@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var MenuOrganizerCtrl = (function () {
-    function MenuOrganizerCtrl($state, $q, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService, $localStorage) {
+    function MenuOrganizerCtrl($state, $q, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService, $localStorage, ionicMaterialInk) {
         this.$state = $state;
         this.$q = $q;
         this.$rootScope = $rootScope;
@@ -16,6 +16,7 @@ var MenuOrganizerCtrl = (function () {
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
         this.$localStorage = $localStorage;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             '$q',
@@ -24,12 +25,14 @@ var MenuOrganizerCtrl = (function () {
             '$ionicHistory',
             'userAuthService',
             'notificationService',
-            '$localStorage'
+            '$localStorage',
+            'ionicMaterialInk'
         ];
         this.count_events = 0;
         this.count_sponsors = 0;
         this.count_tasks = 0;
         this.notifications = [];
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.count_events = this.userAuth.events.filter(this.filterDate).length;
         this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;

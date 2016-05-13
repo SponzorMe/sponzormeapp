@@ -16,7 +16,8 @@ class MenuOrganizerCtrl{
     '$ionicHistory',
     'userAuthService',
     'notificationService',
-    '$localStorage'
+    '$localStorage',
+    'ionicMaterialInk'
   ];
   userAuth: userModule.User;
   count_events:number = 0;
@@ -32,8 +33,11 @@ class MenuOrganizerCtrl{
     private $ionicHistory: ionic.navigation.IonicHistoryService,
     private userAuthService: userAuthModule.IUserAuthService,
     private notificationService: notificationModule.INotificationService,
-    private $localStorage
+    private $localStorage,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
     this.count_events = this.userAuth.events.filter( this.filterDate ).length;
     this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;

@@ -7,15 +7,18 @@
 * @version 0.2
 */
 var EventsTabsOrganizerCtrl = (function () {
-    function EventsTabsOrganizerCtrl(userAuthService, $rootScope) {
+    function EventsTabsOrganizerCtrl(userAuthService, $rootScope, ionicMaterialInk) {
         this.userAuthService = userAuthService;
         this.$rootScope = $rootScope;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$rootScope',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.count_events = 0;
         this.count_past_events = 0;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.count_events = this.userAuth.events.filter(this._filterByDateIsAfter).length;
         this.count_past_events = this.userAuth.events.length - this.count_events;

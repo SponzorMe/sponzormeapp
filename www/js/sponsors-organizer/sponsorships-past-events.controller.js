@@ -7,21 +7,24 @@
 * @version 0.2
 */
 var SponsorshipsPastEventsCtrl = (function () {
-    function SponsorshipsPastEventsCtrl($scope, $rootScope, $ionicScrollDelegate, userService, userAuthService) {
+    function SponsorshipsPastEventsCtrl($scope, $rootScope, $ionicScrollDelegate, userService, userAuthService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.$ionicScrollDelegate = $ionicScrollDelegate;
         this.userService = userService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$rootScope',
             '$ionicScrollDelegate',
             'userService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.sponsorships = [];
         this.showEmptyState = false;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponsorships = this.userAuth.sponzorships_like_organizer.filter(this._filterByDateIsBefore);
         this.showEmptyState = this.sponsorships.length == 0 ? true : false;

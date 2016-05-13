@@ -7,19 +7,22 @@
 * @version 0.2
 */
 var SettingsCtrl = (function () {
-    function SettingsCtrl($translate, $cordovaToast, $ionicDeploy, utilsService, BackendVariables) {
+    function SettingsCtrl($translate, $cordovaToast, $ionicDeploy, utilsService, BackendVariables, ionicMaterialInk) {
         this.$translate = $translate;
         this.$cordovaToast = $cordovaToast;
         this.$ionicDeploy = $ionicDeploy;
         this.utilsService = utilsService;
         this.BackendVariables = BackendVariables;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$translate',
             '$cordovaToast',
             '$ionicDeploy',
             'utilsService',
-            'BackendVariables'
+            'BackendVariables',
+            'ionicMaterialInk'
         ];
+        this.ionicMaterialInk.displayEffect();
         this.lang = this.$translate.use();
         this.$ionicDeploy.setChannel(BackendVariables.channel);
     }

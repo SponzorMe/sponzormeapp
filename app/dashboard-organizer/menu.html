@@ -15,7 +15,11 @@
   </ion-side-menu-content>
 
   <ion-side-menu side="left">
-    <ion-content class="has-header">
+    <ion-header-bar class="expanded">
+      <img ng-src="{{menu.userAuth.image}}" class="avatar motion spin fade">
+      <div class="menu-bottom">{{menu.userAuth.name}}</div>
+    </ion-header-bar>
+    <ion-content class="stable-bg has-expanded-header">
       <ion-list>
         <!-- Note each link has the 'menu-close' attribute so the menu auto closes when clicking on one of these links -->
         <ion-item nav-clear menu-close href="#/organizer/home" class="item-icon-left" >

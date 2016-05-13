@@ -7,18 +7,21 @@
 * @version 0.2
 */
 var ForgotCtrl = (function () {
-    function ForgotCtrl($state, $ionicHistory, userService, utilsService) {
+    function ForgotCtrl($state, $ionicHistory, userService, utilsService, ionicMaterialInk) {
         this.$state = $state;
         this.$ionicHistory = $ionicHistory;
         this.userService = userService;
         this.utilsService = utilsService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             '$ionicHistory',
             'userService',
             'utilsService',
+            'ionicMaterialInk'
         ];
         this.user = {};
+        this.ionicMaterialInk.displayEffect();
     }
     ForgotCtrl.prototype.resetPassword = function (form) {
         var _this = this;

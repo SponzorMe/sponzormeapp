@@ -14,7 +14,8 @@ class SponsorshipOrganizerDetailCtrl{
     'sponsorshipService',
     'utilsService',
     'userAuthService',
-    'notificationService'
+    'notificationService',
+    'ionicMaterialInk'
   ];
   
   sponsorship:any = {};
@@ -27,8 +28,11 @@ class SponsorshipOrganizerDetailCtrl{
     private sponsorshipService: sponsorshipModule.ISponsorshipService,
     private utilsService: utilsServiceModule.IUtilsService,
     private userAuthService: userAuthModule.IUserAuthService,
-    private notificationService: notificationModule.INotificationService
+    private notificationService: notificationModule.INotificationService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
     
     this.sponsorship = _.findWhere(this.userAuth.sponzorships_like_organizer, {id: this.$stateParams.id});

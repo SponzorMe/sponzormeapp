@@ -10,7 +10,8 @@ class TaskTabsCtrl{
   
   $inject = [
     '$rootScope',
-    'userAuthService'
+    'userAuthService',
+    'ionicMaterialInk'
   ];
   userAuth:userModule.User;
   count_tasks:number = 0;
@@ -18,8 +19,11 @@ class TaskTabsCtrl{
   
   constructor(
     private $rootScope: angular.IRootScopeService,
-    private userAuthService: userAuthModule.IUserAuthService
+    private userAuthService: userAuthModule.IUserAuthService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
     
     this.count_tasks = this._countTasks(this.userAuth.events.filter( this._filterEventsIsAfter )).length;

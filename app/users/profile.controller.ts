@@ -14,7 +14,8 @@ class ProfileCtrl{
     'userService', 
     'utilsService',
     'imgurService',
-    'userAuthService'
+    'userAuthService',
+    'ionicMaterialInk'
   ];
   userAuth:userModule.User;
   imageURI:any = null;
@@ -25,8 +26,11 @@ class ProfileCtrl{
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
     private imgurService: imgurModule.IImgurService,
-    private userAuthService: userAuthModule.IUserAuthService
+    private userAuthService: userAuthModule.IUserAuthService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
   }
   

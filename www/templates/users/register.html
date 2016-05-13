@@ -61,14 +61,23 @@
         </label>
       </div>
       <div class="padding">
-        <button type="submit" class="button button-block button-positive">
+        <button type="submit" class="button button-block button-positive button-raised">
           {{"JOINNOW.button_message" | translate}}
         </button>
       </div>
     </form>
+    <div class="padding">
+      <hr/>
+      <div class="text-center">
+        <a class="button button-clear button-positive" href="#/forgot-password">{{"LOGIN.forgot_message" | translate}}</a>  
+        <a class="button button-clear button-positive" href="#/sign-in">{{"LOGIN.signin_message" | translate}}</a>
+      </div>
+    </div>
   </ion-content>
+  <!--
   <ion-footer-bar class="bar">
     <a class="button button-clear button-positive" href="#/forgot-password">{{"LOGIN.forgot_message" | translate}}</a>  
     <a class="button button-clear button-positive" href="#/sign-in">{{"LOGIN.signin_message" | translate}}</a>
   </ion-footer-bar>
+  -->
 </ion-view>

@@ -7,21 +7,24 @@
 * @version 0.2
 */
 var PastEventsOrganizerCtrl = (function () {
-    function PastEventsOrganizerCtrl($scope, $rootScope, userService, utilsService, userAuthService) {
+    function PastEventsOrganizerCtrl($scope, $rootScope, userService, utilsService, userAuthService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.userService = userService;
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$rootScope',
             'userService',
             'utilsService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.events = [];
         this.showEmptyState = true;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.events = this.userAuth.events.filter(this._filterDate);
         this.showEmptyState = this.events.length == 0 ? true : false;

@@ -23,7 +23,8 @@ class EditEventCtrl{
     '$stateParams',
     'userAuthService',
     'notificationService',
-    '$rootScope'
+    '$rootScope',
+    'ionicMaterialInk'
   ];
   indexEvent:number = -1;
   newEvent:any = {};
@@ -49,8 +50,11 @@ class EditEventCtrl{
     private $stateParams,
     private userAuthService: userAuthModule.IUserAuthService,
     private notificationService: notificationModule.INotificationService,
-    private $rootScope
+    private $rootScope,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = userAuthService.getUserAuth();
     
     this.newEvent = _.findWhere( this.userAuth.events, {id: this.$stateParams.id});

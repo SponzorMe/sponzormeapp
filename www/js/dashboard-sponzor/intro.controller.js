@@ -6,21 +6,24 @@
 * @version 0.2
 */
 var IntroSponsorCtrl = (function () {
-    function IntroSponsorCtrl($state, $scope, $ionicHistory, $ionicSideMenuDelegate) {
+    function IntroSponsorCtrl($state, $scope, $ionicHistory, $ionicSideMenuDelegate, ionicMaterialInk) {
         var _this = this;
         this.$state = $state;
         this.$scope = $scope;
         this.$ionicHistory = $ionicHistory;
         this.$ionicSideMenuDelegate = $ionicSideMenuDelegate;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             '$scope',
             '$ionicHistory',
-            '$ionicSideMenuDelegate'
+            '$ionicSideMenuDelegate',
+            'ionicMaterialInk'
         ];
         this.slideIndex = 0;
         this.slider = null;
         this.data = {};
+        this.ionicMaterialInk.displayEffect();
         this.$ionicSideMenuDelegate.canDragContent(false);
         this.$scope.$watch(function () { return _this.data; }, function (oldValue, newValue) {
             if (Object.keys(_this.data).length > 0) {

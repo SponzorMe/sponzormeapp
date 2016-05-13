@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var EventDetailSponsorCtrl = (function () {
-    function EventDetailSponsorCtrl($scope, $stateParams, $rootScope, $translate, $ionicModal, $ionicHistory, $cordovaToast, eventService, utilsService, sponsorshipService, notificationService, userAuthService) {
+    function EventDetailSponsorCtrl($scope, $stateParams, $rootScope, $translate, $ionicModal, $ionicHistory, $cordovaToast, eventService, utilsService, sponsorshipService, notificationService, userAuthService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$stateParams = $stateParams;
         this.$rootScope = $rootScope;
@@ -20,6 +20,7 @@ var EventDetailSponsorCtrl = (function () {
         this.sponsorshipService = sponsorshipService;
         this.notificationService = notificationService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$stateParams',
@@ -32,10 +33,12 @@ var EventDetailSponsorCtrl = (function () {
             'utilsService',
             'sponsorshipService',
             'notificationService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.modalSponsorIt = null;
         this.newSponsorIt = {};
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.event = _.findWhere(this.userAuth.events, { id: $stateParams.id });
         this.event.perks.forEach(this._preparatePerks, this);

@@ -16,7 +16,8 @@ class MenuSponsorCtrl{
     '$ionicAuth',
     '$ionicHistory',
     'userAuthService',
-    'notificationService'
+    'notificationService',
+    'ionicMaterialInk'
   ];
   userAuth: userModule.User;
   count_following:number = 0;
@@ -31,8 +32,11 @@ class MenuSponsorCtrl{
     private $ionicAuth,
     private $ionicHistory: ionic.navigation.IonicHistoryService,
     private userAuthService: userAuthModule.IUserAuthService,
-    private notificationService: notificationModule.INotificationService
+    private notificationService: notificationModule.INotificationService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = userAuthService.getUserAuth();
     this.count_sponsoring = this.userAuth.sponzorships.filter( this.filterByAccepted ).length;
     this.count_following = this.userAuth.sponzorships.filter( this._filterByDateAndByPending ).length; 

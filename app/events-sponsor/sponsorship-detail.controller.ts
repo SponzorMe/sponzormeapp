@@ -19,7 +19,8 @@ class SponsorshipSponsorDetailCtrl{
     'utilsService',
     'taskSponsorService',
     'userAuthService',
-    'notificationService'
+    'notificationService',
+    'ionicMaterialInk'
   ];
   sponsorship:any = {};
   userAuth:userModule.User;
@@ -39,8 +40,11 @@ class SponsorshipSponsorDetailCtrl{
     private utilsService: utilsServiceModule.IUtilsService,
     private taskSponsorService: taskSponsorModule.ITasksSponsor,
     private userAuthService: userAuthModule.IUserAuthService,
-    private notificationService: notificationModule.INotificationService
+    private notificationService: notificationModule.INotificationService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
     this.sponsorship = _.findWhere(this.userAuth.sponzorships, {id: this.$stateParams.id});
     this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter( item => item.task.user_id == this.userAuth.id);

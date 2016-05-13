@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var SponsorshipsListCtrl = (function () {
-    function SponsorshipsListCtrl($scope, $rootScope, $ionicScrollDelegate, sponsorshipService, userService, utilsService, notificationService, userAuthService) {
+    function SponsorshipsListCtrl($scope, $rootScope, $ionicScrollDelegate, sponsorshipService, userService, utilsService, notificationService, userAuthService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.$ionicScrollDelegate = $ionicScrollDelegate;
@@ -16,6 +16,7 @@ var SponsorshipsListCtrl = (function () {
         this.utilsService = utilsService;
         this.notificationService = notificationService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$rootScope',
@@ -24,10 +25,12 @@ var SponsorshipsListCtrl = (function () {
             'userService',
             'utilsService',
             'notificationService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.sponsorships = [];
         this.showEmptyState = false;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponsorships = this.userAuth.sponzorships_like_organizer.filter(this._filterByDateIsAfter);
         this.showEmptyState = this.sponsorships.length == 0 ? true : false;

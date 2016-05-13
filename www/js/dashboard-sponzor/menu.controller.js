@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var MenuSponsorCtrl = (function () {
-    function MenuSponsorCtrl($state, $q, $localStorage, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService) {
+    function MenuSponsorCtrl($state, $q, $localStorage, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService, ionicMaterialInk) {
         this.$state = $state;
         this.$q = $q;
         this.$localStorage = $localStorage;
@@ -16,6 +16,7 @@ var MenuSponsorCtrl = (function () {
         this.$ionicHistory = $ionicHistory;
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             '$q',
@@ -24,11 +25,13 @@ var MenuSponsorCtrl = (function () {
             '$ionicAuth',
             '$ionicHistory',
             'userAuthService',
-            'notificationService'
+            'notificationService',
+            'ionicMaterialInk'
         ];
         this.count_following = 0;
         this.count_sponsoring = 0;
         this.notifications = [];
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = userAuthService.getUserAuth();
         this.count_sponsoring = this.userAuth.sponzorships.filter(this.filterByAccepted).length;
         this.count_following = this.userAuth.sponzorships.filter(this._filterByDateAndByPending).length;

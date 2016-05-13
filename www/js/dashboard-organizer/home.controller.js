@@ -7,18 +7,21 @@
 * @version 0.3
 */
 var HomeOrganizerCtrl = (function () {
-    function HomeOrganizerCtrl($rootScope, userAuthService, notificationService) {
+    function HomeOrganizerCtrl($rootScope, userAuthService, notificationService, ionicMaterialInk) {
         this.$rootScope = $rootScope;
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$rootScope',
             'userAuthService',
-            'notificationService'
+            'notificationService',
+            'ionicMaterialInk'
         ];
         this.count_events = 0;
         this.count_sponsors = 0;
         this.count_comunity = 0;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = userAuthService.getUserAuth();
         this.count_events = this.userAuth.events.filter(this.filterDate).length;
         this.count_comunity = this.userAuth.comunity_size;

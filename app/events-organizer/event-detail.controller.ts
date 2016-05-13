@@ -28,7 +28,8 @@ class EventDetailOrganizerCtrl{
     'sponsorshipService',
     'notificationService',
     'userAuthService',
-    'perkTaskService'
+    'perkTaskService',
+    'ionicMaterialInk'
   ];
   popupOptionsSponsorship:any = null;
   hideSheet:any = null;
@@ -62,8 +63,11 @@ class EventDetailOrganizerCtrl{
     private sponsorshipService: sponsorshipModule.ISponsorshipService,
     private notificationService: notificationModule.INotificationService,
     private userAuthService: userAuthModule.IUserAuthService,
-    private perkTaskService: perkTaskModule.IPerkTaskService
+    private perkTaskService: perkTaskModule.IPerkTaskService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
     
     this.event = _.findWhere(this.userAuth.events, {id: $stateParams.id});

@@ -24,7 +24,8 @@ class AddEventCtrl{
     'notificationService',
     'userAuthService',
     '$rootScope',
-    'BackendVariables'
+    'BackendVariables',
+    'ionicMaterialInk'
   ];
   newEvent:any = {};
   newPerk:any = {};
@@ -50,8 +51,12 @@ class AddEventCtrl{
     private notificationService: notificationModule.INotificationService,
     private userAuthService: userAuthModule.IUserAuthService,
     private $rootScope,
-    private BackendVariables
+    private BackendVariables,
+    private ionicMaterialInk
   ){
+    
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = userAuthService.getUserAuth();
     
     this.newEvent.access = true;

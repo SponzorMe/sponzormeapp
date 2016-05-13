@@ -11,7 +11,8 @@ class IntroOrganizerCtrl{
     '$state',
     '$scope',
     '$ionicHistory',
-    '$ionicSideMenuDelegate'
+    '$ionicSideMenuDelegate',
+    'ionicMaterialInk'
   ];
   slideIndex:number = 0;
   slider:any = null;
@@ -21,8 +22,11 @@ class IntroOrganizerCtrl{
     private $state: angular.ui.IStateService,
     private $scope,
     private $ionicHistory: ionic.navigation.IonicHistoryService,
-    private $ionicSideMenuDelegate: ionic.sideMenu.IonicSideMenuDelegate
+    private $ionicSideMenuDelegate: ionic.sideMenu.IonicSideMenuDelegate,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.$ionicSideMenuDelegate.canDragContent(false);
     
     this.$scope.$watch(() => this.data, (oldValue: string, newValue: string) => {

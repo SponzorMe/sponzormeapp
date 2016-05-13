@@ -13,7 +13,8 @@ class FollowEventsCtrl{
     '$rootScope',
     'utilsService',
     'userService',
-    'userAuthService'
+    'userAuthService',
+    'ionicMaterialInk'
   ];
   userAuth:userModule.User;
   sponzorships:any[] = [];
@@ -24,8 +25,12 @@ class FollowEventsCtrl{
     private $rootScope: angular.IRootScopeService,
     private utilsService: utilsServiceModule.IUtilsService,
     private userService: userModule.IUserService,
-    private userAuthService: userAuthModule.IUserAuthService
+    private userAuthService: userAuthModule.IUserAuthService,
+    private ionicMaterialInk
   ){
+    
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
     this.sponzorships = this.userAuth.sponzorships.filter( this._filterByDateAndByPending );
     this.showEmptyState = this.sponzorships.length == 0 ? true : false;

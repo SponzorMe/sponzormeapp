@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var AddEventCtrl = (function () {
-    function AddEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $state, notificationService, userAuthService, $rootScope, BackendVariables) {
+    function AddEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $state, notificationService, userAuthService, $rootScope, BackendVariables, ionicMaterialInk) {
         this.$scope = $scope;
         this.$translate = $translate;
         this.utilsService = utilsService;
@@ -24,6 +24,7 @@ var AddEventCtrl = (function () {
         this.userAuthService = userAuthService;
         this.$rootScope = $rootScope;
         this.BackendVariables = BackendVariables;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$translate',
@@ -40,7 +41,8 @@ var AddEventCtrl = (function () {
             'notificationService',
             'userAuthService',
             '$rootScope',
-            'BackendVariables'
+            'BackendVariables',
+            'ionicMaterialInk'
         ];
         this.newEvent = {};
         this.newPerk = {};
@@ -48,6 +50,7 @@ var AddEventCtrl = (function () {
         this.eventTypes = [];
         this.modalPerk = null;
         this.imageURI = null;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = userAuthService.getUserAuth();
         this.newEvent.access = true;
         this.newEvent.perks = [];

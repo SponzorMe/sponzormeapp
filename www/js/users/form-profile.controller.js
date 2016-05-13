@@ -7,19 +7,22 @@
 * @version 0.1
 */
 var FormProfileCtrl = (function () {
-    function FormProfileCtrl($state, $translate, userService, utilsService, userAuthService) {
+    function FormProfileCtrl($state, $translate, userService, utilsService, userAuthService, ionicMaterialInk) {
         this.$state = $state;
         this.$translate = $translate;
         this.userService = userService;
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             '$translate',
             'userService',
             'utilsService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.userAuth.lang = 'en';
         this.userAuth.sex = 1;

@@ -7,22 +7,25 @@
 * @version 0.1
 */
 var FormInterestsCtrl = (function () {
-    function FormInterestsCtrl($state, utilsService, categoryService, userInterestService, userService, userAuthService) {
+    function FormInterestsCtrl($state, utilsService, categoryService, userInterestService, userService, userAuthService, ionicMaterialInk) {
         this.$state = $state;
         this.utilsService = utilsService;
         this.categoryService = categoryService;
         this.userInterestService = userInterestService;
         this.userService = userService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             'utilsService',
             'categoryService',
             'userInterestService',
             'userService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.categories = [];
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this._getCategories();
     }

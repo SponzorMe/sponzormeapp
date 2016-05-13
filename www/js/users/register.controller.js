@@ -7,7 +7,7 @@
 * @version 0.1
 */
 var RegisterCtrl = (function () {
-    function RegisterCtrl($state, $translate, $base64, $localStorage, $ionicUser, $ionicPush, $ionicAuth, userService, utilsService, notificationService, userAuthService) {
+    function RegisterCtrl($state, $translate, $base64, $localStorage, $ionicUser, $ionicPush, $ionicAuth, userService, utilsService, notificationService, userAuthService, ionicMaterialInk) {
         this.$state = $state;
         this.$translate = $translate;
         this.$base64 = $base64;
@@ -19,6 +19,7 @@ var RegisterCtrl = (function () {
         this.utilsService = utilsService;
         this.notificationService = notificationService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             '$translate',
@@ -30,9 +31,11 @@ var RegisterCtrl = (function () {
             'userService',
             'utilsService',
             'notificationService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.newUser = {};
+        this.ionicMaterialInk.displayEffect();
         this.newUser.type = 0;
     }
     RegisterCtrl.prototype.registerNewUser = function (form) {

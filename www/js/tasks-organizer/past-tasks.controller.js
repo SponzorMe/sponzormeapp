@@ -8,7 +8,7 @@
 
 */
 var PastTasksCtrl = (function () {
-    function PastTasksCtrl($scope, $rootScope, $ionicModal, perkTaskService, userService, utilsService, userAuthService, notificationService) {
+    function PastTasksCtrl($scope, $rootScope, $ionicModal, perkTaskService, userService, utilsService, userAuthService, notificationService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.$ionicModal = $ionicModal;
@@ -17,6 +17,7 @@ var PastTasksCtrl = (function () {
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$rootScope',
@@ -25,7 +26,8 @@ var PastTasksCtrl = (function () {
             'userService',
             'utilsService',
             'userAuthService',
-            'notificationService'
+            'notificationService',
+            'ionicMaterialInk'
         ];
         this.events = [];
         this.showEmptyState = false;
@@ -37,6 +39,7 @@ var PastTasksCtrl = (function () {
         this.isNewTask = true;
         this.task = {};
         this.perk = {};
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.events = this.userAuth.events.filter(this._filterEvents);
         this.events.forEach(this._preparateEvents, this);

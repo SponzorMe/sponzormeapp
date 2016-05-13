@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var SponsorshipOrganizerDetailCtrl = (function () {
-    function SponsorshipOrganizerDetailCtrl($stateParams, $rootScope, sponsorshipService, utilsService, userAuthService, notificationService) {
+    function SponsorshipOrganizerDetailCtrl($stateParams, $rootScope, sponsorshipService, utilsService, userAuthService, notificationService, ionicMaterialInk) {
         var _this = this;
         this.$stateParams = $stateParams;
         this.$rootScope = $rootScope;
@@ -15,16 +15,19 @@ var SponsorshipOrganizerDetailCtrl = (function () {
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$stateParams',
             '$rootScope',
             'sponsorshipService',
             'utilsService',
             'userAuthService',
-            'notificationService'
+            'notificationService',
+            'ionicMaterialInk'
         ];
         this.sponsorship = {};
         this.showEmptyState = false;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponsorship = _.findWhere(this.userAuth.sponzorships_like_organizer, { id: this.$stateParams.id });
         this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter(function (item) { return item.task.user_id != _this.userAuth.id; });

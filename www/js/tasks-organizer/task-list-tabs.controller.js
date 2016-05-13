@@ -7,15 +7,18 @@
 * @version 0.2
 */
 var TaskTabsCtrl = (function () {
-    function TaskTabsCtrl($rootScope, userAuthService) {
+    function TaskTabsCtrl($rootScope, userAuthService, ionicMaterialInk) {
         this.$rootScope = $rootScope;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$rootScope',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.count_tasks = 0;
         this.count_past_tasks = 0;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.count_tasks = this._countTasks(this.userAuth.events.filter(this._filterEventsIsAfter)).length;
         this.count_past_tasks = this._countTasks(this.userAuth.events.filter(this._filterEventsisBefore)).length;

@@ -13,6 +13,7 @@
   function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics, $ionicPush,  $localStorage, userAuthService, notificationService, BackendVariables ) {
     //function run($ionicPlatform ) {
 
+
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)

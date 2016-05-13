@@ -7,16 +7,19 @@
 * @version 0.2
 */
 var InviteUsersCtrl = (function () {
-    function InviteUsersCtrl(userService, utilsService, userAuthService) {
+    function InviteUsersCtrl(userService, utilsService, userAuthService, ionicMaterialInk) {
         this.userService = userService;
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             'userService',
             'utilsService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.friend = {};
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
     }
     InviteUsersCtrl.prototype.inviteFriend = function (form) {

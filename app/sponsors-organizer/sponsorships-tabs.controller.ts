@@ -11,6 +11,7 @@ class SponsorshipsTabsCtrl{
   $inject = [
     '$rootScope',
     'userAuthService',
+    'ionicMaterialInk'
   ];
   userAuth:userModule.User;
   count_events:number = 0;
@@ -18,8 +19,11 @@ class SponsorshipsTabsCtrl{
   
   constructor(
     private $rootScope: angular.IRootScopeService,
-    private userAuthService: userAuthModule.IUserAuthService
+    private userAuthService: userAuthModule.IUserAuthService,
+    private ionicMaterialInk
   ){
+    this.ionicMaterialInk.displayEffect();
+    
     this.userAuth = this.userAuthService.getUserAuth();
       
     this.count_events = this.userAuth.sponzorships_like_organizer.filter( this._filterByDateIsAfter ).length;

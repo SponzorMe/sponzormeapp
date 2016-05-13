@@ -7,21 +7,24 @@
 * @version 0.2
 */
 var SponsoringEventsCtrl = (function () {
-    function SponsoringEventsCtrl($scope, $rootScope, userService, utilsService, userAuthService) {
+    function SponsoringEventsCtrl($scope, $rootScope, userService, utilsService, userAuthService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.userService = userService;
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$rootScope',
             'userService',
             'utilsService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.sponzorships = [];
         this.showEmptyState = false;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponzorships = this.userAuth.sponzorships.filter(this._filterByAccepted);
         this.showEmptyState = this.sponzorships.length == 0 ? true : false;
