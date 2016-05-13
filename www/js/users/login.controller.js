@@ -7,7 +7,7 @@
 * @version 0.1
 */
 var LoginCtrl = (function () {
-    function LoginCtrl($state, $q, $translate, $base64, $localStorage, $ionicUser, $ionicPush, $ionicAuth, userService, utilsService, notificationService, userAuthService) {
+    function LoginCtrl($state, $q, $translate, $base64, $localStorage, $ionicUser, $ionicPush, $ionicAuth, userService, utilsService, notificationService, userAuthService, ionicMaterialInk) {
         this.$state = $state;
         this.$q = $q;
         this.$translate = $translate;
@@ -20,6 +20,7 @@ var LoginCtrl = (function () {
         this.utilsService = utilsService;
         this.notificationService = notificationService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             '$q',
@@ -33,8 +34,10 @@ var LoginCtrl = (function () {
             'utilsService',
             'notificationService',
             'userAuthService',
+            'ionicMaterialInk'
         ];
         this.user = {};
+        ionicMaterialInk.displayEffect();
         if (userAuthService.checkSession()) {
             this.user = this.userAuthService.getUserAuth();
             if (this.user.type == 0) {

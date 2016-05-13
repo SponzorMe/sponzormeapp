@@ -21,6 +21,7 @@ class LoginCtrl{
     'utilsService',
     'notificationService',
     'userAuthService',
+    'ionicMaterialInk'
   ];
   user:any = {};
   
@@ -36,8 +37,12 @@ class LoginCtrl{
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
     private notificationService: notificationModule.INotificationService,
-    private userAuthService: userAuthModule.IUserAuthService
+    private userAuthService: userAuthModule.IUserAuthService,
+    private ionicMaterialInk
   ){
+    
+    ionicMaterialInk.displayEffect();
+    
     if(userAuthService.checkSession()){
       this.user = this.userAuthService.getUserAuth();
       if( this.user.type == 0 ){ // is an Organizer.

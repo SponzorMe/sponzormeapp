@@ -22,10 +22,12 @@
     "./www/lib/tabbedSlideBox/tabSlideBox.js",
     "./www/lib/moment/min/moment.min.js",
     "./www/lib/angular-moment/angular-moment.min.js",
-    "./www/lib/ngCordova/dist/ng-cordova.min.js"
+    "./www/lib/ngCordova/dist/ng-cordova.min.js",
+    "./www/lib/ionic-material/dist/ionic.material.min.js"
   ],
   "css": [
     "./www/css/ionic.app.min.css",
+    "./www/lib/ionic-material/dist/ionic.material.min.css",
     "./www/lib/angular-google-places-autocomplete/src/autocomplete.css"
   ],
   "sass": [

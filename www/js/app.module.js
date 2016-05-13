@@ -19,6 +19,7 @@
         'google.places',
         'firebase',
         'angularMoment',
+        'ionic-material',
         //'ngCordovaMocks',
         'ngMessages',
         'ngStorage',
