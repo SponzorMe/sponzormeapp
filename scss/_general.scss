@@ -92,3 +92,9 @@
 .menu .scroll-content.stable-bg{
   background-color: $brand;
 }
+.bar .button-positive, 
+.bar .button-positive.activated, 
+.bar .button-positive:active, 
+.bar .button-positive:hover{
+  background-color: transparent !important;
+}

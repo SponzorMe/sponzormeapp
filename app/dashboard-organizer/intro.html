@@ -1,19 +1,29 @@
 <ion-view>
   <ion-nav-buttons side="left">
-    <button class="button button-positive button-clear no-animation" ng-click="intro.startApp()" ng-show="intro.slideIndex == 0">
+    <button class="button button-icon button-positive ion-android-arrow-dropright-circle  button-clear no-animation button-raised" ng-click="intro.startApp()" ng-show="intro.slideIndex == 0"></button>
+    <!--<button class="button button-positive button-clear no-animation" ng-click="intro.startApp()" ng-show="intro.slideIndex == 0">
       {{'INTROORG.skip_nav_btn' | translate}}
-    </button>
+    </button>-->
+    <button class="button button-icon button-positive ion-android-arrow-back button-clear no-animation button-raised" ng-click="intro.previousSlide()" ng-show="intro.slideIndex > 0"></button>
+    <!--
     <button class="button button-positive button-clear no-animation" ng-click="intro.previousSlide()" ng-show="intro.slideIndex > 0">
       {{'INTROORG.prev_nav_btn' | translate}}
     </button>
+    -->
   </ion-nav-buttons>
   <ion-nav-buttons side="right">
+    <button class="button button-icon button-positive ion-android-arrow-forward button-clear no-animation button-raised" ng-click="intro.nextSlide()" ng-show="intro.slideIndex != 2"></button>
+    <!--
     <button class="button button-positive button-clear no-animation" ng-click="intro.nextSlide()" ng-show="intro.slideIndex != 2">
       {{'INTROORG.next_nav_btn' | translate}}
     </button>
+    -->
+    <button class="button button-icon button-positive ion-android-arrow-dropright-circle button-clear no-animation button-raised" ng-click="intro.startApp()" ng-show="intro.slideIndex == 2"></button>
+    <!--
     <button class="button button-positive button-clear no-animation" ng-click="intro.startApp()" ng-show="intro.slideIndex == 2">
       {{'INTROORG.start_nav_btn' | translate}}
     </button>
+    -->
   </ion-nav-buttons>
   <ion-content class="intro">
     <ion-slides slider="intro.data">
