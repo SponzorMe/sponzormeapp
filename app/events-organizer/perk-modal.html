@@ -2,7 +2,7 @@
   <ion-header-bar class="bar-positive" align-title="center">
     <h1 class="title">{{'ADDPERK.title' | translate}}</h1>
     <div class="buttons" ng-show="!addEvent.isNewPerk">
-      <a class="button button-icon icon ion-close-circled" ng-click="addEvent.closeModalPerk()"></a>
+      <a class="button button-icon icon ion-close-circled button-raised" ng-click="addEvent.closeModalPerk()"></a>
     </div>
   </ion-header-bar>
 	<ion-content>
@@ -55,13 +55,13 @@
       </ion-list>
       <div class="row">
         <div class="col col-50" ng-show="!addEvent.isNewPerk">
-          <button class="button button-block" type="button" ng-click="addEvent.deletePerk()">Delete</button>
+          <button class="button button-block button-raised" type="button" ng-click="addEvent.deletePerk()">Delete</button>
         </div>
         <div class="col col-50" ng-show="addEvent.isNewPerk">
-          <button class="button button-block" type="button" ng-click="addEvent.closeModalPerk( FormTypeSponsorship )">{{'ADDPERK.cancel_button' | translate}}</button>
+          <button class="button button-block button-raised" type="button" ng-click="addEvent.closeModalPerk( FormTypeSponsorship )">{{'ADDPERK.cancel_button' | translate}}</button>
         </div>
         <div class="col col-50">
-          <button class="button button-block button-positive" type="submit">{{'ADDPERK.save_button' | translate}}</button>
+          <button class="button button-block button-positive button-raised" type="submit">{{'ADDPERK.save_button' | translate}}</button>
         </div>
       </div>
     </form>

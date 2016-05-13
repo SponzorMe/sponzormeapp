@@ -10,6 +10,7 @@ class EventListOrganizerCtrl{
   
    $inject = [
     '$scope',
+    '$state',
     '$rootScope',
     'userService',
     'utilsService',
@@ -22,6 +23,7 @@ class EventListOrganizerCtrl{
   
   constructor(
     private $scope: angular.IScope,
+    private $state: angular.ui.IStateService,
     private $rootScope,
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
@@ -62,6 +64,10 @@ class EventListOrganizerCtrl{
       this.events = this.userAuth.events.filter( this._filterDate );
       this.showEmptyState = this.events.length == 0 ? true : false;
     });
+  }
+  
+  goAddEvent(){
+    this.$state.go("organizer.addevent");
   }
   
 }

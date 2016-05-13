@@ -2,7 +2,7 @@
   <ion-header-bar class="bar-positive" align-title="center">
     <h1 class="title">{{'ADDTASK.title' | translate}}</h1>
     <div class="buttons" ng-show="!addEvent.isNewSponsor">
-      <a class="button button-icon icon ion-close-circled" ng-click="taskList.hideModalTask()"></a>
+      <a class="button button-icon icon ion-close-circled button-raised" ng-click="taskList.hideModalTask()"></a>
     </div>
   </ion-header-bar>
   <ion-content>
@@ -52,7 +52,7 @@
           <button class="button button-block" type="button" ng-click="taskList.hideModalTask( TaskForm )">{{'ADDTASK.cancel_button' | translate}}</button>
         </div>
         <div class="col col-50">
-          <button type="submit" class="button button-block button-positive">{{'ADDTASK.save_button' | translate}}</button>
+          <button type="submit" class="button button-block button-positive button-raised">{{'ADDTASK.save_button' | translate}}</button>
         </div>
       </div>
     </form>

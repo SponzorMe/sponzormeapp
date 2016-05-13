@@ -337,6 +337,8 @@ class AddEventCtrl{
     }
   }
   
+  
+  
 }
 angular
   .module('app.dashboard-sponzor')

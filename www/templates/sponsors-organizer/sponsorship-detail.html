@@ -15,8 +15,8 @@
           <ion-scroll style="height:90%" >
             <div class="padding">
               <div class="button-bar">
-                <button class="button icon-left ion-close-circled" ng-click="detail.sponsorReject()" ng-class="{'button-balanced': detail.sponsorship.status == '2'}">{{"SPONSORSHIPDETAIL.reject_button" | translate}}</button>
-                <button class="button icon-left ion-checkmark-circled" ng-click="detail.sponsorAccept()" ng-class="{'button-balanced': detail.sponsorship.status == '1', 'button-calm': detail.sponsorship.status == '0'}">{{"SPONSORSHIPDETAIL.accept_button" | translate}}</button>
+                <button class="button icon-left ion-close-circled button-raised" ng-click="detail.sponsorReject()" ng-class="{'button-balanced': detail.sponsorship.status == '2'}">{{"SPONSORSHIPDETAIL.reject_button" | translate}}</button>
+                <button class="button icon-left ion-checkmark-circled button-raised" ng-click="detail.sponsorAccept()" ng-class="{'button-balanced': detail.sponsorship.status == '1', 'button-calm': detail.sponsorship.status == '0'}">{{"SPONSORSHIPDETAIL.accept_button" | translate}}</button>
               </div>
             </div>
             <ion-list type="card">

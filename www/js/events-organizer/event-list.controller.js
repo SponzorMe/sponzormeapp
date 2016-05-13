@@ -7,8 +7,9 @@
 * @version 0.2
 */
 var EventListOrganizerCtrl = (function () {
-    function EventListOrganizerCtrl($scope, $rootScope, userService, utilsService, userAuthService, ionicMaterialInk) {
+    function EventListOrganizerCtrl($scope, $state, $rootScope, userService, utilsService, userAuthService, ionicMaterialInk) {
         this.$scope = $scope;
+        this.$state = $state;
         this.$rootScope = $rootScope;
         this.userService = userService;
         this.utilsService = utilsService;
@@ -16,6 +17,7 @@ var EventListOrganizerCtrl = (function () {
         this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
+            '$state',
             '$rootScope',
             'userService',
             'utilsService',
@@ -54,6 +56,9 @@ var EventListOrganizerCtrl = (function () {
             _this.events = _this.userAuth.events.filter(_this._filterDate);
             _this.showEmptyState = _this.events.length == 0 ? true : false;
         });
+    };
+    EventListOrganizerCtrl.prototype.goAddEvent = function () {
+        this.$state.go("organizer.addevent");
     };
     return EventListOrganizerCtrl;
 }());

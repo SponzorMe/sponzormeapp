@@ -1,8 +1,9 @@
 <ion-view>
   <ion-nav-title>{{'EVENTLIST.title' | translate}}</ion-nav-title>
   <ion-nav-buttons side="right">
-    <a class="button button-icon button-clear ion-plus-round" ng-href="#/organizer/addevent">
-    </a>
+    <button class="button button-icon button-clear ion-plus-round button-raised" ng-click="eventList.goAddEvent()"></button>
+    <!--<a class="button button-icon button-clear ion-plus-round button-raised" ng-href="#/organizer/addevent">
+    </a>-->
   </ion-nav-buttons>
   <ion-content>
     <ion-refresher pulling-text="Pull to refresh" on-refresh="eventList.doRefresh()">
@@ -12,7 +13,7 @@
         <div class="empty-states">
           <i class="icon ion-calendar"></i>
           <h1>{{'EVENTLIST.list_empty' | translate}}</h1>
-          <a class="button button-positive icon-left ion-plus-round" ng-href="#/organizer/addevent">{{'EVENTLIST.button_create' | translate}}</a>
+          <a class="button button-positive icon-left ion-plus-round button-raised" ng-href="#/organizer/addevent">{{'EVENTLIST.button_create' | translate}}</a>
         </div>
       </div>
     </div>

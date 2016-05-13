@@ -1,7 +1,7 @@
 <ion-view spm-hide-tabs>
 	<ion-nav-title>{{ eventDetail.event.title }}</ion-nav-title>
   <ion-nav-buttons side="right">
-    <button class="button button-icon button-clear ion-android-more-vertical"
+    <button class="button button-icon button-clear ion-android-more-vertical button-raised"
     ng-click="eventDetail.showActionSheet()"></button>
   </ion-nav-buttons>
   <ion-content scroll="false">
@@ -102,7 +102,7 @@
             <ion-list type="card" ng-show="eventDetail.event.perks.length > 0" ng-repeat="(indexPerk, perk) in eventDetail.event.perks">
               <ion-item class="item-button-right">
                 {{"EVENTDETAIL.perk_divider" | translate}}: {{ perk.kind }} - ${{ perk.usd }}
-                <a class="button button-positive" ng-click="eventDetail.newTask( perk, indexPerk )">
+                <a class="button button-positive button-raised" ng-click="eventDetail.newTask( perk, indexPerk )">
                   <i class="icon ion-plus-round"></i>
                 </a>
               </ion-item>
