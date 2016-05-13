@@ -92,9 +92,17 @@
 .menu .scroll-content.stable-bg{
   background-color: $brand;
 }
+.button-positive:hover,
 .bar .button-positive, 
 .bar .button-positive.activated, 
 .bar .button-positive:active, 
 .bar .button-positive:hover{
-  background-color: transparent !important;
+  background-color: $brand !important;
+}
+.bar .button{
+  box-shadow: 0px 0px 0px !important;
+}
+.button-bar>.button .icon:before, 
+.button-bar>.button:before{
+  line-height: 39px !important;
 }

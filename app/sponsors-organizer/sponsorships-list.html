@@ -3,7 +3,7 @@
   <ion-content>
     <ion-refresher pulling-text="{{'SPONSORSHIPLIST.pull_refresh' | translate}}" on-refresh="list.doRefresh()">
     </ion-refresher>
-    <div class="row text-center" ng-show="list.sponsors.length == 0 && list.showEmptyState">
+    <div class="row text-center" ng-show="list.sponsorships.length == 0 && list.showEmptyState">
       <div class="col">
         <div class="empty-states">
           <i class="icon ion-flag"></i>
