@@ -8,6 +8,7 @@
   "htmltemplates": "./ww/templates/**/*.html",
   "vendorjs": [
     "./www/lib/ionic/js/ionic.bundle.min.js",
+    "./www/lib/ionic-material/dist/ionic.material.min.js",
     "./www/lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js",
     "./www/lib/angular-google-places-autocomplete/src/autocomplete.js",
     "./www/lib/firebase/firebase.js",
