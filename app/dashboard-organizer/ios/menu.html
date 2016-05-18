@@ -1,0 +1,60 @@
+<ion-side-menus enable-menu-with-back-views="false">
+
+  <ion-side-menu-content>
+    <ion-nav-bar class="bar-positive">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+
+      <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon button-raised" menu-toggle="left">
+        </button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <ion-nav-view name="menuContent"></ion-nav-view>
+  </ion-side-menu-content>
+
+  <ion-side-menu side="left">
+    <ion-header-bar class="expanded">
+      <img ng-src="{{menu.userAuth.image}}" class="avatar motion spin fade">
+      <div class="menu-bottom">{{menu.userAuth.name}}</div>
+    </ion-header-bar>
+    <ion-content class="stable-bg has-expanded-header">
+      <ion-list>
+        <!-- Note each link has the 'menu-close' attribute so the menu auto closes when clicking on one of these links -->
+        <ion-item nav-clear menu-close href="#/organizer/home" class="item-icon-left button-raised" >
+          <i class="icon ion-home"></i> {{'DASHORGANIZERS.dashboard' | translate}}
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/organizer/events/list" class="item-icon-left button-raised">
+          <i class="icon ion-calendar"></i> {{'DASHORGANIZERS.events' | translate}}
+          <span class="badge badge-stable" ng-show="menu.count_events > 0">{{ menu.count_events }}</span>
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/organizer/sponsorships/list" class="item-icon-left button-raised">
+          <i class="icon ion-flag"></i> {{'DASHORGANIZERS.sponsors' | translate}}
+          <span class="badge badge-stable" ng-show="menu.count_sponsors > 0">{{ menu.count_sponsors }}</span>
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/organizer/tasks/list" class="item-icon-left button-raised">
+          <i class="icon ion-clipboard"></i> {{'DASHORGANIZERS.tasks' | translate}}
+          <span class="badge badge-stable" ng-show="menu.count_tasks > 0">{{ menu.count_tasks }}</span>
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/organizer/notifications" class="item-icon-left button-raised">
+          <i class="icon ion-android-notifications"></i> {{'DASHORGANIZERS.notifications' | translate}}
+          <span class="badge badge-stable" ng-show="(menu.notifications | filter: {read: false, hide: false}).length > 0">{{ (menu.notifications | filter: {read: false, hide: false}).length }}</span>
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/organizer/invite" class="item-icon-left button-raised">
+          <i class="icon ion-person-add"></i> {{'DASHORGANIZERS.invite' | translate}}
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/organizer/profile" class="item-icon-left button-raised">
+          <i class="icon ion-person"></i> {{'DASHORGANIZERS.profile' | translate}}
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/organizer/settings" class="item-icon-left button-raised">
+          <i class="icon ion-gear-b"></i> {{'DASHORGANIZERS.settings' | translate}}
+        </ion-item>
+        <ion-item nav-clear menu-close ng-click="menu.logout()" class="item-icon-left button-raised">
+          <i class="icon ion-log-out"></i> {{'DASHORGANIZERS.logout' | translate}}
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-side-menu>
+  
+</ion-side-menus>

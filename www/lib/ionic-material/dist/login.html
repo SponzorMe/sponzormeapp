@@ -1,0 +1,60 @@
+<ion-view hide-nav-bar="true" class="pageForm">
+  <ion-content>
+    <form name="signinForm" novalidate ng-submit="signinForm.$valid && login.signIn( signinForm )">
+      <div class="list">
+        <img class="logo" src="img/logo.png"/>    
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : signinForm.txtemail.$invalid && signinForm.$submitted }">
+          <span class="input-label">{{"LOGIN.email_field" | translate}}</span>
+          <input 
+          name="txtemail" 
+          type="email" 
+          placeholder='{{"LOGIN.email_field" | translate}}' 
+          ng-model="login.user.email"
+          ng-minlength="5"
+          ng-maxlength="40"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="signinForm.txtemail.$error" ng-if="signinForm.$invalid && signinForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_required" | translate}}</div>
+          <div class="form-error" ng-message="email"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_email" | translate}}</div>
+          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_maxlength" | translate}}</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_ema_minlength" | translate}}</div>
+        </div>
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : signinForm.password.$invalid  && signinForm.$submitted}">
+          <span class="input-label">{{"LOGIN.pass_field" | translate}}</span>
+          <input 
+          name="password" 
+          type="password" 
+          placeholder='{{"LOGIN.pass_field" | translate}}' 
+          ng-model="login.user.password"
+          ng-minlength="5"
+          ng-maxlength="25"
+          required>
+        </label>
+        <div class="form-errors" ng-messages="signinForm.password.$error" ng-if="signinForm.$invalid && signinForm.$submitted">
+          <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_pass_required" | translate}}</div>
+          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_pass_maxlength" | translate}}</div>
+          <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.signin_pass_minlength" | translate}}</div>
+        </div>
+      </div>
+      <div class="padding">
+        <button type="submit" class="button button-block button-positive button-raised ">
+          {{"LOGIN.signin_message" | translate}}
+        </button>
+      </div>
+      <div class="padding">
+        <hr/>
+        <div class="text-center">
+          <a class="button button-clear button-positive" href="#/forgot-password">{{"LOGIN.forgot_message" | translate}}</a>
+          <a class="button button-clear button-positive" href="#/joinnow">{{"LOGIN.join_message" | translate}}</a>
+        </div>
+      </div>
+    </form>
+  </ion-content>
+  <!--
+  <ion-footer-bar class="bar">
+    <a class="button button-clear button-positive" href="#/forgot-password">{{"LOGIN.forgot_message" | translate}}</a>  
+    <a class="button button-clear button-positive" href="#/joinnow">{{"LOGIN.join_message" | translate}}</a>
+  </ion-footer-bar>
+  -->
+</ion-view>

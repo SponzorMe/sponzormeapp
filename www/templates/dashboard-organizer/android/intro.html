@@ -1,0 +1,53 @@
+<ion-view>
+  <ion-nav-buttons side="left">
+    <button class="button button-icon button-positive ion-android-arrow-dropright-circle  button-clear no-animation button-raised" ng-click="intro.startApp()" ng-show="intro.slideIndex == 0"></button>
+    <!--<button class="button button-positive button-clear no-animation" ng-click="intro.startApp()" ng-show="intro.slideIndex == 0">
+      {{'INTROORG.skip_nav_btn' | translate}}
+    </button>-->
+    <button class="button button-icon button-positive ion-android-arrow-back button-clear no-animation button-raised" ng-click="intro.previousSlide()" ng-show="intro.slideIndex > 0"></button>
+    <!--
+    <button class="button button-positive button-clear no-animation" ng-click="intro.previousSlide()" ng-show="intro.slideIndex > 0">
+      {{'INTROORG.prev_nav_btn' | translate}}
+    </button>
+    -->
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-positive ion-android-arrow-forward button-clear no-animation button-raised" ng-click="intro.nextSlide()" ng-show="intro.slideIndex != 2"></button>
+    <!--
+    <button class="button button-positive button-clear no-animation" ng-click="intro.nextSlide()" ng-show="intro.slideIndex != 2">
+      {{'INTROORG.next_nav_btn' | translate}}
+    </button>
+    -->
+    <button class="button button-icon button-positive ion-android-arrow-dropright-circle button-clear no-animation button-raised" ng-click="intro.startApp()" ng-show="intro.slideIndex == 2"></button>
+    <!--
+    <button class="button button-positive button-clear no-animation" ng-click="intro.startApp()" ng-show="intro.slideIndex == 2">
+      {{'INTROORG.start_nav_btn' | translate}}
+    </button>
+    -->
+  </ion-nav-buttons>
+  <ion-content class="intro">
+    <ion-slides slider="intro.data">
+      <ion-slide-page class="text-center">
+        <h3>{{'INTROORG.head_page1' | translate}}</h3>
+        <div id="logo" class="center-block">
+          <img src="img/logo.png" class="full-image">
+        </div>
+        <p align="justify" class="padding">
+          {{'INTROORG.content_page1' | translate}}
+        </p>
+      </ion-slide-page>
+      <ion-slide-page class="text-center">
+        <h3 class="padding">{{'INTROSPO.head_page2' | translate}}</h3>
+        <i class="icon ion-wand cover"></i>
+        <p align="justify" class="padding">
+        {{'INTROORG.content_page2' | translate}}
+        </p>
+      </ion-slide-page>
+      <ion-slide-page class="text-center">
+        <h4>{{'INTROORG.head_page3' | translate}}</h4>
+        <p align="justify" class="padding" ng-bind-html="'INTROORG.content_page3' | translate">
+        </p>
+      </ion-slide-page>
+    </ion-slides>
+  </ion-content>
+</ion-view>

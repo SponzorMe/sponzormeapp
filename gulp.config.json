@@ -28,7 +28,7 @@
   ],
   "css": [
     "./www/css/ionic.app.min.css",
-    "./www/lib/ionic-material/dist/ionic.material.min.css",
+    "./www/lib/ionic-material/dist/ionic.material.css",
     "./www/lib/angular-google-places-autocomplete/src/autocomplete.css"
   ],
   "sass": [

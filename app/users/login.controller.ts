@@ -41,7 +41,10 @@ class LoginCtrl{
     private ionicMaterialInk
   ){
     
-    this.ionicMaterialInk.displayEffect();
+    if(ionic.Platform.isAndroid()){
+      this.ionicMaterialInk.displayEffect();
+    }
+    
     
     if(userAuthService.checkSession()){
       this.user = this.userAuthService.getUserAuth();
@@ -133,7 +136,7 @@ class LoginCtrl{
   }
   
   private _validateIonicId( user ){
-    if(user.ionic_id == ""){
+    if(!user.ionic_id || user.ionic_id == ""){
       return this._registerInIonicIO(this.user.email, this.user.password);
     }
     return this._loginInIonicIO(this.user.email, this.user.password);

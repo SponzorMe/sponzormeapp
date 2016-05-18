@@ -37,7 +37,9 @@ var LoginCtrl = (function () {
             'ionicMaterialInk'
         ];
         this.user = {};
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         if (userAuthService.checkSession()) {
             this.user = this.userAuthService.getUserAuth();
             if (this.user.type == 0) {
@@ -119,7 +121,7 @@ var LoginCtrl = (function () {
         return this.userService.editUserPatch(this.user.id, this.user);
     };
     LoginCtrl.prototype._validateIonicId = function (user) {
-        if (user.ionic_id == "") {
+        if (!user.ionic_id || user.ionic_id == "") {
             return this._registerInIonicIO(this.user.email, this.user.password);
         }
         return this._loginInIonicIO(this.user.email, this.user.password);

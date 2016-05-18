@@ -7,7 +7,8 @@
 */
 (function() {
   'use strict';
-  angular.module('app', [
+  
+  let modules = [
     // Core 
     'ionic',
     'ionic.service.core',
@@ -40,5 +41,7 @@
     'app.events-sponzor',
     'app.sponsors-organizer',
     'app.tasks-organizer'
-  ])
+  ];
+  
+  angular.module('app', modules)
 })();

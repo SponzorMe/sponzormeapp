@@ -15,7 +15,8 @@ class EventListOrganizerCtrl{
     'userService',
     'utilsService',
     'userAuthService',
-    'ionicMaterialInk'
+    'ionicMaterialInk',
+    'ionicMaterialMotion'
   ];
   userAuth:userModule.User;
   events:eventModule.Event[] = []; 
@@ -28,9 +29,10 @@ class EventListOrganizerCtrl{
     private userService: userModule.IUserService,
     private utilsService: utilsServiceModule.IUtilsService,
     private userAuthService: userAuthModule.IUserAuthService,
-    private ionicMaterialInk
+    private ionicMaterialInk,
+    private ionicMaterialMotion
   ){
-    this.ionicMaterialInk.displayEffect();
+    
     
     this.userAuth = this.userAuthService.getUserAuth();
    
@@ -38,6 +40,8 @@ class EventListOrganizerCtrl{
     this.showEmptyState = this.events.length == 0 ? true : false;
     
     this._registerListenerEvents();
+    this.ionicMaterialMotion.blinds();
+    this.ionicMaterialInk.displayEffect();
   }
   
   doRefresh(){

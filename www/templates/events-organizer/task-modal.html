@@ -47,10 +47,10 @@
       </ion-list>
       <div class="row">
         <div class="col col-50" ng-show="!eventDetail.isNewTask">
-          <button class="button button-block" type="button" ng-click="eventDetail.deleteTask( TaskForm )">{{'ADDTASK.delete_button' | translate}}</button>
+          <button class="button button-block button-raised" type="button" ng-click="eventDetail.deleteTask( TaskForm )">{{'ADDTASK.delete_button' | translate}}</button>
         </div>
         <div class="col col-50" ng-show="eventDetail.isNewTask">
-          <button class="button button-block" type="button" ng-click="eventDetail._hideModalTask( TaskForm )">{{'ADDTASK.cancel_button' | translate}}</button>
+          <button class="button button-block button-raised" type="button" ng-click="eventDetail._hideModalTask( TaskForm )">{{'ADDTASK.cancel_button' | translate}}</button>
         </div>
         <div class="col col-50">
           <button type="submit" class="button button-block button-positive button-raised">

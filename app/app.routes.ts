@@ -46,7 +46,10 @@
 
       .state('signin', {
         url: '/sign-in',
-        templateUrl: 'templates/users/login.html',
+        templateUrl: () => {
+          if (ionic.Platform.isAndroid()) return "templates/users/android/login.html";
+          return "templates/users/ios/login.html";
+        },
         controller: 'LoginCtrl as login',
       })
 

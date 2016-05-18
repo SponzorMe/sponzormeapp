@@ -31,7 +31,11 @@
         $stateProvider
             .state('signin', {
             url: '/sign-in',
-            templateUrl: 'templates/users/login.html',
+            templateUrl: function () {
+                if (ionic.Platform.isAndroid())
+                    return "templates/users/android/login.html";
+                return "templates/users/ios/login.html";
+            },
             controller: 'LoginCtrl as login'
         })
             .state('joinnow', {

@@ -9871,28 +9871,32 @@ a.button {
 .animate-notification.ng-enter.ng-enter-active {
   opacity: 1; }
 
-.menu .bar.bar-header.expanded {
+/* Android */
+.platform-android .menu .bar.bar-header.expanded {
   background-image: url("../img/banner.jpg");
   background-size: 120%;
   background-position: 0%;
   transition: all .5s ease-in-out; }
 
-.menu .scroll-content.stable-bg {
+.platform-android .menu .scroll-content.stable-bg {
   background-color: #00838D; }
 
-.button-positive:hover,
-.bar .button-positive,
-.bar .button-positive.activated,
-.bar .button-positive:active,
-.bar .button-positive:hover {
+.platform-android .button-positive:hover,
+.platform-android .bar .button-positive,
+.platform-android .bar .button-positive.activated,
+.platform-android .bar .button-positive:active,
+.platform-android .bar .button-positive:hover {
   background-color: #00838D !important; }
 
-.bar .button {
+.platform-android .bar .button {
   box-shadow: 0px 0px 0px !important; }
 
-.button-bar > .button .icon:before,
-.button-bar > .button:before {
+.platform-android .button-bar > .button .icon:before,
+.platform-android .button-bar > .button:before {
   line-height: 39px !important; }
+
+.platform-android .button-positive.button-clear:hover {
+  background-color: transparent !important; }
 
 .pageForm {
   background-color: white; }

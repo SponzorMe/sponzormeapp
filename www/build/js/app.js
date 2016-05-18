@@ -7,7 +7,7 @@
 */
 (function () {
     'use strict';
-    angular.module('app', [
+    var modules = [
         // Core 
         'ionic',
         'ionic.service.core',
@@ -19,6 +19,7 @@
         'google.places',
         'firebase',
         'angularMoment',
+        'ionic-material',
         //'ngCordovaMocks',
         'ngMessages',
         'ngStorage',
@@ -39,7 +40,8 @@
         'app.events-sponzor',
         'app.sponsors-organizer',
         'app.tasks-organizer'
-    ]);
+    ];
+    angular.module('app', modules);
 })();
 
 /// <reference path="../typings/tsd.d.ts" />
@@ -75,7 +77,11 @@
         $stateProvider
             .state('signin', {
             url: '/sign-in',
-            templateUrl: 'templates/users/login.html',
+            templateUrl: function () {
+                if (ionic.Platform.isAndroid())
+                    return "templates/users/android/login.html";
+                return "templates/users/ios/login.html";
+            },
             controller: 'LoginCtrl as login'
         })
             .state('joinnow', {
@@ -2316,18 +2322,21 @@ var utilsServiceModule;
 * @version 0.3
 */
 var HomeOrganizerCtrl = (function () {
-    function HomeOrganizerCtrl($rootScope, userAuthService, notificationService) {
+    function HomeOrganizerCtrl($rootScope, userAuthService, notificationService, ionicMaterialInk) {
         this.$rootScope = $rootScope;
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$rootScope',
             'userAuthService',
-            'notificationService'
+            'notificationService',
+            'ionicMaterialInk'
         ];
         this.count_events = 0;
         this.count_sponsors = 0;
         this.count_comunity = 0;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = userAuthService.getUserAuth();
         this.count_events = this.userAuth.events.filter(this.filterDate).length;
         this.count_comunity = this.userAuth.comunity_size;
@@ -2368,21 +2377,24 @@ angular
 * @version 0.2
 */
 var IntroOrganizerCtrl = (function () {
-    function IntroOrganizerCtrl($state, $scope, $ionicHistory, $ionicSideMenuDelegate) {
+    function IntroOrganizerCtrl($state, $scope, $ionicHistory, $ionicSideMenuDelegate, ionicMaterialInk) {
         var _this = this;
         this.$state = $state;
         this.$scope = $scope;
         this.$ionicHistory = $ionicHistory;
         this.$ionicSideMenuDelegate = $ionicSideMenuDelegate;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             '$scope',
             '$ionicHistory',
-            '$ionicSideMenuDelegate'
+            '$ionicSideMenuDelegate',
+            'ionicMaterialInk'
         ];
         this.slideIndex = 0;
         this.slider = null;
         this.data = {};
+        this.ionicMaterialInk.displayEffect();
         this.$ionicSideMenuDelegate.canDragContent(false);
         this.$scope.$watch(function () { return _this.data; }, function (oldValue, newValue) {
             if (Object.keys(_this.data).length > 0) {
@@ -2422,7 +2434,7 @@ angular
 * @version 0.2
 */
 var MenuOrganizerCtrl = (function () {
-    function MenuOrganizerCtrl($state, $q, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService, $localStorage) {
+    function MenuOrganizerCtrl($state, $q, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService, $localStorage, ionicMaterialInk) {
         this.$state = $state;
         this.$q = $q;
         this.$rootScope = $rootScope;
@@ -2431,6 +2443,7 @@ var MenuOrganizerCtrl = (function () {
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
         this.$localStorage = $localStorage;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             '$q',
@@ -2439,12 +2452,14 @@ var MenuOrganizerCtrl = (function () {
             '$ionicHistory',
             'userAuthService',
             'notificationService',
-            '$localStorage'
+            '$localStorage',
+            'ionicMaterialInk'
         ];
         this.count_events = 0;
         this.count_sponsors = 0;
         this.count_tasks = 0;
         this.notifications = [];
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.count_events = this.userAuth.events.filter(this.filterDate).length;
         this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;
@@ -2507,22 +2522,25 @@ angular
 * @version 0.2
 */
 var HomeSponsorCtrl = (function () {
-    function HomeSponsorCtrl($localStorage, userService, utilsService, $scope, $rootScope, userAuthService) {
+    function HomeSponsorCtrl($localStorage, userService, utilsService, $scope, $rootScope, userAuthService, ionicMaterialInk) {
         this.$localStorage = $localStorage;
         this.userService = userService;
         this.utilsService = utilsService;
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$localStorage',
             'userService',
             'utilsService',
             '$scope',
             '$rootScope',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.events = [];
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.events = this.userAuth.events.filter(this.filterDate);
         this.registerListenerEvents();
@@ -2561,21 +2579,24 @@ angular
 * @version 0.2
 */
 var IntroSponsorCtrl = (function () {
-    function IntroSponsorCtrl($state, $scope, $ionicHistory, $ionicSideMenuDelegate) {
+    function IntroSponsorCtrl($state, $scope, $ionicHistory, $ionicSideMenuDelegate, ionicMaterialInk) {
         var _this = this;
         this.$state = $state;
         this.$scope = $scope;
         this.$ionicHistory = $ionicHistory;
         this.$ionicSideMenuDelegate = $ionicSideMenuDelegate;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             '$scope',
             '$ionicHistory',
-            '$ionicSideMenuDelegate'
+            '$ionicSideMenuDelegate',
+            'ionicMaterialInk'
         ];
         this.slideIndex = 0;
         this.slider = null;
         this.data = {};
+        this.ionicMaterialInk.displayEffect();
         this.$ionicSideMenuDelegate.canDragContent(false);
         this.$scope.$watch(function () { return _this.data; }, function (oldValue, newValue) {
             if (Object.keys(_this.data).length > 0) {
@@ -2615,7 +2636,7 @@ angular
 * @version 0.2
 */
 var MenuSponsorCtrl = (function () {
-    function MenuSponsorCtrl($state, $q, $localStorage, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService) {
+    function MenuSponsorCtrl($state, $q, $localStorage, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService, ionicMaterialInk) {
         this.$state = $state;
         this.$q = $q;
         this.$localStorage = $localStorage;
@@ -2624,6 +2645,7 @@ var MenuSponsorCtrl = (function () {
         this.$ionicHistory = $ionicHistory;
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             '$q',
@@ -2632,11 +2654,13 @@ var MenuSponsorCtrl = (function () {
             '$ionicAuth',
             '$ionicHistory',
             'userAuthService',
-            'notificationService'
+            'notificationService',
+            'ionicMaterialInk'
         ];
         this.count_following = 0;
         this.count_sponsoring = 0;
         this.notifications = [];
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = userAuthService.getUserAuth();
         this.count_sponsoring = this.userAuth.sponzorships.filter(this.filterByAccepted).length;
         this.count_following = this.userAuth.sponzorships.filter(this._filterByDateAndByPending).length;
@@ -2678,7 +2702,7 @@ angular
 * @version 0.2
 */
 var AddEventCtrl = (function () {
-    function AddEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $state, notificationService, userAuthService, $rootScope, BackendVariables) {
+    function AddEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $state, notificationService, userAuthService, $rootScope, BackendVariables, ionicMaterialInk) {
         this.$scope = $scope;
         this.$translate = $translate;
         this.utilsService = utilsService;
@@ -2695,6 +2719,7 @@ var AddEventCtrl = (function () {
         this.userAuthService = userAuthService;
         this.$rootScope = $rootScope;
         this.BackendVariables = BackendVariables;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$translate',
@@ -2711,7 +2736,8 @@ var AddEventCtrl = (function () {
             'notificationService',
             'userAuthService',
             '$rootScope',
-            'BackendVariables'
+            'BackendVariables',
+            'ionicMaterialInk'
         ];
         this.newEvent = {};
         this.newPerk = {};
@@ -2719,6 +2745,7 @@ var AddEventCtrl = (function () {
         this.eventTypes = [];
         this.modalPerk = null;
         this.imageURI = null;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = userAuthService.getUserAuth();
         this.newEvent.access = true;
         this.newEvent.perks = [];
@@ -2995,7 +3022,7 @@ angular
 * @version 0.2
 */
 var EditEventCtrl = (function () {
-    function EditEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $stateParams, userAuthService, notificationService, $rootScope) {
+    function EditEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $stateParams, userAuthService, notificationService, $rootScope, ionicMaterialInk) {
         this.$scope = $scope;
         this.$translate = $translate;
         this.utilsService = utilsService;
@@ -3011,6 +3038,7 @@ var EditEventCtrl = (function () {
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
         this.$rootScope = $rootScope;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$translate',
@@ -3026,7 +3054,8 @@ var EditEventCtrl = (function () {
             '$stateParams',
             'userAuthService',
             'notificationService',
-            '$rootScope'
+            '$rootScope',
+            'ionicMaterialInk'
         ];
         this.indexEvent = -1;
         this.newEvent = {};
@@ -3035,6 +3064,7 @@ var EditEventCtrl = (function () {
         this.eventTypes = [];
         this.modalPerk = null;
         this.imageURI = null;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = userAuthService.getUserAuth();
         this.newEvent = _.findWhere(this.userAuth.events, { id: this.$stateParams.id });
         this.indexEvent = _.indexOf(this.userAuth.events, this.newEvent);
@@ -3307,7 +3337,7 @@ angular
 * @version 0.2
 */
 var EventDetailOrganizerCtrl = (function () {
-    function EventDetailOrganizerCtrl($scope, $stateParams, $state, $translate, $rootScope, $ionicPopup, $ionicActionSheet, $ionicSideMenuDelegate, $ionicHistory, $ionicModal, $cordovaSocialSharing, $cordovaCalendar, $cordovaToast, BackendVariables, eventService, utilsService, sponsorshipService, notificationService, userAuthService, perkTaskService) {
+    function EventDetailOrganizerCtrl($scope, $stateParams, $state, $translate, $rootScope, $ionicPopup, $ionicActionSheet, $ionicSideMenuDelegate, $ionicHistory, $ionicModal, $cordovaSocialSharing, $cordovaCalendar, $cordovaToast, BackendVariables, eventService, utilsService, sponsorshipService, notificationService, userAuthService, perkTaskService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$stateParams = $stateParams;
         this.$state = $state;
@@ -3328,6 +3358,7 @@ var EventDetailOrganizerCtrl = (function () {
         this.notificationService = notificationService;
         this.userAuthService = userAuthService;
         this.perkTaskService = perkTaskService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$stateParams',
@@ -3348,7 +3379,8 @@ var EventDetailOrganizerCtrl = (function () {
             'sponsorshipService',
             'notificationService',
             'userAuthService',
-            'perkTaskService'
+            'perkTaskService',
+            'ionicMaterialInk'
         ];
         this.popupOptionsSponsorship = null;
         this.hideSheet = null;
@@ -3359,6 +3391,7 @@ var EventDetailOrganizerCtrl = (function () {
         this.isNewTask = true;
         this.task = {};
         this.sponsorshipSelected = {};
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.event = _.findWhere(this.userAuth.events, { id: $stateParams.id });
         this.event.perks.forEach(this._preparatePerks, this);
@@ -3666,15 +3699,18 @@ angular
 * @version 0.2
 */
 var EventsTabsOrganizerCtrl = (function () {
-    function EventsTabsOrganizerCtrl(userAuthService, $rootScope) {
+    function EventsTabsOrganizerCtrl(userAuthService, $rootScope, ionicMaterialInk) {
         this.userAuthService = userAuthService;
         this.$rootScope = $rootScope;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$rootScope',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.count_events = 0;
         this.count_past_events = 0;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.count_events = this.userAuth.events.filter(this._filterByDateIsAfter).length;
         this.count_past_events = this.userAuth.events.length - this.count_events;
@@ -3707,18 +3743,24 @@ angular
 * @version 0.2
 */
 var EventListOrganizerCtrl = (function () {
-    function EventListOrganizerCtrl($scope, $rootScope, userService, utilsService, userAuthService) {
+    function EventListOrganizerCtrl($scope, $state, $rootScope, userService, utilsService, userAuthService, ionicMaterialInk, ionicMaterialMotion) {
         this.$scope = $scope;
+        this.$state = $state;
         this.$rootScope = $rootScope;
         this.userService = userService;
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
+        this.ionicMaterialMotion = ionicMaterialMotion;
         this.$inject = [
             '$scope',
+            '$state',
             '$rootScope',
             'userService',
             'utilsService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk',
+            'ionicMaterialMotion'
         ];
         this.events = [];
         this.showEmptyState = true;
@@ -3726,6 +3768,8 @@ var EventListOrganizerCtrl = (function () {
         this.events = this.userAuth.events.filter(this._filterDate);
         this.showEmptyState = this.events.length == 0 ? true : false;
         this._registerListenerEvents();
+        this.ionicMaterialMotion.blinds();
+        this.ionicMaterialInk.displayEffect();
     }
     EventListOrganizerCtrl.prototype.doRefresh = function () {
         var _this = this;
@@ -3752,6 +3796,9 @@ var EventListOrganizerCtrl = (function () {
             _this.showEmptyState = _this.events.length == 0 ? true : false;
         });
     };
+    EventListOrganizerCtrl.prototype.goAddEvent = function () {
+        this.$state.go("organizer.addevent");
+    };
     return EventListOrganizerCtrl;
 }());
 angular
@@ -3767,21 +3814,24 @@ angular
 * @version 0.2
 */
 var PastEventsOrganizerCtrl = (function () {
-    function PastEventsOrganizerCtrl($scope, $rootScope, userService, utilsService, userAuthService) {
+    function PastEventsOrganizerCtrl($scope, $rootScope, userService, utilsService, userAuthService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.userService = userService;
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$rootScope',
             'userService',
             'utilsService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.events = [];
         this.showEmptyState = true;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.events = this.userAuth.events.filter(this._filterDate);
         this.showEmptyState = this.events.length == 0 ? true : false;
@@ -3827,7 +3877,7 @@ angular
 * @version 0.2
 */
 var EventDetailSponsorCtrl = (function () {
-    function EventDetailSponsorCtrl($scope, $stateParams, $rootScope, $translate, $ionicModal, $ionicHistory, $cordovaToast, eventService, utilsService, sponsorshipService, notificationService, userAuthService) {
+    function EventDetailSponsorCtrl($scope, $stateParams, $rootScope, $translate, $ionicModal, $ionicHistory, $cordovaToast, eventService, utilsService, sponsorshipService, notificationService, userAuthService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$stateParams = $stateParams;
         this.$rootScope = $rootScope;
@@ -3840,6 +3890,7 @@ var EventDetailSponsorCtrl = (function () {
         this.sponsorshipService = sponsorshipService;
         this.notificationService = notificationService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$stateParams',
@@ -3852,10 +3903,12 @@ var EventDetailSponsorCtrl = (function () {
             'utilsService',
             'sponsorshipService',
             'notificationService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.modalSponsorIt = null;
         this.newSponsorIt = {};
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.event = _.findWhere(this.userAuth.events, { id: $stateParams.id });
         this.event.perks.forEach(this._preparatePerks, this);
@@ -3933,21 +3986,24 @@ angular
 * @version 0.2
 */
 var FollowEventsCtrl = (function () {
-    function FollowEventsCtrl($scope, $rootScope, utilsService, userService, userAuthService) {
+    function FollowEventsCtrl($scope, $rootScope, utilsService, userService, userAuthService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.utilsService = utilsService;
         this.userService = userService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$rootScope',
             'utilsService',
             'userService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.sponzorships = [];
         this.showEmptyState = false;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponzorships = this.userAuth.sponzorships.filter(this._filterByDateAndByPending);
         this.showEmptyState = this.sponzorships.length == 0 ? true : false;
@@ -3992,21 +4048,24 @@ angular
 * @version 0.2
 */
 var SponsoringEventsCtrl = (function () {
-    function SponsoringEventsCtrl($scope, $rootScope, userService, utilsService, userAuthService) {
+    function SponsoringEventsCtrl($scope, $rootScope, userService, utilsService, userAuthService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.userService = userService;
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$rootScope',
             'userService',
             'utilsService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.sponzorships = [];
         this.showEmptyState = false;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponzorships = this.userAuth.sponzorships.filter(this._filterByAccepted);
         this.showEmptyState = this.sponzorships.length == 0 ? true : false;
@@ -4051,7 +4110,7 @@ angular
 * @version 0.2
 */
 var SponsorshipSponsorDetailCtrl = (function () {
-    function SponsorshipSponsorDetailCtrl($scope, $rootScope, $stateParams, $translate, $ionicModal, $ionicHistory, $cordovaToast, utilsService, taskSponsorService, userAuthService, notificationService) {
+    function SponsorshipSponsorDetailCtrl($scope, $rootScope, $stateParams, $translate, $ionicModal, $ionicHistory, $cordovaToast, utilsService, taskSponsorService, userAuthService, notificationService, ionicMaterialInk) {
         var _this = this;
         this.$scope = $scope;
         this.$rootScope = $rootScope;
@@ -4064,6 +4123,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
         this.taskSponsorService = taskSponsorService;
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$rootScope',
@@ -4075,13 +4135,15 @@ var SponsorshipSponsorDetailCtrl = (function () {
             'utilsService',
             'taskSponsorService',
             'userAuthService',
-            'notificationService'
+            'notificationService',
+            'ionicMaterialInk'
         ];
         this.sponsorship = {};
         this.modalTask = null;
         this.isNewTask = true;
         this.sponsorTask = { task: {} };
         this.indexSlide = 0;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponsorship = _.findWhere(this.userAuth.sponzorships, { id: this.$stateParams.id });
         this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter(function (item) { return item.task.user_id == _this.userAuth.id; });
@@ -4236,7 +4298,7 @@ angular
 * @version 0.2
 */
 var SponsorshipOrganizerDetailCtrl = (function () {
-    function SponsorshipOrganizerDetailCtrl($stateParams, $rootScope, sponsorshipService, utilsService, userAuthService, notificationService) {
+    function SponsorshipOrganizerDetailCtrl($stateParams, $rootScope, sponsorshipService, utilsService, userAuthService, notificationService, ionicMaterialInk) {
         var _this = this;
         this.$stateParams = $stateParams;
         this.$rootScope = $rootScope;
@@ -4244,16 +4306,19 @@ var SponsorshipOrganizerDetailCtrl = (function () {
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$stateParams',
             '$rootScope',
             'sponsorshipService',
             'utilsService',
             'userAuthService',
-            'notificationService'
+            'notificationService',
+            'ionicMaterialInk'
         ];
         this.sponsorship = {};
         this.showEmptyState = false;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponsorship = _.findWhere(this.userAuth.sponzorships_like_organizer, { id: this.$stateParams.id });
         this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter(function (item) { return item.task.user_id != _this.userAuth.id; });
@@ -4323,7 +4388,7 @@ angular
 * @version 0.2
 */
 var SponsorshipsListCtrl = (function () {
-    function SponsorshipsListCtrl($scope, $rootScope, $ionicScrollDelegate, sponsorshipService, userService, utilsService, notificationService, userAuthService) {
+    function SponsorshipsListCtrl($scope, $rootScope, $ionicScrollDelegate, sponsorshipService, userService, utilsService, notificationService, userAuthService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.$ionicScrollDelegate = $ionicScrollDelegate;
@@ -4332,6 +4397,7 @@ var SponsorshipsListCtrl = (function () {
         this.utilsService = utilsService;
         this.notificationService = notificationService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$rootScope',
@@ -4340,10 +4406,12 @@ var SponsorshipsListCtrl = (function () {
             'userService',
             'utilsService',
             'notificationService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.sponsorships = [];
         this.showEmptyState = false;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponsorships = this.userAuth.sponzorships_like_organizer.filter(this._filterByDateIsAfter);
         this.showEmptyState = this.sponsorships.length == 0 ? true : false;
@@ -4440,21 +4508,24 @@ angular
 * @version 0.2
 */
 var SponsorshipsPastEventsCtrl = (function () {
-    function SponsorshipsPastEventsCtrl($scope, $rootScope, $ionicScrollDelegate, userService, userAuthService) {
+    function SponsorshipsPastEventsCtrl($scope, $rootScope, $ionicScrollDelegate, userService, userAuthService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.$ionicScrollDelegate = $ionicScrollDelegate;
         this.userService = userService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$rootScope',
             '$ionicScrollDelegate',
             'userService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.sponsorships = [];
         this.showEmptyState = false;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponsorships = this.userAuth.sponzorships_like_organizer.filter(this._filterByDateIsBefore);
         this.showEmptyState = this.sponsorships.length == 0 ? true : false;
@@ -4500,15 +4571,18 @@ angular
 * @version 0.2
 */
 var SponsorshipsTabsCtrl = (function () {
-    function SponsorshipsTabsCtrl($rootScope, userAuthService) {
+    function SponsorshipsTabsCtrl($rootScope, userAuthService, ionicMaterialInk) {
         this.$rootScope = $rootScope;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$rootScope',
             'userAuthService',
+            'ionicMaterialInk'
         ];
         this.count_events = 0;
         this.count_past_events = 0;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.count_events = this.userAuth.sponzorships_like_organizer.filter(this._filterByDateIsAfter).length;
         this.count_past_events = this.userAuth.sponzorships_like_organizer.length - this.count_events;
@@ -4542,7 +4616,7 @@ angular
 
 */
 var PastTasksCtrl = (function () {
-    function PastTasksCtrl($scope, $rootScope, $ionicModal, perkTaskService, userService, utilsService, userAuthService, notificationService) {
+    function PastTasksCtrl($scope, $rootScope, $ionicModal, perkTaskService, userService, utilsService, userAuthService, notificationService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.$ionicModal = $ionicModal;
@@ -4551,6 +4625,7 @@ var PastTasksCtrl = (function () {
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$rootScope',
@@ -4559,7 +4634,8 @@ var PastTasksCtrl = (function () {
             'userService',
             'utilsService',
             'userAuthService',
-            'notificationService'
+            'notificationService',
+            'ionicMaterialInk'
         ];
         this.events = [];
         this.showEmptyState = false;
@@ -4571,6 +4647,7 @@ var PastTasksCtrl = (function () {
         this.isNewTask = true;
         this.task = {};
         this.perk = {};
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.events = this.userAuth.events.filter(this._filterEvents);
         this.events.forEach(this._preparateEvents, this);
@@ -4795,15 +4872,18 @@ angular
 * @version 0.2
 */
 var TaskTabsCtrl = (function () {
-    function TaskTabsCtrl($rootScope, userAuthService) {
+    function TaskTabsCtrl($rootScope, userAuthService, ionicMaterialInk) {
         this.$rootScope = $rootScope;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$rootScope',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.count_tasks = 0;
         this.count_past_tasks = 0;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.count_tasks = this._countTasks(this.userAuth.events.filter(this._filterEventsIsAfter)).length;
         this.count_past_tasks = this._countTasks(this.userAuth.events.filter(this._filterEventsisBefore)).length;
@@ -4849,7 +4929,7 @@ angular
 * @version 0.2
 */
 var TaskListCtrl = (function () {
-    function TaskListCtrl($scope, $rootScope, $ionicModal, perkTaskService, userService, utilsService, userAuthService, notificationService) {
+    function TaskListCtrl($scope, $rootScope, $ionicModal, perkTaskService, userService, utilsService, userAuthService, notificationService, ionicMaterialInk) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.$ionicModal = $ionicModal;
@@ -4858,6 +4938,7 @@ var TaskListCtrl = (function () {
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$scope',
             '$rootScope',
@@ -4866,7 +4947,8 @@ var TaskListCtrl = (function () {
             'userService',
             'utilsService',
             'userAuthService',
-            'notificationService'
+            'notificationService',
+            'ionicMaterialInk'
         ];
         this.events = [];
         this.showEmptyState = false;
@@ -4878,6 +4960,7 @@ var TaskListCtrl = (function () {
         this.isNewTask = true;
         this.task = {};
         this.perk = {};
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.events = this.userAuth.events.filter(this._filterEvents);
         this.events.forEach(this._preparateEvents, this);
@@ -5104,18 +5187,21 @@ angular
 * @version 0.2
 */
 var ForgotCtrl = (function () {
-    function ForgotCtrl($state, $ionicHistory, userService, utilsService) {
+    function ForgotCtrl($state, $ionicHistory, userService, utilsService, ionicMaterialInk) {
         this.$state = $state;
         this.$ionicHistory = $ionicHistory;
         this.userService = userService;
         this.utilsService = utilsService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             '$ionicHistory',
             'userService',
             'utilsService',
+            'ionicMaterialInk'
         ];
         this.user = {};
+        this.ionicMaterialInk.displayEffect();
     }
     ForgotCtrl.prototype.resetPassword = function (form) {
         var _this = this;
@@ -5155,22 +5241,25 @@ angular
 * @version 0.1
 */
 var FormInterestsCtrl = (function () {
-    function FormInterestsCtrl($state, utilsService, categoryService, userInterestService, userService, userAuthService) {
+    function FormInterestsCtrl($state, utilsService, categoryService, userInterestService, userService, userAuthService, ionicMaterialInk) {
         this.$state = $state;
         this.utilsService = utilsService;
         this.categoryService = categoryService;
         this.userInterestService = userInterestService;
         this.userService = userService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             'utilsService',
             'categoryService',
             'userInterestService',
             'userService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.categories = [];
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this._getCategories();
     }
@@ -5242,19 +5331,22 @@ angular
 * @version 0.1
 */
 var FormProfileCtrl = (function () {
-    function FormProfileCtrl($state, $translate, userService, utilsService, userAuthService) {
+    function FormProfileCtrl($state, $translate, userService, utilsService, userAuthService, ionicMaterialInk) {
         this.$state = $state;
         this.$translate = $translate;
         this.userService = userService;
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             '$translate',
             'userService',
             'utilsService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.userAuth.lang = 'en';
         this.userAuth.sex = 1;
@@ -5301,16 +5393,19 @@ angular
 * @version 0.2
 */
 var InviteUsersCtrl = (function () {
-    function InviteUsersCtrl(userService, utilsService, userAuthService) {
+    function InviteUsersCtrl(userService, utilsService, userAuthService, ionicMaterialInk) {
         this.userService = userService;
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             'userService',
             'utilsService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.friend = {};
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
     }
     InviteUsersCtrl.prototype.inviteFriend = function (form) {
@@ -5352,7 +5447,7 @@ angular
 * @version 0.1
 */
 var LoginCtrl = (function () {
-    function LoginCtrl($state, $q, $translate, $base64, $localStorage, $ionicUser, $ionicPush, $ionicAuth, userService, utilsService, notificationService, userAuthService) {
+    function LoginCtrl($state, $q, $translate, $base64, $localStorage, $ionicUser, $ionicPush, $ionicAuth, userService, utilsService, notificationService, userAuthService, ionicMaterialInk) {
         this.$state = $state;
         this.$q = $q;
         this.$translate = $translate;
@@ -5365,6 +5460,7 @@ var LoginCtrl = (function () {
         this.utilsService = utilsService;
         this.notificationService = notificationService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             '$q',
@@ -5378,8 +5474,12 @@ var LoginCtrl = (function () {
             'utilsService',
             'notificationService',
             'userAuthService',
+            'ionicMaterialInk'
         ];
         this.user = {};
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         if (userAuthService.checkSession()) {
             this.user = this.userAuthService.getUserAuth();
             if (this.user.type == 0) {
@@ -5461,7 +5561,7 @@ var LoginCtrl = (function () {
         return this.userService.editUserPatch(this.user.id, this.user);
     };
     LoginCtrl.prototype._validateIonicId = function (user) {
-        if (user.ionic_id == "") {
+        if (!user.ionic_id || user.ionic_id == "") {
             return this._registerInIonicIO(this.user.email, this.user.password);
         }
         return this._loginInIonicIO(this.user.email, this.user.password);
@@ -5481,14 +5581,17 @@ angular
 * @version 0.2
 */
 var NotificationsCtrl = (function () {
-    function NotificationsCtrl(userAuthService, notificationService) {
+    function NotificationsCtrl(userAuthService, notificationService, ionicMaterialInk) {
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             'userAuthService',
-            'notificationService'
+            'notificationService',
+            'ionicMaterialInk'
         ];
         this.notifications = [];
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.notifications = this.notificationService.getNotifications(this.userAuth.id);
         /*this.notifications = [
@@ -5569,22 +5672,25 @@ angular
 * @version 0.2
 */
 var ProfileCtrl = (function () {
-    function ProfileCtrl($cordovaToast, $cordovaCamera, userService, utilsService, imgurService, userAuthService) {
+    function ProfileCtrl($cordovaToast, $cordovaCamera, userService, utilsService, imgurService, userAuthService, ionicMaterialInk) {
         this.$cordovaToast = $cordovaToast;
         this.$cordovaCamera = $cordovaCamera;
         this.userService = userService;
         this.utilsService = utilsService;
         this.imgurService = imgurService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$cordovaToast',
             '$cordovaCamera',
             'userService',
             'utilsService',
             'imgurService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.imageURI = null;
+        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
     }
     ProfileCtrl.prototype.getPhoto = function () {
@@ -5661,7 +5767,7 @@ angular
 * @version 0.1
 */
 var RegisterCtrl = (function () {
-    function RegisterCtrl($state, $translate, $base64, $localStorage, $ionicUser, $ionicPush, $ionicAuth, userService, utilsService, notificationService, userAuthService) {
+    function RegisterCtrl($state, $translate, $base64, $localStorage, $ionicUser, $ionicPush, $ionicAuth, userService, utilsService, notificationService, userAuthService, ionicMaterialInk) {
         this.$state = $state;
         this.$translate = $translate;
         this.$base64 = $base64;
@@ -5673,6 +5779,7 @@ var RegisterCtrl = (function () {
         this.utilsService = utilsService;
         this.notificationService = notificationService;
         this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
             '$translate',
@@ -5684,9 +5791,11 @@ var RegisterCtrl = (function () {
             'userService',
             'utilsService',
             'notificationService',
-            'userAuthService'
+            'userAuthService',
+            'ionicMaterialInk'
         ];
         this.newUser = {};
+        this.ionicMaterialInk.displayEffect();
         this.newUser.type = 0;
     }
     RegisterCtrl.prototype.registerNewUser = function (form) {
@@ -5769,19 +5878,22 @@ angular
 * @version 0.2
 */
 var SettingsCtrl = (function () {
-    function SettingsCtrl($translate, $cordovaToast, $ionicDeploy, utilsService, BackendVariables) {
+    function SettingsCtrl($translate, $cordovaToast, $ionicDeploy, utilsService, BackendVariables, ionicMaterialInk) {
         this.$translate = $translate;
         this.$cordovaToast = $cordovaToast;
         this.$ionicDeploy = $ionicDeploy;
         this.utilsService = utilsService;
         this.BackendVariables = BackendVariables;
+        this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$translate',
             '$cordovaToast',
             '$ionicDeploy',
             'utilsService',
-            'BackendVariables'
+            'BackendVariables',
+            'ionicMaterialInk'
         ];
+        this.ionicMaterialInk.displayEffect();
         this.lang = this.$translate.use();
         this.$ionicDeploy.setChannel(BackendVariables.channel);
     }

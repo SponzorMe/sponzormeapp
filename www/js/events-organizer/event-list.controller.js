@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var EventListOrganizerCtrl = (function () {
-    function EventListOrganizerCtrl($scope, $state, $rootScope, userService, utilsService, userAuthService, ionicMaterialInk) {
+    function EventListOrganizerCtrl($scope, $state, $rootScope, userService, utilsService, userAuthService, ionicMaterialInk, ionicMaterialMotion) {
         this.$scope = $scope;
         this.$state = $state;
         this.$rootScope = $rootScope;
@@ -15,6 +15,7 @@ var EventListOrganizerCtrl = (function () {
         this.utilsService = utilsService;
         this.userAuthService = userAuthService;
         this.ionicMaterialInk = ionicMaterialInk;
+        this.ionicMaterialMotion = ionicMaterialMotion;
         this.$inject = [
             '$scope',
             '$state',
@@ -22,15 +23,17 @@ var EventListOrganizerCtrl = (function () {
             'userService',
             'utilsService',
             'userAuthService',
-            'ionicMaterialInk'
+            'ionicMaterialInk',
+            'ionicMaterialMotion'
         ];
         this.events = [];
         this.showEmptyState = true;
-        this.ionicMaterialInk.displayEffect();
         this.userAuth = this.userAuthService.getUserAuth();
         this.events = this.userAuth.events.filter(this._filterDate);
         this.showEmptyState = this.events.length == 0 ? true : false;
         this._registerListenerEvents();
+        this.ionicMaterialMotion.blinds();
+        this.ionicMaterialInk.displayEffect();
     }
     EventListOrganizerCtrl.prototype.doRefresh = function () {
         var _this = this;
