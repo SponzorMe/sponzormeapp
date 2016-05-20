@@ -9900,6 +9900,14 @@ a.button {
 .platform-android .button-positive.button-clear:hover {
   background-color: transparent !important; }
 
+.platform-android .bar .back-button.hide,
+.platform-android .bar .buttons .hide {
+  display: none; }
+
+.platform-android .bar-positive,
+.platform-android .bar-positive:hover {
+  background-color: #00838D !important; }
+
 .pageForm {
   background-color: white; }
   .pageForm .logo {
