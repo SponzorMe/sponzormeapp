@@ -93,6 +93,7 @@
 .platform-android .menu .scroll-content.stable-bg{
   background-color: $brand;
 }
+.platform-android .button-positive,
 .platform-android .button-positive:hover,
 .platform-android .bar .button-positive, 
 .platform-android .bar .button-positive.activated, 
@@ -107,6 +108,7 @@
 .platform-android .button-bar>.button:before{
   line-height: 39px !important;
 }
+.platform-android .button-positive.button-clear,
 .platform-android .button-positive.button-clear:hover{
   background-color: transparent !important;
 }
