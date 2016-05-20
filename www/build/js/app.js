@@ -472,13 +472,13 @@
 /// <reference path="../../typings/tsd.d.ts" />
 (function () {
     'use strict';
-    angular.module('app.filters', []);
+    angular.module('app.events-sponzor', []);
 })();
 
 /// <reference path="../../typings/tsd.d.ts" />
 (function () {
     'use strict';
-    angular.module('app.events-sponzor', []);
+    angular.module('app.filters', []);
 })();
 
 /// <reference path="../../typings/tsd.d.ts" />

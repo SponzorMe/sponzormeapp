@@ -24,6 +24,7 @@ class LoginCtrl{
     'ionicMaterialInk'
   ];
   user:any = {};
+  userAuth:any = {};
   
   constructor(
     private $state: angular.ui.IStateService,
@@ -64,20 +65,21 @@ class LoginCtrl{
       this.utilsService.resetForm( form );
       
       this.$localStorage.token = this.$base64.encode(this.user.email +':'+ this.user.password);
-      this.userAuthService.updateUserAuth( user );
+      this.userAuth = this.userAuthService.updateUserAuth( user );
       
       this.notificationService.activate();
       
       this._validateIonicId( user )
       .then( data => {
-        this.user = this.userAuthService.getUserAuth();
+        this.userAuth = this.userAuthService.getUserAuth();
         this.$ionicPush.register();
         
-        if( this.user.type == 0 ){ // is an Organizer.
+        if( this.userAuth.type == 0 ){ // is an Organizer.
           this.$state.go("organizer.home");
         }else{ // is an Sponsor
           this.$state.go("sponzor.home");
         }
+        this.userAuth = {};
         this.user = {};
         this.utilsService.hideLoad();
       })
@@ -123,7 +125,7 @@ class LoginCtrl{
       'password': password
     })
     .then(data => {
-      this.user.ionic_id = this.$ionicUser.current()._id;
+      this.userAuth.ionic_id = this.$ionicUser.current()._id;
       return this._uploadProfile();
     })
     .catch( error => {
@@ -132,7 +134,7 @@ class LoginCtrl{
   }
   
   private _uploadProfile( ){
-     return this.userService.editUserPatch( this.user.id, this.user );
+     return this.userService.editUserPatch( this.userAuth.id, this.userAuth );
   }
   
   private _validateIonicId( user ){

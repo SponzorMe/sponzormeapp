@@ -37,6 +37,7 @@ var LoginCtrl = (function () {
             'ionicMaterialInk'
         ];
         this.user = {};
+        this.userAuth = {};
         if (ionic.Platform.isAndroid()) {
             this.ionicMaterialInk.displayEffect();
         }
@@ -57,18 +58,19 @@ var LoginCtrl = (function () {
             .then(function (user) {
             _this.utilsService.resetForm(form);
             _this.$localStorage.token = _this.$base64.encode(_this.user.email + ':' + _this.user.password);
-            _this.userAuthService.updateUserAuth(user);
+            _this.userAuth = _this.userAuthService.updateUserAuth(user);
             _this.notificationService.activate();
             _this._validateIonicId(user)
                 .then(function (data) {
-                _this.user = _this.userAuthService.getUserAuth();
+                _this.userAuth = _this.userAuthService.getUserAuth();
                 _this.$ionicPush.register();
-                if (_this.user.type == 0) {
+                if (_this.userAuth.type == 0) {
                     _this.$state.go("organizer.home");
                 }
                 else {
                     _this.$state.go("sponzor.home");
                 }
+                _this.userAuth = {};
                 _this.user = {};
                 _this.utilsService.hideLoad();
             })
@@ -110,7 +112,7 @@ var LoginCtrl = (function () {
             'password': password
         })
             .then(function (data) {
-            _this.user.ionic_id = _this.$ionicUser.current()._id;
+            _this.userAuth.ionic_id = _this.$ionicUser.current()._id;
             return _this._uploadProfile();
         })
             .catch(function (error) {
@@ -118,7 +120,7 @@ var LoginCtrl = (function () {
         });
     };
     LoginCtrl.prototype._uploadProfile = function () {
-        return this.userService.editUserPatch(this.user.id, this.user);
+        return this.userService.editUserPatch(this.userAuth.id, this.userAuth);
     };
     LoginCtrl.prototype._validateIonicId = function (user) {
         if (!user.ionic_id || user.ionic_id == "") {
