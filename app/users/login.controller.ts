@@ -116,10 +116,8 @@ class LoginCtrl{
         'password': password
       }
     )
-    .then(data => {
-      console.log(data);
-      console.log(this.$ionicUser.current());
-      this.userAuth.ionic_id = this.$ionicUser.current()._id;
+    .then(userIonic => {
+      this.userAuth.ionic_id = userIonic._id;
       return this.$q.when( true );
     })
     .catch(error => {
@@ -149,6 +147,10 @@ class LoginCtrl{
   }
   
   private _validateIonicId( user ){
+    /*
+    this.userAuth.ionic_id = "";
+    return this._uploadProfile();
+    */
     if(!user.ionic_id || user.ionic_id == ""){
       return this._registerInIonicIO(this.user.email, this.user.password);
     }

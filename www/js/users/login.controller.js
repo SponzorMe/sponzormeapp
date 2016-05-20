@@ -104,10 +104,8 @@ var LoginCtrl = (function () {
             'email': email,
             'password': password
         })
-            .then(function (data) {
-            console.log(data);
-            console.log(_this.$ionicUser.current());
-            _this.userAuth.ionic_id = _this.$ionicUser.current()._id;
+            .then(function (userIonic) {
+            _this.userAuth.ionic_id = userIonic._id;
             return _this.$q.when(true);
         })
             .catch(function (error) {
@@ -135,6 +133,10 @@ var LoginCtrl = (function () {
         return this.userService.editUserPatch(this.userAuth.id, this.userAuth);
     };
     LoginCtrl.prototype._validateIonicId = function (user) {
+        /*
+        this.userAuth.ionic_id = "";
+        return this._uploadProfile();
+        */
         if (!user.ionic_id || user.ionic_id == "") {
             return this._registerInIonicIO(this.user.email, this.user.password);
         }
