@@ -61,7 +61,11 @@
             .state('organizer', {
             url: "/organizer",
             abstract: true,
-            templateUrl: "templates/dashboard-organizer/menu.html",
+            templateUrl: function () {
+                if (ionic.Platform.isAndroid())
+                    return "templates/dashboard-organizer/android/menu.html";
+                return "templates/dashboard-organizer/ios/menu.html";
+            },
             controller: "MenuOrganizerCtrl as menu"
         })
             .state('organizer.intro', {
@@ -260,7 +264,11 @@
             .state('sponzor', {
             url: "/sponzor",
             abstract: true,
-            templateUrl: "templates/dashboard-sponzor/menu.html",
+            templateUrl: function () {
+                if (ionic.Platform.isAndroid())
+                    return "templates/dashboard-sponzor/android/menu.html";
+                return "templates/dashboard-sponzor/ios/menu.html";
+            },
             controller: "MenuSponsorCtrl as menu"
         })
             .state('sponzor.intro', {
