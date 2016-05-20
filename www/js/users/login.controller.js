@@ -92,6 +92,7 @@ var LoginCtrl = (function () {
     };
     ;
     LoginCtrl.prototype._loginInIonicIO = function (email, password) {
+        var _this = this;
         return this.$ionicAuth
             .login(
         //authProvider
@@ -102,6 +103,15 @@ var LoginCtrl = (function () {
         {
             'email': email,
             'password': password
+        })
+            .then(function (data) {
+            console.log(data);
+            console.log(_this.$ionicUser.current());
+            _this.userAuth.ionic_id = _this.$ionicUser.current()._id;
+            return _this.$q.when(true);
+        })
+            .catch(function (error) {
+            return _this.$q.reject(error);
         });
     };
     LoginCtrl.prototype._registerInIonicIO = function (email, password) {
@@ -112,7 +122,9 @@ var LoginCtrl = (function () {
             'password': password
         })
             .then(function (data) {
-            _this.userAuth.ionic_id = _this.$ionicUser.current()._id;
+            return _this._loginInIonicIO(_this.user.email, _this.user.password);
+        })
+            .then(function () {
             return _this._uploadProfile();
         })
             .catch(function (error) {

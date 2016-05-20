@@ -116,6 +116,15 @@ class LoginCtrl{
         'password': password
       }
     )
+    .then(data => {
+      console.log(data);
+      console.log(this.$ionicUser.current());
+      this.userAuth.ionic_id = this.$ionicUser.current()._id;
+      return this.$q.when( true );
+    })
+    .catch(error => {
+      return this.$q.reject( error );
+    });
   }
   
   private _registerInIonicIO( email:string, password:string ){
@@ -125,7 +134,9 @@ class LoginCtrl{
       'password': password
     })
     .then(data => {
-      this.userAuth.ionic_id = this.$ionicUser.current()._id;
+      return this._loginInIonicIO(this.user.email, this.user.password);
+    })
+    .then(() => {
       return this._uploadProfile();
     })
     .catch( error => {
