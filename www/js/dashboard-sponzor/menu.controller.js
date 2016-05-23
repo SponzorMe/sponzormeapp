@@ -31,7 +31,9 @@ var MenuSponsorCtrl = (function () {
         this.count_following = 0;
         this.count_sponsoring = 0;
         this.notifications = [];
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = userAuthService.getUserAuth();
         this.count_sponsoring = this.userAuth.sponzorships.filter(this.filterByAccepted).length;
         this.count_following = this.userAuth.sponzorships.filter(this._filterByDateAndByPending).length;

@@ -24,7 +24,9 @@ var SponsoringEventsCtrl = (function () {
         ];
         this.sponzorships = [];
         this.showEmptyState = false;
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponzorships = this.userAuth.sponzorships.filter(this._filterByAccepted);
         this.showEmptyState = this.sponzorships.length == 0 ? true : false;

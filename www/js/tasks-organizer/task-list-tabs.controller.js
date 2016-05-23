@@ -18,7 +18,9 @@ var TaskTabsCtrl = (function () {
         ];
         this.count_tasks = 0;
         this.count_past_tasks = 0;
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = this.userAuthService.getUserAuth();
         this.count_tasks = this._countTasks(this.userAuth.events.filter(this._filterEventsIsAfter)).length;
         this.count_past_tasks = this._countTasks(this.userAuth.events.filter(this._filterEventsisBefore)).length;

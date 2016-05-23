@@ -32,7 +32,9 @@ var MenuOrganizerCtrl = (function () {
         this.count_sponsors = 0;
         this.count_tasks = 0;
         this.notifications = [];
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = this.userAuthService.getUserAuth();
         this.count_events = this.userAuth.events.filter(this.filterDate).length;
         this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;

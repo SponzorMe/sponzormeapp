@@ -24,7 +24,9 @@ var SponsorshipsPastEventsCtrl = (function () {
         ];
         this.sponsorships = [];
         this.showEmptyState = false;
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponsorships = this.userAuth.sponzorships_like_organizer.filter(this._filterByDateIsBefore);
         this.showEmptyState = this.sponsorships.length == 0 ? true : false;

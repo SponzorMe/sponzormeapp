@@ -49,7 +49,9 @@ var EditEventCtrl = (function () {
         this.eventTypes = [];
         this.modalPerk = null;
         this.imageURI = null;
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = userAuthService.getUserAuth();
         this.newEvent = _.findWhere(this.userAuth.events, { id: this.$stateParams.id });
         this.indexEvent = _.indexOf(this.userAuth.events, this.newEvent);

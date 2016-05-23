@@ -23,7 +23,9 @@ var IntroSponsorCtrl = (function () {
         this.slideIndex = 0;
         this.slider = null;
         this.data = {};
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.$ionicSideMenuDelegate.canDragContent(false);
         this.$scope.$watch(function () { return _this.data; }, function (oldValue, newValue) {
             if (Object.keys(_this.data).length > 0) {

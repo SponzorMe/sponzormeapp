@@ -61,7 +61,9 @@ var EventDetailOrganizerCtrl = (function () {
         this.isNewTask = true;
         this.task = {};
         this.sponsorshipSelected = {};
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = this.userAuthService.getUserAuth();
         this.event = _.findWhere(this.userAuth.events, { id: $stateParams.id });
         this.event.perks.forEach(this._preparatePerks, this);

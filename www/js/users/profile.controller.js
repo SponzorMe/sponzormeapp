@@ -25,7 +25,9 @@ var ProfileCtrl = (function () {
             'ionicMaterialInk'
         ];
         this.imageURI = null;
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = this.userAuthService.getUserAuth();
     }
     ProfileCtrl.prototype.getPhoto = function () {

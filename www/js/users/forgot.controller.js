@@ -21,7 +21,9 @@ var ForgotCtrl = (function () {
             'ionicMaterialInk'
         ];
         this.user = {};
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
     }
     ForgotCtrl.prototype.resetPassword = function (form) {
         var _this = this;

@@ -19,7 +19,9 @@ var InviteUsersCtrl = (function () {
             'ionicMaterialInk'
         ];
         this.friend = {};
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = this.userAuthService.getUserAuth();
     }
     InviteUsersCtrl.prototype.inviteFriend = function (form) {

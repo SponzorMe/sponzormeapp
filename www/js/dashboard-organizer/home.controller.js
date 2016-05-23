@@ -21,7 +21,9 @@ var HomeOrganizerCtrl = (function () {
         this.count_events = 0;
         this.count_sponsors = 0;
         this.count_comunity = 0;
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = userAuthService.getUserAuth();
         this.count_events = this.userAuth.events.filter(this.filterDate).length;
         this.count_comunity = this.userAuth.comunity_size;

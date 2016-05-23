@@ -39,7 +39,9 @@ var PastTasksCtrl = (function () {
         this.isNewTask = true;
         this.task = {};
         this.perk = {};
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = this.userAuthService.getUserAuth();
         this.events = this.userAuth.events.filter(this._filterEvents);
         this.events.forEach(this._preparateEvents, this);

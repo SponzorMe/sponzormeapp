@@ -22,7 +22,9 @@ var SettingsCtrl = (function () {
             'BackendVariables',
             'ionicMaterialInk'
         ];
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.lang = this.$translate.use();
         this.$ionicDeploy.setChannel(BackendVariables.channel);
     }

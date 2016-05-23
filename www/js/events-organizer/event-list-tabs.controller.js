@@ -18,7 +18,9 @@ var EventsTabsOrganizerCtrl = (function () {
         ];
         this.count_events = 0;
         this.count_past_events = 0;
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = this.userAuthService.getUserAuth();
         this.count_events = this.userAuth.events.filter(this._filterByDateIsAfter).length;
         this.count_past_events = this.userAuth.events.length - this.count_events;

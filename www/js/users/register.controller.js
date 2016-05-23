@@ -37,7 +37,9 @@ var RegisterCtrl = (function () {
             'ionicMaterialInk'
         ];
         this.newUser = {};
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.newUser.type = 0;
     }
     RegisterCtrl.prototype.registerNewUser = function (form) {

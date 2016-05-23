@@ -25,7 +25,9 @@ var FormInterestsCtrl = (function () {
             'ionicMaterialInk'
         ];
         this.categories = [];
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = this.userAuthService.getUserAuth();
         this._getCategories();
     }

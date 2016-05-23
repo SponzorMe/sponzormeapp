@@ -27,7 +27,9 @@ var SponsorshipOrganizerDetailCtrl = (function () {
         ];
         this.sponsorship = {};
         this.showEmptyState = false;
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = this.userAuthService.getUserAuth();
         this.sponsorship = _.findWhere(this.userAuth.sponzorships_like_organizer, { id: this.$stateParams.id });
         this.sponsorship.task_sponzor = this.sponsorship.task_sponzor.filter(function (item) { return item.task.user_id != _this.userAuth.id; });

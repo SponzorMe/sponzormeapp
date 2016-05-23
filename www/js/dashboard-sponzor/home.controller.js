@@ -25,7 +25,9 @@ var HomeSponsorCtrl = (function () {
             'ionicMaterialInk'
         ];
         this.events = [];
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = this.userAuthService.getUserAuth();
         this.events = this.userAuth.events.filter(this.filterDate);
         this.registerListenerEvents();

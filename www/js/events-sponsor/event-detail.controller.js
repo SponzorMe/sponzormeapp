@@ -38,7 +38,9 @@ var EventDetailSponsorCtrl = (function () {
         ];
         this.modalSponsorIt = null;
         this.newSponsorIt = {};
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = this.userAuthService.getUserAuth();
         this.event = _.findWhere(this.userAuth.events, { id: $stateParams.id });
         this.event.perks.forEach(this._preparatePerks, this);

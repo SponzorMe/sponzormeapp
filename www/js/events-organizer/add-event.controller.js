@@ -50,7 +50,9 @@ var AddEventCtrl = (function () {
         this.eventTypes = [];
         this.modalPerk = null;
         this.imageURI = null;
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = userAuthService.getUserAuth();
         this.newEvent.access = true;
         this.newEvent.perks = [];

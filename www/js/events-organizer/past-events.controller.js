@@ -24,7 +24,9 @@ var PastEventsOrganizerCtrl = (function () {
         ];
         this.events = [];
         this.showEmptyState = true;
-        this.ionicMaterialInk.displayEffect();
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
         this.userAuth = this.userAuthService.getUserAuth();
         this.events = this.userAuth.events.filter(this._filterDate);
         this.showEmptyState = this.events.length == 0 ? true : false;
