@@ -7,8 +7,9 @@
 * @version 0.1
 */
 var RegisterCtrl = (function () {
-    function RegisterCtrl($state, $translate, $base64, $localStorage, $ionicUser, $ionicPush, $ionicAuth, userService, utilsService, notificationService, userAuthService, ionicMaterialInk) {
+    function RegisterCtrl($state, $q, $translate, $base64, $localStorage, $ionicUser, $ionicPush, $ionicAuth, userService, utilsService, notificationService, userAuthService, ionicMaterialInk) {
         this.$state = $state;
+        this.$q = $q;
         this.$translate = $translate;
         this.$base64 = $base64;
         this.$localStorage = $localStorage;
@@ -22,6 +23,7 @@ var RegisterCtrl = (function () {
         this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
+            '$q',
             '$translate',
             '$base64',
             '$localStorage',
@@ -43,7 +45,11 @@ var RegisterCtrl = (function () {
         this.utilsService.showLoad();
         this._registerInIonicIO(this.newUser.email, this.newUser.password)
             .then(function (data) {
-            _this.newUser.ionic_id = _this.$ionicUser.current()._id;
+            if (data)
+                return _this._loginInIonicIO(_this.newUser.email, _this.newUser.password);
+            return _this.$q.reject(null);
+        })
+            .then(function (data) {
             return _this.userService.createUser(_this._preparateData());
         })
             .then(function (user) {
@@ -84,6 +90,27 @@ var RegisterCtrl = (function () {
                     template: _this.$translate.instant("ERRORS.signin_taken_credentials_message")
                 });
             }
+        });
+    };
+    RegisterCtrl.prototype._loginInIonicIO = function (email, password) {
+        var _this = this;
+        return this.$ionicAuth
+            .login(
+        //authProvider
+        'basic', 
+        //authSettings
+        { 'remember': true }, 
+        //data
+        {
+            'email': email,
+            'password': password
+        })
+            .then(function (userIonic) {
+            _this.newUser.ionic_id = userIonic._id;
+            return _this.$q.when(true);
+        })
+            .catch(function (error) {
+            return _this.$q.reject(error);
         });
     };
     RegisterCtrl.prototype._registerInIonicIO = function (email, password) {

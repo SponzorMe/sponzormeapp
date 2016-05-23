@@ -10,6 +10,7 @@ class RegisterCtrl{
   
   $inject = [
     '$state',
+    '$q',
     '$translate',
     '$base64',
     '$localStorage',
@@ -26,6 +27,7 @@ class RegisterCtrl{
   
   constructor(
     private $state: angular.ui.IStateService,
+    private $q: angular.IQService,
     private $translate,
     private $base64,
     private $localStorage,
@@ -46,8 +48,11 @@ class RegisterCtrl{
   registerNewUser( form ){
     this.utilsService.showLoad();
     this._registerInIonicIO(this.newUser.email, this.newUser.password)
+    .then(data => {
+      if (data) return this._loginInIonicIO(this.newUser.email, this.newUser.password);
+      return this.$q.reject( null );
+    })
     .then( data => {
-      this.newUser.ionic_id = this.$ionicUser.current()._id;
       return this.userService.createUser( this._preparateData() );
     })
     .then( user => {
@@ -92,6 +97,28 @@ class RegisterCtrl{
           template: this.$translate.instant("ERRORS.signin_taken_credentials_message")
         });
       }
+    });
+  }
+  
+  private _loginInIonicIO(email:string, password:string){
+    return this.$ionicAuth
+    .login(
+      //authProvider
+      'basic', 
+      //authSettings
+      { 'remember': true },
+      //data
+      {
+        'email': email,
+        'password': password
+      }
+    )
+    .then(userIonic => {
+      this.newUser.ionic_id = userIonic._id;
+      return this.$q.when( true );
+    })
+    .catch(error => {
+      return this.$q.reject( error );
     });
   }
   
