@@ -25,7 +25,9 @@ class IntroOrganizerCtrl{
     private $ionicSideMenuDelegate: ionic.sideMenu.IonicSideMenuDelegate,
     private ionicMaterialInk
   ){
-    this.ionicMaterialInk.displayEffect();
+    if(ionic.Platform.isAndroid()){
+      this.ionicMaterialInk.displayEffect();
+    }
     
     this.$ionicSideMenuDelegate.canDragContent(false);
     

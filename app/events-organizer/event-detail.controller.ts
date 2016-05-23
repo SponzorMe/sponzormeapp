@@ -66,7 +66,9 @@ class EventDetailOrganizerCtrl{
     private perkTaskService: perkTaskModule.IPerkTaskService,
     private ionicMaterialInk
   ){
-    this.ionicMaterialInk.displayEffect();
+    if(ionic.Platform.isAndroid()){
+      this.ionicMaterialInk.displayEffect();
+    }
     
     this.userAuth = this.userAuthService.getUserAuth();
     

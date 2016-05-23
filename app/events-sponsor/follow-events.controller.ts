@@ -29,7 +29,9 @@ class FollowEventsCtrl{
     private ionicMaterialInk
   ){
     
-    this.ionicMaterialInk.displayEffect();
+    if(ionic.Platform.isAndroid()){
+      this.ionicMaterialInk.displayEffect();
+    }
     
     this.userAuth = this.userAuthService.getUserAuth();
     this.sponzorships = this.userAuth.sponzorships.filter( this._filterByDateAndByPending );

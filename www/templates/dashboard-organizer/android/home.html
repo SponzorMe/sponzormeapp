@@ -11,7 +11,7 @@
     </div>
     <!-- Sponsors -->
     <div class="card number-bar">
-      <a class="item item-thumbnail-left number-bar-sponsors" href="#/organizer/sponsorships/list">
+      <a class="item item-thumbnail-left number-bar-sponsors button-raised" href="#/organizer/sponsorships/list">
         <i class="icon ion-flag item-image"></i>
         <h2>{{ home.count_sponsors }}</h2>
         <p>{{'DASHORGANIZERS.sponsors' | translate}}</p>
@@ -19,7 +19,7 @@
     </div>
     <!-- Community -->
     <div class="card number-bar">
-      <a class="item item-thumbnail-left number-bar-communtity" href="#/organizer/profile">
+      <a class="item item-thumbnail-left number-bar-communtity button-raised" href="#/organizer/profile">
         <i class="icon ion-person-stalker item-image"></i>
         <h2>{{ home.count_comunity }}</h2>
         <p>{{'DASHORGANIZERS.comunity' | translate}}</p>
@@ -27,7 +27,7 @@
     </div>
     <!-- Notifications -->
     <div class="card number-bar">
-      <a class="item item-thumbnail-left number-bar-communtity" href="#/organizer/notifications">
+      <a class="item item-thumbnail-left number-bar-communtity button-raised" href="#/organizer/notifications">
         <i class="icon ion-android-notifications item-image"></i>
         <h2>{{ (home.notifications | filter: {read: false, hide: false}).length }}</h2>
         <p>{{'DASHORGANIZERS.notifications' | translate}}</p>

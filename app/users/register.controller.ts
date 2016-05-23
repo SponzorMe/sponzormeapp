@@ -40,7 +40,9 @@ class RegisterCtrl{
     private userAuthService: userAuthModule.IUserAuthService,
     private ionicMaterialInk
   ){
-    this.ionicMaterialInk.displayEffect();
+    if(ionic.Platform.isAndroid()){
+      this.ionicMaterialInk.displayEffect();
+    }
     
     this.newUser.type = 0;
   }

@@ -10049,6 +10049,9 @@ form label.item {
 .tabs .tab-item.status {
   color: #00838D; }
 
+.number-bar a {
+  text-align: left !important; }
+
 .number-bar .icon {
   font-size: 80px;
   color: white; }

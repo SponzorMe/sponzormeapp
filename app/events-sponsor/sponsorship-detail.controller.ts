@@ -43,7 +43,9 @@ class SponsorshipSponsorDetailCtrl{
     private notificationService: notificationModule.INotificationService,
     private ionicMaterialInk
   ){
-    this.ionicMaterialInk.displayEffect();
+    if(ionic.Platform.isAndroid()){
+      this.ionicMaterialInk.displayEffect();
+    }
     
     this.userAuth = this.userAuthService.getUserAuth();
     this.sponsorship = _.findWhere(this.userAuth.sponzorships, {id: this.$stateParams.id});

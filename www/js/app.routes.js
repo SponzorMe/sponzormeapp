@@ -89,7 +89,11 @@
             url: "/home",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/dashboard-organizer/home.html",
+                    templateUrl: function () {
+                        if (ionic.Platform.isAndroid())
+                            return "templates/dashboard-organizer/android/home.html";
+                        return "templates/dashboard-organizer/ios/home.html";
+                    },
                     controller: "HomeOrganizerCtrl as home"
                 }
             }

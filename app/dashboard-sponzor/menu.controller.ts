@@ -35,7 +35,9 @@ class MenuSponsorCtrl{
     private notificationService: notificationModule.INotificationService,
     private ionicMaterialInk
   ){
-    this.ionicMaterialInk.displayEffect();
+    if(ionic.Platform.isAndroid()){
+      this.ionicMaterialInk.displayEffect();
+    }
     
     this.userAuth = userAuthService.getUserAuth();
     this.count_sponsoring = this.userAuth.sponzorships.filter( this.filterByAccepted ).length;

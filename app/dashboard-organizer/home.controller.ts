@@ -26,7 +26,9 @@ class HomeOrganizerCtrl{
     private notificationService: notificationModule.INotificationService,
     private ionicMaterialInk
   ){
-    this.ionicMaterialInk.displayEffect();
+    if(ionic.Platform.isAndroid()){
+      this.ionicMaterialInk.displayEffect();
+    }
     
     this.userAuth = userAuthService.getUserAuth();
     this.count_events = this.userAuth.events.filter( this.filterDate ).length;

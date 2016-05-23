@@ -24,7 +24,9 @@ class ForgotCtrl{
     private utilsService: utilsServiceModule.IUtilsService,
     private ionicMaterialInk
   ){
-    this.ionicMaterialInk.displayEffect();
+    if(ionic.Platform.isAndroid()){
+      this.ionicMaterialInk.displayEffect();
+    }
   }
   
   resetPassword( form ){

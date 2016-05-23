@@ -23,7 +23,9 @@ class InviteUsersCtrl{
     private userAuthService: userAuthModule.IUserAuthService,
     private ionicMaterialInk
   ){
-    this.ionicMaterialInk.displayEffect();
+    if(ionic.Platform.isAndroid()){
+      this.ionicMaterialInk.displayEffect();
+    }
     
     this.userAuth = this.userAuthService.getUserAuth();
   }
