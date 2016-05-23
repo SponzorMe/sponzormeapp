@@ -9908,6 +9908,12 @@ a.button {
 .platform-android .bar-positive:hover {
   background-color: #00838D !important; }
 
+.platform-android .item-button-right > .button {
+  position: absolute; }
+
+.platform-android .modal .bar .button {
+  min-height: auto; }
+
 .pageForm {
   background-color: white; }
   .pageForm .logo {
@@ -10064,13 +10070,15 @@ form label.item {
 .number-bar .number-bar-communtity {
   background: #02A390; }
 
-.spm-crop {
+.platform-ios .spm-crop,
+.platform-android .spm-crop {
   height: 120px;
   width: 120px;
   display: block;
   margin: 15px auto;
   position: relative; }
-  .spm-crop ng-transclude {
+  .platform-ios .spm-crop ng-transclude,
+  .platform-android .spm-crop ng-transclude {
     width: 100%;
     height: 100%;
     display: block;
@@ -10079,7 +10087,8 @@ form label.item {
     overflow: hidden;
     border: 4px solid #00838D;
     background-color: white; }
-    .spm-crop ng-transclude img {
+    .platform-ios .spm-crop ng-transclude img,
+    .platform-android .spm-crop ng-transclude img {
       position: absolute;
       width: auto;
       max-width: 100%;
@@ -10087,9 +10096,11 @@ form label.item {
       left: 50%;
       -webkit-transform: translate(-50%, -50%);
       transform: translate(-50%, -50%); }
-  .spm-crop .icon {
+  .platform-ios .spm-crop .icon,
+  .platform-android .spm-crop .icon {
     color: #00838D; }
-    .spm-crop .icon.edit {
+    .platform-ios .spm-crop .icon.edit,
+    .platform-android .spm-crop .icon.edit {
       position: absolute;
       top: 0px;
       right: 0px; }

@@ -23,10 +23,10 @@
       if(window.StatusBar) {
         StatusBar.styleDefault();
       }
-      registerToken();
-      activateNotifications();
-      chooseLanguage();
-      ionicAnalytics();
+      //registerToken();
+      //activateNotifications();
+      //chooseLanguage();
+      //ionicAnalytics();
     });
     
     

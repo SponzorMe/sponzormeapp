@@ -4,8 +4,8 @@
     <link rel="stylesheet" href="lib/mocha/mocha.css">
     <!-- head:js -->
     <script src="lib/ionic/js/ionic.bundle.min.js"></script>
+    <script src="lib/ionic-material/dist/ionic.material.min.js"></script>
     <script src="lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js"></script>
-    <script src="lib/angular-ios9-uiwebview/angular-ios9-uiwebview.patch.js"></script>
     <script src="lib/angular-google-places-autocomplete/src/autocomplete.js"></script>
     <script src="lib/firebase/firebase.js"></script>
     <script src="lib/angularfire/dist/angularfire.min.js"></script>
@@ -17,7 +17,6 @@
     <script src="lib/ngstorage/ngStorage.min.js"></script>
     <script src="lib/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
     <script src="lib/tabbedSlideBox/tabSlideBox.js"></script>
-    <script src="lib/aws-sdk/dist/aws-sdk.min.js"></script>
     <script src="lib/moment/min/moment.min.js"></script>
     <script src="lib/angular-moment/angular-moment.min.js"></script>
     <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
@@ -52,13 +51,13 @@
     <script src="js/app.constants.js"></script>
     <script src="js/app.values.js"></script>
     <script src="js/dashboard-organizer/dashboard-organizer.module.js"></script>
-    <script src="js/events-organizer/events-organizer.module.js"></script>
     <script src="js/dashboard-sponzor/dashboard-sponzor.module.js"></script>
-    <script src="js/events-sponsor/events-sponzor.module.js"></script>
+    <script src="js/events-organizer/events-organizer.module.js"></script>
     <script src="js/filters/filters.module.js"></script>
-    <script src="js/sponsors-organizer/sponsors-organizer.module.js"></script>
+    <script src="js/events-sponsor/events-sponzor.module.js"></script>
     <script src="js/tasks-organizer/task-organizer.module.js"></script>
     <script src="js/users/users.module.js"></script>
+    <script src="js/sponsors-organizer/sponsors-organizer.module.js"></script>
     <script src="js/widgets/widgets.module.js"></script>
     <script src="js/services/category.service.js"></script>
     <script src="js/services/event.service.js"></script>
@@ -67,6 +66,7 @@
     <script src="js/services/notification.service.js"></script>
     <script src="js/services/perk.service.js"></script>
     <script src="js/services/perkTask.service.js"></script>
+    <script src="js/services/push.service.js"></script>
     <script src="js/services/sponsorship.service.js"></script>
     <script src="js/services/taskSponsor.service.js"></script>
     <script src="js/services/user.service.js"></script>
@@ -83,23 +83,19 @@
     <script src="js/dashboard-organizer/home.controller.js"></script>
     <script src="js/dashboard-organizer/intro.controller.js"></script>
     <script src="js/dashboard-organizer/menu.controller.js"></script>
+    <script src="js/dashboard-sponzor/home.controller.js"></script>
+    <script src="js/dashboard-sponzor/intro.controller.js"></script>
+    <script src="js/dashboard-sponzor/menu.controller.js"></script>
     <script src="js/events-organizer/add-event.controller.js"></script>
     <script src="js/events-organizer/edit-event.controller.js"></script>
     <script src="js/events-organizer/event-detail.controller.js"></script>
     <script src="js/events-organizer/event-list-tabs.controller.js"></script>
     <script src="js/events-organizer/event-list.controller.js"></script>
     <script src="js/events-organizer/past-events.controller.js"></script>
-    <script src="js/dashboard-sponzor/home.controller.js"></script>
-    <script src="js/dashboard-sponzor/intro.controller.js"></script>
-    <script src="js/dashboard-sponzor/menu.controller.js"></script>
     <script src="js/events-sponsor/event-detail.controller.js"></script>
     <script src="js/events-sponsor/follow-events.controller.js"></script>
     <script src="js/events-sponsor/sponsoring-events.controller.js"></script>
     <script src="js/events-sponsor/sponsorship-detail.controller.js"></script>
-    <script src="js/sponsors-organizer/sponsorship-detail.controller.js"></script>
-    <script src="js/sponsors-organizer/sponsorships-list.controller.js"></script>
-    <script src="js/sponsors-organizer/sponsorships-past-events.controller.js"></script>
-    <script src="js/sponsors-organizer/sponsorships-tabs.controller.js"></script>
     <script src="js/tasks-organizer/past-tasks.controller.js"></script>
     <script src="js/tasks-organizer/task-list-tabs.controller.js"></script>
     <script src="js/tasks-organizer/task-list.controller.js"></script>
@@ -113,6 +109,10 @@
     <script src="js/users/register.controller.js"></script>
     <script src="js/users/settings.controller.js"></script>
     <script src="js/users/tests.controller.js"></script>
+    <script src="js/sponsors-organizer/sponsorship-detail.controller.js"></script>
+    <script src="js/sponsors-organizer/sponsorships-list.controller.js"></script>
+    <script src="js/sponsors-organizer/sponsorships-past-events.controller.js"></script>
+    <script src="js/sponsors-organizer/sponsorships-tabs.controller.js"></script>
     <script src="js/app.run.js"></script>
     <!-- endinject -->
 
@@ -130,9 +130,6 @@
     <script src="services/userAuth.service.spec.js"></script>
     <script src="services/userInterests.service.spec.js"></script>
     <script src="services/utils.service.spec.js"></script>
-    <script src="dashboard-organizer/home.controller.spec.js"></script>
-    <script src="dashboard-organizer/intro.controller.spec.js"></script>
-    <script src="dashboard-organizer/menu.controller.spec.js"></script>
     <script src="dashboard-sponzor/home.controller.spec.js"></script>
     <script src="dashboard-sponzor/intro.controller.spec.js"></script>
     <script src="dashboard-sponzor/menu.controller.spec.js"></script>
@@ -150,6 +147,9 @@
     <script src="sponsors-organizer/sponsorships-list.controller.spec.js"></script>
     <script src="sponsors-organizer/sponsorships-past-events.controller.spec.js"></script>
     <script src="sponsors-organizer/sponsorships-tabs.controller.spec.js"></script>
+    <script src="dashboard-organizer/home.controller.spec.js"></script>
+    <script src="dashboard-organizer/intro.controller.spec.js"></script>
+    <script src="dashboard-organizer/menu.controller.spec.js"></script>
     <script src="tasks-organizer/past-tasks.controller.spec.js"></script>
     <script src="tasks-organizer/task-list-tabs.controller.spec.js"></script>
     <script src="tasks-organizer/task-list.controller.spec.js"></script>

@@ -51,13 +51,13 @@ module.exports = function( config ){
       "www/js/app.constants.js",
       "www/js/app.values.js",
       "www/js/**/*.module.js",
-      "www/js/**/*.service.js",
-      "www/js/**/*.directive.js",
+      //"www/js/**/*.service.js",
+      //"www/js/**/*.directive.js",
       "www/js/**/*.controller.js",
       "www/js/app.run.js",
       //Tests
-      './tests/unit/**/*.service.spec.js',
-      './tests/unit/**/*.controller.spec.js',
+      //'./tests/unit/**/*.service.spec.js',
+      './tests/unit/dashboard-organizer',
     ]
   });
 };
