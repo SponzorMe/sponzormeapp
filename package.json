@@ -57,20 +57,25 @@
     "cordova-plugin-x-toast",
     "cordova-plugin-x-socialsharing",
     "cordova-plugin-calendar",
-    "cordova-plugin-crosswalk-webview",
     "cordova-plugin-network-information",
     "ionic-plugin-deploy",
     {
+      "id": "phonegap-plugin-push",
+      "locator": "phonegap-plugin-push",
       "variables": {
         "SENDER_ID": "471996657056"
-      },
-      "locator": "phonegap-plugin-push",
-      "id": "phonegap-plugin-push"
-    }
+      }
+    },
+    "cordova-plugin-crosswalk-webview"
   ],
   "cordovaPlatforms": [
     "android",
     "ios",
+    {
+      "platform": "android",
+      "version": "",
+      "locator": "android"
+    },
     {
       "platform": "ios",
       "version": "",
