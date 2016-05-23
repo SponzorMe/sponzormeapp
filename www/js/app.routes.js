@@ -40,7 +40,11 @@
         })
             .state('joinnow', {
             url: "/joinnow",
-            templateUrl: "templates/users/register.html",
+            templateUrl: function () {
+                if (ionic.Platform.isAndroid())
+                    return "templates/users/android/register.html";
+                return "templates/users/ios/register.html";
+            },
             controller: "RegisterCtrl as register"
         })
             .state('profile', {
@@ -72,7 +76,11 @@
             url: "/intro",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/dashboard-organizer/intro.html",
+                    templateUrl: function () {
+                        if (ionic.Platform.isAndroid())
+                            return "templates/dashboard-organizer/android/intro.html";
+                        return "templates/dashboard-organizer/ios/intro.html";
+                    },
                     controller: "IntroOrganizerCtrl as intro"
                 }
             }
@@ -275,7 +283,11 @@
             url: "/intro",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/dashboard-sponzor/intro.html",
+                    templateUrl: function () {
+                        if (ionic.Platform.isAndroid())
+                            return "templates/dashboard-sponzor/android/intro.html";
+                        return "templates/dashboard-sponzor/ios/intro.html";
+                    },
                     controller: "IntroSponsorCtrl as intro"
                 }
             }

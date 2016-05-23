@@ -86,7 +86,11 @@
         })
             .state('joinnow', {
             url: "/joinnow",
-            templateUrl: "templates/users/register.html",
+            templateUrl: function () {
+                if (ionic.Platform.isAndroid())
+                    return "templates/users/android/register.html";
+                return "templates/users/ios/register.html";
+            },
             controller: "RegisterCtrl as register"
         })
             .state('profile', {
@@ -107,14 +111,22 @@
             .state('organizer', {
             url: "/organizer",
             abstract: true,
-            templateUrl: "templates/dashboard-organizer/menu.html",
+            templateUrl: function () {
+                if (ionic.Platform.isAndroid())
+                    return "templates/dashboard-organizer/android/menu.html";
+                return "templates/dashboard-organizer/ios/menu.html";
+            },
             controller: "MenuOrganizerCtrl as menu"
         })
             .state('organizer.intro', {
             url: "/intro",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/dashboard-organizer/intro.html",
+                    templateUrl: function () {
+                        if (ionic.Platform.isAndroid())
+                            return "templates/dashboard-organizer/android/intro.html";
+                        return "templates/dashboard-organizer/ios/intro.html";
+                    },
                     controller: "IntroOrganizerCtrl as intro"
                 }
             }
@@ -306,14 +318,22 @@
             .state('sponzor', {
             url: "/sponzor",
             abstract: true,
-            templateUrl: "templates/dashboard-sponzor/menu.html",
+            templateUrl: function () {
+                if (ionic.Platform.isAndroid())
+                    return "templates/dashboard-sponzor/android/menu.html";
+                return "templates/dashboard-sponzor/ios/menu.html";
+            },
             controller: "MenuSponsorCtrl as menu"
         })
             .state('sponzor.intro', {
             url: "/intro",
             views: {
                 'menuContent': {
-                    templateUrl: "templates/dashboard-sponzor/intro.html",
+                    templateUrl: function () {
+                        if (ionic.Platform.isAndroid())
+                            return "templates/dashboard-sponzor/android/intro.html";
+                        return "templates/dashboard-sponzor/ios/intro.html";
+                    },
                     controller: "IntroSponsorCtrl as intro"
                 }
             }
@@ -5477,6 +5497,7 @@ var LoginCtrl = (function () {
             'ionicMaterialInk'
         ];
         this.user = {};
+        this.userAuth = {};
         if (ionic.Platform.isAndroid()) {
             this.ionicMaterialInk.displayEffect();
         }
@@ -5497,18 +5518,19 @@ var LoginCtrl = (function () {
             .then(function (user) {
             _this.utilsService.resetForm(form);
             _this.$localStorage.token = _this.$base64.encode(_this.user.email + ':' + _this.user.password);
-            _this.userAuthService.updateUserAuth(user);
+            _this.userAuth = _this.userAuthService.updateUserAuth(user);
             _this.notificationService.activate();
             _this._validateIonicId(user)
                 .then(function (data) {
-                _this.user = _this.userAuthService.getUserAuth();
+                _this.userAuth = _this.userAuthService.getUserAuth();
                 _this.$ionicPush.register();
-                if (_this.user.type == 0) {
+                if (_this.userAuth.type == 0) {
                     _this.$state.go("organizer.home");
                 }
                 else {
                     _this.$state.go("sponzor.home");
                 }
+                _this.userAuth = {};
                 _this.user = {};
                 _this.utilsService.hideLoad();
             })
@@ -5530,6 +5552,7 @@ var LoginCtrl = (function () {
     };
     ;
     LoginCtrl.prototype._loginInIonicIO = function (email, password) {
+        var _this = this;
         return this.$ionicAuth
             .login(
         //authProvider
@@ -5540,6 +5563,13 @@ var LoginCtrl = (function () {
         {
             'email': email,
             'password': password
+        })
+            .then(function (userIonic) {
+            _this.userAuth.ionic_id = userIonic._id;
+            return _this.$q.when(true);
+        })
+            .catch(function (error) {
+            return _this.$q.reject(error);
         });
     };
     LoginCtrl.prototype._registerInIonicIO = function (email, password) {
@@ -5550,7 +5580,9 @@ var LoginCtrl = (function () {
             'password': password
         })
             .then(function (data) {
-            _this.user.ionic_id = _this.$ionicUser.current()._id;
+            return _this._loginInIonicIO(_this.user.email, _this.user.password);
+        })
+            .then(function () {
             return _this._uploadProfile();
         })
             .catch(function (error) {
@@ -5558,9 +5590,13 @@ var LoginCtrl = (function () {
         });
     };
     LoginCtrl.prototype._uploadProfile = function () {
-        return this.userService.editUserPatch(this.user.id, this.user);
+        return this.userService.editUserPatch(this.userAuth.id, this.userAuth);
     };
     LoginCtrl.prototype._validateIonicId = function (user) {
+        /*
+        this.userAuth.ionic_id = "";
+        return this._uploadProfile();
+        */
         if (!user.ionic_id || user.ionic_id == "") {
             return this._registerInIonicIO(this.user.email, this.user.password);
         }
@@ -5767,8 +5803,9 @@ angular
 * @version 0.1
 */
 var RegisterCtrl = (function () {
-    function RegisterCtrl($state, $translate, $base64, $localStorage, $ionicUser, $ionicPush, $ionicAuth, userService, utilsService, notificationService, userAuthService, ionicMaterialInk) {
+    function RegisterCtrl($state, $q, $translate, $base64, $localStorage, $ionicUser, $ionicPush, $ionicAuth, userService, utilsService, notificationService, userAuthService, ionicMaterialInk) {
         this.$state = $state;
+        this.$q = $q;
         this.$translate = $translate;
         this.$base64 = $base64;
         this.$localStorage = $localStorage;
@@ -5782,6 +5819,7 @@ var RegisterCtrl = (function () {
         this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
             '$state',
+            '$q',
             '$translate',
             '$base64',
             '$localStorage',
@@ -5803,7 +5841,11 @@ var RegisterCtrl = (function () {
         this.utilsService.showLoad();
         this._registerInIonicIO(this.newUser.email, this.newUser.password)
             .then(function (data) {
-            _this.newUser.ionic_id = _this.$ionicUser.current()._id;
+            if (data)
+                return _this._loginInIonicIO(_this.newUser.email, _this.newUser.password);
+            return _this.$q.reject(null);
+        })
+            .then(function (data) {
             return _this.userService.createUser(_this._preparateData());
         })
             .then(function (user) {
@@ -5844,6 +5886,27 @@ var RegisterCtrl = (function () {
                     template: _this.$translate.instant("ERRORS.signin_taken_credentials_message")
                 });
             }
+        });
+    };
+    RegisterCtrl.prototype._loginInIonicIO = function (email, password) {
+        var _this = this;
+        return this.$ionicAuth
+            .login(
+        //authProvider
+        'basic', 
+        //authSettings
+        { 'remember': true }, 
+        //data
+        {
+            'email': email,
+            'password': password
+        })
+            .then(function (userIonic) {
+            _this.newUser.ionic_id = userIonic._id;
+            return _this.$q.when(true);
+        })
+            .catch(function (error) {
+            return _this.$q.reject(error);
         });
     };
     RegisterCtrl.prototype._registerInIonicIO = function (email, password) {
@@ -6265,10 +6328,10 @@ angular
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
-            registerToken();
-            activateNotifications();
-            chooseLanguage();
-            ionicAnalytics();
+            //registerToken();
+            //activateNotifications();
+            //chooseLanguage();
+            //ionicAnalytics();
         });
         function activateNotifications() {
             if (userAuthService.checkSession()) {
