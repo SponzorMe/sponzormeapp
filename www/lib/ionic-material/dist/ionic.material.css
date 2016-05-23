@@ -2074,8 +2074,12 @@
 /* Title Overrides
 ==================================*/
  .platform-android .title-left,
- .title.title-left {
-  left: 48px !important; }
+ .platform-android .title.title-left {
+  left: 48px }
+  
+ .platform-android .detail-event .title-left,
+ .platform-android .detail-event .title.title-left {
+  left: 48px !important }
 
  .platform-android .title-right,
  .platform-android .title.title-right {

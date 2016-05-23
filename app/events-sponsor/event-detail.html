@@ -1,5 +1,5 @@
-<ion-view>
-	<ion-nav-title>{{ eventDetail.event.title }}</ion-nav-title>
+<ion-view class="detail-event">
+	<ion-nav-title>{{ eventDetail.event.title | limitTo:20 }}<span ng-show="eventDetail.event.title.length >= 20">...</span></ion-nav-title>
   <ion-content scroll="false">
      <tab-slide-box tab="0">
       <div class="tsb-icons">
