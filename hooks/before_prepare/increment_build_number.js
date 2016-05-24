@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+/*
 // Save hook under `project-root/hooks/before_prepare/`
 //
 // Don't forget to install xml2js using npm
@@ -55,3 +55,4 @@ fs.readFile('config.xml', 'utf8', function(err, data) {
 
   });
 });
+*/
