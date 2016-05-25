@@ -24,6 +24,7 @@ class RegisterCtrl{
     'ionicMaterialInk'
   ];
   newUser:any = {};
+  ionicUser:any;
   
   constructor(
     private $state: angular.ui.IStateService,
@@ -70,7 +71,12 @@ class RegisterCtrl{
       });
       this.$localStorage.token = this.$base64.encode(this.newUser.email +':'+ this.newUser.password);
       
-      this.$ionicPush.register();
+      if(this.ionicUser.isAuthenticated()){
+        console.log("Is Authenticated");
+        this.$ionicPush.register();
+      }else{
+        console.log("Is not Authenticated");
+      }
       
       this.newUser = {}
       this.newUser.type = 0;
@@ -115,8 +121,9 @@ class RegisterCtrl{
         'password': password
       }
     )
-    .then(userIonic => {
-      this.newUser.ionic_id = userIonic._id;
+    .then(data => {
+      this.ionicUser = this.$ionicUser.current();
+      this.newUser.ionic_id = this.ionicUser._id;
       return this.$q.when( true );
     })
     .catch(error => {

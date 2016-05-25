@@ -10,7 +10,7 @@
     .module('app')
     .run(run);
 
-  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics, $ionicPush,  $localStorage, userAuthService, notificationService, BackendVariables ) {
+  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, $ionicUser, utilsService, $cordovaToast, $ionicAnalytics, $ionicPush,  $localStorage, userAuthService, notificationService, BackendVariables ) {
     //function run($ionicPlatform ) {
 
 
@@ -23,10 +23,10 @@
       if(window.StatusBar) {
         StatusBar.styleDefault();
       }
-      //registerToken();
-      //activateNotifications();
-      //chooseLanguage();
-      //ionicAnalytics();
+      registerToken();
+      activateNotifications();
+      chooseLanguage();
+      ionicAnalytics();
     });
     
     
@@ -54,11 +54,22 @@
           console.log(notification, payload);
         },
         "onRegister": function (data) {
+          console.log('token', data);
           $ionicPush.saveToken(data.token);
         }
       });
-      $ionicPush.register();
+      
+      var ionicUser = $ionicUser.current();
+      
+      if(ionicUser.isAuthenticated()){
+        console.log("Is Authenticated");
+        $ionicPush.register();
+      }else{
+        console.log("Is not Authenticated");
+      }
+      
     }
+   
 
 
     function chooseLanguage(){

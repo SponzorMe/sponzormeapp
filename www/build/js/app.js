@@ -5579,7 +5579,13 @@ var LoginCtrl = (function () {
             _this._validateIonicId(user)
                 .then(function (data) {
                 _this.userAuth = _this.userAuthService.getUserAuth();
-                _this.$ionicPush.register();
+                if (_this.ionicUser.isAuthenticated()) {
+                    console.log("Is Authenticated");
+                    _this.$ionicPush.register();
+                }
+                else {
+                    console.log("Is not Authenticated");
+                }
                 if (_this.userAuth.type == 0) {
                     _this.$state.go("organizer.home");
                 }
@@ -5620,8 +5626,9 @@ var LoginCtrl = (function () {
             'email': email,
             'password': password
         })
-            .then(function (userIonic) {
-            _this.userAuth.ionic_id = userIonic._id;
+            .then(function (data) {
+            _this.ionicUser = _this.$ionicUser.current();
+            _this.userAuth.ionic_id = _this.ionicUser._id;
             return _this.$q.when(true);
         })
             .catch(function (error) {
@@ -5921,7 +5928,13 @@ var RegisterCtrl = (function () {
                 template: _this.$translate.instant("MESSAGES.succ_user_mess")
             });
             _this.$localStorage.token = _this.$base64.encode(_this.newUser.email + ':' + _this.newUser.password);
-            _this.$ionicPush.register();
+            if (_this.ionicUser.isAuthenticated()) {
+                console.log("Is Authenticated");
+                _this.$ionicPush.register();
+            }
+            else {
+                console.log("Is not Authenticated");
+            }
             _this.newUser = {};
             _this.newUser.type = 0;
             _this.userAuthService.updateUserAuth(user);
@@ -5963,8 +5976,9 @@ var RegisterCtrl = (function () {
             'email': email,
             'password': password
         })
-            .then(function (userIonic) {
-            _this.newUser.ionic_id = userIonic._id;
+            .then(function (data) {
+            _this.ionicUser = _this.$ionicUser.current();
+            _this.newUser.ionic_id = _this.ionicUser._id;
             return _this.$q.when(true);
         })
             .catch(function (error) {
@@ -6381,7 +6395,7 @@ angular
     angular
         .module('app')
         .run(run);
-    function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, utilsService, $cordovaToast, $ionicAnalytics, $ionicPush, $localStorage, userAuthService, notificationService, BackendVariables) {
+    function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, $ionicUser, utilsService, $cordovaToast, $ionicAnalytics, $ionicPush, $localStorage, userAuthService, notificationService, BackendVariables) {
         //function run($ionicPlatform ) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -6392,10 +6406,10 @@ angular
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
-            //registerToken();
-            //activateNotifications();
-            //chooseLanguage();
-            //ionicAnalytics();
+            registerToken();
+            activateNotifications();
+            chooseLanguage();
+            ionicAnalytics();
         });
         function activateNotifications() {
             if (userAuthService.checkSession()) {
@@ -6419,10 +6433,18 @@ angular
                     console.log(notification, payload);
                 },
                 "onRegister": function (data) {
+                    console.log('token', data);
                     $ionicPush.saveToken(data.token);
                 }
             });
-            $ionicPush.register();
+            var ionicUser = $ionicUser.current();
+            if (ionicUser.isAuthenticated()) {
+                console.log("Is Authenticated");
+                $ionicPush.register();
+            }
+            else {
+                console.log("Is not Authenticated");
+            }
         }
         function chooseLanguage() {
             if (!checkChooseLang()) {

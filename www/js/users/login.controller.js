@@ -63,7 +63,13 @@ var LoginCtrl = (function () {
             _this._validateIonicId(user)
                 .then(function (data) {
                 _this.userAuth = _this.userAuthService.getUserAuth();
-                _this.$ionicPush.register();
+                if (_this.ionicUser.isAuthenticated()) {
+                    console.log("Is Authenticated");
+                    _this.$ionicPush.register();
+                }
+                else {
+                    console.log("Is not Authenticated");
+                }
                 if (_this.userAuth.type == 0) {
                     _this.$state.go("organizer.home");
                 }
@@ -104,8 +110,9 @@ var LoginCtrl = (function () {
             'email': email,
             'password': password
         })
-            .then(function (userIonic) {
-            _this.userAuth.ionic_id = userIonic._id;
+            .then(function (data) {
+            _this.ionicUser = _this.$ionicUser.current();
+            _this.userAuth.ionic_id = _this.ionicUser._id;
             return _this.$q.when(true);
         })
             .catch(function (error) {

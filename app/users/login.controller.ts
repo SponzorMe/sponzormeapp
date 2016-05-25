@@ -25,6 +25,7 @@ class LoginCtrl{
   ];
   user:any = {};
   userAuth:any = {};
+  ionicUser: any;
   
   constructor(
     private $state: angular.ui.IStateService,
@@ -72,7 +73,13 @@ class LoginCtrl{
       this._validateIonicId( user )
       .then( data => {
         this.userAuth = this.userAuthService.getUserAuth();
-        this.$ionicPush.register();
+        
+        if(this.ionicUser.isAuthenticated()){
+          console.log("Is Authenticated");
+          this.$ionicPush.register();
+        }else{
+          console.log("Is not Authenticated");
+        }
         
         if( this.userAuth.type == 0 ){ // is an Organizer.
           this.$state.go("organizer.home");
@@ -116,8 +123,9 @@ class LoginCtrl{
         'password': password
       }
     )
-    .then(userIonic => {
-      this.userAuth.ionic_id = userIonic._id;
+    .then(data => {
+      this.ionicUser = this.$ionicUser.current();
+      this.userAuth.ionic_id = this.ionicUser._id;
       return this.$q.when( true );
     })
     .catch(error => {

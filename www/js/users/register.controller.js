@@ -65,7 +65,13 @@ var RegisterCtrl = (function () {
                 template: _this.$translate.instant("MESSAGES.succ_user_mess")
             });
             _this.$localStorage.token = _this.$base64.encode(_this.newUser.email + ':' + _this.newUser.password);
-            _this.$ionicPush.register();
+            if (_this.ionicUser.isAuthenticated()) {
+                console.log("Is Authenticated");
+                _this.$ionicPush.register();
+            }
+            else {
+                console.log("Is not Authenticated");
+            }
             _this.newUser = {};
             _this.newUser.type = 0;
             _this.userAuthService.updateUserAuth(user);
@@ -107,8 +113,9 @@ var RegisterCtrl = (function () {
             'email': email,
             'password': password
         })
-            .then(function (userIonic) {
-            _this.newUser.ionic_id = userIonic._id;
+            .then(function (data) {
+            _this.ionicUser = _this.$ionicUser.current();
+            _this.newUser.ionic_id = _this.ionicUser._id;
             return _this.$q.when(true);
         })
             .catch(function (error) {
