@@ -79,7 +79,7 @@ module userAuthModule{
         }else{
           
           this.$rootScope.$broadcast('HomeSponsorCtrl:getEvents');
-          this.$rootScope.$broadcast('MenuSponsorCtrl:count');
+          this.$rootScope.$broadcast('MenuSponsorCtrl:counts');
           
           this.$rootScope.$broadcast('FollowEventsController:getSponzorships');
           this.$rootScope.$broadcast('SponsoringEventsCtrl:getSponzorships');
