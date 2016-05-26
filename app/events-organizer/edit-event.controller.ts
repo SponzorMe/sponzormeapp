@@ -83,7 +83,9 @@ class EditEventCtrl{
     this.eventTypeService.allEventTypes()
       .then( eventTypes => {
         this.eventTypes = eventTypes;
-        this.newEvent.type = _.findWhere( this.eventTypes, {id: this.newEvent.type});
+        let idType = this.newEvent.type.id === undefined ? this.newEvent.type : this.newEvent.type.id;
+        this.newEvent.type = _.findWhere( this.eventTypes, {id: idType});
+        
       });
   }
   
@@ -314,8 +316,8 @@ class EditEventCtrl{
 
     return {
       title: this.newEvent.title,
-      location: this.newEvent.location.formatted_address,
-      location_reference: this.newEvent.location.place_id,
+      location: typeof this.newEvent.location == "string" ? this.newEvent.location :  this.newEvent.location.formatted_address,
+      location_reference: typeof this.newEvent.location == "string" ? this.newEvent.location_reference :  this.newEvent.location.place_id,
       description: this.newEvent.description,
       starts: joinDate(this.newEvent.start, this.newEvent.starttime),
       ends: joinDate(this.newEvent.end, this.newEvent.endtime),
@@ -325,7 +327,8 @@ class EditEventCtrl{
       organizer: this.userAuth.id,
       category: 1,
       type: this.newEvent.type.id,
-      perks: this.newEvent.perks
+      perks: this.newEvent.perks,
+      sumary: this.newEvent.description.substr(0, 159)
     }
   }
   

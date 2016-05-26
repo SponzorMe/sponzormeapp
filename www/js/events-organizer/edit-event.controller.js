@@ -75,7 +75,8 @@ var EditEventCtrl = (function () {
         this.eventTypeService.allEventTypes()
             .then(function (eventTypes) {
             _this.eventTypes = eventTypes;
-            _this.newEvent.type = _.findWhere(_this.eventTypes, { id: _this.newEvent.type });
+            var idType = _this.newEvent.type.id === undefined ? _this.newEvent.type : _this.newEvent.type.id;
+            _this.newEvent.type = _.findWhere(_this.eventTypes, { id: idType });
         });
     };
     EditEventCtrl.prototype.clickedStartDate = function () {
@@ -292,8 +293,8 @@ var EditEventCtrl = (function () {
         }
         return {
             title: this.newEvent.title,
-            location: this.newEvent.location.formatted_address,
-            location_reference: this.newEvent.location.place_id,
+            location: typeof this.newEvent.location == "string" ? this.newEvent.location : this.newEvent.location.formatted_address,
+            location_reference: typeof this.newEvent.location == "string" ? this.newEvent.location_reference : this.newEvent.location.place_id,
             description: this.newEvent.description,
             starts: joinDate(this.newEvent.start, this.newEvent.starttime),
             ends: joinDate(this.newEvent.end, this.newEvent.endtime),
@@ -303,7 +304,8 @@ var EditEventCtrl = (function () {
             organizer: this.userAuth.id,
             category: 1,
             type: this.newEvent.type.id,
-            perks: this.newEvent.perks
+            perks: this.newEvent.perks,
+            sumary: this.newEvent.description.substr(0, 159)
         };
     };
     EditEventCtrl.prototype._showDatePicker = function (options) {

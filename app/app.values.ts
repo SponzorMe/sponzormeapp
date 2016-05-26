@@ -16,7 +16,7 @@
       url_web: "https://sponzor.me/",
       version: "v1.2.2",
       channel: "dev",
-      debug: false,
+      debug: true,
     })
     .value('AMAZON',{
       'AMAZONSECRET': 'RlzqEBFUlJW/8YGkeasfmTZRLTlWMWwaBpJNBxu6',

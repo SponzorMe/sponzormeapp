@@ -459,7 +459,7 @@
         url_web: "https://sponzor.me/",
         version: "v1.2.2",
         channel: "dev",
-        debug: false
+        debug: true
     })
         .value('AMAZON', {
         'AMAZONSECRET': 'RlzqEBFUlJW/8YGkeasfmTZRLTlWMWwaBpJNBxu6',
@@ -3133,6 +3133,7 @@ var EditEventCtrl = (function () {
         this.eventTypeService.allEventTypes()
             .then(function (eventTypes) {
             _this.eventTypes = eventTypes;
+            console.log(_this.newEvent.type);
             _this.newEvent.type = _.findWhere(_this.eventTypes, { id: _this.newEvent.type });
         });
     };
