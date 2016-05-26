@@ -76,7 +76,10 @@
 
       .state('forgot-password', {
         url: "/forgot-password",
-        templateUrl: "templates/users/forgot-password.html",
+        templateUrl: () => {
+          if (ionic.Platform.isAndroid()) return "templates/users/android/forgot-password.html";
+          return "templates/users/ios/forgot-password.html";
+        },
         controller:"ForgotCtrl as forgot"
       })
 
