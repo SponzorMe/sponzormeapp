@@ -150,7 +150,6 @@ var userModule;
             return this.$localStorage.token;
         };
         userService.prototype.buildUser = function (data) {
-            console.log(data);
             var user = data.user;
             user.age = parseInt(data.user.age || 0);
             user.comunity_size = parseInt(data.user.comunity_size || 0);

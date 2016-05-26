@@ -42,7 +42,7 @@ class MenuOrganizerCtrl{
     
     this.userAuth = this.userAuthService.getUserAuth();
     this.count_events = this.userAuth.events.filter( this.filterDate ).length;
-    this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;
+    this.count_sponsors = this.userAuth.sponzorships_like_organizer.filter( this._filterDateEvent ).length;
     this.count_tasks = this.countTasks().length;
     
     this.notifications = notificationService.getNotifications( this.userAuth.id );
@@ -62,7 +62,7 @@ class MenuOrganizerCtrl{
   registerListenerCountSponsors(){
     this.$rootScope.$on('MenuOrganizerCtrl:count_sponsors', () => {
       this.userAuth = this.userAuthService.getUserAuth();
-      this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;
+      this.count_sponsors = this.userAuth.sponzorships_like_organizer.filter( this._filterDateEvent ).length;
     });
   }
   
@@ -91,6 +91,11 @@ class MenuOrganizerCtrl{
       .reduce( (a,b) => a.concat(b.tasks || []), [] )
       .filter( item => item.user_id == this.userAuth.id && item.status != '1');
    }
+   
+   private _filterDateEvent( item ){
+    var today = moment( new Date() ).subtract(1, 'days');
+    return moment(item.event.ends).isAfter( today );
+  }
 }
 angular
   .module('app.dashboard-organizer')

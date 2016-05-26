@@ -1742,7 +1742,6 @@ var userModule;
             return this.$localStorage.token;
         };
         userService.prototype.buildUser = function (data) {
-            console.log(data);
             var user = data.user;
             user.age = parseInt(data.user.age || 0);
             user.comunity_size = parseInt(data.user.comunity_size || 0);
@@ -2365,7 +2364,6 @@ var HomeOrganizerCtrl = (function () {
         this.count_events = this.userAuth.events.filter(this.filterDate).length;
         this.count_comunity = this.userAuth.comunity_size;
         this.count_sponsors = this.userAuth.sponzorships_like_organizer.filter(this._filterDateEvent).length;
-        console.log(this.count_sponsors);
         this.notifications = notificationService.getNotifications(this.userAuth.id);
         this.registerListenerCountEvents();
         this.registerListenerCountSponsors();
@@ -2495,7 +2493,7 @@ var MenuOrganizerCtrl = (function () {
         }
         this.userAuth = this.userAuthService.getUserAuth();
         this.count_events = this.userAuth.events.filter(this.filterDate).length;
-        this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;
+        this.count_sponsors = this.userAuth.sponzorships_like_organizer.filter(this._filterDateEvent).length;
         this.count_tasks = this.countTasks().length;
         this.notifications = notificationService.getNotifications(this.userAuth.id);
         this.registerListenerCountEvents();
@@ -2513,7 +2511,7 @@ var MenuOrganizerCtrl = (function () {
         var _this = this;
         this.$rootScope.$on('MenuOrganizerCtrl:count_sponsors', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
-            _this.count_sponsors = _this.userAuth.sponzorships_like_organizer.length;
+            _this.count_sponsors = _this.userAuth.sponzorships_like_organizer.filter(_this._filterDateEvent).length;
         });
     };
     MenuOrganizerCtrl.prototype.registerListenerCountTasks = function () {
@@ -2539,6 +2537,10 @@ var MenuOrganizerCtrl = (function () {
             .reduce(function (a, b) { return a.concat(b.perks || []); }, [])
             .reduce(function (a, b) { return a.concat(b.tasks || []); }, [])
             .filter(function (item) { return item.user_id == _this.userAuth.id && item.status != '1'; });
+    };
+    MenuOrganizerCtrl.prototype._filterDateEvent = function (item) {
+        var today = moment(new Date()).subtract(1, 'days');
+        return moment(item.event.ends).isAfter(today);
     };
     return MenuOrganizerCtrl;
 }());

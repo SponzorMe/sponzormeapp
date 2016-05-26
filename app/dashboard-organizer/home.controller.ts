@@ -34,7 +34,6 @@ class HomeOrganizerCtrl{
     this.count_events = this.userAuth.events.filter( this.filterDate ).length;
     this.count_comunity = this.userAuth.comunity_size;
     this.count_sponsors = this.userAuth.sponzorships_like_organizer.filter( this._filterDateEvent ).length;
-    console.log( this.count_sponsors );
     this.notifications = notificationService.getNotifications( this.userAuth.id );
     
     this.registerListenerCountEvents();
