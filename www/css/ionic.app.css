@@ -9914,6 +9914,9 @@ a.button {
 .platform-android .modal .bar .button {
   min-height: auto; }
 
+.platform-android .action-sheet-has-icons .button {
+  box-shadow: 0px 0px 0px; }
+
 .pageForm {
   background-color: white; }
   .pageForm .logo {

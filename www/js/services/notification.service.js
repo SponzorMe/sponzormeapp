@@ -71,14 +71,14 @@ var notificationModule;
             this._sendNotification(notification, to, ionicId);
         };
         notificationService.prototype.sendUpdateTaskOrganizer = function (notification, to, ionicId) {
-            notification.typeNotification = "doneTaskOrganizer";
+            notification.typeNotification = "updateTaskOrganizer";
             notification.type = "task";
             notification.pushNotification = true;
             notification.hide = false;
             this._sendNotification(notification, to, ionicId);
         };
         notificationService.prototype.sendDoneTaskOrganizer = function (notification, to, ionicId) {
-            notification.typeNotification = "updateTaskOrganizer";
+            notification.typeNotification = "doneTaskOrganizer";
             notification.type = "task";
             notification.pushNotification = true;
             notification.hide = false;
