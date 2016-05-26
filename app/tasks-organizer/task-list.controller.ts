@@ -61,9 +61,12 @@ class TaskListCtrl{
     return moment( event.ends ).isAfter( today ) && count.length > 0;
   }
   
+  
+  
   private _preparateEvents( event ){
     event.perks.forEach( perk => {
       perk.sponzorship = _.where(this.userAuth.sponzorships_like_organizer, {perk_id: perk.id});
+      perk.tasks = perk.tasks.filter(item => item.user_id == this.userAuth.id );
     });
   }
   
