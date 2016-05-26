@@ -14,9 +14,9 @@
       //f_url: "https://sponzorme.firebaseio.com/staging/",
       f_url: "https://sponzorme.firebaseio.com/production/",
       url_web: "https://sponzor.me/",
-      version: "v1.2.2",
-      channel: "dev",
-      debug: true,
+      version: "v1.2.3",
+      channel: "production",
+      debug: false,
     })
     .value('AMAZON',{
       'AMAZONSECRET': 'RlzqEBFUlJW/8YGkeasfmTZRLTlWMWwaBpJNBxu6',

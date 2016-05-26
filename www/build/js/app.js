@@ -105,7 +105,11 @@
         })
             .state('forgot-password', {
             url: "/forgot-password",
-            templateUrl: "templates/users/forgot-password.html",
+            templateUrl: function () {
+                if (ionic.Platform.isAndroid())
+                    return "templates/users/android/forgot-password.html";
+                return "templates/users/ios/forgot-password.html";
+            },
             controller: "ForgotCtrl as forgot"
         })
             .state('organizer', {
@@ -457,9 +461,9 @@
         //f_url: "https://sponzorme.firebaseio.com/staging/",
         f_url: "https://sponzorme.firebaseio.com/production/",
         url_web: "https://sponzor.me/",
-        version: "v1.2.2",
-        channel: "dev",
-        debug: true
+        version: "v1.2.3",
+        channel: "production",
+        debug: false
     })
         .value('AMAZON', {
         'AMAZONSECRET': 'RlzqEBFUlJW/8YGkeasfmTZRLTlWMWwaBpJNBxu6',
@@ -478,12 +482,6 @@
 /// <reference path="../../typings/tsd.d.ts" />
 (function () {
     'use strict';
-    angular.module('app.dashboard-organizer', []);
-})();
-
-/// <reference path="../../typings/tsd.d.ts" />
-(function () {
-    'use strict';
     angular.module('app.dashboard-sponzor', []);
 })();
 
@@ -491,6 +489,12 @@
 (function () {
     'use strict';
     angular.module('app.events-organizer', []);
+})();
+
+/// <reference path="../../typings/tsd.d.ts" />
+(function () {
+    'use strict';
+    angular.module('app.dashboard-organizer', []);
 })();
 
 /// <reference path="../../typings/tsd.d.ts" />
@@ -875,14 +879,14 @@ var notificationModule;
             this._sendNotification(notification, to, ionicId);
         };
         notificationService.prototype.sendUpdateTaskOrganizer = function (notification, to, ionicId) {
-            notification.typeNotification = "doneTaskOrganizer";
+            notification.typeNotification = "updateTaskOrganizer";
             notification.type = "task";
             notification.pushNotification = true;
             notification.hide = false;
             this._sendNotification(notification, to, ionicId);
         };
         notificationService.prototype.sendDoneTaskOrganizer = function (notification, to, ionicId) {
-            notification.typeNotification = "updateTaskOrganizer";
+            notification.typeNotification = "doneTaskOrganizer";
             notification.type = "task";
             notification.pushNotification = true;
             notification.hide = false;
@@ -1775,18 +1779,20 @@ var userModule;
 var userAuthModule;
 (function (userAuthModule) {
     var userAuthService = (function () {
-        function userAuthService($http, $q, $localStorage, userService, $rootScope) {
+        function userAuthService($http, $q, $localStorage, userService, $rootScope, $ionicHistory) {
             this.$http = $http;
             this.$q = $q;
             this.$localStorage = $localStorage;
             this.userService = userService;
             this.$rootScope = $rootScope;
+            this.$ionicHistory = $ionicHistory;
             this.$inject = [
                 '$http',
                 '$q',
                 '$localStorage',
                 'userService',
-                '$rootScope'
+                '$rootScope',
+                '$ionicHistory'
             ];
         }
         userAuthService.prototype.getUserAuth = function () {
@@ -1809,27 +1815,44 @@ var userAuthModule;
                 .then(function (user) {
                 var userAuth = _this.updateUserAuth(user);
                 if (userAuth.type == "0") {
-                    _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
-                    _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
-                    _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
-                    _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
-                    _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_events');
-                    _this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
-                    _this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
-                    _this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
-                    _this.$rootScope.$broadcast('TaskListCtrl:getTasks');
-                    _this.$rootScope.$broadcast('PastTasksCtrl:getTasks');
-                    _this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
-                    _this.$rootScope.$broadcast('SponsorshipsListCtrl:getSponzorships');
-                    _this.$rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
-                    _this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
+                    _this.$ionicHistory.clearCache()
+                        .then(function () {
+                        console.log('clearCache');
+                        _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
+                        _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
+                        _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+                        _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
+                        _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_events');
+                        _this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
+                        _this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
+                        _this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
+                        _this.$rootScope.$broadcast('TaskListCtrl:getTasks');
+                        _this.$rootScope.$broadcast('PastTasksCtrl:getTasks');
+                        _this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
+                        _this.$rootScope.$broadcast('SponsorshipsListCtrl:getSponzorships');
+                        _this.$rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
+                        _this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
+                    });
                 }
                 else {
-                    _this.$rootScope.$broadcast('HomeSponsorCtrl:getEvents');
-                    _this.$rootScope.$broadcast('MenuSponsorCtrl:count');
-                    _this.$rootScope.$broadcast('FollowEventsController:getSponzorships');
-                    _this.$rootScope.$broadcast('SponsoringEventsCtrl:getSponzorships');
-                    _this.$rootScope.$broadcast('SponsorshipSponsorDetailCtrl:update');
+                    _this.$ionicHistory.clearCache()
+                        .then(function () {
+                        console.log('clearCache');
+                        _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
+                        _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
+                        _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+                        _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
+                        _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_events');
+                        _this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
+                        _this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
+                        _this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
+                        _this.$rootScope.$broadcast('TaskListCtrl:getTasks');
+                        _this.$rootScope.$broadcast('PastTasksCtrl:getTasks');
+                        _this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
+                        _this.$rootScope.$broadcast('SponsorshipsListCtrl:getSponzorships');
+                        _this.$rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
+                        _this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
+                    });
                 }
             });
         };
@@ -2333,220 +2356,6 @@ var utilsServiceModule;
   }
 })();
 */ 
-
-/// <reference path="../../typings/tsd.d.ts" />
-/// <reference path="../services.d.ts" />
-/**
-* @Controller HomeOrganizerCtrl
-*
-* @author Carlos Rojas, Nicolas Molina
-* @version 0.3
-*/
-var HomeOrganizerCtrl = (function () {
-    function HomeOrganizerCtrl($rootScope, userAuthService, notificationService, ionicMaterialInk) {
-        this.$rootScope = $rootScope;
-        this.userAuthService = userAuthService;
-        this.notificationService = notificationService;
-        this.ionicMaterialInk = ionicMaterialInk;
-        this.$inject = [
-            '$rootScope',
-            'userAuthService',
-            'notificationService',
-            'ionicMaterialInk'
-        ];
-        this.count_events = 0;
-        this.count_sponsors = 0;
-        this.count_comunity = 0;
-        if (ionic.Platform.isAndroid()) {
-            this.ionicMaterialInk.displayEffect();
-        }
-        this.userAuth = userAuthService.getUserAuth();
-        this.count_events = this.userAuth.events.filter(this.filterDate).length;
-        this.count_comunity = this.userAuth.comunity_size;
-        this.count_sponsors = this.userAuth.sponzorships_like_organizer.filter(this._filterDateEvent).length;
-        this.notifications = notificationService.getNotifications(this.userAuth.id);
-        this.registerListenerCountEvents();
-        this.registerListenerCountSponsors();
-    }
-    HomeOrganizerCtrl.prototype.registerListenerCountSponsors = function () {
-        var _this = this;
-        this.$rootScope.$on('HomeOrganizerCtrl:count_sponsors', function () {
-            _this.userAuth = _this.userAuthService.getUserAuth();
-            _this.count_sponsors = _this.userAuth.sponzorships_like_organizer.filter(_this._filterDateEvent).length;
-        });
-    };
-    HomeOrganizerCtrl.prototype.registerListenerCountEvents = function () {
-        var _this = this;
-        this.$rootScope.$on('HomeOrganizerCtrl:count_events', function () {
-            _this.userAuth = _this.userAuthService.getUserAuth();
-            _this.count_events = _this.userAuth.events.filter(_this.filterDate).length;
-        });
-    };
-    HomeOrganizerCtrl.prototype.filterDate = function (item) {
-        var today = moment(new Date().getTime()).subtract(1, 'days');
-        return moment(item.ends).isAfter(today);
-    };
-    HomeOrganizerCtrl.prototype._filterDateEvent = function (item) {
-        var today = moment(new Date()).subtract(1, 'days');
-        return moment(item.event.ends).isAfter(today);
-    };
-    return HomeOrganizerCtrl;
-}());
-angular
-    .module('app.dashboard-organizer')
-    .controller('HomeOrganizerCtrl', HomeOrganizerCtrl);
-
-/// <reference path="../../typings/tsd.d.ts" />
-/**
-* @Controller for Home Organizer
-*
-* @author Carlos Rojas, Nicolas Molina
-* @version 0.2
-*/
-var IntroOrganizerCtrl = (function () {
-    function IntroOrganizerCtrl($state, $scope, $ionicHistory, $ionicSideMenuDelegate, ionicMaterialInk) {
-        var _this = this;
-        this.$state = $state;
-        this.$scope = $scope;
-        this.$ionicHistory = $ionicHistory;
-        this.$ionicSideMenuDelegate = $ionicSideMenuDelegate;
-        this.ionicMaterialInk = ionicMaterialInk;
-        this.$inject = [
-            '$state',
-            '$scope',
-            '$ionicHistory',
-            '$ionicSideMenuDelegate',
-            'ionicMaterialInk'
-        ];
-        this.slideIndex = 0;
-        this.slider = null;
-        this.data = {};
-        if (ionic.Platform.isAndroid()) {
-            this.ionicMaterialInk.displayEffect();
-        }
-        this.$ionicSideMenuDelegate.canDragContent(false);
-        this.$scope.$watch(function () { return _this.data; }, function (oldValue, newValue) {
-            if (Object.keys(_this.data).length > 0) {
-                _this.slider = _this.data;
-                _this.slider.on('slideChangeEnd', function () {
-                    _this.slideIndex = _this.slider.activeIndex;
-                    _this.$scope.$apply();
-                });
-            }
-        });
-    }
-    IntroOrganizerCtrl.prototype.startApp = function () {
-        this.$ionicHistory.nextViewOptions({
-            disableAnimate: true,
-            disableBack: true
-        });
-        this.$state.go("organizer.home");
-    };
-    IntroOrganizerCtrl.prototype.nextSlide = function () {
-        this.slider.slideNext();
-    };
-    IntroOrganizerCtrl.prototype.previousSlide = function () {
-        this.slider.slidePrev();
-    };
-    return IntroOrganizerCtrl;
-}());
-angular
-    .module('app.dashboard-organizer')
-    .controller('IntroOrganizerCtrl', IntroOrganizerCtrl);
-
-/// <reference path="../../typings/tsd.d.ts" />
-/// <reference path="../services.d.ts" />
-/**
-* @Controller for Home Organizer
-*
-* @author Carlos Rojas, Nicolas Molina
-* @version 0.2
-*/
-var MenuOrganizerCtrl = (function () {
-    function MenuOrganizerCtrl($state, $q, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService, $localStorage, ionicMaterialInk) {
-        this.$state = $state;
-        this.$q = $q;
-        this.$rootScope = $rootScope;
-        this.$ionicAuth = $ionicAuth;
-        this.$ionicHistory = $ionicHistory;
-        this.userAuthService = userAuthService;
-        this.notificationService = notificationService;
-        this.$localStorage = $localStorage;
-        this.ionicMaterialInk = ionicMaterialInk;
-        this.$inject = [
-            '$state',
-            '$q',
-            '$rootScope',
-            '$ionicAuth',
-            '$ionicHistory',
-            'userAuthService',
-            'notificationService',
-            '$localStorage',
-            'ionicMaterialInk'
-        ];
-        this.count_events = 0;
-        this.count_sponsors = 0;
-        this.count_tasks = 0;
-        this.notifications = [];
-        if (ionic.Platform.isAndroid()) {
-            this.ionicMaterialInk.displayEffect();
-        }
-        this.userAuth = this.userAuthService.getUserAuth();
-        this.count_events = this.userAuth.events.filter(this.filterDate).length;
-        this.count_sponsors = this.userAuth.sponzorships_like_organizer.filter(this._filterDateEvent).length;
-        this.count_tasks = this.countTasks().length;
-        this.notifications = notificationService.getNotifications(this.userAuth.id);
-        this.registerListenerCountEvents();
-        this.registerListenerCountSponsors();
-        this.registerListenerCountTasks();
-    }
-    MenuOrganizerCtrl.prototype.registerListenerCountEvents = function () {
-        var _this = this;
-        this.$rootScope.$on('MenuOrganizerCtrl:count_events', function () {
-            _this.userAuth = _this.userAuthService.getUserAuth();
-            _this.count_events = _this.userAuth.events.filter(_this.filterDate).length;
-        });
-    };
-    MenuOrganizerCtrl.prototype.registerListenerCountSponsors = function () {
-        var _this = this;
-        this.$rootScope.$on('MenuOrganizerCtrl:count_sponsors', function () {
-            _this.userAuth = _this.userAuthService.getUserAuth();
-            _this.count_sponsors = _this.userAuth.sponzorships_like_organizer.filter(_this._filterDateEvent).length;
-        });
-    };
-    MenuOrganizerCtrl.prototype.registerListenerCountTasks = function () {
-        var _this = this;
-        this.$rootScope.$on('MenuOrganizerCtrl:count_tasks', function () {
-            _this.userAuth = _this.userAuthService.getUserAuth();
-            _this.count_tasks = _this.countTasks().length;
-        });
-    };
-    MenuOrganizerCtrl.prototype.logout = function () {
-        this.$ionicAuth.logout();
-        this.$localStorage.$reset();
-        this.$ionicHistory.clearCache();
-        this.$state.go('signin');
-    };
-    MenuOrganizerCtrl.prototype.filterDate = function (item) {
-        var today = moment(new Date().getTime()).subtract(1, 'days');
-        return moment(item.ends).isAfter(today);
-    };
-    MenuOrganizerCtrl.prototype.countTasks = function () {
-        var _this = this;
-        return this.userAuth.events
-            .reduce(function (a, b) { return a.concat(b.perks || []); }, [])
-            .reduce(function (a, b) { return a.concat(b.tasks || []); }, [])
-            .filter(function (item) { return item.user_id == _this.userAuth.id && item.status != '1'; });
-    };
-    MenuOrganizerCtrl.prototype._filterDateEvent = function (item) {
-        var today = moment(new Date()).subtract(1, 'days');
-        return moment(item.event.ends).isAfter(today);
-    };
-    return MenuOrganizerCtrl;
-}());
-angular
-    .module('app.dashboard-organizer')
-    .controller('MenuOrganizerCtrl', MenuOrganizerCtrl);
 
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../services.d.ts" />
@@ -3133,8 +2942,8 @@ var EditEventCtrl = (function () {
         this.eventTypeService.allEventTypes()
             .then(function (eventTypes) {
             _this.eventTypes = eventTypes;
-            console.log(_this.newEvent.type);
-            _this.newEvent.type = _.findWhere(_this.eventTypes, { id: _this.newEvent.type });
+            var idType = _this.newEvent.type.id === undefined ? _this.newEvent.type : _this.newEvent.type.id;
+            _this.newEvent.type = _.findWhere(_this.eventTypes, { id: idType });
         });
     };
     EditEventCtrl.prototype.clickedStartDate = function () {
@@ -3351,8 +3160,8 @@ var EditEventCtrl = (function () {
         }
         return {
             title: this.newEvent.title,
-            location: this.newEvent.location.formatted_address,
-            location_reference: this.newEvent.location.place_id,
+            location: typeof this.newEvent.location == "string" ? this.newEvent.location : this.newEvent.location.formatted_address,
+            location_reference: typeof this.newEvent.location == "string" ? this.newEvent.location_reference : this.newEvent.location.place_id,
             description: this.newEvent.description,
             starts: joinDate(this.newEvent.start, this.newEvent.starttime),
             ends: joinDate(this.newEvent.end, this.newEvent.endtime),
@@ -3362,7 +3171,8 @@ var EditEventCtrl = (function () {
             organizer: this.userAuth.id,
             category: 1,
             type: this.newEvent.type.id,
-            perks: this.newEvent.perks
+            perks: this.newEvent.perks,
+            sumary: this.newEvent.description.substr(0, 159)
         };
     };
     EditEventCtrl.prototype._showDatePicker = function (options) {
@@ -3919,6 +3729,220 @@ var PastEventsOrganizerCtrl = (function () {
 angular
     .module('app.events-organizer')
     .controller('PastEventsOrganizerCtrl', PastEventsOrganizerCtrl);
+
+/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
+/**
+* @Controller HomeOrganizerCtrl
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.3
+*/
+var HomeOrganizerCtrl = (function () {
+    function HomeOrganizerCtrl($rootScope, userAuthService, notificationService, ionicMaterialInk) {
+        this.$rootScope = $rootScope;
+        this.userAuthService = userAuthService;
+        this.notificationService = notificationService;
+        this.ionicMaterialInk = ionicMaterialInk;
+        this.$inject = [
+            '$rootScope',
+            'userAuthService',
+            'notificationService',
+            'ionicMaterialInk'
+        ];
+        this.count_events = 0;
+        this.count_sponsors = 0;
+        this.count_comunity = 0;
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
+        this.userAuth = userAuthService.getUserAuth();
+        this.count_events = this.userAuth.events.filter(this.filterDate).length;
+        this.count_comunity = this.userAuth.comunity_size;
+        this.count_sponsors = this.userAuth.sponzorships_like_organizer.filter(this._filterDateEvent).length;
+        this.notifications = notificationService.getNotifications(this.userAuth.id);
+        this.registerListenerCountEvents();
+        this.registerListenerCountSponsors();
+    }
+    HomeOrganizerCtrl.prototype.registerListenerCountSponsors = function () {
+        var _this = this;
+        this.$rootScope.$on('HomeOrganizerCtrl:count_sponsors', function () {
+            _this.userAuth = _this.userAuthService.getUserAuth();
+            _this.count_sponsors = _this.userAuth.sponzorships_like_organizer.filter(_this._filterDateEvent).length;
+        });
+    };
+    HomeOrganizerCtrl.prototype.registerListenerCountEvents = function () {
+        var _this = this;
+        this.$rootScope.$on('HomeOrganizerCtrl:count_events', function () {
+            _this.userAuth = _this.userAuthService.getUserAuth();
+            _this.count_events = _this.userAuth.events.filter(_this.filterDate).length;
+        });
+    };
+    HomeOrganizerCtrl.prototype.filterDate = function (item) {
+        var today = moment(new Date().getTime()).subtract(1, 'days');
+        return moment(item.ends).isAfter(today);
+    };
+    HomeOrganizerCtrl.prototype._filterDateEvent = function (item) {
+        var today = moment(new Date()).subtract(1, 'days');
+        return moment(item.event.ends).isAfter(today);
+    };
+    return HomeOrganizerCtrl;
+}());
+angular
+    .module('app.dashboard-organizer')
+    .controller('HomeOrganizerCtrl', HomeOrganizerCtrl);
+
+/// <reference path="../../typings/tsd.d.ts" />
+/**
+* @Controller for Home Organizer
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+*/
+var IntroOrganizerCtrl = (function () {
+    function IntroOrganizerCtrl($state, $scope, $ionicHistory, $ionicSideMenuDelegate, ionicMaterialInk) {
+        var _this = this;
+        this.$state = $state;
+        this.$scope = $scope;
+        this.$ionicHistory = $ionicHistory;
+        this.$ionicSideMenuDelegate = $ionicSideMenuDelegate;
+        this.ionicMaterialInk = ionicMaterialInk;
+        this.$inject = [
+            '$state',
+            '$scope',
+            '$ionicHistory',
+            '$ionicSideMenuDelegate',
+            'ionicMaterialInk'
+        ];
+        this.slideIndex = 0;
+        this.slider = null;
+        this.data = {};
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
+        this.$ionicSideMenuDelegate.canDragContent(false);
+        this.$scope.$watch(function () { return _this.data; }, function (oldValue, newValue) {
+            if (Object.keys(_this.data).length > 0) {
+                _this.slider = _this.data;
+                _this.slider.on('slideChangeEnd', function () {
+                    _this.slideIndex = _this.slider.activeIndex;
+                    _this.$scope.$apply();
+                });
+            }
+        });
+    }
+    IntroOrganizerCtrl.prototype.startApp = function () {
+        this.$ionicHistory.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true
+        });
+        this.$state.go("organizer.home");
+    };
+    IntroOrganizerCtrl.prototype.nextSlide = function () {
+        this.slider.slideNext();
+    };
+    IntroOrganizerCtrl.prototype.previousSlide = function () {
+        this.slider.slidePrev();
+    };
+    return IntroOrganizerCtrl;
+}());
+angular
+    .module('app.dashboard-organizer')
+    .controller('IntroOrganizerCtrl', IntroOrganizerCtrl);
+
+/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
+/**
+* @Controller for Home Organizer
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+*/
+var MenuOrganizerCtrl = (function () {
+    function MenuOrganizerCtrl($state, $q, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService, $localStorage, ionicMaterialInk) {
+        this.$state = $state;
+        this.$q = $q;
+        this.$rootScope = $rootScope;
+        this.$ionicAuth = $ionicAuth;
+        this.$ionicHistory = $ionicHistory;
+        this.userAuthService = userAuthService;
+        this.notificationService = notificationService;
+        this.$localStorage = $localStorage;
+        this.ionicMaterialInk = ionicMaterialInk;
+        this.$inject = [
+            '$state',
+            '$q',
+            '$rootScope',
+            '$ionicAuth',
+            '$ionicHistory',
+            'userAuthService',
+            'notificationService',
+            '$localStorage',
+            'ionicMaterialInk'
+        ];
+        this.count_events = 0;
+        this.count_sponsors = 0;
+        this.count_tasks = 0;
+        this.notifications = [];
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
+        this.userAuth = this.userAuthService.getUserAuth();
+        this.count_events = this.userAuth.events.filter(this.filterDate).length;
+        this.count_sponsors = this.userAuth.sponzorships_like_organizer.filter(this._filterDateEvent).length;
+        this.count_tasks = this.countTasks().length;
+        this.notifications = notificationService.getNotifications(this.userAuth.id);
+        this.registerListenerCountEvents();
+        this.registerListenerCountSponsors();
+        this.registerListenerCountTasks();
+    }
+    MenuOrganizerCtrl.prototype.registerListenerCountEvents = function () {
+        var _this = this;
+        this.$rootScope.$on('MenuOrganizerCtrl:count_events', function () {
+            _this.userAuth = _this.userAuthService.getUserAuth();
+            _this.count_events = _this.userAuth.events.filter(_this.filterDate).length;
+        });
+    };
+    MenuOrganizerCtrl.prototype.registerListenerCountSponsors = function () {
+        var _this = this;
+        this.$rootScope.$on('MenuOrganizerCtrl:count_sponsors', function () {
+            _this.userAuth = _this.userAuthService.getUserAuth();
+            _this.count_sponsors = _this.userAuth.sponzorships_like_organizer.filter(_this._filterDateEvent).length;
+        });
+    };
+    MenuOrganizerCtrl.prototype.registerListenerCountTasks = function () {
+        var _this = this;
+        this.$rootScope.$on('MenuOrganizerCtrl:count_tasks', function () {
+            _this.userAuth = _this.userAuthService.getUserAuth();
+            _this.count_tasks = _this.countTasks().length;
+        });
+    };
+    MenuOrganizerCtrl.prototype.logout = function () {
+        this.$ionicAuth.logout();
+        this.$localStorage.$reset();
+        this.$ionicHistory.clearCache();
+        this.$state.go('signin');
+    };
+    MenuOrganizerCtrl.prototype.filterDate = function (item) {
+        var today = moment(new Date().getTime()).subtract(1, 'days');
+        return moment(item.ends).isAfter(today);
+    };
+    MenuOrganizerCtrl.prototype.countTasks = function () {
+        var _this = this;
+        return this.userAuth.events
+            .reduce(function (a, b) { return a.concat(b.perks || []); }, [])
+            .reduce(function (a, b) { return a.concat(b.tasks || []); }, [])
+            .filter(function (item) { return item.user_id == _this.userAuth.id && item.status != '1'; });
+    };
+    MenuOrganizerCtrl.prototype._filterDateEvent = function (item) {
+        var today = moment(new Date()).subtract(1, 'days');
+        return moment(item.event.ends).isAfter(today);
+    };
+    return MenuOrganizerCtrl;
+}());
+angular
+    .module('app.dashboard-organizer')
+    .controller('MenuOrganizerCtrl', MenuOrganizerCtrl);
 
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../services.d.ts" />
@@ -5051,6 +5075,7 @@ var TaskListCtrl = (function () {
         var _this = this;
         event.perks.forEach(function (perk) {
             perk.sponzorship = _.where(_this.userAuth.sponzorships_like_organizer, { perk_id: perk.id });
+            perk.tasks = perk.tasks.filter(function (item) { return item.user_id == _this.userAuth.id; });
         });
     };
     TaskListCtrl.prototype._loadTaskModal = function () {
@@ -5109,13 +5134,13 @@ var TaskListCtrl = (function () {
         for (var index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
             var sponsorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
             if (done) {
-                this.notificationService.sendUpdateTaskOrganizer({
+                this.notificationService.sendDoneTaskOrganizer({
                     text: text,
                     modelId: sponsorship.id
                 }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
             }
             else {
-                this.notificationService.sendDoneTaskOrganizer({
+                this.notificationService.sendUpdateTaskOrganizer({
                     text: text,
                     modelId: sponsorship.id
                 }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
@@ -6412,10 +6437,10 @@ angular
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
-            //registerToken();
+            registerToken();
             activateNotifications();
-            //chooseLanguage();
-            //ionicAnalytics();
+            chooseLanguage();
+            ionicAnalytics();
         });
         function activateNotifications() {
             if (userAuthService.checkSession()) {

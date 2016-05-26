@@ -19,10 +19,10 @@
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
-            //registerToken();
+            registerToken();
             activateNotifications();
-            //chooseLanguage();
-            //ionicAnalytics();
+            chooseLanguage();
+            ionicAnalytics();
         });
         function activateNotifications() {
             if (userAuthService.checkSession()) {
