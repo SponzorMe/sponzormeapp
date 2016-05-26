@@ -61,8 +61,6 @@ class TaskListCtrl{
     return moment( event.ends ).isAfter( today ) && count.length > 0;
   }
   
-  
-  
   private _preparateEvents( event ){
     event.perks.forEach( perk => {
       perk.sponzorship = _.where(this.userAuth.sponzorships_like_organizer, {perk_id: perk.id});
@@ -136,7 +134,7 @@ class TaskListCtrl{
     for (let index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
       let sponsorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
       if(done){
-        this.notificationService.sendUpdateTaskOrganizer(
+        this.notificationService.sendDoneTaskOrganizer(
           {
             text: text,
             modelId: sponsorship.id
@@ -145,7 +143,7 @@ class TaskListCtrl{
           sponsorship.sponzor_ionic_id
         );
       }else{
-        this.notificationService.sendDoneTaskOrganizer(
+        this.notificationService.sendUpdateTaskOrganizer(
           {
             text: text,
             modelId: sponsorship.id

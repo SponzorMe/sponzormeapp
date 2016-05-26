@@ -20,7 +20,7 @@
           placeholder='{{"ADDTASK.task_title_placeholder" | translate}}' 
           ng-model="taskList.task.title"
           ng-minlength="5"
-          ng-maxlength="30"
+          ng-maxlength="90"
           required>
         </label>
         <div class="form-errors" ng-messages="TaskForm.title.$error" ng-if="TaskForm.$invalid && TaskForm.$submitted">

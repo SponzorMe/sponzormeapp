@@ -42,7 +42,6 @@ var TaskListCtrl = (function () {
             this.ionicMaterialInk.displayEffect();
         }
         this.userAuth = this.userAuthService.getUserAuth();
-        console.log(this.userAuth.events);
         this.events = this.userAuth.events.filter(this._filterEvents);
         this.events.forEach(this._preparateEvents, this);
         this.showEmptyState = this.events.length == 0 ? true : false;
@@ -117,13 +116,13 @@ var TaskListCtrl = (function () {
         for (var index = 0; index < this.events[this.indexEvent].perks[this.indexPerk].sponzorship.length; index++) {
             var sponsorship = this.events[this.indexEvent].perks[this.indexPerk].sponzorship[index];
             if (done) {
-                this.notificationService.sendUpdateTaskOrganizer({
+                this.notificationService.sendDoneTaskOrganizer({
                     text: text,
                     modelId: sponsorship.id
                 }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
             }
             else {
-                this.notificationService.sendDoneTaskOrganizer({
+                this.notificationService.sendUpdateTaskOrganizer({
                     text: text,
                     modelId: sponsorship.id
                 }, sponsorship.sponzor_id, sponsorship.sponzor_ionic_id);
