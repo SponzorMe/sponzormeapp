@@ -118,7 +118,7 @@ module notificationModule{
     }
     
     sendUpdateTaskOrganizer(notification: Notification, to:string, ionicId:string):void {
-      notification.typeNotification = "doneTaskOrganizer";
+      notification.typeNotification = "updateTaskOrganizer";
       notification.type = "task";
       notification.pushNotification = true;
       notification.hide = false;
@@ -126,7 +126,7 @@ module notificationModule{
     }
     
     sendDoneTaskOrganizer(notification: Notification, to:string, ionicId:string):void {
-      notification.typeNotification = "updateTaskOrganizer";
+      notification.typeNotification = "doneTaskOrganizer";
       notification.type = "task";
       notification.pushNotification = true;
       notification.hide = false;
