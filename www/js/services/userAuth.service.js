@@ -9,18 +9,20 @@
 var userAuthModule;
 (function (userAuthModule) {
     var userAuthService = (function () {
-        function userAuthService($http, $q, $localStorage, userService, $rootScope) {
+        function userAuthService($http, $q, $localStorage, userService, $rootScope, $ionicHistory) {
             this.$http = $http;
             this.$q = $q;
             this.$localStorage = $localStorage;
             this.userService = userService;
             this.$rootScope = $rootScope;
+            this.$ionicHistory = $ionicHistory;
             this.$inject = [
                 '$http',
                 '$q',
                 '$localStorage',
                 'userService',
-                '$rootScope'
+                '$rootScope',
+                '$ionicHistory'
             ];
         }
         userAuthService.prototype.getUserAuth = function () {
@@ -43,27 +45,44 @@ var userAuthModule;
                 .then(function (user) {
                 var userAuth = _this.updateUserAuth(user);
                 if (userAuth.type == "0") {
-                    _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
-                    _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
-                    _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
-                    _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
-                    _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_events');
-                    _this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
-                    _this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
-                    _this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
-                    _this.$rootScope.$broadcast('TaskListCtrl:getTasks');
-                    _this.$rootScope.$broadcast('PastTasksCtrl:getTasks');
-                    _this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
-                    _this.$rootScope.$broadcast('SponsorshipsListCtrl:getSponzorships');
-                    _this.$rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
-                    _this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
+                    _this.$ionicHistory.clearCache()
+                        .then(function () {
+                        console.log('clearCache');
+                        _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
+                        _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
+                        _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+                        _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
+                        _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_events');
+                        _this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
+                        _this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
+                        _this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
+                        _this.$rootScope.$broadcast('TaskListCtrl:getTasks');
+                        _this.$rootScope.$broadcast('PastTasksCtrl:getTasks');
+                        _this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
+                        _this.$rootScope.$broadcast('SponsorshipsListCtrl:getSponzorships');
+                        _this.$rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
+                        _this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
+                    });
                 }
                 else {
-                    _this.$rootScope.$broadcast('HomeSponsorCtrl:getEvents');
-                    _this.$rootScope.$broadcast('MenuSponsorCtrl:count');
-                    _this.$rootScope.$broadcast('FollowEventsController:getSponzorships');
-                    _this.$rootScope.$broadcast('SponsoringEventsCtrl:getSponzorships');
-                    _this.$rootScope.$broadcast('SponsorshipSponsorDetailCtrl:update');
+                    _this.$ionicHistory.clearCache()
+                        .then(function () {
+                        console.log('clearCache');
+                        _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
+                        _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
+                        _this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+                        _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
+                        _this.$rootScope.$broadcast('HomeOrganizerCtrl:count_events');
+                        _this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
+                        _this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
+                        _this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
+                        _this.$rootScope.$broadcast('TaskListCtrl:getTasks');
+                        _this.$rootScope.$broadcast('PastTasksCtrl:getTasks');
+                        _this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
+                        _this.$rootScope.$broadcast('SponsorshipsListCtrl:getSponzorships');
+                        _this.$rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
+                        _this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
+                    });
                 }
             });
         };

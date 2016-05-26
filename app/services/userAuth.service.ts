@@ -23,7 +23,8 @@ module userAuthModule{
       '$q',
       '$localStorage',
       'userService',
-      '$rootScope'
+      '$rootScope',
+      '$ionicHistory'
     ];
     
     constructor(
@@ -31,7 +32,8 @@ module userAuthModule{
       private $q: angular.IQService,
       private $localStorage,
       private userService: userModule.IUserService,
-      private $rootScope: angular.IRootScopeService
+      private $rootScope: angular.IRootScopeService,
+      private $ionicHistory
     ){}
     
     getUserAuth():userModule.User{
@@ -57,33 +59,55 @@ module userAuthModule{
         let userAuth = this.updateUserAuth( user );
         if(userAuth.type == "0"){ //Is an organizer
           
-          this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
-          this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
-          this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+          this.$ionicHistory.clearCache()
+          .then(() => {
+            console.log('clearCache');
+            this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
+            this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
+            this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+            
+            this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
+            this.$rootScope.$broadcast('HomeOrganizerCtrl:count_events');
+            
+            this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
+            this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
+            this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
+            
+            this.$rootScope.$broadcast('TaskListCtrl:getTasks');
+            this.$rootScope.$broadcast('PastTasksCtrl:getTasks');
+            this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
+            
+            this.$rootScope.$broadcast('SponsorshipsListCtrl:getSponzorships');
+            this.$rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
+            this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
+          })
           
-          this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
-          this.$rootScope.$broadcast('HomeOrganizerCtrl:count_events');
           
-          this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
-          this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
-          this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
-          
-          this.$rootScope.$broadcast('TaskListCtrl:getTasks');
-          this.$rootScope.$broadcast('PastTasksCtrl:getTasks');
-          this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
-          
-          this.$rootScope.$broadcast('SponsorshipsListCtrl:getSponzorships');
-          this.$rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
-          this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
           
         }else{
           
-          this.$rootScope.$broadcast('HomeSponsorCtrl:getEvents');
-          this.$rootScope.$broadcast('MenuSponsorCtrl:counts');
-          
-          this.$rootScope.$broadcast('FollowEventsController:getSponzorships');
-          this.$rootScope.$broadcast('SponsoringEventsCtrl:getSponzorships');
-          this.$rootScope.$broadcast('SponsorshipSponsorDetailCtrl:update');
+          this.$ionicHistory.clearCache()
+          .then(() => {
+            console.log('clearCache');
+            this.$rootScope.$broadcast('MenuOrganizerCtrl:count_events');
+            this.$rootScope.$broadcast('MenuOrganizerCtrl:count_sponsors');
+            this.$rootScope.$broadcast('MenuOrganizerCtrl:count_tasks');
+            
+            this.$rootScope.$broadcast('HomeOrganizerCtrl:count_sponsors');
+            this.$rootScope.$broadcast('HomeOrganizerCtrl:count_events');
+            
+            this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
+            this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
+            this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
+            
+            this.$rootScope.$broadcast('TaskListCtrl:getTasks');
+            this.$rootScope.$broadcast('PastTasksCtrl:getTasks');
+            this.$rootScope.$broadcast('TaskTabsCtrl:count_tasks');
+            
+            this.$rootScope.$broadcast('SponsorshipsListCtrl:getSponzorships');
+            this.$rootScope.$broadcast('SponsorshipsPastEventsCtrl:getSponzorships');
+            this.$rootScope.$broadcast('SponsorshipsTabsCtrl:count_sponsors');
+          })
           
         }
       });
