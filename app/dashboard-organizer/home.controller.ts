@@ -33,7 +33,8 @@ class HomeOrganizerCtrl{
     this.userAuth = userAuthService.getUserAuth();
     this.count_events = this.userAuth.events.filter( this.filterDate ).length;
     this.count_comunity = this.userAuth.comunity_size;
-    this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;
+    this.count_sponsors = this.userAuth.sponzorships_like_organizer.filter( this._filterDateEvent ).length;
+    console.log( this.count_sponsors );
     this.notifications = notificationService.getNotifications( this.userAuth.id );
     
     this.registerListenerCountEvents();
@@ -43,20 +44,25 @@ class HomeOrganizerCtrl{
   registerListenerCountSponsors(){
     this.$rootScope.$on('HomeOrganizerCtrl:count_sponsors', () => {
       this.userAuth = this.userAuthService.getUserAuth();
-      this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;
+      this.count_sponsors = this.userAuth.sponzorships_like_organizer.filter( this._filterDateEvent ).length;
     });
   }
   
   registerListenerCountEvents(){
     this.$rootScope.$on('HomeOrganizerCtrl:count_events', () => {
       this.userAuth = this.userAuthService.getUserAuth();
-      this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;
+      this.count_events = this.userAuth.events.filter( this.filterDate ).length;
     });
   }
   
   filterDate( item ){
     let today = moment( new Date().getTime() ).subtract(1, 'days');
     return moment(item.ends).isAfter( today );
+  }
+  
+  private _filterDateEvent( item ){
+    var today = moment( new Date() ).subtract(1, 'days');
+    return moment(item.event.ends).isAfter( today );
   }
   
 }

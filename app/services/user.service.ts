@@ -60,21 +60,6 @@ module userModule{
       this.path = BackendVariables.url;
     }
     
-    buildUser( data:any ):User{
-      let user:User = data.user;
-      user.age = parseInt(data.user.age || 0);
-      user.comunity_size = parseInt(data.user.comunity_size || 0);
-      if(user.type == "0"){ // Is an Organizer
-        user.events.forEach( this.eventService.buildEvent, this.eventService);
-        user.sponzorships_like_organizer.forEach( this.sponsorshipService.buildSponsorship, this.sponsorshipService);
-      }else{ 
-        user.sponzorships.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
-        data.events.forEach( this.eventService.buildEvent, this.eventService );
-        user.events = data.events;
-      }
-      return user;
-    }
-    
     
     login( email:string, password:string):angular.IPromise<any>{
       return this.$http({
@@ -101,7 +86,7 @@ module userModule{
           'Authorization' : `Basic ${this._getToken()}`
         },
       })
-      .then( response => { return this.$q.when( this._preparateUser( response.data ) ); } )
+      .then( response => { return this.$q.when( this.buildUser( response.data ) ); } )
       .catch( response => { return this.$q.reject( response.data ); } );
     }
     
@@ -196,12 +181,23 @@ module userModule{
       return data.User;
     }
     
-    private _preparateUser(data:any):User{
-      return this.buildUser( data.data );
-    }
-    
     private _getToken():string{
       return this.$localStorage.token;
+    }
+    
+    buildUser( data:any ):User{
+      let user:User = data.user;
+      user.age = parseInt(data.user.age || 0);
+      user.comunity_size = parseInt(data.user.comunity_size || 0);
+      if(user.type == "0"){ // Is an Organizer
+        user.events.forEach( this.eventService.buildEvent, this.eventService);
+        user.sponzorships_like_organizer.forEach( this.sponsorshipService.buildSponsorship, this.sponsorshipService);
+      }else{ 
+        user.sponzorships.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
+        data.events.forEach( this.eventService.buildEvent, this.eventService );
+        user.events = data.events;
+      }
+      return user;
     }
     
     

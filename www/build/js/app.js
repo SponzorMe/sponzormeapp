@@ -457,7 +457,7 @@
         //f_url: "https://sponzorme.firebaseio.com/staging/",
         f_url: "https://sponzorme.firebaseio.com/production/",
         url_web: "https://sponzor.me/",
-        version: "v1.1.1",
+        version: "v1.2.2",
         channel: "dev",
         debug: false
     })
@@ -1619,21 +1619,6 @@ var userModule;
             ];
             this.path = BackendVariables.url;
         }
-        userService.prototype.buildUser = function (data) {
-            var user = data.user;
-            user.age = parseInt(data.user.age || 0);
-            user.comunity_size = parseInt(data.user.comunity_size || 0);
-            if (user.type == "0") {
-                user.events.forEach(this.eventService.buildEvent, this.eventService);
-                user.sponzorships_like_organizer.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
-            }
-            else {
-                user.sponzorships.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
-                data.events.forEach(this.eventService.buildEvent, this.eventService);
-                user.events = data.events;
-            }
-            return user;
-        };
         userService.prototype.login = function (email, password) {
             var _this = this;
             return this.$http({
@@ -1660,7 +1645,7 @@ var userModule;
                     'Authorization': "Basic " + this._getToken()
                 }
             })
-                .then(function (response) { return _this.$q.when(_this._preparateUser(response.data)); })
+                .then(function (response) { return _this.$q.when(_this.buildUser(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
         userService.prototype.createUser = function (data) {
@@ -1753,11 +1738,24 @@ var userModule;
             data.User.comunity_size = parseInt(data.User.comunity_size || 0);
             return data.User;
         };
-        userService.prototype._preparateUser = function (data) {
-            return this.buildUser(data.data);
-        };
         userService.prototype._getToken = function () {
             return this.$localStorage.token;
+        };
+        userService.prototype.buildUser = function (data) {
+            console.log(data);
+            var user = data.user;
+            user.age = parseInt(data.user.age || 0);
+            user.comunity_size = parseInt(data.user.comunity_size || 0);
+            if (user.type == "0") {
+                user.events.forEach(this.eventService.buildEvent, this.eventService);
+                user.sponzorships_like_organizer.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
+            }
+            else {
+                user.sponzorships.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
+                data.events.forEach(this.eventService.buildEvent, this.eventService);
+                user.events = data.events;
+            }
+            return user;
         };
         return userService;
     }());
@@ -2366,7 +2364,8 @@ var HomeOrganizerCtrl = (function () {
         this.userAuth = userAuthService.getUserAuth();
         this.count_events = this.userAuth.events.filter(this.filterDate).length;
         this.count_comunity = this.userAuth.comunity_size;
-        this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;
+        this.count_sponsors = this.userAuth.sponzorships_like_organizer.filter(this._filterDateEvent).length;
+        console.log(this.count_sponsors);
         this.notifications = notificationService.getNotifications(this.userAuth.id);
         this.registerListenerCountEvents();
         this.registerListenerCountSponsors();
@@ -2375,19 +2374,23 @@ var HomeOrganizerCtrl = (function () {
         var _this = this;
         this.$rootScope.$on('HomeOrganizerCtrl:count_sponsors', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
-            _this.count_sponsors = _this.userAuth.sponzorships_like_organizer.length;
+            _this.count_sponsors = _this.userAuth.sponzorships_like_organizer.filter(_this._filterDateEvent).length;
         });
     };
     HomeOrganizerCtrl.prototype.registerListenerCountEvents = function () {
         var _this = this;
         this.$rootScope.$on('HomeOrganizerCtrl:count_events', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
-            _this.count_sponsors = _this.userAuth.sponzorships_like_organizer.length;
+            _this.count_events = _this.userAuth.events.filter(_this.filterDate).length;
         });
     };
     HomeOrganizerCtrl.prototype.filterDate = function (item) {
         var today = moment(new Date().getTime()).subtract(1, 'days');
         return moment(item.ends).isAfter(today);
+    };
+    HomeOrganizerCtrl.prototype._filterDateEvent = function (item) {
+        var today = moment(new Date()).subtract(1, 'days');
+        return moment(item.event.ends).isAfter(today);
     };
     return HomeOrganizerCtrl;
 }());
@@ -6406,10 +6409,10 @@ angular
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
-            registerToken();
+            //registerToken();
             activateNotifications();
-            chooseLanguage();
-            ionicAnalytics();
+            //chooseLanguage();
+            //ionicAnalytics();
         });
         function activateNotifications() {
             if (userAuthService.checkSession()) {

@@ -27,21 +27,6 @@ var userModule;
             ];
             this.path = BackendVariables.url;
         }
-        userService.prototype.buildUser = function (data) {
-            var user = data.user;
-            user.age = parseInt(data.user.age || 0);
-            user.comunity_size = parseInt(data.user.comunity_size || 0);
-            if (user.type == "0") {
-                user.events.forEach(this.eventService.buildEvent, this.eventService);
-                user.sponzorships_like_organizer.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
-            }
-            else {
-                user.sponzorships.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
-                data.events.forEach(this.eventService.buildEvent, this.eventService);
-                user.events = data.events;
-            }
-            return user;
-        };
         userService.prototype.login = function (email, password) {
             var _this = this;
             return this.$http({
@@ -68,7 +53,7 @@ var userModule;
                     'Authorization': "Basic " + this._getToken()
                 }
             })
-                .then(function (response) { return _this.$q.when(_this._preparateUser(response.data)); })
+                .then(function (response) { return _this.$q.when(_this.buildUser(response.data)); })
                 .catch(function (response) { return _this.$q.reject(response.data); });
         };
         userService.prototype.createUser = function (data) {
@@ -161,11 +146,24 @@ var userModule;
             data.User.comunity_size = parseInt(data.User.comunity_size || 0);
             return data.User;
         };
-        userService.prototype._preparateUser = function (data) {
-            return this.buildUser(data.data);
-        };
         userService.prototype._getToken = function () {
             return this.$localStorage.token;
+        };
+        userService.prototype.buildUser = function (data) {
+            console.log(data);
+            var user = data.user;
+            user.age = parseInt(data.user.age || 0);
+            user.comunity_size = parseInt(data.user.comunity_size || 0);
+            if (user.type == "0") {
+                user.events.forEach(this.eventService.buildEvent, this.eventService);
+                user.sponzorships_like_organizer.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
+            }
+            else {
+                user.sponzorships.forEach(this.sponsorshipService.buildSponsorship, this.sponsorshipService);
+                data.events.forEach(this.eventService.buildEvent, this.eventService);
+                user.events = data.events;
+            }
+            return user;
         };
         return userService;
     }());

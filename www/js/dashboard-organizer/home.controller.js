@@ -27,7 +27,8 @@ var HomeOrganizerCtrl = (function () {
         this.userAuth = userAuthService.getUserAuth();
         this.count_events = this.userAuth.events.filter(this.filterDate).length;
         this.count_comunity = this.userAuth.comunity_size;
-        this.count_sponsors = this.userAuth.sponzorships_like_organizer.length;
+        this.count_sponsors = this.userAuth.sponzorships_like_organizer.filter(this._filterDateEvent).length;
+        console.log(this.count_sponsors);
         this.notifications = notificationService.getNotifications(this.userAuth.id);
         this.registerListenerCountEvents();
         this.registerListenerCountSponsors();
@@ -36,19 +37,23 @@ var HomeOrganizerCtrl = (function () {
         var _this = this;
         this.$rootScope.$on('HomeOrganizerCtrl:count_sponsors', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
-            _this.count_sponsors = _this.userAuth.sponzorships_like_organizer.length;
+            _this.count_sponsors = _this.userAuth.sponzorships_like_organizer.filter(_this._filterDateEvent).length;
         });
     };
     HomeOrganizerCtrl.prototype.registerListenerCountEvents = function () {
         var _this = this;
         this.$rootScope.$on('HomeOrganizerCtrl:count_events', function () {
             _this.userAuth = _this.userAuthService.getUserAuth();
-            _this.count_sponsors = _this.userAuth.sponzorships_like_organizer.length;
+            _this.count_events = _this.userAuth.events.filter(_this.filterDate).length;
         });
     };
     HomeOrganizerCtrl.prototype.filterDate = function (item) {
         var today = moment(new Date().getTime()).subtract(1, 'days');
         return moment(item.ends).isAfter(today);
+    };
+    HomeOrganizerCtrl.prototype._filterDateEvent = function (item) {
+        var today = moment(new Date()).subtract(1, 'days');
+        return moment(item.event.ends).isAfter(today);
     };
     return HomeOrganizerCtrl;
 }());

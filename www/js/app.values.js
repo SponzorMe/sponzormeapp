@@ -13,7 +13,7 @@
         //f_url: "https://sponzorme.firebaseio.com/staging/",
         f_url: "https://sponzorme.firebaseio.com/production/",
         url_web: "https://sponzor.me/",
-        version: "v1.1.1",
+        version: "v1.2.2",
         channel: "dev",
         debug: false
     })
