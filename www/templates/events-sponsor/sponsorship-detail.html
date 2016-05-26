@@ -76,7 +76,7 @@
               </ion-item>
               <ion-item class="item-body">
                 <img ng-src="{{ detail.event.image }}" class="full-image">
-                {{ detail.sponsorship.event.description }}
+                <span ng-bind-html="detail.sponsorship.event.description"></span>
               </ion-item>
               <ion-item class="item-divider">
                 {{"SPONSORSHIPDETAIL.organizer_divider" | translate}}
