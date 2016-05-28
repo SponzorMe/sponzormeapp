@@ -12,3 +12,4 @@ resources/android/*
 !resources/android/*.png
 *.apk
 log.txt
+iosFiles/*

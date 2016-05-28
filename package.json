@@ -70,12 +70,12 @@
   ],
   "cordovaPlatforms": [
     "android",
-    "ios",
     {
       "platform": "android",
       "version": "",
       "locator": "android"
     },
+    "ios",
     {
       "platform": "ios",
       "version": "",

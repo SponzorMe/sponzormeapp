@@ -45,12 +45,14 @@ module pushModule{
              "ios": {
                 "title": notification.title,
                 "message": notification.message,
-                "payload": notification
+                "payload": notification,
+                "content-available": 1
               },
               "android": {
                 "title": notification.title,
                 "message": notification.message,
-                "payload": notification
+                "payload": notification,
+                "content-available": 1
               }
           }
         }

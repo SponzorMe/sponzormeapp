@@ -10,7 +10,8 @@
     .module('app')
     .run(run);
 
-  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, $ionicUser, utilsService, $cordovaToast, $ionicAnalytics, $ionicPush,  $localStorage, userAuthService, notificationService, BackendVariables ) {
+  function run($ionicPlatform, $translate, $cordovaGlobalization, $ionicPopup, $ionicDeploy, $ionicUser, utilsService, $cordovaToast, $ionicAnalytics, $ionicPush,  $localStorage, userAuthService, notificationService, BackendVariables, 
+  $state ) {
     //function run($ionicPlatform ) {
 
 
@@ -51,6 +52,7 @@
         "debug": true,
         "onNotification": function( notification ){
           var payload = notification.payload;
+          //TODO redirect to Notifications page for organizer or Sponsor
           console.log(notification, payload);
         },
         "onRegister": function (data) {
