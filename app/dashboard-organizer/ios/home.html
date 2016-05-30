@@ -3,7 +3,7 @@
   <ion-content padding="true">
     <!-- Events -->
     <div class="card number-bar">
-      <a class="item item-thumbnail-left number-bar-events" href="#/organizer/events/list">
+      <a class="item item-thumbnail-left number-bar-events" href="#/organizer/events/list" ion-track-tap="tapHomeOrganizer" ion-track-data="goToEvents">
         <i class="icon ion-calendar item-image"></i>
         <h2>{{ home.count_events }}</h2>
         <p>{{'DASHORGANIZERS.events' | translate}}</p>
@@ -11,7 +11,7 @@
     </div>
     <!-- Sponsors -->
     <div class="card number-bar">
-      <a class="item item-thumbnail-left number-bar-sponsors" href="#/organizer/sponsorships/list">
+      <a class="item item-thumbnail-left number-bar-sponsors" href="#/organizer/sponsorships/list" ion-track-tap="tapHomeOrganizer" ion-track-data="goToSponsorships">
         <i class="icon ion-flag item-image"></i>
         <h2>{{ home.count_sponsors }}</h2>
         <p>{{'DASHORGANIZERS.sponsors' | translate}}</p>
@@ -19,7 +19,7 @@
     </div>
     <!-- Community -->
     <div class="card number-bar">
-      <a class="item item-thumbnail-left number-bar-communtity" href="#/organizer/profile">
+      <a class="item item-thumbnail-left number-bar-communtity" href="#/organizer/profile" ion-track-tap="tapHomeOrganizer" ion-track-data="goToProfile">
         <i class="icon ion-person-stalker item-image"></i>
         <h2>{{ home.count_comunity }}</h2>
         <p>{{'DASHORGANIZERS.comunity' | translate}}</p>
@@ -27,7 +27,7 @@
     </div>
     <!-- Notifications -->
     <div class="card number-bar">
-      <a class="item item-thumbnail-left number-bar-communtity" href="#/organizer/notifications">
+      <a class="item item-thumbnail-left number-bar-communtity" href="#/organizer/notifications" ion-track-tap="tapHomeOrganizer" ion-track-data="goToNotifications">
         <i class="icon ion-android-notifications item-image"></i>
         <h2>{{ (home.notifications | filter: {read: false, hide: false}).length }}</h2>
         <p>{{'DASHORGANIZERS.notifications' | translate}}</p>
