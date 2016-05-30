@@ -17,7 +17,7 @@
     
     $ionicConfigProvider.views.maxCache(10);
     $ionicConfigProvider.backButton.text('');
-    $ionicAutoTrackProvider.disableTracking('Tap');
+    //$ionicAutoTrackProvider.disableTracking('Tap');
     $ionicAutoTrackProvider.disableTracking('Load');
 
     function getDefaultRoute(){

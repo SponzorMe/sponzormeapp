@@ -72,11 +72,9 @@ class MenuSponsorCtrl{
       this.$ionicAuth.logout();
       this.$localStorage.$reset();
       this.$state.go('signin');
+      this.utilsService.hideLoad();
     })
     .catch(() => {
-      this.$ionicAuth.logout();
-      this.$localStorage.$reset();
-      this.$state.go('signin');
       this.utilsService.hideLoad();
     });
     

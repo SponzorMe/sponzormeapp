@@ -19,9 +19,11 @@
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
-            registerToken();
+            if (!BackendVariables.debug) {
+                chooseLanguage();
+                registerToken();
+            }
             activateNotifications();
-            chooseLanguage();
             ionicAnalytics();
         });
         function activateNotifications() {

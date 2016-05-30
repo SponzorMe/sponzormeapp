@@ -64,11 +64,9 @@ var MenuSponsorCtrl = (function () {
             _this.$ionicAuth.logout();
             _this.$localStorage.$reset();
             _this.$state.go('signin');
+            _this.utilsService.hideLoad();
         })
             .catch(function () {
-            _this.$ionicAuth.logout();
-            _this.$localStorage.$reset();
-            _this.$state.go('signin');
             _this.utilsService.hideLoad();
         });
     };
