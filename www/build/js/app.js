@@ -59,7 +59,7 @@
         $ionicConfigProvider.scrolling.jsScrolling(false);
         $ionicConfigProvider.views.maxCache(10);
         $ionicConfigProvider.backButton.text('');
-        $ionicAutoTrackProvider.disableTracking('Tap');
+        //$ionicAutoTrackProvider.disableTracking('Tap');
         $ionicAutoTrackProvider.disableTracking('Load');
         function getDefaultRoute() {
             function userType() {
@@ -482,13 +482,13 @@
 /// <reference path="../../typings/tsd.d.ts" />
 (function () {
     'use strict';
-    angular.module('app.dashboard-sponzor', []);
+    angular.module('app.dashboard-organizer', []);
 })();
 
 /// <reference path="../../typings/tsd.d.ts" />
 (function () {
     'use strict';
-    angular.module('app.dashboard-organizer', []);
+    angular.module('app.dashboard-sponzor', []);
 })();
 
 /// <reference path="../../typings/tsd.d.ts" />
@@ -500,13 +500,13 @@
 /// <reference path="../../typings/tsd.d.ts" />
 (function () {
     'use strict';
-    angular.module('app.events-sponzor', []);
+    angular.module('app.filters', []);
 })();
 
 /// <reference path="../../typings/tsd.d.ts" />
 (function () {
     'use strict';
-    angular.module('app.filters', []);
+    angular.module('app.events-sponzor', []);
 })();
 
 /// <reference path="../../typings/tsd.d.ts" />
@@ -2366,202 +2366,6 @@ var utilsServiceModule;
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../services.d.ts" />
 /**
-* @Controller for Home Organizer
-*
-* @author Carlos Rojas, Nicolas Molina
-* @version 0.2
-*/
-var HomeSponsorCtrl = (function () {
-    function HomeSponsorCtrl($localStorage, userService, utilsService, $scope, $rootScope, userAuthService, ionicMaterialInk) {
-        this.$localStorage = $localStorage;
-        this.userService = userService;
-        this.utilsService = utilsService;
-        this.$scope = $scope;
-        this.$rootScope = $rootScope;
-        this.userAuthService = userAuthService;
-        this.ionicMaterialInk = ionicMaterialInk;
-        this.$inject = [
-            '$localStorage',
-            'userService',
-            'utilsService',
-            '$scope',
-            '$rootScope',
-            'userAuthService',
-            'ionicMaterialInk'
-        ];
-        this.events = [];
-        if (ionic.Platform.isAndroid()) {
-            this.ionicMaterialInk.displayEffect();
-        }
-        this.userAuth = this.userAuthService.getUserAuth();
-        this.events = this.userAuth.events.filter(this.filterDate);
-        this.registerListenerEvents();
-    }
-    HomeSponsorCtrl.prototype.registerListenerEvents = function () {
-        var _this = this;
-        this.$rootScope.$on('HomeSponsorCtrl:getEvents', function () {
-            _this.userAuth = _this.userAuthService.getUserAuth();
-            _this.events = _this.userAuth.events.filter(_this.filterDate);
-        });
-    };
-    HomeSponsorCtrl.prototype.doRefresh = function () {
-        var _this = this;
-        this.userService.home(this.userAuth.id)
-            .then(function (user) {
-            _this.userAuth = _this.userAuthService.updateUserAuth(user);
-            _this.events = _this.userAuth.events.filter(_this.filterDate);
-            _this.$scope.$broadcast('scroll.refreshComplete');
-        })
-            .catch(function () { return _this.$scope.$broadcast('scroll.refreshComplete'); });
-    };
-    HomeSponsorCtrl.prototype.filterDate = function (item) {
-        return moment(item.starts).isAfter(new Date());
-    };
-    return HomeSponsorCtrl;
-}());
-angular
-    .module('app.dashboard-sponzor')
-    .controller('HomeSponsorCtrl', HomeSponsorCtrl);
-
-/// <reference path="../../typings/tsd.d.ts" />
-/**
-* @Controller for Home Organizer
-*
-* @author Carlos Rojas, Nicolas Molina
-* @version 0.2
-*/
-var IntroSponsorCtrl = (function () {
-    function IntroSponsorCtrl($state, $scope, $ionicHistory, $ionicSideMenuDelegate, ionicMaterialInk) {
-        var _this = this;
-        this.$state = $state;
-        this.$scope = $scope;
-        this.$ionicHistory = $ionicHistory;
-        this.$ionicSideMenuDelegate = $ionicSideMenuDelegate;
-        this.ionicMaterialInk = ionicMaterialInk;
-        this.$inject = [
-            '$state',
-            '$scope',
-            '$ionicHistory',
-            '$ionicSideMenuDelegate',
-            'ionicMaterialInk'
-        ];
-        this.slideIndex = 0;
-        this.slider = null;
-        this.data = {};
-        if (ionic.Platform.isAndroid()) {
-            this.ionicMaterialInk.displayEffect();
-        }
-        this.$ionicSideMenuDelegate.canDragContent(false);
-        this.$scope.$watch(function () { return _this.data; }, function (oldValue, newValue) {
-            if (Object.keys(_this.data).length > 0) {
-                _this.slider = _this.data;
-                _this.slider.on('slideChangeEnd', function () {
-                    _this.slideIndex = _this.slider.activeIndex;
-                    _this.$scope.$apply();
-                });
-            }
-        });
-    }
-    IntroSponsorCtrl.prototype.startApp = function () {
-        this.$ionicHistory.nextViewOptions({
-            disableAnimate: true,
-            disableBack: true
-        });
-        this.$state.go("sponzor.home");
-    };
-    IntroSponsorCtrl.prototype.nextSlide = function () {
-        this.slider.slideNext();
-    };
-    IntroSponsorCtrl.prototype.previousSlide = function () {
-        this.slider.slidePrev();
-    };
-    return IntroSponsorCtrl;
-}());
-angular
-    .module('app.dashboard-sponzor')
-    .controller('IntroSponsorCtrl', IntroSponsorCtrl);
-
-/// <reference path="../../typings/tsd.d.ts" />
-/// <reference path="../services.d.ts" />
-/**
-* @Controller for Home Organizer
-*
-* @author Carlos Rojas, Nicolas Molina
-* @version 0.2
-*/
-var MenuSponsorCtrl = (function () {
-    function MenuSponsorCtrl($state, $q, $localStorage, $rootScope, $ionicAuth, $ionicHistory, userAuthService, utilsService, notificationService, ionicMaterialInk) {
-        this.$state = $state;
-        this.$q = $q;
-        this.$localStorage = $localStorage;
-        this.$rootScope = $rootScope;
-        this.$ionicAuth = $ionicAuth;
-        this.$ionicHistory = $ionicHistory;
-        this.userAuthService = userAuthService;
-        this.utilsService = utilsService;
-        this.notificationService = notificationService;
-        this.ionicMaterialInk = ionicMaterialInk;
-        this.$inject = [
-            '$state',
-            '$q',
-            '$localStorage',
-            '$rootScope',
-            '$ionicAuth',
-            '$ionicHistory',
-            'userAuthService',
-            'utilsService',
-            'notificationService',
-            'ionicMaterialInk'
-        ];
-        this.count_following = 0;
-        this.count_sponsoring = 0;
-        this.notifications = [];
-        if (ionic.Platform.isAndroid()) {
-            this.ionicMaterialInk.displayEffect();
-        }
-        this.userAuth = userAuthService.getUserAuth();
-        this.count_sponsoring = this.userAuth.sponzorships.filter(this.filterByAccepted).length;
-        this.count_following = this.userAuth.sponzorships.filter(this._filterByDateAndByPending).length;
-        this.notifications = notificationService.getNotifications(this.userAuth.id);
-        this.registerListenerCounts();
-    }
-    MenuSponsorCtrl.prototype.registerListenerCounts = function () {
-        var _this = this;
-        this.$rootScope.$on('MenuSponsorCtrl:counts', function () {
-            _this.userAuth = _this.userAuthService.getUserAuth();
-            _this.count_sponsoring = _this.userAuth.sponzorships.filter(_this.filterByAccepted).length;
-            _this.count_following = _this.userAuth.sponzorships.filter(_this._filterByDateAndByPending).length;
-        });
-    };
-    MenuSponsorCtrl.prototype.filterByAccepted = function (item) {
-        return item.status == '1';
-    };
-    MenuSponsorCtrl.prototype._filterByDateAndByPending = function (item) {
-        return item.status != '1' && moment(item.event.starts).isAfter(new Date());
-    };
-    MenuSponsorCtrl.prototype.logout = function () {
-        var _this = this;
-        this.utilsService.showLoad();
-        this.$ionicHistory.clearCache()
-            .then(function () {
-            _this.$ionicAuth.logout();
-            _this.$localStorage.$reset();
-            _this.$state.go('signin');
-            _this.utilsService.hideLoad();
-        })
-            .catch(function () {
-            _this.utilsService.hideLoad();
-        });
-    };
-    return MenuSponsorCtrl;
-}());
-angular
-    .module('app.dashboard-sponzor')
-    .controller('MenuSponsorCtrl', MenuSponsorCtrl);
-
-/// <reference path="../../typings/tsd.d.ts" />
-/// <reference path="../services.d.ts" />
-/**
 * @Controller HomeOrganizerCtrl
 *
 * @author Carlos Rojas, Nicolas Molina
@@ -2786,13 +2590,209 @@ angular
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../services.d.ts" />
 /**
+* @Controller for Home Organizer
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+*/
+var HomeSponsorCtrl = (function () {
+    function HomeSponsorCtrl($localStorage, userService, utilsService, $scope, $rootScope, userAuthService, ionicMaterialInk) {
+        this.$localStorage = $localStorage;
+        this.userService = userService;
+        this.utilsService = utilsService;
+        this.$scope = $scope;
+        this.$rootScope = $rootScope;
+        this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
+        this.$inject = [
+            '$localStorage',
+            'userService',
+            'utilsService',
+            '$scope',
+            '$rootScope',
+            'userAuthService',
+            'ionicMaterialInk'
+        ];
+        this.events = [];
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
+        this.userAuth = this.userAuthService.getUserAuth();
+        this.events = this.userAuth.events.filter(this.filterDate);
+        this.registerListenerEvents();
+    }
+    HomeSponsorCtrl.prototype.registerListenerEvents = function () {
+        var _this = this;
+        this.$rootScope.$on('HomeSponsorCtrl:getEvents', function () {
+            _this.userAuth = _this.userAuthService.getUserAuth();
+            _this.events = _this.userAuth.events.filter(_this.filterDate);
+        });
+    };
+    HomeSponsorCtrl.prototype.doRefresh = function () {
+        var _this = this;
+        this.userService.home(this.userAuth.id)
+            .then(function (user) {
+            _this.userAuth = _this.userAuthService.updateUserAuth(user);
+            _this.events = _this.userAuth.events.filter(_this.filterDate);
+            _this.$scope.$broadcast('scroll.refreshComplete');
+        })
+            .catch(function () { return _this.$scope.$broadcast('scroll.refreshComplete'); });
+    };
+    HomeSponsorCtrl.prototype.filterDate = function (item) {
+        return moment(item.starts).isAfter(new Date());
+    };
+    return HomeSponsorCtrl;
+}());
+angular
+    .module('app.dashboard-sponzor')
+    .controller('HomeSponsorCtrl', HomeSponsorCtrl);
+
+/// <reference path="../../typings/tsd.d.ts" />
+/**
+* @Controller for Home Organizer
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+*/
+var IntroSponsorCtrl = (function () {
+    function IntroSponsorCtrl($state, $scope, $ionicHistory, $ionicSideMenuDelegate, ionicMaterialInk) {
+        var _this = this;
+        this.$state = $state;
+        this.$scope = $scope;
+        this.$ionicHistory = $ionicHistory;
+        this.$ionicSideMenuDelegate = $ionicSideMenuDelegate;
+        this.ionicMaterialInk = ionicMaterialInk;
+        this.$inject = [
+            '$state',
+            '$scope',
+            '$ionicHistory',
+            '$ionicSideMenuDelegate',
+            'ionicMaterialInk'
+        ];
+        this.slideIndex = 0;
+        this.slider = null;
+        this.data = {};
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
+        this.$ionicSideMenuDelegate.canDragContent(false);
+        this.$scope.$watch(function () { return _this.data; }, function (oldValue, newValue) {
+            if (Object.keys(_this.data).length > 0) {
+                _this.slider = _this.data;
+                _this.slider.on('slideChangeEnd', function () {
+                    _this.slideIndex = _this.slider.activeIndex;
+                    _this.$scope.$apply();
+                });
+            }
+        });
+    }
+    IntroSponsorCtrl.prototype.startApp = function () {
+        this.$ionicHistory.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true
+        });
+        this.$state.go("sponzor.home");
+    };
+    IntroSponsorCtrl.prototype.nextSlide = function () {
+        this.slider.slideNext();
+    };
+    IntroSponsorCtrl.prototype.previousSlide = function () {
+        this.slider.slidePrev();
+    };
+    return IntroSponsorCtrl;
+}());
+angular
+    .module('app.dashboard-sponzor')
+    .controller('IntroSponsorCtrl', IntroSponsorCtrl);
+
+/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
+/**
+* @Controller for Home Organizer
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+*/
+var MenuSponsorCtrl = (function () {
+    function MenuSponsorCtrl($state, $q, $localStorage, $rootScope, $ionicAuth, $ionicHistory, userAuthService, utilsService, notificationService, ionicMaterialInk) {
+        this.$state = $state;
+        this.$q = $q;
+        this.$localStorage = $localStorage;
+        this.$rootScope = $rootScope;
+        this.$ionicAuth = $ionicAuth;
+        this.$ionicHistory = $ionicHistory;
+        this.userAuthService = userAuthService;
+        this.utilsService = utilsService;
+        this.notificationService = notificationService;
+        this.ionicMaterialInk = ionicMaterialInk;
+        this.$inject = [
+            '$state',
+            '$q',
+            '$localStorage',
+            '$rootScope',
+            '$ionicAuth',
+            '$ionicHistory',
+            'userAuthService',
+            'utilsService',
+            'notificationService',
+            'ionicMaterialInk'
+        ];
+        this.count_following = 0;
+        this.count_sponsoring = 0;
+        this.notifications = [];
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
+        this.userAuth = userAuthService.getUserAuth();
+        this.count_sponsoring = this.userAuth.sponzorships.filter(this.filterByAccepted).length;
+        this.count_following = this.userAuth.sponzorships.filter(this._filterByDateAndByPending).length;
+        this.notifications = notificationService.getNotifications(this.userAuth.id);
+        this.registerListenerCounts();
+    }
+    MenuSponsorCtrl.prototype.registerListenerCounts = function () {
+        var _this = this;
+        this.$rootScope.$on('MenuSponsorCtrl:counts', function () {
+            _this.userAuth = _this.userAuthService.getUserAuth();
+            _this.count_sponsoring = _this.userAuth.sponzorships.filter(_this.filterByAccepted).length;
+            _this.count_following = _this.userAuth.sponzorships.filter(_this._filterByDateAndByPending).length;
+        });
+    };
+    MenuSponsorCtrl.prototype.filterByAccepted = function (item) {
+        return item.status == '1';
+    };
+    MenuSponsorCtrl.prototype._filterByDateAndByPending = function (item) {
+        return item.status != '1' && moment(item.event.starts).isAfter(new Date());
+    };
+    MenuSponsorCtrl.prototype.logout = function () {
+        var _this = this;
+        this.utilsService.showLoad();
+        this.$ionicHistory.clearCache()
+            .then(function () {
+            _this.$ionicAuth.logout();
+            _this.$localStorage.$reset();
+            _this.$state.go('signin');
+            _this.utilsService.hideLoad();
+        })
+            .catch(function () {
+            _this.utilsService.hideLoad();
+        });
+    };
+    return MenuSponsorCtrl;
+}());
+angular
+    .module('app.dashboard-sponzor')
+    .controller('MenuSponsorCtrl', MenuSponsorCtrl);
+
+/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
+/**
 * @Controller for Add Events
 *
 * @author Carlos Rojas, Nicolas Molina
 * @version 0.2
 */
 var AddEventCtrl = (function () {
-    function AddEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $state, notificationService, userAuthService, $rootScope, BackendVariables, ionicMaterialInk) {
+    function AddEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $state, notificationService, userAuthService, $rootScope, BackendVariables, ionicMaterialInk, $ionicAnalytics) {
         this.$scope = $scope;
         this.$translate = $translate;
         this.utilsService = utilsService;
@@ -2810,6 +2810,7 @@ var AddEventCtrl = (function () {
         this.$rootScope = $rootScope;
         this.BackendVariables = BackendVariables;
         this.ionicMaterialInk = ionicMaterialInk;
+        this.$ionicAnalytics = $ionicAnalytics;
         this.$inject = [
             '$scope',
             '$translate',
@@ -2827,7 +2828,8 @@ var AddEventCtrl = (function () {
             'userAuthService',
             '$rootScope',
             'BackendVariables',
-            'ionicMaterialInk'
+            'ionicMaterialInk',
+            '$ionicAnalytics'
         ];
         this.newEvent = {};
         this.newPerk = {};
@@ -3015,6 +3017,7 @@ var AddEventCtrl = (function () {
                 _this.utilsService.hideLoad();
                 _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_event_mess"));
                 _this.$state.go("organizer.events.list");
+                _this.$ionicAnalytics.track('Event Create', event);
             })
                 .catch(function (error) {
                 _this.utilsService.hideLoad();
@@ -3114,7 +3117,7 @@ angular
 * @version 0.2
 */
 var EditEventCtrl = (function () {
-    function EditEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $stateParams, userAuthService, notificationService, $rootScope, ionicMaterialInk) {
+    function EditEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $stateParams, userAuthService, notificationService, $rootScope, ionicMaterialInk, $ionicAnalytics) {
         this.$scope = $scope;
         this.$translate = $translate;
         this.utilsService = utilsService;
@@ -3131,6 +3134,7 @@ var EditEventCtrl = (function () {
         this.notificationService = notificationService;
         this.$rootScope = $rootScope;
         this.ionicMaterialInk = ionicMaterialInk;
+        this.$ionicAnalytics = $ionicAnalytics;
         this.$inject = [
             '$scope',
             '$translate',
@@ -3147,7 +3151,8 @@ var EditEventCtrl = (function () {
             'userAuthService',
             'notificationService',
             '$rootScope',
-            'ionicMaterialInk'
+            'ionicMaterialInk',
+            '$ionicAnalytics'
         ];
         this.indexEvent = -1;
         this.newEvent = {};
@@ -3380,9 +3385,10 @@ var EditEventCtrl = (function () {
                 _this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
                 _this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
                 _this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
+                _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_event_mess"));
                 _this.$ionicHistory.goBack();
+                _this.$ionicAnalytics.track('Event Update', event);
             });
-            _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_event_mess"));
         })
             .catch(function (error) {
             _this.utilsService.hideLoad();
@@ -3433,7 +3439,7 @@ angular
 * @version 0.2
 */
 var EventDetailOrganizerCtrl = (function () {
-    function EventDetailOrganizerCtrl($scope, $stateParams, $state, $translate, $rootScope, $ionicPopup, $ionicActionSheet, $ionicSideMenuDelegate, $ionicHistory, $ionicModal, $cordovaSocialSharing, $cordovaCalendar, $cordovaToast, BackendVariables, eventService, utilsService, sponsorshipService, notificationService, userAuthService, perkTaskService, ionicMaterialInk) {
+    function EventDetailOrganizerCtrl($scope, $stateParams, $state, $translate, $rootScope, $ionicPopup, $ionicActionSheet, $ionicSideMenuDelegate, $ionicHistory, $ionicModal, $cordovaSocialSharing, $cordovaCalendar, $cordovaToast, BackendVariables, eventService, utilsService, sponsorshipService, notificationService, userAuthService, perkTaskService, ionicMaterialInk, $ionicAnalytics) {
         this.$scope = $scope;
         this.$stateParams = $stateParams;
         this.$state = $state;
@@ -3455,6 +3461,7 @@ var EventDetailOrganizerCtrl = (function () {
         this.userAuthService = userAuthService;
         this.perkTaskService = perkTaskService;
         this.ionicMaterialInk = ionicMaterialInk;
+        this.$ionicAnalytics = $ionicAnalytics;
         this.$inject = [
             '$scope',
             '$stateParams',
@@ -3476,7 +3483,8 @@ var EventDetailOrganizerCtrl = (function () {
             'notificationService',
             'userAuthService',
             'perkTaskService',
-            'ionicMaterialInk'
+            'ionicMaterialInk',
+            '$ionicAnalytics'
         ];
         this.popupOptionsSponsorship = null;
         this.hideSheet = null;
@@ -3513,6 +3521,7 @@ var EventDetailOrganizerCtrl = (function () {
     //Options for sponsorship modal
     EventDetailOrganizerCtrl.prototype._editEvent = function () {
         this.$state.go('organizer.editevent', { id: this.event.id });
+        this.$ionicAnalytics.track('tapEventDetailOrganizer', 'editEventActionSheet');
     };
     EventDetailOrganizerCtrl.prototype._shareEvent = function () {
         var _this = this;
@@ -3523,7 +3532,8 @@ var EventDetailOrganizerCtrl = (function () {
         this.$cordovaSocialSharing
             .share(message, subject, image, link) // Share via native share sheet
             .then(function () {
-            _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_add_to_calendar"));
+            //this.$cordovaToast.showShortBottom(  this.$translate.instant("MESSAGES.succ_add_to_calendar") );
+            _this.$ionicAnalytics.track('tapEventDetailOrganizer', 'shareEventActionSheet');
         });
     };
     EventDetailOrganizerCtrl.prototype._addToCalendar = function () {
@@ -3538,6 +3548,7 @@ var EventDetailOrganizerCtrl = (function () {
         })
             .then(function () {
             _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_add_to_calendar"));
+            _this.$ionicAnalytics.track('tapEventDetailOrganizer', 'addToCalendarActionSheet');
         });
     };
     //Send Notifications
@@ -3628,6 +3639,7 @@ var EventDetailOrganizerCtrl = (function () {
             else if (sponsorship.status == 2) {
                 _this.notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id, sponsorship.ionic_id);
             }
+            _this.$ionicAnalytics.track('Update Sponsorship', sponsorship);
             _this.closeOptionsSponsorship();
         })
             .catch(function (error) {
@@ -3699,6 +3711,7 @@ var EventDetailOrganizerCtrl = (function () {
             _this.utilsService.resetForm(form);
             _this._hideModalTask(form);
             _this.utilsService.hideLoad();
+            _this.$ionicAnalytics.track('Create Task Organizer', data);
         })
             .catch(function (error) {
             _this.utilsService.resetForm(form);
@@ -3722,6 +3735,7 @@ var EventDetailOrganizerCtrl = (function () {
         this.utilsService.showLoad();
         this.perkTaskService.deletePerkTask(this.task.id)
             .then(function (data) {
+            _this.$ionicAnalytics.track('Delete Task Organizer', _this.task);
             _this.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
             _this._sendDeleteTaskNotification(_this.event.perks[_this.indexPerk].tasks[_this.indexTask].title);
             _this.event.perks[_this.indexPerk].tasks.splice(_this.indexTask, 1);
@@ -3749,6 +3763,7 @@ var EventDetailOrganizerCtrl = (function () {
         this.task.status = this.task.status ? 1 : 0;
         this.perkTaskService.editPerkTaskPatch(this.task.id, this.task)
             .then(function (task) {
+            _this.$ionicAnalytics.track('Update Task Organizer', task);
             _this._sendUpdateTaskNotification(task.title, _this.event.perks[_this.indexPerk].tasks[_this.indexTask].status == 0 && task.status == 1);
             _this.event.perks[_this.indexPerk].tasks[_this.indexTask] = task;
             _this.utilsService.resetForm(form);
@@ -3979,7 +3994,7 @@ angular
 * @version 0.2
 */
 var EventDetailSponsorCtrl = (function () {
-    function EventDetailSponsorCtrl($scope, $stateParams, $rootScope, $translate, $ionicModal, $ionicHistory, $cordovaToast, eventService, utilsService, sponsorshipService, notificationService, userAuthService, ionicMaterialInk) {
+    function EventDetailSponsorCtrl($scope, $stateParams, $rootScope, $translate, $ionicModal, $ionicHistory, $cordovaToast, eventService, utilsService, sponsorshipService, notificationService, userAuthService, ionicMaterialInk, $ionicAnalytics) {
         this.$scope = $scope;
         this.$stateParams = $stateParams;
         this.$rootScope = $rootScope;
@@ -3993,6 +4008,7 @@ var EventDetailSponsorCtrl = (function () {
         this.notificationService = notificationService;
         this.userAuthService = userAuthService;
         this.ionicMaterialInk = ionicMaterialInk;
+        this.$ionicAnalytics = $ionicAnalytics;
         this.$inject = [
             '$scope',
             '$stateParams',
@@ -4006,7 +4022,8 @@ var EventDetailSponsorCtrl = (function () {
             'sponsorshipService',
             'notificationService',
             'userAuthService',
-            'ionicMaterialInk'
+            'ionicMaterialInk',
+            '$ionicAnalytics'
         ];
         this.modalSponsorIt = null;
         this.newSponsorIt = {};
@@ -4059,6 +4076,7 @@ var EventDetailSponsorCtrl = (function () {
                 modelId: newSponsorship.id
             };
             _this.notificationService.sendNewSponsorship(notification, _this.event.user_organizer.id, _this.event.user_organizer.ionic_id);
+            _this.$ionicAnalytics.track('SponsorIt', newSponsorship);
             _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_sponsor_it"));
         })
             .catch(function (error) {
@@ -4218,7 +4236,7 @@ angular
 * @version 0.2
 */
 var SponsorshipSponsorDetailCtrl = (function () {
-    function SponsorshipSponsorDetailCtrl($scope, $rootScope, $stateParams, $translate, $ionicModal, $ionicHistory, $cordovaToast, utilsService, taskSponsorService, userAuthService, notificationService, ionicMaterialInk) {
+    function SponsorshipSponsorDetailCtrl($scope, $rootScope, $stateParams, $translate, $ionicModal, $ionicHistory, $cordovaToast, utilsService, taskSponsorService, userAuthService, notificationService, ionicMaterialInk, $ionicAnalytics) {
         var _this = this;
         this.$scope = $scope;
         this.$rootScope = $rootScope;
@@ -4232,6 +4250,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
         this.ionicMaterialInk = ionicMaterialInk;
+        this.$ionicAnalytics = $ionicAnalytics;
         this.$inject = [
             '$scope',
             '$rootScope',
@@ -4244,7 +4263,8 @@ var SponsorshipSponsorDetailCtrl = (function () {
             'taskSponsorService',
             'userAuthService',
             'notificationService',
-            'ionicMaterialInk'
+            'ionicMaterialInk',
+            '$ionicAnalytics'
         ];
         this.sponsorship = {};
         this.modalTask = null;
@@ -4294,6 +4314,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
                 text: data.TaskSponzor.task.title,
                 modelId: _this.sponsorship.id
             }, data.TaskSponzor.organizer_id, data.TaskSponzor.organizer_ionic_id);
+            _this.$ionicAnalytics.track('Create Task Sponsor', data.TaskSponzor.task);
             _this.utilsService.hideLoad();
         })
             .catch(function (error) {
@@ -4305,6 +4326,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
         this.utilsService.showLoad();
         this.taskSponsorService.deleteTask(this.sponsorTask.id)
             .then(function (data) {
+            _this.$ionicAnalytics.track('Delete Task Sponsor', _this.sponsorTask);
             var perkTask = _.findWhere(_this.sponsorship.perk.tasks, { id: _this.sponsorTask.task.id });
             var taskSponzor = _.findWhere(_this.sponsorship.task_sponzor, { id: _this.sponsorTask.id });
             var indexPerkTask = _.indexOf(_this.sponsorship.perk.tasks, perkTask);
@@ -4342,6 +4364,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
                     modelId: _this.sponsorship.id
                 }, TaskSponsor.organizer_id, TaskSponsor.organizer_ionic_id);
             }
+            _this.$ionicAnalytics.track('Update Task Sponsor', _this.sponsorTask.task);
             _this.sponsorship.perk.tasks[indexPerkTask] = _this.sponsorTask.task;
             _this.sponsorship.task_sponzor[indexSponzorTask] = _this.sponsorTask;
             _this.hideModalTask(form);
@@ -4408,7 +4431,7 @@ angular
 * @version 0.2
 */
 var SponsorshipOrganizerDetailCtrl = (function () {
-    function SponsorshipOrganizerDetailCtrl($stateParams, $rootScope, sponsorshipService, utilsService, userAuthService, notificationService, ionicMaterialInk) {
+    function SponsorshipOrganizerDetailCtrl($stateParams, $rootScope, sponsorshipService, utilsService, userAuthService, notificationService, ionicMaterialInk, $ionicAnalytics) {
         var _this = this;
         this.$stateParams = $stateParams;
         this.$rootScope = $rootScope;
@@ -4417,6 +4440,7 @@ var SponsorshipOrganizerDetailCtrl = (function () {
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
         this.ionicMaterialInk = ionicMaterialInk;
+        this.$ionicAnalytics = $ionicAnalytics;
         this.$inject = [
             '$stateParams',
             '$rootScope',
@@ -4424,7 +4448,8 @@ var SponsorshipOrganizerDetailCtrl = (function () {
             'utilsService',
             'userAuthService',
             'notificationService',
-            'ionicMaterialInk'
+            'ionicMaterialInk',
+            '$ionicAnalytics'
         ];
         this.sponsorship = {};
         this.showEmptyState = false;
@@ -4442,6 +4467,7 @@ var SponsorshipOrganizerDetailCtrl = (function () {
             template: '<p class="text-center">In accept the sponsor</p>'
         })
             .then(function (rta) {
+            _this.$ionicAnalytics.track('Sponsor Accept', _this.sponsorship);
             if (rta)
                 _this._updateSponsorship(1); //Accepted 
         });
@@ -4453,6 +4479,7 @@ var SponsorshipOrganizerDetailCtrl = (function () {
             template: '<p class="text-center">In reject the sponsor</p>'
         })
             .then(function (rta) {
+            _this.$ionicAnalytics.track('Sponsor Reject', _this.sponsorship);
             if (rta)
                 _this._updateSponsorship(2); //Deny
         });
@@ -4500,7 +4527,7 @@ angular
 * @version 0.2
 */
 var SponsorshipsListCtrl = (function () {
-    function SponsorshipsListCtrl($scope, $rootScope, $ionicScrollDelegate, sponsorshipService, userService, utilsService, notificationService, userAuthService, ionicMaterialInk) {
+    function SponsorshipsListCtrl($scope, $rootScope, $ionicScrollDelegate, sponsorshipService, userService, utilsService, notificationService, userAuthService, ionicMaterialInk, $ionicAnalytics) {
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.$ionicScrollDelegate = $ionicScrollDelegate;
@@ -4510,6 +4537,7 @@ var SponsorshipsListCtrl = (function () {
         this.notificationService = notificationService;
         this.userAuthService = userAuthService;
         this.ionicMaterialInk = ionicMaterialInk;
+        this.$ionicAnalytics = $ionicAnalytics;
         this.$inject = [
             '$scope',
             '$rootScope',
@@ -4519,7 +4547,8 @@ var SponsorshipsListCtrl = (function () {
             'utilsService',
             'notificationService',
             'userAuthService',
-            'ionicMaterialInk'
+            'ionicMaterialInk',
+            '$ionicAnalytics'
         ];
         this.sponsorships = [];
         this.showEmptyState = false;
@@ -4538,6 +4567,7 @@ var SponsorshipsListCtrl = (function () {
             template: '<p class="text-center">In the accept the sponsor</p>'
         })
             .then(function (rta) {
+            _this.$ionicAnalytics.track('Sponsor Accept', sponzor);
             if (rta)
                 _this._updateSponsorship(sponzor, 1); //Accepted 
         });
@@ -4549,6 +4579,7 @@ var SponsorshipsListCtrl = (function () {
             template: '<p class="text-center">In the reject the sponsor</p>'
         })
             .then(function (rta) {
+            _this.$ionicAnalytics.track('Sponsor Reject', sponzor);
             if (rta)
                 _this._updateSponsorship(sponzor, 2); //Deny
         });

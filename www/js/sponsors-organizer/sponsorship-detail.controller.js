@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var SponsorshipOrganizerDetailCtrl = (function () {
-    function SponsorshipOrganizerDetailCtrl($stateParams, $rootScope, sponsorshipService, utilsService, userAuthService, notificationService, ionicMaterialInk) {
+    function SponsorshipOrganizerDetailCtrl($stateParams, $rootScope, sponsorshipService, utilsService, userAuthService, notificationService, ionicMaterialInk, $ionicAnalytics) {
         var _this = this;
         this.$stateParams = $stateParams;
         this.$rootScope = $rootScope;
@@ -16,6 +16,7 @@ var SponsorshipOrganizerDetailCtrl = (function () {
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
         this.ionicMaterialInk = ionicMaterialInk;
+        this.$ionicAnalytics = $ionicAnalytics;
         this.$inject = [
             '$stateParams',
             '$rootScope',
@@ -23,7 +24,8 @@ var SponsorshipOrganizerDetailCtrl = (function () {
             'utilsService',
             'userAuthService',
             'notificationService',
-            'ionicMaterialInk'
+            'ionicMaterialInk',
+            '$ionicAnalytics'
         ];
         this.sponsorship = {};
         this.showEmptyState = false;
@@ -41,6 +43,7 @@ var SponsorshipOrganizerDetailCtrl = (function () {
             template: '<p class="text-center">In accept the sponsor</p>'
         })
             .then(function (rta) {
+            _this.$ionicAnalytics.track('Sponsor Accept', _this.sponsorship);
             if (rta)
                 _this._updateSponsorship(1); //Accepted 
         });
@@ -52,6 +55,7 @@ var SponsorshipOrganizerDetailCtrl = (function () {
             template: '<p class="text-center">In reject the sponsor</p>'
         })
             .then(function (rta) {
+            _this.$ionicAnalytics.track('Sponsor Reject', _this.sponsorship);
             if (rta)
                 _this._updateSponsorship(2); //Deny
         });

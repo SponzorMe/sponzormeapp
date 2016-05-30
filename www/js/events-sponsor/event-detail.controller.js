@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var EventDetailSponsorCtrl = (function () {
-    function EventDetailSponsorCtrl($scope, $stateParams, $rootScope, $translate, $ionicModal, $ionicHistory, $cordovaToast, eventService, utilsService, sponsorshipService, notificationService, userAuthService, ionicMaterialInk) {
+    function EventDetailSponsorCtrl($scope, $stateParams, $rootScope, $translate, $ionicModal, $ionicHistory, $cordovaToast, eventService, utilsService, sponsorshipService, notificationService, userAuthService, ionicMaterialInk, $ionicAnalytics) {
         this.$scope = $scope;
         this.$stateParams = $stateParams;
         this.$rootScope = $rootScope;
@@ -21,6 +21,7 @@ var EventDetailSponsorCtrl = (function () {
         this.notificationService = notificationService;
         this.userAuthService = userAuthService;
         this.ionicMaterialInk = ionicMaterialInk;
+        this.$ionicAnalytics = $ionicAnalytics;
         this.$inject = [
             '$scope',
             '$stateParams',
@@ -34,7 +35,8 @@ var EventDetailSponsorCtrl = (function () {
             'sponsorshipService',
             'notificationService',
             'userAuthService',
-            'ionicMaterialInk'
+            'ionicMaterialInk',
+            '$ionicAnalytics'
         ];
         this.modalSponsorIt = null;
         this.newSponsorIt = {};
@@ -87,6 +89,7 @@ var EventDetailSponsorCtrl = (function () {
                 modelId: newSponsorship.id
             };
             _this.notificationService.sendNewSponsorship(notification, _this.event.user_organizer.id, _this.event.user_organizer.ionic_id);
+            _this.$ionicAnalytics.track('SponsorIt', newSponsorship);
             _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_sponsor_it"));
         })
             .catch(function (error) {

@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var EditEventCtrl = (function () {
-    function EditEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $stateParams, userAuthService, notificationService, $rootScope, ionicMaterialInk) {
+    function EditEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $stateParams, userAuthService, notificationService, $rootScope, ionicMaterialInk, $ionicAnalytics) {
         this.$scope = $scope;
         this.$translate = $translate;
         this.utilsService = utilsService;
@@ -24,6 +24,7 @@ var EditEventCtrl = (function () {
         this.notificationService = notificationService;
         this.$rootScope = $rootScope;
         this.ionicMaterialInk = ionicMaterialInk;
+        this.$ionicAnalytics = $ionicAnalytics;
         this.$inject = [
             '$scope',
             '$translate',
@@ -40,7 +41,8 @@ var EditEventCtrl = (function () {
             'userAuthService',
             'notificationService',
             '$rootScope',
-            'ionicMaterialInk'
+            'ionicMaterialInk',
+            '$ionicAnalytics'
         ];
         this.indexEvent = -1;
         this.newEvent = {};
@@ -273,9 +275,10 @@ var EditEventCtrl = (function () {
                 _this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
                 _this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
                 _this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
+                _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_event_mess"));
                 _this.$ionicHistory.goBack();
+                _this.$ionicAnalytics.track('Event Update', event);
             });
-            _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_event_mess"));
         })
             .catch(function (error) {
             _this.utilsService.hideLoad();

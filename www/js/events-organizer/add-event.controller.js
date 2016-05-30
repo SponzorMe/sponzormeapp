@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var AddEventCtrl = (function () {
-    function AddEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $state, notificationService, userAuthService, $rootScope, BackendVariables, ionicMaterialInk) {
+    function AddEventCtrl($scope, $translate, utilsService, $cordovaDatePicker, $cordovaCamera, eventTypeService, eventService, $ionicModal, $cordovaToast, $ionicHistory, imgurService, $state, notificationService, userAuthService, $rootScope, BackendVariables, ionicMaterialInk, $ionicAnalytics) {
         this.$scope = $scope;
         this.$translate = $translate;
         this.utilsService = utilsService;
@@ -25,6 +25,7 @@ var AddEventCtrl = (function () {
         this.$rootScope = $rootScope;
         this.BackendVariables = BackendVariables;
         this.ionicMaterialInk = ionicMaterialInk;
+        this.$ionicAnalytics = $ionicAnalytics;
         this.$inject = [
             '$scope',
             '$translate',
@@ -42,7 +43,8 @@ var AddEventCtrl = (function () {
             'userAuthService',
             '$rootScope',
             'BackendVariables',
-            'ionicMaterialInk'
+            'ionicMaterialInk',
+            '$ionicAnalytics'
         ];
         this.newEvent = {};
         this.newPerk = {};
@@ -230,6 +232,7 @@ var AddEventCtrl = (function () {
                 _this.utilsService.hideLoad();
                 _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_event_mess"));
                 _this.$state.go("organizer.events.list");
+                _this.$ionicAnalytics.track('Event Create', event);
             })
                 .catch(function (error) {
                 _this.utilsService.hideLoad();

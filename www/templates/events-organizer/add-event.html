@@ -8,8 +8,8 @@
         </ion-item>
         <!-- Image  -->
         <ion-item class="item-image"> 
-          <i class="icon ion-image cover" ng-if="!addEvent.newEvent.image" ng-click="addEvent.getPhoto()"></i>
-          <img ng-if="addEvent.newEvent.image" ng-src="{{addEvent.newEvent.image}}" ng-click="addEvent.getPhoto()" />
+          <i class="icon ion-image cover" ng-if="!addEvent.newEvent.image" ion-track-tap="tapAddEventOrganizer" ion-track-data="tapGetPhoto" ng-click="addEvent.getPhoto()"></i>
+          <img ion-track-tap="tapAddEventOrganizer" ion-track-data="tapGetPhoto" ng-if="addEvent.newEvent.image" ng-src="{{addEvent.newEvent.image}}" ng-click="addEvent.getPhoto()" />
         </ion-item>
         <!-- Title  -->
         <label class="item item-input" ng-class="{ 'has-error' : addEventForm.txttitle.$invalid && addEventForm.$submitted }">
@@ -138,13 +138,13 @@
         <ion-item class="item-divider">
           {{"ADDEVENTS.perk_label" | translate}}
         </ion-item>
-        <ion-item ng-repeat="perk in addEvent.newEvent.perks" ng-click="addEvent.editPerk( perk )" class="item-icon-right">
+        <ion-item ion-track-tap="tapAddEventOrganizer" ion-track-data="tapEditPerk" ng-repeat="perk in addEvent.newEvent.perks" ng-click="addEvent.editPerk( perk )" class="item-icon-right">
           {{ perk.kind }} - ${{ perk.usd }}
           <i class="icon ion-edit"></i>
         </ion-item>
          
         <div class="padding">
-          <button type="button" class="button button-block button-positive button-raised" ng-click="addEvent.createPerk()">
+          <button ion-track-tap="tapAddEventOrganizer" ion-track-data="tapCreatePerk" type="button" class="button button-block button-positive button-raised" ng-click="addEvent.createPerk()">
             {{"ADDEVENTS.create_perk_button" | translate}}
           </button>
         </div>
@@ -161,7 +161,7 @@
       </ion-list>
 
       <div class="padding">
-         <button type="submit" class="button button-block button-positive button-raised">
+         <button type="submit" class="button button-block button-positive button-raised" ion-track-tap="tapAddEventOrganizer" ion-track-data="tapCreateEvent">
           {{"ADDEVENTS.button_message" | translate}}
         </button>
       </div>

@@ -1,7 +1,7 @@
 <ion-view spm-hide-tabs class="detail-event">
 	<ion-nav-title>{{ eventDetail.event.title | limitTo:20 }}<span ng-show="eventDetail.event.title.length >= 20">...</span></ion-nav-title>
   <ion-nav-buttons side="right">
-    <button class="button button-icon button-clear ion-android-more-vertical button-raised"
+    <button ion-track-tap="tapEventDetailOrganizer" ion-track-data="tapShowActionSheet" class="button button-icon button-clear ion-android-more-vertical button-raised"
     ng-click="eventDetail.showActionSheet()"></button>
   </ion-nav-buttons>
   <ion-content scroll="false">
@@ -9,9 +9,9 @@
       <div class="tsb-icons">
         <div class="tsb-ic-wrp">
           <ion-scroll direction="x" class="tsb-hscroll">
-            <a>{{"EVENTDETAIL.detail_title" | translate}}</a>
-            <a>{{"EVENTDETAIL.sponsorships_title" | translate}}</a>
-            <a>{{"EVENTDETAIL.tasks_title" | translate}}</a>
+            <a ion-track-tap="tapEventDetailOrganizer" ion-track-data="tapTabDetail">{{"EVENTDETAIL.detail_title" | translate}}</a>
+            <a ion-track-tap="tapEventDetailOrganizer" ion-track-data="tapTabSponsorships">{{"EVENTDETAIL.sponsorships_title" | translate}}</a>
+            <a ion-track-tap="tapEventDetailOrganizer" ion-track-data="tapTabTasks">{{"EVENTDETAIL.tasks_title" | translate}}</a>
           </ion-scroll>
         </div>
       </div>
@@ -78,7 +78,7 @@
               <ion-item ng-show="perk.sponzorship.length == 0">
                 {{"EVENTDETAIL.list_empty" | translate}}
               </ion-item>
-              <ion-item ng-click="eventDetail.openOptionsSponsorship( sponzorship )" class="item-icon-left item-icon-right" ng-repeat="sponzorship in perk.sponzorship">
+              <ion-item ion-track-tap="tapEventDetailOrganizer" ion-track-data="tapOpenOptionsSponsorship" ng-click="eventDetail.openOptionsSponsorship( sponzorship )" class="item-icon-left item-icon-right" ng-repeat="sponzorship in perk.sponzorship">
                 <i class="icon ion-flag"></i>
                 <h2> {{ sponzorship.cause }} </h2>
                 <p> {{ sponzorship.sponzor.name }} </p>
@@ -102,14 +102,14 @@
             <ion-list type="card" ng-show="eventDetail.event.perks.length > 0" ng-repeat="(indexPerk, perk) in eventDetail.event.perks">
               <ion-item class="item-button-right">
                 {{"EVENTDETAIL.perk_divider" | translate}}: {{ perk.kind }} - ${{ perk.usd }}
-                <a class="button button-positive button-raised" ng-click="eventDetail.newTask( perk, indexPerk )">
+                <a class="button button-positive button-raised" ng-click="eventDetail.newTask( perk, indexPerk )" ion-track-tap="tapEventDetailOrganizer" ion-track-data="tapNewTask">
                   <i class="icon ion-plus-round"></i>
                 </a>
               </ion-item>
               <ion-item ng-show="perk.tasks.length == 0">
                 {{"EVENTDETAIL.list_empty" | translate}}
               </ion-item>
-              <ion-item ng-click="eventDetail.editTask( task, indexPerk, indexTask )" class="item-icon-left" ng-repeat="(indexTask, task) in perk.tasks" ng-class="{done: task.status == 1}">
+              <ion-item ion-track-tap="tapEventDetailOrganizer" ion-track-data="tapEditTask" ng-click="eventDetail.editTask( task, indexPerk, indexTask )" class="item-icon-left" ng-repeat="(indexTask, task) in perk.tasks" ng-class="{done: task.status == 1}">
                 <i class="icon ion-checkmark"></i>
                 <h2> {{ task.title }} </h2>
                 <p> {{ task.description }} </p>

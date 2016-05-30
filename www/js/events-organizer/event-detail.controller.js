@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var EventDetailOrganizerCtrl = (function () {
-    function EventDetailOrganizerCtrl($scope, $stateParams, $state, $translate, $rootScope, $ionicPopup, $ionicActionSheet, $ionicSideMenuDelegate, $ionicHistory, $ionicModal, $cordovaSocialSharing, $cordovaCalendar, $cordovaToast, BackendVariables, eventService, utilsService, sponsorshipService, notificationService, userAuthService, perkTaskService, ionicMaterialInk) {
+    function EventDetailOrganizerCtrl($scope, $stateParams, $state, $translate, $rootScope, $ionicPopup, $ionicActionSheet, $ionicSideMenuDelegate, $ionicHistory, $ionicModal, $cordovaSocialSharing, $cordovaCalendar, $cordovaToast, BackendVariables, eventService, utilsService, sponsorshipService, notificationService, userAuthService, perkTaskService, ionicMaterialInk, $ionicAnalytics) {
         this.$scope = $scope;
         this.$stateParams = $stateParams;
         this.$state = $state;
@@ -29,6 +29,7 @@ var EventDetailOrganizerCtrl = (function () {
         this.userAuthService = userAuthService;
         this.perkTaskService = perkTaskService;
         this.ionicMaterialInk = ionicMaterialInk;
+        this.$ionicAnalytics = $ionicAnalytics;
         this.$inject = [
             '$scope',
             '$stateParams',
@@ -50,7 +51,8 @@ var EventDetailOrganizerCtrl = (function () {
             'notificationService',
             'userAuthService',
             'perkTaskService',
-            'ionicMaterialInk'
+            'ionicMaterialInk',
+            '$ionicAnalytics'
         ];
         this.popupOptionsSponsorship = null;
         this.hideSheet = null;
@@ -87,6 +89,7 @@ var EventDetailOrganizerCtrl = (function () {
     //Options for sponsorship modal
     EventDetailOrganizerCtrl.prototype._editEvent = function () {
         this.$state.go('organizer.editevent', { id: this.event.id });
+        this.$ionicAnalytics.track('tapEventDetailOrganizer', 'editEventActionSheet');
     };
     EventDetailOrganizerCtrl.prototype._shareEvent = function () {
         var _this = this;
@@ -97,7 +100,8 @@ var EventDetailOrganizerCtrl = (function () {
         this.$cordovaSocialSharing
             .share(message, subject, image, link) // Share via native share sheet
             .then(function () {
-            _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_add_to_calendar"));
+            //this.$cordovaToast.showShortBottom(  this.$translate.instant("MESSAGES.succ_add_to_calendar") );
+            _this.$ionicAnalytics.track('tapEventDetailOrganizer', 'shareEventActionSheet');
         });
     };
     EventDetailOrganizerCtrl.prototype._addToCalendar = function () {
@@ -112,6 +116,7 @@ var EventDetailOrganizerCtrl = (function () {
         })
             .then(function () {
             _this.$cordovaToast.showShortBottom(_this.$translate.instant("MESSAGES.succ_add_to_calendar"));
+            _this.$ionicAnalytics.track('tapEventDetailOrganizer', 'addToCalendarActionSheet');
         });
     };
     //Send Notifications
@@ -202,6 +207,7 @@ var EventDetailOrganizerCtrl = (function () {
             else if (sponsorship.status == 2) {
                 _this.notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id, sponsorship.ionic_id);
             }
+            _this.$ionicAnalytics.track('Update Sponsorship', sponsorship);
             _this.closeOptionsSponsorship();
         })
             .catch(function (error) {
@@ -273,6 +279,7 @@ var EventDetailOrganizerCtrl = (function () {
             _this.utilsService.resetForm(form);
             _this._hideModalTask(form);
             _this.utilsService.hideLoad();
+            _this.$ionicAnalytics.track('Create Task Organizer', data);
         })
             .catch(function (error) {
             _this.utilsService.resetForm(form);
@@ -296,6 +303,7 @@ var EventDetailOrganizerCtrl = (function () {
         this.utilsService.showLoad();
         this.perkTaskService.deletePerkTask(this.task.id)
             .then(function (data) {
+            _this.$ionicAnalytics.track('Delete Task Organizer', _this.task);
             _this.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
             _this._sendDeleteTaskNotification(_this.event.perks[_this.indexPerk].tasks[_this.indexTask].title);
             _this.event.perks[_this.indexPerk].tasks.splice(_this.indexTask, 1);
@@ -323,6 +331,7 @@ var EventDetailOrganizerCtrl = (function () {
         this.task.status = this.task.status ? 1 : 0;
         this.perkTaskService.editPerkTaskPatch(this.task.id, this.task)
             .then(function (task) {
+            _this.$ionicAnalytics.track('Update Task Organizer', task);
             _this._sendUpdateTaskNotification(task.title, _this.event.perks[_this.indexPerk].tasks[_this.indexTask].status == 0 && task.status == 1);
             _this.event.perks[_this.indexPerk].tasks[_this.indexTask] = task;
             _this.utilsService.resetForm(form);

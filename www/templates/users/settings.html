@@ -3,19 +3,19 @@
   <ion-content>
   	<ion-list>
   		<ion-item class="item-divider">{{'SETTINGS.language_divider' | translate}}</ion-item>
-      <ion-radio ng-model="settings.lang" ng-value="'es'" ng-change="settings.save()">
+      <ion-radio ion-track-tap="tapSettings" ion-track-data="LangEs" ng-model="settings.lang" ng-value="'es'" ng-change="settings.save()">
       	{{'SETTINGS.spanish_label' | translate}}
       </ion-radio>
-      <ion-radio ng-model="settings.lang" ng-value="'en'" ng-change="settings.save()">
+      <ion-radio ion-track-tap="tapSettings" ion-track-data="LangEn" ng-model="settings.lang" ng-value="'en'" ng-change="settings.save()">
       	{{'SETTINGS.english_label' | translate}}
       </ion-radio>
-      <ion-radio ng-model="settings.lang" ng-value="'pt'" ng-change="settings.save()">
+      <ion-radio ion-track-tap="tapSettings" ion-track-data="LangPt" ng-model="settings.lang" ng-value="'pt'" ng-change="settings.save()">
       	{{'SETTINGS.portuguese_label' | translate}}
       </ion-radio>
       <ion-item class="item-divider">{{'SETTINGS.app_divider' | translate}}</ion-item>
       <ion-item class="item-button-right">
       	{{'SETTINGS.check_update' | translate}}
-      	<button class="button button-positive button-raised" ng-click="settings.checkForUpdates()">
+      	<button class="button button-positive button-raised" ion-track-tap="tapSettings" ion-track-data="checkForUpdates" ng-click="settings.checkForUpdates()">
 		      <i class="icon ion-search"></i>
 		    </button>
       </ion-item>

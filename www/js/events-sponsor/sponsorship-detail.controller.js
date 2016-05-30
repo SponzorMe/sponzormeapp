@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var SponsorshipSponsorDetailCtrl = (function () {
-    function SponsorshipSponsorDetailCtrl($scope, $rootScope, $stateParams, $translate, $ionicModal, $ionicHistory, $cordovaToast, utilsService, taskSponsorService, userAuthService, notificationService, ionicMaterialInk) {
+    function SponsorshipSponsorDetailCtrl($scope, $rootScope, $stateParams, $translate, $ionicModal, $ionicHistory, $cordovaToast, utilsService, taskSponsorService, userAuthService, notificationService, ionicMaterialInk, $ionicAnalytics) {
         var _this = this;
         this.$scope = $scope;
         this.$rootScope = $rootScope;
@@ -21,6 +21,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
         this.userAuthService = userAuthService;
         this.notificationService = notificationService;
         this.ionicMaterialInk = ionicMaterialInk;
+        this.$ionicAnalytics = $ionicAnalytics;
         this.$inject = [
             '$scope',
             '$rootScope',
@@ -33,7 +34,8 @@ var SponsorshipSponsorDetailCtrl = (function () {
             'taskSponsorService',
             'userAuthService',
             'notificationService',
-            'ionicMaterialInk'
+            'ionicMaterialInk',
+            '$ionicAnalytics'
         ];
         this.sponsorship = {};
         this.modalTask = null;
@@ -83,6 +85,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
                 text: data.TaskSponzor.task.title,
                 modelId: _this.sponsorship.id
             }, data.TaskSponzor.organizer_id, data.TaskSponzor.organizer_ionic_id);
+            _this.$ionicAnalytics.track('Create Task Sponsor', data.TaskSponzor.task);
             _this.utilsService.hideLoad();
         })
             .catch(function (error) {
@@ -94,6 +97,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
         this.utilsService.showLoad();
         this.taskSponsorService.deleteTask(this.sponsorTask.id)
             .then(function (data) {
+            _this.$ionicAnalytics.track('Delete Task Sponsor', _this.sponsorTask);
             var perkTask = _.findWhere(_this.sponsorship.perk.tasks, { id: _this.sponsorTask.task.id });
             var taskSponzor = _.findWhere(_this.sponsorship.task_sponzor, { id: _this.sponsorTask.id });
             var indexPerkTask = _.indexOf(_this.sponsorship.perk.tasks, perkTask);
@@ -131,6 +135,7 @@ var SponsorshipSponsorDetailCtrl = (function () {
                     modelId: _this.sponsorship.id
                 }, TaskSponsor.organizer_id, TaskSponsor.organizer_ionic_id);
             }
+            _this.$ionicAnalytics.track('Update Task Sponsor', _this.sponsorTask.task);
             _this.sponsorship.perk.tasks[indexPerkTask] = _this.sponsorTask.task;
             _this.sponsorship.task_sponzor[indexSponzorTask] = _this.sponsorTask;
             _this.hideModalTask(form);
