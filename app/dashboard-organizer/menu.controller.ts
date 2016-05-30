@@ -15,6 +15,7 @@ class MenuOrganizerCtrl{
     '$ionicAuth',
     '$ionicHistory',
     'userAuthService',
+    'utilsService',
     'notificationService',
     '$localStorage',
     'ionicMaterialInk'
@@ -32,6 +33,7 @@ class MenuOrganizerCtrl{
     private $ionicAuth,
     private $ionicHistory: ionic.navigation.IonicHistoryService,
     private userAuthService: userAuthModule.IUserAuthService,
+    private utilsService: utilsServiceModule.IUtilsService,
     private notificationService: notificationModule.INotificationService,
     private $localStorage,
     private ionicMaterialInk
@@ -74,10 +76,17 @@ class MenuOrganizerCtrl{
   }
   
   logout(){
-    this.$ionicAuth.logout();
-    this.$localStorage.$reset();
-    this.$ionicHistory.clearCache();
-    this.$state.go('signin');
+    this.utilsService.showLoad();
+    this.$ionicHistory.clearCache()
+    .then(() => {
+      this.$ionicAuth.logout();
+      this.$localStorage.$reset();
+      this.$state.go('signin');
+      this.utilsService.hideLoad();
+    })
+    .catch(() => {
+      this.utilsService.hideLoad();
+    });
   }
   
   filterDate( item ){

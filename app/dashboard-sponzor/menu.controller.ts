@@ -16,6 +16,7 @@ class MenuSponsorCtrl{
     '$ionicAuth',
     '$ionicHistory',
     'userAuthService',
+    'utilsService',
     'notificationService',
     'ionicMaterialInk'
   ];
@@ -32,6 +33,7 @@ class MenuSponsorCtrl{
     private $ionicAuth,
     private $ionicHistory: ionic.navigation.IonicHistoryService,
     private userAuthService: userAuthModule.IUserAuthService,
+    private utilsService: utilsServiceModule.IUtilsService,
     private notificationService: notificationModule.INotificationService,
     private ionicMaterialInk
   ){
@@ -64,10 +66,20 @@ class MenuSponsorCtrl{
   }
   
   logout(){
-    this.$ionicAuth.logout();
-    this.$localStorage.$reset();
-    this.$ionicHistory.clearCache();
-    this.$state.go('signin');
+    this.utilsService.showLoad();
+    this.$ionicHistory.clearCache()
+    .then(() => {
+      this.$ionicAuth.logout();
+      this.$localStorage.$reset();
+      this.$state.go('signin');
+    })
+    .catch(() => {
+      this.$ionicAuth.logout();
+      this.$localStorage.$reset();
+      this.$state.go('signin');
+      this.utilsService.hideLoad();
+    });
+    
   }
   
 }
