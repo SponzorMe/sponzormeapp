@@ -482,13 +482,13 @@
 /// <reference path="../../typings/tsd.d.ts" />
 (function () {
     'use strict';
-    angular.module('app.dashboard-organizer', []);
+    angular.module('app.dashboard-sponzor', []);
 })();
 
 /// <reference path="../../typings/tsd.d.ts" />
 (function () {
     'use strict';
-    angular.module('app.dashboard-sponzor', []);
+    angular.module('app.dashboard-organizer', []);
 })();
 
 /// <reference path="../../typings/tsd.d.ts" />
@@ -2366,6 +2366,206 @@ var utilsServiceModule;
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../services.d.ts" />
 /**
+* @Controller for Home Organizer
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+*/
+var HomeSponsorCtrl = (function () {
+    function HomeSponsorCtrl($localStorage, userService, utilsService, $scope, $rootScope, userAuthService, ionicMaterialInk) {
+        this.$localStorage = $localStorage;
+        this.userService = userService;
+        this.utilsService = utilsService;
+        this.$scope = $scope;
+        this.$rootScope = $rootScope;
+        this.userAuthService = userAuthService;
+        this.ionicMaterialInk = ionicMaterialInk;
+        this.$inject = [
+            '$localStorage',
+            'userService',
+            'utilsService',
+            '$scope',
+            '$rootScope',
+            'userAuthService',
+            'ionicMaterialInk'
+        ];
+        this.events = [];
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
+        this.userAuth = this.userAuthService.getUserAuth();
+        this.events = this.userAuth.events.filter(this.filterDate);
+        this.registerListenerEvents();
+    }
+    HomeSponsorCtrl.prototype.registerListenerEvents = function () {
+        var _this = this;
+        this.$rootScope.$on('HomeSponsorCtrl:getEvents', function () {
+            _this.userAuth = _this.userAuthService.getUserAuth();
+            _this.events = _this.userAuth.events.filter(_this.filterDate);
+        });
+    };
+    HomeSponsorCtrl.prototype.doRefresh = function () {
+        var _this = this;
+        this.userService.home(this.userAuth.id)
+            .then(function (user) {
+            _this.userAuth = _this.userAuthService.updateUserAuth(user);
+            _this.events = _this.userAuth.events.filter(_this.filterDate);
+            _this.$scope.$broadcast('scroll.refreshComplete');
+        })
+            .catch(function () { return _this.$scope.$broadcast('scroll.refreshComplete'); });
+    };
+    HomeSponsorCtrl.prototype.filterDate = function (item) {
+        return moment(item.starts).isAfter(new Date());
+    };
+    return HomeSponsorCtrl;
+}());
+angular
+    .module('app.dashboard-sponzor')
+    .controller('HomeSponsorCtrl', HomeSponsorCtrl);
+
+/// <reference path="../../typings/tsd.d.ts" />
+/**
+* @Controller for Home Organizer
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+*/
+var IntroSponsorCtrl = (function () {
+    function IntroSponsorCtrl($state, $scope, $ionicHistory, $ionicSideMenuDelegate, ionicMaterialInk) {
+        var _this = this;
+        this.$state = $state;
+        this.$scope = $scope;
+        this.$ionicHistory = $ionicHistory;
+        this.$ionicSideMenuDelegate = $ionicSideMenuDelegate;
+        this.ionicMaterialInk = ionicMaterialInk;
+        this.$inject = [
+            '$state',
+            '$scope',
+            '$ionicHistory',
+            '$ionicSideMenuDelegate',
+            'ionicMaterialInk'
+        ];
+        this.slideIndex = 0;
+        this.slider = null;
+        this.data = {};
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
+        this.$ionicSideMenuDelegate.canDragContent(false);
+        this.$scope.$watch(function () { return _this.data; }, function (oldValue, newValue) {
+            if (Object.keys(_this.data).length > 0) {
+                _this.slider = _this.data;
+                _this.slider.on('slideChangeEnd', function () {
+                    _this.slideIndex = _this.slider.activeIndex;
+                    _this.$scope.$apply();
+                });
+            }
+        });
+    }
+    IntroSponsorCtrl.prototype.startApp = function () {
+        this.$ionicHistory.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true
+        });
+        this.$state.go("sponzor.home");
+    };
+    IntroSponsorCtrl.prototype.nextSlide = function () {
+        this.slider.slideNext();
+    };
+    IntroSponsorCtrl.prototype.previousSlide = function () {
+        this.slider.slidePrev();
+    };
+    return IntroSponsorCtrl;
+}());
+angular
+    .module('app.dashboard-sponzor')
+    .controller('IntroSponsorCtrl', IntroSponsorCtrl);
+
+/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
+/**
+* @Controller for Home Organizer
+*
+* @author Carlos Rojas, Nicolas Molina
+* @version 0.2
+*/
+var MenuSponsorCtrl = (function () {
+    function MenuSponsorCtrl($state, $q, $localStorage, $rootScope, $ionicAuth, $ionicHistory, userAuthService, utilsService, notificationService, ionicMaterialInk) {
+        this.$state = $state;
+        this.$q = $q;
+        this.$localStorage = $localStorage;
+        this.$rootScope = $rootScope;
+        this.$ionicAuth = $ionicAuth;
+        this.$ionicHistory = $ionicHistory;
+        this.userAuthService = userAuthService;
+        this.utilsService = utilsService;
+        this.notificationService = notificationService;
+        this.ionicMaterialInk = ionicMaterialInk;
+        this.$inject = [
+            '$state',
+            '$q',
+            '$localStorage',
+            '$rootScope',
+            '$ionicAuth',
+            '$ionicHistory',
+            'userAuthService',
+            'utilsService',
+            'notificationService',
+            'ionicMaterialInk'
+        ];
+        this.count_following = 0;
+        this.count_sponsoring = 0;
+        this.notifications = [];
+        if (ionic.Platform.isAndroid()) {
+            this.ionicMaterialInk.displayEffect();
+        }
+        this.userAuth = userAuthService.getUserAuth();
+        this.count_sponsoring = this.userAuth.sponzorships.filter(this.filterByAccepted).length;
+        this.count_following = this.userAuth.sponzorships.filter(this._filterByDateAndByPending).length;
+        this.notifications = notificationService.getNotifications(this.userAuth.id);
+        this.registerListenerCounts();
+    }
+    MenuSponsorCtrl.prototype.registerListenerCounts = function () {
+        var _this = this;
+        this.$rootScope.$on('MenuSponsorCtrl:counts', function () {
+            _this.userAuth = _this.userAuthService.getUserAuth();
+            _this.count_sponsoring = _this.userAuth.sponzorships.filter(_this.filterByAccepted).length;
+            _this.count_following = _this.userAuth.sponzorships.filter(_this._filterByDateAndByPending).length;
+        });
+    };
+    MenuSponsorCtrl.prototype.filterByAccepted = function (item) {
+        return item.status == '1';
+    };
+    MenuSponsorCtrl.prototype._filterByDateAndByPending = function (item) {
+        return item.status != '1' && moment(item.event.starts).isAfter(new Date());
+    };
+    MenuSponsorCtrl.prototype.logout = function () {
+        var _this = this;
+        this.utilsService.showLoad();
+        this.$ionicHistory.clearCache()
+            .then(function () {
+            return _this.$ionicHistory.clearHistory();
+        })
+            .then(function () {
+            console.log('clearCache');
+            _this.$ionicAuth.logout();
+            _this.$localStorage.$reset();
+            _this.$state.go('signin');
+            _this.utilsService.hideLoad();
+        })
+            .catch(function () {
+            _this.utilsService.hideLoad();
+        });
+    };
+    return MenuSponsorCtrl;
+}());
+angular
+    .module('app.dashboard-sponzor')
+    .controller('MenuSponsorCtrl', MenuSponsorCtrl);
+
+/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../services.d.ts" />
+/**
 * @Controller HomeOrganizerCtrl
 *
 * @author Carlos Rojas, Nicolas Molina
@@ -2590,206 +2790,6 @@ var MenuOrganizerCtrl = (function () {
 angular
     .module('app.dashboard-organizer')
     .controller('MenuOrganizerCtrl', MenuOrganizerCtrl);
-
-/// <reference path="../../typings/tsd.d.ts" />
-/// <reference path="../services.d.ts" />
-/**
-* @Controller for Home Organizer
-*
-* @author Carlos Rojas, Nicolas Molina
-* @version 0.2
-*/
-var HomeSponsorCtrl = (function () {
-    function HomeSponsorCtrl($localStorage, userService, utilsService, $scope, $rootScope, userAuthService, ionicMaterialInk) {
-        this.$localStorage = $localStorage;
-        this.userService = userService;
-        this.utilsService = utilsService;
-        this.$scope = $scope;
-        this.$rootScope = $rootScope;
-        this.userAuthService = userAuthService;
-        this.ionicMaterialInk = ionicMaterialInk;
-        this.$inject = [
-            '$localStorage',
-            'userService',
-            'utilsService',
-            '$scope',
-            '$rootScope',
-            'userAuthService',
-            'ionicMaterialInk'
-        ];
-        this.events = [];
-        if (ionic.Platform.isAndroid()) {
-            this.ionicMaterialInk.displayEffect();
-        }
-        this.userAuth = this.userAuthService.getUserAuth();
-        this.events = this.userAuth.events.filter(this.filterDate);
-        this.registerListenerEvents();
-    }
-    HomeSponsorCtrl.prototype.registerListenerEvents = function () {
-        var _this = this;
-        this.$rootScope.$on('HomeSponsorCtrl:getEvents', function () {
-            _this.userAuth = _this.userAuthService.getUserAuth();
-            _this.events = _this.userAuth.events.filter(_this.filterDate);
-        });
-    };
-    HomeSponsorCtrl.prototype.doRefresh = function () {
-        var _this = this;
-        this.userService.home(this.userAuth.id)
-            .then(function (user) {
-            _this.userAuth = _this.userAuthService.updateUserAuth(user);
-            _this.events = _this.userAuth.events.filter(_this.filterDate);
-            _this.$scope.$broadcast('scroll.refreshComplete');
-        })
-            .catch(function () { return _this.$scope.$broadcast('scroll.refreshComplete'); });
-    };
-    HomeSponsorCtrl.prototype.filterDate = function (item) {
-        return moment(item.starts).isAfter(new Date());
-    };
-    return HomeSponsorCtrl;
-}());
-angular
-    .module('app.dashboard-sponzor')
-    .controller('HomeSponsorCtrl', HomeSponsorCtrl);
-
-/// <reference path="../../typings/tsd.d.ts" />
-/**
-* @Controller for Home Organizer
-*
-* @author Carlos Rojas, Nicolas Molina
-* @version 0.2
-*/
-var IntroSponsorCtrl = (function () {
-    function IntroSponsorCtrl($state, $scope, $ionicHistory, $ionicSideMenuDelegate, ionicMaterialInk) {
-        var _this = this;
-        this.$state = $state;
-        this.$scope = $scope;
-        this.$ionicHistory = $ionicHistory;
-        this.$ionicSideMenuDelegate = $ionicSideMenuDelegate;
-        this.ionicMaterialInk = ionicMaterialInk;
-        this.$inject = [
-            '$state',
-            '$scope',
-            '$ionicHistory',
-            '$ionicSideMenuDelegate',
-            'ionicMaterialInk'
-        ];
-        this.slideIndex = 0;
-        this.slider = null;
-        this.data = {};
-        if (ionic.Platform.isAndroid()) {
-            this.ionicMaterialInk.displayEffect();
-        }
-        this.$ionicSideMenuDelegate.canDragContent(false);
-        this.$scope.$watch(function () { return _this.data; }, function (oldValue, newValue) {
-            if (Object.keys(_this.data).length > 0) {
-                _this.slider = _this.data;
-                _this.slider.on('slideChangeEnd', function () {
-                    _this.slideIndex = _this.slider.activeIndex;
-                    _this.$scope.$apply();
-                });
-            }
-        });
-    }
-    IntroSponsorCtrl.prototype.startApp = function () {
-        this.$ionicHistory.nextViewOptions({
-            disableAnimate: true,
-            disableBack: true
-        });
-        this.$state.go("sponzor.home");
-    };
-    IntroSponsorCtrl.prototype.nextSlide = function () {
-        this.slider.slideNext();
-    };
-    IntroSponsorCtrl.prototype.previousSlide = function () {
-        this.slider.slidePrev();
-    };
-    return IntroSponsorCtrl;
-}());
-angular
-    .module('app.dashboard-sponzor')
-    .controller('IntroSponsorCtrl', IntroSponsorCtrl);
-
-/// <reference path="../../typings/tsd.d.ts" />
-/// <reference path="../services.d.ts" />
-/**
-* @Controller for Home Organizer
-*
-* @author Carlos Rojas, Nicolas Molina
-* @version 0.2
-*/
-var MenuSponsorCtrl = (function () {
-    function MenuSponsorCtrl($state, $q, $localStorage, $rootScope, $ionicAuth, $ionicHistory, userAuthService, utilsService, notificationService, ionicMaterialInk) {
-        this.$state = $state;
-        this.$q = $q;
-        this.$localStorage = $localStorage;
-        this.$rootScope = $rootScope;
-        this.$ionicAuth = $ionicAuth;
-        this.$ionicHistory = $ionicHistory;
-        this.userAuthService = userAuthService;
-        this.utilsService = utilsService;
-        this.notificationService = notificationService;
-        this.ionicMaterialInk = ionicMaterialInk;
-        this.$inject = [
-            '$state',
-            '$q',
-            '$localStorage',
-            '$rootScope',
-            '$ionicAuth',
-            '$ionicHistory',
-            'userAuthService',
-            'utilsService',
-            'notificationService',
-            'ionicMaterialInk'
-        ];
-        this.count_following = 0;
-        this.count_sponsoring = 0;
-        this.notifications = [];
-        if (ionic.Platform.isAndroid()) {
-            this.ionicMaterialInk.displayEffect();
-        }
-        this.userAuth = userAuthService.getUserAuth();
-        this.count_sponsoring = this.userAuth.sponzorships.filter(this.filterByAccepted).length;
-        this.count_following = this.userAuth.sponzorships.filter(this._filterByDateAndByPending).length;
-        this.notifications = notificationService.getNotifications(this.userAuth.id);
-        this.registerListenerCounts();
-    }
-    MenuSponsorCtrl.prototype.registerListenerCounts = function () {
-        var _this = this;
-        this.$rootScope.$on('MenuSponsorCtrl:counts', function () {
-            _this.userAuth = _this.userAuthService.getUserAuth();
-            _this.count_sponsoring = _this.userAuth.sponzorships.filter(_this.filterByAccepted).length;
-            _this.count_following = _this.userAuth.sponzorships.filter(_this._filterByDateAndByPending).length;
-        });
-    };
-    MenuSponsorCtrl.prototype.filterByAccepted = function (item) {
-        return item.status == '1';
-    };
-    MenuSponsorCtrl.prototype._filterByDateAndByPending = function (item) {
-        return item.status != '1' && moment(item.event.starts).isAfter(new Date());
-    };
-    MenuSponsorCtrl.prototype.logout = function () {
-        var _this = this;
-        this.utilsService.showLoad();
-        this.$ionicHistory.clearCache()
-            .then(function () {
-            return _this.$ionicHistory.clearHistory();
-        })
-            .then(function () {
-            console.log('clearCache');
-            _this.$ionicAuth.logout();
-            _this.$localStorage.$reset();
-            _this.$state.go('signin');
-            _this.utilsService.hideLoad();
-        })
-            .catch(function () {
-            _this.utilsService.hideLoad();
-        });
-    };
-    return MenuSponsorCtrl;
-}());
-angular
-    .module('app.dashboard-sponzor')
-    .controller('MenuSponsorCtrl', MenuSponsorCtrl);
 
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../services.d.ts" />
