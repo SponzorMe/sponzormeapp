@@ -22,7 +22,7 @@
             <i class="icon ion-flag"></i>
           </a>
         </ion-item>
-        <ion-item ng-click="taskList.editTask( task, indexEvent, indexPerk, indexTask )" ng-repeat="(indexTask, task) in perk.tasks" class="item-icon-left" ng-class="{done: task.status == 1}">
+        <ion-item ion-track-tap="tapPastEventOrganizer" ion-track-data="tapEditTask" ng-click="taskList.editTask( task, indexEvent, indexPerk, indexTask )" ng-repeat="(indexTask, task) in perk.tasks" class="item-icon-left" ng-class="{done: task.status == 1}">
           <i class="icon ion-checkmark"></i>
           <h2>{{ task.title }}</h2>
           <p>{{ task.description }}</p>

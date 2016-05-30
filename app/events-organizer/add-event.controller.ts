@@ -25,7 +25,8 @@ class AddEventCtrl{
     'userAuthService',
     '$rootScope',
     'BackendVariables',
-    'ionicMaterialInk'
+    'ionicMaterialInk',
+    '$ionicAnalytics'
   ];
   newEvent:any = {};
   newPerk:any = {};
@@ -52,7 +53,8 @@ class AddEventCtrl{
     private userAuthService: userAuthModule.IUserAuthService,
     private $rootScope,
     private BackendVariables,
-    private ionicMaterialInk
+    private ionicMaterialInk,
+    private $ionicAnalytics
   ){
     
     if(ionic.Platform.isAndroid()){
@@ -243,6 +245,7 @@ class AddEventCtrl{
           this.utilsService.hideLoad();
           this.$cordovaToast.showShortBottom(this.$translate.instant("MESSAGES.succ_event_mess"));
           this.$state.go("organizer.events.list");
+          this.$ionicAnalytics.track('Event Create', event);
         })
         .catch( error => {
           this.utilsService.hideLoad();

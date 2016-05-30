@@ -76,7 +76,7 @@
                 <p> {{ task.description }} </p>
               </ion-item>
               <ion-item ng-show="!perk.already">
-                <button ng-show="!perk.already" type="button" class="button button-block button-positive" ng-click="eventDetail.createSponsorIt(perk)">
+                <button ion-track-tap="tapEventDetailSponsor" ion-track-data="tapSponsorIt" ng-show="!perk.already" type="button" class="button button-block button-positive" ng-click="eventDetail.createSponsorIt(perk)">
                   {{"EVENTDETAIL.sponsor_it_button" | translate}}
                 </button>
               </ion-item>

@@ -29,7 +29,8 @@ class EventDetailOrganizerCtrl{
     'notificationService',
     'userAuthService',
     'perkTaskService',
-    'ionicMaterialInk'
+    'ionicMaterialInk',
+    '$ionicAnalytics'
   ];
   popupOptionsSponsorship:any = null;
   hideSheet:any = null;
@@ -64,7 +65,8 @@ class EventDetailOrganizerCtrl{
     private notificationService: notificationModule.INotificationService,
     private userAuthService: userAuthModule.IUserAuthService,
     private perkTaskService: perkTaskModule.IPerkTaskService,
-    private ionicMaterialInk
+    private ionicMaterialInk,
+    private $ionicAnalytics
   ){
     if(ionic.Platform.isAndroid()){
       this.ionicMaterialInk.displayEffect();
@@ -98,6 +100,7 @@ class EventDetailOrganizerCtrl{
   
   private  _editEvent(){
     this.$state.go('organizer.editevent', { id: this.event.id });
+    this.$ionicAnalytics.track('tapEventDetailOrganizer', 'editEventActionSheet');
   }
   
   private _shareEvent(){
@@ -108,7 +111,8 @@ class EventDetailOrganizerCtrl{
     this.$cordovaSocialSharing
     .share( message, subject, image, link) // Share via native share sheet
     .then( () => {
-      this.$cordovaToast.showShortBottom(  this.$translate.instant("MESSAGES.succ_add_to_calendar") );
+      //this.$cordovaToast.showShortBottom(  this.$translate.instant("MESSAGES.succ_add_to_calendar") );
+      this.$ionicAnalytics.track('tapEventDetailOrganizer', 'shareEventActionSheet');
     });
   }
 
@@ -123,6 +127,7 @@ class EventDetailOrganizerCtrl{
     })
     .then( () => {
       this.$cordovaToast.showShortBottom(this.$translate.instant("MESSAGES.succ_add_to_calendar"));
+      this.$ionicAnalytics.track('tapEventDetailOrganizer', 'addToCalendarActionSheet');
     });
   }
   
@@ -238,6 +243,8 @@ class EventDetailOrganizerCtrl{
         this.notificationService.sendRejectSponsorship(notification, sponsorship.sponzor_id, sponsorship.ionic_id);
       }
       
+      this.$ionicAnalytics.track('Update Sponsorship', sponsorship);
+      
       this.closeOptionsSponsorship();
     })
     .catch( error => {
@@ -316,6 +323,8 @@ class EventDetailOrganizerCtrl{
       this.utilsService.resetForm( form );
       this._hideModalTask( form );
       this.utilsService.hideLoad();
+      
+      this.$ionicAnalytics.track('Create Task Organizer', data);
     })
     .catch( error => {
       this.utilsService.resetForm( form );
@@ -342,6 +351,8 @@ class EventDetailOrganizerCtrl{
     this.utilsService.showLoad();
     this.perkTaskService.deletePerkTask( this.task.id )
     .then( data => {
+      this.$ionicAnalytics.track('Delete Task Organizer', this.task);
+      
       this.userAuth.sponzorships_like_organizer = data.sponzorships_like_organizer;
       
       this._sendDeleteTaskNotification( this.event.perks[this.indexPerk].tasks[this.indexTask].title );
@@ -371,6 +382,8 @@ class EventDetailOrganizerCtrl{
     this.task.status = this.task.status ? 1 : 0;
     this.perkTaskService.editPerkTaskPatch( this.task.id, this.task )
     .then( task => {
+      this.$ionicAnalytics.track('Update Task Organizer', task);
+      
       this._sendUpdateTaskNotification( task.title, this.event.perks[this.indexPerk].tasks[this.indexTask].status == 0 && task.status == 1);
       this.event.perks[this.indexPerk].tasks[this.indexTask] = task;
       this.utilsService.resetForm( form );

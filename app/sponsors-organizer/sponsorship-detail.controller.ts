@@ -15,7 +15,8 @@ class SponsorshipOrganizerDetailCtrl{
     'utilsService',
     'userAuthService',
     'notificationService',
-    'ionicMaterialInk'
+    'ionicMaterialInk',
+    '$ionicAnalytics'
   ];
   
   sponsorship:any = {};
@@ -29,7 +30,8 @@ class SponsorshipOrganizerDetailCtrl{
     private utilsService: utilsServiceModule.IUtilsService,
     private userAuthService: userAuthModule.IUserAuthService,
     private notificationService: notificationModule.INotificationService,
-    private ionicMaterialInk
+    private ionicMaterialInk,
+    private $ionicAnalytics
   ){
     if(ionic.Platform.isAndroid()){
       this.ionicMaterialInk.displayEffect();
@@ -47,6 +49,7 @@ class SponsorshipOrganizerDetailCtrl{
       template: '<p class="text-center">In accept the sponsor</p>'
     })
     .then( rta => {
+      this.$ionicAnalytics.track('Sponsor Accept', this.sponsorship);
       if( rta ) this._updateSponsorship( 1 ); //Accepted 
     });
   }
@@ -57,6 +60,7 @@ class SponsorshipOrganizerDetailCtrl{
       template: '<p class="text-center">In reject the sponsor</p>'
     })
     .then( rta => {
+      this.$ionicAnalytics.track('Sponsor Reject', this.sponsorship);
       if( rta ) this._updateSponsorship( 2 ); //Deny
     });
   }

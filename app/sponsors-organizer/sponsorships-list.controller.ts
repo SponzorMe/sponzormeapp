@@ -17,7 +17,8 @@ class SponsorshipsListCtrl{
     'utilsService',
     'notificationService',
     'userAuthService',
-    'ionicMaterialInk'
+    'ionicMaterialInk',
+    '$ionicAnalytics'
   ];
   sponsorships:any[] = [];
   userAuth:userModule.User;
@@ -32,7 +33,8 @@ class SponsorshipsListCtrl{
     private utilsService: utilsServiceModule.IUtilsService,
     private notificationService: notificationModule.INotificationService,
     private userAuthService: userAuthModule.IUserAuthService,
-    private ionicMaterialInk
+    private ionicMaterialInk,
+    private $ionicAnalytics
   ){
     if(ionic.Platform.isAndroid()){
       this.ionicMaterialInk.displayEffect();
@@ -51,6 +53,7 @@ class SponsorshipsListCtrl{
       template: '<p class="text-center">In the accept the sponsor</p>'
     })
     .then( rta => {
+      this.$ionicAnalytics.track('Sponsor Accept', sponzor);
       if( rta ) this._updateSponsorship( sponzor, 1 ); //Accepted 
     });
   }
@@ -61,6 +64,7 @@ class SponsorshipsListCtrl{
       template: '<p class="text-center">In the reject the sponsor</p>'
     })
     .then( rta => {
+      this.$ionicAnalytics.track('Sponsor Reject', sponzor);
       if( rta ) this._updateSponsorship( sponzor, 2 ); //Deny
     });
   }

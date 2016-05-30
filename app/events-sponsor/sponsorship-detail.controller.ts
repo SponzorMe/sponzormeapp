@@ -20,7 +20,8 @@ class SponsorshipSponsorDetailCtrl{
     'taskSponsorService',
     'userAuthService',
     'notificationService',
-    'ionicMaterialInk'
+    'ionicMaterialInk',
+    '$ionicAnalytics'
   ];
   sponsorship:any = {};
   userAuth:userModule.User;
@@ -41,7 +42,8 @@ class SponsorshipSponsorDetailCtrl{
     private taskSponsorService: taskSponsorModule.ITasksSponsor,
     private userAuthService: userAuthModule.IUserAuthService,
     private notificationService: notificationModule.INotificationService,
-    private ionicMaterialInk
+    private ionicMaterialInk,
+    private $ionicAnalytics
   ){
     if(ionic.Platform.isAndroid()){
       this.ionicMaterialInk.displayEffect();
@@ -98,6 +100,8 @@ class SponsorshipSponsorDetailCtrl{
         data.TaskSponzor.organizer_ionic_id
       );
       
+      this.$ionicAnalytics.track('Create Task Sponsor', data.TaskSponzor.task);
+      
       this.utilsService.hideLoad();
     })
     .catch( error => {
@@ -109,6 +113,7 @@ class SponsorshipSponsorDetailCtrl{
     this.utilsService.showLoad();
     this.taskSponsorService.deleteTask( this.sponsorTask.id )
     .then( data => {
+      this.$ionicAnalytics.track('Delete Task Sponsor', this.sponsorTask);
       let perkTask = _.findWhere( this.sponsorship.perk.tasks, {id: this.sponsorTask.task.id} );
       let taskSponzor = _.findWhere( this.sponsorship.task_sponzor, {id: this.sponsorTask.id} );
       let indexPerkTask = _.indexOf(this.sponsorship.perk.tasks, perkTask);
@@ -117,6 +122,7 @@ class SponsorshipSponsorDetailCtrl{
       this.sponsorship.task_sponzor.splice(indexSponzorTask, 1);
       this.hideModalTask( form );
       this.utilsService.hideLoad();
+      
     })
     .catch( error => {
       this.hideModalTask( form );
@@ -157,6 +163,8 @@ class SponsorshipSponsorDetailCtrl{
           TaskSponsor.organizer_ionic_id
         );
       }
+      
+      this.$ionicAnalytics.track('Update Task Sponsor', this.sponsorTask.task);
       
       this.sponsorship.perk.tasks[indexPerkTask] = this.sponsorTask.task;
       this.sponsorship.task_sponzor[indexSponzorTask] = this.sponsorTask;

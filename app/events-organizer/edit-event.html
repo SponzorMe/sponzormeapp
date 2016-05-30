@@ -130,13 +130,13 @@
         </label>
 
         <ion-item class="item-divider">{{"EDITEVENTS.perk_label" | translate}}</ion-item>
-        <ion-item ng-repeat="perk in editEvent.newEvent.perks" ng-click="editEvent.editPerk( perk )" class="item-icon-right">
+        <ion-item ion-track-tap="tapEditEventOrganizer" ion-track-data="tapEditPerk" ng-repeat="perk in editEvent.newEvent.perks" ng-click="editEvent.editPerk( perk )" class="item-icon-right">
           {{ perk.kind }} - {{ perk.usd }}
           <i class="icon ion-edit"></i>
         </ion-item>
          
         <div class="padding">
-          <button type="button" class="button button-block button-positive button-raised" ng-click="editEvent.createPerk()">
+          <button type="button"  ion-track-tap="tapEditEventOrganizer" ion-track-data="tapCreatePerk" class="button button-block button-positive button-raised" ng-click="editEvent.createPerk()">
             {{"EDITEVENTS.create_perk_button" | translate}}
           </button>
         </div>
@@ -153,7 +153,7 @@
       </ion-list>
 
       <div class="padding">
-         <button type="submit" class="button button-block button-positive button-raised">
+         <button type="submit" class="button button-block button-positive button-raised" ion-track-tap="tapEditEventOrganizer" ion-track-data="tapEditEvent">
           {{"EDITEVENTS.button_message" | translate}}
         </button>
       </div>

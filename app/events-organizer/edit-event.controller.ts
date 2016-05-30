@@ -24,7 +24,8 @@ class EditEventCtrl{
     'userAuthService',
     'notificationService',
     '$rootScope',
-    'ionicMaterialInk'
+    'ionicMaterialInk',
+    '$ionicAnalytics'
   ];
   indexEvent:number = -1;
   newEvent:any = {};
@@ -51,7 +52,8 @@ class EditEventCtrl{
     private userAuthService: userAuthModule.IUserAuthService,
     private notificationService: notificationModule.INotificationService,
     private $rootScope,
-    private ionicMaterialInk
+    private ionicMaterialInk,
+    private $ionicAnalytics
   ){
    if(ionic.Platform.isAndroid()){
       this.ionicMaterialInk.displayEffect();
@@ -292,10 +294,11 @@ class EditEventCtrl{
         this.$rootScope.$broadcast('EventsTabsCtrl:count_events');
         this.$rootScope.$broadcast('EventListOrganizerCtrl:getEvents');
         this.$rootScope.$broadcast('PastEventsOrganizerCtrl:getEvents');
-        
+        this.$cordovaToast.showShortBottom(this.$translate.instant("MESSAGES.succ_event_mess"));
         this.$ionicHistory.goBack();
+        this.$ionicAnalytics.track('Event Update', event);
       });
-      this.$cordovaToast.showShortBottom(this.$translate.instant("MESSAGES.succ_event_mess"));
+      
     })
     .catch( error => {
       this.utilsService.hideLoad();

@@ -21,7 +21,8 @@ class EventDetailSponsorCtrl{
     'sponsorshipService',
     'notificationService',
     'userAuthService',
-    'ionicMaterialInk'
+    'ionicMaterialInk',
+    '$ionicAnalytics'
   ];
   event:eventModule.Event;
   userAuth:userModule.User;
@@ -41,7 +42,8 @@ class EventDetailSponsorCtrl{
     private sponsorshipService: sponsorshipModule.ISponsorshipService,
     private notificationService: notificationModule.INotificationService,
     private userAuthService: userAuthModule.IUserAuthService,
-    private ionicMaterialInk
+    private ionicMaterialInk,
+    private $ionicAnalytics
   ){
     if(ionic.Platform.isAndroid()){
       this.ionicMaterialInk.displayEffect();
@@ -102,7 +104,7 @@ class EventDetailSponsorCtrl{
         modelId: newSponsorship.id,
       };
       this.notificationService.sendNewSponsorship(notification, this.event.user_organizer.id, this.event.user_organizer.ionic_id);
-      
+      this.$ionicAnalytics.track('SponsorIt', newSponsorship);
       this.$cordovaToast.showShortBottom(this.$translate.instant("MESSAGES.succ_sponsor_it"));
     })
     .catch( error => {

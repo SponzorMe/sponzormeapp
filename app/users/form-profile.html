@@ -56,12 +56,12 @@
       </div>
       <div class="row">
         <div class="col">
-          <a href="#/interests" class="button button-block button-secondary">
+          <a ion-track-tap="tapFormProfile" ion-track-data="goToInterests" href="#/interests" class="button button-block button-secondary">
             {{"JOINNOW.profile_skip_button" | translate}}
           </a>
         </div>
         <div class="col">
-          <button type="submit" class="button button-block button-positive button-raised">
+          <button ion-track-tap="tapFormProfile" ion-track-data="saveProfile" type="submit" class="button button-block button-positive button-raised">
             {{"JOINNOW.profile_next_button" | translate}}
           </button>
         </div>
