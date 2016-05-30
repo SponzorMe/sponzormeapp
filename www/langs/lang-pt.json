@@ -352,7 +352,7 @@
       "addeventsform_tit_maxlength" : "O campo deve ser inferior a 30 caracteres.",
       "addeventsform_loc_requiredfjoinnow_ema_maxlength": "O campo e necessário.",
       "addeventsform_loc_minlength" : "O campo deve ser superior a 5 caracteres.",
-      "addeventsform_loc_maxlength" : "O campo deve ser inferior a 30 caracteres.",
+      "addeventsform_loc_maxlength" : "O campo deve ser inferior a 60 caracteres.",
       "addeventsform_desc_required" : "O campo e necessário.",
       "addeventsform_desc_minlength" : "O campo deve ser superior a 5 caracteres.",
       "addeventsform_desc_maxlength" : "O campo deve ser inferior a 30 caracteres.",

@@ -351,7 +351,7 @@
       "addeventsform_tit_maxlength" : "Este campo tener tener menos que 30 caracteres.",
       "addeventsform_loc_required" : "Este campo es requerido.",
       "addeventsform_loc_minlength" : "Este campo debe tener al menos 5 caracteres.",
-      "addeventsform_loc_maxlength" : "Este campo tener tener menos que 30 caracteres.",
+      "addeventsform_loc_maxlength" : "Este campo tener tener menos que 60 caracteres.",
       "addeventsform_desc_required" : "Este campo es requerido.",
       "addeventsform_desc_minlength" : "Este campo debe tener al menos 5 caracteres.",
       "addeventsform_desc_maxlength" : "Este campo tener tener menos que 30 caracteres.",

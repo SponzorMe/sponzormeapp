@@ -351,7 +351,7 @@
         "addeventsform_tit_maxlength" : "This field is must be less than 40 characters.",
         "addeventsform_loc_required" : "This field is required.",
         "addeventsform_loc_minlength" : "This field is must be at least 5 characters.",
-        "addeventsform_loc_maxlength" : "This field is must be less than 30 characters.",
+        "addeventsform_loc_maxlength" : "This field is must be less than 60 characters.",
         "addeventsform_desc_required" : "This field is required.",
         "addeventsform_desc_minlength" : "This field is must be at least 5 characters.",
         "addeventsform_desc_maxlength" : "This field is must be less than 30 characters.",

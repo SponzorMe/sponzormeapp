@@ -35,12 +35,10 @@
           ng-model="editEvent.newEvent.location" 
           g-places-autocomplete 
           ng-minlength="5"
-          ng-maxlength="60"
           required>
         </label>
         <div class="form-errors" ng-messages="editEventForm.txtloc.$error" ng-if="editEventForm.$invalid && editEventForm.$submitted">
           <div class="form-error" ng-message="required"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_loc_required" | translate}}</div>
-          <div class="form-error" ng-message="maxlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_loc_maxlength" | translate}}</div>
           <div class="form-error" ng-message="minlength"><i class="icon ion-close-circled"></i> {{"ERRORS.addeventsform_loc_minlength" | translate}}</div>
         </div>
        <!-- Description  -->

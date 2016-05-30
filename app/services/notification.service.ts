@@ -249,7 +249,12 @@ module notificationModule{
       reference.on('child_added', snapshot => {
         let current = snapshot.val();
         if(this.$localStorage.lastUpdate < current.date){
-          this.userAuthService.refresh();
+          this.userService
+          .home( this.userAuth.id )
+          .then( user => {
+            this.userAuth = this.userAuthService.updateUserAuth( user );
+            this.userAuthService.refresh();
+          });
         }
       });
     }
@@ -276,8 +281,7 @@ module notificationModule{
           .home( this.userAuth.id )
           .then( user => {
             this.userAuth = this.userAuthService.updateUserAuth( user );
-            this.$rootScope.$broadcast('HomeSponzorController:getEvents');
-            this.$rootScope.$broadcast('MenuSponzor:counts');
+            this.userAuthService.refresh();
           });
         }
       });
