@@ -462,7 +462,7 @@
         f_url: "https://sponzorme.firebaseio.com/production/",
         url_web: "https://sponzor.me/",
         version: "v1.2.4",
-        channel: "v1.2.4",
+        channel: "v124",
         debug: false
     })
         .value('AMAZON', {
@@ -989,7 +989,12 @@ var notificationModule;
             reference.on('child_added', function (snapshot) {
                 var current = snapshot.val();
                 if (_this.$localStorage.lastUpdate < current.date) {
-                    _this.userAuthService.refresh();
+                    _this.userService
+                        .home(_this.userAuth.id)
+                        .then(function (user) {
+                        _this.userAuth = _this.userAuthService.updateUserAuth(user);
+                        _this.userAuthService.refresh();
+                    });
                 }
             });
         };
@@ -1016,8 +1021,7 @@ var notificationModule;
                         .home(_this.userAuth.id)
                         .then(function (user) {
                         _this.userAuth = _this.userAuthService.updateUserAuth(user);
-                        _this.$rootScope.$broadcast('HomeSponzorController:getEvents');
-                        _this.$rootScope.$broadcast('MenuSponzor:counts');
+                        _this.userAuthService.refresh();
                     });
                 }
             });
