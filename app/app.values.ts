@@ -14,8 +14,8 @@
       //f_url: "https://sponzorme.firebaseio.com/staging/",
       f_url: "https://sponzorme.firebaseio.com/production/",
       url_web: "https://sponzor.me/",
-      version: "v1.2.3",
-      channel: "production",
+      version: "v1.2.4",
+      channel: "v1.2.4",
       debug: false,
     })
     .value('AMAZON',{
