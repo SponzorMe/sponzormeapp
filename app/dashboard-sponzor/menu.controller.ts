@@ -69,6 +69,10 @@ class MenuSponsorCtrl{
     this.utilsService.showLoad();
     this.$ionicHistory.clearCache()
     .then(() => {
+      return this.$ionicHistory.clearHistory();
+    })
+    .then(() => {
+      console.log('clearCache');
       this.$ionicAuth.logout();
       this.$localStorage.$reset();
       this.$state.go('signin');

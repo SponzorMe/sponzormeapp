@@ -73,6 +73,7 @@ class LoginCtrl{
       this._validateIonicId( user )
       .then( data => {
         this.userAuth = this.userAuthService.getUserAuth();
+        this.userAuthService.refresh();
         
         if(this.ionicUser.isAuthenticated()){
           console.log("Is Authenticated");

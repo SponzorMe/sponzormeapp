@@ -63,6 +63,7 @@ var LoginCtrl = (function () {
             _this._validateIonicId(user)
                 .then(function (data) {
                 _this.userAuth = _this.userAuthService.getUserAuth();
+                _this.userAuthService.refresh();
                 if (_this.ionicUser.isAuthenticated()) {
                     console.log("Is Authenticated");
                     _this.$ionicPush.register();

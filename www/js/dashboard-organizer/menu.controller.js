@@ -72,6 +72,10 @@ var MenuOrganizerCtrl = (function () {
         this.utilsService.showLoad();
         this.$ionicHistory.clearCache()
             .then(function () {
+            return _this.$ionicHistory.clearHistory();
+        })
+            .then(function () {
+            console.log('clearCache');
             _this.$ionicAuth.logout();
             _this.$localStorage.$reset();
             _this.$state.go('signin');

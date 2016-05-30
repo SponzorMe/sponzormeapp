@@ -500,13 +500,13 @@
 /// <reference path="../../typings/tsd.d.ts" />
 (function () {
     'use strict';
-    angular.module('app.filters', []);
+    angular.module('app.events-sponzor', []);
 })();
 
 /// <reference path="../../typings/tsd.d.ts" />
 (function () {
     'use strict';
-    angular.module('app.events-sponzor', []);
+    angular.module('app.filters', []);
 })();
 
 /// <reference path="../../typings/tsd.d.ts" />
@@ -2557,6 +2557,10 @@ var MenuOrganizerCtrl = (function () {
         this.utilsService.showLoad();
         this.$ionicHistory.clearCache()
             .then(function () {
+            return _this.$ionicHistory.clearHistory();
+        })
+            .then(function () {
+            console.log('clearCache');
             _this.$ionicAuth.logout();
             _this.$localStorage.$reset();
             _this.$state.go('signin');
@@ -2768,6 +2772,10 @@ var MenuSponsorCtrl = (function () {
         this.utilsService.showLoad();
         this.$ionicHistory.clearCache()
             .then(function () {
+            return _this.$ionicHistory.clearHistory();
+        })
+            .then(function () {
+            console.log('clearCache');
             _this.$ionicAuth.logout();
             _this.$localStorage.$reset();
             _this.$state.go('signin');
@@ -5667,6 +5675,7 @@ var LoginCtrl = (function () {
             _this._validateIonicId(user)
                 .then(function (data) {
                 _this.userAuth = _this.userAuthService.getUserAuth();
+                _this.userAuthService.refresh();
                 if (_this.ionicUser.isAuthenticated()) {
                     console.log("Is Authenticated");
                     _this.$ionicPush.register();
