@@ -18,35 +18,35 @@
     <ion-content class="has-header">
       <ion-list>
         <!-- Note each link has the 'menu-close' attribute so the menu auto closes when clicking on one of these links -->
-        <ion-item nav-clear menu-close href="#/organizer/home" class="item-icon-left" >
+        <ion-item nav-clear menu-close href="#/organizer/home" class="item-icon-left" ion-track-tap="tapMenuOrganizer" ion-track-data="goToHome">
           <i class="icon ion-home"></i> {{'DASHORGANIZERS.dashboard' | translate}}
         </ion-item>
-        <ion-item nav-clear menu-close href="#/organizer/events/list" class="item-icon-left">
+        <ion-item nav-clear menu-close href="#/organizer/events/list" class="item-icon-left" ion-track-tap="tapMenuOrganizer" ion-track-data="goToEvents">
           <i class="icon ion-calendar"></i> {{'DASHORGANIZERS.events' | translate}}
           <span class="badge badge-stable" ng-show="menu.count_events > 0">{{ menu.count_events }}</span>
         </ion-item>
-        <ion-item nav-clear menu-close href="#/organizer/sponsorships/list" class="item-icon-left">
+        <ion-item nav-clear menu-close href="#/organizer/sponsorships/list" class="item-icon-left" ion-track-tap="tapMenuOrganizer" ion-track-data="goToSponsorships">
           <i class="icon ion-flag"></i> {{'DASHORGANIZERS.sponsors' | translate}}
           <span class="badge badge-stable" ng-show="menu.count_sponsors > 0">{{ menu.count_sponsors }}</span>
         </ion-item>
-        <ion-item nav-clear menu-close href="#/organizer/tasks/list" class="item-icon-left">
+        <ion-item nav-clear menu-close href="#/organizer/tasks/list" class="item-icon-left" ion-track-tap="tapMenuOrganizer" ion-track-data="goToTasks">
           <i class="icon ion-clipboard"></i> {{'DASHORGANIZERS.tasks' | translate}}
           <span class="badge badge-stable" ng-show="menu.count_tasks > 0">{{ menu.count_tasks }}</span>
         </ion-item>
-        <ion-item nav-clear menu-close href="#/organizer/notifications" class="item-icon-left">
+        <ion-item nav-clear menu-close href="#/organizer/notifications" class="item-icon-left"  ion-track-tap="tapMenuOrganizer" ion-track-data="goToNotifications">
           <i class="icon ion-android-notifications"></i> {{'DASHORGANIZERS.notifications' | translate}}
           <span class="badge badge-stable" ng-show="(menu.notifications | filter: {read: false, hide: false}).length > 0">{{ (menu.notifications | filter: {read: false, hide: false}).length }}</span>
         </ion-item>
-        <ion-item nav-clear menu-close href="#/organizer/invite" class="item-icon-left">
+        <ion-item nav-clear menu-close href="#/organizer/invite" class="item-icon-left" ion-track-tap="tapMenuOrganizer" ion-track-data="goToInvite">
           <i class="icon ion-person-add"></i> {{'DASHORGANIZERS.invite' | translate}}
         </ion-item>
-        <ion-item nav-clear menu-close href="#/organizer/profile" class="item-icon-left">
+        <ion-item nav-clear menu-close href="#/organizer/profile" class="item-icon-left" ion-track-tap="tapMenuOrganizer" ion-track-data="goToProfile">
           <i class="icon ion-person"></i> {{'DASHORGANIZERS.profile' | translate}}
         </ion-item>
-        <ion-item nav-clear menu-close href="#/organizer/settings" class="item-icon-left">
+        <ion-item nav-clear menu-close href="#/organizer/settings" class="item-icon-left" ion-track-tap="tapMenuOrganizer" ion-track-data="goToSettings">
           <i class="icon ion-gear-b"></i> {{'DASHORGANIZERS.settings' | translate}}
         </ion-item>
-        <ion-item nav-clear menu-close ng-click="menu.logout()" class="item-icon-left">
+        <ion-item nav-clear menu-close ng-click="menu.logout()" class="item-icon-left" ion-track-tap="tapMenuOrganizer" ion-track-data="logout">
           <i class="icon ion-log-out"></i> {{'DASHORGANIZERS.logout' | translate}}
         </ion-item>
       </ion-list>
