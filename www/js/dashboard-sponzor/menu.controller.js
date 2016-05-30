@@ -7,7 +7,7 @@
 * @version 0.2
 */
 var MenuSponsorCtrl = (function () {
-    function MenuSponsorCtrl($state, $q, $localStorage, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService, ionicMaterialInk) {
+    function MenuSponsorCtrl($state, $q, $localStorage, $rootScope, $ionicAuth, $ionicHistory, userAuthService, utilsService, notificationService, ionicMaterialInk) {
         this.$state = $state;
         this.$q = $q;
         this.$localStorage = $localStorage;
@@ -15,6 +15,7 @@ var MenuSponsorCtrl = (function () {
         this.$ionicAuth = $ionicAuth;
         this.$ionicHistory = $ionicHistory;
         this.userAuthService = userAuthService;
+        this.utilsService = utilsService;
         this.notificationService = notificationService;
         this.ionicMaterialInk = ionicMaterialInk;
         this.$inject = [
@@ -25,6 +26,7 @@ var MenuSponsorCtrl = (function () {
             '$ionicAuth',
             '$ionicHistory',
             'userAuthService',
+            'utilsService',
             'notificationService',
             'ionicMaterialInk'
         ];
@@ -55,10 +57,20 @@ var MenuSponsorCtrl = (function () {
         return item.status != '1' && moment(item.event.starts).isAfter(new Date());
     };
     MenuSponsorCtrl.prototype.logout = function () {
-        this.$ionicAuth.logout();
-        this.$localStorage.$reset();
-        this.$ionicHistory.clearCache();
-        this.$state.go('signin');
+        var _this = this;
+        this.utilsService.showLoad();
+        this.$ionicHistory.clearCache()
+            .then(function () {
+            _this.$ionicAuth.logout();
+            _this.$localStorage.$reset();
+            _this.$state.go('signin');
+        })
+            .catch(function () {
+            _this.$ionicAuth.logout();
+            _this.$localStorage.$reset();
+            _this.$state.go('signin');
+            _this.utilsService.hideLoad();
+        });
     };
     return MenuSponsorCtrl;
 }());

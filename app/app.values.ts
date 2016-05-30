@@ -15,7 +15,7 @@
       f_url: "https://sponzorme.firebaseio.com/production/",
       url_web: "https://sponzor.me/",
       version: "v1.2.4",
-      channel: "v1.2.4",
+      channel: "v124",
       debug: false,
     })
     .value('AMAZON',{

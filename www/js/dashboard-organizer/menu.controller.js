@@ -7,13 +7,14 @@
 * @version 0.2
 */
 var MenuOrganizerCtrl = (function () {
-    function MenuOrganizerCtrl($state, $q, $rootScope, $ionicAuth, $ionicHistory, userAuthService, notificationService, $localStorage, ionicMaterialInk) {
+    function MenuOrganizerCtrl($state, $q, $rootScope, $ionicAuth, $ionicHistory, userAuthService, utilsService, notificationService, $localStorage, ionicMaterialInk) {
         this.$state = $state;
         this.$q = $q;
         this.$rootScope = $rootScope;
         this.$ionicAuth = $ionicAuth;
         this.$ionicHistory = $ionicHistory;
         this.userAuthService = userAuthService;
+        this.utilsService = utilsService;
         this.notificationService = notificationService;
         this.$localStorage = $localStorage;
         this.ionicMaterialInk = ionicMaterialInk;
@@ -24,6 +25,7 @@ var MenuOrganizerCtrl = (function () {
             '$ionicAuth',
             '$ionicHistory',
             'userAuthService',
+            'utilsService',
             'notificationService',
             '$localStorage',
             'ionicMaterialInk'
@@ -66,10 +68,18 @@ var MenuOrganizerCtrl = (function () {
         });
     };
     MenuOrganizerCtrl.prototype.logout = function () {
-        this.$ionicAuth.logout();
-        this.$localStorage.$reset();
-        this.$ionicHistory.clearCache();
-        this.$state.go('signin');
+        var _this = this;
+        this.utilsService.showLoad();
+        this.$ionicHistory.clearCache()
+            .then(function () {
+            _this.$ionicAuth.logout();
+            _this.$localStorage.$reset();
+            _this.$state.go('signin');
+            _this.utilsService.hideLoad();
+        })
+            .catch(function () {
+            _this.utilsService.hideLoad();
+        });
     };
     MenuOrganizerCtrl.prototype.filterDate = function (item) {
         var today = moment(new Date().getTime()).subtract(1, 'days');

@@ -86,7 +86,7 @@ var AddEventCtrl = (function () {
         var _this = this;
         var minDate = ionic.Platform.isIOS() ? new Date() : new Date().getTime();
         this._showDatePicker({
-            date: new Date(),
+            date: minDate,
             mode: 'date',
             minDate: minDate,
             allowOldDates: true,
@@ -102,7 +102,7 @@ var AddEventCtrl = (function () {
         var _this = this;
         var minDate = ionic.Platform.isIOS() ? new Date() : new Date().getTime();
         this._showDatePicker({
-            date: new Date(),
+            date: minDate,
             mode: 'date',
             minDate: minDate,
             allowOldDates: true,
@@ -119,7 +119,7 @@ var AddEventCtrl = (function () {
         var _this = this;
         var minDate = ionic.Platform.isIOS() ? new Date() : new Date().getTime();
         this._showDatePicker({
-            date: new Date(),
+            date: minDate,
             mode: 'time',
             minDate: minDate,
             allowOldDates: true,
@@ -135,7 +135,7 @@ var AddEventCtrl = (function () {
         var _this = this;
         var minDate = ionic.Platform.isIOS() ? new Date() : new Date().getTime();
         this._showDatePicker({
-            date: new Date(),
+            date: minDate,
             mode: 'time',
             minDate: minDate,
             allowOldDates: true,
