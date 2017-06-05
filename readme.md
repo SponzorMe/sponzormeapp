@@ -1,18 +1,22 @@
-#Mobile App SponzorMe
+[![Gitter](https://img.shields.io/gitter/room/freecad/freecad.svg)](https://gitter.im/sponzorme/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
+
+# Mobile App SponzorMe
 
 [![Circle CI](https://circleci.com/gh/carlosrojaso/sponzormeapp.svg?style=svg&circle-token=7f3a51bc8c340213e80a9c25870a0471ab284913)](https://circleci.com/gh/carlosrojaso/sponzormeapp)
 
-#Build
-###Production
+# Build
+
+### Production
 gulp dev
 
-###Release
+### Release
+
 gulp release
 
-#Tests
+# Tests
 
 
-##Services
+## Services
 
 * Test Login Service
 * Test Category Service
